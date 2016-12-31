@@ -116,7 +116,6 @@ class CalendarGuiDay(DirectFrame):
         clipper.setPlane(Plane(Vec3(-1, 0, 0), Point3(0.23, 0, 0)))
         clipNP = self.scrollList.component('itemFrame').attachNewNode(clipper)
         self.scrollList.component('itemFrame').setClipPlane(clipNP)
-        return
 
     def scrollButtonPressed(self):
         self.__clickedOnDay()
@@ -141,7 +140,6 @@ class CalendarGuiDay(DirectFrame):
         else:
             self.defaultBox.show()
             self.todayBox.hide()
-        return
 
     def destroy(self):
         if self.dayClickCallback is not None:
@@ -163,7 +161,6 @@ class CalendarGuiDay(DirectFrame):
         self.scrollList.destroy()
         self.dayButton.destroy()
         DirectFrame.destroy(self)
-        return
 
     def addWeeklyHolidays(self):
         if not self.filter == ToontownGlobals.CalendarFilterShowAll and not self.filter == ToontownGlobals.CalendarFilterShowOnlyHolidays:
@@ -202,7 +199,7 @@ class CalendarGuiDay(DirectFrame):
         except e:
             numItems = 0
 
-        if numItems <= self.scrollList.numItemsVisible:
+        if numItems <= self.scrollList._DirectScrolledList__numItemsVisible:
             self.scrollList.incButton.hide()
             self.scrollList.decButton.hide()
         else:

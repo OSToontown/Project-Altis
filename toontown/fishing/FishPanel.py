@@ -27,9 +27,7 @@ class FishPanel(DirectFrame):
         self.initialiseoptions(FishPanel)
         self.doneEvent = doneEvent
         self.fish = fish
-        self.parent = parent
         self.photo = None
-        return
 
     def destroy(self):
         if self.photo:
@@ -37,8 +35,6 @@ class FishPanel(DirectFrame):
             self.photo = None
         self.fish = None
         DirectFrame.destroy(self)
-        self.parent = None
-        return
 
     def load(self):
         self.weight = DirectLabel(parent=self, pos=(0, 0, -0.28), relief=None, state=DGG.NORMAL, text='', text_scale=0.05, text_fg=(0, 0, 0, 1), text_pos=(0, 0.0, 0), text_font=ToontownGlobals.getInterfaceFont(), text_wordwrap=10.5)
@@ -50,7 +46,6 @@ class FishPanel(DirectFrame):
         buttons.removeNode()
         self.photo = FishPhoto.FishPhoto(parent=self)
         self.update(self.fish)
-        return
 
     def update(self, fish):
         self.fish = fish
@@ -76,7 +71,6 @@ class FishPanel(DirectFrame):
         else:
             self.value['text'] = TTLocalizer.FishPageValueP % value
         self.photo.update(fish)
-        return
 
     def setSwimBounds(self, *bounds):
         self.swimBounds = bounds

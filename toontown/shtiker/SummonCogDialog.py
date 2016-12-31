@@ -1,3 +1,4 @@
+from direct.gui.DirectGuiGlobals import NO_FADE_SORT_INDEX
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
@@ -24,19 +25,17 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
         self.popup = None
         self.suitName = SuitDNA.suitHeadTypes[self.suitIndex]
         self.suitFullName = SuitBattleGlobals.SuitAttributes[self.suitName]['name']
-        return
 
     def unload(self):
         if self.isLoaded == 0:
-            return None
+            return
         self.isLoaded = 0
         self.exit()
         DirectFrame.destroy(self)
-        return None
 
     def load(self):
         if self.isLoaded == 1:
-            return None
+            return
         self.isLoaded = 1
         gui = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
@@ -55,7 +54,6 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
         gui.removeNode()
         guiButton.removeNode()
         self.hide()
-        return
 
     def enter(self):
         if self.isEntered == 1:
@@ -68,7 +66,6 @@ class SummonCogDialog(DirectFrame, StateData.StateData):
         self.popup = None
         base.transitions.fadeScreen(0.5)
         self.show()
-        return
 
     def exit(self):
         if self.isEntered == 0:

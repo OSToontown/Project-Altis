@@ -317,10 +317,7 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleText.enter()
         self.speedChatStyleIndex = base.localAvatar.getSpeedChatStyleIndex()
         self.updateSpeedChatStyle()
-        if self.parent.book.safeMode:
-            self.exitButton.hide()
-        else:
-            self.exitButton.show()
+        self.exitButton.show()
 
     def exit(self):
         self.ignore('confirmDone')
@@ -335,6 +332,7 @@ class OptionsTabPage(DirectFrame):
         if self.displaySettings != None:
             self.ignore(self.displaySettings.doneEvent)
             self.displaySettings.unload()
+        
         self.displaySettings = None
         self.exitButton.destroy()
         self.Music_toggleButton.destroy()

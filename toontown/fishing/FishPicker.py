@@ -10,10 +10,9 @@ class FishPicker(DirectScrolledList):
 
     def __init__(self, parent = aspect2d, **kw):
         self.fishList = []
-        self.parent = parent
         self.shown = 0
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
-        optiondefs = (('parent', self.parent, None),
+        optiondefs = (('parent', parent, None),
          ('relief', None, None),
          ('incButton_image', (gui.find('**/FndsLst_ScrollUp'),
            gui.find('**/FndsLst_ScrollDN'),
@@ -54,14 +53,11 @@ class FishPicker(DirectScrolledList):
         self.fishPanel.setSwimBounds(-0.3, 0.3, -0.235, 0.25)
         self.fishPanel.setSwimColor(1.0, 1.0, 0.74901, 1.0)
         gui.removeNode()
-        return None
 
     def destroy(self):
         DirectScrolledList.destroy(self)
-        self.parent = None
         self.fishList = []
         self.fishPanel = None
-        return
 
     def hideFishPanel(self):
         self.fishPanel.hide()
@@ -69,6 +65,7 @@ class FishPicker(DirectScrolledList):
     def hide(self):
         if not hasattr(self, 'loaded'):
             return
+        
         self.hideFishPanel()
         DirectScrolledList.hide(self)
         self.shown = 0
@@ -76,6 +73,7 @@ class FishPicker(DirectScrolledList):
     def show(self):
         if not hasattr(self, 'loaded'):
             self.load()
+        
         self.updatePanel()
         DirectScrolledList.show(self)
         self.shown = 1

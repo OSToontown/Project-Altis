@@ -12,6 +12,7 @@ from toontown.toonbase import ToontownGlobals, TTLocalizer
 from FishPage import FishingTrophy
 if (__debug__):
     import pdb
+
 PageMode = PythonUtil.Enum('Customize, Records, Trophy')
 
 class KartPage(ShtikerPage):
@@ -21,7 +22,6 @@ class KartPage(ShtikerPage):
         ShtikerPage.__init__(self)
         self.avatar = None
         self.mode = PageMode.Customize
-        return
 
     def enter(self):
         if not hasattr(self, 'title'):
@@ -65,7 +65,6 @@ class KartPage(ShtikerPage):
         self.recordsTab.setPos(-0.13, 0, 0.775)
         self.trophyTab.setPos(0.28, 0, 0.775)
         gui.removeNode()
-        return
 
     def unload(self):
         ShtikerPage.unload(self)
@@ -268,7 +267,6 @@ class RacingTrophiesUI(DirectFrame):
         self.ticketDisplay = DirectLabel(parent=self, relief=None, image=loader.loadModel('phase_6/models/karting/tickets'), image_pos=(0.2, 0, -0.635), image_scale=0.2, text=TTLocalizer.KartPageTickets + str(self.avatar.getTickets()), text_scale=0.07, text_fg=(0, 0, 0.95, 1.0), text_pos=(0, -0.65), text_font=ToontownGlobals.getSignFont())
         self.trophyTextDisplay = DirectLabel(parent=self, relief=None, text='', text_scale=0.07, text_fg=(1, 0, 0, 1), text_shadow=(0, 0, 0, 0), text_pos=(0.0, -0.175), text_font=ToontownGlobals.getInterfaceFont())
         self.updateTrophies()
-        return
 
     def grow(self, index, pos):
         self.trophyPanels[index]['image_color'] = Vec4(1.0, 1.0, 0.8, 1.0)
@@ -308,12 +306,10 @@ class ItemSelector(DirectFrame):
         def __init__(self, avatar, parent = aspect2d):
             self.currItem = None
             self.itemList = None
-            self.parent = parent
             self.avatar = avatar
             self.currAccessoryType = None
             self.texCount = 1
             DirectFrame.__init__(self, parent=parent, relief=None, pos=(0, 0, 0), scale=(1.0, 1.0, 1.0))
-            return
 
         def destroy(self):
             self.uiBgFrame.destroy()
@@ -322,7 +318,6 @@ class ItemSelector(DirectFrame):
             self.leftArrowButton.destroy()
             self.rightArrowButton.destroy()
             del self.avatar
-            del self.parent
             del self.currItem
             del self.itemList
             del self.uiBgFrame
@@ -617,9 +612,7 @@ class ItemSelector(DirectFrame):
         self.avatar = avatar
         self.itemViewers = {}
         self.buttonDict = {}
-        self.parent = parent
         DirectFrame.__init__(self, parent=parent, relief=None, pos=(0, 0, 0), scale=(1.0, 1.0, 1.0))
-        return
 
     def destroy(self):
         for key in self.buttonDict.keys():
@@ -686,7 +679,6 @@ class ItemSelector(DirectFrame):
          uiRootNode.find('**/paintAccessoryButton_rollover'),
          uiRootNode.find('**/paintAccessoryButton_inactive')), scale=1.0, pressEffect=False, command=lambda : self.__changeItemCategory(KartDNA.accColor))
         self.buttonDict[KartDNA.accColor] = self.paintAccessoryButton
-        return
 
     def setupAccessoryIcons(self):
         accessDict = getAccessDictByType(self.avatar.getKartAccessoriesOwned())
@@ -755,7 +747,6 @@ class KartViewer(DirectFrame):
     def __init__(self, dna, parent):
         self.kart = None
         self.dna = dna
-        self.parent = parent
         self.kartFrame = None
         self.bounds = None
         self.colors = None
@@ -763,7 +754,6 @@ class KartViewer(DirectFrame):
         self.uiRotateLeft = None
         self.uiRotateLabel = None
         DirectFrame.__init__(self, parent=parent, relief=None, pos=(0, 0, 0), scale=(1.0, 1.0, 1.0))
-        return
 
     def destroy(self):
         taskMgr.remove('kartRotateTask')
@@ -786,10 +776,7 @@ class KartViewer(DirectFrame):
             del self.uiRotateLabel
         if hasattr(self, 'dna'):
             del self.dna
-        if hasattr(self, 'parent'):
-            del self.parent
         DirectFrame.destroy(self)
-        return
 
     def load(self, uiRootNode, bgFrame = 'uiKartViewerFrame1', rightArrow = ['rotate_right_up',
  'rotate_right_down',
