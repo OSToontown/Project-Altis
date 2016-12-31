@@ -236,11 +236,8 @@ class OptionsTabPage(DirectFrame):
     ChangeDisplayAPI = base.config.GetBool('change-display-api', False)
     DisplaySettingsApiMap = {
         'OpenGL': 'pandagl',
+        'DirectX9': 'pandadx9',
         'TinyDisplay': 'p3tinydisplay'}
-        #Un-comment the below when we begin to use 1.10.0
-        #'DirectX9': 'pandadx9',
-        #'TinyDisplay' 'tinydisplay'} 
-
 
     def __init__(self, parent = aspect2d):
         self.currentSizeIndex = None

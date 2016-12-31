@@ -60,8 +60,8 @@ class HoodAI:
         if simbase.config.GetBool('want-treasure-planners', True):
             self.createTreasurePlanner()
         self.createBuildingManagers()
-        #if simbase.config.GetBool('want-suit-planners', True):
-        #    self.createSuitPlanners()
+        if simbase.config.GetBool('want-suit-planners', True):
+            self.createSuitPlanners()
 
     def shutdown(self):
         if self.treasurePlanner:
@@ -180,6 +180,13 @@ class HoodAI:
                 continue
             
             zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
+            print zoneId
+            allowed = [2100, 2200, 2300, 1100, 1200, 1300, 5100, 5200, 5300,
+                4100, 4200, 4300, 3100, 3200, 3300, 9100]
+
+            if zoneId not in allowed:
+                continue
+
             suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, zoneId)
             suitPlanner.generateWithRequired(zoneId)
             suitPlanner.d_setZoneId(zoneId)

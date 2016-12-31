@@ -87,7 +87,6 @@ class ChatManager(DirectObject.DirectObject):
          State.State('whiteListPlayerChat', self.enterWhiteListPlayerChat, self.exitWhiteListPlayerChat),
          State.State('trueFriendTeaserPanel', self.enterTrueFriendTeaserPanel, self.exitTrueFriendTeaserPanel)], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def delete(self):
         self.ignoreAll()
@@ -133,9 +132,9 @@ class ChatManager(DirectObject.DirectObject):
         if self.problemActivatingChat:
             self.problemActivatingChat.destroy()
             self.problemActivatingChat = None
+        
         del self.localAvatar
         del self.cr
-        return
 
     def obscure(self, normal, sc):
         self.__scObscured = sc
@@ -306,6 +305,7 @@ class ChatManager(DirectObject.DirectObject):
         else:
             self.whisperButton['state'] = 'inactive'
             self.disablewhisperButton()
+        
         if online:
             self.whisperScButton['state'] = 'normal'
             self.whisperButton['state'] = 'normal'
@@ -314,6 +314,7 @@ class ChatManager(DirectObject.DirectObject):
             self.whisperScButton['state'] = 'inactive'
             self.whisperButton['state'] = 'inactive'
             self.changeFrameText(OTPLocalizer.ChatManagerWhisperOffline % chatName)
+        
         self.whisperFrame.show()
         self.refreshWhisperFrame()
         if avatarUnderstandable or playerUnderstandable:
@@ -325,7 +326,6 @@ class ChatManager(DirectObject.DirectObject):
                 if self.wantBackgroundFocus:
                     self.chatInputNormal.chatEntry['backgroundFocus'] = 1
                 self.acceptOnce('enterNormalChat', self.fsm.request, ['whisperChat', [avatarName, avatarId]])
-        return
 
     def disablewhisperButton(self):
         pass
@@ -413,14 +413,13 @@ class ChatManager(DirectObject.DirectObject):
         if self.leaveToPayDialog == None:
             self.leaveToPayDialog = LeaveToPayDialog.LeaveToPayDialog(self.paidNoParentPassword)
             self.leaveToPayDialog.setCancel(self.__handleLeaveToPayCancel)
+        
         self.leaveToPayDialog.show()
-        return
 
     def exitLeaveToPayDialog(self):
         if self.leaveToPayDialog:
             self.leaveToPayDialog.destroy()
             self.leaveToPayDialog = None
-        return
 
     def enterUnpaidChatWarning(self):
         self.notify.error('called enterUnpaidChatWarning() on parent class')
@@ -469,7 +468,6 @@ class ChatManager(DirectObject.DirectObject):
             self.chatMoreInfo = SecretFriendsInfoPanel.SecretFriendsInfoPanel('secretFriendsInfoDone')
         self.chatMoreInfo.show()
         self.accept('secretFriendsInfoDone', self.__secretFriendsInfoDone)
-        return
 
     def exitChatMoreInfo(self):
         self.chatMoreInfo.hide()
@@ -478,15 +476,14 @@ class ChatManager(DirectObject.DirectObject):
     def enterChatPrivacyPolicy(self):
         if self.chatPrivacyPolicy == None:
             self.chatPrivacyPolicy = PrivacyPolicyPanel.PrivacyPolicyPanel('privacyPolicyDone')
+        
         self.chatPrivacyPolicy.show()
         self.accept('privacyPolicyDone', self.__privacyPolicyDone)
-        return
 
     def exitChatPrivacyPolicy(self):
         cleanupDialog('privacyPolicyDialog')
         self.chatPrivacyPolicy = None
         self.ignore('privacyPolicyDone')
-        return
 
     def enterSecretChatActivated(self):
         self.notify.error('called enterSecretChatActivated() on parent class')

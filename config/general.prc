@@ -1,5 +1,5 @@
 # Window settings:
-window-title Toontown Infinite
+window-title Toontown Advance [PRE_ALPHA]
 win-origin -1 -1
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -119,8 +119,6 @@ want-cogbuildings #t
 show-total-population #t
 want-mat-all-tailors #t
 want-long-pattern-game #f
-want-talkative-tyler #f
-want-yin-yang #f
 
 # Developer options:
 want-dev #f

@@ -3,12 +3,10 @@ from toontown.catalog import CatalogGlobals
 from toontown.catalog.CatalogItemPanel import CatalogItemPanel
 from toontown.toonbase import ToontownGlobals
 
-
 class CatalogItemPage(NodePath):
+
     def __init__(self, parent, category, pageNum):
         NodePath.__init__(self, parent.attachNewNode(category))
-
-        self.parent = parent
         self.pageNum = pageNum
         self.category = category
         self.catalogItems = []
