@@ -1,3 +1,11 @@
+import gc
+import os
+import random
+import string
+import sys
+import time
+import types
+from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed import DistributedSmoothNode
 from direct.distributed.ClientRepositoryBase import ClientRepositoryBase
@@ -14,20 +22,10 @@ from direct.showbase import PythonUtil, GarbageReport, BulletinBoardWatcher
 from direct.showbase.ContainerLeakDetector import ContainerLeakDetector
 from direct.showbase.GarbageReportScheduler import GarbageReportScheduler
 from direct.task import Task
-import gc
-import os
-from pandac.PandaModules import *
-import random
-import string
-import sys
-import time
-import types
-
 from otp.ai.GarbageLeakServerEventAggregator import GarbageLeakServerEventAggregator
 from otp.avatar import Avatar
 from otp.avatar import DistributedAvatar
 from otp.avatar.DistributedPlayer import DistributedPlayer
-from otp.distributed import DCClassImports
 from otp.distributed import OtpDoGlobals
 from otp.distributed.OtpDoGlobals import *
 from otp.distributed.TelemetryLimiter import TelemetryLimiter
@@ -40,7 +38,6 @@ from otp.otpbase import OTPLocalizer
 from otp.otpgui import OTPDialog
 from otp.uberdog import OtpAvatarManager
 from toontown.chat.ChatGlobals import *
-
 
 class OTPClientRepository(ClientRepositoryBase):
     notify = directNotify.newCategory('OTPClientRepository')
@@ -437,59 +434,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.chatAgent = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
         self.csm = None # To be set by subclass.
 
-    def readDCFile(self, dcFileNames=None):
-        dcFile = self.getDcFile()
-        dcFile.clear()
-        self.dclassesByName = {}
-        self.dclassesByNumber = {}
-        self.hashVal = 0
-
-        try:
-            dcStream
-
-        except:
-            pass
-
-        else:
-            self.notify.info('Detected DC file stream, reading it...')
-            dcFileNames = [dcStream]
-
-        if isinstance(dcFileNames, str):
-            dcFileNames = [dcFileNames]
-
-        if dcFileNames is not None:
-            for dcFileName in dcFileNames:
-                if isinstance(dcFileName, StringStream):
-                    readResult = dcFile.read(dcFileName, 'DC stream')
-                else:
-                    readResult = dcFile.read(dcFileName)
-                if not readResult:
-                    self.notify.error('Could not read DC file.')
-        else:
-            dcFile.readAll()
-
-        self.hashVal = DCClassImports.hashVal
-        for i in xrange(dcFile.getNumClasses()):
-            dclass = dcFile.getClass(i)
-            number = dclass.getNumber()
-            className = dclass.getName()
-            classDef = DCClassImports.dcImports.get(className)
-            if classDef is None:
-                self.notify.debug('No class definition for %s.' % className)
-            else:
-                if type(classDef) == types.ModuleType:
-                    if not hasattr(classDef, className):
-                        self.notify.warning('Module %s does not define class %s.' % (className, className))
-                        continue
-                    classDef = getattr(classDef, className)
-                if (type(classDef) != types.ClassType) and (type(classDef) != types.TypeType):
-                    self.notify.error('Symbol %s is not a class name.' % className)
-                else:
-                    dclass.setClassDef(classDef)
-            self.dclassesByName[className] = dclass
-            if number >= 0:
-                self.dclassesByNumber[number] = dclass
-
     def startLeakDetector(self):
         if hasattr(self, 'leakDetector'):
             return False
@@ -511,12 +455,10 @@ class OTPClientRepository(ClientRepositoryBase):
     def enterLoginOff(self):
         self.handler = self.handleMessageType
         self.shardListHandle = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitLoginOff(self):
         self.handler = None
-        return
 
     def getServerVersion(self):
         return self.serverVersion
@@ -616,7 +558,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore(self.loginDoneEvent)
         del self.loginDoneEvent
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterCreateAccount(self, createAccountDoneData = {'back': 'login',
@@ -628,7 +569,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.accept(self.createAccountDoneEvent, self.__handleCreateAccountDone)
         self.createAccountScreen.load()
         self.createAccountScreen.enter()
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def __handleCreateAccountDone(self, doneStatus):
@@ -657,7 +597,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore(self.createAccountDoneEvent)
         del self.createAccountDoneEvent
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterFailedToConnect(self, statusCode, statusString):
@@ -694,7 +633,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore('failedToConnectAck')
         self.failedToConnectBox.cleanup()
         del self.failedToConnectBox
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterFailedToGetServerConstants(self, e):
@@ -738,7 +676,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore('failedToGetConstantsAck')
         self.failedToGetConstantsBox.cleanup()
         del self.failedToGetConstantsBox
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterShutdown(self, errorCode = None):
@@ -753,7 +690,6 @@ class OTPClientRepository(ClientRepositoryBase):
             self.garbageWatcher.destroy()
             del self.garbageWatcher
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterWaitForGameList(self):
@@ -777,7 +713,6 @@ class OTPClientRepository(ClientRepositoryBase):
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitWaitForGameList(self):
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterMissingGameRootObject(self):
@@ -804,7 +739,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore('missingGameRootObjectBoxAck')
         self.missingGameRootObjectBox.cleanup()
         del self.missingGameRootObjectBox
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterWaitForShardList(self):
@@ -863,7 +797,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore('noShardsAck')
         self.noShardsBox.cleanup()
         del self.noShardsBox
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterNoShardsWait(self):
@@ -880,6 +813,7 @@ class OTPClientRepository(ClientRepositoryBase):
             delay = 0.0
         else:
             delay = 6.5 + random.random() * 2.0
+        
         taskMgr.doMethodLater(delay, doneWait, self.noShardsWaitTaskName)
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
@@ -899,7 +833,6 @@ class OTPClientRepository(ClientRepositoryBase):
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitReject(self):
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterNoConnection(self):
@@ -933,7 +866,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.lostConnectionBox.show()
         self.accept('lostConnectionAck', self.__handleLostConnectionAck)
         self.notify.warning('Lost connection to server. Notifying user.')
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def __handleLostConnectionAck(self):
@@ -948,7 +880,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore('lostConnectionAck')
         self.lostConnectionBox.cleanup()
         messenger.send('connectionRetrying')
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterAfkTimeout(self):
@@ -968,7 +899,6 @@ class OTPClientRepository(ClientRepositoryBase):
             self.afkDialog.cleanup()
             self.afkDialog = None
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterPeriodTimeout(self):
@@ -989,7 +919,6 @@ class OTPClientRepository(ClientRepositoryBase):
             self.periodDialog.cleanup()
             self.periodDialog = None
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterWaitForAvatarList(self):
@@ -1006,7 +935,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.cleanupWaitingForDatabase()
         self.ignore(OtpAvatarManager.OtpAvatarManager.OnlineEvent)
         self.handler = None
-        return
 
     def handleAvatarsList(self, avatars):
         self.avList = avatars
@@ -1056,7 +984,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore('rejectRemoveAvatarAck')
         self.rejectRemoveAvatarBox.cleanup()
         del self.rejectRemoveAvatarBox
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterWaitForSetAvatarResponse(self, potAv):
@@ -1067,7 +994,6 @@ class OTPClientRepository(ClientRepositoryBase):
     def exitWaitForSetAvatarResponse(self):
         self.cleanupWaitingForDatabase()
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def sendSetAvatarMsg(self, potAv):
