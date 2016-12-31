@@ -113,74 +113,76 @@ class ToonHead(Actor.Actor):
     def __init__(self):
         try:
             self.ToonHead_initialized
+            return
         except:
             self.ToonHead_initialized = 1
-            Actor.Actor.__init__(self)
-            self.toonName = 'ToonHead-' + str(self.this)
-            self.__blinkName = 'blink-' + self.toonName
-            self.__stareAtName = 'stareAt-' + self.toonName
-            self.__lookName = 'look-' + self.toonName
-            self.lookAtTrack = None
-            self.__eyes = None
-            self.__eyelashOpen = None
-            self.__eyelashClosed = None
-            self.__lod500Eyes = None
-            self.__lod250Eyes = None
-            self.__lpupil = None
-            self.__lod500lPupil = None
-            self.__lod250lPupil = None
-            self.__rpupil = None
-            self.__lod500rPupil = None
-            self.__lod250rPupil = None
-            self.__muzzle = None
-            self.__eyesOpen = ToonHead.EyesOpen
-            self.__eyesClosed = ToonHead.EyesClosed
-            self.__height = 0.0
-            self.__eyelashesHiddenByGlasses = False
-            self.randGen = random.Random()
-            self.randGen.seed(random.random())
-            self.eyelids = ClassicFSM('eyelids', [State('off', self.enterEyelidsOff, self.exitEyelidsOff, ['open', 'closed', 'surprised']),
-             State('open', self.enterEyelidsOpen, self.exitEyelidsOpen, ['closed', 'surprised', 'off']),
-             State('surprised', self.enterEyelidsSurprised, self.exitEyelidsSurprised, ['open', 'closed', 'off']),
-             State('closed', self.enterEyelidsClosed, self.exitEyelidsClosed, ['open', 'surprised', 'off'])], 'off', 'off')
-            self.eyelids.enterInitialState()
-            self.emote = None
-            self.__stareAtNode = NodePath()
-            self.__defaultStarePoint = Point3(0, 0, 0)
-            self.__stareAtPoint = self.__defaultStarePoint
-            self.__stareAtTime = 0
-            self.lookAtPositionCallbackArgs = None
+        
+        Actor.Actor.__init__(self)
+        self.toonName = 'ToonHead-' + str(self.this)
+        self.__blinkName = 'blink-' + self.toonName
+        self.__stareAtName = 'stareAt-' + self.toonName
+        self.__lookName = 'look-' + self.toonName
+        self.lookAtTrack = None
+        self.__eyes = None
+        self.__eyelashOpen = None
+        self.__eyelashClosed = None
+        self.__lod500Eyes = None
+        self.__lod250Eyes = None
+        self.__lpupil = None
+        self.__lod500lPupil = None
+        self.__lod250lPupil = None
+        self.__rpupil = None
+        self.__lod500rPupil = None
+        self.__lod250rPupil = None
+        self.__muzzle = None
+        self.__eyesOpen = ToonHead.EyesOpen
+        self.__eyesClosed = ToonHead.EyesClosed
+        self.__height = 0.0
+        self.__eyelashesHiddenByGlasses = False
+        self.randGen = random.Random()
+        self.randGen.seed(random.random())
+        self.eyelids = ClassicFSM('eyelids', [State('off', self.enterEyelidsOff, self.exitEyelidsOff, ['open', 'closed', 'surprised']),
+         State('open', self.enterEyelidsOpen, self.exitEyelidsOpen, ['closed', 'surprised', 'off']),
+         State('surprised', self.enterEyelidsSurprised, self.exitEyelidsSurprised, ['open', 'closed', 'off']),
+         State('closed', self.enterEyelidsClosed, self.exitEyelidsClosed, ['open', 'surprised', 'off'])], 'off', 'off')
+        self.eyelids.enterInitialState()
+        self.emote = None
+        self.__stareAtNode = NodePath()
+        self.__defaultStarePoint = Point3(0, 0, 0)
+        self.__stareAtPoint = self.__defaultStarePoint
+        self.__stareAtTime = 0
+        self.lookAtPositionCallbackArgs = None
 
-        return
 
     def delete(self):
         try:
             self.ToonHead_deleted
+            return
         except:
             self.ToonHead_deleted = 1
-            taskMgr.remove(self.__blinkName)
-            taskMgr.remove(self.__lookName)
-            taskMgr.remove(self.__stareAtName)
-            if self.lookAtTrack:
-                self.lookAtTrack.finish()
-                self.lookAtTrack = None
-            del self.eyelids
-            del self.__stareAtNode
-            del self.__stareAtPoint
-            if self.__eyes:
-                del self.__eyes
-            if self.__lpupil:
-                del self.__lpupil
-            if self.__rpupil:
-                del self.__rpupil
-            if self.__eyelashOpen:
-                del self.__eyelashOpen
-            if self.__eyelashClosed:
-                del self.__eyelashClosed
-            self.lookAtPositionCallbackArgs = None
-            Actor.Actor.delete(self)
+        
+        taskMgr.remove(self.__blinkName)
+        taskMgr.remove(self.__lookName)
+        taskMgr.remove(self.__stareAtName)
+        if self.lookAtTrack:
+            self.lookAtTrack.finish()
+            self.lookAtTrack = None
+        del self.eyelids
+        del self.__stareAtNode
+        del self.__stareAtPoint
+        if self.__eyes:
+            del self.__eyes
+        if self.__lpupil:
+            del self.__lpupil
+        if self.__rpupil:
+            del self.__rpupil
+        if self.__eyelashOpen:
+            del self.__eyelashOpen
+        if self.__eyelashClosed:
+            del self.__eyelashClosed
+        self.lookAtPositionCallbackArgs = None
+        Actor.Actor.delete(self)
 
-        return
 
     def setupHead(self, dna, forGui = 0):
         self.__height = self.generateToonHead(1, dna, ('1000',), forGui)

@@ -20,12 +20,14 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
     def __init__(self, cr):
         try:
             self.DistributedNPCToon_initialized
+            return
         except:
             self.DistributedNPCToon_initialized = 1
-            DistributedToon.DistributedToon.__init__(self, cr)
-            self.__initCollisions()
-            self.setPickable(0)
-            self.setPlayerType(NametagGlobals.CCNonPlayer)
+        
+        DistributedToon.DistributedToon.__init__(self, cr)
+        self.__initCollisions()
+        self.setPickable(0)
+        self.setPlayerType(NametagGlobals.CCNonPlayer)
 
     def disable(self):
         self.ignore('enter' + self.cSphereNode.getName())
@@ -34,10 +36,12 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
     def delete(self):
         try:
             self.DistributedNPCToon_deleted
+            return
         except:
             self.DistributedNPCToon_deleted = 1
-            self.__deleteCollisions()
-            DistributedToon.DistributedToon.delete(self)
+        
+        self.__deleteCollisions()
+        DistributedToon.DistributedToon.delete(self)
 
     def generate(self):
         DistributedToon.DistributedToon.generate(self)

@@ -49,10 +49,12 @@ class DistributedAvatar(DistributedActor, Avatar):
     def delete(self):
         try:
             self.DistributedAvatar_deleted
+            return
         except:
             self.DistributedAvatar_deleted = 1
-            Avatar.delete(self)
-            DistributedActor.delete(self)
+            
+        Avatar.delete(self)
+        DistributedActor.delete(self)
 
     def generate(self):
         DistributedActor.generate(self)
