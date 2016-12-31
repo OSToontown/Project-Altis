@@ -238,10 +238,9 @@ class OptionsTabPage(DirectFrame):
         'OpenGL': 'pandagl',
         'TinyDisplay': 'p3tinydisplay'}
         #Un-comment the below when we begin to use 1.10.0
-        '''
-        'DirectX9': 'pandadx9',
-        'TinyDisplay' 'tinydisplay'} 
-        '''
+        #'DirectX9': 'pandadx9',
+        #'TinyDisplay' 'tinydisplay'} 
+
 
     def __init__(self, parent = aspect2d):
         self.parent = parent
