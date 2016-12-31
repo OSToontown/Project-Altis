@@ -519,33 +519,34 @@ class Toon(Avatar.Avatar, ToonHead):
     def delete(self):
         try:
             self.Toon_deleted
+            return
         except:
             self.Toon_deleted = 1
-            self.stopAnimations()
-            self.rightHands = None
-            self.rightHand = None
-            self.leftHands = None
-            self.leftHand = None
-            self.headParts = None
-            self.torsoParts = None
-            self.hipsParts = None
-            self.legsParts = None
-            del self.animFSM
-            for bookActor in self.__bookActors:
-                bookActor.cleanup()
+            
+        self.stopAnimations()
+        self.rightHands = None
+        self.rightHand = None
+        self.leftHands = None
+        self.leftHand = None
+        self.headParts = None
+        self.torsoParts = None
+        self.hipsParts = None
+        self.legsParts = None
+        del self.animFSM
+        for bookActor in self.__bookActors:
+            bookActor.cleanup()
 
-            del self.__bookActors
-            for holeActor in self.__holeActors:
-                holeActor.cleanup()
+        del self.__bookActors
+        for holeActor in self.__holeActors:
+            holeActor.cleanup()
 
-            del self.__holeActors
-            self.soundTeleport = None
-            self.motion.delete()
-            self.motion = None
-            Avatar.Avatar.delete(self)
-            ToonHead.delete(self)
+        del self.__holeActors
+        self.soundTeleport = None
+        self.motion.delete()
+        self.motion = None
+        Avatar.Avatar.delete(self)
+        ToonHead.delete(self)
 
-        return
 
     def updateToonDNA(self, newDNA, fForce = 0):
         self.style.gender = newDNA.getGender()
