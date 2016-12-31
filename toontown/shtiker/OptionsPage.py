@@ -232,8 +232,16 @@ class OptionsTabPage(DirectFrame):
     notify = directNotify.newCategory('OptionsTabPage')
     DisplaySettingsTaskName = 'save-display-settings'
     DisplaySettingsDelay = 60
-    ChangeDisplaySettings = base.config.GetBool('change-display-settings', 1)
-    ChangeDisplayAPI = base.config.GetBool('change-display-api', 0)
+    ChangeDisplaySettings = base.config.GetBool('change-display-settings', True)
+    ChangeDisplayAPI = base.config.GetBool('change-display-api', False)
+    DisplaySettingsApiMap = {
+        'OpenGL': 'pandagl',
+        'TinyDisplay': 'p3tinydisplay'}
+        #Un-comment the below when we begin to use 1.10.0
+        '''
+        'DirectX9': 'pandadx9',
+        'TinyDisplay' 'tinydisplay'} 
+        '''
 
     def __init__(self, parent = aspect2d):
         self.parent = parent

@@ -69,6 +69,10 @@ want-goofy-speedway #t
 want-outdoor-zone #t
 want-golf-zone #t
 
+# Options Page
+change-display-settings #t
+change-display-api #t
+
 # Safe zone settings:
 want-treasure-planners #t
 want-suit-planners #t
