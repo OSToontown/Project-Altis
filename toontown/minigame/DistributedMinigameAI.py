@@ -29,26 +29,26 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
     def __init__(self, air, minigameId):
         try:
             self.DistributedMinigameAI_initialized
+            return
         except:
             self.DistributedMinigameAI_initialized = 1
-            DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-            self.minigameId = minigameId
-            self.frameworkFSM = ClassicFSM.ClassicFSM('DistributedMinigameAI', [State.State('frameworkOff', self.enterFrameworkOff, self.exitFrameworkOff, ['frameworkWaitClientsJoin']),
-             State.State('frameworkWaitClientsJoin', self.enterFrameworkWaitClientsJoin, self.exitFrameworkWaitClientsJoin, ['frameworkWaitClientsReady', 'frameworkWaitClientsExit', 'frameworkCleanup']),
-             State.State('frameworkWaitClientsReady', self.enterFrameworkWaitClientsReady, self.exitFrameworkWaitClientsReady, ['frameworkGame', 'frameworkWaitClientsExit', 'frameworkCleanup']),
-             State.State('frameworkGame', self.enterFrameworkGame, self.exitFrameworkGame, ['frameworkWaitClientsExit', 'frameworkCleanup']),
-             State.State('frameworkWaitClientsExit', self.enterFrameworkWaitClientsExit, self.exitFrameworkWaitClientsExit, ['frameworkCleanup']),
-             State.State('frameworkCleanup', self.enterFrameworkCleanup, self.exitFrameworkCleanup, ['frameworkOff'])], 'frameworkOff', 'frameworkOff')
-            self.frameworkFSM.enterInitialState()
-            self.avIdList = []
-            self.stateDict = {}
-            self.scoreDict = {}
-            self.difficultyOverride = None
-            self.trolleyZoneOverride = None
-            self.metagameRound = -1
-            self.startingVotes = {}
-
-        return
+        
+        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
+        self.minigameId = minigameId
+        self.frameworkFSM = ClassicFSM.ClassicFSM('DistributedMinigameAI', [State.State('frameworkOff', self.enterFrameworkOff, self.exitFrameworkOff, ['frameworkWaitClientsJoin']),
+         State.State('frameworkWaitClientsJoin', self.enterFrameworkWaitClientsJoin, self.exitFrameworkWaitClientsJoin, ['frameworkWaitClientsReady', 'frameworkWaitClientsExit', 'frameworkCleanup']),
+         State.State('frameworkWaitClientsReady', self.enterFrameworkWaitClientsReady, self.exitFrameworkWaitClientsReady, ['frameworkGame', 'frameworkWaitClientsExit', 'frameworkCleanup']),
+         State.State('frameworkGame', self.enterFrameworkGame, self.exitFrameworkGame, ['frameworkWaitClientsExit', 'frameworkCleanup']),
+         State.State('frameworkWaitClientsExit', self.enterFrameworkWaitClientsExit, self.exitFrameworkWaitClientsExit, ['frameworkCleanup']),
+         State.State('frameworkCleanup', self.enterFrameworkCleanup, self.exitFrameworkCleanup, ['frameworkOff'])], 'frameworkOff', 'frameworkOff')
+        self.frameworkFSM.enterInitialState()
+        self.avIdList = []
+        self.stateDict = {}
+        self.scoreDict = {}
+        self.difficultyOverride = None
+        self.trolleyZoneOverride = None
+        self.metagameRound = -1
+        self.startingVotes = {}
 
     def addChildGameFSM(self, gameFSM):
         self.frameworkFSM.getStateNamed('frameworkGame').addChild(gameFSM)
@@ -74,7 +74,6 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         if self.difficultyOverride is not None:
             self.difficultyOverride = MinigameGlobals.QuantizeDifficultyOverride(difficultyOverride)
         self.trolleyZoneOverride = trolleyZoneOverride
-        return
 
     def setMetagameRound(self, roundNum):
         self.metagameRound = roundNum

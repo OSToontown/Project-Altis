@@ -66,7 +66,6 @@ class DistributedVineGame(DistributedMinigame):
         self.sendNewVineTUpdateAsap = False
         self.lastNewVineTUpdate = 0
         self.defaultMaxX = (VineGameGlobals.NumVines + 1) * VineGameGlobals.VineXIncrement
-        return
 
     def getClimbDir(self, avId):
         retval = 0

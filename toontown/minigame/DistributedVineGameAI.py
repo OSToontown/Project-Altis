@@ -8,20 +8,22 @@ class DistributedVineGameAI(DistributedMinigameAI):
     def __init__(self, air, minigameId):
         try:
             self.DistributedVineGameAI_initialized
+            return
         except:
             self.DistributedVineGameAI_initialized = 1
-            DistributedMinigameAI.__init__(self, air, minigameId)
-            self.gameFSM = ClassicFSM.ClassicFSM('DistributedVineGameAI', [State.State('inactive', self.enterInactive, self.exitInactive, ['play']),
-             State.State('play', self.enterPlay, self.exitPlay, ['cleanup', 'waitShowScores']),
-             State.State('waitShowScores', self.enterWaitShowScores, self.exitWaitShowScores, ['cleanup']),
-             State.State('cleanup', self.enterCleanup, self.exitCleanup, ['inactive'])], 'inactive', 'inactive')
-            self.toonInfo = {}
-            self.addChildGameFSM(self.gameFSM)
-            self.vineSections = []
-            self.finishedBonus = {}
-            self.finishedTimeLeft = {}
-            self.totalSpiders = 0
-            self.calculatedPartialBeans = False
+        
+        DistributedMinigameAI.__init__(self, air, minigameId)
+        self.gameFSM = ClassicFSM.ClassicFSM('DistributedVineGameAI', [State.State('inactive', self.enterInactive, self.exitInactive, ['play']),
+         State.State('play', self.enterPlay, self.exitPlay, ['cleanup', 'waitShowScores']),
+         State.State('waitShowScores', self.enterWaitShowScores, self.exitWaitShowScores, ['cleanup']),
+         State.State('cleanup', self.enterCleanup, self.exitCleanup, ['inactive'])], 'inactive', 'inactive')
+        self.toonInfo = {}
+        self.addChildGameFSM(self.gameFSM)
+        self.vineSections = []
+        self.finishedBonus = {}
+        self.finishedTimeLeft = {}
+        self.totalSpiders = 0
+        self.calculatedPartialBeans = False
 
     def generate(self):
         self.notify.debug('generate')

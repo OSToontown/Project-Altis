@@ -33,6 +33,8 @@ class DNADoor(DNAGroup.DNAGroup):
         rightHole = doorNodePath.find('door_*_hole_right')
         rightHole.flattenStrong()
         rightHole.setName('doorFrameHoleRight')
+        leftHole.hide()
+        rightHole.hide()
         leftDoor = doorNodePath.find('door_*_left')
         leftDoor.flattenStrong()
         leftDoor.setName('leftDoor')
@@ -46,11 +48,12 @@ class DNADoor(DNAGroup.DNAGroup):
         doorFlat.setEffect(DecalEffect.make())
         rightDoor.wrtReparentTo(parentNode, 0)
         leftDoor.wrtReparentTo(parentNode, 0)
-
         rightDoor.setColor(color, 0)
         leftDoor.setColor(color, 0)
         leftHole.setColor((0, 0, 0, 1), 0)
         rightHole.setColor((0, 0, 0, 1), 0)
+        leftDoor.hide()
+        rightDoor.hide()
 
         doorTrigger = doorNodePath.find('door_*_trigger')
         doorTrigger.setScale(2, 2, 2)

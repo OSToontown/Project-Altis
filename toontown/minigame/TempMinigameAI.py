@@ -20,7 +20,3 @@ def _registerTempMinigame(name, Class, id, minPlayers = 1, maxPlayers = 4):
         ToontownGlobals.MinigamePlayerMatrix[i] += (id,)
 
     _printMessage('registerTempMinigame: ' + name)
-
-
-if ALLOW_TEMP_MINIGAMES:
-    pass

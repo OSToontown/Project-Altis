@@ -54,7 +54,6 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         self.startingVotes = {}
         self.metagameRound = -1
         self._telemLimiter = None
-        return
 
     def addChildGameFSM(self, gameFSM):
         self.frameworkFSM.getStateNamed('frameworkGame').addChild(gameFSM)

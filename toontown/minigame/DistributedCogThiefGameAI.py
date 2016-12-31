@@ -16,14 +16,16 @@ class DistributedCogThiefGameAI(DistributedMinigameAI.DistributedMinigameAI):
     def __init__(self, air, minigameId):
         try:
             self.DistributedCogThiefGameAI_initialized
+            return
         except:
             self.DistributedCogThiefGameAI_initialized = 1
-            DistributedMinigameAI.DistributedMinigameAI.__init__(self, air, minigameId)
-            self.gameFSM = ClassicFSM.ClassicFSM('DistributedCogThiefGameAI', [State.State('inactive', self.enterInactive, self.exitInactive, ['play']), State.State('play', self.enterPlay, self.exitPlay, ['cleanup']), State.State('cleanup', self.enterCleanup, self.exitCleanup, ['inactive'])], 'inactive', 'inactive')
-            self.addChildGameFSM(self.gameFSM)
-            self.cogInfo = {}
-            self.barrelInfo = {}
-            self.initBarrelInfo()
+        
+        DistributedMinigameAI.DistributedMinigameAI.__init__(self, air, minigameId)
+        self.gameFSM = ClassicFSM.ClassicFSM('DistributedCogThiefGameAI', [State.State('inactive', self.enterInactive, self.exitInactive, ['play']), State.State('play', self.enterPlay, self.exitPlay, ['cleanup']), State.State('cleanup', self.enterCleanup, self.exitCleanup, ['inactive'])], 'inactive', 'inactive')
+        self.addChildGameFSM(self.gameFSM)
+        self.cogInfo = {}
+        self.barrelInfo = {}
+        self.initBarrelInfo()
 
     def generate(self):
         self.notify.debug('generate')

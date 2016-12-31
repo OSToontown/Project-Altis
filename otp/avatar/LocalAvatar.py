@@ -36,9 +36,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             self.LocalAvatar_initialized
             return
         except:
-            pass
-
-        self.LocalAvatar_initialized = 1
+            self.LocalAvatar_initialized = 1
+        
         DistributedAvatar.DistributedAvatar.__init__(self, cr)
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, cr)
         self.cTrav = CollisionTraverser('base.cTrav')
@@ -148,8 +147,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         del self.soundWalk
         if hasattr(self, 'soundWhisper'):
             del self.soundWhisper
+        
         DistributedAvatar.DistributedAvatar.delete(self)
-        return
 
     def shadowReach(self, state):
         if base.localAvatar.shadowPlacer:
@@ -344,7 +343,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if self.jumpLandAnimFixTask:
             self.jumpLandAnimFixTask.remove()
             self.jumpLandAnimFixTask = None
-        return
 
     def jumpStart(self):
         if not self.sleepFlag and self.hp > 0:
@@ -361,23 +359,22 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.b_setAnimState(state, 1.0)
         return Task.done
 
-    if 1:
-        def jumpLandAnimFix(self, jumpTime):
-            if self.playingAnim != 'run' and self.playingAnim != 'walk':
-                return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
+    def jumpLandAnimFix(self, jumpTime):
+        if self.playingAnim != 'run' and self.playingAnim != 'walk':
+            return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
 
-        def jumpHardLand(self):
-            if self.allowHardLand():
-                self.b_setAnimState('jumpLand', 1.0)
-                self.stopJumpLandTask()
-                self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
-            if self.d_broadcastPosHpr:
-                self.d_broadcastPosHpr()
+    def jumpHardLand(self):
+        if self.allowHardLand():
+            self.b_setAnimState('jumpLand', 1.0)
+            self.stopJumpLandTask()
+            self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
+        if self.d_broadcastPosHpr:
+            self.d_broadcastPosHpr()
 
-        def jumpLand(self):
-            self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
-            if self.d_broadcastPosHpr:
-                self.d_broadcastPosHpr()
+    def jumpLand(self):
+        self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
+        if self.d_broadcastPosHpr:
+            self.d_broadcastPosHpr()
 
     def setupAnimationEvents(self):
         self.accept('jumpStart', self.jumpStart, [])
@@ -564,7 +561,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             lookAtNP.removeNode()
         self.auxCameraPositions.append(camPos)
         self.cameraPositions.append(camPos)
-        return
 
     def resetCameraPosition(self):
         self.cameraIndex = 0
@@ -991,7 +987,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastMoved = globalClock.getFrameTime()
         if self.sleepFlag:
             self.sleepFlag = 0
-        return
 
     def gotoSleep(self):
         if not self.sleepFlag:
@@ -1010,7 +1005,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
     def stopSleepWatch(self):
         taskMgr.remove(self.uniqueName('sleepwatch'))
         self.sleepCallback = None
-        return
 
     def startSleepSwimTest(self):
         taskName = self.taskName('sleepSwimTest')
@@ -1021,7 +1015,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastAction = None
         self.sleepSwimTest(task)
         taskMgr.add(self.sleepSwimTest, taskName, 35)
-        return
 
     def stopSleepSwimTest(self):
         taskName = self.taskName('sleepSwimTest')
@@ -1119,7 +1112,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastAction = None
         self.trackAnimToSpeed(task)
         taskMgr.add(self.trackAnimToSpeed, taskName, 35)
-        return
 
     def stopTrackAnimToSpeed(self):
         taskName = self.taskName('trackAnimToSpeed')
@@ -1156,19 +1148,16 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if n == None:
             n = self.__geom
         self.ccTrav.traverse(n)
-        return
 
     def travCollisionsFloor(self, n = None):
         if n == None:
             n = self.__geom
         self.ccTravFloor.traverse(n)
-        return
 
     def travCollisionsPusher(self, n = None):
         if n == None:
             n = self.__geom
         self.ccPusherTrav.traverse(n)
-        return
 
     def __friendOnline(self, doId, commonChatFlags = 0, whitelistChatFlags = 0):
         friend = base.cr.identifyFriend(doId)
@@ -1182,13 +1171,11 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
                 return
         if friend != None:
             self.setSystemMessage(doId, OTPLocalizer.WhisperFriendComingOnline % friend.getName())
-        return
 
     def __friendOffline(self, doId):
         friend = base.cr.identifyFriend(doId)
         if friend != None:
             self.setSystemMessage(0, OTPLocalizer.WhisperFriendLoggedOut % friend.getName())
-        return
 
     def __playerOnline(self, playerId):
         playerInfo = base.cr.playerFriendsManager.playerId2Info[playerId]
@@ -1211,7 +1198,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             if friend:
                 messenger.send('clickedNametagPlayer', [None, doId])
                 self.chatMgr.whisperTo(friend.getName(), None, doId)
-        return
 
     def d_setParent(self, parentToken):
         DistributedSmoothNode.DistributedSmoothNode.d_setParent(self, parentToken)

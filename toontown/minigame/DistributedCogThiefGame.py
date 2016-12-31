@@ -46,7 +46,6 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.__textGen = TextNode('cogThiefGame')
         self.__textGen.setFont(ToontownGlobals.getSignFont())
         self.__textGen.setAlign(TextNode.ACenter)
-        return
 
     def getTitle(self):
         return TTLocalizer.CogThiefGameTitle
@@ -131,7 +130,6 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.jarImage.reparentTo(hidden)
         self.rewardPanel = DirectLabel(parent=hidden, relief=None, pos=(-0.173, 0.0, -0.55), scale=0.65, text='', text_scale=0.2, text_fg=(0.95, 0.95, 0, 1), text_pos=(0, -.13), text_font=ToontownGlobals.getSignFont(), image=self.jarImage)
         self.rewardPanelTitle = DirectLabel(parent=self.rewardPanel, relief=None, pos=(0, 0, 0.06), scale=0.08, text=TTLocalizer.CannonGameReward, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1))
-        return
 
     def unload(self):
         self.notify.debug('unload')
@@ -195,7 +193,6 @@ class DistributedCogThiefGame(DistributedMinigame):
         base.playMusic(self.music, looping=1, volume=0.8)
         self.introTrack = self.getIntroTrack()
         self.introTrack.start()
-        return
 
     def offstage(self):
         self.notify.debug('offstage')
@@ -281,7 +278,6 @@ class DistributedCogThiefGame(DistributedMinigame):
         if self.resultIval and self.resultIval.isPlaying():
             self.resultIval.finish()
             self.resultIval = None
-        return
 
     def enterCleanup(self):
         self.__killRewardCountdown()
@@ -358,8 +354,6 @@ class DistributedCogThiefGame(DistributedMinigame):
              'goal': CTGG.NoGoal,
              'goalId': CTGG.InvalidGoalId,
              'suit': None}
-
-        return
 
     def loadCogs(self):
         suitTypes = ['ds',

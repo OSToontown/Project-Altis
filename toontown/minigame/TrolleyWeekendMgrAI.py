@@ -1,7 +1,6 @@
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.ai import HolidayBaseAI
 
-
 class TrolleyWeekendMgrAI(HolidayBaseAI.HolidayBaseAI):
     notify = directNotify.newCategory('TrolleyWeekendMgrAI')
 
@@ -14,7 +13,6 @@ class TrolleyWeekendMgrAI(HolidayBaseAI.HolidayBaseAI):
         bboard.post(TrolleyWeekendMgrAI.PostName, True)
         simbase.air.newsManager.trolleyWeekendStart()
         messenger.send(TrolleyWeekendMgrAI.StartStopMsg)
-
 
     def stop(self):
         HolidayBaseAI.HolidayBaseAI.stop(self)

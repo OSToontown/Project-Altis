@@ -11,15 +11,17 @@ class DistributedPatternGameAI(DistributedMinigameAI):
     def __init__(self, air, minigameId):
         try:
             self.DistributedPatternGameAI_initialized
+            return
         except:
             self.DistributedPatternGameAI_initialized = 1
-            DistributedMinigameAI.__init__(self, air, minigameId)
-            self.gameFSM = ClassicFSM.ClassicFSM('DistributedPatternGameAI', [State.State('off', self.enterInactive, self.exitInactive, ['waitClientsReady', 'cleanup']),
-             State.State('waitClientsReady', self.enterWaitClientsReady, self.exitWaitClientsReady, ['generatePattern', 'cleanup']),
-             State.State('generatePattern', self.enterGeneratePattern, self.exitGeneratePattern, ['waitForResults', 'cleanup']),
-             State.State('waitForResults', self.enterWaitForResults, self.exitWaitForResults, ['waitClientsReady', 'cleanup']),
-             State.State('cleanup', self.enterCleanup, self.exitCleanup, [])], 'off', 'cleanup')
-            self.addChildGameFSM(self.gameFSM)
+        
+        DistributedMinigameAI.__init__(self, air, minigameId)
+        self.gameFSM = ClassicFSM.ClassicFSM('DistributedPatternGameAI', [State.State('off', self.enterInactive, self.exitInactive, ['waitClientsReady', 'cleanup']),
+         State.State('waitClientsReady', self.enterWaitClientsReady, self.exitWaitClientsReady, ['generatePattern', 'cleanup']),
+         State.State('generatePattern', self.enterGeneratePattern, self.exitGeneratePattern, ['waitForResults', 'cleanup']),
+         State.State('waitForResults', self.enterWaitForResults, self.exitWaitForResults, ['waitClientsReady', 'cleanup']),
+         State.State('cleanup', self.enterCleanup, self.exitCleanup, [])], 'off', 'cleanup')
+        self.addChildGameFSM(self.gameFSM)
 
     def delete(self):
         self.notify.debug('delete')

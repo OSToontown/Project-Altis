@@ -118,7 +118,6 @@ class DistributedTravelGame(DistributedMinigame):
         self.boardIndex = 0
         self.avNames = []
         self.disconnectedAvIds = []
-        return
 
     def getTitle(self):
         return TTLocalizer.TravelGameTitle

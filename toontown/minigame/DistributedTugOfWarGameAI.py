@@ -12,17 +12,18 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
     def __init__(self, air, minigameId):
         try:
             self.DistributedTugOfWarGameAI_initialized
+            return
         except:
             self.DistributedTugOfWarGameAI_initialized = 1
-            DistributedMinigameAI.__init__(self, air, minigameId)
-            self.gameFSM = ClassicFSM.ClassicFSM('DistributedTugOfWarGameAI', [State.State('off', self.enterInactive, self.exitInactive, ['waitClientsReady', 'cleanup']),
-             State.State('waitClientsReady', self.enterWaitClientsReady, self.exitWaitClientsReady, ['sendGoSignal', 'cleanup']),
-             State.State('sendGoSignal', self.enterSendGoSignal, self.exitSendGoSignal, ['waitForResults', 'cleanup']),
-             State.State('waitForResults', self.enterWaitForResults, self.exitWaitForResults, ['waitClientsReady', 'contestOver', 'cleanup']),
-             State.State('contestOver', self.enterContestOver, self.exitContestOver, ['cleanup']),
-             State.State('cleanup', self.enterCleanup, self.exitCleanup, ['off'])], 'off', 'off')
-            self.addChildGameFSM(self.gameFSM)
-
+        
+        DistributedMinigameAI.__init__(self, air, minigameId)
+        self.gameFSM = ClassicFSM.ClassicFSM('DistributedTugOfWarGameAI', [State.State('off', self.enterInactive, self.exitInactive, ['waitClientsReady', 'cleanup']),
+         State.State('waitClientsReady', self.enterWaitClientsReady, self.exitWaitClientsReady, ['sendGoSignal', 'cleanup']),
+         State.State('sendGoSignal', self.enterSendGoSignal, self.exitSendGoSignal, ['waitForResults', 'cleanup']),
+         State.State('waitForResults', self.enterWaitForResults, self.exitWaitForResults, ['waitClientsReady', 'contestOver', 'cleanup']),
+         State.State('contestOver', self.enterContestOver, self.exitContestOver, ['cleanup']),
+         State.State('cleanup', self.enterCleanup, self.exitCleanup, ['off'])], 'off', 'off')
+        self.addChildGameFSM(self.gameFSM)
         self.switched = 0
         self.side = {}
         self.forceDict = [{}, {}]

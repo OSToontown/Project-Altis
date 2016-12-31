@@ -247,12 +247,17 @@ class DistributedDivingGameAI(DistributedMinigameAI):
     def __init__(self, air, minigameId):
         try:
             self.DistributedDivingGameAI_initialized
+            return
         except:
             self.DistributedDivingGameAI_initialized = 1
-            DistributedMinigameAI.__init__(self, air, minigameId)
-            self.gameFSM = ClassicFSM.ClassicFSM('DistributedDivingGameAI', [State.State('inactive', self.enterInactive, self.exitInactive, ['swimming']), State.State('swimming', self.enterSwimming, self.exitSwimming, ['cleanup']), State.State('cleanup', self.enterCleanup, self.exitCleanup, ['inactive'])], 'inactive', 'inactive')
-            self.addChildGameFSM(self.gameFSM)
-            self.__timeBase = globalClockDelta.localToNetworkTime(globalClock.getRealTime())
+        
+        DistributedMinigameAI.__init__(self, air, minigameId)
+        self.gameFSM = ClassicFSM.ClassicFSM('DistributedDivingGameAI', [
+            State.State('inactive', self.enterInactive, self.exitInactive, ['swimming']), 
+            State.State('swimming', self.enterSwimming, self.exitSwimming, ['cleanup']), 
+            State.State('cleanup', self.enterCleanup, self.exitCleanup, ['inactive'])], 'inactive', 'inactive')
+        self.addChildGameFSM(self.gameFSM)
+        self.__timeBase = globalClockDelta.localToNetworkTime(globalClock.getRealTime())
 
     def delete(self):
         self.notify.debug('delete')

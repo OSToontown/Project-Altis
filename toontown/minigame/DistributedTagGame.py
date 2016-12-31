@@ -23,7 +23,10 @@ class DistributedTagGame(DistributedMinigame):
 
     def __init__(self, cr):
         DistributedMinigame.__init__(self, cr)
-        self.gameFSM = ClassicFSM.ClassicFSM('DistributedTagGame', [State.State('off', self.enterOff, self.exitOff, ['play']), State.State('play', self.enterPlay, self.exitPlay, ['cleanup']), State.State('cleanup', self.enterCleanup, self.exitCleanup, ['off'])], 'off', 'off')
+        self.gameFSM = ClassicFSM.ClassicFSM('DistributedTagGame', [
+            State.State('off', self.enterOff, self.exitOff, ['play']), 
+            State.State('play', self.enterPlay, self.exitPlay, ['cleanup']), 
+            State.State('cleanup', self.enterCleanup, self.exitCleanup, ['off'])], 'off', 'off')
         self.addChildGameFSM(self.gameFSM)
         self.walkStateData = Walk.Walk('walkDone')
         self.scorePanels = []

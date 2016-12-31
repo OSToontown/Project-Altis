@@ -325,7 +325,6 @@ class DistributedRaceGame(DistributedMinigame):
         self.chanceCardText.hide()
         self.cardSound = base.loadSfx('phase_3.5/audio/sfx/GUI_stickerbook_turn.ogg')
         self.chanceMarkers = []
-        return
 
     def unload(self):
         self.notify.debug('unload')

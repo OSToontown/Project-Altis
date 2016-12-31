@@ -39,7 +39,6 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         self.diffPath = None
         self.transitionToCostume = 0
         self.__initCollisions()
-        return
 
     def __initCollisions(self):
         self.cSphere = CollisionSphere(0.0, 0.0, 0.0, 8.0)
@@ -75,7 +74,6 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         self.cRayNodePath = None
         self.lifter = None
         self.cTrav = None
-        return
 
     def disable(self):
         self.stopBlink()
@@ -92,10 +90,12 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         try:
             self.DistributedCCharBase_deleted
         except:
-            self.setParent(NodePath('Temp'))
             self.DistributedCCharBase_deleted = 1
-            self.__deleteCollisions()
-            DistributedChar.DistributedChar.delete(self)
+            return
+        
+        self.setParent(NodePath('Temp'))
+        self.__deleteCollisions()
+        DistributedChar.DistributedChar.delete(self)
 
     def generate(self, diffPath = None):
         DistributedChar.DistributedChar.generate(self)
@@ -111,11 +111,9 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         self.chatterDialogue = None
         self.acceptOnce('enter' + self.cSphereNode.getName(), self.__handleCollisionSphereEnter)
         self.accept('exitSafeZone', self.__handleExitSafeZone)
-        return
 
     def __handleExitSafeZone(self):
         self.__handleCollisionSphereExit(None)
-        return
 
     def __handleCollisionSphereEnter(self, collEntry):
         self.notify.debug('Entering collision sphere...')

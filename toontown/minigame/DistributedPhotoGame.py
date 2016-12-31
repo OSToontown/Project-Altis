@@ -102,7 +102,6 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.edgeDown = 0
         self.edgeLeft = 0
         self.scorePanel = None
-        return
 
     def getTitle(self):
         return TTLocalizer.PhotoGameTitle

@@ -60,7 +60,6 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
         self.obstacles = []
         self.controlKeyPressed = False
         self.controlKeyWarningIval = None
-        return
 
     def delete(self):
         DistributedIceWorld.DistributedIceWorld.delete(self)
@@ -89,7 +88,6 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
 
         del self.obstacles
         del self.gameFSM
-        return
 
     def announceGenerate(self):
         DistributedMinigame.DistributedMinigame.announceGenerate(self)
@@ -102,7 +100,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
     def getInstructions(self):
         szId = self.getSafezoneId()
         numPenalties = IceGameGlobals.NumPenalties[szId]
-        result = TTLocalizer.IceGameInstructions
+        result = TTLocalizer.IceGameInstructionss
         if numPenalties == 0:
             result = TTLocalizer.IceGameInstructionsNoTnt
         return result
