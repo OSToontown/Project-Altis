@@ -78,7 +78,9 @@ class DNADoor(DNAGroup.DNAGroup):
         node = dnaStorage.findNode(self.code)
         if node is None:
             raise DNAError.DNAError('DNADoor code ' + self.code + ' not found in DNAStorage')
+        
         doorNode = node.copyTo(frontNode, 0)
         doorNode.flattenMedium()
         block = dnaStorage.getBlock(nodePath.getName())
-        DNADoor.setupDoor(doorNode, nodePath, nodePath.find('**/*door_origin'), dnaStorage, block, self.getColor())
+        DNADoor.setupDoor(doorNode, nodePath, nodePath.find('**/*door_origin'), dnaStorage, 
+            block, self.getColor())

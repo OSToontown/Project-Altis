@@ -11,6 +11,7 @@ class DNASignBaseline(DNANode.DNANode):
     def makeFromDGI(self, dgi):
         DNANode.DNANode.makeFromDGI(self, dgi)
         self.data = dgi.getString()
+        
         if len(self.data):
             self.data = decompressString(self.data)
 

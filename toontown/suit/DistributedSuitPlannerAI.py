@@ -1,12 +1,11 @@
-from direct.directnotify.DirectNotifyGlobal import *
-from direct.distributed import DistributedObjectAI
-from direct.task import Task
 import random
-
 import DistributedSuitAI
 import SuitDNA
 import SuitPlannerBase
 import SuitTimings
+from direct.directnotify.DirectNotifyGlobal import *
+from direct.distributed import DistributedObjectAI
+from direct.task import Task
 from otp.ai.AIBaseGlobal import *
 from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
@@ -19,7 +18,6 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
 
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
@@ -102,6 +100,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             if self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_ZONE] != suitHood:
                 self.currDesired = 0
         self.suitCountAdjust = 0
+
 
     def cleanup(self):
         taskMgr.remove(self.taskName('sptUpkeepPopulation'))
