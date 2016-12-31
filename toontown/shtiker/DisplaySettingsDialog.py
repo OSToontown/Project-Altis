@@ -45,7 +45,8 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
         self.anyChanged = 0
         self.apiChanged = 0
 
-        if len(base.resDict[base.nativeRatio]) > 1:
+        #Get this weak shit outta here.
+        '''if len(base.resDict[base.nativeRatio]) > 1:
             # We have resolutions that match our native ratio and fit it:
             self.screenSizes = sorted(base.resDict[base.nativeRatio])
         else:
@@ -54,7 +55,9 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
             # Let's just use the second largest ratio's resolutions:
             ratios = sorted(base.resDict.keys(), reverse=False)
             nativeIndex = ratios.index(base.nativeRatio)
-            self.screenSizes = sorted(base.resDict[ratios[nativeIndex - 1]])
+            self.screenSizes = sorted(base.resDict[ratios[nativeIndex - 1]])'''
+            
+        self.screenSizes = ((640, 480), (800, 600), (1024, 768), (1280, 1024), (1600, 1200))
 
         guiButton = loader.loadModel('phase_3/models/gui/quit_button.bam')
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui.bam')
