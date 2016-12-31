@@ -117,8 +117,8 @@ speedChatStyles = (
         (210 / 255.0, 200 / 255.0, 180 / 255.0)
     )
 )
-PageMode = PythonUtil.Enum('Options, Codes')
 
+PageMode = PythonUtil.Enum('Options, Codes')
 
 class OptionsPage(ShtikerPage.ShtikerPage):
     notify = directNotify.newCategory('OptionsPage')
@@ -243,16 +243,11 @@ class OptionsTabPage(DirectFrame):
 
 
     def __init__(self, parent = aspect2d):
-        self.parent = parent
         self.currentSizeIndex = None
-
-        DirectFrame.__init__(self, parent=self.parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
-
+        DirectFrame.__init__(self, parent=parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
         self.load()
 
     def destroy(self):
-        self.parent = None
-
         DirectFrame.destroy(self)
 
     def load(self):
@@ -564,15 +559,11 @@ class CodesTabPage(DirectFrame):
     notify = directNotify.newCategory('CodesTabPage')
 
     def __init__(self, parent = aspect2d):
-        self.parent = parent
-        DirectFrame.__init__(self, parent=self.parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
+        DirectFrame.__init__(self, parent=parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
         self.load()
-        return
 
     def destroy(self):
-        self.parent = None
         DirectFrame.destroy(self)
-        return
 
     def load(self):
         cdrGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_sbk_codeRedemptionGui')

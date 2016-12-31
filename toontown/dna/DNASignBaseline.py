@@ -25,8 +25,7 @@ class DNASignBaseline(DNANode.DNANode):
             ss.setData(self.data)
             bf.openRead(ss)
 
-            if not bf.readNode():
-                # WTF happened?
+            if not bf.getReader().getSource():
                 return
             
             signText = NodePath(bf.readNode())

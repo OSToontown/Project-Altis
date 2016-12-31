@@ -90,6 +90,7 @@ ToonBase.ToonBase()
 from pandac.PandaModules import *
 if base.win is None:
     notify.error('Unable to open window; aborting.')
+
 launcher.setPandaErrorCode(0)
 launcher.setPandaWindowOpen()
 ConfigVariableDouble('decompressor-step-time').setValue(0.01)

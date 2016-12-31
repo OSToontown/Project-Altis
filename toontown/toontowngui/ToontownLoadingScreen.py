@@ -60,13 +60,10 @@ class ToontownLoadingScreen:
         scale = self.logo.getScale()
         # self.logo.setPos(scale[0], 0, -scale[2])
         self.logo.setPos(0, 0, -scale[2])
-        self.toon = None
 
     def destroy(self):
         self.title.destroy()
         self.gui.removeNode()
-        if self.toon:
-            self.toon.delete()
         self.logo.removeNode()
 
     def getTip(self, tipCategory):
@@ -80,18 +77,6 @@ class ToontownLoadingScreen:
         self.__count = 0
         self.__expectedCount = range
         if gui:
-            if base.localAvatarStyle:
-                from toontown.toon import Toon
-                self.toon = Toon.Toon()
-                self.toon.setDNA(base.localAvatarStyle)
-                self.toon.loop('bored', fromFrame=135, toFrame=135)
-                self.toon.getGeomNode().setDepthWrite(1)
-                self.toon.getGeomNode().setDepthTest(1)
-                self.toon.setHpr(205, 0, 0)
-                self.toon.setScale(0.18)
-                self.toon.setPos(base.a2dBottomRight.getX()/1.25, 0, -0.034)
-                self.toon.reparentTo(self.waitBar)
-                self.waitBar['frameSize'] = (base.a2dLeft+(base.a2dRight/8.15), base.a2dRight-(base.a2dRight/2.57), -0.03, 0.03)
             self.title.reparentTo(base.a2dpBottomLeft, LOADING_SCREEN_SORT_INDEX)
             self.title.setPos(0.24, 0, 0.23)
             self.gui.setPos(0, -0.1, 0)
@@ -103,6 +88,7 @@ class ToontownLoadingScreen:
             self.title.reparentTo(base.a2dpBottomLeft, LOADING_SCREEN_SORT_INDEX)
             self.gui.reparentTo(hidden)
             self.logo.reparentTo(hidden)
+        
         self.waitBar.reparentTo(base.a2dpBottomCenter, LOADING_SCREEN_SORT_INDEX)
         self.waitBar.update(self.__count)
 
@@ -111,8 +97,6 @@ class ToontownLoadingScreen:
         self.waitBar.reparentTo(self.gui)
         self.title.reparentTo(self.gui)
         self.gui.reparentTo(hidden)
-        if self.toon:
-            self.toon.reparentTo(hidden)
         self.logo.reparentTo(hidden)
         return (self.__expectedCount, self.__count)
 

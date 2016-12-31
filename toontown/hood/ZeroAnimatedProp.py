@@ -24,7 +24,6 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.curIval = None
         self.curPhase = -1
         self.okToStartNextAnim = False
-        return
 
     def delete(self):
         self.exit()
@@ -134,7 +133,6 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.okToStartNextAnim = False
         self.curIval.finish()
         self.curIval = None
-        return
 
     def getPhaseToRun(self):
         result = -1

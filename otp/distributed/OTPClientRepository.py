@@ -1646,7 +1646,6 @@ class OTPClientRepository(ClientRepositoryBase):
         if dclass is not None:
             fieldId = dclass.getFieldByName(fieldName).getNumber()
             self.queryObjectFieldId(doId, fieldId, context)
-        return
 
     def lostConnection(self):
         ClientRepositoryBase.lostConnection(self)
@@ -1656,7 +1655,7 @@ class OTPClientRepository(ClientRepositoryBase):
         OTPClientRepository.notify.debug('waiting for database timeout %s at %s' % (requestName, globalClock.getFrameTime()))
         self.cleanupWaitingForDatabase()
         globalClock.tick()
-        taskMgr.doMethodLater((OTPGlobals.DatabaseDialogTimeout + extraTimeout) * choice(__dev__, 10, 1), self.__showWaitingForDatabase, 'waitingForDatabase', extraArgs=[requestName])
+        taskMgr.doMethodLater((OTPGlobals.DatabaseDialogTimeout + extraTimeout) * 10 if __dev__ else 1, self.__showWaitingForDatabase, 'waitingForDatabase', extraArgs=[requestName])
 
     def cleanupWaitingForDatabase(self):
         if self.waitingForDatabase:
@@ -1664,7 +1663,6 @@ class OTPClientRepository(ClientRepositoryBase):
             self.waitingForDatabase.cleanup()
             self.waitingForDatabase = None
         taskMgr.remove('waitingForDatabase')
-        return
 
     def __showWaitingForDatabase(self, requestName):
         messenger.send('connectionIssue')

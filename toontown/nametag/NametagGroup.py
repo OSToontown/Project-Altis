@@ -16,44 +16,31 @@ class NametagGroup:
         self.avatar = None
         self.active = True
         self.objectCode = None
-
         self.chatButton = NametagGlobals.noButton
         self.chatReversed = False
-
         self.font = None
         self.chatFont = None
-
         self.shadow = None
-
         self.marginManager = None
         self.visible3d = True
-
         self.chatType = NametagGlobals.CHAT
         self.chatBalloonType = NametagGlobals.CHAT_BALLOON
-
         self.nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCNormal]
         self.chatColor = NametagGlobals.ChatColors[NametagGlobals.CCNormal]
         self.speedChatColor = VBase4(1, 1, 1, 1)
-
         self.wordWrap = 8
         self.chatWordWrap = 12
-
         self.text = ''
-
         self.chatPages = []
         self.chatPageIndex = 0
         self.chatTimeoutTask = None
         self.chatTimeoutTaskName = self.getUniqueName() + '-timeout'
-
         self.stompChatText = ''
         self.stompTask = None
         self.stompTaskName = self.getUniqueName() + '-stomp'
-
         self.icon = PandaNode('icon')
-
         self.nametag2d = Nametag2d()
         self.nametag3d = Nametag3d()
-
         self.nametags = set()
         self.add(self.nametag2d)
         self.add(self.nametag3d)
