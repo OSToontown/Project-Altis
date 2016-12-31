@@ -31,16 +31,6 @@ class TTHoodAI(HoodAI.HoodAI):
                 self.createClassicChar()
         if simbase.config.GetBool('want-butterflies', True):
             self.createButterflies()
-
-        if simbase.air.wantYinYang:
-            NPCToons.createNPC(
-                simbase.air, 2021,
-                (ToontownGlobals.ToontownCentral, TTLocalizer.NPCToonNames[2021], ('css', 'ms', 'm', 'm', 26, 0, 26, 26, 0, 27, 0, 27, 0, 27), 'm', 1, NPCToons.NPC_YIN),
-                ToontownGlobals.ToontownCentral, posIndex=0)
-            NPCToons.createNPC(
-                simbase.air, 2022,
-                (ToontownGlobals.ToontownCentral, TTLocalizer.NPCToonNames[2022], ('bss', 'ms', 'm', 'm', 0, 0, 0, 0, 0, 31, 0, 31, 0, 31), 'm', 1, NPCToons.NPC_YANG),
-                ToontownGlobals.ToontownCentral, posIndex=0)
                 
         if simbase.air.wantHalloween:
             self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)

@@ -1,9 +1,8 @@
-from pandac.PandaModules import *
 import random
 import string
 import sys, os
-
 import ToonDNA
+from pandac.PandaModules import *
 from toontown.hood import ZoneUtil
 from toontown.nametag import NametagGlobals
 from toontown.toonbase import TTLocalizer
@@ -15,6 +14,7 @@ try:
     config = simbase.config
 except:
     config = base.config
+
 QUEST_MOVIE_CLEAR = 0
 QUEST_MOVIE_REJECT = 1
 QUEST_MOVIE_COMPLETE = 2
@@ -68,10 +68,7 @@ NPC_PARTYPERSON = 8
 NPC_SPECIALQUESTGIVER = 9
 NPC_FLIPPYTOONHALL = 10
 NPC_SCIENTIST = 11
-NPC_SMART = 13
 NPC_BANKER = 14
-NPC_YIN = 15
-NPC_YANG = 16
 CLERK_COUNTDOWN_TIME = 120
 TAILOR_COUNTDOWN_TIME = 300
 RTDNAFile = '/RTDNAFile.txt'
@@ -81,7 +78,6 @@ def getRandomDNA(seed, gender):
     randomDNA = ToonDNA.ToonDNA()
     randomDNA.newToonRandom(seed, gender, 1)
     return randomDNA.asTuple()
-
 
 def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     import DistributedNPCToonAI
@@ -95,10 +91,7 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     import DistributedNPCSpecialQuestGiverAI
     import DistributedNPCFlippyInToonHallAI
     import DistributedNPCScientistAI
-    import DistributedSmartNPCAI
     import DistributedNPCBankerAI
-    import DistributedNPCYinAI
-    import DistributedNPCYangAI
     canonicalZoneId, name, dnaType, gender, protected, type = desc
     if type == NPC_REGULAR:
         npc = DistributedNPCToonAI.DistributedNPCToonAI(air, npcId, questCallback=questCallback)
@@ -124,16 +117,8 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
         npc = DistributedNPCFlippyInToonHallAI.DistributedNPCFlippyInToonHallAI(air, npcId)
     elif type == NPC_SCIENTIST:
         npc = DistributedNPCScientistAI.DistributedNPCScientistAI(air, npcId)
-    elif type == NPC_SMART:
-        npc = DistributedSmartNPCAI.DistributedSmartNPCAI(air, npcId)
     elif type == NPC_BANKER:
         npc = DistributedNPCBankerAI.DistributedNPCBankerAI(air, npcId)
-    elif type == NPC_YIN:
-        if simbase.air.wantYinYang:
-            npc = DistributedNPCYinAI.DistributedNPCYinAI(air, npcId)
-    elif type == NPC_YANG:
-        if simbase.air.wantYinYang:
-            npc = DistributedNPCYangAI.DistributedNPCYangAI(air, npcId)
     else:
         print 'createNPC() error!!!'
     npc.setName(name)
@@ -196,9 +181,6 @@ def createNpcsInZone(air, zoneId):
         if npcDesc[5] == NPC_PARTYPERSON:
             if not air.wantParties:
                 continue
-        if npcDesc[5] == NPC_SMART:
-            if not config.GetBool('want-talkative-tyler', False):
-                continue
         npcs.append(createNPC(air, npcId, npcDesc, zoneId, posIndex=i))
     return npcs
 
@@ -260,12 +242,7 @@ NPCToonDict = {20000: (-1,
          'm',
          1,
          NPC_SPECIALQUESTGIVER),
- 998: (2000,
-       lnames[998],
-       'r',
-       'm',
-       1,
-       NPC_SMART),
+
  999: (-1,
        lnames[999],
        'r',
