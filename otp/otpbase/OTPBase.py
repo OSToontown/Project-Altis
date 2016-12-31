@@ -315,7 +315,7 @@ def explorer():
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def neglect():
     """
-    toggle the neglection of network updates on the invoker's client.
+    Toggle the neglection of network updates on the invoker's client.
     """
     if base.cr.networkPlugPulled():
         base.cr.restoreNetworkPlug()
@@ -328,7 +328,7 @@ def neglect():
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[float, float, float, float])
 def backgroundColor(r=None, g=1, b=1, a=1):
     """
-    set the background color. Specify no arguments for the default background
+    Set the background color. Specify no arguments for the default background
     color.
     """
     if r is None:
