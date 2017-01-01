@@ -68,12 +68,11 @@ import sys
 import random
 import __builtin__
 try:
-    launcher
-except:
     from toontown.launcher.TTALauncher import TTALauncher
     launcher = TTALauncher()
     __builtin__.launcher = launcher
-
+except Exception as e:
+    raise (e)
 
 notify.info('Starting the game...')
 if launcher.isDummy():
