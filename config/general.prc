@@ -34,7 +34,6 @@ backups-extension .json
 # Server:
 server-timezone EST/EDT/-5
 server-port 7199
-account-server-endpoint https://toontowninfinite.com/api/
 account-bridge-filename astron/databases/account-bridge.db
 
 # Performance:
@@ -116,7 +115,7 @@ base-xp-multiplier 1.0
 want-cogbuildings #t
 
 # Optional:
-show-total-population #t
+show-total-population #f
 want-mat-all-tailors #t
 want-long-pattern-game #f
 

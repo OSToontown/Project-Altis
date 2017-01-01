@@ -2,7 +2,7 @@
 model-path ../resources
 
 # Server:
-server-version infinite-dev
+server-version tta-sv-1.0.0
 min-access-level 600
 accountdb-type developer
 shard-low-pop 50
@@ -30,6 +30,6 @@ want-resistance-restock #t
 want-resistance-dance #t
 
 # Developer options:
-show-population #t
+show-population #f
 force-skip-tutorial #t
 want-instant-parties #t

@@ -2,7 +2,11 @@ from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from otp.otpbase import OTPLocalizer
 from toontown.hood import ZoneUtil
 
-class TTIFriendsManager(DistributedObjectGlobal):
+class TTAFriendsManager(DistributedObjectGlobal):
+    
+    def __init__(self, air):
+        DistributedObjectGlobal.__init__(self, air)
+
     def d_removeFriend(self, friendId):
         self.sendUpdate('removeFriend', [friendId])
 
@@ -60,18 +64,13 @@ class TTIFriendsManager(DistributedObjectGlobal):
         hoodId = base.cr.playGame.getPlaceId()
         if hasattr(base.cr.identifyFriend(fromId), 'getName'):
             base.localAvatar.setSystemMessage(fromId, OTPLocalizer.WhisperComingToVisit % base.cr.identifyFriend(fromId).getName())
-        self.sendUpdate('teleportResponse', [
-            fromId,
-            base.localAvatar.getTeleportAvailable(),
-            base.localAvatar.defaultShard,
-            hoodId,
-            base.localAvatar.getZoneId()
-        ])
+        
+        self.sendUpdate('teleportResponse', [fromId,base.localAvatar.getTeleportAvailable(),base.localAvatar.defaultShard,
+            hoodId,base.localAvatar.getZoneId()])
 
     def d_teleportResponse(self, toId, available, shardId, hoodId, zoneId):
         self.sendUpdate('teleportResponse', [toId, available, shardId,
-            hoodId, zoneId]
-        )
+            hoodId, zoneId])
 
     def setTeleportResponse(self, fromId, available, shardId, hoodId, zoneId):
         base.localAvatar.teleportResponse(fromId, available, shardId, hoodId, zoneId)
@@ -137,13 +136,11 @@ class TTIFriendsManager(DistributedObjectGlobal):
 
     def d_whisperSCToontaskTo(self, toId, taskId, toNpcId, toonProgress, msgIndex):
         self.sendUpdate('whisperSCToontaskTo', [toId, taskId, toNpcId,
-            toonProgress, msgIndex]
-        )
+            toonProgress, msgIndex])
 
     def setWhisperSCToontaskFrom(self, fromId, taskId, toNpcId, toonProgress, msgIndex):
         base.localAvatar.setWhisperSCToontaskFrom(fromId, taskId, toNpcId,
-            toonProgress, msgIndex
-        )
+            toonProgress, msgIndex)
 
     def d_sleepAutoReply(self, toId):
         self.sendUpdate('sleepAutoReply', [toId])

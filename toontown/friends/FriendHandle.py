@@ -40,26 +40,26 @@ class FriendHandle:
         return idString + '-' + str(self.getDoId())
 
     def d_battleSOS(self, requesterId):
-        base.cr.ttiFriendsManager.d_battleSOS(self.doId)
+        base.cr.ttaFriendsManager.d_battleSOS(self.doId)
 
     def d_teleportQuery(self, requesterId):
         teleportNotify.debug('sending d_teleportQuery(%s)' % (requesterId,))
 
-        base.cr.ttiFriendsManager.d_teleportQuery(self.doId)
+        base.cr.ttaFriendsManager.d_teleportQuery(self.doId)
 
     def d_teleportResponse(self, avId, available, shardId, hoodId, zoneId):
         teleportNotify.debug('sending teleportResponse%s' % ((avId, available,
             shardId, hoodId, zoneId),)
         )
 
-        base.cr.ttiFriendsManager.d_teleportResponse(self.doId, available,
+        base.cr.ttaFriendsManager.d_teleportResponse(self.doId, available,
             shardId, hoodId, zoneId
         )
 
     def d_teleportGiveup(self, requesterId):
         teleportNotify.debug('sending d_teleportGiveup(%s)' % (requesterId,))
 
-        base.cr.ttiFriendsManager.d_teleportGiveup(self.doId)
+        base.cr.ttaFriendsManager.d_teleportGiveup(self.doId)
 
     def isUnderstandable(self):
         if self.commonChatFlags & base.localAvatar.commonChatFlags & ToontownGlobals.CommonChat:

@@ -12,7 +12,6 @@ class FriendManager(DistributedObject.DistributedObject):
         self.__available = 0
         self.otherToon = 0
         self.gameSpecificFunction = None
-        return
 
     def setAvailable(self, available):
         self.__available = available
@@ -34,7 +33,6 @@ class FriendManager(DistributedObject.DistributedObject):
             base.cr.friendManager.delete()
         base.cr.friendManager = self
         DistributedObject.DistributedObject.generate(self)
-        return
 
     def disable(self):
         base.cr.friendManager = None
@@ -45,7 +43,6 @@ class FriendManager(DistributedObject.DistributedObject):
         self.gameSpecificFunction = None
         base.cr.friendManager = None
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def up_friendQuery(self, inviteeId):
         self.otherToon = inviteeId
@@ -62,7 +59,7 @@ class FriendManager(DistributedObject.DistributedObject):
 
     def up_inviteeFriendResponse(self, yesNoMaybe, context):
         if yesNoMaybe == 1:
-            base.cr.ttiFriendsManager.friendOnline(self.otherToon, 0, 0)
+            base.cr.ttaFriendsManager.friendOnline(self.otherToon, 0, 0)
         self.sendUpdate('inviteeFriendResponse', [yesNoMaybe, context])
         self.notify.debug('Client: inviteeFriendResponse(%d, %d)' % (yesNoMaybe, context))
 
@@ -76,7 +73,7 @@ class FriendManager(DistributedObject.DistributedObject):
 
     def friendResponse(self, yesNoMaybe, context):
         if yesNoMaybe == 1:
-            base.cr.ttiFriendsManager.friendOnline(self.otherToon, 0, 0)
+            base.cr.ttaFriendsManager.friendOnline(self.otherToon, 0, 0)
         self.notify.debug('Client: friendResponse(%d, %d)' % (yesNoMaybe, context))
         messenger.send('friendResponse', [yesNoMaybe, context])
 

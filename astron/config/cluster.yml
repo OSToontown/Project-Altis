@@ -1,5 +1,5 @@
 daemon:
-    name: Developer Cluster
+    name: Astron Cluster
 
 general:
     eventlogger: 127.0.0.1:7198
@@ -34,7 +34,7 @@ uberdogs:
       id: 4687
       anonymous: false
 
-    - class: TTIFriendsManager
+    - class: TTAFriendsManager
       id: 4666
       anonymous: false
 
@@ -57,7 +57,7 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 0.0.0.0:7199
-      version: "infinite-dev"
+      version: "tta-sv-1.0.0"
       client:
        relocate: true
        add_interest: enabled

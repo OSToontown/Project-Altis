@@ -42,42 +42,36 @@ def executeHttpRequest(url, **extras):
     timestamp = str(int(time.time()))
     signature = hmac.new(accountServerSecret, timestamp, hashlib.sha256)
     request = urllib2.Request(accountServerEndpoint + url)
-    request.add_header('User-Agent', 'TTI-CSM')
+    request.add_header('User-Agent', 'TTA-CSM')
     request.add_header('X-CSM-Timestamp', timestamp)
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
         request.add_header('X-CSM-' + k, v)
+    
     try:
         return urllib2.urlopen(request).read()
     except:
         return None
 
-
 blacklist = executeHttpRequest('names/blacklist.json')
 if blacklist:
     blacklist = json.loads(blacklist)
 
-
 def judgeName(name):
     if not name:
         return False
+    
     if blacklist:
         for namePart in name.split(' '):
             namePart = namePart.lower()
             if len(namePart) < 1:
                 return False
+            
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
+    
     return True
-
-
-# --- ACCOUNT DATABASES ---
-# These classes make up the available account databases for Toontown Infinite.
-# Databases with login tokens use the PyCrypto module for decrypting them.
-# DeveloperAccountDB is a special database that accepts a username, and assigns
-# each user with 600 access automatically upon login.
-
 
 class AccountDB:
     notify = directNotify.newCategory('AccountDB')
@@ -110,7 +104,6 @@ class AccountDB:
             self.notify.warning('Unable to associate user %s with account %d!' % (userId, accountId))
             callback(False)
 
-
 class DeveloperAccountDB(AccountDB):
     notify = directNotify.newCategory('DeveloperAccountDB')
 
@@ -141,12 +134,6 @@ class DeveloperAccountDB(AccountDB):
             callback(response)
             return response
 
-
-# This is the same as the DeveloperAccountDB, except it doesn't automatically
-# give the user an access level of 600. Instead, the first user that is created
-# gets 700 access, and every user created afterwards gets 100 access:
-
-
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
@@ -174,7 +161,6 @@ class LocalAccountDB(AccountDB):
             }
             callback(response)
             return response
-
 
 class RemoteAccountDB(AccountDB):
     notify = directNotify.newCategory('RemoteAccountDB')
@@ -287,7 +273,6 @@ class RemoteAccountDB(AccountDB):
             }
             callback(response)
             return response
-
 
 # --- FSMs ---
 class OperationFSM(FSM):
@@ -973,7 +958,6 @@ class UnloadAvatarFSM(OperationFSM):
     def enterUnloadAvatar(self):
         channel = self.csm.GetAccountConnectionChannel(self.target)
 
-        # Tell TTIFriendsManager somebody is logging off:
         self.csm.air.friendsManager.toonOffline(self.avId)
 
         # Clear off POSTREMOVE:

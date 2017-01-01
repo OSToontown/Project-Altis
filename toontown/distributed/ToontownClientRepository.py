@@ -91,13 +91,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.partyManager = None
         self.inGameNewsMgr = None
         self.whitelistMgr = None
-
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
-
         self.csm = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
         self.avatarFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_AVATAR_FRIENDS_MANAGER, 'AvatarFriendsManager')
         self.playerFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_PLAYER_FRIENDS_MANAGER, 'TTPlayerFriendsManager')
-        self.ttiFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTI_FRIENDS_MANAGER, 'TTIFriendsManager')
+        self.ttaFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTA_FRIENDS_MANAGER, 'TTAFriendsManager')
         self.speedchatRelay = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_SPEEDCHAT_RELAY, 'TTSpeedchatRelay')
         self.deliveryManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
         if config.GetBool('want-code-redemption', 1):
@@ -111,7 +109,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.friendsOnline = {}
         self.friendsMapPending = 0
         self.friendsListError = 0
-        self.friendPendingChatSettings = {}
+        self.friendPendingChatSettaFriendsManagerngs = {}
         self.elderFriendsMap = {}
         self.__queryAvatarMap = {}
         self.dateObject = DateObject.DateObject()
@@ -181,7 +179,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             avatarChoice.id,
             lambda: self.loginFSM.request('waitForSetAvatarResponse', [avatarChoice]))
 
-    def betterlucknexttime(self, avList, index):
+    def betterlucknexttaFriendsManagerme(self, avList, index):
         self.rejectDoneEvent = 'rejectDone'
         self.rejectDialog = TTDialog.TTGlobalDialog(doneEvent=self.rejectDoneEvent, message=TTLocalizer.NameShopNameRejected, style=TTDialog.Acknowledge)
         self.rejectDialog.show()
@@ -207,7 +205,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.sendSetAvatarIdMsg(0)
         self.clearFriendState()
         if self.music == None and base.musicManagerIsValid:
-            themeList = ('phase_3/audio/bgm/tti_theme.ogg', 'phase_3/audio/bgm/tti_theme_2.ogg')
+            themeList = ('phase_3/audio/bgm/ttaFriendsManager_theme.ogg', 'phase_3/audio/bgm/ttaFriendsManager_theme_2.ogg')
             self.music = base.musicManager.getSound(random.choice(themeList))
             if self.music:
                 self.music.setLoop(1)
@@ -243,7 +241,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 avatarChoice.approvedName = ''
             elif avatarChoice.rejectedName != '':
                 avatarChoice.rejectedName = ''
-                self.betterlucknexttime(avList, index)
+                self.betterlucknexttaFriendsManagerme(avList, index)
             else:
                 base.localAvatarStyle = dna
                 base.localAvatarName = avatarChoice.name
@@ -372,7 +370,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             pad.delayDelete.destroy()
 
     def __sendGetAvatarDetails(self, avId):
-        self.ttiFriendsManager.d_getAvatarDetails(avId)
+        self.ttaFriendsManager.d_getAvatarDetails(avId)
 
     def n_handleGetAvatarDetailsResp(self, avId, fields):
         self.notify.info('Query reponse for avId %d' % avId)
@@ -766,7 +764,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         return 1
 
     def removeFriend(self, avatarId):
-        self.ttiFriendsManager.d_removeFriend(avatarId)
+        self.ttaFriendsManager.d_removeFriend(avatarId)
 
     def clearFriendState(self):
         self.friendsMap = {}
@@ -777,7 +775,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def sendGetFriendsListRequest(self):
         self.friendsMapPending = 1
         self.friendsListError = 0
-        self.ttiFriendsManager.d_requestFriendsList()
+        self.ttaFriendsManager.d_requestFriendsList()
 
     def cleanPetsFromFriendsMap(self):
         for objId, obj in self.friendsMap.items():
@@ -796,6 +794,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if doId not in self.friendsMap:
             if callback:
                 callback()
+            
             return
 
         def petDetailsCallback(petAvatar):
@@ -805,6 +804,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             petAvatar.delete()
             if callback:
                 callback()
+            
             if self._proactiveLeakChecks:
                 petAvatar.detectLeaks()
 
@@ -823,9 +823,9 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.friendsMap[doId] = handle
             if doId in self.friendsOnline:
                 self.friendsOnline[doId] = handle
-            if doId in self.friendPendingChatSettings:
-                self.notify.debug('calling setCommonAndWL %s' % str(self.friendPendingChatSettings[doId]))
-                handle.setCommonAndWhitelistChatFlags(*self.friendPendingChatSettings[doId])
+            if doId in self.friendPendingChatSettaFriendsManagerngs:
+                self.notify.debug('calling setCommonAndWL %s' % str(self.friendPendingChatSettaFriendsManagerngs[doId]))
+                handle.setCommonAndWhitelistChatFlags(*self.friendPendingChatSettaFriendsManagerngs[doId])
 
         if base.wantPets and base.localAvatar.hasPet():
 
@@ -835,6 +835,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
             self.addPetToFriendsMap(handleAddedPet)
             return
+        
         self.friendsMapPending = 0
         messenger.send('friendsMapComplete')
 
@@ -865,7 +866,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.friendsOnline[doId] = self.identifyFriend(doId)
             messenger.send('friendOnline', [doId, commonChatFlags, whitelistChatFlags])
             if not self.friendsOnline[doId]:
-                self.friendPendingChatSettings[doId] = (commonChatFlags, whitelistChatFlags)
+                self.friendPendingChatSettaFriendsManagerngs[doId] = (commonChatFlags, whitelistChatFlags)
 
     def handleFriendOffline(self, doId):
         self.notify.debug('Friend %d now offline.' % doId)
@@ -925,18 +926,17 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         interestZones = zoneId
         if visibleZoneList is not None:
             interestZones = visibleZoneList
-        self._addInterestOpToQueue(ToontownClientRepository.SetInterest, [parentId, interestZones, 'OldSetZoneEmulator'], event)
-        return
+        
+        self._addInterestOpToQueue(ToontownClientRepository.SetInterest, [parentId, interestZones, 
+            'OldSetZoneEmulator'], event)
 
     def resetInterestStateForConnectionLoss(self):
         OTPClientRepository.OTPClientRepository.resetInterestStateForConnectionLoss(self)
         self.old_setzone_interest_handle = None
         self.setZoneQueue.clear()
-        return
 
     def _removeEmulatedSetZone(self, doneEvent):
         self._addInterestOpToQueue(ToontownClientRepository.ClearInterest, None, doneEvent)
-        return
 
     def _addInterestOpToQueue(self, op, args, event):
         self.setZoneQueue.push([op, args, event])
@@ -956,7 +956,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.old_setzone_interest_handle = None
         else:
             self.notify.error('unknown setZone op: %s' % op)
-        return
 
     def _handleEmuSetZoneDone(self):
         op, args, event = self.setZoneQueue.pop()
@@ -972,7 +971,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                     messenger.send(event)
         if not queueIsEmpty:
             self._sendNextSetZone()
-        return
 
     def _isPlayerDclass(self, dclass):
         return dclass == self._playerAvDclass
@@ -980,10 +978,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def _isValidPlayerLocation(self, parentId, zoneId):
         if not self.distributedDistrict:
             return False
+        
         if parentId != self.distributedDistrict.doId:
             return False
+        
         if parentId == self.distributedDistrict.doId and zoneId == OTPGlobals.UberZone:
             return False
+        
         return True
 
     def sendQuietZoneRequest(self):
@@ -1024,6 +1025,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             if do:
                 if not do.neverDisable:
                     return
+        
         OTPClientRepository.OTPClientRepository.handleUpdateField(self, di)
 
     def handleDelete(self, di):
@@ -1059,21 +1061,27 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def requestAvatarInfo(self, avId):
         if avId == 0:
             return
-        self.ttiFriendsManager.d_requestAvatarInfo([avId])
+        
+        self.ttaFriendsManager.d_requestAvatarInfo([avId])
 
     def queueRequestAvatarInfo(self, avId):
         removeTask = 0
         if not hasattr(self, 'avatarInfoRequests'):
             self.avatarInfoRequests = []
+        
         if self.avatarInfoRequests:
             taskMgr.remove('avatarRequestQueueTask')
+        
         if avId not in self.avatarInfoRequests:
             self.avatarInfoRequests.append(avId)
+        
         taskMgr.doMethodLater(0.1, self.sendAvatarInfoRequests, 'avatarRequestQueueTask')
 
     def sendAvatarInfoRequests(self, task = None):
         if not hasattr(self, 'avatarInfoRequests'):
             return
+        
         if len(self.avatarInfoRequests) == 0:
             return
-        self.ttiFriendsManager.d_requestAvatarInfo(self.avatarInfoRequests)
+        
+        self.ttaFriendsManager.d_requestAvatarInfo(self.avatarInfoRequests)

@@ -1,14 +1,13 @@
-from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
-from direct.distributed.PyDatagram import *
-from direct.task import Task
-from direct.directnotify.DirectNotifyGlobal import directNotify
 import string
 import random
 import functools
 import time
+from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
+from direct.distributed.PyDatagram import *
+from direct.task import Task
+from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.fsm.FSM import FSM
 
-# -- FSMS --
 class OperationFSM(FSM):
 
     def __init__(self, mgr, air, senderAvId, targetAvId=None, callback=None):
@@ -36,8 +35,6 @@ class OperationFSM(FSM):
         if self.sender in self.mgr.operations:
             del self.mgr.operations[self.sender]
 
-
-# -- Friends list --
 class FriendsListOperation(OperationFSM):
 
     def enterStart(self):
@@ -68,6 +65,7 @@ class FriendsListOperation(OperationFSM):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
             self.demand('Error', 'Friend was not a Toon')
             return
+        
         friendId = self.friendsList[self.friendIndex][0]
         self.realFriendsList.append([friendId, fields['setName'][0],
             fields['setDNAString'][0], fields['setPetId'][0]])
@@ -81,8 +79,6 @@ class FriendsListOperation(OperationFSM):
         self.air.dbInterface.queryObject(self.air.dbId,
             self.friendsList[self.friendIndex][0], self.addFriend)
 
-
-# -- Remove Friends --
 class RemoveFriendOperation(OperationFSM):
 
     def __init__(self, mgr, air, senderAvId, targetAvId=None, callback=None, alert=False):
@@ -122,10 +118,9 @@ class RemoveFriendOperation(OperationFSM):
         self.air.dbInterface.updateObject(self.air.dbId, self.sender,
             self.air.dclassesByName['DistributedToonUD'],
             {'setFriendsList' : [newList]})
+        
         self.demand('Off')
 
-
-# -- Avatar Details --
 class FriendDetailsOperation(OperationFSM):
 
     def __init__(self, mgr, air, senderAvId, targetAvId=None, callback=None, friendIds=None):
@@ -165,8 +160,6 @@ class FriendDetailsOperation(OperationFSM):
         self.mgr.sendUpdateToAvatarId(self.sender, 'friendInfo',
             [self.currId, name, dna, petId])
 
-
-# -- Clear List --
 class ClearListOperation(OperationFSM):
 
     def enterStart(self):
@@ -187,10 +180,8 @@ class ClearListOperation(OperationFSM):
             newOperation.demand('Start')
         self.demand('Off')
 
-# -- FriendsManager --
-
-class TTIFriendsManagerUD(DistributedObjectGlobalUD):
-    notify = directNotify.newCategory('TTIFriendsManagerUD')
+class TTAFriendsManagerUD(DistributedObjectGlobalUD):
+    notify = directNotify.newCategory('TTAFriendsManagerUD')
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
@@ -202,7 +193,6 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
         self.secret2avId = {}
         self.delayTime = 1.0
 
-    # -- Friends list --
     def requestFriendsList(self):
         avId = self.air.getAvatarIdFromSender()
         newOperation = FriendsListOperation(self, self.air, avId,
@@ -215,7 +205,6 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
         if sender not in self.onlineToons:
             self.toonOnline(sender, friendsList)
 
-    # -- Remove Friend --
     def removeFriend(self, friendId):
         avId = self.air.getAvatarIdFromSender()
 
@@ -230,7 +219,6 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
         self.operations.append(newOperation)
         newOperation.demand('Start')
 
-    # -- Avatar Info --
     def requestAvatarInfo(self, friendIdList):
         avId = self.air.getAvatarIdFromSender()
         newOperation = FriendDetailsOperation(self, self.air, avId,
@@ -256,9 +244,9 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
             # We need an actual way to send the fields to the client...............
             # Inventory, trackAccess, trophies, Hp, maxHp, defaultshard, lastHood, dnastring
             self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, inventory, trackAccess, trophies, hp, maxHp, defaultShard, lastHood, dnaString, experience, trackBonusLevel])
+        
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
 
-    # -- Toon Online/Offline --
     def toonOnline(self, doId, friendsList):
         self.onlineToons.append(doId)
 
@@ -293,13 +281,11 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
                 self.onlineToons.remove(doId)
         self.air.dbInterface.queryObject(self.air.dbId, doId, handleToon)
 
-    # -- Clear List --
     def clearList(self, doId):
         newOperation = ClearListOperation(self, self.air, doId)
         self.operations.append(newOperation)
         newOperation.demand('Start')
 
-    # -- Teleport and Whispers --
     def routeTeleportQuery(self, toId):
         fromId = self.air.getAvatarIdFromSender()
         if fromId in self.tpRequests.values():
@@ -377,7 +363,6 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
         self.sendUpdateToAvatarId(toId, 'receiveTalkWhisper', [fromId, message])
         self.air.writeServerEvent('whisper-said', fromId, toId, message)
 
-    # -- Secret Friends --
     def requestSecret(self):
         avId = self.air.getAvatarIdFromSender()
         allowed = string.lowercase + string.digits
@@ -402,7 +387,6 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
 
         self.sendUpdateToAvatarId(requester, 'submitSecretResponse', [5, 0])
 
-    # -- Routes --
     def battleSOS(self, toId):
         requester = self.air.getAvatarIdFromSender()
         self.sendUpdateToAvatarId(toId, 'setBattleSOS', [requester])
@@ -413,9 +397,8 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
 
     def whisperSCToontaskTo(self, toId, taskId, toNpcId, toonProgress, msgIndex):
         requester = self.air.getAvatarIdFromSender()
-        self.sendUpdateToAvatarId(toId, 'setWhisperSCToontaskFrom', [requester,
-            taskId, toNpcId, toonProgress, msgIndex]
-        )
+        self.sendUpdateToAvatarId(toId, 'setWhisperSCToontaskFrom', [requester, taskId, 
+            toNpcId, toonProgress, msgIndex])
 
     def sleepAutoReply(self, toId):
         requester = self.air.getAvatarIdFromSender()
