@@ -1,3 +1,4 @@
+import math
 from pandac.PandaModules import *
 from DNAError import DNAError
 from DNASuitPoint import DNASuitPoint
@@ -306,3 +307,166 @@ class DNAStorage:
         self.resetCatalogCodes()
         ModelPool.garbageCollect()
         TexturePool.garbageCollect()
+        
+    def PACK_NODES(self, dgi, nodes):
+        '''
+        C++ Version Below
+        
+        #define PACK_NODES(X) dg.add_uint16(X.size()); for (nodes_t::iterator it = X.begin(); it != X.end(); ++it) {dg.add_string(it->first);\
+                                    dg.add_string((it->second)[0]); dg.add_string((it->second)[1]);}
+        '''
+        pass
+        
+    def writePDNA(self, dgi):
+        '''Write a .PDNA file from the current loaded scene'''
+    
+        # Catalog Codes #
+        dgi.addUint16(self.catalogCodes.size())
+        it = self.catalogCodes.begin();
+        while it != self.catalogCodes.end():
+            it += 1
+            dgi.addString(it[0])
+            codes = it[1]
+            dg.addUint8(codes.size())
+            code = codes.begin()
+            while code != codes.end():
+                code += 1
+                dg.addString(str(code))
+                
+        # Textures # 
+        dgi.addUint16(self.textures.size())
+        it = self.textures.begin()
+        while it != self.textures.end():
+            it += 1
+            dgi.addString(it[0])
+            dgi.addString(it[1].getFilename())
+            
+        # Nodes #
+        PACK_NODES(dgi, self.nodes)
+        PACK_NODES(dgi, self.hoodNodes)
+        PACK_NODES(dgi, self.placeNodes)
+        
+        # Blocks #
+        dgi.addUint16(self.blockNumbers.size())
+        it = self.blockNumbers.begin()
+        while it != self.blockNumbers.end():
+            it += 1
+            blockNumber = it
+            dgi.addUint8(blockNumber)
+            dgi.addUint16(self.blockZones[blockNumber])
+            dgi.addString(self.blockTitles[blockNumber])
+            dgi.addString(self.blockArticles[blockNumber])
+            dgi.addString(self.blockBuildingTypes[blockNumber])
+            
+        # Suit Points #
+        dgi.addUint16(self.suitPoints.size())
+        it = self.suitPoints.begin()
+        while it != self.suitPoints.end():
+            it += 1
+            dgi.addUint16(it.getIndex())
+            dgi.addUint8(it.getPointType())
+            dgi.addInt32(math.floor(it.getX() * 100))
+            dgi.addInt32(math.floor(it.getY() * 100))
+            dgi.addInt32(math.floor(it.getZ() * 100))
+            dgi.addInt16(it.getLandmarkBuildingIndex())
+        
+        # Suit Edges #
+        dgi.addUnit16(self.suitEdges.size())
+        it = self.suitEdges.begin()
+        while it != self.suitEdges.end():
+            it += 1
+            startPointIndex = it[0]
+            edges = it[1]
+            
+            dgi.addUint16(startPointIndex)
+            dgi.addUint16(edges.size())
+            
+            eit = edges.begin()
+            while eit != edges.end():
+                edge = eit
+                dgi.addUnit16(edge.getEndPoint().getIndex())
+                dgi.addUint16(edge.getZoneId())
+                
+     def dump(self, verbose=False):
+        packer = DNAPacker(name='DNAStorage', verbose=verbose)
+
+        # Catalog codes...
+        packer.pack('catalog code root count', len(self.catalogCodes), UINT16)
+        for root, codes in self.catalogCodes.items():
+            packer.pack('root', root, STRING)
+            packer.pack('root code count', len(codes), UINT8)
+            for code in codes:
+                packer.pack('code', code, STRING)
+
+        # Textures...
+        packer.pack('texture count', len(self.textures), UINT16)
+        for code, filename in self.textures.items():
+            packer.pack('code', code, STRING)
+            packer.pack('filename', filename, STRING)
+
+        # Fonts are packed again now we have C++ signs
+        packer.pack('font count', len(self.fonts), UINT16)
+        for code, filename in self.fonts.items():
+            packer.pack('code', code, STRING)
+            packer.pack('filename', filename, STRING)
+
+        # Nodes...
+        packer.pack('node count', len(self.nodes), UINT16)
+        for code, (filename, search) in self.nodes.items():
+            packer.pack('code', code, STRING)
+            packer.pack('filename', filename, STRING)
+            packer.pack('search', search, STRING)
+
+        # Hood nodes...
+        packer.pack('hood node count', len(self.hoodNodes), UINT16)
+        for code, (filename, search) in self.hoodNodes.items():
+            packer.pack('code', code, STRING)
+            packer.pack('filename', filename, STRING)
+            packer.pack('search', search, STRING)
+
+        # Place nodes...
+        packer.pack('place node count', len(self.placeNodes), UINT16)
+        for code, (filename, search) in self.placeNodes.items():
+            packer.pack('code', code, STRING)
+            packer.pack('filename', filename, STRING)
+            packer.pack('search', search, STRING)
+
+        # Blocks...
+        packer.pack('block number count', len(self.blockNumbers), UINT16)
+        for blockNumber in self.blockNumbers:
+            packer.pack('number', blockNumber, UINT8)
+            packer.pack('zone ID', self.blockZones[blockNumber], UINT16)
+            title = self.blockTitles.get(blockNumber, '')
+            packer.pack('title', title, STRING)
+            article = self.blockArticles.get(blockNumber, '')
+            packer.pack('article', article, STRING)
+            buildingType = self.blockBuildingTypes.get(blockNumber, '')
+            packer.pack('building type', buildingType, STRING)
+
+        # Suit points...
+        packer.pack('suit point count', len(self.suitPoints), UINT16)
+        for point in self.suitPoints:
+            packer.pack('index', point.index, UINT16)
+            packer.pack('type', point.pointType, UINT8)
+            for component in point.pos:
+                packer.pack('position', int(component * 100), INT32)
+            packer.pack('landmark building index',
+                        point.landmarkBuildingIndex, INT16)
+
+        # Suit edges...
+        packer.pack('suit edge count', len(self.suitEdges), UINT16)
+        for startPointIndex, edges in self.suitEdges.items():
+            packer.pack('start point index', startPointIndex, UINT16)
+            packer.pack('edge count', len(edges), UINT16)
+            for edge in edges:
+                packer.pack('end point', edge.endPoint.index, UINT16)
+                packer.pack('zone ID', edge.zoneId, UINT16)
+
+        return packer
+
+            
+        
+            
+            
+            
+            
