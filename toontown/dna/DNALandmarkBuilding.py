@@ -4,6 +4,10 @@ import DNAUtil
 import DNAError
 
 class DNALandmarkBuilding(DNANode.DNANode):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'wallColor', 'title', 'article',
+        'buildingType', 'door')
+   
     COMPONENT_CODE = 13
 
     def __init__(self, name):
@@ -50,6 +54,7 @@ class DNALandmarkBuilding(DNANode.DNANode):
             name = self.getName()
             name = 's' + name[1:]
             node = nodePathB.find('**/*suit_building_origin')
+            
             if node.isEmpty():
                 node = nodePathA.attachNewNode(name)
                 node.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
@@ -68,7 +73,8 @@ class DNALandmarkBuilding(DNANode.DNANode):
     def traverse(self, nodePath, dnaStorage):
         node = dnaStorage.findNode(self.code)
         if node is None:
-            raise DNAError.DNAError('DNALandmarkBuilding code ' + self.code + ' not found in DNAStorage')
+            raise DNAError.DNAError('DNALandmarkBuilding code %s' % str(self.code) + ' not found in DNAStorage')
+        
         npA = nodePath
         nodePath = node.copyTo(nodePath, 0)
         nodePath.setName(self.getName())
@@ -76,4 +82,5 @@ class DNALandmarkBuilding(DNANode.DNANode):
         self.setupSuitBuildingOrigin(npA, nodePath)
         for child in self.children:
             child.traverse(nodePath, dnaStorage)
+        
         nodePath.flattenStrong()

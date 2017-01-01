@@ -5,6 +5,9 @@ import DNAError
 import DNAUtil
 
 class DNAWall(DNANode.DNANode):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'height', 'color')
+
     COMPONENT_CODE = 10
 
     def __init__(self, name):
@@ -40,7 +43,8 @@ class DNAWall(DNANode.DNANode):
     def traverse(self, nodePath, dnaStorage):
         node = dnaStorage.findNode(self.code)
         if node is None:
-            raise DNAError.DNAError('DNAWall code ' + self.code + ' not found in DNAStorage')
+            raise DNAError.DNAError('DNAWall code %s' % self.code + ' not found in DNAStorage')
+        
         node = node.copyTo(nodePath, 0)
         self.pos.setZ(DNAFlatBuilding.DNAFlatBuilding.currentWallHeight)
         self.scale.setZ(self.height)
@@ -48,5 +52,6 @@ class DNAWall(DNANode.DNANode):
         node.setColor(self.color)
         for child in self.children:
             child.traverse(node, dnaStorage)
+        
         node.flattenStrong()
         DNAFlatBuilding.DNAFlatBuilding.currentWallHeight += self.height

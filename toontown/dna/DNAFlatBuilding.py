@@ -5,6 +5,9 @@ import DNAWall
 import random
 
 class DNAFlatBuilding(DNANode.DNANode):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'width', 'hasDoor')
+
     COMPONENT_CODE = 9
     currentWallHeight = 0
 
@@ -40,17 +43,21 @@ class DNAFlatBuilding(DNANode.DNANode):
         name = self.getName()
         if name[:2] != 'tb':
             return
+        
         name = 'sb' + name[2:]
         node = nodePath.attachNewNode(name)
         node.setPosHpr(self.getPos(), self.getHpr())
         numCodes = dnaStorage.getNumCatalogCodes('suit_wall')
         if numCodes < 1:
             return
+        
         code = dnaStorage.getCatalogCode(
             'suit_wall', random.randint(0, numCodes - 1))
+        
         wallNode = dnaStorage.findNode(code)
         if not wallNode:
             return
+        
         wallNode = wallNode.copyTo(node, 0)
         wallScale = wallNode.getScale()
         wallScale.setX(self.width)
@@ -63,6 +70,7 @@ class DNAFlatBuilding(DNANode.DNANode):
             doorNode.setScale(NodePath(), (1, 1, 1))
             doorNode.setPosHpr(0.5, 0, 0, 0, 0, 0)
             wallNodePath.setEffect(DecalEffect.make())
+        
         node.flattenMedium()
         node.stash()
 
@@ -70,17 +78,21 @@ class DNAFlatBuilding(DNANode.DNANode):
         name = self.getName()
         if name[:2] != 'tb':
             return
+        
         name = 'cb' + name[2:]
         node = nodePath.attachNewNode(name)
         node.setPosHpr(self.getPos(), self.getHpr())
         numCodes = dnaStorage.getNumCatalogCodes('cogdo_wall')
         if numCodes < 1:
             return
+        
         code = dnaStorage.getCatalogCode(
             'cogdo_wall', random.randint(0, numCodes - 1))
+        
         wallNode = dnaStorage.findNode(code)
         if not wallNode:
             return
+        
         wallNode = wallNode.copyTo(node, 0)
         wallScale = wallNode.getScale()
         wallScale.setX(self.width)
@@ -93,6 +105,7 @@ class DNAFlatBuilding(DNANode.DNANode):
             doorNode.setScale(NodePath(), (1, 1, 1))
             doorNode.setPosHpr(0.5, 0, 0, 0, 0, 0)
             wallNodePath.setEffect(DecalEffect.make())
+        
         node.flattenMedium()
         node.stash()
 
@@ -109,6 +122,7 @@ class DNAFlatBuilding(DNANode.DNANode):
                 child.traverse(internalNode, dnaStorage)
             else:
                 child.traverse(node, dnaStorage)
+        
         if DNAFlatBuilding.currentWallHeight == 0:
             print 'empty flat building with no walls'
         else:
@@ -121,6 +135,7 @@ class DNAFlatBuilding(DNANode.DNANode):
             collisionNode = node.find('**/door_*/+CollisionNode')
             if not collisionNode.isEmpty():
                 collisionNode.setName('KnockKnockDoorSphere_' + dnaStorage.getBlock(self.getName()))
+            
             cameraBarrier.wrtReparentTo(nodePath, 0)
             wallCollection = internalNode.findAllMatches('wall*')
             wallHolder = node.attachNewNode('wall_holder')
@@ -136,6 +151,7 @@ class DNAFlatBuilding(DNANode.DNANode):
                 iNode = wallHolder.getChild(i)
                 iNode.clearTag('DNACode')
                 iNode.clearTag('DNARoot')
+            
             wallHolder.flattenStrong()
             wallDecal.flattenStrong()
             holderChild0 = wallHolder.getChild(0)

@@ -5,6 +5,11 @@ from DNASuitPath import DNASuitPath
 from DNASuitEdge import DNASuitEdge
 
 class DNAStorage:
+    __slots__ = (
+        'suitPoints', 'suitPointMap', 'DNAGroups', 'DNAVisGroups', 'suitEdges', 'battleCells', 'nodes', 'hoodNodes',
+        'placeNodes', 'fonts', 'blockTitles', 'blockArticles', 'blockBuildingTypes', 'blockDoors', 'blockNumbers',
+        'blockZones', 'textures', 'catalogCodes')
+
     def __init__(self):
         self.suitPoints = []
         self.suitPointMap = {}
