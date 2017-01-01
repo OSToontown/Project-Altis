@@ -100,9 +100,10 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
     def getInstructions(self):
         szId = self.getSafezoneId()
         numPenalties = IceGameGlobals.NumPenalties[szId]
-        result = TTLocalizer.IceGameInstructionss
+        result = TTLocalizer.IceGameInstructions
         if numPenalties == 0:
             result = TTLocalizer.IceGameInstructionsNoTnt
+        
         return result
 
     def getMaxDuration(self):
