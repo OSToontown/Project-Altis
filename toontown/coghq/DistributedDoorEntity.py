@@ -13,7 +13,7 @@ from otp.level import BasicEntities
 from direct.fsm import State
 from otp.level import VisibilityBlocker
 
-class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.FourState):
+class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.LockBase):
     slideLeft = Vec3(-7.5, 0.0, 0.0)
     slideRight = Vec3(7.5, 0.0, 0.0)
 
@@ -23,7 +23,7 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         self.lockedNodePath = lockedNodePath
         self.leftNodePath = leftNodePath
         self.rightNodePath = rightNodePath
-        self.initialStateIndex = stateIndex
+        self.stateIndex = stateIndex
         FourState.FourState.__init__(self, self.stateNames, self.stateDurations)
 
     def delete(self):
@@ -31,26 +31,25 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         del self.door
 
     def setup(self):
-        self.setLockState(self.initialStateIndex)
-        del self.initialStateIndex
+        self.setLockState(self.stateIndex)
+        del self.stateIndex
 
     def takedown(self):
         if self.track is not None:
             self.track.pause()
             self.track = None
+        
         for i in self.states.keys():
             del self.states[i]
 
         self.states = []
         self.fsm = None
-        return
 
     def setLockState(self, stateIndex):
         if self.stateIndex != stateIndex:
             state = self.states.get(stateIndex)
             if state is not None:
                 self.fsm.request(state)
-        return
 
     def isUnlocked(self):
         return self.isOn()
@@ -59,7 +58,11 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         FourState.FourState.enterState1(self)
         beat = self.duration * 0.05
         slideSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_arms_retracting.ogg')
-        self.setTrack(Sequence(Wait(beat * 2.0), Parallel(SoundInterval(slideSfx, node=self.door.node, volume=0.8), Sequence(ShowInterval(self.leftNodePath), ShowInterval(self.rightNodePath), Parallel(LerpPosInterval(nodePath=self.leftNodePath, other=self.lockedNodePath, duration=beat * 16.0, pos=Vec3(0.0), blendType='easeIn'), LerpPosInterval(nodePath=self.rightNodePath, other=self.lockedNodePath, duration=beat * 16.0, pos=Vec3(0.0), blendType='easeIn')), HideInterval(self.leftNodePath), HideInterval(self.rightNodePath), ShowInterval(self.lockedNodePath)))))
+        self.setTrack(Sequence(Wait(beat * 2.0), Parallel(SoundInterval(slideSfx, node=self.door.node, volume=0.8), 
+            Sequence(ShowInterval(self.leftNodePath), ShowInterval(self.rightNodePath), Parallel(LerpPosInterval(nodePath=self.leftNodePath, 
+                other=self.lockedNodePath, duration=beat * 16.0, pos=Vec3(0.0), blendType='easeIn'), LerpPosInterval(nodePath=self.rightNodePath, 
+                other=self.lockedNodePath, duration=beat * 16.0, pos=Vec3(0.0), blendType='easeIn')), HideInterval(self.leftNodePath), 
+            HideInterval(self.rightNodePath), ShowInterval(self.lockedNodePath)))))
 
     def enterState2(self):
         FourState.FourState.enterState2(self)
@@ -69,14 +72,18 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         self.leftNodePath.hide()
         self.rightNodePath.hide()
         self.lockedNodePath.show()
-        return
 
     def enterState3(self):
         FourState.FourState.enterState3(self)
         unlockSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_unlock.ogg')
         slideSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_arms_retracting.ogg')
         beat = self.duration * 0.05
-        self.setTrack(Sequence(Wait(beat * 2), Parallel(SoundInterval(unlockSfx, node=self.door.node, volume=0.8), SoundInterval(slideSfx, node=self.door.node, volume=0.8), Sequence(HideInterval(self.lockedNodePath), ShowInterval(self.leftNodePath), ShowInterval(self.rightNodePath), Parallel(LerpPosInterval(nodePath=self.leftNodePath, other=self.lockedNodePath, duration=beat * 16, pos=self.slideLeft, blendType='easeOut'), LerpPosInterval(nodePath=self.rightNodePath, other=self.lockedNodePath, duration=beat * 16, pos=self.slideRight, blendType='easeOut')), HideInterval(self.leftNodePath), HideInterval(self.rightNodePath)))))
+        self.setTrack(Sequence(Wait(beat * 2), Parallel(SoundInterval(unlockSfx, node=self.door.node, volume=0.8), 
+            SoundInterval(slideSfx, node=self.door.node, volume=0.8), Sequence(HideInterval(self.lockedNodePath), 
+                ShowInterval(self.leftNodePath), ShowInterval(self.rightNodePath), Parallel(LerpPosInterval(nodePath=self.leftNodePath, 
+                    other=self.lockedNodePath, duration=beat * 16, pos=self.slideLeft, blendType='easeOut'), LerpPosInterval(nodePath=self.rightNodePath, 
+                    other=self.lockedNodePath, duration=beat * 16, pos=self.slideRight, blendType='easeOut')), HideInterval(self.leftNodePath), 
+                HideInterval(self.rightNodePath)))))
 
     def enterState4(self):
         FourState.FourState.enterState4(self)
@@ -86,20 +93,19 @@ class DistributedDoorEntityLock(DistributedDoorEntityBase.LockBase, FourState.Fo
         self.leftNodePath.hide()
         self.rightNodePath.hide()
         self.lockedNodePath.hide()
-        return
 
-
-class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase, DistributedEntity.DistributedEntity, BasicEntities.NodePathAttribsProxy, FourState.FourState, VisibilityBlocker.VisibilityBlocker):
+class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourState, VisibilityBlocker.VisibilityBlocker, 
+    DistributedDoorEntityBase.DistributedDoorEntityBase, BasicEntities.NodePathAttribsProxy):
 
     def __init__(self, cr):
         self.innerDoorsTrack = None
         self.isVisReady = 0
         self.isOuterDoorOpen = 0
+        self.stateIndex = 0
         DistributedEntity.DistributedEntity.__init__(self, cr)
         FourState.FourState.__init__(self, self.stateNames, self.stateDurations)
         VisibilityBlocker.VisibilityBlocker.__init__(self)
         self.locks = []
-        return
 
     def generate(self):
         DistributedEntity.DistributedEntity.generate(self)
@@ -148,7 +154,6 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
             del self.states[i]
 
         self.states = []
-        return
 
     setUnlock0Event = DistributedDoorEntityBase.stubFunction
     setUnlock1Event = DistributedDoorEntityBase.stubFunction
@@ -341,12 +346,11 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
                 cSphereNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
                 self.cSphereNodePath = self.node.attachNewNode(cSphereNode)
 
-            if 1:
-                self.node.flattenMedium()
-                self.doorTop.flattenMedium()
-                self.doorBottom.flattenMedium()
-                self.doorLeft.flattenMedium()
-                self.doorRight.flattenMedium()
+            self.node.flattenMedium()
+            self.doorTop.flattenMedium()
+            self.doorBottom.flattenMedium()
+            self.doorLeft.flattenMedium()
+            self.doorRight.flattenMedium()
 
         self.setDoorState(self.initialState, self.initialStateTimestamp)
         del self.initialState
@@ -408,7 +412,6 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
             self.doorRight.setPos(Vec3(moveDistance, 0.0, 0.0))
             self.doorLeft.stash()
             self.doorRight.stash()
-        return
 
     def exitState2(self):
         FourState.FourState.exitState2(self)
@@ -420,16 +423,16 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
         slideSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_sliding.ogg')
         finalSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_final.ogg')
         self.setTrack(Sequence(Wait(duration * 0.1),
-                               Func(self.closeInnerDoors),
-                               Wait(duration * 0.4),
-                               Func(self.doorTop.unstash),
-                               Func(self.doorBottom.unstash),
-                               Parallel(SoundInterval(slideSfx, node=self.node, duration=duration*0.4, volume=0.8),
-                                        LerpPosInterval(nodePath=self.doorTop, duration=duration*0.4, pos=Vec3(0.0), blendType='easeIn'),
-                                        LerpPosInterval(nodePath=self.doorBottom, duration=duration*0.4, pos=Vec3(0.0), blendType='easeIn'),
-                                        Sequence(Wait(duration*0.375),
-                                                 SoundInterval(finalSfx, node=self.node, duration=duration*0.4, volume=0.8))),
-                               Func(self.setisOuterDoorOpen, 0)))
+           Func(self.closeInnerDoors),
+           Wait(duration * 0.4),
+           Func(self.doorTop.unstash),
+           Func(self.doorBottom.unstash),
+           Parallel(SoundInterval(slideSfx, node=self.node, duration=duration*0.4, volume=0.8),
+                LerpPosInterval(nodePath=self.doorTop, duration=duration*0.4, pos=Vec3(0.0), blendType='easeIn'),
+                LerpPosInterval(nodePath=self.doorBottom, duration=duration*0.4, pos=Vec3(0.0), blendType='easeIn'),
+                Sequence(Wait(duration*0.375),
+                         SoundInterval(finalSfx, node=self.node, duration=duration*0.4, volume=0.8))),
+           Func(self.setisOuterDoorOpen, 0)))
 
     def enterState4(self):
         FourState.FourState.enterState4(self)
@@ -447,7 +450,6 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
         self.doorRight.unstash()
         self.doorLeft.setPos(Vec3(0.0))
         self.doorRight.setPos(Vec3(0.0))
-
 
     if __dev__:
         def initWantDoors(self):
