@@ -1,8 +1,8 @@
 from DistributedToonInteriorAI import *
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedToonHallInteriorAI(DistributedToonInteriorAI):
+
     def __init__(self, block, air, zoneId, building):
         DistributedToonInteriorAI.__init__(self, block, air, zoneId, building)
         self.accept('ToonEnteredZone', self.logToonEntered)

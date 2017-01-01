@@ -132,6 +132,9 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.globalPartyMgr = self.generateGlobalObject(
                 OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
 
+        self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 
+            'TTCodeRedemptionMgr')
+
     def createSafeZones(self):
         NPCToons.generateZone2NpcDict()
         if self.config.GetBool('want-toontown-central', True):

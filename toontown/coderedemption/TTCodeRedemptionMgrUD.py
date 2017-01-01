@@ -1,21 +1,26 @@
+from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify import DirectNotifyGlobal
-from direct.distributed.DistributedObjectUD import DistributedObjectUD
+from toontown.coderedemption import TTCodeRedemptionConsts
 
-class TTCodeRedemptionMgrUD(DistributedObjectUD):
+class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("TTCodeRedemptionMgrUD")
+
+    def __init__(self, air):
+        DistributedObjectGlobalUD.__init__(self, air)
+
+        # store codes to result
+        self.__codes = {}
 
     def giveAwardToToonResult(self, todo0, todo1):
         pass
 
-    def redeemCode(self, todo0, todo1):
-        pass
+    def redeemCodeAiToUd(self, avId, context, code):
+        if code not in self.__codes.keys():
+            # recieved an invalid code from ai, deny redeem request.
+            self.d_redeemCodeResultUdToAi(avId, context, TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist,
+                0)
 
-    def redeemCodeAiToUd(self, todo0, todo1, todo2, todo3, todo4):
-        pass
+            return
 
-    def redeemCodeResultUdToAi(self, todo0, todo1, todo2, todo3, todo4):
-        pass
-
-    def redeemCodeResult(self, todo0, todo1, todo2):
-        pass
-
+    def d_redeemCodeResultUdToAi(self, avId, context, result, awardMgrResult):
+        self.sendUpdate('redeemCodeResultUdToAi', [avId, context, result, awardMgrResult])

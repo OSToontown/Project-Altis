@@ -18,10 +18,10 @@ class TTCodeRedemptionMgr(DistributedObject):
         if hasattr(base, 'codeRedemptionMgr'):
             if base.codeRedemptionMgr is self:
                 del base.codeRedemptionMgr
+        
         self._context2callback = None
         self._contextGen = None
         DistributedObject.delete(self)
-        return
 
     def redeemCode(self, code, callback):
         context = self._contextGen.next()

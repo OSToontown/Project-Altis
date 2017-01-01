@@ -1,11 +1,9 @@
-from direct.distributed.PyDatagram import *
 import urlparse
-
+from direct.distributed.PyDatagram import *
 from otp.distributed.DistributedDirectoryAI import DistributedDirectoryAI
 from otp.distributed.OtpDoGlobals import *
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 import toontown.minigame.MinigameCreatorAI
-
 
 if config.GetBool('want-rpc-server', False):
     from toontown.rpc.ToontownRPCServer import ToontownRPCServer
@@ -14,8 +12,8 @@ if config.GetBool('want-rpc-server', False):
 if config.GetBool('want-mongo-client', False):
     import pymongo
 
-
 class ToontownUberRepository(ToontownInternalRepository):
+
     def __init__(self, baseChannel, serverId):
         ToontownInternalRepository.__init__(self, baseChannel, serverId, dcSuffix='UD')
 
@@ -48,15 +46,9 @@ class ToontownUberRepository(ToontownInternalRepository):
         Create "global" objects.
         """
 
-        self.csm = simbase.air.generateGlobalObject(OTP_DO_ID_CLIENT_SERVICES_MANAGER,
-                                                    'ClientServicesManager')
-
-        self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER,
-                                                          'ChatAgent')
-
-        self.friendsManager = simbase.air.generateGlobalObject(OTP_DO_ID_TTA_FRIENDS_MANAGER,
-                                                               'TTAFriendsManager')
-
+        self.csm = simbase.air.generateGlobalObject(OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
+        self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
+        self.friendsManager = simbase.air.generateGlobalObject(OTP_DO_ID_TTA_FRIENDS_MANAGER, 'TTAFriendsManager')
         self.globalPartyMgr = simbase.air.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
-
         self.deliveryManager = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
+        self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
