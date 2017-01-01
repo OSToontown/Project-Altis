@@ -20,7 +20,7 @@ class LogAndOutput:
         self.log.flush()
         self.orig.flush()
 
-class TTILauncher(LauncherBase):
+class TTALauncher(LauncherBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToontownDummyLauncher')
 
     def __init__(self):
@@ -46,10 +46,10 @@ class TTILauncher(LauncherBase):
         sys.stderr = logErr
 
     def getPlayToken(self):
-        return self.getValue('TTI_PLAYCOOKIE')
+        return self.getValue('TTA_PLAYCOOKIE')
 
     def getGameServer(self):
-        return self.getValue('TTI_GAMESERVER')
+        return self.getValue('TTA_GAMESERVER')
 
     def setPandaErrorCode(self, code):
         pass

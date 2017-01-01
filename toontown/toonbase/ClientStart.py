@@ -70,8 +70,8 @@ import __builtin__
 try:
     launcher
 except:
-    from toontown.launcher.TTILauncher import TTILauncher
-    launcher = TTILauncher()
+    from toontown.launcher.TTALauncher import TTALauncher
+    launcher = TTALauncher()
     __builtin__.launcher = launcher
 
 
