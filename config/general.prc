@@ -3,6 +3,7 @@ window-title Toontown Advance [PRE_ALPHA]
 win-origin -1 -1
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
+show-frame-rate-meter #t
 
 # Audio:
 audio-library-name p3fmod_audio
@@ -16,6 +17,13 @@ aux-display p3tinydisplay
 model-cache-models #f
 model-cache-textures #f
 default-model-extension .bam
+
+# Performance
+smooth-enable-prediction 1
+smooth-enable-smoothing 1
+smooth-lag 0.4
+smooth-max-future 0.4
+smooth-min-suggest-resync 15
 
 # Textures:
 texture-anisotropic-degree 16
@@ -124,7 +132,6 @@ want-dev #f
 want-pstats 0
 
 # Temporary:
-smooth-lag 0.4
 want-old-fireworks #t
 
 # Live updates:
