@@ -5,21 +5,22 @@ rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
 
 rem Get the user input:
-set /P ttiUsername="Username: "
+set /P ttaUsername="Username: "
 
 rem Export the environment variables:
-set ttiPassword=password
-set TTI_PLAYCOOKIE=%ttiUsername%
-set TTI_GAMESERVER=127.0.0.1
+set ttaPassword=password
+set TTA_PLAYCOOKIE=%ttaUsername%
+set TTA_GAMESERVER=127.0.0.1
 
 echo ===============================
-echo Starting Toontown Infinite...
+echo Starting Toontown Advance...
 echo ppython: %PPYTHON_PATH%
-echo Username: %ttiUsername%
-echo Gameserver: %TTI_GAMESERVER%
+echo Username: %ttaUsername%
+echo Gameserver: %TTA_GAMESERVER%
 echo ===============================
 
 :goto
+
 %PPYTHON_PATH% -m toontown.toonbase.ClientStart
 pause
 

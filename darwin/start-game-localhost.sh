@@ -1,22 +1,22 @@
 #!/bin/sh
-cd ..
+cd ../
 
 export DYLD_LIBRARY_PATH=`pwd`/Libraries.bundle
 export DYLD_FRAMEWORK_PATH="Frameworks"
 
 # Get the user input:
-read -p "Username: " ttiUsername
+read -p "Username: " ttaUsername
 
 # Export the environment variables:
-export ttiUsername=$ttiUsername
-export ttiPassword="password"
-export TTI_PLAYCOOKIE=$ttiUsername
-export TTI_GAMESERVER="127.0.0.1"
+export ttaUsername=$ttaUsername
+export ttaPassword="password"
+export TTA_PLAYCOOKIE=$ttaUsername
+export TTA_GAMESERVER=$TTA_GAMESERVER
 
 echo "==============================="
-echo "Starting Toontown Infinite..."
-echo "Username: $ttiUsername"
-echo "Gameserver: $TTI_GAMESERVER"
+echo "Starting Toontown Advance..."
+echo "Username: $ttaUsername"
+echo "Gameserver: $TTA_GAMESERVER"
 echo "==============================="
 
 ppython -m toontown.toonbase.ClientStart

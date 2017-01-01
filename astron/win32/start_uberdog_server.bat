@@ -1,5 +1,5 @@
 @echo off
-cd ../..
+cd ../../
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
@@ -15,7 +15,7 @@ set /P BASE_CHANNEL="Base channel (DEFAULT: 1000000): " || ^
 set BASE_CHANNEL=1000000
 
 echo ===============================
-echo Starting Toontown Infinite UberDOG server...
+echo Starting Toontown Advance UberDOG server...
 echo ppython: %PPYTHON_PATH%
 echo Base channel: %BASE_CHANNEL%
 echo Max channels: %MAX_CHANNELS%

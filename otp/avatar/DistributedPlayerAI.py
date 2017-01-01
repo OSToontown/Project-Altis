@@ -46,10 +46,12 @@ class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.Pl
     def delete(self):
         if __dev__:
             del self._sentExitServerEvent
+        
         self._doPlayerExit()
         ClsendTracker.destroy(self)
         if __dev__:
             GarbageReport.checkForGarbageLeaks()
+        
         DistributedAvatarAI.DistributedAvatarAI.delete(self)
 
     def isPlayerControlled(self):
@@ -173,7 +175,7 @@ def maintenance(minutes):
         dg = PyDatagram()
         dg.addServerHeader(10, simbase.air.ourChannel, CLIENTAGENT_EJECT)
         dg.addUint16(154)
-        dg.addString('Toontown Infinite is now closed for maintenance.')
+        dg.addString('Toontown Advance is now closed for maintenance.')
         simbase.air.send(dg)
         return Task.done
 

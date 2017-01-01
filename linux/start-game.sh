@@ -1,21 +1,21 @@
 #!/bin/sh
-cd ..
+cd ../
 
 # Get the user input:
-read -p "Username: " ttiUsername
-read -p "Gameserver (DEFAULT:  167.114.28.238): " TTI_GAMESERVER
-TTI_GAMESERVER=${TTI_GAMESERVER:-"167.114.28.238"}
+read -p "Username: " ttaUsername
+read -p "Gameserver (DEFAULT:  167.114.28.238): " TTA_GAMESERVER
+TTA_GAMESERVER=${TTA_GAMESERVER:-"167.114.28.238"}
 
 # Export the environment variables:
-export ttiUsername=$ttiUsername
-export ttiPassword="password"
-export TTI_PLAYCOOKIE=$ttiUsername
-export TTI_GAMESERVER=$TTI_GAMESERVER
+export ttaUsername=$ttaUsername
+export ttaPassword="password"
+export TTA_PLAYCOOKIE=$ttaUsername
+export TTA_GAMESERVER="127.0.0.1"
 
 echo "==============================="
-echo "Starting Toontown Infinite..."
-echo "Username: $ttiUsername"
-echo "Gameserver: $TTI_GAMESERVER"
+echo "Starting Toontown Advance..."
+echo "Username: $ttaUsername"
+echo "Gameserver: $TTA_GAMESERVER"
 echo "==============================="
 
 /usr/bin/python2 -m toontown.toonbase.ClientStart

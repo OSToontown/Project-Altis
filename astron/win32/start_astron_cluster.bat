@@ -1,3 +1,3 @@
 @echo off
 cd ..
-astrond --loglevel debug config/cluster.yml
+astrond --pretty --loglevel debug config/cluster.yml

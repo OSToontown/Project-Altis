@@ -1,5 +1,5 @@
 #!/bin/sh
-cd ../..
+cd ../../
 
 export DYLD_LIBRARY_PATH=`pwd`/Libraries.bundle
 export DYLD_FRAMEWORK_PATH="Frameworks"
@@ -15,7 +15,7 @@ read -p "Base channel (DEFAULT: 1000000): " BASE_CHANNEL
 BASE_CHANNEL=${BASE_CHANNEL:-1000000}
 
 echo "==============================="
-echo "Starting Toontown Infinite UberDOG server..."
+echo "Starting Toontown Advance UberDOG server..."
 echo "Base channel: $BASE_CHANNEL"
 echo "Max channels: $MAX_CHANNELS"
 echo "State Server: $STATESERVER"

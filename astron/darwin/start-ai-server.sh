@@ -1,5 +1,5 @@
 #!/bin/sh
-cd ../..
+cd ../../
 
 export DYLD_LIBRARY_PATH=`pwd`/Libraries.bundle
 export DYLD_FRAMEWORK_PATH="Frameworks"
@@ -17,7 +17,7 @@ read -p "Base channel (DEFAULT: 401000000): " BASE_CHANNEL
 BASE_CHANNEL=${BASE_CHANNEL:-401000000}
 
 echo "==============================="
-echo "Starting Toontown Infinite AI server..."
+echo "Starting Toontown Advance AI server..."
 echo "District name: $DISTRICT_NAME"
 echo "Base channel: $BASE_CHANNEL"
 echo "Max channels: $MAX_CHANNELS"
