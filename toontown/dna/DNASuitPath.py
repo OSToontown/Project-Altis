@@ -1,5 +1,5 @@
 
-class DNASuitPath:
+class DNASuitPath(object):
     __slots__ = (
         'suitPoints')
 

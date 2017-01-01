@@ -1,6 +1,6 @@
 from DNAUtil import *
 
-class DNABattleCell:
+class DNABattleCell(object):
     __slots__ = (
         'width', 'height', 'pos')
 

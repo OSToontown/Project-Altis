@@ -5,7 +5,7 @@ import DNAUtil
 
 class DNACornice(DNAGroup.DNAGroup):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'code', 'color')
+        'code', 'color')
     
     COMPONENT_CODE = 12
 
@@ -44,8 +44,7 @@ class DNACornice(DNAGroup.DNAGroup):
         np.setPosHprScale(
             LVector3f(0, 0, 0),
             LVector3f(0, 0, 0),
-            LVector3f(1, pParentXScale/parentZScale,
-                      pParentXScale/parentZScale))
+            LVector3f(1, pParentXScale/parentZScale, pParentXScale/parentZScale))
         
         np.setEffect(DecalEffect.make())
         np.flattenStrong()
@@ -54,13 +53,13 @@ class DNACornice(DNAGroup.DNAGroup):
         np.setPosHprScale(
             LVector3f(0, 0, 0),
             LVector3f(0, 0, 0),
-            LVector3f(1, pParentXScale/parentZScale,
-                      pParentXScale/parentZScale))
+            LVector3f(1, pParentXScale/parentZScale, pParentXScale/parentZScale))
         
         np.flattenStrong()
         nodePathA.setPosHprScale(
             LVector3f(0, 0, node.getScale().getZ()),
             LVector3f(0, 0, 0),
             LVector3f(1, 1, 1))
+        
         nodePathA.setColor(self.color)
         nodePathA.flattenStrong()

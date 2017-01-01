@@ -1,7 +1,10 @@
 from panda3d.core import PandaNode
 import DNAUtil
 
-class DNAGroup:
+class DNAGroup(object):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup')
+
     COMPONENT_CODE = 1
 
     def __init__(self, name):

@@ -1,5 +1,5 @@
 
-class DNASuitEdge:
+class DNASuitEdge(object):
     __slots__ = (
         'startpt', 'endpt', 'zoneId')
     

@@ -3,6 +3,9 @@ import DNANode
 import DNAUtil
 
 class DNAProp(DNANode.DNANode):
+    __slots__ = (
+        'code', 'color')
+
     COMPONENT_CODE = 4
 
     def __init__(self, name):
@@ -58,6 +61,7 @@ class DNAProp(DNANode.DNANode):
             if node is None:
                 return
             node = node.copyTo(nodePath, 0)
+        
         node.setPosHprScale(self.pos, self.hpr, self.scale)
         node.setName(self.name)
         node.setColorScale(self.color, 0)

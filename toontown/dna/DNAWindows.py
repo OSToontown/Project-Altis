@@ -2,12 +2,11 @@ from panda3d.core import LVector4f, NodePath, DecalEffect
 import DNAGroup
 import DNAError
 import DNAUtil
-
 import random
 
 class DNAWindows(DNAGroup.DNAGroup):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'color', 'windowCount')
+        'code', 'color', 'windowCount')
 
     COMPONENT_CODE = 11
 
@@ -41,6 +40,7 @@ class DNAWindows(DNAGroup.DNAGroup):
         stripped = code[:-1]
         node_r = dnaStorage.findNode(stripped + 'r')
         node_l = dnaStorage.findNode(stripped + 'l')
+        
         if (node_r is None) or (node_l is None):
             raise DNAError.DNAError('DNAWindows code %s not found in'
                            'DNAStorage' % code)

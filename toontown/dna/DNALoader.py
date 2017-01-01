@@ -2,7 +2,6 @@ from pandac.PandaModules import *
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.distributed.PyDatagram import PyDatagram
 from direct.stdpy.file import *
-
 import DNAUtil
 import DNAError
 import DNAAnimBuilding
@@ -26,43 +25,46 @@ import DNAWall
 import DNAWindows
 import DNABattleCell
 import DNASuitPoint
-
 import zlib
 import sys
+import os
 sys.setrecursionlimit(10000)
 
 compClassTable = {
-1: DNAGroup.DNAGroup,
-2: DNAVisGroup.DNAVisGroup,
-3: DNANode.DNANode,
-4: DNAProp.DNAProp,
-5: DNASign.DNASign,
-6: DNASignBaseline.DNASignBaseline,
-7: DNASignText.DNASignText,
-8: DNASignGraphic.DNASignGraphic,
-9: DNAFlatBuilding.DNAFlatBuilding,
-10: DNAWall.DNAWall,
-11: DNAWindows.DNAWindows,
-12: DNACornice.DNACornice,
-13: DNALandmarkBuilding.DNALandmarkBuilding,
-14: DNAAnimProp.DNAAnimProp,
-15: DNAInteractiveProp.DNAInteractiveProp,
-16: DNAAnimBuilding.DNAAnimBuilding,
-17: DNADoor.DNADoor,
-18: DNAFlatDoor.DNAFlatDoor,
-19: DNAStreet.DNAStreet
+    1: DNAGroup.DNAGroup,
+    2: DNAVisGroup.DNAVisGroup,
+    3: DNANode.DNANode,
+    4: DNAProp.DNAProp,
+    5: DNASign.DNASign,
+    6: DNASignBaseline.DNASignBaseline,
+    7: DNASignText.DNASignText,
+    8: DNASignGraphic.DNASignGraphic,
+    9: DNAFlatBuilding.DNAFlatBuilding,
+    10: DNAWall.DNAWall,
+    11: DNAWindows.DNAWindows,
+    12: DNACornice.DNACornice,
+    13: DNALandmarkBuilding.DNALandmarkBuilding,
+    14: DNAAnimProp.DNAAnimProp,
+    15: DNAInteractiveProp.DNAInteractiveProp,
+    16: DNAAnimBuilding.DNAAnimBuilding,
+    17: DNADoor.DNADoor,
+    18: DNAFlatDoor.DNAFlatDoor,
+    19: DNAStreet.DNAStreet
 }
 
 childlessComps = (
-7, # DNASignText
-11, # DNAWindows
-12, # DNACornice
-17, # DNADoor
-18, # DNAFlatDoor
-19 # DNAStreet
+    7, # DNASignText
+    11, # DNAWindows
+    12, # DNACornice
+    17, # DNADoor
+    18, # DNAFlatDoor
+    19 # DNAStreet
 )
 
-class DNALoader:
+class DNALoader(object):
+    __slots__ = (
+        'dnaStorage', 'prop')
+
     def __init__(self):
         self.dnaStorage = None
         self.prop = None
@@ -181,11 +183,12 @@ class DNALoader:
             code = DNAUtil.dgiExtractString8(dgi)
             file = DNAUtil.dgiExtractString8(dgi)
             node = DNAUtil.dgiExtractString8(dgi)
-            try:
-                np = NodePath(loader.pdnaModel(file))
-            except:
-                # Failed to load model!
-                continue
+
+            if not os.path.exists('../resources/%s' % (file)):
+                # could not find model!
+                return
+
+            np = NodePath(loader.pdnaModel(file))
 
             if node:
                 newNode = np.find('**/' + node).copyTo(NodePath())
@@ -205,6 +208,7 @@ class DNALoader:
         header = dgi.extractBytes(5)
         if header != 'PDNA\n':
             raise DNAError.DNAError('Invalid header: %s' % (header))
+        
         compressed = dgi.getBool()
         dgi.skipBytes(1)
         if compressed:
@@ -212,6 +216,7 @@ class DNALoader:
             data = zlib.decompress(data)
             dg = PyDatagram(data)
             dgi = PyDatagramIterator(dg)
+        
         self.handleStorageData(dgi)
         self.handleCompData(dgi)
 

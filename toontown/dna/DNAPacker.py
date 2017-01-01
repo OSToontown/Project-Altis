@@ -30,6 +30,7 @@ FLOAT64 = 'd'  # double
 
 
 class DNAPacker:
+    
     def __init__(self, name='DNAPacker', packer=None, verbose=False):
         self.name = name
         self.__data = ''

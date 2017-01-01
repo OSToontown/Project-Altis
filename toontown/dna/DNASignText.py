@@ -2,7 +2,7 @@ import DNANode
 
 class DNASignText(DNANode.DNANode):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'letters')
+        'letters')
 
     COMPONENT_CODE = 7
 

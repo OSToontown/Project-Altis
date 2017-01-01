@@ -5,8 +5,8 @@ import DNAUtil
 
 class DNAStreet(DNANode.DNANode):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'streetTexture', 'sideWalkTexture',
-        'curbTexture', 'streetColor', 'sidewalkColor', 'curbColor', 'setTexCnt', 'setColCnt')
+        'code', 'streetTexture', 'sideWalkTexture', 'curbTexture', 'streetColor', 'sidewalkColor', 'curbColor',
+        'setTexCnt', 'setColCnt')
 
     COMPONENT_CODE = 19
 
@@ -108,6 +108,7 @@ class DNAStreet(DNANode.DNANode):
         streetTexture = dnaStorage.findTexture(self.streetTexture)
         sidewalkTexture = dnaStorage.findTexture(self.sidewalkTexture)
         curbTexture = dnaStorage.findTexture(self.curbTexture)
+        
         if streetTexture is None:
             raise DNAError.DNAError('street texture not found in DNAStorage : ' + self.streetTexture)
         

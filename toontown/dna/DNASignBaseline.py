@@ -3,7 +3,7 @@ import DNANode
 
 class DNASignBaseline(DNANode.DNANode):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'data')
+        'data')
 
     COMPONENT_CODE = 6
 
@@ -29,6 +29,7 @@ class DNASignBaseline(DNANode.DNANode):
             bf.openRead(ss)
 
             if not bf.getReader().getSource():
+                # failed to load sign text.
                 return
             
             signText = NodePath(bf.readNode())

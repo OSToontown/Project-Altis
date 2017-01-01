@@ -59,6 +59,7 @@ class DNAStorage:
         endPoint = self.suitPointMap.get(endIndex)
         if (not startPoint) or (not endPoint):
             return 0.0
+        
         distance = (endPoint.getPos()-startPoint.getPos()).length()
         return distance / suitWalkSpeed
 
@@ -185,6 +186,7 @@ class DNAStorage:
         block = name[name.find(':')-2:name.find(':')]
         if not block[0].isdigit():
             block = block[1:]
+        
         return block
 
     def getBlockBuildingType(self, blockNumber):
@@ -194,6 +196,7 @@ class DNAStorage:
     def getTitleFromBlockNumber(self, blockNumber):
         if blockNumber in self.blockTitles:
             return self.blockTitles[blockNumber]
+        
         return ''
 
     def getDoorPosHprFromBlockNumber(self, blockNumber):
@@ -252,6 +255,7 @@ class DNAStorage:
     def getNumCatalogCodes(self, category):
         if category not in self.catalogCodes:
             return -1
+        
         return len(self.catalogCodes[category])
 
     def resetCatalogCodes(self):

@@ -5,8 +5,7 @@ import DNAError
 
 class DNALandmarkBuilding(DNANode.DNANode):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'wallColor', 'title', 'article',
-        'buildingType', 'door')
+        'code', 'wallColor', 'title', 'article', 'buildingType', 'door')
    
     COMPONENT_CODE = 13
 

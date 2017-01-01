@@ -4,6 +4,9 @@ import DNABattleCell
 import DNAUtil
 
 class DNAVisGroup(DNAGroup.DNAGroup):
+    __slots__ = (
+        'visibles', 'suitEdges', 'battleCells')
+    
     COMPONENT_CODE = 2
 
     def __init__(self, name):

@@ -1,5 +1,5 @@
 
-class DNASuitPoint:
+class DNASuitPoint(object):
     __slots__ = (
         'index', 'pointType', 'pos', 'graphId', 'landmarkBuildingIndex')
     

@@ -3,6 +3,9 @@ import DNAError
 import DNAUtil
 
 class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
+	__slots__ = (
+		'animName')
+    
     COMPONENT_CODE = 16
 
     def __init__(self, name):
@@ -23,6 +26,7 @@ class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
         node = dnaStorage.findNode(self.getCode())
         if node is None:
             raise DNAError.DNAError('DNAAnimBuilding code ' + self.getCode() + ' not found in dnastore')
+        
         node = node.copyTo(nodePath, 0)
         node.setName(self.getName())
         node.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
@@ -30,4 +34,5 @@ class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
         self.setupSuitBuildingOrigin(nodePath, node)
         for child in self.children:
             child.traverse(nodePath, dnaStorage)
+        
         nodePath.flattenStrong()

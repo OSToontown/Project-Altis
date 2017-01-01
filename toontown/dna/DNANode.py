@@ -2,6 +2,9 @@ from panda3d.core import LVector3f, PandaNode
 import DNAGroup
 
 class DNANode(DNAGroup.DNAGroup):
+    __slots__ = (
+        'pos', 'hpr', 'scale')
+
     COMPONENT_CODE = 3
 
     def __init__(self, name):
@@ -52,4 +55,5 @@ class DNANode(DNAGroup.DNAGroup):
         node.setPosHprScale(self.pos, self.hpr, self.scale)
         for child in self.children:
             child.traverse(node, dnaStorage)
+        
         node.flattenMedium()

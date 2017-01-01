@@ -2,6 +2,9 @@ from panda3d.core import ModelNode
 import DNAAnimProp
 
 class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
+    __slots__ = (
+        'cellId')
+
     COMPONENT_CODE = 15
 
     def __init__(self, name):
@@ -28,6 +31,7 @@ class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
             node = dnaStorage.findNode(self.getCode())
             node = node.copyTo(nodePath, 0)
             node.setName(self.getName())
+        
         node.setTag('DNAAnim', self.getAnim())
         node.setTag('DNACellIndex', str(self.cellId))
         node.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())

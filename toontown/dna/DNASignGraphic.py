@@ -4,6 +4,9 @@ import DNAError
 import DNAUtil
 
 class DNASignGraphic(DNANode.DNANode):
+    __slots__ = (
+        'code', 'color', 'width', 'height', 'bDefaultColor')
+
     COMPONENT_CODE = 8
 
     def __init__(self, name):
@@ -51,6 +54,7 @@ class DNASignGraphic(DNANode.DNANode):
         node = dnaStorage.findNode(self.code)
         if node is None:
             raise DNAError.DNAError('DNASignGraphic code ' + self.code + ' not found in storage')
+        
         node = node.copyTo(nodePath, 0)
         node.setScale(self.scale)
         node.setScale(node, self.getParent().scale)

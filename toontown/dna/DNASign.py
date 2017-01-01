@@ -3,6 +3,9 @@ import DNANode
 import DNAUtil
 
 class DNASign(DNANode.DNANode):
+    __slots__ = (
+        'code', 'color')
+
     COMPONENT_CODE = 5
 
     def __init__(self):
@@ -31,9 +34,11 @@ class DNASign(DNANode.DNANode):
         sign = dnaStorage.findNode(self.code)
         if not sign:
             sign = NodePath(self.name)
+        
         signOrigin = nodePath.find('**/*sign_origin')
         if not signOrigin:
             signOrigin = nodePath
+        
         node = sign.copyTo(signOrigin)
         #node.setDepthOffset(50)
         node.setPosHprScale(signOrigin, self.pos, self.hpr, self.scale)
@@ -41,4 +46,5 @@ class DNASign(DNANode.DNANode):
         node.setColor(self.color)
         for child in self.children:
             child.traverse(node, dnaStorage)
+        
         node.flattenStrong()

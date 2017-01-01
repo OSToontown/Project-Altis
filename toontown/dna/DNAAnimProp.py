@@ -3,7 +3,6 @@ from DNAUtil import *
 
 class DNAAnimProp(DNAProp.DNAProp):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'color',
         'animName')
 
     COMPONENT_CODE = 14

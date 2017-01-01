@@ -6,7 +6,7 @@ import DNAUtil
 
 class DNAWall(DNANode.DNANode):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'height', 'color')
+        'code', 'height', 'color')
 
     COMPONENT_CODE = 10
 

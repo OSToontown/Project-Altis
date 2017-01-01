@@ -6,7 +6,7 @@ import random
 
 class DNAFlatBuilding(DNANode.DNANode):
     __slots__ = (
-        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'width', 'hasDoor')
+        'width', 'hasDoor')
 
     COMPONENT_CODE = 9
     currentWallHeight = 0

@@ -4,6 +4,9 @@ import DNAError
 import DNAUtil
 
 class DNADoor(DNAGroup.DNAGroup):
+    __slots__ = (
+        'code', 'color')
+    
     COMPONENT_CODE = 17
 
     def __init__(self, name):
