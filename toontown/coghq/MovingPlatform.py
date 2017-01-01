@@ -1,15 +1,15 @@
+import types
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import DirectObject
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
-import types
 
 class MovingPlatform(NodePath, DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('MovingPlatform')
 
     def __init__(self):
-        NodePath.__init__(self)
+        NodePath.__init__(self, '')
         DirectObject.DirectObject.__init__(self)
         self.hasLt = 0
 
@@ -21,7 +21,7 @@ class MovingPlatform(NodePath, DirectObject.DirectObject):
             parentToken = ToontownGlobals.SPDynamic + parentToken
         
         self.parentToken = parentToken
-        self.setName('MovingPlatform-%s' % parentToken)
+        self.name = 'MovingPlatform-%s' % (parentToken)
         self.assign(hidden.attachNewNode(self.name))
         self.model = model.copyTo(self)
         self.ownsModel = 1
