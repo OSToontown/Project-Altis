@@ -49,6 +49,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         self.trolleyZoneOverride = None
         self.metagameRound = -1
         self.startingVotes = {}
+        self.skipVotes = 0
 
     def addChildGameFSM(self, gameFSM):
         self.frameworkFSM.getStateNamed('frameworkGame').addChild(gameFSM)
@@ -208,6 +209,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         if self.frameworkFSM.getCurrentState().getName() != 'frameworkWaitClientsJoin':
             self.notify.debug('BASE: Ignoring setAvatarJoined message')
             return
+        
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug('BASE: setAvatarJoined: avatar id joined: ' + str(avId))
         self.air.writeServerEvent('minigame_joined', avId, '%s|%s' % (self.minigameId, self.trolleyZone))
@@ -385,7 +387,6 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             if len(self.avIdList) > len(self.newbieIdList):
                 pm = PurchaseManagerAI.PurchaseManagerAI(self.air, self.avIdList, scoreList, self.minigameId, self.trolleyZone, self.newbieIdList, votesArray=votesArray, metagameRound=self.metagameRound)
                 pm.generateWithRequired(self.zoneId)
-        return
 
     def handleRegularPurchaseManager(self, scoreList):
         for id in self.newbieIdList:
@@ -451,3 +452,14 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
 
     def getMetagameRound(self):
         return self.metagameRound
+
+    def requestVoteSkip(self):
+        if len(self.avIdList) == 1:
+            self.setGameAbort()
+            return
+
+        if self.skipVotes >= len(self.avIdList) - 1:
+            self.setGameAbort()
+            return
+
+        self.skipVotes += 1
