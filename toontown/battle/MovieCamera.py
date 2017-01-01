@@ -540,9 +540,11 @@ def makeShot(x, y, z, h, p, r, duration, other = None, name = 'makeShot'):
 def focusShot(x, y, z, duration, target, other = None, splitFocusPoint = None, name = 'focusShot'):
     track = Sequence()
     if other:
-        track.append(Func(camera.setPos, other, Point3(x, y, z)))
+        interval = camera.posInterval(1.0, Point3(x, y, z), other=other)
+        track.append(interval)
     else:
-        track.append(Func(camera.setPos, Point3(x, y, z)))
+        interval = camera.posInterval(1.0, Point3(x, y, z))
+        track.append(interval)
     if splitFocusPoint:
         track.append(Func(focusCameraBetweenPoints, target, splitFocusPoint))
     else:
@@ -556,7 +558,7 @@ def moveShot(x, y, z, h, p, r, duration, other = None, name = 'moveShot'):
 
 
 def focusMoveShot(x, y, z, duration, target, other = None, name = 'focusMoveShot'):
-    camera.setPos(Point3(x, y, z))
+    camera.posInterval(1.0, Point3(x, y, z)).start()
     camera.lookAt(target)
     hpr = camera.getHpr()
     return motionShot(x, y, z, hpr[0], hpr[1], hpr[2], duration, other, name)
@@ -596,14 +598,16 @@ def chooseRewardShot(av, duration, allowGroupShot = 1):
 
 def heldShot(x, y, z, h, p, r, duration, name = 'heldShot'):
     track = Sequence(name=name)
-    track.append(Func(camera.setPosHpr, x, y, z, h, p, r))
+    interval = camera.posHprInterval(1.0, Point3(x, y, z), Point3(h, p, r))
+    track.append(interval)
     track.append(Wait(duration))
     return track
 
 
 def heldRelativeShot(other, x, y, z, h, p, r, duration, name = 'heldRelativeShot'):
     track = Sequence(name=name)
-    track.append(Func(camera.setPosHpr, other, x, y, z, h, p, r))
+    interval = camera.posHprInterval(1.0, Point3(x, y, z), Point3(h, p, r), other=other)
+    track.append(interval)
     track.append(Wait(duration))
     return track
 
@@ -615,6 +619,7 @@ def motionShot(x, y, z, h, p, r, duration, other = None, name = 'motionShot'):
     else:
         posTrack = LerpPosInterval(camera, duration, pos=Point3(x, y, z))
         hprTrack = LerpHprInterval(camera, duration, hpr=Point3(h, p, r))
+    
     return Parallel(posTrack, hprTrack)
 
 
@@ -689,7 +694,8 @@ def suitCameraShakeShot(avatar, duration, shakeIntensity, quake = 0):
     if random.random() > 0.5:
         x = -x
     z = 7 + random.random() * 3
-    track.append(Func(camera.setPos, x, -5, z))
+    interval = camera.posInterval(1.0, Point3(x, -5, z))
+    track.append(interval)
     track.append(Func(camera.lookAt, Point3(0, 0, 0)))
     track.append(Wait(shakeDelay))
     track.append(shakeCameraTrack(shakeIntensity))

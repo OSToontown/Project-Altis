@@ -81,7 +81,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.adjustFsm.enterInitialState()
         self.interactiveProp = None
         self.fireCount = 0
-        return
 
     def uniqueBattleName(self, name):
         DistributedBattleBase.id += 1
@@ -169,7 +168,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.__stopTimer()
         self.__cleanupIntervals()
         self._removeMembersKeep()
-        return
 
     def delete(self):
         self.notify.debug('delete(%s)' % self.doId)
@@ -184,7 +182,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.__stopTimer()
         self.timer = None
         DistributedNode.DistributedNode.delete(self)
-        return
 
     def loadTrap(self, suit, trapid):
         self.notify.debug('loadTrap() trap: %d suit: %d' % (trapid, suit.doId))
@@ -242,11 +239,11 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         else:
             self.notify.debug('suit.battleTrap != UBER_GAG_LEVEL_INDEX')
             MovieUtil.removeProp(suit.battleTrapProp)
+        
         suit.battleTrapProp = None
         self.notify.debug('360 suit.battleTrapProp = None')
         suit.battleTrap = NO_TRAP
         suit.battleTrapIsFresh = 0
-        return
 
     def pause(self):
         self.timer.stop()
@@ -269,11 +266,10 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             if t == toon:
                 return t
 
-        return
-
     def isSuitLured(self, suit):
         if self.luredSuits.count(suit) != 0:
             return 1
+        
         return 0
 
     def unlureSuit(self, suit):
@@ -281,14 +277,12 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if self.luredSuits.count(suit) != 0:
             self.luredSuits.remove(suit)
             self.needAdjustTownBattle = 1
-        return None
 
     def lureSuit(self, suit):
         self.notify.debug('movie luring suit %s' % suit.doId)
         if self.luredSuits.count(suit) == 0:
             self.luredSuits.append(suit)
             self.needAdjustTownBattle = 1
-        return None
 
     def getActorPosHpr(self, actor, actorList = []):
         if isinstance(actor, Suit.Suit):
@@ -625,7 +619,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                 if self.townBattle.fsm.getCurrentState().getName() != 'Attack':
                     self.townBattle.setState('Attack')
             self.townBattle.updateChosenAttacks(self.townBattleAttacks[0], self.townBattleAttacks[1], self.townBattleAttacks[2], self.townBattleAttacks[3])
-        return
 
     def setBattleExperience(self, id0, origExp0, earnedExp0, origQuests0, items0, missedItems0, origMerits0, merits0, parts0, id1, origExp1, earnedExp1, origQuests1, items1, missedItems1, origMerits1, merits1, parts1, id2, origExp2, earnedExp2, origQuests2, items2, missedItems2, origMerits2, merits2, parts2, id3, origExp3, earnedExp3, origQuests3, items3, missedItems3, origMerits3, merits3, parts3, deathList, uberList, helpfulToonsList):
         if self.__battleCleanedUp:
@@ -663,7 +656,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                 delayDelete.destroy()
 
         self.membersKeep = None
-        return
 
     def __removeSuit(self, suit):
         self.notify.debug('__removeSuit(%d)' % suit.doId)
@@ -796,8 +788,10 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
             camTrack.append(Func(setCamFov, self.camFov))
             camTrack.append(Func(camera.wrtReparentTo, self))
-            camTrack.append(Func(camera.setPos, self.camJoinPos))
-            camTrack.append(Func(camera.setHpr, self.camJoinHpr))
+            interval = camera.posInterval(1.0, self.camJoinPos)
+            camTrack.append(interval)
+            interval = camera.hprInterval(1.0, self.camJoinHpr)
+            camTrack.append(interval)
             return Parallel(joinTrack, camTrack, name=name)
         else:
             return Sequence(joinTrack, name=name)
@@ -998,27 +992,25 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def enterOff(self, ts = 0):
         self.localToonFsm.requestFinalState()
-        return None
 
     def exitOff(self):
-        return None
+        pass
 
     def enterFaceOff(self, ts = 0):
-        return None
+        pass
 
     def exitFaceOff(self):
-        return None
+        pass
 
     def enterWaitForJoin(self, ts = 0):
         self.notify.debug('enterWaitForJoin()')
-        return None
 
     def exitWaitForJoin(self):
-        return None
+        pass
 
     def __enterLocalToonWaitForInput(self):
         self.notify.debug('enterLocalToonWaitForInput()')
-        camera.setPosHpr(self.camPos, self.camHpr)
+        camera.posHprInterval(1.0, self.camPos, self.camHpr).start()
         base.camLens.setMinFov(self.camMenuFov/(4./3.))
         NametagGlobals.setWant2dNametags(False)
         self.townBattle.setState('Attack')
@@ -1030,6 +1022,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             self.notify.warning('startTimer() - ts: %f timeout: %f' % (ts, CLIENT_INPUT_TIMEOUT))
             self.__timedOut()
             return
+        
         self.timer.startCallback(CLIENT_INPUT_TIMEOUT - ts, self.__timedOut)
         timeTask = Task.loop(Task(self.__countdown), Task.pause(0.2))
         taskMgr.add(timeTask, self.timerCountdownTaskName)
@@ -1057,7 +1050,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             self.startTimer(ts)
         if self.needAdjustTownBattle == 1:
             self.__adjustTownBattle()
-        return None
 
     def exitWaitForInput(self):
         self.notify.debug('exitWaitForInput()')
@@ -1066,7 +1058,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             base.camLens.setMinFov(self.camFov/(4./3.))
             self.ignore(self.localToonBattleEvent)
             self.__stopTimer()
-        return None
 
     def __handleLocalToonBattleEvent(self, response):
         mode = response['mode']
@@ -1176,10 +1167,9 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def enterMakeMovie(self, ts = 0):
         self.notify.debug('enterMakeMovie()')
-        return None
 
     def exitMakeMovie(self):
-        return None
+        pass
 
     def enterPlayMovie(self, ts):
         self.notify.debug('enterPlayMovie()')
@@ -1220,7 +1210,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
           0,
           0,
           0])
-        return None
 
     def hasLocalToon(self):
         return self.toons.count(base.localAvatar) > 0
@@ -1245,7 +1234,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                 localAvatar.inventory.setInteractivePropTrackBonus(self.interactivePropTrackBonus)
         camera.wrtReparentTo(self)
         base.camLens.setMinFov(self.camFov/(4./3.))
-        return
 
     def exitHasLocalToon(self):
         self.ignore(self.localToonBattleEvent)
@@ -1259,29 +1247,26 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if stateName == 'died':
             self.movie.reset()
             camera.reparentTo(render)
-            camera.setPosHpr(localAvatar, 5.2, 5.45, localAvatar.getHeight() * 0.66, 131.5, 3.6, 0)
+            camera.posHprInterval(1.0, Point3(localAvatar, 5.2, 5.45), Point3(localAvatar.getHeight() * 0.66, 131.5, 3.6)).start()
         else:
             camera.wrtReparentTo(base.localAvatar)
             messenger.send('localToonLeftBattle')
         base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
-        return
 
     def enterNoLocalToon(self):
         self.notify.debug('enterNoLocalToon()')
-        return None
 
     def exitNoLocalToon(self):
-        return None
+        pass
 
     def setSkippingRewardMovie(self):
         self._skippingRewardMovie = True
 
     def enterWaitForServer(self):
         self.notify.debug('enterWaitForServer()')
-        return None
 
     def exitWaitForServer(self):
-        return None
+        pass
 
     def createAdjustInterval(self, av, destPos, destHpr, toon = 0, run = 0):
         if run == 1:
@@ -1399,15 +1384,16 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.notify.debug('__adjustDone()')
         if self.hasLocalToon():
             self.d_adjustDone(base.localAvatar.doId)
+        
         self.adjustFsm.request('NotAdjusting')
 
     def enterAdjusting(self, ts):
         self.notify.debug('enterAdjusting()')
         if self.localToonActive():
             self.__stopTimer()
+        
         self.delayDeleteMembers()
         self.__adjust(ts, self.__handleAdjustDone)
-        return None
 
     def exitAdjusting(self):
         self.notify.debug('exitAdjusting()')
@@ -1416,14 +1402,12 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         currStateName = self.fsm.getCurrentState().getName()
         if currStateName == 'WaitForInput' and self.localToonActive():
             self.startTimer()
-        return None
 
     def enterNotAdjusting(self):
         self.notify.debug('enterNotAdjusting()')
-        return None
 
     def exitNotAdjusting(self):
-        return None
+        pass
 
     def visualize(self):
         try:

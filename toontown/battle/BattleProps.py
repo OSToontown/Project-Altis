@@ -430,7 +430,5 @@ class PropPool:
             prop.cleanup()
         else:
             prop.removeNode()
-        return
-
 
 globalPropPool = PropPool()

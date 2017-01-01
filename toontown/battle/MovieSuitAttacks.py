@@ -1,14 +1,13 @@
+import MovieCamera
+import MovieUtil
+import BattleParticles
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
-
 from BattleBase import *
 from BattleBase import *
-import BattleParticles
 from BattleProps import *
 from BattleSounds import *
-import MovieCamera
-import MovieUtil
 from SuitBattleGlobals import *
 from toontown.chat.ChatGlobals import *
 from toontown.nametag import NametagGlobals
@@ -18,14 +17,11 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownGlobals import *
 
-
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieSuitAttacks')
 
 def __doDamage(toon, dmg, died):
     if dmg > 0 and toon.hp != None:
         toon.takeDamage(dmg)
-    return
-
 
 def __showProp(prop, parent, pos, hpr = None, scale = None):
     prop.reparentTo(parent)
@@ -35,7 +31,6 @@ def __showProp(prop, parent, pos, hpr = None, scale = None):
     if scale:
         prop.setScale(scale)
 
-
 def __animProp(prop, propName, propType = 'actor'):
     if 'actor' == propType:
         prop.play(propName)
@@ -43,7 +38,6 @@ def __animProp(prop, propName, propType = 'actor'):
         pass
     else:
         self.notify.error('No such propType as: %s' % propType)
-
 
 def __suitFacePoint(suit, zOffset = 0):
     pnt = suit.getPos()

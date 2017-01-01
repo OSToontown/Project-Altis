@@ -111,17 +111,20 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
             camTrack = Sequence()
             camTrack.append(Func(camera.wrtReparentTo, suit))
             camTrack.append(Func(base.camLens.setMinFov, self.camFOFov/(4./3.)))
-            camTrack.append(Func(camera.setPos, TauntCamX, TauntCamY, TauntCamHeight))
+            interval = camera.posInterval(1.0, Point3(TauntCamX, TauntCamY, TauntCamHeight))
+            camTrack.append(interval)
             camTrack.append(Func(camera.lookAt, suit, suitOffsetPnt))
             camTrack.append(Wait(delay))
             camTrack.append(Func(base.camLens.setMinFov, self.camFov/(4./3.)))
             camTrack.append(Func(camera.wrtReparentTo, self))
-            camTrack.append(Func(camera.setPos, self.camFOPos))
+            interval = camera.posInterval(1.0, self.camFOPos)
+            camTrack.append(interval)
             camTrack.append(Func(camera.lookAt, suit.getPos(self)))
             camTrack.append(Wait(faceoffTime))
             if self.interactiveProp:
                 camTrack.append(Func(camera.lookAt, self.interactiveProp.node.getPos(self)))
                 camTrack.append(Wait(FACEOFF_LOOK_AT_PROP_T))
+        
         suitTrack.append(Wait(delay))
         toonTrack.append(Wait(delay))
         suitTrack.append(Func(suit.headsUp, self, suitPos))
@@ -186,6 +189,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         self.accept('resumeAfterReward', self.handleResumeAfterReward)
         if self.interactiveProp:
             self.interactiveProp.gotoVictory()
+        
         self.playReward(ts)
 
     def playReward(self, ts):
@@ -195,6 +199,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         self.notify.debug('Reward done')
         if self.hasLocalToon():
             self.d_rewardDone(base.localAvatar.doId)
+        
         self.movie.resetReward()
         messenger.send('resumeAfterReward')
 
@@ -213,6 +218,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         self.notify.debug('enterResume()')
         if self.hasLocalToon():
             self.removeLocalToon()
+        
         if self.interactiveProp:
             self.interactiveProp.requestIdleOrSad()
 

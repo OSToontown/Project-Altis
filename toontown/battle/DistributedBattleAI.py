@@ -34,7 +34,6 @@ class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
             else:
                 toon.b_setBattleId(-1)
         self.avId = None
-        return
 
     def faceOffDone(self):
         toonId = self.air.getAvatarIdFromSender()
@@ -59,7 +58,6 @@ class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         if self.interactivePropTrackBonus >= 0:
             timeForFaceoff += FACEOFF_LOOK_AT_PROP_T
         self.timer.startCallback(timeForFaceoff, self.__serverFaceOffDone)
-        return None
 
     def __serverFaceOffDone(self):
         self.notify.debug('faceoff timed out on server')
@@ -68,7 +66,6 @@ class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
 
     def exitFaceOff(self):
         self.timer.stop()
-        return None
 
     def handleFaceOffDone(self):
         self.timer.stop()
@@ -117,7 +114,7 @@ class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         self.timer.startCallback(REWARD_TIMEOUT, self.serverRewardDone)
 
     def exitReward(self):
-        return None
+        pass
 
     def enterResume(self):
         self.notify.debug('enterResume()')
