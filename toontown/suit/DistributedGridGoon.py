@@ -12,9 +12,11 @@ class DistributedGridGoon(DistributedGoon.DistributedGoon):
     def __init__(self, cr, type = 'sg'):
         try:
             self.DistributedGridGoon_initialized
+            return
         except:
             self.DistributedGridGoon_initialized = 1
-            DistributedGoon.DistributedGoon.__init__(self, cr, type)
+        
+        DistributedGoon.DistributedGoon.__init__(self, cr, type)
 
     def generate(self):
         DistributedGoon.DistributedGoon.generate(self)

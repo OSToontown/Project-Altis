@@ -16,27 +16,28 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
     def __init__(self, cr):
         try:
             self.DistributedSuit_initialized
+            return
         except:
             self.DistributedSuit_initialized = 1
-            DistributedSuitBase.DistributedSuitBase.__init__(self, cr)
-            self.fsm = ClassicFSM.ClassicFSM('DistributedSuit', [State.State('Off', self.enterOff, self.exitOff, ['Walk', 'Battle']),
-             State.State('Walk', self.enterWalk, self.exitWalk, ['WaitForBattle', 'Battle', 'Chase']),
-             State.State('Chase', self.enterChase, self.exitChase, ['WaitForBattle', 'Battle', 'Return']),
-             State.State('Return', self.enterReturn, self.exitReturn, ['WaitForBattle', 'Battle', 'Walk']),
-             State.State('Battle', self.enterBattle, self.exitBattle, ['Walk', 'Chase', 'Return']),
-             State.State('WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['Battle'])], 'Off', 'Off')
-            self.path = None
-            self.walkTrack = None
-            self.chaseTrack = None
-            self.returnTrack = None
-            self.fsm.enterInitialState()
-            self.chasing = 0
-            self.paused = 0
-            self.pauseTime = 0
-            self.velocity = 3
-            self.factoryRequest = None
+        
+        DistributedSuitBase.DistributedSuitBase.__init__(self, cr)
+        self.fsm = ClassicFSM.ClassicFSM('DistributedSuit', [State.State('Off', self.enterOff, self.exitOff, ['Walk', 'Battle']),
+         State.State('Walk', self.enterWalk, self.exitWalk, ['WaitForBattle', 'Battle', 'Chase']),
+         State.State('Chase', self.enterChase, self.exitChase, ['WaitForBattle', 'Battle', 'Return']),
+         State.State('Return', self.enterReturn, self.exitReturn, ['WaitForBattle', 'Battle', 'Walk']),
+         State.State('Battle', self.enterBattle, self.exitBattle, ['Walk', 'Chase', 'Return']),
+         State.State('WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['Battle'])], 'Off', 'Off')
+        self.path = None
+        self.walkTrack = None
+        self.chaseTrack = None
+        self.returnTrack = None
+        self.fsm.enterInitialState()
+        self.chasing = 0
+        self.paused = 0
+        self.pauseTime = 0
+        self.velocity = 3
+        self.factoryRequest = None
 
-        return
 
     def generate(self):
         DistributedSuitBase.DistributedSuitBase.generate(self)
