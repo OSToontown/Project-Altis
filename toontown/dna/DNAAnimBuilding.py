@@ -3,8 +3,8 @@ import DNAError
 import DNAUtil
 
 class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
-	__slots__ = (
-		'animName')
+    __slots__ = (
+        'animName')
     
     COMPONENT_CODE = 16
 

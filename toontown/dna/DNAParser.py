@@ -9,7 +9,7 @@ from DNADoor import DNADoor
 
 class DNABulkLoader(object):
     __slots__ = (
-        'storage', 'files')
+        'dnaStorage', 'dnaFiles')
 
     def __init__(self, storage, files):
         self.dnaStorage = storage
