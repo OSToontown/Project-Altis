@@ -72,7 +72,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.toonGrowSound = None
         self.toonSettleSound = None
         self.leftDoor = None
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -172,8 +171,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
 
-        return
-
     def handleInsideVictorElevator(self):
         self.notify.info('inside victor elevator')
         self.sendUpdate('setVictorReady', [])
@@ -183,7 +180,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.waitingMessage != None:
             self.waitingMessage.destroy()
             self.waitingMessage = None
-        return
 
     def enterWaitForVictorsFromCogdo(self, ts):
         if self.mode != 'cogdo':
@@ -210,8 +206,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
 
-        return
-
     def handleInsideVictorElevatorFromCogdo(self):
         self.sendUpdate('setVictorReady', [])
 
@@ -220,7 +214,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.waitingMessage != None:
             self.waitingMessage.destroy()
             self.waitingMessage = None
-        return
 
     def enterBecomingToon(self, ts):
         self.animToToon(ts)
@@ -346,7 +339,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.cogLandSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'cogbldg_land.ogg')
             self.cogSettleSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'cogbldg_settle.ogg')
             self.openSfx = base.loadSfx('phase_5/audio/sfx/elevator_door_open.ogg')
-        return
 
     def loadAnimToToonSfx(self):
         if base.config.GetBool('want-qa-regression', 0):
@@ -356,7 +348,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.toonGrowSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'toonbldg_grow.ogg')
             self.toonSettleSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'toonbldg_settle.ogg')
             self.openSfx = base.loadSfx('phase_5/audio/sfx/elevator_door_open.ogg')
-        return
 
     def unloadSfx(self):
         if self.cogDropSound != None:
@@ -369,7 +360,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.toonGrowSound = None
             self.toonSettleSound = None
             self.openSfx = None
-        return
 
     def _deleteTransitionTrack(self):
         if self.transitionTrack:
@@ -433,9 +423,16 @@ class DistributedBuilding(DistributedObject.DistributedObject):
     def setupSuitBuilding(self, nodePath):
         if nodePath.isEmpty():
             return
+        
         dnaStore = self.cr.playGame.dnaStore
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode('suit_landmark_' + chr(self.track) + str(level))
+        
+        # if the suit node path is not in the dna store, dont setup
+        # the building specified
+        if not suitNP:
+            return
+
         zoneId = dnaStore.getZoneFromBlockNumber(self.block)
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
@@ -531,7 +528,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
         self.transitionTrack.start(timeStamp)
-        return
 
     def setupCogdo(self, nodePath):
         dnaStore = self.cr.playGame.dnaStore
@@ -635,7 +631,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.transitionTrack.start(0)
         else:
             self.transitionTrack.start(timeStamp)
-        return
 
     def animToToonFromCogdo(self, timeStamp):
         self.stopTransition()
@@ -701,7 +696,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.transitionTrack.start(0)
         else:
             self.transitionTrack.start(timeStamp)
-        return
 
     def walkOutCameraTrack(self):
         track = Sequence(Func(camera.reparentTo, render), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0), Func(base.camLens.setMinFov, 52.0/(4./3.)), Wait(VICTORY_RUN_TIME), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 17, 0, 347, 0), Func(base.camLens.setMinFov, 75.0/(4./3.)), Wait(TO_TOON_BLDG_TIME), Func(base.camLens.setMinFov, 52.0/(4./3.)))
@@ -911,8 +905,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                     i.removeNode()
                 else:
                     i.stash()
-
-        return
 
     def normalizeElevator(self):
         self.elevatorNodePath.setScale(render, Vec3(1, 1, 1))
