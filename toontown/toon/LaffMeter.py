@@ -19,9 +19,9 @@ class LaffMeter(DirectFrame):
             self.isToon = 1
         else:
             self.isToon = 0
+        
         self.load()
-        return
-
+   
     def obscure(self, obscured):
         self.__obscured = obscured
         if self.__obscured:
@@ -84,7 +84,6 @@ class LaffMeter(DirectFrame):
              0.666666,
              0.833333]
         gui.removeNode()
-        return
 
     def destroy(self):
         if self.av:
@@ -134,7 +133,6 @@ class LaffMeter(DirectFrame):
             ToontownIntervals.start(ToontownIntervals.getPulseLargerIval(self.container, name))
         else:
             ToontownIntervals.start(ToontownIntervals.getPulseSmallerIval(self.container, name))
-        return
 
     def adjustFace(self, hp, maxHp, quietly = 0):
         if self.isToon and self.hp != None:
@@ -165,7 +163,6 @@ class LaffMeter(DirectFrame):
             self.adjustText()
             if not quietly:
                 self.animatedEffect(delta)
-        return
 
     def start(self):
         if self.av:
@@ -187,4 +184,5 @@ class LaffMeter(DirectFrame):
     def setAvatar(self, av):
         if self.av:
             self.ignore(self.av.uniqueName('hpChange'))
+        
         self.av = av

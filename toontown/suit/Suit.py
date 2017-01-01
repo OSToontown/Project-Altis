@@ -186,9 +186,15 @@ def loadModels():
     global Preloaded
     if not Preloaded:
         print 'Preloading suits...'
-        for filepath in SuitParts:
-            Preloaded[filepath] = loader.loadModel(filepath)
-            Preloaded[filepath].flattenMedium()
+        
+        def preload(task):
+            for filepath in SuitParts:
+                Preloaded[filepath] = loader.loadModel(filepath)
+                Preloaded[filepath].flattenMedium()
+
+            return task.done
+
+        taskMgr.add(preload, 'preload-suit')
 
 def loadTutorialSuit():
     loader.loadModel('phase_3.5/models/char/suitC-mod')

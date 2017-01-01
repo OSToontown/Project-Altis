@@ -1,17 +1,15 @@
+import random
+import types
+import Toon, ToonDNA
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
 from pandac.PandaModules import *
-import random
-import types
-
-import Toon, ToonDNA
 from otp.avatar import Emote
 from otp.otpbase import OTPLocalizer
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 from toontown.toonbase import TTLocalizer
-
 
 EmoteSleepIndex = 4
 EmoteClear = -1
@@ -539,12 +537,12 @@ class TTEmote(Emote.Emote):
     def disableAll(self, toon, msg = None):
         if toon != base.localAvatar:
             return
-        self.disableGroup(range(len(self.emoteFunc)), toon)
+        self.disableGroup(xrange(len(self.emoteFunc)), toon)
 
     def releaseAll(self, toon, msg = None):
         if toon != base.localAvatar:
             return
-        self.enableGroup(range(len(self.emoteFunc)), toon)
+        self.enableGroup(xrange(len(self.emoteFunc)), toon)
 
     def disableBody(self, toon, msg = None):
         if toon != base.localAvatar:

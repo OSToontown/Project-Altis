@@ -18,24 +18,18 @@ def showTeleportPanel(avId, avName, avDisableName):
         globalTeleport.cleanup()
         globalTeleport = None
     globalTeleport = ToonTeleportPanel(avId, avName, avDisableName)
-    return
-
 
 def hideTeleportPanel():
     global globalTeleport
     if globalTeleport != None:
         globalTeleport.cleanup()
         globalTeleport = None
-    return
-
 
 def unloadTeleportPanel():
     global globalTeleport
     if globalTeleport != None:
         globalTeleport.cleanup()
         globalTeleport = None
-    return
-
 
 class ToonTeleportPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonTeleportPanel')
@@ -102,7 +96,6 @@ class ToonTeleportPanel(DirectFrame):
         self.show()
         self.fsm.enterInitialState()
         self.fsm.request('begin')
-        return
 
     def cleanup(self):
         self.fsm.request('off')
@@ -233,7 +226,6 @@ class ToonTeleportPanel(DirectFrame):
         self.shardId = shardId
         self.hoodId = hoodId
         self.zoneId = zoneId
-        return
 
     def exitOtherShard(self):
         self.bYes.hide()
@@ -266,7 +258,6 @@ class ToonTeleportPanel(DirectFrame):
             place = base.cr.playGame.getPlace()
             place.requestTeleport(hoodId, zoneId, shardId, self.avId)
             unloadTeleportPanel()
-        return
 
     def exitTeleport(self):
         pass
@@ -289,8 +280,10 @@ class ToonTeleportPanel(DirectFrame):
           shardId,
           hoodId,
           zoneId),))
+        
         if avId != self.avId:
             return
+        
         if available == 0:
             teleportNotify.debug('__teleportResponse: not available')
             self.fsm.request('notAvailable')

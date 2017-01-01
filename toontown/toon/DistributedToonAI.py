@@ -1313,7 +1313,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         loseCount = random.randrange(CogDisguiseGlobals.MinPartLoss, CogDisguiseGlobals.MaxPartLoss + 1)
         parts = self.getCogParts()
         partBitmask = parts[dept]
-        partList = range(17)
+        partList = xrange(17)
         while loseCount > 0 and partList:
             losePart = random.choice(partList)
             partList.remove(losePart)

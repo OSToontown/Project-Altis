@@ -1,6 +1,3 @@
-# Distribution:
-distribution dev
-
 # Art assets:
 model-path ../resources
 
@@ -31,9 +28,6 @@ want-whitelist #f
 want-resistance-toonup #t
 want-resistance-restock #t
 want-resistance-dance #t
-
-# Optional:
-want-yin-yang #t
 
 # Developer options:
 show-population #t

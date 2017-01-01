@@ -17,7 +17,6 @@ class Experience:
 
         else:
             self.experience = self.makeFromNetString(expStr)
-        return
 
     def __str__(self):
         return str(self.experience)

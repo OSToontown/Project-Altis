@@ -9,7 +9,6 @@ class NPCForceAcknowledge:
     def __init__(self, doneEvent):
         self.doneEvent = doneEvent
         self.dialog = None
-        return
 
     def enter(self):
         doneStatus = {}
@@ -40,13 +39,11 @@ class NPCForceAcknowledge:
                     msg = TTLocalizer.NPCForceAcknowledgeMessage
             self.dialog = TTDialog.TTDialog(text=msg, command=self.handleOk, style=TTDialog.Acknowledge)
             imgLabel = DirectLabel.DirectLabel(parent=self.dialog, relief=None, pos=imgPos, scale=TTLocalizer.NPCFimgLabel, image=imgNodePath, image_scale=imgScale)
-        return
 
     def exit(self):
         if self.dialog:
             self.dialog.cleanup()
             self.dialog = None
-        return
 
     def handleOk(self, value):
         messenger.send(self.doneEvent, [self.doneStatus])

@@ -1,3 +1,11 @@
+import math
+import random
+import re
+import time
+import zlib
+import DistributedToon
+import LaffMeter
+import Toon
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.gui import DirectGuiGlobals
@@ -6,16 +14,7 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
 from direct.showbase.PythonUtil import *
 from direct.task import Task
-import math
 from pandac.PandaModules import *
-import random
-import re
-import time
-import zlib
-
-import DistributedToon
-import LaffMeter
-import Toon
 from otp.avatar import DistributedPlayer
 from otp.avatar import LocalAvatar
 from otp.avatar import PositionExaminer
@@ -60,7 +59,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toontowngui import NewsPageButtonManager
 from toontown.friends.FriendHandle import FriendHandle
-
 
 WantNewsPage = base.config.GetBool('want-news-page', ToontownGlobals.DefaultWantNewsPageSetting)
 if WantNewsPage:
@@ -298,7 +296,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.nametag.unmanage(base.marginManager)
         self.ignoreAll()
         DistributedToon.DistributedToon.disable(self)
-        return
 
     def disableBodyCollisions(self):
         pass
@@ -420,11 +417,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.accept('InputState-turnLeft', self.__toonMoved)
         self.accept('InputState-turnRight', self.__toonMoved)
         self.accept('InputState-slide', self.__toonMoved)
-
         self.achievementGui = AchievementGui.AchievementGui()
-
         QuestParser.init()
-        return
 
     def __handlePurchase(self):
         self.purchaseButton.hide()
@@ -469,7 +463,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.disguisePage.load()
         self.book.addPage(self.disguisePage, pageName=TTLocalizer.DisguisePageTitle)
         self.loadSosPages()
-        return
 
     def loadSosPages(self):
         if self.sosPage != None:
@@ -477,7 +470,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.sosPage = NPCFriendPage.NPCFriendPage()
         self.sosPage.load()
         self.book.addPage(self.sosPage, pageName=TTLocalizer.NPCFriendPageTitle)
-        return
 
     def loadGardenPages(self):
         if self.gardenPage != None:
@@ -488,7 +480,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.gardenPage = GardenPage.GardenPage()
         self.gardenPage.load()
         self.book.addPage(self.gardenPage, pageName=TTLocalizer.GardenPageTitle)
-        return
 
     def loadPhase55Stuff(self):
         if self.gardenPage == None:
@@ -498,7 +489,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         elif not launcher.getPhaseComplete(5.5):
             self.acceptOnce('phaseComplete-5.5', self.loadPhase55Stuff)
         self.refreshOnscreenButtons()
-        return
 
     def setAsGM(self, state):
         self.notify.debug('Setting GM State: %s in LocalToon' % state)
@@ -547,7 +537,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             whisper.setClickable(senderName, fromId, 1)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
-        return
 
     def isLocal(self):
         return 1
@@ -675,7 +664,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.localPresentPie(time)
         taskName = self.uniqueName('updatePiePower')
         taskMgr.add(self.__updatePiePower, taskName)
-        return
 
     def __endTossPie(self, time):
         if self.tossPieStart == None:
@@ -719,7 +707,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.__piePowerMeter.show()
         self.__piePowerMeterSequence = sequence
         self.__piePowerMeter['value'] = 0
-        return
 
     def __stopPresentPie(self):
         if self.__presentingPie:
@@ -811,7 +798,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         pie = Sequence(pie, Func(base.cTrav.removeCollider, pieBubble), Func(self.pieFinishedFlying, sequence))
         self.pieTracks[sequence] = pie
         pie.start()
-        return
 
     def pieFinishedFlying(self, sequence):
         DistributedToon.DistributedToon.pieFinishedFlying(self, sequence)
@@ -916,7 +902,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             else:
                 self.__pieButton['text'] = str(self.numPies)
             self.__pieButtonCount = self.numPies
-        return
 
     def displayWhisper(self, fromId, chatString, whisperType):
         sender = None
@@ -937,7 +922,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             whisper.setClickable(sender.getName(), fromId)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
-        return
 
     def displaySystemClickableWhisper(self, fromId, chatString, whisperType):
         sender = None
@@ -957,7 +941,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         whisper.setClickable('', fromId)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
-        return
 
     def clickedWhisper(self, doId, isPlayer = None):
         if doId > 0:
@@ -999,7 +982,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
          bMoveStartUp], text=['', TTLocalizer.HDMoveFurnitureButton, TTLocalizer.HDMoveFurnitureButton], text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), text_font=ToontownGlobals.getInterfaceFont(), pos=(-0.3, 0, 9.4), command=self.__startMoveFurniture)
         self.__furnitureGui.hide()
         guiModels.removeNode()
-        return
 
     def showFurnitureGui(self):
         self.loadFurnitureGui()
@@ -1024,7 +1006,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         notifyPos = self.__catalogNotifyDialog.frame.getPos()
         notifyPos[0] = notifyXPos
         self.__catalogNotifyDialog.frame.setPos(notifyPos)
-        return
 
     def loadClarabelleGui(self):
         if self.__clarabelleButton:
@@ -1049,7 +1030,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.__clarabelleFlash = Sequence(LerpColorInterval(button, 2, white, blendType='easeInOut'), LerpColorInterval(button, 2, rgba, blendType='easeInOut'))
         self.__clarabelleFlash.loop()
         self.__clarabelleFlash.pause()
-        return
 
     def showClarabelleGui(self, mailboxItems):
         self.loadClarabelleGui()

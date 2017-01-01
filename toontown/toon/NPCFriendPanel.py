@@ -20,7 +20,6 @@ class NPCFriendPanel(DirectFrame):
         self.updateLayout()
         self.initialiseoptions(NPCFriendPanel)
         self.accept(localAvatar.uniqueName('maxNPCFriendsChange'), self.updateLayout)
-        return None
 
     def update(self, friendDict, fCallable = 0):
         friendList = friendDict.keys()
@@ -34,8 +33,6 @@ class NPCFriendPanel(DirectFrame):
                 count = 0
 
             card.update(NPCID, count, fCallable)
-
-        return
 
     def updateLayout(self):
         for card in self.cardList:
@@ -133,8 +130,6 @@ class NPCFriendCard(DirectFrame):
             label.hide()
             self.rarityStars.append(label)
 
-        return
-
     def __chooseNPCFriend(self):
         if self['NPCID'] and self['doneEvent']:
             doneStatus = {}
@@ -195,8 +190,8 @@ class NPCFriendCard(DirectFrame):
         else:
             countText = 'Unavailable'
             self.sosCallButton['state'] = DGG.DISABLED
+        
         self.sosCountInfo['text'] = countText
-        return
 
     def showFront(self):
         self.front.show()

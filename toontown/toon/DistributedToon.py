@@ -1246,7 +1246,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return [self.trackProgressId, self.trackProgress]
 
     def getTrackProgressAsArray(self, maxLength = 15):
-        shifts = map(operator.rshift, maxLength * [self.trackProgress], range(maxLength - 1, -1, -1))
+        shifts = map(operator.rshift, maxLength * [self.trackProgress], xrange(maxLength - 1, -1, -1))
         digits = map(operator.mod, shifts, maxLength * [2])
         digits.reverse()
         return digits

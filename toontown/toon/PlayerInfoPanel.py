@@ -28,7 +28,6 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         self.setup(playerId)
         self.avId = 0
         self.avName = None
-        return
 
     def setup(self, playerId):
         from toontown.friends import FriendsListPanel
@@ -289,7 +288,6 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         self.accept('playerOffline', self.__handlePlayerChanged)
         self.accept(OTPGlobals.PlayerFriendUpdateEvent, self.__handlePlayerChanged)
         self.accept(OTPGlobals.PlayerFriendRemoveEvent, self.__handlePlayerUnfriend)
-        return
 
     def disableAll(self):
         self.detailButton['state'] = DGG.DISABLED
@@ -325,7 +323,6 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         self.ignore('updateLaffMeter')
         if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
-        return
 
     def __handleGoto(self):
         if base.localAvatar.isTeleportAllowed():
@@ -379,22 +376,24 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         AvatarPanelBase.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        return
 
     def getAvId(self):
         if hasattr(self, 'avatar'):
             if self.avatar:
                 return self.avatar.doId
+        
         return None
 
     def getPlayerId(self):
         if hasattr(self, 'playerId'):
             return self.playerId
+        
         return None
 
     def isHidden(self):
         if not hasattr(self, 'frame') or not self.frame:
             return 1
+        
         return self.frame.isHidden()
 
     def getType(self):

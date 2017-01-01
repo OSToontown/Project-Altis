@@ -27,7 +27,6 @@ class GroupPanel(DirectObject.DirectObject):
         self.accept('stickerBookEntered', self.__forceHide)
         self.ignore('stickerBookExited')
         self.accept('stickerBookExited', self.__forceShow)
-        return
 
     def cleanup(self):
         base.setCellsActive(base.leftCells, 1)
@@ -53,7 +52,6 @@ class GroupPanel(DirectObject.DirectObject):
         self.leaveButton = None
         self.boardingParty = None
         self.ignoreAll()
-        return
 
     def __load(self):
         self.guiBg = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_groupListBg')
@@ -68,6 +66,7 @@ class GroupPanel(DirectObject.DirectObject):
             bgImageZPos = 0
             frameZPos = 0.0278943
             quitButtonZPos = -0.30366
+        
         guiButtons = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_status')
         self.frame = DirectFrame(parent=base.a2dLeftCenter, relief=None, image=bgImage, image_scale=(0.5, 1, 0.5), image_pos=(0, 0, bgImageZPos), textMayChange=1, pos=(0.32, 0, 0))
         self.frameBounds = self.frame.getBounds()
@@ -100,18 +99,19 @@ class GroupPanel(DirectObject.DirectObject):
             self.__makeDestinationScrolledList()
         else:
             self.__makeDestinationFrame()
+        
         self.__makeGoingToLabel()
         self.accept('updateGroupStatus', self.__checkGroupStatus)
         self.accept('ToonBattleIdUpdate', self.__possibleGroupUpdate)
         base.setCellsActive([base.leftCells[1], base.leftCells[2]], 0)
         if self.boardingParty.isGroupLeader(localAvatar.doId):
             base.setCellsActive([base.leftCells[0]], 0)
+        
         self.__addTestNames(self.boardingParty.maxSize)
         self.guiBg.removeNode()
         guiButtons.removeNode()
         leaveButtonGui.removeNode()
         arrowGui.removeNode()
-        return
 
     def __defineConstants(self):
         self.forcedHidden = False
@@ -146,6 +146,7 @@ class GroupPanel(DirectObject.DirectObject):
     def __checkGroupStatus(self):
         if not self.boardingParty:
             return
+       
         self.notify.debug('__checkGroupStatus %s' % self.boardingParty.getGroupMemberList(localAvatar.doId))
         myMemberList = self.boardingParty.getGroupMemberList(localAvatar.doId)
         self.scrollList.removeAndDestroyAllItems(refresh=0)
@@ -161,6 +162,7 @@ class GroupPanel(DirectObject.DirectObject):
         self.notify.debug('GroupPanel __possibleGroupUpdate')
         if not self.boardingParty:
             return
+       
         myMemberList = self.boardingParty.getGroupMemberList(localAvatar.doId)
         if avId in myMemberList:
             self.__checkGroupStatus()
@@ -179,7 +181,6 @@ class GroupPanel(DirectObject.DirectObject):
         clipNP = self.scrollList.attachNewNode(clipper)
         self.scrollList.setClipPlane(clipNP)
         friendsListGui.removeNode()
-        return
 
     def __makeDestinationScrolledList(self):
         arrowGui = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_gotoArrow')
@@ -220,7 +221,6 @@ class GroupPanel(DirectObject.DirectObject):
         arrowGui.removeNode()
         self.__addDestNames()
         self.__makeGoButton()
-        return
 
     def __addDestNames(self):
         for i in xrange(len(self.elevatorIdList)):
@@ -234,6 +234,7 @@ class GroupPanel(DirectObject.DirectObject):
         elevator = base.cr.doId2do.get(elevatorId)
         if elevator:
             destName = elevator.getDestName()
+        
         return destName
 
     def __makeDestinationFrame(self):
@@ -244,7 +245,6 @@ class GroupPanel(DirectObject.DirectObject):
             zPos = -0.404267
         bottomImage = self.guiBg.find('**/tt_t_gui_brd_memberListBtm_nonLeader')
         self.destFrame = DirectFrame(parent=self.frame, relief=None, image=bottomImage, image_scale=(0.5, 1, 0.5), text=destName, text_align=TextNode.ACenter, text_scale=TTLocalizer.GPdestFrame, pos=(0, 0, zPos))
-        return
 
     def __makeGoButton(self):
         goGui = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_gotoBtn')
@@ -266,7 +266,6 @@ class GroupPanel(DirectObject.DirectObject):
          TTLocalizer.BoardingGo,
          ''), text_scale=TTLocalizer.GPgoButton, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -0.12), pos=(-0.003, 0, zPos))
         goGui.removeNode()
-        return
 
     def __getAvatarButton(self, avId):
         toon = base.cr.doId2do.get(avId)
@@ -285,6 +284,7 @@ class GroupPanel(DirectObject.DirectObject):
                 buttonImage = self.leaderButtonImage
             if avId == localAvatar.doId:
                 self.__forceShow()
+        
         return DirectButton(parent=self.frame, relief=None, image=buttonImage, image_scale=(0.06, 1.0, 0.06), text=toonName, text_align=TextNode.ALeft, text_wordwrap=16, text_scale=0.04, text_pos=(0.05, -0.015), text_fg=self.textFgcolor, text1_bg=self.textBgDownColor, text2_bg=self.textBgRolloverColor, text3_fg=self.textBgDisabledColor, pos=(0, 0, 0.2), command=self.__openToonAvatarPanel, extraArgs=[toon, avId])
 
     def __openToonAvatarPanel(self, avatar, avId):
@@ -345,7 +345,6 @@ class GroupPanel(DirectObject.DirectObject):
         else:
             zPos = -0.331731
         self.goingToLabel = DirectLabel(parent=self.frame, relief=None, text=TTLocalizer.BoardingGoingTo, text_scale=0.045, text_align=TextNode.ALeft, text_fg=Vec4(0, 0, 0, 1), pos=(-0.1966, 0, zPos))
-        return
 
     def disableQuitButton(self):
         if self.quitButton and not self.quitButton.isEmpty():

@@ -15,7 +15,6 @@ from sys import platform
 import sys
 import tempfile
 import time
-
 import ToontownGlobals
 import ToontownLoader
 from otp.otpbase import OTPBase
@@ -29,7 +28,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownAccess
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
-
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
@@ -154,11 +152,7 @@ class ToonBase(OTPBase.OTPBase):
         self.oldY = max(1, base.win.getYSize())
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
-
         self.filters = CommonFilters(self.win, self.cam)
-
-        # Free black/white Toons:
-        self.wantYinYang = config.GetBool('want-yin-yang', False)
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)

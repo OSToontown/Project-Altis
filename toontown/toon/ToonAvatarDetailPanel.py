@@ -21,24 +21,18 @@ def showAvatarDetail(avId, avName, playerId = None):
         globalAvatarDetail = None
     playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(avId)
     globalAvatarDetail = ToonAvatarDetailPanel(avId, avName, playerId)
-    return
-
 
 def hideAvatarDetail():
     global globalAvatarDetail
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-    return
-
 
 def unloadAvatarDetail():
     global globalAvatarDetail
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-    return
-
 
 class ToonAvatarDetailPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonAvatarDetailPanel')
@@ -83,7 +77,6 @@ class ToonAvatarDetailPanel(DirectFrame):
         self.fsm.request('begin')
         buttons.removeNode()
         gui.removeNode()
-        return
 
     def cleanup(self):
         if self.fsm:
@@ -94,7 +87,6 @@ class ToonAvatarDetailPanel(DirectFrame):
             self.avatar.delete()
             self.createdAvatar = None
         self.destroy()
-        return
 
     def enterOff(self):
         pass
@@ -127,7 +119,6 @@ class ToonAvatarDetailPanel(DirectFrame):
             self.avatar.doId = self.avId
             self.avatar.forceAllowDelayDelete()
         base.cr.getAvatarDetails(self.avatar, self.__handleAvatarDetails, 'DistributedToon')
-        return
 
     def exitQuery(self):
         self.bCancel.hide()
@@ -179,11 +170,11 @@ class ToonAvatarDetailPanel(DirectFrame):
                  'location': hoodName}
         else:
             text = TTLocalizer.AvatarDetailPanelOffline
+        
         self.dataText['text'] = text
         self.__updateTrackInfo()
         self.__updateTrophyInfo()
         self.__updateLaffInfo()
-        return
 
     def __showAvatar(self):
         messenger.send('wakeup')
@@ -194,7 +185,6 @@ class ToonAvatarDetailPanel(DirectFrame):
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send('clickedNametagPlayer', [handle, self.playerId, 1])
-        return
 
     def __updateLaffInfo(self):
         avatar = self.avatar
@@ -226,8 +216,6 @@ class ToonAvatarDetailPanel(DirectFrame):
                     else:
                         break
 
-        return
-
     def __updateTrophyInfo(self):
         if self.createdAvatar:
             return
@@ -239,9 +227,9 @@ class ToonAvatarDetailPanel(DirectFrame):
             color = TrophyStarColors[0]
         else:
             color = None
+        
         if color:
             gui = loader.loadModel('phase_3.5/models/gui/avatar_panel_gui')
             star = gui.find('**/avatarStar')
             self.star = DirectLabel(parent=self, image=star, image_color=color, pos=(0.610165, 0, -0.760678), scale=0.9, relief=None)
             gui.removeNode()
-        return

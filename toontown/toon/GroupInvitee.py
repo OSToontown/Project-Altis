@@ -45,7 +45,6 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
         ToonHeadDialog.ToonHeadDialog.__init__(self, self.avDNA)
         self.initialiseoptions(GroupInvitee)
         self.show()
-        return
 
     def cleanup(self):
         ToonHeadDialog.ToonHeadDialog.cleanup(self)
@@ -60,4 +59,5 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
             self.party.requestAcceptInvite(self.leaderId, self.avId)
         else:
             self.party.requestRejectInvite(self.leaderId, self.avId)
+        
         self.cleanup()

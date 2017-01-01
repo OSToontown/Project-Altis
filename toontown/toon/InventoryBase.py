@@ -24,7 +24,6 @@ class InventoryBase(DirectObject.DirectObject):
         else:
             self.inventory = self.makeFromNetString(invStr)
         self.calcTotalProps()
-        return
 
     def unload(self):
         del self.toon
@@ -39,7 +38,6 @@ class InventoryBase(DirectObject.DirectObject):
     def updateInvString(self, invString):
         inventory = self.makeFromNetString(invString)
         self.updateInventory(inventory)
-        return None
 
     def updateInventory(self, inv):
         self.inventory = inv
@@ -171,8 +169,6 @@ class InventoryBase(DirectObject.DirectObject):
                 if level <= LAST_REGULAR_GAG_LEVEL:
                     self.totalProps += self.numItem(track, level)
 
-        return None
-
     def countPropsInList(self, invList):
         totalProps = 0
         for track in xrange(len(Tracks)):
@@ -188,7 +184,6 @@ class InventoryBase(DirectObject.DirectObject):
                 self.inventory[track][level] = min(self.inventory[track][level], newInventory[track][level])
 
         self.calcTotalProps()
-        return None
 
     def validateItemsBasedOnExp(self, newInventory, allowUber = 0):
         if type(newInventory) == type('String'):
@@ -271,7 +266,6 @@ class InventoryBase(DirectObject.DirectObject):
                         addedAnything = 1
 
         self.calcTotalProps()
-        return None
 
     def NPCMaxOutInv(self, targetTrack=-1, maxLevelIndex=5):
         result = 0
@@ -296,7 +290,6 @@ class InventoryBase(DirectObject.DirectObject):
                 break
 
         self.calcTotalProps()
-        return None
 
     def zeroInv(self, killUber = 0):
         for track in xrange(len(Tracks)):
@@ -309,7 +302,6 @@ class InventoryBase(DirectObject.DirectObject):
                 self.inventory[track][UBER_GAG_LEVEL_INDEX] = 1
 
         self.calcTotalProps()
-        return None
 
     def _garbageInfo(self):
         return self._createStack

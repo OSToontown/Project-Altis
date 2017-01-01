@@ -1,16 +1,15 @@
+import random
+import types
+import AccessoryGlobals
+import Motion
+import TTEmote
+import ToonDNA
 from direct.actor import Actor
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor
 from direct.task.Task import Task
 from pandac.PandaModules import *
-import random
-import types
-
-import AccessoryGlobals
-import Motion
-import TTEmote
-import ToonDNA
 from ToonHead import *
 from otp.avatar import Avatar
 from otp.avatar import Emote
@@ -27,7 +26,6 @@ from toontown.nametag.NametagGlobals import *
 from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 def teleportDebug(requestStatus, msg, onlyIfToAv = True):
     if teleportNotify.getDebug():
@@ -182,21 +180,26 @@ def loadModels():
     if not Preloaded:
         print 'Preloading avatars...'
 
-        for key in LegDict.keys():
-            fileRoot = LegDict[key]
+        def preload(task):
+            for key in LegDict.keys():
+                fileRoot = LegDict[key]
 
-            Preloaded[fileRoot+'-1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
-            Preloaded[fileRoot+'-500'] = loader.loadModel('phase_3' + fileRoot + '500')
-            Preloaded[fileRoot+'-250'] = loader.loadModel('phase_3' + fileRoot + '250')
-
-        for key in TorsoDict.keys():
-            fileRoot = TorsoDict[key]
-
-            Preloaded[fileRoot+'-1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
-
-            if len(key) > 1:
+                Preloaded[fileRoot+'-1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
                 Preloaded[fileRoot+'-500'] = loader.loadModel('phase_3' + fileRoot + '500')
                 Preloaded[fileRoot+'-250'] = loader.loadModel('phase_3' + fileRoot + '250')
+
+            for key in TorsoDict.keys():
+                fileRoot = TorsoDict[key]
+
+                Preloaded[fileRoot+'-1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
+
+                if len(key) > 1:
+                    Preloaded[fileRoot+'-500'] = loader.loadModel('phase_3' + fileRoot + '500')
+                    Preloaded[fileRoot+'-250'] = loader.loadModel('phase_3' + fileRoot + '250')
+
+            return task.done
+
+        taskMgr.add(preload, 'preload-avatar')
 
 def loadBasicAnims():
     loadPhaseAnims()
@@ -513,8 +516,8 @@ class Toon(Avatar.Avatar, ToonHead):
             self.wake.stop()
             self.wake.destroy()
             self.wake = None
+        
         self.cleanupPieModel()
-        return
 
     def delete(self):
         try:
@@ -664,7 +667,6 @@ class Toon(Avatar.Avatar, ToonHead):
         self.legsParts = self.findAllMatches('**/__Actor_legs')
         self.hipsParts = self.legsParts.findAllMatches('**/joint_hips')
         self.torsoParts = self.hipsParts.findAllMatches('**/__Actor_torso')
-        return
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
@@ -747,7 +749,6 @@ class Toon(Avatar.Avatar, ToonHead):
         self.findAllMatches('**/boots_short').stash()
         self.findAllMatches('**/boots_long').stash()
         self.findAllMatches('**/shoes').stash()
-        return
 
     def swapToonLegs(self, legStyle, copy = 1):
         self.unparentToonParts()
@@ -2723,9 +2724,9 @@ class Toon(Avatar.Avatar, ToonHead):
                 self.stopTrackAnimToSpeed()
                 self.startTrackAnimToSpeed()
             self.controlManager.disableAvatarJump()
-            indices = range(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1)
+            indices = xrange(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1)
             customIndices = OTPLocalizer.SCMenuCustomCogIndices[suitType]
-            indices += range(customIndices[0], customIndices[1] + 1)
+            indices += xrange(customIndices[0], customIndices[1] + 1)
             self.chatMgr.chatInputSpeedChat.addCogMenu(indices)
         self.suit.loop('neutral')
         self.isDisguised = 1

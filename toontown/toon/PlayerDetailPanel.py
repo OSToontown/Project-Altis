@@ -20,7 +20,6 @@ def showPlayerDetail(avId, avName, playerId = None):
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
     globalAvatarDetail = PlayerDetailPanel(avId, avName, playerId)
-    return
 
 
 def hidePlayerDetail():
@@ -28,7 +27,6 @@ def hidePlayerDetail():
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-    return
 
 
 def unloadPlayerDetail():
@@ -36,8 +34,6 @@ def unloadPlayerDetail():
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-    return
-
 
 class PlayerDetailPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonAvatarDetailPanel')
@@ -90,14 +86,12 @@ class PlayerDetailPanel(DirectFrame):
         self.__showData()
         buttons.removeNode()
         gui.removeNode()
-        return
 
     def cleanup(self):
         if self.createdAvatar:
             self.avatar.delete()
             self.createdAvatar = None
         self.destroy()
-        return
 
     def __handleCancel(self):
         unloadPlayerDetail()
@@ -123,4 +117,3 @@ class PlayerDetailPanel(DirectFrame):
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send('clickedNametagPlayer', [handle, self.playerId, 0])
-        return

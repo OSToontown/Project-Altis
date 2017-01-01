@@ -54,17 +54,23 @@ def preloadToonHeads():
     global PreloadHeads
     if not PreloadHeads:
         print 'Preloading Toon heads...'
-        for key in HeadDict.keys():
-            fileRoot = HeadDict[key]
 
-            PreloadHeads['phase_3' + fileRoot + '1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
-            PreloadHeads['phase_3' + fileRoot + '1000'].flattenMedium()
+        def preload(task):
+            for key in HeadDict.keys():
+                fileRoot = HeadDict[key]
 
-            PreloadHeads['phase_3' + fileRoot + '500'] = loader.loadModel('phase_3' + fileRoot + '500')
-            PreloadHeads['phase_3' + fileRoot + '500'].flattenMedium()
+                PreloadHeads['phase_3' + fileRoot + '1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
+                PreloadHeads['phase_3' + fileRoot + '1000'].flattenMedium()
 
-            PreloadHeads['phase_3' + fileRoot + '250'] = loader.loadModel('phase_3' + fileRoot + '250')
-            PreloadHeads['phase_3' + fileRoot + '250'].flattenMedium()
+                PreloadHeads['phase_3' + fileRoot + '500'] = loader.loadModel('phase_3' + fileRoot + '500')
+                PreloadHeads['phase_3' + fileRoot + '500'].flattenMedium()
+
+                PreloadHeads['phase_3' + fileRoot + '250'] = loader.loadModel('phase_3' + fileRoot + '250')
+                PreloadHeads['phase_3' + fileRoot + '250'].flattenMedium()
+
+            return task.done
+
+        taskMgr.add(preload, 'reload-toon')
 
 preloadToonHeads()
 
@@ -804,8 +810,6 @@ class ToonHead(Actor.Actor):
             else:
                 otherParts.getPath(partNum).stash()
 
-        return
-
     def __fixHeadLongShort(self, style, lodName = None, copy = 1):
         animalType = style.getAnimal()
         headStyle = style.head
@@ -856,8 +860,6 @@ class ToonHead(Actor.Actor):
                     muzzleParts.getPath(partNum).removeNode()
                 else:
                     muzzleParts.getPath(partNum).hide()
-
-        return
 
     def __fixHeadShortLong(self, style, lodName = None, copy = 1):
         animalType = style.getAnimal()
@@ -910,8 +912,6 @@ class ToonHead(Actor.Actor):
                 else:
                     muzzleParts.getPath(partNum).hide()
 
-        return
-
     def __fixHeadShortShort(self, style, lodName = None, copy = 1):
         if lodName == None:
             searchRoot = self
@@ -923,8 +923,6 @@ class ToonHead(Actor.Actor):
                 otherParts.getPath(partNum).removeNode()
             else:
                 otherParts.getPath(partNum).stash()
-
-        return
 
     def __blinkOpenEyes(self, task):
         if self.eyelids.getCurrentState().getName() == 'closed':

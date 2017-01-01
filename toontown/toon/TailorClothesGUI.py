@@ -17,5 +17,5 @@ class TailorClothesGUI(ClothesGUI.ClothesGUI):
             self.gender = gender
             self.topChoice = -1
             self.bottomChoice = -1
+        
         self.setupButtons()
-        return
