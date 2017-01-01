@@ -236,8 +236,7 @@ class OptionsTabPage(DirectFrame):
     ChangeDisplayAPI = base.config.GetBool('change-display-api', False)
     DisplaySettingsApiMap = {
         'OpenGL': 'pandagl',
-        'DirectX9': 'pandadx9',
-        'TinyDisplay': 'p3tinydisplay'}
+        'DirectX9': 'pandadx9'}
 
     def __init__(self, parent = aspect2d):
         self.currentSizeIndex = None
@@ -320,8 +319,7 @@ class OptionsTabPage(DirectFrame):
         self.ignore('confirmDone')
         self.hide()
         self.speedChatStyleText.exit()
-        if self.displaySettingsChanged:
-            taskMgr.doMethodLater(self.DisplaySettingsDelay, self.writeDisplaySettings, self.DisplaySettingsTaskName)
+        taskMgr.doMethodLater(self.DisplaySettingsDelay, self.writeDisplaySettings, self.DisplaySettingsTaskName)
 
     def unload(self):
         self.writeDisplaySettings()
@@ -494,6 +492,12 @@ class OptionsTabPage(DirectFrame):
         else:
             OptionsPage.notify.debug('no change display settings...')
             text = TTLocalizer.OptionsPageDisplaySettingsNoApi % settings
+            
+        
+        settings['res'] = (self.displaySettingsSize[0], self.displaySettingsSize[1])
+        settings['fullscreen'] = self.displaySettingsFullscreen
+        settings['loadDisplay'] = self.DisplaySettingsApiMap.get(self.displaySettingsApi, 'pandagl')
+            
         self.DisplaySettings_Label['text'] = text
 
     def __doSpeedChatStyleLeft(self):
@@ -526,11 +530,7 @@ class OptionsTabPage(DirectFrame):
         base.localAvatar.b_setSpeedChatStyleIndex(self.speedChatStyleIndex)
 
     def writeDisplaySettings(self, task=None):
-        if not self.displaySettingsChanged:
-            return
         taskMgr.remove(self.DisplaySettingsTaskName)
-        settings['res'] = (self.displaySettingsSize[0], self.displaySettingsSize[1])
-        settings['fullscreen'] = self.displaySettingsFullscreen
         return Task.done
 
     def __handleExitShowWithConfirm(self):
