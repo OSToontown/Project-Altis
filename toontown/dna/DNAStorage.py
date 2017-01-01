@@ -392,7 +392,7 @@ class DNAStorage:
                 dgi.addUnit16(edge.getEndPoint().getIndex())
                 dgi.addUint16(edge.getZoneId())
                 
-     def dump(self, verbose=False):
+    def dump(self, verbose=False):
         packer = DNAPacker(name='DNAStorage', verbose=verbose)
 
         # Catalog codes...
