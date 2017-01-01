@@ -4,6 +4,10 @@ import DNAError
 import DNAUtil
 
 class DNAStreet(DNANode.DNANode):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'streetTexture', 'sideWalkTexture',
+        'curbTexture', 'streetColor', 'sidewalkColor', 'curbColor', 'setTexCnt', 'setColCnt')
+
     COMPONENT_CODE = 19
 
     def __init__(self, name):
@@ -63,19 +67,25 @@ class DNAStreet(DNANode.DNANode):
     def setTexture(self, texture):
         if self.setTexCnt == 0:
             self.streetTexture = texture
+        
         if self.setTexCnt == 1:
             self.sidewalkTexture = texture
+        
         if self.setTexCnt == 2:
             self.curbTexture = texture
+        
         self.setTexCnt += 1
 
     def setColor(self, color):
         if self.setColCnt == 0:
             self.streetColor = color
+        
         if self.setColCnt == 1:
             self.sidewalkColor = color
+        
         if self.setColCnt == 2:
             self.curbColor = color
+        
         self.setColCnt += 1
 
     def makeFromDGI(self, dgi):
@@ -91,7 +101,8 @@ class DNAStreet(DNANode.DNANode):
     def traverse(self, nodePath, dnaStorage):
         node = dnaStorage.findNode(self.code)
         if node is None:
-            raise DNAError.DNAError('DNAStreet code ' + self.code + ' not found in DNAStorage')
+            raise DNAError.DNAError('DNAStreet code %s' % self.code + ' not found in DNAStorage')
+        
         nodePath = node.copyTo(nodePath, 0)
         node.setName(self.getName())
         streetTexture = dnaStorage.findTexture(self.streetTexture)
@@ -99,10 +110,13 @@ class DNAStreet(DNANode.DNANode):
         curbTexture = dnaStorage.findTexture(self.curbTexture)
         if streetTexture is None:
             raise DNAError.DNAError('street texture not found in DNAStorage : ' + self.streetTexture)
+        
         if sidewalkTexture is None:
             raise DNAError.DNAError('sidewalk texture not found in DNAStorage : ' + self.sidewalkTexture)
+        
         if curbTexture is None:
             raise DNAError.DNAError('curb texture not found in DNAStorage : ' + self.curbTexture)
+        
         streetNode = nodePath.find('**/*_street')
         sidewalkNode = nodePath.find('**/*_sidewalk')
         curbNode = nodePath.find('**/*_curb')
@@ -110,9 +124,11 @@ class DNAStreet(DNANode.DNANode):
         if not streetNode.isEmpty():
             streetNode.setTexture(streetTexture, 1)
             streetNode.setColorScale(self.streetColor, 0)
+        
         if not sidewalkNode.isEmpty():
             sidewalkNode.setTexture(sidewalkTexture, 1)
             sidewalkNode.setColorScale(self.sidewalkColor, 0)
+        
         if not curbNode.isEmpty():
             curbNode.setTexture(curbTexture, 1)
             curbNode.setColorScale(self.curbColor, 0)

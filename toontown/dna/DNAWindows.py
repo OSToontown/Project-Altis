@@ -6,6 +6,9 @@ import DNAUtil
 import random
 
 class DNAWindows(DNAGroup.DNAGroup):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'color', 'windowCount')
+
     COMPONENT_CODE = 11
 
     def __init__(self, name):
@@ -89,6 +92,7 @@ class DNAWindows(DNAGroup.DNAGroup):
     def traverse(self, nodePath, dnaStorage):
         if self.getWindowCount() == 0:
             return
+        
         parentX = nodePath.getParent().getScale().getX()
         scale = random.random() % 0.0375
         if parentX <= 5.0:
@@ -97,7 +101,7 @@ class DNAWindows(DNAGroup.DNAGroup):
             scale += 1.15
         else:
             scale += 1.3
+        
         hpr = (0, 0, 0)
-        DNAWindows.setupWindows(nodePath, dnaStorage, self.getCode(),
-                                self.getWindowCount(), self.getColor(), hpr,
-                                scale)
+        DNAWindows.setupWindows(nodePath, dnaStorage, self.getCode(), self.getWindowCount(), 
+            self.getColor(), hpr, scale)

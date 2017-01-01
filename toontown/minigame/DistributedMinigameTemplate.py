@@ -47,6 +47,7 @@ class DistributedMinigameTemplate(DistributedMinigame):
     def setGameReady(self):
         if not self.hasLocalToon:
             return
+        
         self.notify.debug('setGameReady')
         if DistributedMinigame.setGameReady(self):
             return
@@ -54,6 +55,7 @@ class DistributedMinigameTemplate(DistributedMinigame):
     def setGameStart(self, timestamp):
         if not self.hasLocalToon:
             return
+        
         self.notify.debug('setGameStart')
         DistributedMinigame.setGameStart(self, timestamp)
         self.gameFSM.request('play')

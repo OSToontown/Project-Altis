@@ -2,6 +2,9 @@ from panda3d.core import BamFile, NodePath, StringStream, decompressString
 import DNANode
 
 class DNASignBaseline(DNANode.DNANode):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'data')
+
     COMPONENT_CODE = 6
 
     def __init__(self):

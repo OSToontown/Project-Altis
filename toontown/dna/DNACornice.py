@@ -4,6 +4,9 @@ import DNAError
 import DNAUtil
 
 class DNACornice(DNAGroup.DNAGroup):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'code', 'color')
+    
     COMPONENT_CODE = 12
 
     def __init__(self, name):
@@ -34,6 +37,7 @@ class DNACornice(DNAGroup.DNAGroup):
         node = dnaStorage.findNode(self.code)
         if node is None:
             raise DNAError.DNAError('DNACornice code %d not found in DNAStorage' % self.code)
+        
         nodePathA = nodePath.attachNewNode('cornice-internal', 0)
         node = node.find('**/*_d')
         np = node.copyTo(nodePathA, 0)
@@ -42,6 +46,7 @@ class DNACornice(DNAGroup.DNAGroup):
             LVector3f(0, 0, 0),
             LVector3f(1, pParentXScale/parentZScale,
                       pParentXScale/parentZScale))
+        
         np.setEffect(DecalEffect.make())
         np.flattenStrong()
         node = node.getParent().find('**/*_nd')
@@ -51,6 +56,7 @@ class DNACornice(DNAGroup.DNAGroup):
             LVector3f(0, 0, 0),
             LVector3f(1, pParentXScale/parentZScale,
                       pParentXScale/parentZScale))
+        
         np.flattenStrong()
         nodePathA.setPosHprScale(
             LVector3f(0, 0, node.getScale().getZ()),

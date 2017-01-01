@@ -2,6 +2,10 @@ import DNAProp
 from DNAUtil import *
 
 class DNAAnimProp(DNAProp.DNAProp):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup', 'pos', 'hpr', 'scale', 'code', 'color',
+        'animName')
+
     COMPONENT_CODE = 14
 
     def __init__(self, name):
@@ -28,6 +32,7 @@ class DNAAnimProp(DNAProp.DNAProp):
             node = dnaStorage.findNode(self.getCode())
             node = node.copyTo(nodePath, 0)
             node.setName(self.getName())
+        
         node.setTag('DNAAnim', self.getAnim())
         node.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
         node.setColorScale(self.getColor(), 0)

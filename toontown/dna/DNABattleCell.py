@@ -1,6 +1,9 @@
 from DNAUtil import *
 
 class DNABattleCell:
+    __slots__ = (
+        'width', 'height', 'pos')
+
     COMPONENT_CODE = 21
 
     def __init__(self, width, height, pos):
@@ -31,4 +34,4 @@ class DNABattleCell:
         self.height = height
 
     def __str__(self):
-        return 'DNABattleCell width: ' + str(self.width) + ' height: ' + str(self.height) + ' pos: ' + str(self.pos)
+        return 'DNABattleCell width: %s' % str(self.width) + ' height: %s' % str(self.height) + ' pos: %s' % str(self.pos)
