@@ -79,7 +79,7 @@ from direct.gui.DirectGui import *
 notify.info('Setting the default font...')
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
-from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToonBase
 ToonBase.ToonBase()
 from pandac.PandaModules import *
 if base.win is None:
