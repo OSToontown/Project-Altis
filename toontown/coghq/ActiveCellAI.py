@@ -19,7 +19,6 @@ class ActiveCellAI(DistributedEntityAI.DistributedEntityAI):
 
         if not setGrid():
             self.accept(self.level.getEntityCreateEvent(self.gridId), setGrid)
-        return
 
     def generate(self):
         DistributedEntityAI.DistributedEntityAI.generate(self)

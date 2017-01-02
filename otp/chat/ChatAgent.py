@@ -3,6 +3,7 @@ from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 
 class ChatAgent(DistributedObjectGlobal):
+
     def __init__(self, cr):
         DistributedObjectGlobal.__init__(self, cr)
 
@@ -10,7 +11,6 @@ class ChatAgent(DistributedObjectGlobal):
         self.ignoreAll()
         self.cr.chatManager = None
         DistributedObjectGlobal.delete(self)
-        return
 
     def adminChat(self, aboutId, message):
         self.notify.warning('Admin Chat(%s): %s' % (aboutId, message))

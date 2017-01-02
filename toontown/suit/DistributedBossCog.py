@@ -326,7 +326,6 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             self.battleB.cleanupBattle()
         self.battleA = battles[0]
         self.battleB = battles[1]
-        return
 
     def cleanupBattles(self):
         if self.battleA:
@@ -607,7 +606,6 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
           'shardId': None,
           'avId': -1,
           'battle': 1}])
-        return
 
     def localToonDied(self):
         target_sz = ZoneUtil.getSafeZoneId(localAvatar.defaultZone)

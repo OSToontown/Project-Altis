@@ -210,8 +210,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
 
     def setChatAbsolute(self, chatString, chatFlags, dialogue = None, interrupt = 1, quiet = 0):
         DistributedAvatar.DistributedAvatar.setChatAbsolute(self, chatString, chatFlags, dialogue, interrupt)
-        if not quiet:
-            pass
 
     def b_setChat(self, chatString, chatFlags):
         if self.cr.wantMagicWords and len(chatString) > 0 and chatString[0] == '~':
@@ -238,13 +236,11 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
             base.talkAssistant.receiveThought(fromAV, avatarName, fromAC, None, newText, scrubbed)
         else:
             base.talkAssistant.receiveOpenTalk(fromAV, avatarName, fromAC, None, newText, scrubbed)
-        return
 
     def setTalkWhisper(self, fromAV, fromAC, avatarName, chat, mods, flags):
         newText, scrubbed = self.scrubTalk(chat, mods)
         self.displayTalkWhisper(fromAV, avatarName, chat, mods)
         base.talkAssistant.receiveWhisperTalk(fromAV, avatarName, fromAC, None, self.doId, self.getName(), newText, scrubbed)
-        return
 
     def displayTalkWhisper(self, fromId, avatarName, chatString, mods):
         print 'TalkWhisper from %s: %s' % (fromId, chatString)
@@ -252,18 +248,20 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
     def scrubTalk(self, chat, mods):
         return chat
 
-    def setChat(self, chatString, chatFlags, DISLid):
-        self.notify.error('Should call setTalk')
+    def setChat(self, chatString, chatFlags):
         chatString = base.talkAssistant.whiteListFilterMessage(chatString)
         if base.cr.avatarFriendsManager.checkIgnored(self.doId):
             return
+        
         if base.localAvatar.garbleChat and not self.isUnderstandable():
             chatString = self.chatGarbler.garble(self, chatString)
+        
         chatFlags &= ~(CFQuicktalker | CFPageButton | CFQuitButton)
         if chatFlags & CFThought:
             chatFlags &= ~(CFSpeech | CFTimeout)
         else:
             chatFlags |= CFSpeech | CFTimeout
+        
         self.setChatAbsolute(chatString, chatFlags)
 
     def b_setSC(self, msgIndex):

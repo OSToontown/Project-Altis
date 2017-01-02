@@ -21,7 +21,7 @@ from otp.distributed import DistributedTestObject/AI
 from otp.snapshot import SnapshotDispatcher/AI/UD
 from otp.snapshot import SnapshotRenderer/AI/UD
 from otp.uberdog import OtpAvatarManager/AI/UD
-from otp.chat import ChatAgent/UD
+from otp.chat import ChatAgent/AI/UD
 from otp.uberdog import SpeedchatRelay/UD
 from otp.distributed import CentralLogger/AI/UD
 from otp.web import SettingsMgr/AI/UD
@@ -247,6 +247,7 @@ dclass DistributedPlayer : DistributedAvatar {
   setFriendsList(FriendEntry[] = []) ownrecv required db airecv;
   setDISLname(string) broadcast ownrecv ram;
   setDISLid(uint32 = 0) broadcast ownrecv ram db airecv required;
+  setChat(string(0-256), int16) broadcast;
   OwningAccount(DoId);
   WishName(string = "") db ram;
   WishNameState(string = "OPEN") db ram;
@@ -285,6 +286,7 @@ dclass OtpAvatarManager : DistributedObject {
 dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256)) clsend;
+  chatMessageResponse(DoId, string(0-256)) airecv;
 };
 
 dclass FriendManager : DistributedObject {

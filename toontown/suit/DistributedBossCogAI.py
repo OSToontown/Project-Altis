@@ -46,7 +46,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.attackAvId = 0
         self.hitCount = 0
         AllBossCogs.append(self)
-        return
 
     def delete(self):
         self.ignoreAll()
@@ -232,7 +231,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.arenaSide = None
         self.makeBattleOneBattles()
         self.barrier = self.beginBarrier('Introduction', self.involvedToons, 45, self.doneIntroduction)
-        return
 
     def doneIntroduction(self, avIds):
         self.b_setState('BattleOne')
@@ -291,7 +289,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.toonParts = {}
         self.suitsKilled = []
         self.helpfulToons = []
-        return
 
     def resetBattles(self):
         sendReset = 0
@@ -319,7 +316,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.battleNumber = 0
         if sendReset:
             self.sendBattleIds()
-        return
 
     def resetToons(self):
         if self.toonsA or self.toonsB:
@@ -397,7 +393,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             if self.arenaSide == None:
                 self.b_setArenaSide(1)
         self.sendBattleIds()
-        return
 
     def makeBattle(self, bossCogPosHpr, battlePosHpr, roundCallback, finishCallback, battleNumber, battleSide):
         battle = DistributedBattleFinalAI.DistributedBattleFinalAI(self.air, self, roundCallback, finishCallback, battleSide)
@@ -448,7 +443,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.b_setArenaSide(0)
         if not self.battleB and self.hasToons() and self.hasToonsAlive():
             self.b_setState(self.postBattleState)
-        return
 
     def handleBattleBDone(self, zoneId, toonIds):
         if self.battleB:
@@ -460,7 +454,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.b_setArenaSide(1)
         if not self.battleA and self.hasToons() and self.hasToonsAlive():
             self.b_setState(self.postBattleState)
-        return
 
     def invokeSuitPlanner(self, buildingCode, skelecog, skelecogRandom=0):
         planner = SuitPlannerInteriorAI.SuitPlannerInteriorAI(1, buildingCode, self.dna.dept, self.zoneId)
@@ -562,7 +555,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                         self.b_setAttackCode(ToontownGlobals.BossCogSwatRight)
                     else:
                         self.b_setAttackCode(ToontownGlobals.BossCogSwatLeft)
-        return
 
     def d_showZapToon(self, avId, x, y, z, h, p, r, attackCode, timestamp):
         self.sendUpdate('showZapToon', [avId,
@@ -593,7 +585,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             if delayTime == None:
                 return
         self.waitForNextAttack(delayTime)
-        return
 
     def d_setAttackCode(self, attackCode, avId = 0):
         self.sendUpdate('setAttackCode', [attackCode, avId])

@@ -107,6 +107,7 @@ class SuitLeg:
 
 
 class SuitLegList:
+
     def __init__(self, path, dnaStore):
         self.path = path
         self.dnaStore = dnaStore

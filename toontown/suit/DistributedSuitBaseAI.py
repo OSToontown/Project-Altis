@@ -23,7 +23,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.maxSkeleRevives = 0
         self.reviveFlag = 0
         self.buildingHeight = None
-        return
 
     def generate(self):
         DistributedAvatarAI.DistributedAvatarAI.generate(self)
@@ -67,7 +66,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.dna = dna
         self.track = track
         self.setLevel(level)
-        return None
 
     def getDNAString(self):
         if self.dna:
@@ -79,7 +77,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
     def b_setBrushOff(self, index):
         self.setBrushOff(index)
         self.d_setBrushOff(index)
-        return None
 
     def d_setBrushOff(self, index):
         self.sendUpdate('setBrushOff', [index])
@@ -95,7 +92,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
             num = 0
         self.setSkeleRevives(num)
         self.d_setSkeleRevives(self.getSkeleRevives())
-        return
 
     def d_setSkeleRevives(self, num):
         self.sendUpdate('setSkeleRevives', [num])
@@ -109,7 +105,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.skeleRevives = num
         if num > self.maxSkeleRevives:
             self.maxSkeleRevives = num
-        return
 
     def getMaxSkeleRevives(self):
         return self.maxSkeleRevives
@@ -134,7 +129,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
             self.currHP = self.maxHP
         else:
             self.currHP = hp
-        return None
 
     def b_setHP(self, hp):
         self.setHP(hp)
@@ -144,7 +138,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.sendUpdate('setHP', [hp])
 
     def releaseControl(self):
-        return None
+        pass
 
     def getDeathEvent(self):
         return 'cogDead-%s' % self.doId
@@ -154,7 +148,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         if self.currHP <= 0:
             messenger.send(self.getDeathEvent())
             self.requestRemoval()
-        return None
 
     def prepareToJoinBattle(self):
         pass

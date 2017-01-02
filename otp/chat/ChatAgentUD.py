@@ -6,6 +6,9 @@ from toontown.chat.TTWhiteList import TTWhiteList
 class ChatAgentUD(DistributedObjectGlobalUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentUD")
 
+    def __init__(self, air):
+        DistributedObjectGlobalUD.__init__(self, air)
+
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
 
@@ -33,10 +36,5 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
         self.air.writeServerEvent('chat-said', sender, message, cleanMessage)
 
-        # TODO: The above is probably a little too ugly for my taste... Maybe AIR
-        # should be given an API for sending updates for unknown objects?
-        DistributedAvatar = self.air.dclassesByName['DistributedAvatarUD']
-        dg = DistributedAvatar.aiFormatUpdate('setTalk', sender, sender,
-                                              self.air.ourChannel,
-                                              [0, 0, '', cleanMessage, modifications, 0])
-        self.air.send(dg)
+        # send chat message update to ai
+        self.sendUpdate('chatMessageResponse', [sender, cleanMessage])

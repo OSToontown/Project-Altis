@@ -1,15 +1,23 @@
+from direct.distributed.DistributedObjectGlobalAI import DistributedObjectGlobalAI
 from direct.directnotify import DirectNotifyGlobal
-# TODO: OTP should not depend on Toontown... Hrrm.
-from toontown.chat.TTWhiteList import TTWhiteList
+from toontown.chat.ChatGlobals import *
 
-class ChatAgentAI:
+class ChatAgentAI(DistributedObjectGlobalAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentAI")
 
-    def announceGenerate(self):
-        pass
+    def __init__(self, air):
+        DistributedObjectGlobalAI.__init__(self, air)
 
-    def chatMessage(self, todo0):
-        pass
+    def chatMessageResponse(self, sender, message):
+        if sender not in self.air.doId2do.keys():
+            # found an invalid sender!
+            return
 
-    def setWhiteList(self, todo0):
-        pass
+        av = self.air.doId2do[sender]
+
+        if not av:
+            # got a invalid avatar object!
+            return
+
+        # broadcast chat message update
+        av.sendUpdate('setChat', [message, CFSpeech | CFQuicktalker | CFTimeout])
