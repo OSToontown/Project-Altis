@@ -249,12 +249,8 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         return chat
 
     def setChat(self, chatString, chatFlags):
-        chatString = base.talkAssistant.whiteListFilterMessage(chatString)
         if base.cr.avatarFriendsManager.checkIgnored(self.doId):
             return
-        
-        if base.localAvatar.garbleChat and not self.isUnderstandable():
-            chatString = self.chatGarbler.garble(self, chatString)
         
         chatFlags &= ~(CFQuicktalker | CFPageButton | CFQuitButton)
         if chatFlags & CFThought:

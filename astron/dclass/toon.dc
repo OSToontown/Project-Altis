@@ -247,7 +247,7 @@ dclass DistributedPlayer : DistributedAvatar {
   setFriendsList(FriendEntry[] = []) ownrecv required db airecv;
   setDISLname(string) broadcast ownrecv ram;
   setDISLid(uint32 = 0) broadcast ownrecv ram db airecv required;
-  setChat(string(0-256), int16) broadcast;
+  setChat(string, int16) broadcast;
   OwningAccount(DoId);
   WishName(string = "") db ram;
   WishNameState(string = "OPEN") db ram;
@@ -286,7 +286,7 @@ dclass OtpAvatarManager : DistributedObject {
 dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256)) clsend;
-  chatMessageResponse(DoId, string(0-256)) airecv;
+  chatMessageResponse(DoId, string) airecv;
 };
 
 dclass FriendManager : DistributedObject {
