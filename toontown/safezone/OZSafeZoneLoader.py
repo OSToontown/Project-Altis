@@ -1,12 +1,11 @@
 import copy
+import random
 from direct.actor import Actor
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-import random
-
 from otp.avatar import Avatar
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGroup import *
@@ -18,8 +17,8 @@ from toontown.safezone.OZPlayground import OZPlayground
 from toontown.safezone.SafeZoneLoader import SafeZoneLoader
 from toontown.toon import Toon, ToonDNA
 
-
 class OZSafeZoneLoader(SafeZoneLoader):
+
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.musicFile = 'phase_6/audio/bgm/OZ_SZ.ogg'
@@ -107,79 +106,6 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.waterfallActor.setPos(waterfallPlacer.getPos())
         self.accept('clientLogout', self._handleLogout)
 
-        # If Chestnut Park is under construction, create the construction site:
-        if base.config.GetBool('want-chestnut-park-construction', False):
-            self.constructionSite = render.attachNewNode('constructionSite')
-
-            self.constructionSiteBlocker = self.constructionSite.attachNewNode(CollisionNode('constructionSiteBlocker'))
-            self.constructionSiteBlocker.setPos(-48, -154.5, 0)
-            self.constructionSiteBlocker.node().addSolid(CollisionSphere(0, 0, 0, 35))
-
-            self.coneModel = loader.loadModel('phase_3.5/models/props/unpainted_barrier_cone.bam')
-
-            self.cone0 = Actor.Actor(self.coneModel)
-            self.cone0.loadAnims({'jumptwist': 'phase_3.5/models/props/barrier_cone_chan_jumptwist.bam'})
-            self.cone0.reparentTo(self.constructionSite)
-            self.cone0.loop('jumptwist')
-            self.cone0.setPos(-43, -142, 0.025)
-
-            self.cone1 = Actor.Actor(self.coneModel)
-            self.cone1.loadAnims({'walktrip': 'phase_3.5/models/props/barrier_cone_chan_walktrip.bam'})
-            self.cone1.reparentTo(self.constructionSite)
-            self.cone1.loop('walktrip')
-            self.cone1.setPos(-52, -145, 0.025)
-
-            self.ladder = loader.loadModel('phase_5/models/props/ladder2.bam')
-            self.ladder.reparentTo(self.constructionSite)
-            self.ladder.setPosHpr(-36.460, -130.828, 0.30, 61, -90, 0)
-            self.ladder.find('**/shadow').removeNode()
-
-            self.paintersWantedSign = loader.loadModel('phase_6/models/props/tti_painters_wanted_sign.bam')
-            self.paintersWantedSign.reparentTo(self.constructionSite)
-            self.paintersWantedSign.setPosHpr(-57, -129.613, 0.025, 160, 0, 0)
-
-            self.constructionSign = loader.loadModel('phase_4/models/props/construction_sign.bam')
-            self.constructionSign.reparentTo(self.constructionSite)
-            self.constructionSign.setPosHpr(-47.941, -138.724, 0.122, 181, 0, 0)
-
-            if base.config.GetBool('want-oz-painter-pete', False):
-                self.painterPete = Toon.Toon()
-
-                self.painterPete.setName('Painter Pete')
-                self.painterPete.setPickable(0)
-                self.painterPete.setPlayerType(NametagGlobals.CCNonPlayer)
-
-                dna = ToonDNA.ToonDNA()
-                dna.newToonFromProperties('hls', 'ss', 'm', 'm', 18, 0, 13, 9, 0, 0, 0, 0, 2, 15)
-                self.painterPete.setDNA(dna)
-
-                self.painterPete.setHat(43, 0, 0)
-
-                self.painterPete.animFSM.request('neutral')
-                self.painterPete.reparentTo(self.constructionSite)
-                self.painterPete.setPosHpr(-52.5, -133.5, 0.025, 338, 0, 0)
-
-                self.painterPete.sadEyes()
-                self.painterPete.blinkEyes()
-
-                speechTextList = (
-                    "Oh, brother. How am I going to clean up all of this? Those painters left a big mess here, and I can't finish the job without them!",
-                    "I'm beginning to feel nervous about where all of my painters went off to. Construction can't continue without them!",
-                    "These cones are out of my control. They're disobedient, and they will not listen to what I say.",
-                    "What's a playground without color, anyway? Walking into something like that would be surreal for you all. As a painter, though, I'm pretty used to it.",
-                    "The Cogs couldn't have done this... could they?",
-                    "If anyone sees my painters anywhere, please let me know. Then maybe we'll get this playground done!",
-                    "Looks like I'll have to finish this sign myself.",
-                    'The documents for this project were just sitting right by this tunnel... Where could they have gone?'
-                )
-                self.painterPeteSpeech = Sequence()
-                for speechText in speechTextList:
-                    self.painterPeteSpeech.append(Func(self.painterPete.setChatAbsolute, speechText, CFSpeech))
-                    self.painterPeteSpeech.append(Wait(0.55 * len(speechText.split(' '))))
-                    self.painterPeteSpeech.append(Func(self.painterPete.clearChat))
-                    self.painterPeteSpeech.append(Wait(6))
-                self.painterPeteSpeech.loop(0)
-
     def exit(self):
         self.clearToonTracks()
         SafeZoneLoader.exit(self)
@@ -200,12 +126,14 @@ class OZSafeZoneLoader(SafeZoneLoader):
             useTime = base.cr.DTimer.getTime()
             timeToNextGeyser = 20.0 - useTime % 20.0
             taskMgr.doMethodLater(timeToNextGeyser, self.doGeyser, 'geyser Task')
+        
         return task.done
 
     def restoreLocal(self, task = None):
         place = base.cr.playGame.getPlace()
         if place:
             place.fsm.request('walk')
+        
         base.localAvatar.setTeleportAvailable(1)
         base.localAvatar.collisionsOn()
         base.localAvatar.dropShadow.show()
@@ -223,7 +151,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.geyserTrack = Sequence()
         upPos = Vec3(self.geyserPos[0], self.geyserPos[1], self.geyserPos[2])
         downPos = Vec3(self.geyserPos[0], self.geyserPos[1], self.geyserPos[2] - 8.0)
-        avList = copy.copy(Avatar.Avatar.ActiveAvatars)
+        avList = Avatar.Avatar.ActiveAvatars
         avList.append(base.localAvatar)
         playSound = 0
         for av in avList:
