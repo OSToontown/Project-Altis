@@ -398,7 +398,7 @@ class Char(Avatar.Avatar):
             chatterType = chatterTypes[categoryIndex]
             for fileIndex in audioIndexArray[categoryIndex]:
                 if fileIndex:
-                    self.chatterArray[categoryIndex].append(base.loadSfx('%s/CC_%s_chatter_%s%02d.ogg' % (loadPath,
+                    self.chatterArray[categoryIndex].append(base.loader.loadSfx('%s/CC_%s_chatter_%s%02d.ogg' % (loadPath,
                      name,
                      chatterType,
                      fileIndex)))
