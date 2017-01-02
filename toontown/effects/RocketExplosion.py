@@ -23,7 +23,6 @@ class RocketExplosion(NodePath):
         ren.setTextureFromNode('phase_4/models/props/tt_m_efx_smoke', '**/*')
         self.endSeq = None
         self.cleanupCompleted = 0
-        return
 
     def start(self):
         self.effect.start(parent=self.effectNode)
@@ -55,4 +54,3 @@ class RocketExplosion(NodePath):
             del self.effectNode
             del self.smokeEffectNode
             self.cleanupCompleted = 1
-        return

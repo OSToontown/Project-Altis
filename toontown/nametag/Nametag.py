@@ -1,9 +1,7 @@
 from direct.task.Task import Task
 from pandac.PandaModules import TextNode, VBase4
-
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.nametag import NametagGlobals
-
 
 class Nametag:
     TEXT_WORD_WRAP = 8
@@ -85,25 +83,25 @@ class Nametag:
         return 'Nametag-' + str(id(self))
 
     def getChatBalloonModel(self):
-        pass  # Inheritors should override this method.
+        pass
 
     def getChatBalloonWidth(self):
-        pass  # Inheritors should override this method.
+        pass
 
     def getChatBalloonHeight(self):
-        pass  # Inheritors should override this method.
+        pass
 
     def tick(self, task):
-        return Task.done  # Inheritors should override this method.
+        return Task.done
 
     def updateClickRegion(self):
-        pass  # Inheritors should override this method.
+        pass
 
     def drawChatBalloon(self, model, modelWidth, modelHeight):
-        pass  # Inheritors should override this method.
+        pass
 
     def drawNametag(self):
-        pass  # Inheritors should override this method.
+        pass
 
     def setAvatar(self, avatar):
         self.avatar = avatar
@@ -126,8 +124,10 @@ class Nametag:
     def hasChatButton(self):
         if (self.chatBalloonType == NametagGlobals.CHAT_BALLOON) and self.chatHidden:
             return False
+        
         if (self.chatBalloonType == NametagGlobals.THOUGHT_BALLOON) and self.thoughtHidden:
             return False
+        
         return self.chatButton != NametagGlobals.noButton
 
     def setChatReversed(self, chatReversed):
@@ -207,10 +207,12 @@ class Nametag:
             foreground, background = self.chatColor[clickState]
             if self.chatType == NametagGlobals.SPEEDCHAT:
                 background = self.speedChatColor
+            
             if background[3] > self.CHAT_BALLOON_ALPHA:
                 background = VBase4(
                     background[0], background[1], background[2],
                     self.CHAT_BALLOON_ALPHA)
+            
             self.chatBalloon.setForeground(foreground)
             self.chatBalloon.setBackground(background)
             self.chatBalloon.setButton(self.chatButton[clickState])
@@ -234,6 +236,7 @@ class Nametag:
     def setWordWrap(self, wordWrap):
         if wordWrap is None:
             wordWrap = self.TEXT_WORD_WRAP
+        
         self.textNode.setWordwrap(wordWrap)
         self.update()
 

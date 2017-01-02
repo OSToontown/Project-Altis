@@ -3,7 +3,6 @@ from parser import *
 from tokens import *
 from ply import yacc
 
-
 class DNARoot(DNAGroup):
     __slots__ = (
         'dnaStores')

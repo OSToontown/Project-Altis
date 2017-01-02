@@ -51,7 +51,6 @@ class TrailExplosion(PooledEffect, EffectController):
                 self.trailIval.append(Sequence(Func(self.trailEffects[i].startLoop), Wait(dur), Func(self.trailEffects[i].stopLoop)))
 
         self.track = Sequence(self.trailIval, Func(self.cleanUpEffect))
-        return
 
     def setEffectScale(self, scale):
         self.effectScale = scale
@@ -68,7 +67,6 @@ class TrailExplosion(PooledEffect, EffectController):
         EffectController.cleanUpEffect(self)
         if self.pool and self.pool.isUsed(self):
             self.pool.checkin(self)
-        return
 
     def destroy(self):
         EffectController.destroy(self)

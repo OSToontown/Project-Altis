@@ -1,4 +1,6 @@
+
 class MarginVisible:
+    
     def __init__(self):
         self.marginManager = None
         self.visible = False
@@ -9,6 +11,7 @@ class MarginVisible:
     def manage(self, marginManager):
         if self.marginManager is not None:
             self.unmanage(self.marginManager)
+        
         self.marginManager = marginManager
         if self.visible:
             self.marginManager.addVisible(self)
@@ -16,15 +19,19 @@ class MarginVisible:
     def unmanage(self, marginManager):
         if marginManager != self.marginManager:
             return
+        
         if self.marginManager is None:
             return
+        
         if self.visible:
             self.marginManager.removeVisible(self)
+        
         self.marginManager = None
 
     def setVisible(self, visible):
         if visible == self.visible:
             return
+        
         self.visible = visible
         if self.marginManager is not None:
             if self.visible:
