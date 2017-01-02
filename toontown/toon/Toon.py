@@ -2661,6 +2661,7 @@ class Toon(Avatar.Avatar, ToonHead):
         return Sequence()
 
     def putOnSuit(self, suitType, setDisplayName = True, rental = False):
+        self.notify.info('Putting on Suit (Disguise)!')
         if self.isDisguised:
             self.takeOffSuit()
         if launcher and not launcher.getPhaseComplete(5):
@@ -2681,9 +2682,11 @@ class Toon(Avatar.Avatar, ToonHead):
             else:
                 self.notify.warning('Suspicious: Incorrect rental suit department requested')
                 suitType = 'cc'
+        self.notify.info('Setting Suit Style!')
         dna.newSuit(suitType)
         suit.setStyle(dna)
         suit.isDisguised = 1
+        self.notify.info('Generating Suit!')
         suit.generateSuit()
         suit.initializeDropShadow()
         suit.setPos(self.getPos())
@@ -2694,26 +2697,32 @@ class Toon(Avatar.Avatar, ToonHead):
         suitHeadNull = suit.find('**/joint_head')
         toonHead = self.getPart('head', '1000')
         Emote.globalEmote.disableAll(self)
+        self.notify.info('Hiding Toon Geom!')
         toonGeom = self.getGeomNode()
         toonGeom.hide()
         worldScale = toonHead.getScale(render)
         self.headOrigScale = toonHead.getScale()
         headPosNode = hidden.attachNewNode('headPos')
+        self.notify.info('Setting Toon Head Position!')
         toonHead.reparentTo(headPosNode)
         toonHead.setPos(0, 0, 0.2)
         headPosNode.reparentTo(suitHeadNull)
         headPosNode.setScale(render, worldScale)
+        self.notify.info('Getting and Setting Suit Geom!')
         suitGeom = suit.getGeomNode()
         suitGeom.reparentTo(self)
+        self.notify.info('Checking if Suit (Disguise) is Rental!')
         if rental == True:
             suit.makeRentalSuit(SuitDNA.suitDepts[deptIndex])
         self.suit = suit
         self.suitGeom = suitGeom
         self.setHeight(suit.getHeight())
+        self.notify.info('Setting Suit (Disguise) nametag position!')
         self.nametag3d.setPos(0, 0, self.height + 1.3)
         if self.isLocal():
             if hasattr(self, 'book'):
                 self.book.obscureButton(1)
+            self.notify.info('Setting Suit (Disguise) walk and rotation speed!')
             self.oldForward = ToontownGlobals.ToonForwardSpeed
             self.oldReverse = ToontownGlobals.ToonReverseSpeed
             self.oldRotate = ToontownGlobals.ToonRotateSpeed
@@ -2724,10 +2733,12 @@ class Toon(Avatar.Avatar, ToonHead):
                 self.stopTrackAnimToSpeed()
                 self.startTrackAnimToSpeed()
             self.controlManager.disableAvatarJump()
+            self.notify.info('Setting Speedchat Indices for Suit Type!')
             indices = xrange(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1)
             customIndices = OTPLocalizer.SCMenuCustomCogIndices[suitType]
             indices += xrange(customIndices[0], customIndices[1] + 1)
             self.chatMgr.chatInputSpeedChat.addCogMenu(indices)
+        self.notify.info('Setting Suit (Disguise) animation to Neutral!')
         self.suit.loop('neutral')
         self.isDisguised = 1
         self.setFont(ToontownGlobals.getSuitFont())

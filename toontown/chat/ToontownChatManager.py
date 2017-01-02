@@ -129,7 +129,6 @@ class ToontownChatManager(ChatManager.ChatManager):
             self.scButton.show()
         if not normObs:
             self.normalButton.show()
-        return
 
     def enterMainMenu(self):
         self.chatInputNormal.setPos(self.normalPos)
@@ -190,7 +189,6 @@ class ToontownChatManager(ChatManager.ChatManager):
             self.scButton.show()
         if not normObs:
             self.normalButton.show()
-        return
 
     def exitUnpaidChatWarning(self):
         if self.unpaidChatWarning:
@@ -245,7 +243,6 @@ class ToontownChatManager(ChatManager.ChatManager):
                 self.passwordEntry['focus'] = 1
                 self.passwordEntry.enterText('')
         self.noSecretChatWarning.show()
-        return
 
     def exitNoSecretChatWarning(self):
         self.noSecretChatWarning.hide()
@@ -297,7 +294,6 @@ class ToontownChatManager(ChatManager.ChatManager):
             innerCircle.removeNode()
         self.__initializeCheckBoxen()
         self.activateChatGui.show()
-        return
 
     def __initializeCheckBoxen(self):
         if base.cr.secretChatAllowed and not base.cr.secretChatNeedsParentPassword:
@@ -348,7 +344,6 @@ class ToontownChatManager(ChatManager.ChatManager):
         else:
             self.secretChatActivated['text'] = modeText
         self.secretChatActivated.show()
-        return
 
     def exitSecretChatActivated(self):
         self.secretChatActivated.hide()
@@ -361,7 +356,6 @@ class ToontownChatManager(ChatManager.ChatManager):
             DirectButton(self.problemActivatingChat, image=buttonImage, relief=None, text=OTPLocalizer.ProblemActivatingChatOK, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(0.0, 0.0, -0.28), command=self.__handleProblemActivatingChatOK)
             buttons.removeNode()
         self.problemActivatingChat.show()
-        return
 
     def exitProblemActivatingChat(self):
         self.problemActivatingChat.hide()

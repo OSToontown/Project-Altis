@@ -4,6 +4,7 @@ win-origin -1 -1
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #t
+default-directnotify-level info
 
 # Audio:
 audio-library-name p3fmod_audio

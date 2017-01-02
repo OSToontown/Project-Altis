@@ -205,7 +205,7 @@ def loadSuits(level):
     loadDialog(level)
 
 def unloadSuits(level):
-    #loadSuitModelsAndAnims(level, flag=0)
+    loadSuitModelsAndAnims(level, flag=0)
     unloadDialog(level)
 
 def loadSuitModelsAndAnims(level, flag = 0):
@@ -237,6 +237,7 @@ def loadSuitAnims(suit, flag = 1):
         try:
             animList = eval(suit)
         except NameError:
+            print(":Suit(warning): Failed to load suit animations!")
             animList = ()
 
     else:
