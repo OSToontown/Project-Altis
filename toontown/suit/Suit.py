@@ -1,4 +1,5 @@
 from direct.actor import Actor
+from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import Avatar
 import SuitDNA
 from toontown.toonbase import ToontownGlobals
@@ -323,6 +324,7 @@ def attachSuitHead(node, suitName):
 
 
 class Suit(Avatar.Avatar):
+    notify = DirectNotifyGlobal.directNotify.newCategory('Suit')
     __module__ = __name__
     healthColors = (Vec4(0, 1, 0, 1),
      Vec4(1, 1, 0, 1),
@@ -479,6 +481,7 @@ class Suit(Avatar.Avatar):
         try:
             animList = eval(self.style.name)
         except NameError:
+            self.notify.warning("Failed to evaluate animList!")
             animList = ()
 
         for anim in animList:
