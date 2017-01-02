@@ -1,9 +1,7 @@
 #!/usr/bin/env python2
 import __builtin__
 
-
 __builtin__.process = 'client'
-
 
 # Temporary hack patch:
 __builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist=['*']).__dict__)
@@ -12,25 +10,17 @@ from direct.extensions_native import Mat3_extensions
 from direct.extensions_native import VBase3_extensions
 from direct.extensions_native import VBase4_extensions
 from direct.extensions_native import NodePath_extensions
-
-
 from panda3d.core import loadPrcFile
 
-
-if __debug__:
+if __dev__:
     loadPrcFile('config/general.prc')
     loadPrcFile('config/release/dev.prc')
 
-
 from direct.directnotify.DirectNotifyGlobal import directNotify
-
+from otp.settings.Settings import Settings
 
 notify = directNotify.newCategory('ClientStart')
 notify.setInfo(True)
-
-
-from otp.settings.Settings import Settings
-
 
 preferencesFilename = ConfigVariableString(
     'preferences-filename', 'preferences.json').getValue()
@@ -67,6 +57,7 @@ import time
 import sys
 import random
 import __builtin__
+
 try:
     from toontown.launcher.TTALauncher import TTALauncher
     launcher = TTALauncher()
@@ -79,15 +70,15 @@ if launcher.isDummy():
     http = HTTPClient()
 else:
     http = launcher.http
+
 tempLoader = Loader()
 backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 notify.info('Setting the default font...')
-import ToontownGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
-import ToonBase
+from toontown.toonbase import ToontownGlobals
 ToonBase.ToonBase()
 from pandac.PandaModules import *
 if base.win is None:
@@ -113,7 +104,7 @@ base.graphicsEngine.renderFrame()
 DirectGuiGlobals.setDefaultRolloverSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
 DirectGuiGlobals.setDefaultClickSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
 DirectGuiGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
-import TTLocalizer
+from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 if base.musicManagerIsValid:
@@ -128,7 +119,7 @@ if base.musicManagerIsValid:
     DirectGuiGlobals.setDefaultClickSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
 else:
     music = None
-import ToontownLoader
+from toontown.toonbase import ToontownLoader
 from direct.gui.DirectGui import *
 serverVersion = base.config.GetString('server-version', 'no_version_set')
 version = OnscreenText(serverVersion, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 0, 1), align=TextNode.ALeft)
@@ -137,7 +128,7 @@ version.reparentTo(base.a2dBottomLeft)
 from toontown.suit import Suit
 Suit.loadModels()
 loader.beginBulkLoad('init', TTLocalizer.LoaderLabel, 138, 0, TTLocalizer.TIP_NONE, 0)
-from ToonBaseGlobal import *
+from toontown.toonbase.ToonBaseGlobal import *
 from direct.showbase.MessengerGlobal import *
 from toontown.distributed import ToontownClientRepository
 cr = ToontownClientRepository.ToontownClientRepository(serverVersion, launcher)

@@ -1,4 +1,12 @@
 import atexit
+import math
+import os
+import random
+import shutil
+from sys import platform
+import sys
+import tempfile
+import time
 from direct.directnotify import DirectNotifyGlobal
 from direct.filter.CommonFilters import CommonFilters
 from direct.gui import DirectGuiGlobals
@@ -6,17 +14,9 @@ from direct.gui.DirectGui import *
 from direct.showbase.PythonUtil import *
 from direct.showbase.Transitions import Transitions
 from direct.task import *
-import math
-import os
 from pandac.PandaModules import *
-import random
-import shutil
-from sys import platform
-import sys
-import tempfile
-import time
-import ToontownGlobals
-import ToontownLoader
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToontownLoader
 from otp.otpbase import OTPBase
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLauncherGlobals

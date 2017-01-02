@@ -1,5 +1,8 @@
 import types
 import time
+import random
+from toontown.distributed import HoodMgr
+from toontown.distributed import PlayGame
 from direct.distributed.ClockDelta import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
@@ -38,6 +41,7 @@ from toontown.uberdog import TTSpeedchatRelay
 from toontown.login import DateObject
 from toontown.login import AvatarChooser
 from toontown.makeatoon import MakeAToon
+from toontown.uberdog.ClientServicesManager import ClientServicesManager
 from toontown.pets import DistributedPet, PetDetail, PetHandle
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
@@ -48,12 +52,8 @@ from toontown.makeatoon import TTPickANamePattern
 from toontown.parties import ToontownTimeManager
 from toontown.toon import Toon, DistributedToon
 from ToontownMsgTypes import *
-import HoodMgr
-import PlayGame
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.hood import StreetSign
-import random
-
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     SupportTutorial = 1
@@ -149,8 +149,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                 except Exception, e:
                                     print e
 
-        return
-
     def congratulations(self, avatarChoice):
         self.acceptedScreen = loader.loadModel('phase_3/models/gui/toon_council')
         self.acceptedScreen.setScale(0.667)
@@ -163,7 +161,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.okButton = DirectButton(parent=self.acceptedScreen, image=(buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr')), relief=None, text='Ok', scale=1.5, text_scale=0.05, text_pos=(0.0, -0.1), pos=(0, 0, -1), command=self.__handleCongrats, extraArgs=[avatarChoice])
         buttons.removeNode()
         base.transitions.noFade()
-        return
 
     def __handleCongrats(self, avatarChoice):
         self.acceptedBanner.destroy()
@@ -220,7 +217,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.accept(self.avChoiceDoneEvent, self.__handleAvatarChooserDone, [avList])
         if config.GetBool('want-gib-loader', 1):
             self.loadingBlocker = ToontownLoadingBlocker.ToontownLoadingBlocker(avList)
-        return
 
     def __handleAvatarChooserDone(self, avList, doneStatus):
         done = doneStatus['mode']
@@ -263,7 +259,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.downloadAck.exit()
         self.downloadAck = None
         self.ignore('downloadAck-response')
-        return
 
     def exitChooseAvatar(self):
         self.handler = None
@@ -271,7 +266,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.avChoice.unload()
         self.avChoice = None
         self.ignore(self.avChoiceDoneEvent)
-        return
 
     def goToPickAName(self, avList, index):
         self.avChoice.exit()
@@ -293,7 +287,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.avCreate.enter()
         self.accept('makeAToonComplete', self.__handleMakeAToon, [avList, index])
         self.accept('nameShopPost', self.relayMessage)
-        return
 
     def relayMessage(self, dg):
         self.send(dg)
@@ -327,7 +320,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.handler = None
         if hasattr(self, 'newPotAv'):
             del self.newPotAv
-        return
 
     def handleAvatarResponseMsg(self, avatarId, di):
         self.cleanupWaitingForDatabase()
@@ -441,7 +433,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self._userLoggingOut = False
         if not self.streetSign:
             self.streetSign = StreetSign.StreetSign()
-        return
 
     def exitPlayingGame(self):
         ivalMgr.interrupt()
@@ -472,7 +463,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         base.transitions.noTransitions()
         if self._userLoggingOut:
             self.detectLeaks(okTasks=[], okEvents=['destroy-ToontownLoadingScreenTitle', 'destroy-ToontownLoadingScreenTip', 'destroy-ToontownLoadingScreenWaitBar'])
-        return
 
     def enterGameOff(self):
         OTPClientRepository.OTPClientRepository.enterGameOff(self)
@@ -508,7 +498,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.handler = None
         self.handlerArgs = None
         self.ignore('skipTutorialAnswered')
-        return
 
     def enterTutorialQuestion(self, hoodId, zoneId, avId):
         self.__requestTutorial(hoodId, zoneId, avId)
@@ -528,7 +517,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.handlerArgs = None
         self.ignore('startTutorial')
         taskMgr.remove('waitingForTutorial')
-        return
 
     def enterSwitchShards(self, shardId, hoodId, zoneId, avId):
         OTPClientRepository.OTPClientRepository.enterSwitchShards(self, shardId, hoodId, zoneId, avId)
@@ -538,7 +526,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         OTPClientRepository.OTPClientRepository.exitSwitchShards(self)
         self.ignore(ToontownClientRepository.ClearInterestDoneEvent)
         self.handler = None
-        return
 
     def enterCloseShard(self, loginState = None):
         OTPClientRepository.OTPClientRepository.enterCloseShard(self, loginState)
@@ -572,7 +559,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         OTPClientRepository.OTPClientRepository.exitCloseShard(self)
         self.ignore(ToontownClientRepository.ClearInterestDoneEvent)
         self.handler = None
-        return
 
     def isShardInterestOpen(self):
         return self.old_setzone_interest_handle is not None or self.uberZoneInterest is not None
@@ -638,7 +624,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             return
         self.acceptOnce(ToontownClientRepository.ClearInterestDoneEvent, Functor(self._tcrRemoveUberZoneInterest, callback))
         self._removeEmulatedSetZone(ToontownClientRepository.ClearInterestDoneEvent)
-        return
 
     def _tcrRemoveUberZoneInterest(self, callback):
         self.acceptOnce(ToontownClientRepository.ClearInterestDoneEvent, Functor(self._tcrRemoveShardInterestDone, callback))
@@ -647,7 +632,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def _tcrRemoveShardInterestDone(self, callback):
         self.uberZoneInterest = None
         callback()
-        return
 
     def _doIdIsOnCurrentShard(self, doId):
         if doId == base.localAvatar.defaultShard:
@@ -679,6 +663,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if not self.friendsMapPending and not self.friendsListError:
             self.notify.warning('Friends list stale; fetching new list.')
             self.sendGetFriendsListRequest()
+        
         return 0
 
     def isFriend(self, doId):
@@ -761,6 +746,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if base.wantPets and base.localAvatar.hasPet():
             if base.localAvatar.getPetId() not in self.friendsMap:
                 return 0
+        
         return 1
 
     def removeFriend(self, avatarId):
@@ -794,8 +780,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if doId not in self.friendsMap:
             if callback:
                 callback()
-            
-            return
 
         def petDetailsCallback(petAvatar):
             handle = PetHandle.PetHandle(petAvatar)
