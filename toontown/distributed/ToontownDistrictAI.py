@@ -1,14 +1,14 @@
-from direct.directnotify.DirectNotifyGlobal import directNotify
 import time
-
+from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.distributed.DistributedDistrictAI import DistributedDistrictAI
-
 
 class ToontownDistrictAI(DistributedDistrictAI):
     notify = directNotify.newCategory('ToontownDistrictAI')
 
-    created = 0
-    ahnnLog = 0
+    def __init__(self, air):
+        DistributedDistrictAI.__init__(self, air)
+        self.created = 0
+        self.ahnnLog = 0
 
     def announceGenerate(self):
         DistributedDistrictAI.announceGenerate(self)

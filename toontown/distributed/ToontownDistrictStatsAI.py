@@ -1,14 +1,15 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-
 class ToontownDistrictStatsAI(DistributedObjectAI):
     notify = directNotify.newCategory('ToontownDistrictStatsAI')
 
-    districtId = 0
-    avatarCount = 0
-    newAvatarCount = 0
-    invasionStatus = 0
+    def __init__(self, air):
+        DistributedObjectAI.__init__(self, air)
+        self.districtId = 0
+        self.avatarCount = 0
+        self.newAvatarCount = 0
+        self.invasionStatus = 0
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -19,8 +20,8 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
 
     def handleShardStatusQuery(self):
         # Send a shard status update containing our population:
-        status = {'population': self.avatarCount}
-        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, status])
+        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, {'population': \
+            self.avatarCount}])
 
     def settoontownDistrictId(self, districtId):
         self.districtId = districtId
@@ -39,8 +40,8 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
         self.avatarCount = avatarCount
 
         # Send a shard status update containing our population:
-        status = {'population': self.avatarCount}
-        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, status])
+        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, {'population': \
+            self.avatarCount}])
 
     def d_setAvatarCount(self, avatarCount):
         self.sendUpdate('setAvatarCount', [avatarCount])
