@@ -1,4 +1,6 @@
-Echo Buildint Toontown Advance...
+@echo off
+
+Echo Building Toontown Advance...
 
 cd ../
 
