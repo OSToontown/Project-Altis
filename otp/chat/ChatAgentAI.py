@@ -20,4 +20,4 @@ class ChatAgentAI(DistributedObjectGlobalAI):
             return
 
         # broadcast chat message update
-        av.sendUpdate('setChat', [message, CFSpeech | CFQuicktalker | CFTimeout])
+        av.b_setChat(message, CFSpeech | CFQuicktalker | CFTimeout)
