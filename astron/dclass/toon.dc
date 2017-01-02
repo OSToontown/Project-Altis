@@ -224,8 +224,6 @@ dclass DistributedAvatar : DistributedSmoothNode, TalkPath_whisper {
   friendsNotify(DoId avId, int8 status) ownrecv airecv;
   checkAvOnShard(DoId) clsend airecv;
   confirmAvOnShard(DoId avId, int8 isOnShard);
-  setTalk(DoId fromAv, DoId fromAcc, string(0-256) avName,
-          string(0-400) chat, TalkModification [], uint8 flags) broadcast;
 };
 
 struct FriendEntry {
@@ -247,7 +245,8 @@ dclass DistributedPlayer : DistributedAvatar {
   setFriendsList(FriendEntry[] = []) ownrecv required db airecv;
   setDISLname(string) broadcast ownrecv ram;
   setDISLid(uint32 = 0) broadcast ownrecv ram db airecv required;
-  setChat(string, int16) broadcast;
+  setTalk(DoId fromAv, DoId fromAcc, string(0-256) avName,
+          string(0-400) chat, TalkModification [], uint8 flags) broadcast;
   OwningAccount(DoId);
   WishName(string = "") db ram;
   WishNameState(string = "OPEN") db ram;
@@ -286,7 +285,7 @@ dclass OtpAvatarManager : DistributedObject {
 dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256)) clsend;
-  chatMessageResponse(DoId, string) airecv;
+  chatMessageResponse(DoId, string, TalkModification []) airecv;
 };
 
 dclass FriendManager : DistributedObject {

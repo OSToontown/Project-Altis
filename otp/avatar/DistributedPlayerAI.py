@@ -140,6 +140,16 @@ class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.Pl
         self.setAdminAccess(access)
         self.d_setAdminAccess(access)
 
+    def setTalk(self, fromAV, fromAC, avatarName, chat, mods, flags):
+        pass
+
+    def d_setTalk(self, fromAV, fromAC, avatarName, chat, mods, flags):
+        self.sendUpdate('setTalk', [fromAV, fromAC, avatarName, chat, mods, flags])
+
+    def b_setTalk(self, fromAV, fromAC, avatarName, chat, mods, flags):
+        self.setTalk(fromAV, fromAC, avatarName, chat, mods, flags)
+        self.d_setTalk(fromAV, fromAC, avatarName, chat, mods, flags)
+
     def getAdminAccess(self):
         return self.adminAccess
 

@@ -8,7 +8,7 @@ class ChatAgentAI(DistributedObjectGlobalAI):
     def __init__(self, air):
         DistributedObjectGlobalAI.__init__(self, air)
 
-    def chatMessageResponse(self, sender, message):
+    def chatMessageResponse(self, sender, message, modifications):
         if sender not in self.air.doId2do.keys():
             # found an invalid sender!
             return
@@ -20,4 +20,5 @@ class ChatAgentAI(DistributedObjectGlobalAI):
             return
 
         # broadcast chat message update
-        av.b_setChat(message, CFSpeech | CFQuicktalker | CFTimeout)
+        av.b_setTalk(sender, sender, av.getName(), message, modifications, 
+            CFSpeech | CFQuicktalker | CFTimeout)

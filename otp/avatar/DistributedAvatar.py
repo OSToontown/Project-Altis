@@ -28,13 +28,13 @@ class DistributedAvatar(DistributedActor, Avatar):
         self.hpText = None
         self.hp = None
         self.maxHp = None
-        return
 
     def disable(self):
         try:
             del self.DistributedAvatar_announced
-        except:
             return
+        except:
+            self.DistributedAvatar_announced = 1
 
         self.reparentTo(hidden)
         self.removeActive()
@@ -44,7 +44,6 @@ class DistributedAvatar(DistributedActor, Avatar):
         self.ignore('nameTagShowAvId')
         self.ignore('nameTagShowName')
         DistributedActor.disable(self)
-        return
 
     def delete(self):
         try:
@@ -61,6 +60,7 @@ class DistributedAvatar(DistributedActor, Avatar):
         if not self.isLocal():
             self.addActive()
             self.considerUnderstandable()
+        
         self.setParent(OTPGlobals.SPHidden)
         self.setTag('avatarDoId', str(self.doId))
         self.accept('nameTagShowAvId', self.__nameTagShowAvId)
@@ -107,7 +107,6 @@ class DistributedAvatar(DistributedActor, Avatar):
         if hpGained > 0:
             self.showHpText(hpGained)
             self.hpChange(quietly=0)
-        return
 
     def takeDamage(self, hpLost, bonus = 0):
         if self.hp == None or hpLost < 0:
@@ -120,7 +119,6 @@ class DistributedAvatar(DistributedActor, Avatar):
             self.hpChange(quietly=0)
             if self.hp <= 0 and oldHp > 0:
                 self.died()
-        return
 
     def setHp(self, hitPoints):
         justRanOutOfHp = (hitPoints is not None and self.hp is not None and self.hp - hitPoints > 0) and (hitPoints <= 0)
@@ -128,7 +126,6 @@ class DistributedAvatar(DistributedActor, Avatar):
         self.hpChange(quietly=1)
         if justRanOutOfHp:
             self.died()
-        return
 
     def hpChange(self, quietly = 0):
         if hasattr(self, 'doId'):
@@ -136,7 +133,6 @@ class DistributedAvatar(DistributedActor, Avatar):
                 messenger.send(self.uniqueName('hpChange'), [self.hp, self.maxHp, quietly])
             if self.hp != None and self.hp > 0:
                 messenger.send(self.uniqueName('positiveHP'))
-        return
 
     def died(self):
         pass
@@ -230,7 +226,6 @@ class DistributedAvatar(DistributedActor, Avatar):
             taskMgr.remove(self.uniqueName('hpText'))
             self.hpText.removeNode()
             self.hpText = None
-        return
 
     def getStareAtNodeAndOffset(self):
         return (self, Point3(0, 0, self.height))
@@ -255,7 +250,6 @@ class DistributedAvatar(DistributedActor, Avatar):
 
     def getDialogueArray(self):
         return None
-
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def warp():

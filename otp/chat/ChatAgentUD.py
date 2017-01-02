@@ -37,4 +37,5 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         self.air.writeServerEvent('chat-said', sender, message, cleanMessage)
 
         # send chat message update to ai
-        self.sendUpdate('chatMessageResponse', [sender, cleanMessage])
+        self.sendUpdate('chatMessageResponse', [sender, cleanMessage, 
+            modifications])
