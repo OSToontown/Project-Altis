@@ -71,6 +71,7 @@ if launcher.isDummy():
 else:
     http = launcher.http
 
+from toontown.toonbase import ToontownGlobals
 tempLoader = Loader()
 backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
 from direct.gui import DirectGuiGlobals
