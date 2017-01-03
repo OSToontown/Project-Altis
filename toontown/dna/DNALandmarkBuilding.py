@@ -1,4 +1,5 @@
 from panda3d.core import LVector4f
+from DNAUtil import *
 import DNANode
 import DNAUtil
 import DNAError
@@ -83,3 +84,13 @@ class DNALandmarkBuilding(DNANode.DNANode):
             child.traverse(nodePath, dnaStorage)
         
         nodePath.flattenStrong()
+        
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNALandmarkBuilding'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.packColor('wall color', *self.wallColor)
+
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

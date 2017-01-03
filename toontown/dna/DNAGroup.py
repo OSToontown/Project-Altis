@@ -1,4 +1,5 @@
 from panda3d.core import PandaNode
+from DNAPacker import *
 import DNAUtil
 
 class DNAGroup(object):
@@ -55,3 +56,21 @@ class DNAGroup(object):
         nodePath = nodePath.attachNewNode(node, 0)
         for child in self.children:
             child.traverse(nodePath, dnaStorage)
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAPacker(name='DNAGroup', verbose=verbose)
+
+        packer.pack('component code', self.COMPONENT_CODE, UINT8)
+        packer.pack('name', self.name, STRING)
+
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer
+
+    def packerTraverseChildren(self, verbose=False):
+        packer = DNAPacker(verbose=verbose)
+        for child in self.children:
+            packer += child.packerTraverse(recursive=True, verbose=verbose)
+
+        packer.pack('increment parent', 255, UINT8)
+        return packer

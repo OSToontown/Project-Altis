@@ -1,4 +1,5 @@
 from panda3d.core import NodePath, DecalEffect
+from DNAUtil import *
 import DNANode
 import DNAWall
 
@@ -163,3 +164,13 @@ class DNAFlatBuilding(DNANode.DNANode):
             self.setupSuitFlatBuilding(nodePath, dnaStorage)
             self.setupCogdoFlatBuilding(nodePath, dnaStorage)
             node.flattenStrong()
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNAFlatBuilding'  # Override the name for debugging.
+        packer.pack('width', self.width * 10, UINT16)
+        packer.pack('has door', self.hasDoor, BOOLEAN)
+
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

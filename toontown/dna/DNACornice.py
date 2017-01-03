@@ -1,4 +1,5 @@
 from panda3d.core import LVector4f, LVector3f, DecalEffect
+from DNAUtil import *
 import DNAGroup
 import DNAError
 import DNAUtil
@@ -63,3 +64,11 @@ class DNACornice(DNAGroup.DNAGroup):
         
         nodePathA.setColor(self.color)
         nodePathA.flattenStrong()
+        
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNACornice'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.packColor('color', *self.color)
+
+        return packer

@@ -2,6 +2,7 @@ import math
 from pandac.PandaModules import *
 from DNAError import DNAError
 from DNAPacker import DNAPacker
+from DNAUtil import *
 from DNASuitPoint import DNASuitPoint
 from DNASuitPath import DNASuitPath
 from DNASuitEdge import DNASuitEdge
@@ -10,7 +11,8 @@ class DNAStorage:
     __slots__ = (
         'suitPoints', 'suitPointMap', 'DNAGroups', 'DNAVisGroups', 'suitEdges', 'battleCells', 'nodes', 'hoodNodes',
         'placeNodes', 'fonts', 'blockTitles', 'blockArticles', 'blockBuildingTypes', 'blockDoors', 'blockNumbers',
-        'blockZones', 'textures', 'catalogCodes')
+        'blockZones', 'textures', 'catalogCodes', 'packerNodes', 'packerHoodNodes', 'packerPlaceNodes', 
+        'packerCatalogCodes', 'packerBlockNumbers')
 
     def __init__(self):
         self.suitPoints = []
@@ -22,15 +24,20 @@ class DNAStorage:
         self.nodes = {}
         self.hoodNodes = {}
         self.placeNodes = {}
+        self.packerNodes = {}
+        self.packerHoodNodes = {}
+        self.packerPlaceNodes = {}
         self.fonts = {}
         self.blockTitles = {}
         self.blockArticles = {}
         self.blockBuildingTypes = {}
         self.blockDoors = {}
         self.blockNumbers = []
+        self.packerBlockNumbers = []
         self.blockZones = {}
         self.textures = {}
         self.catalogCodes = {}
+        self.packerCatalogCodes = {}
 
     def getSuitPath(self, startPoint, endPoint, minPathLen=40, maxPathLen=300):
         path = DNASuitPath()
@@ -165,12 +172,21 @@ class DNAStorage:
 
     def storeNode(self, node, code):
         self.nodes[code] = node
+        
+    def storePackerNode(self, code, filename, search):
+        self.packerNodes[code] = (filename, search)
 
     def storeHoodNode(self, node, code):
         self.hoodNodes[code] = node
 
+    def storePackerHoodNode(self, code, filename, search):
+        self.packerHoodNodes[code] = (filename, search)
+        
     def storePlaceNode(self, node, code):
         self.placeNodes[code] = node
+        
+    def storePackerPlaceNode(self, code, filename, search):
+        self.packerPlaceNodes[code] = (filename, search)
 
     def findFont(self, code):
         if code in self.fonts:
@@ -251,6 +267,9 @@ class DNAStorage:
         if not category in self.catalogCodes:
             self.catalogCodes[category] = []
         self.catalogCodes[category].append(code)
+        
+    def storePackerCatalogCode(self, root, code):
+        self.packerCatalogCodes.setdefault(root, []).append(code)
 
     def getNumCatalogCodes(self, category):
         if category not in self.catalogCodes:
@@ -284,6 +303,9 @@ class DNAStorage:
 
     def storeBlockNumber(self, blockNumber):
         self.blockNumbers.append(blockNumber)
+        
+    def storePackerBlockNumber(self, blockNumber):
+        self.packerBlockNumbers.append(blockNumber)
 
     def getBlockNumberAt(self, index):
         return self.blockNumbers[index]
@@ -325,14 +347,22 @@ class DNAStorage:
         #define PACK_NODES(X) dg.add_uint16(X.size()); for (nodes_t::iterator it = X.begin(); it != X.end(); ++it) {dg.add_string(it->first);\
                                     dg.add_string((it->second)[0]); dg.add_string((it->second)[1]);}
         '''
-        pass
+        
+        X = nodes
+        dgi.addUint16(X.size())
+        it = X.begin()
+        while it != X.end():
+            it += 1
+            dgi.addString(it[0])
+            dgi.addString(it[1][0])
+            dgi.addString(it[1][1])
         
     def writePDNA(self, dgi):
         '''Write a .PDNA file from the current loaded scene'''
     
         # Catalog Codes #
         dgi.addUint16(self.catalogCodes.size())
-        it = self.catalogCodes.begin();
+        it = self.catalogCodes.begin()
         while it != self.catalogCodes.end():
             it += 1
             dgi.addString(it[0])
@@ -401,8 +431,8 @@ class DNAStorage:
         packer = DNAPacker(name='DNAStorage', verbose=verbose)
 
         # Catalog codes...
-        packer.pack('catalog code root count', len(self.catalogCodes), UINT16)
-        for root, codes in self.catalogCodes.items():
+        packer.pack('catalog code root count', len(self.packerCatalogCodes), UINT16)
+        for root, codes in self.packerCatalogCodes.items():
             packer.pack('root', root, STRING)
             packer.pack('root code count', len(codes), UINT8)
             for code in codes:
@@ -422,28 +452,28 @@ class DNAStorage:
 
         # Nodes...
         packer.pack('node count', len(self.nodes), UINT16)
-        for code, (filename, search) in self.nodes.items():
+        for code, (filename, search) in self.packerNodes.items():
             packer.pack('code', code, STRING)
             packer.pack('filename', filename, STRING)
             packer.pack('search', search, STRING)
 
         # Hood nodes...
         packer.pack('hood node count', len(self.hoodNodes), UINT16)
-        for code, (filename, search) in self.hoodNodes.items():
+        for code, (filename, search) in self.packerHoodNodes.items():
             packer.pack('code', code, STRING)
             packer.pack('filename', filename, STRING)
             packer.pack('search', search, STRING)
 
         # Place nodes...
         packer.pack('place node count', len(self.placeNodes), UINT16)
-        for code, (filename, search) in self.placeNodes.items():
+        for code, (filename, search) in self.packerPlaceNodes.items():
             packer.pack('code', code, STRING)
             packer.pack('filename', filename, STRING)
             packer.pack('search', search, STRING)
 
         # Blocks...
-        packer.pack('block number count', len(self.blockNumbers), UINT16)
-        for blockNumber in self.blockNumbers:
+        packer.pack('block number count', len(self.packerBlockNumbers), UINT16)
+        for blockNumber in self.packerBlockNumbers:
             packer.pack('number', blockNumber, UINT8)
             packer.pack('zone ID', self.blockZones[blockNumber], UINT16)
             title = self.blockTitles.get(blockNumber, '')

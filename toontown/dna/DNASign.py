@@ -1,6 +1,6 @@
 from panda3d.core import LVector4f, NodePath, DecalEffect
 import DNANode
-import DNAUtil
+from DNAUtil import *
 
 class DNASign(DNANode.DNANode):
     __slots__ = (
@@ -27,8 +27,8 @@ class DNASign(DNANode.DNANode):
 
     def makeFromDGI(self, dgi):
         DNANode.DNANode.makeFromDGI(self, dgi)
-        self.code = DNAUtil.dgiExtractString8(dgi)
-        self.color = DNAUtil.dgiExtractColor(dgi)
+        self.code = dgiExtractString8(dgi)
+        self.color = dgiExtractColor(dgi)
 
     def traverse(self, nodePath, dnaStorage):
         sign = dnaStorage.findNode(self.code)
@@ -48,3 +48,13 @@ class DNASign(DNANode.DNANode):
             child.traverse(node, dnaStorage)
         
         node.flattenStrong()
+        
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNASign'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.packColor('color', *self.color)
+
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

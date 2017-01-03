@@ -1,4 +1,5 @@
 from panda3d.core import LVector4f, DecalEffect
+from DNAUtil import *
 import DNANode
 import DNAError
 import DNAUtil
@@ -64,3 +65,15 @@ class DNASignGraphic(DNANode.DNANode):
         node.flattenStrong()
         for child in self.children:
             child.traverse(node, dnaStorage)
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNASignGraphic'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.packColor('color', *self.color)
+        packer.pack('width', int(self.width * 100), INT16)
+        packer.pack('height', int(self.height * 100), INT16)
+        packer.pack('bDefaultColor', self.bDefaultColor, BOOLEAN)
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

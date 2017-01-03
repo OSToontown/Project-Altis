@@ -38,3 +38,11 @@ class DNAAnimProp(DNAProp.DNAProp):
         node.flattenStrong()
         for child in self.children:
             child.traverse(node, dnaStorage)
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAProp.DNAProp.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNAAnimProp'  # Override the name for debugging.
+        packer.pack('anim name', self.animName, STRING)
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

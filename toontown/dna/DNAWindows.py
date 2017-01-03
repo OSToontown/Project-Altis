@@ -1,7 +1,7 @@
 from panda3d.core import LVector4f, NodePath, DecalEffect
 import DNAGroup
 import DNAError
-import DNAUtil
+from DNAUtil import *
 import random
 
 class DNAWindows(DNAGroup.DNAGroup):
@@ -85,8 +85,8 @@ class DNAWindows(DNAGroup.DNAGroup):
 
     def makeFromDGI(self, dgi):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi)
-        self.code = DNAUtil.dgiExtractString8(dgi)
-        self.color = DNAUtil.dgiExtractColor(dgi)
+        self.code = dgiExtractString8(dgi)
+        self.color = dgiExtractColor(dgi)
         self.windowCount = dgi.getUint8()
 
     def traverse(self, nodePath, dnaStorage):
@@ -105,3 +105,11 @@ class DNAWindows(DNAGroup.DNAGroup):
         hpr = (0, 0, 0)
         DNAWindows.setupWindows(nodePath, dnaStorage, self.getCode(), self.getWindowCount(), 
             self.getColor(), hpr, scale)
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNAWindows'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.packColor('color', *self.color)
+        packer.pack('window count', self.windowCount, UINT8)
+        return packer

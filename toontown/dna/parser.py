@@ -357,7 +357,7 @@ def p_landmarkbuildingdef(p):
     p[0].setParent(p.parser.parentGroup)
     p.parser.parentGroup = p[0]
     blockNumber = int(p.parser.dnaStore.getBlock(name))
-    p.parser.dnaStore.storeBlockNumber(blockNumber)
+    p.parser.dnaStore.storePackerBlockNumber(blockNumber)
     zoneId = 0
     try:
         zoneId = int(p[0].getVisGroup().name.split(':')[0])
@@ -376,7 +376,7 @@ def p_animbuildingdef(p):
     p[0].setParent(p.parser.parentGroup)
     p.parser.parentGroup = p[0]
     blockNumber = int(p.parser.dnaStore.getBlock(name))
-    p.parser.dnaStore.storeBlockNumber(blockNumber)
+    p.parser.dnaStore.storePackerBlockNumber(blockNumber)
     zoneId = int(p[0].getVisGroup().name.split(':')[0])
     p.parser.dnaStore.storeBlockZone(blockNumber, zoneId)
 p_animbuildingdef.__doc__ = '''\
@@ -986,14 +986,15 @@ def p_node(p):
         root, code, search = p[3], p[4], p[4]
     else:
         root, code, search = p[3], p[4], p[5]
-    p.parser.dnaStore.storeCatalogCode(root, code)
+    p.parser.dnaStore.storePackerCatalogCode(root, code)
     modelName = p.parser.modelName
     if p.parser.modelType == 'hood_model':
-        p.parser.dnaStore.storeHoodNode(code, modelName, search)
+        p.parser.dnaStore.storePackerHoodNode(code, modelName, search)
     elif p.parser.modelType == 'place_model':
-        p.parser.dnaStore.storePlaceNode(code, modelName, search)
+        p.parser.dnaStore.storePackerPlaceNode(code, modelName, search)
     else:
-        p.parser.dnaStore.storeNode(code, modelName, search)
+        p.parser.dnaStore.storePackerNode(code, modelName, search)
+
 p_node.__doc__ = '''\
 node : STORE_NODE "[" string string "]"
      | STORE_NODE "[" string string string "]"'''
@@ -1005,7 +1006,7 @@ def p_store_texture(p):
         code, filename = p[3], p[4]
     else:
         root, code, filename = p[3], p[4], p[5]
-        p.parser.dnaStore.storeCatalogCode(root, code)
+        p.parser.dnaStore.storePackerCatalogCode(root, code)
     p.parser.dnaStore.storeTexture(code, filename)
 p_store_texture.__doc__ = '''\
 store_texture : STORE_TEXTURE "[" string string "]"
@@ -1018,7 +1019,7 @@ def p_font(p):
     if not extension:
         extension = '.bam'
     filename += extension
-    p.parser.dnaStore.storeCatalogCode(root, code)
+    p.parser.dnaStore.storePackerCatalogCode(root, code)
     p.parser.dnaStore.storeFont(filename, code)
 p_font.__doc__ = '''\
 font : STORE_FONT "[" string string string "]"'''

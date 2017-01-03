@@ -36,3 +36,14 @@ class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
             child.traverse(nodePath, dnaStorage)
         
         nodePath.flattenStrong()
+        
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNALandmarkBuilding.DNALandmarkBuilding.packerTraverse(
+            self, recursive=False, verbose=verbose)
+        packer.name = 'DNAAnimBuilding'  # Override the name for debugging.
+
+        packer.pack('anim name', self.animName, STRING)
+
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

@@ -5,7 +5,7 @@ from ply import yacc
 
 class DNARoot(DNAGroup):
     __slots__ = (
-        'dnaStores')
+        'dnaStore')
 
     def __init__(self, name='root', dnaStore=None):
         DNAGroup.__init__(self, name)
