@@ -14,12 +14,14 @@ class DistributedMickey(DistributedCCharBase.DistributedCCharBase):
     def __init__(self, cr):
         try:
             self.DistributedMickey_initialized
+            return
         except:
             self.DistributedMickey_initialized = 1
-            DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Mickey, 'mk')
-            self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
-            self.fsm.enterInitialState()
-            self.handleHolidays()
+            
+        DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Mickey, 'mk')
+        self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
+        self.fsm.enterInitialState()
+        self.handleHolidays()
 
     def disable(self):
         self.fsm.requestFinalState()
@@ -35,10 +37,12 @@ class DistributedMickey(DistributedCCharBase.DistributedCCharBase):
     def delete(self):
         try:
             self.DistributedMickey_deleted
+            return
         except:
             self.DistributedMickey_deleted = 1
-            del self.fsm
-            DistributedCCharBase.DistributedCCharBase.delete(self)
+            
+        del self.fsm
+        DistributedCCharBase.DistributedCCharBase.delete(self)
 
         self.notify.debug('Mickey Deleted')
 

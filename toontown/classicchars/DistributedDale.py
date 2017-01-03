@@ -13,12 +13,14 @@ class DistributedDale(DistributedCCharBase.DistributedCCharBase):
     def __init__(self, cr):
         try:
             self.DistributedDale_initialized
+            return
         except:
             self.DistributedDale_initialized = 1
-            DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Dale, 'da')
-            self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
-            self.fsm.enterInitialState()
-            self.handleHolidays()
+        
+        DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Dale, 'da')
+        self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
+        self.fsm.enterInitialState()
+        self.handleHolidays()
 
     def disable(self):
         self.fsm.requestFinalState()
@@ -34,10 +36,12 @@ class DistributedDale(DistributedCCharBase.DistributedCCharBase):
     def delete(self):
         try:
             self.DistributedDale_deleted
+            return
         except:
-            del self.fsm
             self.DistributedDale_deleted = 1
-            DistributedCCharBase.DistributedCCharBase.delete(self)
+        
+        del self.fsm
+        DistributedCCharBase.DistributedCCharBase.delete(self)
 
     def generate(self):
         DistributedCCharBase.DistributedCCharBase.generate(self)

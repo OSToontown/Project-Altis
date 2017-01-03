@@ -16,13 +16,16 @@ class DistributedDonaldDock(DistributedCCharBase.DistributedCCharBase):
     def __init__(self, cr):
         try:
             self.DistributedDonaldDock_initialized
+            return
         except:
             self.DistributedDonaldDock_initialized = 1
-            DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.DonaldDock, 'dw')
-            self.fsm = ClassicFSM.ClassicFSM('DistributedDonaldDock', [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Off'])], 'Off', 'Off')
-            self.fsm.enterInitialState()
-            self.nametag.setText(TTLocalizer.Donald)
-            self.handleHolidays()
+            
+        DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.DonaldDock, 'dw')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedDonaldDock', [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Off'])], 'Off', 'Off')
+        self.fsm.enterInitialState()
+        self.nametag.setText(TTLocalizer.Donald)
+        
+        self.handleHolidays()
 
     def disable(self):
         self.fsm.requestFinalState()
@@ -35,10 +38,12 @@ class DistributedDonaldDock(DistributedCCharBase.DistributedCCharBase):
     def delete(self):
         try:
             self.DistributedDonaldDock_deleted
+            return
         except:
             self.DistributedDonaldDock_deleted = 1
-            del self.fsm
-            DistributedCCharBase.DistributedCCharBase.delete(self)
+            
+        del self.fsm
+        DistributedCCharBase.DistributedCCharBase.delete(self)
 
     def generate(self):
         DistributedCCharBase.DistributedCCharBase.generate(self)

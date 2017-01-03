@@ -15,10 +15,12 @@ class DistributedSockHopDaisy(DistributedDaisy.DistributedDaisy):
     def __init__(self, cr):
         try:
             self.DistributedSockHopDaisy_initialized
+            return
         except:
             self.DistributedSockHopDaisy_initialized = 1
-            DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.SockHopDaisy, 'shdd')
-            self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
-            self.fsm.enterInitialState()
-            self.nametag.setText(TTLocalizer.Daisy)
-            self.handleHolidays()
+        
+        DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.SockHopDaisy, 'shdd')
+        self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
+        self.fsm.enterInitialState()
+        self.nametag.setText(TTLocalizer.Daisy)
+        self.handleHolidays()

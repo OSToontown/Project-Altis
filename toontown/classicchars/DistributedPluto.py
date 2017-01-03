@@ -17,12 +17,14 @@ class DistributedPluto(DistributedCCharBase.DistributedCCharBase):
     def __init__(self, cr):
         try:
             self.DistributedPluto_initialized
+            return
         except:
             self.DistributedPluto_initialized = 1
-            DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Pluto, 'p')
-            self.fsm = ClassicFSM.ClassicFSM('DistributedPluto', [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
-            self.fsm.enterInitialState()
-            self.handleHolidays()
+            
+        DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Pluto, 'p')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedPluto', [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
+        self.fsm.enterInitialState()
+        self.handleHolidays()
 
     def disable(self):
         self.fsm.requestFinalState()
@@ -40,10 +42,12 @@ class DistributedPluto(DistributedCCharBase.DistributedCCharBase):
     def delete(self):
         try:
             self.DistributedPluto_deleted
+            return
         except:
             self.DistributedPluto_deleted = 1
-            del self.fsm
-            DistributedCCharBase.DistributedCCharBase.delete(self)
+        
+        del self.fsm
+        DistributedCCharBase.DistributedCCharBase.delete(self)
 
     def generate(self):
         DistributedCCharBase.DistributedCCharBase.generate(self, self.diffPath)

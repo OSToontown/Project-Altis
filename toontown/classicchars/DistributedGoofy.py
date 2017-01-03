@@ -13,11 +13,13 @@ class DistributedGoofy(DistributedCCharBase.DistributedCCharBase):
     def __init__(self, cr):
         try:
             self.DistributedGoofy_initialized
+            return
         except:
             self.DistributedGoofy_initialized = 1
-            DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Goofy, 'g')
-            self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
-            self.fsm.enterInitialState()
+            
+        DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Goofy, 'g')
+        self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
+        self.fsm.enterInitialState()
 
     def disable(self):
         self.fsm.requestFinalState()
@@ -31,10 +33,12 @@ class DistributedGoofy(DistributedCCharBase.DistributedCCharBase):
     def delete(self):
         try:
             self.DistributedGoofy_deleted
+            return
         except:
-            del self.fsm
             self.DistributedGoofy_deleted = 1
-            DistributedCCharBase.DistributedCCharBase.delete(self)
+        
+        del self.fsm
+        DistributedCCharBase.DistributedCCharBase.delete(self)
 
     def generate(self):
         DistributedCCharBase.DistributedCCharBase.generate(self)
