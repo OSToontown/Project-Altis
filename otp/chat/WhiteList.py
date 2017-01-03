@@ -1,7 +1,7 @@
-from bisect import bisect_left
 import string
 import sys
 import os
+from bisect import bisect_left
 
 class WhiteList:
 

@@ -4,13 +4,11 @@ from direct.fsm import State
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 from pandac.PandaModules import *
-
 from otp.login import LeaveToPayDialog
 from otp.login import PrivacyPolicyPanel
 from otp.login import SecretFriendsInfoPanel
 from otp.otpbase import OTPLocalizer
 from toontown.chat.ChatGlobals import *
-
 
 ChatEvent = 'ChatEvent'
 NormalChatEvent = 'NormalChatEvent'

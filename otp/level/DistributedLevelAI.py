@@ -1,9 +1,9 @@
 from otp.ai.AIBaseGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObjectAI
-import Level
+from otp.level import Level
 from direct.directnotify import DirectNotifyGlobal
-import EntityCreatorAI
+from otp.level import EntityCreatorAI
 from direct.showbase.PythonUtil import Functor, weightedChoice
 
 class DistributedLevelAI(DistributedObjectAI.DistributedObjectAI, Level.Level):
@@ -36,7 +36,6 @@ class DistributedLevelAI(DistributedObjectAI.DistributedObjectAI, Level.Level):
         self.sendUpdate('setStartTimestamp', [self.startTimestamp])
         if __dev__:
             pass
-        return
 
     def getLevelZoneId(self):
         return self.zoneId
@@ -130,7 +129,6 @@ class DistributedLevelAI(DistributedObjectAI.DistributedObjectAI, Level.Level):
         from direct.directutil import DistributedLargeBlobSenderAI
         largeBlob = DistributedLargeBlobSenderAI.DistributedLargeBlobSenderAI(self.air, self.zoneId, senderId, specStr, useDisk=useDisk)
         self.sendUpdateToAvatarId(senderId, 'setSpecSenderDoId', [largeBlob.doId])
-        return
 
     if __dev__:
 

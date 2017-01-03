@@ -1,4 +1,4 @@
-from SCColorScheme import SCColorScheme
+from otp.speedchat.SCColorScheme import SCColorScheme
 from otp.otpbase import OTPLocalizer
 
 class SCSettings:
@@ -11,4 +11,3 @@ class SCSettings:
         self.colorScheme = colorScheme
         self.submenuOverlap = submenuOverlap
         self.topLevelOverlap = topLevelOverlap
-        return

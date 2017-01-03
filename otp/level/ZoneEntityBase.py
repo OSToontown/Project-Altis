@@ -1,12 +1,11 @@
-import Entity
-import LevelConstants
+from otp.level import Entity
+from otp.level import LevelConstants
 
 class ZoneEntityBase(Entity.Entity):
 
     def __init__(self, level, entId):
         Entity.Entity.__init__(self, level, entId)
         self.zoneId = None
-        return
 
     def destroy(self):
         del self.zoneId

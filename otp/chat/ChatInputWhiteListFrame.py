@@ -1,15 +1,13 @@
+import sys
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.task import Task
 from pandac.PandaModules import *
-import sys
-
 from otp.chat.ChatInputTyped import ChatInputTyped
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.chat.ChatGlobals import *
-
 
 class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ChatInputWhiteList')
@@ -68,7 +66,6 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         tpMgr.setProperties('WLRed', Red)
         del tpMgr
         self.origFrameColor = self.chatEntry['frameColor']
-        return
 
     def destroy(self):
         from direct.gui import DirectGuiGlobals
@@ -138,7 +135,6 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     def exitPlayerWhisper(self):
         self.chatEntry.set(self.tempText)
         self.whisperId = None
-        return
 
     def enterAvatarWhisper(self):
         self.tempText = self.chatEntry.get()
@@ -147,7 +143,6 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     def exitAvatarWhisper(self):
         self.chatEntry.set(self.tempText)
         self.whisperId = None
-        return
 
     def activateByData(self, receiverId = None, toPlayer = 0):
         self.receiverId = receiverId
@@ -256,7 +251,6 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         self.applyFilter(keyArgs=None, strict=True)
         self.okayToSubmit = True
         self.chatEntry.guiItem.setAcceptEnabled(True)
-        return
 
     def chatOverflow(self, overflowText):
         self.notify.debug('chatOverflow')
@@ -303,4 +297,5 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
                     newwords[-1] = '\x01WLEnter\x01' + lastword + '\x02'
             newtext = ' '.join(newwords)
             self.chatEntry.set(newtext)
+        
         self.chatEntry.guiItem.setAcceptEnabled(self.okayToSubmit)

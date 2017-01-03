@@ -1,5 +1,4 @@
 
-
 class TelemetryLimited:
     Sng = SerialNumGen()
 

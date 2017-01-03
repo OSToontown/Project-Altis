@@ -1,8 +1,8 @@
-import EntityCreatorBase
-import LogicGate
-import EditMgrAI
-import LevelMgrAI
-import ZoneEntityAI
+from otp.level import EntityCreatorBase
+from otp.level import LogicGate
+from otp.level import EditMgrAI
+from otp.level import LevelMgrAI
+from otp.level import ZoneEntityAI
 from direct.showbase.PythonUtil import Functor
 
 def createDistributedEntity(AIclass, level, entId, zoneId):
@@ -10,15 +10,12 @@ def createDistributedEntity(AIclass, level, entId, zoneId):
     ent.generateWithRequired(zoneId)
     return ent
 
-
 def createLocalEntity(AIclass, level, entId, zoneId):
     ent = AIclass(level, entId)
     return ent
 
-
 def nothing(*args):
     return 'nothing'
-
 
 class EntityCreatorAI(EntityCreatorBase.EntityCreatorBase):
 

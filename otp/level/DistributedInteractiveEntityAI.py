@@ -21,4 +21,3 @@ class DistributedInteractiveEntityAI(DistributedEntityAI):
 
     def setState(self, todo0, todo1):
         pass
-

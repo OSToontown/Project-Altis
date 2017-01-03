@@ -27,7 +27,6 @@ class AvatarDetail:
             self.avatar.doId = self.id
             dclass = self.getDClass()
             base.cr.getAvatarDetails(self.avatar, self.__handleResponse, dclass)
-        return
 
     def exitQuery(self):
         return true
@@ -48,4 +47,3 @@ class AvatarDetail:
         else:
             self.callWhenDone(None)
             del self.callWhenDone
-        return

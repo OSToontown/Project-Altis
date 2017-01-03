@@ -1,9 +1,10 @@
-from SCElement import SCElement
-from SCObject import SCObject
-from SCMenu import SCMenu
+from otp.speedchat.SCElement import SCElement
+from otp.speedchat.SCObject import SCObject
+from otp.speedchat.SCMenu import SCMenu
 from direct.fsm.StatePush import StateVar, FunctionCall
 from direct.showbase.DirectObject import DirectObject
 from otp.avatar import Emote
+
 SCTerminalSelectedEvent = 'SCTerminalSelected'
 SCTerminalLinkedEmoteEvent = 'SCTerminalLinkedEmoteEvent'
 SCWhisperModeChangeEvent = 'SCWhisperModeChange'
@@ -19,7 +20,6 @@ class SCTerminal(SCElement):
         self.__numCharges = -1
         self._handleWhisperModeSV = StateVar(False)
         self._handleWhisperModeFC = None
-        return
 
     def destroy(self):
         self._handleWhisperModeSV.set(False)
@@ -34,7 +34,6 @@ class SCTerminal(SCElement):
             self._handleWhisperModeFC = FunctionCall(self._handleWhisperModeSVChanged, self._handleWhisperModeSV)
             self._handleWhisperModeFC.pushCurrentState()
         self._handleWhisperModeSV.set(self.settingsRef is not None and not self.isWhisperable())
-        return
 
     def _handleWhisperModeSVChanged(self, handleWhisperMode):
         if handleWhisperMode:
@@ -112,7 +111,6 @@ class SCTerminal(SCElement):
              'text_fg': self.getColorScheme().getTextDisabledColor() + (1,)})
         args.update(dbArgs)
         SCElement.finalize(self, dbArgs=args)
-        return
 
     def getEmoteIconColor(self):
         if self.linkedEmoteEnabled() and not self.isWhispering():

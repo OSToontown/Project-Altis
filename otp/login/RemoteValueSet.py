@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
-import TTAccount
-import HTTPUtil
+from otp.login import TTAccount
+from otp.login import HTTPUtil
 
 class RemoteValueSet:
     notify = DirectNotifyGlobal.directNotify.newCategory('RemoteValueSet')
@@ -40,8 +40,6 @@ class RemoteValueSet:
                 onUnexpectedResponse(errMsg)
                 return
 
-        return
-
     def __repr__(self):
         return 'RemoteValueSet:%s' % str(self.dict)
 
@@ -65,7 +63,6 @@ class RemoteValueSet:
             return convOp(self.dict[name])
         else:
             return convOp(self.dict.get(name, default))
-        return
 
     def __onUnexpectedResponse(self, errStr):
         raise HTTPUtil.UnexpectedResponse(errStr)

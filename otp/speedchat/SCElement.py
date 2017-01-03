@@ -1,8 +1,8 @@
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.task import Task
-from SCConstants import *
-from SCObject import SCObject
+from otp.speedchat.SCConstants import *
+from otp.speedchat.SCObject import SCObject
 from direct.showbase.PythonUtil import boolEqual
 from otp.otpbase import OTPGlobals
 
@@ -35,7 +35,6 @@ class SCElement(SCObject, NodePath):
             del self.button
         self.parentMenu = None
         self.detachNode()
-        return
 
     def setParentMenu(self, parentMenu):
         self.parentMenu = parentMenu
@@ -49,12 +48,10 @@ class SCElement(SCObject, NodePath):
     def onMouseEnter(self, event):
         if self.parentMenu is not None:
             self.parentMenu.memberGainedInputFocus(self)
-        return
 
     def onMouseLeave(self, event):
         if self.parentMenu is not None:
             self.parentMenu.memberLostInputFocus(self)
-        return
 
     def onMouseClick(self, event):
         pass
@@ -76,7 +73,6 @@ class SCElement(SCObject, NodePath):
             self.__viewable = viewable
             if self.parentMenu is not None:
                 self.parentMenu.memberViewabilityChanged(self)
-        return
 
     def isViewable(self):
         return self.__viewable
@@ -103,7 +99,6 @@ class SCElement(SCObject, NodePath):
         if parentMenu is not None:
             if not parentMenu.isFinalizing():
                 parentMenu.invalidate()
-        return
 
     def enterVisible(self):
         SCObject.enterVisible(self)

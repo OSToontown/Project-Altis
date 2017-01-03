@@ -1,6 +1,5 @@
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 
-
 REPORT_PLAYER = 'report-player'
 ReportFoulLanguage = 'foul-language'
 ReportPersonalInfo = 'personal-info'

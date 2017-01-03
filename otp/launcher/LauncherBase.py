@@ -1772,7 +1772,6 @@ class LauncherBase(DirectObject):
             win32dir = win32api.GetWindowsDirectory()
             cmdLine = win32dir + '\\system32\\cacls.exe "' + pathToSet + '" /T /E /C /G Everyone:F > nul'
             os.system(cmdLine)
-        return
 
     def cleanup(self):
         self.notify.info('cleanup: cleaning up Launcher')

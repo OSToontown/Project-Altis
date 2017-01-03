@@ -21,6 +21,7 @@ def checkNotReadyToEdit():
         return "you must config '%s'; see %s.py" % (usernameConfigVar, __name__)
     if editUsername not in username2entIdBase:
         return "unknown editor username '%s'; see %s.py" % (editUsername, __name__)
+    
     return None
 
 
@@ -28,7 +29,6 @@ def assertReadyToEdit():
     msg = checkNotReadyToEdit()
     if msg is not None:
         pass
-    return
 
 
 def getEditUsername():

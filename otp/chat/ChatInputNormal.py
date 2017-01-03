@@ -1,12 +1,10 @@
+import sys
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 from pandac.PandaModules import *
-import sys
-
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.chat.ChatGlobals import *
-
 
 class ChatInputNormal(DirectObject.DirectObject):
     def __init__(self, chatMgr):
@@ -23,7 +21,6 @@ class ChatInputNormal(DirectObject.DirectObject):
         self.history = ['']
         self.historySize = base.config.GetInt('chat-history-size', 10)
         self.historyIndex = 0
-        return
 
     def typeCallback(self, extraArgs):
         messenger.send('enterNormalChat')
@@ -89,7 +86,6 @@ class ChatInputNormal(DirectObject.DirectObject):
                 base.talkAssistant.sendOpenTalk(text)
                 if self.wantHistory:
                     self.addToHistory(text)
-        return
 
     def chatOverflow(self, overflowText):
         self.sendChat(self.chatEntry.get())

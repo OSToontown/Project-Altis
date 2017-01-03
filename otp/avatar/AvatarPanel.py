@@ -1,7 +1,7 @@
+from otp.avatar import Avatar
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
-import Avatar
 from direct.distributed import DistributedObject
 
 class AvatarPanel(DirectObject.DirectObject):
@@ -36,7 +36,6 @@ class AvatarPanel(DirectObject.DirectObject):
             self.avId = None
         if self.avDisableName:
             self.accept(self.avDisableName, self.__handleDisableAvatar)
-        return
 
     def cleanup(self):
         if AvatarPanel.currentAvatarPanel != self:
@@ -48,14 +47,12 @@ class AvatarPanel(DirectObject.DirectObject):
         if self.avHpChangeName:
             self.ignore(self.avHpChangeName)
         AvatarPanel.currentAvatarPanel = None
-        return
 
     def __handleClose(self):
         self.cleanup()
         AvatarPanel.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        return
 
     def __handleDisableAvatar(self):
         if AvatarPanel.currentAvatarPanel:
@@ -66,7 +63,6 @@ class AvatarPanel(DirectObject.DirectObject):
     def handleDisableAvatar(self):
         self.cleanup()
         AvatarPanel.currentAvatarPanel = None
-        return
 
     def isHidden(self):
         return 1

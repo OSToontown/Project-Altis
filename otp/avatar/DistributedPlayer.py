@@ -1,9 +1,8 @@
+import string
+import time
 from direct.showbase import PythonUtil
 from direct.task import Task
 from pandac.PandaModules import *
-import string
-import time
-
 from otp.ai.MagicWordGlobal import *
 from otp.avatar import Avatar, PlayerBase
 from otp.avatar import DistributedAvatar
@@ -17,7 +16,6 @@ from otp.speedchat import SCDecoders
 from toontown.chat.ChatGlobals import *
 from toontown.chat.WhisperPopup import WhisperPopup
 
-
 if base.config.GetBool('want-chatfilter-hacks', 0):
     from otp.switchboard import badwordpy
     import os
@@ -30,26 +28,28 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
     def __init__(self, cr):
         try:
             self.DistributedPlayer_initialized
+            return
         except:
             self.DistributedPlayer_initialized = 1
-            DistributedAvatar.DistributedAvatar.__init__(self, cr)
-            PlayerBase.PlayerBase.__init__(self)
-            TelemetryLimited.__init__(self)
-            self.__teleportAvailable = 0
-            self.inventory = None
-            self.experience = None
-            self.friendsList = []
-            self.oldFriendsList = None
-            self.timeFriendsListChanged = None
-            self.ignoreList = []
-            self.lastFailedTeleportMessage = {}
-            self._districtWeAreGeneratedOn = None
-            self.DISLname = ''
-            self.DISLid = 0
-            self.adminAccess = 0
-            self.autoRun = 0
-            self.whiteListEnabled = base.config.GetBool('whitelist-chat-enabled', 1)
-            self.lastTeleportQuery = time.time()
+        
+        DistributedAvatar.DistributedAvatar.__init__(self, cr)
+        PlayerBase.PlayerBase.__init__(self)
+        TelemetryLimited.__init__(self)
+        self.__teleportAvailable = 0
+        self.inventory = None
+        self.experience = None
+        self.friendsList = []
+        self.oldFriendsList = None
+        self.timeFriendsListChanged = None
+        self.ignoreList = []
+        self.lastFailedTeleportMessage = {}
+        self._districtWeAreGeneratedOn = None
+        self.DISLname = ''
+        self.DISLid = 0
+        self.adminAccess = 0
+        self.autoRun = 0
+        self.whiteListEnabled = base.config.GetBool('whitelist-chat-enabled', 1)
+        self.lastTeleportQuery = time.time()
 
     @staticmethod
     def GetPlayerGenerateEvent():
@@ -74,13 +74,15 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
     def delete(self):
         try:
             self.DistributedPlayer_deleted
+            return
         except:
             self.DistributedPlayer_deleted = 1
-            del self.experience
-            if self.inventory:
-                self.inventory.unload()
-            del self.inventory
-            DistributedAvatar.DistributedAvatar.delete(self)
+        
+        del self.experience
+        if self.inventory:
+            self.inventory.unload()
+        del self.inventory
+        DistributedAvatar.DistributedAvatar.delete(self)
 
     def generate(self):
         DistributedAvatar.DistributedAvatar.generate(self)
@@ -95,21 +97,18 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
             if not self.cr._isValidPlayerLocation(parentId, zoneId):
                 self.cr.disableDoId(self.doId)
                 self.cr.deleteObject(self.doId)
-        return None
 
     def isGeneratedOnDistrict(self, districtId = None):
         if districtId is None:
             return self._districtWeAreGeneratedOn is not None
         else:
             return self._districtWeAreGeneratedOn == districtId
-        return
 
     def getArrivedOnDistrictEvent(self, districtId = None):
         if districtId is None:
             return 'arrivedOnDistrict'
         else:
             return 'arrivedOnDistrict-%s' % districtId
-        return
 
     def arrivedOnDistrict(self, districtId):
         curFrameTime = globalClock.getFrameTime()
@@ -124,7 +123,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
 
     def setLeftDistrict(self):
         self._districtWeAreGeneratedOn = None
-        return
 
     def hasParentingRules(self):
         if self is localAvatar:
@@ -160,7 +158,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         if chatString:
             self.displayWhisper(fromId, chatString, WTQuickTalker)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_NORMAL, msgIndex, fromId)
-        return
 
     def whisperSCCustomTo(self, msgIndex, sendToId, toPlayer):
         messenger.send('wakeup')
@@ -186,7 +183,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         if chatString:
             self.displayWhisper(fromId, chatString, WTQuickTalker)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_CUSTOM, msgIndex, fromId)
-        return
 
     def whisperSCEmoteTo(self, emoteId, sendToId, toPlayer):
         messenger.send('wakeup')
@@ -203,7 +199,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         if chatString:
             self.displayWhisper(fromId, chatString, WTEmote)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_EMOTE, emoteId, fromId)
-        return
 
     def d_setWhisperIgnored(self, sendToId):
         pass
@@ -309,7 +304,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
                 self.setSystemMessage(avId, OTPLocalizer.WhisperNoLongerFriend % avatar.getName())
             elif status == 2:
                 self.setSystemMessage(avId, OTPLocalizer.WhisperNowSpecialFriend % avatar.getName())
-        return
 
     def d_teleportQuery(self, requesterId, sendToId = None):
         lastQuery = self.lastTeleportQuery
@@ -356,7 +350,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
                 self.setSystemMessage(requesterId, OTPLocalizer.WhisperFailedVisit % avatar.getName())
         teleportNotify.debug('sending try-again-later message')
         self.d_teleportResponse(self.doId, 0, 0, 0, 0, sendToId=requesterId)
-        return
 
     def failedTeleportMessageOk(self, fromId):
         now = globalClock.getFrameTime()
@@ -417,7 +410,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
             self.setChatAbsolute(OTPLocalizer.TeleportGreeting % avatar.getName(), CFSpeech | CFTimeout)
         elif avatar is not None:
             self.notify.warning('got teleportGreeting from %s referencing non-toon %s' % (self.doId, avId))
-        return
 
     def setTeleportAvailable(self, available):
         self.__teleportAvailable = available

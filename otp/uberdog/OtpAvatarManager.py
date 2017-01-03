@@ -1,10 +1,9 @@
 from cPickle import loads, dumps
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
-notify = DirectNotifyGlobal.directNotify.newCategory('AvatarManager')
 
 class OtpAvatarManager(DistributedObject.DistributedObject):
-    notify = notify
+    notify = DirectNotifyGlobal.directNotify.newCategory('AvatarManager')
     OnlineEvent = 'GlobalAvatarManagerOnline'
 
     def __init__(self, cr):
@@ -15,7 +14,6 @@ class OtpAvatarManager(DistributedObject.DistributedObject):
         self.ignoreAll()
         self.cr.avatarManager = None
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def online(self):
         messenger.send(OtpAvatarManager.OnlineEvent)

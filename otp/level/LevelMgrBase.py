@@ -1,4 +1,4 @@
-import Entity
+from otp.level import Entity
 
 class LevelMgrBase(Entity.Entity):
 

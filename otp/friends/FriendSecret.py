@@ -1,8 +1,8 @@
+import string
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
-import string
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPGlobals
 from otp.uberdog import RejectCode
@@ -64,22 +64,16 @@ def openFriendSecret(secretType):
         globalFriendSecret.unload()
     globalFriendSecret = FriendSecret(secretType)
     globalFriendSecret.enter()
-    return
-
 
 def hideFriendSecret():
     if globalFriendSecret != None:
         globalFriendSecret.exit()
-    return
-
 
 def unloadFriendSecret():
     global globalFriendSecret
     if globalFriendSecret != None:
         globalFriendSecret.unload()
         globalFriendSecret = None
-    return
-
 
 class FriendSecretNeedsParentLogin(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('FriendSecretNeedsParentLogin')
@@ -149,7 +143,6 @@ class FriendSecretNeedsParentLogin(StateData.StateData):
                 self.passwordEntry['focus'] = 1
                 self.passwordEntry.enterText('')
         self.dialog.show()
-        return
 
     def exit(self):
         self.ignoreAll()
@@ -159,7 +152,6 @@ class FriendSecretNeedsParentLogin(StateData.StateData):
         if self.isEntered:
             base.localAvatar.chatMgr.fsm.request('mainMenu')
             StateData.StateData.exit(self)
-        return
 
     def __handleUsername(self, *args):
         if self.passwordEntry:
@@ -241,7 +233,6 @@ class FriendSecret(DirectFrame, StateData.StateData):
         self.notify.debug('### secretType = %s' % self.secretType)
         self.requestedSecretType = secretType
         self.notify.debug('### requestedSecretType = %s' % self.requestedSecretType)
-        return
 
     def unload(self):
         if self.isLoaded == 0:
@@ -260,7 +251,6 @@ class FriendSecret(DirectFrame, StateData.StateData):
         del self.accountButton
         DirectFrame.destroy(self)
         self.ignore('clientCleanup')
-        return None
 
     def load(self):
         if self.isLoaded == 1:
@@ -325,7 +315,6 @@ class FriendSecret(DirectFrame, StateData.StateData):
         accountText.reparentTo(self.accountButton.stateNodePath[2])
         self.accountButton.hide()
         buttons.removeNode()
-        return
 
     def enter(self):
         if self.isEntered == 1:
@@ -509,7 +498,6 @@ class FriendSecret(DirectFrame, StateData.StateData):
         self.cancel.hide()
         self.ok1.hide()
         self.ok2.show()
-        return
 
     def __useAccountSecret(self, avId, friendInfo):
         self.ignore(OTPGlobals.PlayerFriendUpdateEvent)
@@ -538,7 +526,6 @@ class FriendSecret(DirectFrame, StateData.StateData):
         self.cancel.hide()
         self.ok1.hide()
         self.ok2.show()
-        return
 
     def __ok1(self):
         secret = self.enterSecret.get()

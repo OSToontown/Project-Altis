@@ -1,4 +1,4 @@
-import ZoneEntityBase
+fro otp.level import ZoneEntityBase
 
 class ZoneEntityAI(ZoneEntityBase.ZoneEntityBase):
 
@@ -9,4 +9,5 @@ class ZoneEntityAI(ZoneEntityBase.ZoneEntityBase):
     def destroy(self):
         if not self.isUberZone():
             self.level.air.deallocateZone(self.getZoneId())
+        
         ZoneEntityBase.ZoneEntityBase.destroy(self)

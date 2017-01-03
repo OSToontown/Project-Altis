@@ -88,7 +88,6 @@ class AvatarFriendsManager(DistributedObjectGlobal):
         self.avatarFriendsList.remove(avId)
         self.avatarId2Info.pop(avId, None)
         messenger.send(OTPGlobals.AvatarFriendRemoveEvent, [avId])
-        return
 
     def setFriends(self, avatarIds):
         self.notify.debugCall()

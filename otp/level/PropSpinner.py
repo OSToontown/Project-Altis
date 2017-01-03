@@ -1,6 +1,6 @@
 import string
 from direct.interval.IntervalGlobal import *
-from Entity import Entity
+from otp.level.Entity import Entity
 from pandac.PandaModules import Vec3
 
 class PropSpinner(Entity):

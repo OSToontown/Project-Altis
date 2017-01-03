@@ -1,6 +1,6 @@
-from direct.interval.IntervalGlobal import *
-import BasicEntities
 import random
+from direct.interval.IntervalGlobal import *
+from otp.level import BasicEntities
 
 class AmbientSound(BasicEntities.NodePathEntity):
 
@@ -23,7 +23,6 @@ class AmbientSound(BasicEntities.NodePathEntity):
         self.soundIval = SoundInterval(self.sound, node=self, volume=self.volume)
         self.soundIval.loop()
         self.soundIval.setT(random.random() * self.sound.length())
-        return
 
     def destroySound(self):
         if hasattr(self, 'soundIval'):

@@ -16,13 +16,11 @@ class PROCESSENTRY32(ctypes.Structure):
      ('dwFlags', DWORD),
      ('szExeFile', c_char * MAX_PATH)]
 
-
 class ProcessEntryPY:
 
     def __init__(self, name, pid):
         self.name = name
         self.pid = pid
-
 
 def getProcessList():
     hProcessSnap = cwk.CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)

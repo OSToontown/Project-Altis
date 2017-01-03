@@ -1,4 +1,8 @@
 import base64
+import os
+import re
+import sys
+import time
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
@@ -6,12 +10,7 @@ from direct.showbase import GarbageReport
 from direct.showbase import PythonUtil
 from direct.showbase.DirectObject import *
 from direct.task import Task
-import os
 from pandac.PandaModules import *
-import re
-import sys
-import time
-
 from otp.otpbase import OTPGlobals
 from toontown.chat.ChatGlobals import *
 
@@ -51,7 +50,6 @@ class TimeManager(DistributedObject.DistributedObject):
             self.accept(OTPGlobals.DetectGarbageHotkey, self.handleDetectGarbageHotkey)
         if self.updateFreq > 0:
             self.startTask()
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -71,7 +69,6 @@ class TimeManager(DistributedObject.DistributedObject):
             self.cr.timeManager = None
         del self._gotFirstTimeSync
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         self.ignore(OTPGlobals.SynchronizeHotkey)
@@ -81,8 +78,8 @@ class TimeManager(DistributedObject.DistributedObject):
         taskMgr.remove('frameRateMonitor')
         if self.cr.timeManager == self:
             self.cr.timeManager = None
+        
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def startTask(self):
         self.stopTask()
@@ -111,6 +108,7 @@ class TimeManager(DistributedObject.DistributedObject):
         if now - self.lastAttempt < self.minWait:
             self.notify.debug('Not resyncing (too soon): %s' % description)
             return 0
+        
         self.talkResult = 0
         self.thisContext = self.nextContext
         self.attemptCount = 0
@@ -176,8 +174,6 @@ class TimeManager(DistributedObject.DistributedObject):
             self.sendUpdate('setStackDump', [index, data])
             index += 1
             self.cr.flush()
-
-        return
 
     def d_setSignature(self, signature, hash, pyc):
         self.sendUpdate('setSignature', [signature, hash, pyc])

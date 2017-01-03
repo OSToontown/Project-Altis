@@ -1,4 +1,4 @@
-import Entity, BasicEntities
+from otp.level import Entity, BasicEntities
 from pandac.PandaModules import NodePath
 from direct.directnotify import DirectNotifyGlobal
 

@@ -1,5 +1,4 @@
 
-
 class RejectCode:
     TIMEOUT = 65535
     NO_GUILD = 10000

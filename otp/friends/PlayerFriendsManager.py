@@ -114,7 +114,6 @@ class PlayerFriendsManager(DistributedObjectGlobal):
         if av is not None:
             av.considerUnderstandable()
         messenger.send(OTPGlobals.PlayerFriendUpdateEvent, [id, info])
-        return
 
     def removePlayerFriend(self, id):
         if id not in self.playerFriendsList:
@@ -126,7 +125,6 @@ class PlayerFriendsManager(DistributedObjectGlobal):
             if av is not None:
                 av.considerUnderstandable()
         messenger.send(OTPGlobals.PlayerFriendRemoveEvent, [id])
-        return
 
     def whisperSCFrom(self, playerId, msg):
         base.talkAssistant.receivePlayerWhisperSpeedChat(msg, playerId)
@@ -163,7 +161,6 @@ class PlayerFriendsManager(DistributedObjectGlobal):
             return pInfo.avatarId
         else:
             return None
-        return None
 
     def findPlayerInfoFromAvId(self, avId):
         playerId = self.findPlayerIdFromAvId(avId)
@@ -171,7 +168,6 @@ class PlayerFriendsManager(DistributedObjectGlobal):
             return self.getFriendInfo(playerId)
         else:
             return None
-        return None
 
     def askAvatarOnline(self, avId):
         returnValue = 0
@@ -183,6 +179,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
                 playerInfo = self.playerId2Info[playerId]
                 if playerInfo.onlineYesNo:
                     returnValue = 1
+        
         return returnValue
 
     def countTrueFriends(self):

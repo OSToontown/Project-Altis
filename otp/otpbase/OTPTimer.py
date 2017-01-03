@@ -22,7 +22,6 @@ class OTPTimer(DirectFrame):
         self.currentTime = 0
         self.taskTime = 0.0
         self.setFontColor(Vec4(0, 0, 0, 1))
-        return
 
     def setFontColor(self, vColor):
         self.vFontColor = vColor
@@ -109,7 +108,6 @@ class OTPTimer(DirectFrame):
         self.reset()
         self.countdownTask = None
         DirectFrame.destroy(self)
-        return
 
     def cleanup(self):
         self.destroy()

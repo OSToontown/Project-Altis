@@ -1129,7 +1129,6 @@ class OTPClientRepository(ClientRepositoryBase):
             return len(problems)
         else:
             return 0
-        return
 
     def detectLeakedEvents(self, extraHooks = None):
         allowedHooks = ['destroy-DownloadWatcherBar',
@@ -1197,7 +1196,6 @@ class OTPClientRepository(ClientRepositoryBase):
             return len(problems)
         else:
             return 0
-        return
 
     def detectLeakedIntervals(self):
         numIvals = ivalMgr.getNumIntervals()
@@ -1221,7 +1219,6 @@ class OTPClientRepository(ClientRepositoryBase):
             return numIvals
         else:
             return 0
-        return
 
     def _abandonShard(self):
         self.notify.error('%s must override _abandonShard' % self.__class__.__name__)
@@ -1242,12 +1239,10 @@ class OTPClientRepository(ClientRepositoryBase):
         self.cache.flush()
         self.doDataCache.flush()
         self.handler = self.handleMessageType
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitGameOff(self):
         self.handler = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterWaitOnEnterResponses(self, shardId, hoodId, zoneId, avId):
@@ -1272,7 +1267,6 @@ class OTPClientRepository(ClientRepositoryBase):
         base.localAvatar.defaultShard = shardId
         self.waitForDatabaseTimeout(requestName='WaitOnEnterResponses')
         self.handleSetShardComplete()
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def handleSetShardComplete(self):
@@ -1306,7 +1300,6 @@ class OTPClientRepository(ClientRepositoryBase):
             else:
                 self.notify.info('No sync from TimeManager.')
                 self.gotTimeSync()
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitWaitOnEnterResponses(self):
@@ -1314,7 +1307,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.cleanupWaitingForDatabase()
         self.handler = None
         self.handlerArgs = None
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterCloseShard(self, loginState = None):
@@ -1323,7 +1315,6 @@ class OTPClientRepository(ClientRepositoryBase):
             loginState = 'waitForAvatarList'
         self._closeShardLoginState = loginState
         base.cr.setNoNewInterests(True)
-        return
 
     def _removeLocalAvFromStateServer(self):
         self.sendSetAvatarIdMsg(0)
@@ -1357,7 +1348,6 @@ class OTPClientRepository(ClientRepositoryBase):
             taskMgr.doMethodLater(base.slowCloseShardDelay * 0.5, Functor(self._callRemoveShardInterestCallback, callback), 'slowCloseShardCallback')
         else:
             self._callRemoveShardInterestCallback(callback, None)
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def _callRemoveShardInterestCallback(self, callback, task):
@@ -1428,7 +1418,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.ignore(self.gameDoneEvent)
         self.garbageLeakLogger.destroy()
         del self.garbageLeakLogger
-        return
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def gotTimeSync(self):
@@ -1590,7 +1579,6 @@ class OTPClientRepository(ClientRepositoryBase):
                     self.notify.info('free time left: %s' % PythonUtil.formatElapsedSeconds(secs))
             if self.periodTimerSecondsRemaining != None:
                 self.notify.info('period time left: %s' % PythonUtil.formatElapsedSeconds(self.periodTimerSecondsRemaining))
-        return
 
     def getStartingDistrict(self):
         district = None
@@ -1620,8 +1608,6 @@ class OTPClientRepository(ClientRepositoryBase):
             return self.activeDistrictMap[shardId].name
         except:
             return None
-
-        return None
 
     def isShardAvailable(self, shardId):
         try:
@@ -1715,7 +1701,6 @@ class OTPClientRepository(ClientRepositoryBase):
 
             self.runningPeriodTimeRemaining = self.periodTimerSecondsRemaining
             self.recordPeriodTimer(None)
-        return
 
     def stopPeriodTimer(self):
         if self.periodTimerStarted != None:
@@ -1724,7 +1709,6 @@ class OTPClientRepository(ClientRepositoryBase):
             self.periodTimerStarted = None
         taskMgr.remove('periodTimerCountdown')
         taskMgr.remove('periodTimerRecorder')
-        return
 
     def __periodTimerWarning(self, task):
         base.localAvatar.setSystemMessage(0, OTPLocalizer.PeriodTimerWarning)
@@ -1866,7 +1850,6 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.handler(msgType, di)
         self.considerHeartbeat()
-        return
 
     def askAvatarKnown(self, avId):
         return 0

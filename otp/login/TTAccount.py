@@ -3,8 +3,8 @@ from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import PythonUtil
 from otp.otpbase import OTPLocalizer
-import HTTPUtil
-import RemoteValueSet
+from otp.login import HTTPUtil
+from otp.login import RemoteValueSet
 import copy
 accountServer = ''
 accountServer = launcher.getAccountServer()
@@ -30,7 +30,6 @@ class TTAccount:
     def __init__(self, cr):
         self.cr = cr
         self.response = None
-        return
 
     def createAccount(self, loginName, password, data):
         return self.talk('create', data=self.__makeLoginDict(loginName, password, data))

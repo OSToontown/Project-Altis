@@ -1,4 +1,4 @@
-from ColorSpace import *
+from otp.speedchat.ColorSpace import *
 
 class SCColorScheme:
 
@@ -13,7 +13,6 @@ class SCColorScheme:
                 return color
             else:
                 return scaleColor(srcColor, s)
-            return
 
         self.__arrowColor = arrowColor
         self.__rolloverColor = rolloverColor
@@ -33,7 +32,6 @@ class SCColorScheme:
         self.__textColor = textColor
         self.__textDisabledColor = textDisabledColor
         self.__alpha = alpha
-        return
 
     def getArrowColor(self):
         return self.__arrowColor

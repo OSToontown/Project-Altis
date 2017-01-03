@@ -1,9 +1,8 @@
 import math
 import re
 import time
-
-import OTPGlobals
-import OTPRender
+from otp.otpbase import OTPGlobals
+from otp.otpbase import OTPRender
 from direct.showbase.ShowBase import ShowBase
 from otp.ai.MagicWordGlobal import *
 from pandac.PandaModules import Camera, TPLow, VBase4, ColorWriteAttrib, Filename, getModelPath, NodePath, Vec4
@@ -40,7 +39,6 @@ class OTPBase(ShowBase):
             else:
                 base.cam.node().setCameraMask(OTPRender.MainCameraBitmask | OTPRender.EnviroCameraBitmask)
         taskMgr.setupTaskChain('net')
-        return
 
     def setTaskChainNetThreaded(self):
         if base.config.GetBool('want-threaded-network', 0):
@@ -137,7 +135,6 @@ class OTPBase(ShowBase):
         self.pixelZoomStarted = None
         flag = self.config.GetBool('enable-pixel-zoom', True)
         self.enablePixelZoom(flag)
-        return
 
     def enablePixelZoom(self, flag):
         if not self.backgroundDrawable.supportsPixelZoom():

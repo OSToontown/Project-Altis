@@ -1,8 +1,9 @@
+import string
 from direct.gui.DirectGui import *
 from direct.directnotify import DirectNotifyGlobal
-import string
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
+
 NoButtons = 0
 Acknowledge = 1
 CancelOnly = 2
@@ -75,8 +76,6 @@ class OTPDialog(DirectDialog):
         self.initialiseoptions(OTPDialog)
         if buttons != None:
             buttons.removeNode()
-        return
-
 
 class GlobalDialog(OTPDialog):
     notify = DirectNotifyGlobal.directNotify.newCategory('GlobalDialog')
@@ -102,7 +101,6 @@ class GlobalDialog(OTPDialog):
         self.defineoptions(kw, optiondefs)
         OTPDialog.__init__(self, style=style)
         self.initialiseoptions(GlobalDialog)
-        return
 
     def handleButton(self, value):
         if value == DGG.DIALOG_OK:

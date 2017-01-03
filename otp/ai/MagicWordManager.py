@@ -1,11 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
-
 from otp.ai.MagicWordGlobal import *
 
-
 lastClickedNametag = None
-
 
 class MagicWordManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('MagicWordManager')

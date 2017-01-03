@@ -1,5 +1,5 @@
 from direct.distributed import DistributedObject
-import Entity
+from otp.level import Entity
 from direct.directnotify import DirectNotifyGlobal
 
 class DistributedEntity(DistributedObject.DistributedObject, Entity.Entity):
@@ -11,7 +11,6 @@ class DistributedEntity(DistributedObject.DistributedObject, Entity.Entity):
         self.levelDoId = 0
         self.entId = 0
         self.level = None
-        return
 
     def generateInit(self):
         DistributedEntity.notify.debug('generateInit')
@@ -38,7 +37,6 @@ class DistributedEntity(DistributedObject.DistributedObject, Entity.Entity):
         else:
             self.level = None
         DistributedObject.DistributedObject.announceGenerate(self)
-        return
 
     def disable(self):
         DistributedEntity.notify.debug('disable (%s)' % self.entId)
