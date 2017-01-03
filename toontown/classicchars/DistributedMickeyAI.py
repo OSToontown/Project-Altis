@@ -11,11 +11,11 @@ from toontown.toonbase import ToontownGlobals
 from toontown.classicchars import CharStateDatasAI
 from toontown.toonbase import TTLocalizer
 
-class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
+class DistributedMickeyAI(DistributedCCharBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMickeyAI')
     
     def __init__(self, air):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.__init__(self, air, TTLocalizer.Mickey)
+        DistributedCCharBaseAI.__init__(self, air, TTLocalizer.Mickey)
         self.fsm = ClassicFSM.ClassicFSM('DistributedMickeyAI', [
             State.State('Off', self.enterOff, self.exitOff, [
                 'Lonely',
@@ -42,7 +42,7 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     def delete(self):
         self.fsm.requestFinalState()
         del self.fsm
-        DistributedCCharBaseAI.DistributedCCharBaseAI.delete(self)
+        DistributedCCharBaseAI.delete(self)
         self.lonelyDoneEvent = None
         self.lonely = None
         self.chattyDoneEvent = None
@@ -53,7 +53,7 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def generate(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.generate(self)
+        DistributedCCharBaseAI.generate(self)
         name = self.getName()
         self.lonelyDoneEvent = self.taskName(name + '-lonely-done')
         self.lonely = CharStateDatasAI.CharLonelyStateAI(self.lonelyDoneEvent, self)
@@ -106,7 +106,7 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def exitOff(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.exitOff(self)
+        DistributedCCharBaseAI.exitOff(self)
 
     
     def enterLonely(self):
@@ -173,7 +173,7 @@ class DistributedMickeyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def handleHolidays(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.handleHolidays(self)
+        DistributedCCharBaseAI.handleHolidays(self)
         if hasattr(simbase.air, 'holidayManager'):
             if ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays and simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES] != None and simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES].getRunningState():
                 self.diffPath = TTLocalizer.Daisy

@@ -11,11 +11,11 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.classicchars import CharStateDatasAI
 
-class DistributedDaleAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
+class DistributedDaleAI(DistributedCCharBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedDaleAI')
     
     def __init__(self, air, chipId):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.__init__(self, air, TTLocalizer.Dale)
+        DistributedCCharBaseAI.__init__(self, air, TTLocalizer.Dale)
         self.chipId = chipId
         self.chip = air.doId2do.get(chipId)
         self.fsm = ClassicFSM.ClassicFSM('DistributedDaleAI', [
@@ -42,7 +42,7 @@ class DistributedDaleAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     
     def delete(self):
         self.fsm.requestFinalState()
-        DistributedCCharBaseAI.DistributedCCharBaseAI.delete(self)
+        DistributedCCharBaseAI.delete(self)
         self.lonelyDoneEvent = None
         self.lonely = None
         self.chattyDoneEvent = None
@@ -52,7 +52,7 @@ class DistributedDaleAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def generate(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.generate(self)
+        DistributedCCharBaseAI.generate(self)
         self.lonely = CharStateDatasAI.CharLonelyStateAI(None, self)
         self.chatty = CharStateDatasAI.CharChattyStateAI(None, self)
         self.followChip = CharStateDatasAI.CharFollowChipStateAI(None, self, self.chip)
@@ -84,7 +84,7 @@ class DistributedDaleAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def exitOff(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.exitOff(self)
+        DistributedCCharBaseAI.exitOff(self)
 
     
     def enterLonely(self):

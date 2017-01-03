@@ -11,11 +11,11 @@ from toontown.classicchars import CharStateDatasAI
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
-class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
+class DistributedPlutoAI(DistributedCCharBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPlutoAI')
     
     def __init__(self, air):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.__init__(self, air, TTLocalizer.Pluto)
+        DistributedCCharBaseAI.__init__(self, air, TTLocalizer.Pluto)
         self.fsm = ClassicFSM.ClassicFSM('DistributedPlutoAI', [
             State.State('Off', self.enterOff, self.exitOff, [
                 'Lonely',
@@ -41,7 +41,7 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     
     def delete(self):
         self.fsm.requestFinalState()
-        DistributedCCharBaseAI.DistributedCCharBaseAI.delete(self)
+        DistributedCCharBaseAI.delete(self)
         self.lonelyDoneEvent = None
         self.lonely = None
         self.chattyDoneEvent = None
@@ -51,7 +51,7 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def generate(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.generate(self)
+        DistributedCCharBaseAI.generate(self)
         self.lonelyDoneEvent = self.taskName('pluto-lonely-done')
         self.lonely = CharStateDatasAI.CharLonelyStateAI(self.lonelyDoneEvent, self)
         self.chattyDoneEvent = self.taskName('pluto-chatty-done')
@@ -103,7 +103,7 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def exitOff(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.exitOff(self)
+        DistributedCCharBaseAI.exitOff(self)
 
     
     def enterLonely(self):
@@ -162,7 +162,7 @@ class DistributedPlutoAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
 
     
     def handleHolidays(self):
-        DistributedCCharBaseAI.DistributedCCharBaseAI.handleHolidays(self)
+        DistributedCCharBaseAI.handleHolidays(self)
         if hasattr(simbase.air, 'holidayManager'):
             if ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays:
                 if simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES] != None and simbase.air.holidayManager.currentHolidays[ToontownGlobals.APRIL_FOOLS_COSTUMES].getRunningState():
