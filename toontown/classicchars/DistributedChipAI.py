@@ -1,7 +1,7 @@
 # File: D (Python 2.4)
 
 from otp.ai.AIBaseGlobal import *
-from toontown.classicchars import DistributedCCharBaseAI
+from toontown.classicchars.DistributedCCharBaseAI import DistributedCCharBaseAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
