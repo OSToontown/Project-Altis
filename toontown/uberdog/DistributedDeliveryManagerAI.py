@@ -4,25 +4,23 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 class DistributedDeliveryManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedDeliveryManagerAI")
 
-    def hello(self, todo0):
-        pass
+    def hello(self, message):
+        #I dont know what determined a successfull message...
+        #Or even it's purpose....
+        self.sendUpdate('helloResponse', [message])
 
-    def rejectHello(self, todo0):
-        pass
-
-    def helloResponse(self, todo0):
-        pass
-
-    def getName(self, todo0):
-        pass
+    def getName(self, avId):
+        av = self.air.doId2do.get(avId, None)
+        if not av:
+           self.notify.warning("Avatar was not found in doId2do when trying to get avatar name!")
+           return
+        
+        self.sendUpdate('addName', [avId, str(av.name)])
 
     def receiveRejectGetName(self, todo0):
         pass
 
     def receiveAcceptGetName(self, todo0):
-        pass
-
-    def addName(self, todo0, todo1):
         pass
 
     def receiveRejectAddName(self, todo0):
@@ -68,10 +66,11 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
         pass
 
     def requestAck(self):
-        pass
-
-    def returnAck(self):
-        pass
+        '''
+        Return the ack for Gifts in the Catalog. Why this was needed is 
+        unknown to this day.
+        '''
+        self.sendUpdate('returnAck', [])
 
     def givePartyRefund(self, todo0, todo1, todo2, todo3, todo4):
         pass

@@ -4,18 +4,6 @@ from direct.distributed.DistributedObjectUD import DistributedObjectUD
 class DistributedDeliveryManagerUD(DistributedObjectUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedDeliveryManagerUD")
 
-    def hello(self, todo0):
-        pass
-
-    def rejectHello(self, todo0):
-        pass
-
-    def helloResponse(self, todo0):
-        pass
-
-    def getName(self, todo0):
-        pass
-
     def receiveRejectGetName(self, todo0):
         pass
 

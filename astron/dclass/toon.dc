@@ -65,6 +65,9 @@ dclass DistributedObject {
   broadcastMessage() broadcast;
 };
 
+dclass DistributedObjectGlobal : DistributedObject {
+};
+
 dclass DistributedTestObject : DistributedObject {
   uint32 AutoInterest[];
   setParentingRules(string, string) broadcast ram;
@@ -3723,8 +3726,6 @@ dclass DistributedPartyManager : DistributedObject {
   receiveId(uint64 ids[]) airecv;
 };
 
-dclass DistributedObjectGlobal : DistributedObject {
-};
 
 dclass GlobalPartyManager : DistributedObjectGlobal {
     partyManagerAIHello(uint32 channel);
