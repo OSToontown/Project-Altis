@@ -32,7 +32,6 @@ class DistributedMinnie(DistributedCCharBase.DistributedCCharBase):
         self.walkDoneEvent = None
         self.walk = None
         self.fsm.requestFinalState()
-        return
 
     def delete(self):
         try:
@@ -53,8 +52,8 @@ class DistributedMinnie(DistributedCCharBase.DistributedCCharBase):
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self)
         else:
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self, self.diffPath)
+        
         self.fsm.request('Neutral')
-        return
 
     def enterOff(self):
         pass

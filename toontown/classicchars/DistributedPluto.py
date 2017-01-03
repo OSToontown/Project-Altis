@@ -58,10 +58,10 @@ class DistributedPluto(DistributedCCharBase.DistributedCCharBase):
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self)
         else:
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self, self.diffPath)
+        
         self.walkStartTrack = Sequence(self.actorInterval('stand'), Func(self.stand))
         self.neutralStartTrack = Sequence(self.actorInterval('sit'), Func(self.sit))
         self.fsm.request('Neutral')
-        return
 
     def stand(self):
         self.dropShadow.setScale(0.9, 1.35, 0.9)
@@ -120,4 +120,3 @@ class DistributedPluto(DistributedCCharBase.DistributedCCharBase):
             return 1
         else:
             return 0
-        return

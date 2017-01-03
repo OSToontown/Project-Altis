@@ -36,9 +36,9 @@ class DistributedChip(DistributedCCharBase.DistributedCCharBase):
             self.DistributedChip_deleted
             return
         except:
-            del self.fsm
+            self.DistributedChip_deleted = 1
         
-        self.DistributedChip_deleted = 1
+        del self.fsm
         DistributedCCharBase.DistributedCCharBase.delete(self)
 
     def generate(self):
