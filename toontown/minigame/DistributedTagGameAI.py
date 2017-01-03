@@ -1,10 +1,10 @@
-from DistributedMinigameAI import *
-from TagTreasurePlannerAI import *
+from toontown.minigame.DistributedMinigameAI import *
+from toontown.minigame.TagTreasurePlannerAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
 import random
-import TagGameGlobals
+from toontown.minigame import TagGameGlobals
 
 class DistributedTagGameAI(DistributedMinigameAI):
     DURATION = TagGameGlobals.DURATION

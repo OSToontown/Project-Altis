@@ -6,13 +6,14 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.shtiker import PurchaseManagerAI
 from toontown.shtiker import NewbiePurchaseManagerAI
-import MinigameCreatorAI
+from toontown.minigame import MinigameCreatorAI
 from direct.task import Task
 import random
-import MinigameGlobals
+from toontown.minigame import MinigameGlobals
 from direct.showbase import PythonUtil
-import TravelGameGlobals
+from toontown.minigame import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
+
 EXITED = 0
 EXPECTED = 1
 JOINED = 2

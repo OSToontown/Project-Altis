@@ -1,4 +1,4 @@
-import PhotoGameGlobals
+from toontown.minigame import PhotoGameGlobals
 import random
 
 class PhotoGameBase:

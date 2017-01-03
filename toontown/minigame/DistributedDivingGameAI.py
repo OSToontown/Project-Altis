@@ -1,11 +1,10 @@
-from DistributedMinigameAI import *
+from toontown.minigame.DistributedMinigameAI import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.actor import Actor
-import DivingGameGlobals
-import random
+from toontown.minigame import DivingGameGlobals
 import random
 import types
 

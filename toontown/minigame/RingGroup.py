@@ -1,10 +1,10 @@
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import NodePath
-import Ring
-import RingTrack
-import RingTrackGroup
-import RingGameGlobals
+from toontown.minigame import Ring
+from toontown.minigame import RingTrack
+from toontown.minigame import RingTrackGroup
+from toontown.minigame import RingGameGlobals
 
 class RingGroup(NodePath):
 

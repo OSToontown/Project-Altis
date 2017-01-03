@@ -2,9 +2,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui import DirectGuiGlobals as DGG
 from direct.showbase.PythonUtil import Functor
 from direct.task.Task import Task
-
-import MinigameGlobals
-from PurchaseBase import *
+from toontown.minigame import MinigameGlobals
+from toontown.minigame.PurchaseBase import *
 from toontown.distributed import DelayDelete
 from toontown.minigame import TravelGameGlobals
 from toontown.nametag import NametagGlobals
@@ -12,7 +11,6 @@ from toontown.nametag.NametagFloat2d import *
 from toontown.toon import ToonHead
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
-
 
 COUNT_UP_RATE = 0.15
 COUNT_UP_DURATION = 0.5

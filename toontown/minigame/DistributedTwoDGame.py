@@ -7,12 +7,13 @@ from direct.gui.DirectGui import DGG
 from direct.task.Task import Task
 from direct.fsm import ClassicFSM, State
 from direct.directnotify import DirectNotifyGlobal
-from DistributedMinigame import *
-import MinigameAvatarScorePanel, ArrowKeys, ToonBlitzAssetMgr, TwoDCamera
-import TwoDSectionMgr, ToonBlitzGlobals, TwoDGameToonSD
+from toontown.minigame.DistributedMinigame import *
+from toontown.minigame import MinigameAvatarScorePanel, ArrowKeys, ToonBlitzAssetMgr, TwoDCamera
+from toontown.minigame import TwoDSectionMgr, ToonBlitzGlobals, TwoDGameToonSD
 from toontown.toonbase import ToontownTimer
-from TwoDWalk import *
-from TwoDDrive import *
+from toontown.minigame.TwoDWalk import *
+from toontown.minigame.TwoDDrive import *
+
 COLOR_RED = VBase4(1, 0, 0, 0.3)
 
 class DistributedTwoDGame(DistributedMinigame):

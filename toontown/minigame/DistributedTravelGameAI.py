@@ -1,7 +1,7 @@
 from toontown.minigame.DistributedMinigameAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import TravelGameGlobals
+from toontown.minigame import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
 
 class DistributedTravelGameAI(DistributedMinigameAI):

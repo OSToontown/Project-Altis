@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from DistributedMinigame import *
+from toontown.minigame.DistributedMinigame import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.fsm import ClassicFSM, State
@@ -11,17 +11,17 @@ from toontown.toon import ToonHead
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.char import Char
-import ArrowKeys
+from toontown.minigame import ArrowKeys
 import random
 from toontown.toonbase import ToontownGlobals
 import string
 from toontown.toonbase import TTLocalizer
-import TugOfWarGameGlobals
+from toontown.minigame import TugOfWarGameGlobals
 from direct.showutil import Rope
 from toontown.effects import Splash
 from toontown.effects import Ripples
 from toontown.toonbase import TTLocalizer
-import MinigamePowerMeter
+from toontown.minigame import MinigamePowerMeter
 from direct.task.Task import Task
 from toontown.nametag import NametagGlobals
 

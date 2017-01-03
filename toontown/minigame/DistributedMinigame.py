@@ -8,13 +8,13 @@ from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import MinigameRulesPanel
+from toontown.minigame import MinigameRulesPanel
 from direct.task.Task import Task
 from toontown.toon import Toon
 from direct.showbase import RandomNumGen
 from toontown.toonbase import TTLocalizer
 import random
-import MinigameGlobals
+from toontown.minigame import MinigameGlobals
 from direct.showbase import PythonUtil
 from toontown.toon import TTEmote
 from otp.avatar import Emote

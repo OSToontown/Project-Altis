@@ -1,4 +1,4 @@
-from OrthoWalk import *
+from toontown.minigame.OrthoWalk import *
 
 class TwoDWalk(OrthoWalk):
     notify = DirectNotifyGlobal.directNotify.newCategory('TwoDWalk')

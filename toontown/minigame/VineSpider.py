@@ -2,7 +2,7 @@ from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase.ToontownGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *
-import VineGameGlobals
+from toontown.minigame import VineGameGlobals
 
 class VineSpider(NodePath, DirectObject):
     RADIUS = 1.7
