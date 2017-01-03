@@ -6,7 +6,6 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.shtiker import PurchaseManagerAI
 from toontown.shtiker import NewbiePurchaseManagerAI
-from toontown.minigame import MinigameCreatorAI
 from direct.task import Task
 import random
 from toontown.minigame import MinigameGlobals
@@ -369,6 +368,8 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
             doNewbie = False
             if numToons == 1 and lastAvId in self.newbieIdList:
                 doNewbie = True
+
+            from toontown.minigame import MinigameCreatorAI
             if doNewbie:
                 pm = NewbiePurchaseManagerAI.NewbiePurchaseManagerAI(self.air, lastAvId, self.avIdList, scoreList, self.minigameId, self.trolleyZone)
                 MinigameCreatorAI.acquireMinigameZone(self.zoneId)
@@ -390,6 +391,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
                 pm.generateWithRequired(self.zoneId)
 
     def handleRegularPurchaseManager(self, scoreList):
+        from toontown.minigame import MinigameCreatorAI
         for id in self.newbieIdList:
             pm = NewbiePurchaseManagerAI.NewbiePurchaseManagerAI(self.air, id, self.avIdList, scoreList, self.minigameId, self.trolleyZone)
             MinigameCreatorAI.acquireMinigameZone(self.zoneId)

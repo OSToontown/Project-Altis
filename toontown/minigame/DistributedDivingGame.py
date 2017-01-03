@@ -16,7 +16,7 @@ from toontown.minigame import RingTrack
 from toontown.minigame import DivingGameGlobals
 from toontown.minigame import RingGroup
 from toontown.minigame import RingTrackGroups
-from toontown.minigame import random
+import random
 from toontown.minigame import DivingGameToonSD
 from toontown.minigame import DivingFishSpawn
 from toontown.minigame import DivingTreasure

@@ -1,7 +1,6 @@
 import copy
 import random
 import time
-from toontown.minigame import DistributedMinigameAI
 from toontown.minigame import DistributedCannonGameAI
 from toontown.minigame import DistributedCatchGameAI
 from toontown.minigame import DistributedCogThiefGameAI
@@ -199,10 +198,13 @@ def minigame(command, arg0=None):
         return 'Stored your request for the minigame safezone: ' + str(arg0)
     if command == 'abort':
         for do in simbase.air.doId2do.values():
+            from toontown.minigame import DistributedMinigameAI
             if not isinstance(do, DistributedMinigameAI.DistributedMinigameAI):
                 continue
+            
             if invoker.doId not in do.avIdList:
                 continue
+            
             do.setGameAbort()
             return 'Skipped minigame!'
         return 'You are not currently in a minigame!'
