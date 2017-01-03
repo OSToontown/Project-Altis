@@ -14,7 +14,7 @@ from direct.fsm import State
 from toontown.toontowngui import TTDialog
 import re
 from toontown.toonbase import TTLocalizer
-import NameGenerator
+from toontown.makeatoon import NameGenerator
 import random
 from otp.distributed import PotentialAvatar
 from otp.namepanel import NameCheck

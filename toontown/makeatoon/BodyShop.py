@@ -7,7 +7,7 @@ import random
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TeaserPanel
-import ShuffleButton
+from toontown.makeatoon import ShuffleButton
 
 class BodyShop(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('BodyShop')

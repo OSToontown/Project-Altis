@@ -6,7 +6,7 @@ from pandac.PandaModules import *
 from MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
-import ShuffleButton
+from toontown.makeatoon import ShuffleButton
 import random
 CLOTHES_MAKETOON = 0
 CLOTHES_TAILOR = 1

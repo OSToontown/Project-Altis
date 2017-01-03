@@ -5,7 +5,7 @@ from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer
-import ShuffleButton
+from toontown.makeatoon import ShuffleButton
 import random
 from direct.directnotify import DirectNotifyGlobal
 
