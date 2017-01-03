@@ -10,7 +10,7 @@ from pandac.PandaModules import *
 from toontown.classicchars import CCharChatter
 from toontown.classicchars import CCharPaths
 from otp.avatar import Avatar
-from toontown.char from toontown.clar import CharDNA
+from toontown.char import CharDNA
 from toontown.char import DistributedChar
 from toontown.chat.ChatGlobals import *
 from toontown.effects import DustCloud

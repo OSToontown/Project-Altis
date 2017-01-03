@@ -4,7 +4,7 @@ from toontown.classicchars import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from toontown.clar import CharStateDatas
+from toontown.char import CharStateDatas
 from toontown.classicchars import CCharChatter
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
