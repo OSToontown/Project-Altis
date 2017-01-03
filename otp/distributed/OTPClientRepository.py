@@ -39,6 +39,10 @@ from otp.otpgui import OTPDialog
 from otp.uberdog import OtpAvatarManager
 from toontown.chat.ChatGlobals import *
 
+# import modules so Nuitka will include them into final build.
+from otp.distributed.CentralLogger import CentralLogger
+from otp.chat.ChatAgent import ChatAgent
+
 class OTPClientRepository(ClientRepositoryBase):
     notify = directNotify.newCategory('OTPClientRepository')
     avatarLimit = 6
