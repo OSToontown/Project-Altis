@@ -10,19 +10,11 @@ class Clickable(PandaNode, DirectObject):
         DirectObject.__init__(self)
 
         self.fsm = ClassicFSM(name, [
-            State('off', self.enterOff, self.exitOff, ['off',
-                'rollover',
-                'ready',
-                'depressed']),
-            State('rollover', self.enterRollover, self.exitRollover, ['ready',
-                'depressed']),
-            State('ready', self.enterReady, self.exitReady, ['depressed',
-                'rollover']),
-            State('depressed', self.enterDepressed, self.exitDepressed, ['rollover',
-                'ready']),
-            State('inactive', self.enterInactive, self.exitInactive, ['rollover',
-                'ready',
-                'depressed'])], 'off', 'off')
+            State('off', self.enterOff, self.exitOff),
+            State('rollover', self.enterRollover, self.exitRollover),
+            State('ready', self.enterReady, self.exitReady),
+            State('depressed', self.enterDepressed, self.exitDepressed),
+            State('inactive', self.enterInactive, self.exitInactive)], 'off', 'off')
         self.fsm.enterInitialState()
 
         self.active = True
