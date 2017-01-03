@@ -36,7 +36,6 @@ class CogdoGameRulesPanel(StateData.StateData):
         self.timer.setScale(0.4)
         self.timer.setPos(0.997, 0, 1.5)
         self.frame.hide()
-        return
 
     def unload(self):
         self.frame.destroy()

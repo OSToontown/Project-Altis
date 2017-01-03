@@ -1,3 +1,4 @@
+import random
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
 from direct.fsm import FSM
@@ -7,14 +8,11 @@ from direct.showbase import PythonUtil
 from direct.showutil import Rope
 from direct.task import Task
 from pandac.PandaModules import *
-import random
-
 from otp.otpbase import OTPGlobals
 from toontown.cogdominium import CogdoCraneGameConsts as GameConsts
 from toontown.nametag import NametagGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistCogdoCrane')
@@ -79,7 +77,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.magnetSoundInterval = Parallel(SoundInterval(self.magnetOnSfx), Sequence(Wait(0.5), Func(base.playSfx, self.magnetLoopSfx, looping=1)))
         self.craneMoveSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_elevator_up_down.ogg')
         self.fadeTrack = None
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -137,8 +134,8 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
     def cleanup(self):
         if self.state != 'Off':
             self.demand('Off')
+        
         self.craneGame = None
-        return
 
     def accomodateToon(self, toon):
         origScale = self.controlModel.getSz()
@@ -202,8 +199,8 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         taskMgr.remove(self.uniqueName('watchJoystick'))
         if self.toon:
             self.ignore(self.toon.uniqueName('disable'))
+        
         self.toon = None
-        return
 
     def __watchJoystick(self, task):
         self.toon.setPosHpr(self.controls, 0, 0, 0, 0, 0, 0)
@@ -301,7 +298,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cable.getChildren().detach()
         self.topLink.getChildren().detach()
         self.gripper = None
-        return
 
     def makeSpline(self):
         rope = Rope.Rope()

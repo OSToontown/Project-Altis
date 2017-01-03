@@ -23,7 +23,6 @@ class CogdoBarrelRoom:
         self.fog = None
         self.defaultFar = None
         self.stomperSfx = None
-        return
 
     def destroy(self):
         self.unload()
@@ -67,7 +66,6 @@ class CogdoBarrelRoom:
         taskMgr.remove(self.rewardUiTaskName)
         taskMgr.remove(self.rewardCameraTaskName)
         self._isLoaded = False
-        return
 
     def isLoaded(self):
         return self._isLoaded
@@ -77,6 +75,7 @@ class CogdoBarrelRoom:
             self.cogdoBarrelsNode = render.find('**/@@CogdoBarrels')
             self.cogdoBarrelsNode.reparentTo(self.model)
             self.cogdoBarrelsNode.unstash()
+        
         self.defaultFar = base.camLens.getFar()
         base.camLens.setFar(CogdoBarrelRoomConsts.BarrelRoomCameraFar)
         self.showBattleAreaLight(True)
@@ -88,7 +87,6 @@ class CogdoBarrelRoom:
         render.setFogOff()
         if self.defaultFar is not None:
             base.camLens.setFar(self.defaultFar)
-        return
 
     def activate(self):
         self.notify.info('Activating barrel room: %d sec timer.' % CogdoBarrelRoomConsts.CollectionTime)
@@ -117,7 +115,6 @@ class CogdoBarrelRoom:
                 lightConeNode.show()
             else:
                 lightConeNode.hide()
-        return
 
     def getIntroInterval(self):
         avatar = base.localAvatar
@@ -151,7 +148,6 @@ class CogdoBarrelRoom:
         self.hideRewardUi()
         if callback is not None:
             callback()
-        return
 
     def __rewardCamera(self):
         trackName = 'cogdoBarrelRoom-RewardCamera'
@@ -163,6 +159,7 @@ class CogdoBarrelRoom:
         if CogdoBarrelRoomConsts.ShowRewardUI:
             self.rewardUi.setRewards(results)
             self.rewardUi.unstash()
+        
         taskMgr.doMethodLater(CogdoBarrelRoomConsts.RewardUiTime, self.__rewardUiTimeout, self.rewardUiTaskName, extraArgs=[callback])
         return (track, trackName)
 

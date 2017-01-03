@@ -1,8 +1,8 @@
 import math
 from direct.directutil import Mopath
 from pandac.PandaModules import NodePath, Point3, Vec4
-from CogdoFlyingObjects import CogdoFlyingPlatform
-import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium.CogdoFlyingObjects import CogdoFlyingPlatform
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
 
 class CogdoFlyingLevelQuadrant:
     notify = directNotify.newCategory('CogdoFlyingLevelQuadrant')

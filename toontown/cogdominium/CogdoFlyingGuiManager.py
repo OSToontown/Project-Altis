@@ -1,10 +1,10 @@
 from pandac.PandaModules import NodePath
 from toontown.toonbase import ToontownIntervals
 from toontown.toonbase.ToontownTimer import ToontownTimer
-from CogdoFlyingGameGuis import CogdoFlyingFuelGui, CogdoFlyingProgressGui
-from CogdoGameMessageDisplay import CogdoGameMessageDisplay
-from CogdoMemoGui import CogdoMemoGui
-import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium.CogdoFlyingGameGuis import CogdoFlyingFuelGui, CogdoFlyingProgressGui
+from toontown.cogdominium.CogdoGameMessageDisplay import CogdoGameMessageDisplay
+from toontown.cogdominium.CogdoMemoGui import CogdoMemoGui
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
 
 class CogdoFlyingGuiManager:
     ClearMessageDisplayEventName = 'ClearMessageDisplayEvent'

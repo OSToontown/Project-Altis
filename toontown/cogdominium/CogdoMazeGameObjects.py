@@ -1,3 +1,5 @@
+import math
+import random
 from pandac.PandaModules import CollisionSphere, CollisionTube, CollisionNode
 from pandac.PandaModules import NodePath, BitMask32
 from pandac.PandaModules import Point3, Point4, WaitInterval, Vec3, Vec4
@@ -6,11 +8,9 @@ from direct.interval.IntervalGlobal import Func, Sequence, Parallel
 from direct.showbase.DirectObject import DirectObject
 from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
-import CogdoMazeGameGlobals as Globals
-from CogdoGameExit import CogdoGameExit
-import CogdoUtil
-import math
-import random
+from toontown.cogdominium import CogdoMazeGameGlobals as Globals
+from toontown.cogdominium.CogdoGameExit import CogdoGameExit
+from toontown.cogdominium import CogdoUtil
 
 class CogdoMazeSplattable:
 
@@ -24,12 +24,12 @@ class CogdoMazeSplattable:
         self.splatTrack = None
         self._splatSfxIval = base.cogdoGameAudioMgr.createSfxIval('splat')
         self.initGagCollision(name, collisionRadius)
-        return
 
     def destroy(self):
         self.disableGagCollision()
         if self._splatSfxIval.isPlaying():
             self._splatSfxIval.finish()
+        
         del self._splatSfxIval
 
     def initGagCollision(self, name, radius):
@@ -141,8 +141,6 @@ class CogdoMazeDrop(NodePath, DirectObject):
         self.collNodePath.removeNode()
         self.collNodePath = None
         self.removeNode()
-        return
-
 
 class CogdoMazeExit(CogdoGameExit, DirectObject):
     EnterEventName = 'CogdoMazeDoor_Enter'
@@ -208,7 +206,6 @@ class CogdoMazeWaterCooler(NodePath, DirectObject):
         self._initArrow()
         self._update = None
         self.__startUpdateTask()
-        return
 
     def destroy(self):
         self.ignoreAll()
@@ -258,7 +255,6 @@ class CogdoMazeWaterCooler(NodePath, DirectObject):
     def __stopUpdateTask(self):
         if self._update is not None:
             taskMgr.remove(self._update)
-        return
 
     def _updateTask(self, task):
         dt = globalClock.getDt()

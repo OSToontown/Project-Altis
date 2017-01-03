@@ -1,5 +1,5 @@
 from otp.otpbase import OTPGlobals
-from CogdoFlyingShadowPlacer import CogdoFlyingShadowPlacer
+from toontown.cogdominium.CogdoFlyingShadowPlacer import CogdoFlyingShadowPlacer
 
 def loadMockup(fileName, dmodelsAlt = 'coffin'):
     try:
@@ -21,4 +21,3 @@ def swapAvatarShadowPlacer(avatar, name):
     avatar.shadowPlacer = shadowPlacer
     avatar.setActiveShadow(0)
     avatar.setActiveShadow(1)
-    return

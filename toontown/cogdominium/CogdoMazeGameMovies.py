@@ -6,9 +6,9 @@ from direct.interval.FunctionInterval import Func, Wait
 from toontown.toonbase import TTLocalizer
 from toontown.suit import Suit, SuitDNA
 from toontown.toon import Toon, ToonHead, ToonDNA
-from CogdoUtil import CogdoGameMovie
-import CogdoMazeGameGlobals as Globals
-import CogdoUtil
+from toontown.cogdominium.CogdoUtil import CogdoGameMovie
+from toontown.cogdominium import CogdoMazeGameGlobals as Globals
+from toontown.cogdominium import CogdoUtil
 
 class CogdoMazeGameIntro(CogdoGameMovie):
 
@@ -20,7 +20,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         self._camTarget = None
         self._state = 0
         self._suits = []
-        return
 
     def _getRandomLine(self, lineList):
         return CogdoUtil.getRandomDialogueLine(lineList, self._rng)
@@ -148,6 +147,7 @@ class CogdoMazeGameIntro(CogdoGameMovie):
             self._camHelperNode.setHpr(self._camHelperNode, dt, dt, 0)
             camera.setY(camera, 0.8 * dt)
             camera.lookAt(self._camTarget, 0, 0, 3)
+        
         return task.cont
 
     def unload(self):
@@ -189,6 +189,7 @@ class CogdoMazeGameFinish(CogdoGameMovie):
         if not self._exit.hasPlayer(self._localPlayer):
             loseSfx = base.cogdoGameAudioMgr.createSfx('lose')
             self._ival.append(Sequence(Func(loseSfx.play), Func(self._localPlayer.toon.setAnimState, 'Sad')))
+        
         self._ival.append(Sequence(Wait(Globals.FinishDurationSeconds - 1.0), Func(base.transitions.irisOut), Wait(1.0)))
 
     def unload(self):

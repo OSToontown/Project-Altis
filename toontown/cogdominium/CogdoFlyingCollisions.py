@@ -107,7 +107,6 @@ class CogdoFlyingCollisions(GravityWalker):
         del self.cRayNodePath
         self.cEventSphereNodePath.detachNode()
         del self.cEventSphereNodePath
-        return
 
     def setCollisionsActive(self, active = 1):
         if self.collisionsActive != active:
@@ -119,8 +118,8 @@ class CogdoFlyingCollisions(GravityWalker):
                 base.cTrav.removeCollider(self.cFloorEventSphereNodePath)
                 if active:
                     base.cTrav.addCollider(self.cFloorEventSphereNodePath, self.floorCollisionEvent)
+        
         GravityWalker.setCollisionsActive(self, active)
-        return
 
     def enableAvatarControls(self):
         pass

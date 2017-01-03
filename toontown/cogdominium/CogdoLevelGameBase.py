@@ -21,7 +21,6 @@ class CogdoLevelGameBase:
                             fcs.append(FunctionCall(handler, stateVar))
 
             self._functionCalls = fcs
-            return
 
         def stopHandleEdits(self):
             if __dev__:
@@ -29,10 +28,9 @@ class CogdoLevelGameBase:
                     fc.destroy()
 
                 self._functionCalls = None
-            return
 
         def getEntityTypeReg(self):
-            import CogdoEntityTypes
+            from toontown.cogdominium import CogdoEntityTypes
             from otp.level import EntityTypeRegistry
             typeReg = EntityTypeRegistry.EntityTypeRegistry(CogdoEntityTypes)
             return typeReg

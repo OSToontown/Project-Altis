@@ -6,7 +6,8 @@ from math import pi, sin, cos
 from direct.showbase.PythonUtil import bound as clamp
 from otp.otpbase import OTPGlobals
 from toontown.toonbase import ToontownGlobals
-import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
+
 INVERSE_E = 1.0 / math.e
 
 def smooth(old, new):

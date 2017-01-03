@@ -76,6 +76,7 @@ class CogdoInterior(Place.Place):
         self.parentFSM.getStateNamed('cogdoInterior').addChild(self.fsm)
         self.townBattle = TownBattle.TownBattle('town-battle-done')
         self.townBattle.load()
+
         for i in xrange(1, 3):
             Suit.loadSuits(i)
 
@@ -90,6 +91,7 @@ class CogdoInterior(Place.Place):
         self.townBattle.unload()
         self.townBattle.cleanup()
         del self.townBattle
+
         for i in xrange(1, 3):
             Suit.unloadSuits(i)
 
@@ -134,11 +136,9 @@ class CogdoInterior(Place.Place):
         self.elevator.unload()
         self.elevator.exit()
         del self.elevator
-        return None
 
     def detectedElevatorCollision(self, distElevator):
         self.fsm.request('Elevator', [distElevator])
-        return None
 
     def handleElevatorDone(self, doneStatus):
         self.notify.debug('handling elevator done event')
@@ -224,11 +224,11 @@ class CogdoInterior(Place.Place):
         return Task.done
 
     def enterElevatorOut(self):
-        return None
+        pass
 
     def __elevatorOutDone(self, requestStatus):
         self.doneStatus = requestStatus
         messenger.send(self.doneEvent)
 
     def exitElevatorOut(self):
-        return None
+        pass

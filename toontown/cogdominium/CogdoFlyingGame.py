@@ -5,16 +5,16 @@ from direct.interval.FunctionInterval import Wait
 from direct.interval.IntervalGlobal import Func
 from direct.interval.MetaInterval import Sequence, Parallel
 from toontown.toonbase import TTLocalizer
-import CogdoFlyingGameGlobals as Globals
-from CogdoFlyingLocalPlayer import CogdoFlyingLocalPlayer
-from CogdoGameAudioManager import CogdoGameAudioManager
-from CogdoFlyingPlayer import CogdoFlyingPlayer
-from CogdoFlyingObjects import CogdoFlyingGatherable
-from CogdoFlyingObstacles import CogdoFlyingObstacle
-from CogdoFlyingLegalEagle import CogdoFlyingLegalEagle
-from CogdoFlyingGuiManager import CogdoFlyingGuiManager
-from CogdoFlyingLevel import CogdoFlyingLevelFactory
-from CogdoFlyingGameMovies import CogdoFlyingGameIntro, CogdoFlyingGameFinish
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium.CogdoFlyingLocalPlayer import CogdoFlyingLocalPlayer
+from toontown.cogdominium.CogdoGameAudioManager import CogdoGameAudioManager
+from toontown.cogdominium.CogdoFlyingPlayer import CogdoFlyingPlayer
+from toontown.cogdominium.CogdoFlyingObjects import CogdoFlyingGatherable
+from toontown.cogdominium.CogdoFlyingObstacles import CogdoFlyingObstacle
+from toontown.cogdominium.CogdoFlyingLegalEagle import CogdoFlyingLegalEagle
+from toontown.cogdominium.CogdoFlyingGuiManager import CogdoFlyingGuiManager
+from toontown.cogdominium.CogdoFlyingLevel import CogdoFlyingLevelFactory
+from toontown.cogdominium.CogdoFlyingGameMovies import CogdoFlyingGameIntro, CogdoFlyingGameFinish
 
 class CogdoFlyingGame(DirectObject):
     notify = directNotify.newCategory('CogdoFlyingGame')
@@ -54,8 +54,6 @@ class CogdoFlyingGame(DirectObject):
                 player.enable()
                 self._addPlayer(player)
                 self.guiMgr.addToonToProgressMeter(toon)
-
-        return
 
     def placeEntranceElevator(self, elevator):
         loc = self.level.startPlatform._model.find('**/door_loc')
@@ -255,25 +253,21 @@ class CogdoFlyingGame(DirectObject):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.spawn(elapsedTime)
-        return
 
     def toonResetBlades(self, toonId):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.resetBlades()
-        return
 
     def toonSetBlades(self, toonId, fuelState):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.setBlades(fuelState)
-        return
 
     def toonBladeLost(self, toonId):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.bladeLost()
-        return
 
     def handleLocalToonEnterGatherable(self, gatherable):
         if gatherable.wasPickedUp():
@@ -301,7 +295,6 @@ class CogdoFlyingGame(DirectObject):
                         self.audioMgr.playMusic('invul')
         else:
             self.notify.warning('Trying to pickup gatherable nonetype:%s' % pickupNum)
-        return
 
     def debuffPowerup(self, toonId, pickupType, elapsedTime):
         self.notify.debugCall()
