@@ -1,16 +1,16 @@
 import copy
+import string
 from direct.controls.ControlManager import CollisionHandlerRayStart
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-import string
 
-import CCharChatter
-import CCharPaths
+from toontown.classicchars import CCharChatter
+from toontown.classicchars import CCharPaths
 from otp.avatar import Avatar
-from toontown.char import CharDNA
+from toontown.char from toontown.clar import CharDNA
 from toontown.char import DistributedChar
 from toontown.chat.ChatGlobals import *
 from toontown.effects import DustCloud

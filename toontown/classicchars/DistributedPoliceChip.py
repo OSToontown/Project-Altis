@@ -1,9 +1,9 @@
 from direct.showbase.ShowBaseGlobal import *
-import DistributedCCharBase
+from toontown.classicchars import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-import CharStateDatas
+from toontown.clar import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import DistributedChip

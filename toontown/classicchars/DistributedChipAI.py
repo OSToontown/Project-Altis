@@ -1,7 +1,7 @@
 # File: D (Python 2.4)
 
 from otp.ai.AIBaseGlobal import *
-import DistributedCCharBaseAI
+from toontown.classicchars import DistributedCCharBaseAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
@@ -9,7 +9,7 @@ from direct.task import Task
 import random
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-import CharStateDatasAI
+from toontown.classicchars import CharStateDatasAI
 
 class DistributedChipAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedChipAI')

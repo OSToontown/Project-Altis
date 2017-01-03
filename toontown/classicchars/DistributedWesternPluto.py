@@ -1,13 +1,13 @@
 from pandac.PandaModules import *
-import DistributedCCharBase
+from toontown.classicchars import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.classicchars import DistributedPluto
-import CharStateDatas
+from toontown.clar import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-import DistributedCCharBase
+from toontown.classicchars import DistributedCCharBase
 
 class DistributedWesternPluto(DistributedPluto.DistributedPluto):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedWesternPluto')

@@ -118,7 +118,7 @@ want-resistance-restock #f
 want-resistance-dance #f
 
 # Cog battles:
-base-xp-multiplier 1.0
+base-xp-multiplier 10.0
 
 # Cog buildings:
 want-cogbuildings #t
