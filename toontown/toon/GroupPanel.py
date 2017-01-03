@@ -133,7 +133,6 @@ class GroupPanel(DirectObject.DirectObject):
         if value > 0:
             if self.boardingParty:
                 self.boardingParty.requestLeave()
-        return
 
     def __handleGoButton(self):
         offset = self.destScrollList.getSelectedIndex()
@@ -299,10 +298,7 @@ class GroupPanel(DirectObject.DirectObject):
         self.scrollList.refresh()
 
     def __isForcedHidden(self):
-        if self.forcedHidden and self.frame.isHidden():
-            return True
-        else:
-            return False
+        return True if self.forcedHidden and self.frame.isHidden() else False
 
     def hide(self):
         self.frame.hide()

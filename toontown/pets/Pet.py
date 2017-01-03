@@ -9,15 +9,13 @@ from direct.task import Task
 from pandac.PandaModules import *
 import random
 import types
-
-from PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
+from toontown.pets.PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
 from otp.avatar import Avatar
 from toontown.chat.ChatGlobals import *
 from toontown.nametag import NametagGlobals
 from toontown.pets import PetDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 Component2IconDict = {'boredom': 'Bored',
  'restlessness': None,

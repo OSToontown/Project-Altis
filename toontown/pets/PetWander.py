@@ -12,7 +12,6 @@ class PetWander(PetChase, DirectObject.DirectObject):
         self.targetMoveCountdown = 0
         self.collEvent = None
         self.gotCollision = False
-        return
 
     def isCpp(self):
         return 0
@@ -21,7 +20,6 @@ class PetWander(PetChase, DirectObject.DirectObject):
         if self.collEvent is not None:
             self.ignore(self.collEvent)
             self.collEvent = None
-        return
 
     def _setMover(self, mover):
         CPetChase.setMover(self, mover)
@@ -58,4 +56,5 @@ class PetWander(PetChase, DirectObject.DirectObject):
             target.setY(target, distance)
             duration = distance / self.mover.getFwdSpeed()
             self.targetMoveCountdown = duration * randFloat(1.2, 3.0)
+        
         CPetChase.process(self, dt)

@@ -1,6 +1,6 @@
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-import Quests
+from toontown.quest import Quests
 from toontown.toon import NPCToons
 from toontown.toon import ToonHead
 from toontown.toon import ToonDNA
@@ -16,6 +16,7 @@ from toontown.toontowngui.TeaserPanel import TeaserPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPLocalizer
+
 IMAGE_SCALE_LARGE = 0.2
 IMAGE_SCALE_SMALL = 0.15
 POSTER_WIDTH = 0.7

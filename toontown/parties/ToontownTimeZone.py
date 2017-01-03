@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta, tzinfo
 
-
 # In the U.S., DST starts at 2AM (standard time) on the first Sunday in April:
 DST_START = datetime(1, 4, 1, 2)
 
@@ -15,8 +14,8 @@ def forwardToSunday(dt):
         dt += timedelta(daysLeft)
     return dt
 
-
 class UTC(tzinfo):
+
     def tzname(self, dt):
         return 'UTC'
 
@@ -28,6 +27,7 @@ class UTC(tzinfo):
 
 
 class ToontownTimeZone(tzinfo):
+    
     def __init__(self):
         timeZoneInfo = config.GetString('server-timezone', 'EST/EDT/-5')
         self.stdName, self.dstName, self.stdOffset = timeZoneInfo.split('/')

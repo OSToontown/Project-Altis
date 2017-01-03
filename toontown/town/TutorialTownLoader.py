@@ -1,6 +1,6 @@
-import TownLoader
-import TTTownLoader
-import TutorialStreet
+from toontown.town import TownLoader
+from toontown.town import TTTownLoader
+from toontown.town import TutorialStreet
 from toontown.suit import Suit
 from toontown.toon import Toon
 from toontown.hood import ZoneUtil

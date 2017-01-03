@@ -1,13 +1,11 @@
-from direct.task.Task import Task
 import math
+from direct.task.Task import Task
 from panda3d.core import BillboardEffect, Vec3, Point3, PGButton, VBase4
 from panda3d.core import DepthWriteAttrib
-
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.nametag import NametagGlobals
 from toontown.nametag.Nametag import Nametag
 from toontown.toontowngui.Clickable3d import Clickable3d
-
 
 class Nametag3d(Nametag, Clickable3d):
     SCALING_MIN_DISTANCE = 1

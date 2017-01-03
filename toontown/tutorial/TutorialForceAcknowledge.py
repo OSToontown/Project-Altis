@@ -7,7 +7,6 @@ class TutorialForceAcknowledge:
     def __init__(self, doneEvent):
         self.doneEvent = doneEvent
         self.dialog = None
-        return
 
     def enter(self):
         base.localAvatar.loop('neutral')
@@ -19,7 +18,6 @@ class TutorialForceAcknowledge:
         if self.dialog:
             self.dialog.cleanup()
             self.dialog = None
-        return
 
     def handleOk(self, value):
         messenger.send(self.doneEvent, [self.doneStatus])

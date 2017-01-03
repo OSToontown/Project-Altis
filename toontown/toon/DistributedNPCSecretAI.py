@@ -1,7 +1,7 @@
 from otp.ai.AIBaseGlobal import *
-from DistributedNPCToonBaseAI import *
-from ToonDNA import *
-from DistributedBotAI import *
+from toontown.toon.DistributedNPCToonBaseAI import *
+from toontown.toon.ToonDNA import *
+from toontown.toon.DistributedBotAI import *
 import random
 
 class DistributedNPCSecretAI(DistributedNPCToonBaseAI):

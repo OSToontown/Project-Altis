@@ -1,12 +1,10 @@
 from direct.distributed.DistributedObject import DistributedObject
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
-
 from toontown.chat.ChatGlobals import *
 from toontown.parties import PartyGlobals
 from toontown.toon import ToonDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 class DistributedPartyManager(DistributedObject):
     neverDisable = 1
@@ -20,12 +18,10 @@ class DistributedPartyManager(DistributedObject):
         self.partyPlannerStyle = None
         self.partyPlannerName = None
         self.showDoid = False
-        return
 
     def delete(self):
         DistributedObject.delete(self)
         self.cr.partyManager = None
-        return
 
     def disable(self):
         self.notify.debug("i'm disabling DistributedPartyManager rightnow.")
@@ -133,7 +129,6 @@ class DistributedPartyManager(DistributedObject):
              newStatus,
              0,
              refund])
-        return
 
     def sendAvToPlayground(self, avId, retCode):
         messenger.send(PartyGlobals.KICK_TO_PLAYGROUND_EVENT, [retCode])
@@ -174,7 +169,6 @@ class DistributedPartyManager(DistributedObject):
          'zoneId': zoneId,
          'shardId': shardId,
          'avId': -1})
-        return
 
     def setPartyPlannerStyle(self, dna):
         self.partyPlannerStyle = dna

@@ -1,6 +1,6 @@
 from otp.ai.AIBaseGlobal import *
 from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from toontown.toon.DistributedNPCToonBaseAI import *
 from toontown.toonbase import TTLocalizer
 from direct.task import Task
 from toontown.fishing import FishGlobals
@@ -80,7 +80,6 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             self.d_setMovie(avId, movieType, extraArgs)
             self.transactionType = 'fish'
         self.sendClearMovie(None)
-        return
 
     def petAdopted(self, petNum, nameIndex):
         avId = self.air.getAvatarIdFromSender()
@@ -141,11 +140,9 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             elif self.transactionType == '':
                 self.d_setMovie(avId, NPCToons.SELL_MOVIE_PETCANCELED)
         self.sendClearMovie(None)
-        return
 
     def __handleUnexpectedExit(self, avId):
         self.notify.warning('avatar:' + str(avId) + ' has exited unexpectedly')
         self.notify.warning('not busy with avId: %s, busy: %s ' % (avId, self.busy))
         taskMgr.remove(self.uniqueName('clearMovie'))
         self.sendClearMovie(None)
-        return

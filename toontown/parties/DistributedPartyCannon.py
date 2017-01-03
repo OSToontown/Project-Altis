@@ -7,6 +7,7 @@ from toontown.parties.Cannon import Cannon
 from toontown.parties.CannonGui import CannonGui
 from toontown.parties import PartyGlobals
 from toontown.parties.DistributedPartyCannonActivity import DistributedPartyCannonActivity
+
 LAND_TIME = 2
 WORLD_SCALE = 2.0
 GROUND_SCALE = 1.4 * WORLD_SCALE

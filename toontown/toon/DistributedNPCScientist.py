@@ -1,6 +1,6 @@
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer, ToontownGlobals
-import DistributedNPCToonBase
+from toontown.toon import DistributedNPCToonBase
 
 class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
 
@@ -10,6 +10,7 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
             self.show()
         else:
             self.hide()
+        
         self.accept('SillyMeterIsRunning', self.sillyMeterIsRunning)
 
     def disable(self):
@@ -98,8 +99,6 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
                     clipBoard.stash()
                 clipBoard = None
 
-        return
-
     def showScientistProp(self):
         if self.style.getTorsoSize() == 'short' and self.style.getAnimal() == 'duck':
             sillyReaders = self.findAllMatches('**/SillyReader;+s')
@@ -114,5 +113,3 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
                 if not clipBoard.isEmpty():
                     clipBoard.unstash()
                 clipBoard = None
-
-        return

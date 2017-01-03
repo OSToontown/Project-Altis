@@ -4,7 +4,7 @@ from direct.fsm.FSM import FSM
 from direct.task import Task
 from toontown.parties.DistributedPartyActivityAI import DistributedPartyActivityAI
 from toontown.toonbase import TTLocalizer
-import PartyGlobals
+from toontown.parties import PartyGlobals
 
 class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyTrampolineActivityAI")

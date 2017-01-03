@@ -24,7 +24,6 @@ from toontown.nametag import NametagGlobals
 visualizeZones = base.config.GetBool('visualize-zones', 0)
 
 class Street(BattlePlace.BattlePlace):
-
     notify = DirectNotifyGlobal.directNotify.newCategory('Street')
 
     def __init__(self, loader, parentFSM, doneEvent):

@@ -1,6 +1,6 @@
 import random
 import types
-import Toon, ToonDNA
+from toontown.toon import Toon, ToonDNA
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil

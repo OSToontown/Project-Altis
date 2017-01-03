@@ -22,13 +22,11 @@ class ServerTimeGui(DirectFrame):
         self.amLabel = DirectLabel(relief=None, parent=self, pos=(0.14, 0, 0), text='', text_scale=textScale, text_align=TextNode.ALeft, text_font=timeFont)
         self.ival = Sequence(Func(self.colonLabel.show), Wait(0.75), Func(self.colonLabel.hide), Wait(0.25), Func(self.updateTime))
         self.ival.loop()
-        return
 
     def destroy(self):
         self.ival.finish()
         self.ival = None
         DirectFrame.destroy(self)
-        return
 
     def updateTime(self):
         curServerDate = base.cr.toontownTimeManager.getCurServerDateTime()

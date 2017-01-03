@@ -9,7 +9,6 @@ class BlinkingArrows:
         self.arrowTrack = None
         self.parent = parent
         self.otherNode = otherNode
-        return
 
     def delete(self):
         self.arrowsOff()
@@ -59,4 +58,3 @@ class BlinkingArrows:
         self.arrow2.hide()
         if self.otherNode:
             self.otherNode.hide()
-        return

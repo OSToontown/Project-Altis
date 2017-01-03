@@ -9,7 +9,6 @@ from direct.showbase import DirectObject
 from direct.showbase import PythonUtil
 from pandac.PandaModules import *
 from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4
-
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.friends.FriendsListPanel import determineFriendName
@@ -29,7 +28,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
-
 
 class PartyPlanner(DirectFrame, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('PartyPlanner')
@@ -64,7 +62,6 @@ class PartyPlanner(DirectFrame, FSM):
         self.asapMinuteRounding = base.config.GetInt('party-asap-minute-rounding', PartyGlobals.PartyPlannerAsapMinuteRounding)
         self.load()
         self.request('Welcome')
-        return
 
     def enterWelcome(self, *args):
         self.prevButton['state'] = DirectGuiGlobals.DISABLED
@@ -117,7 +114,6 @@ class PartyPlanner(DirectFrame, FSM):
             self.nextButton.hide()
             self.makePartyNowButton.show()
         self.datePage.show()
-        return
 
     def exitDate(self):
         self.datePage.hide()
@@ -128,7 +124,6 @@ class PartyPlanner(DirectFrame, FSM):
         else:
             self.partyNowTime = self.calcAsapTime()
             self.partyTime = self.partyNowTime
-        return
 
     def calcAsapTime(self):
         curServerTime = base.cr.toontownTimeManager.getCurServerDateTime()
@@ -189,7 +184,6 @@ class PartyPlanner(DirectFrame, FSM):
             self.setInviteTheme(defaultInviteTheme)
         self.inviteVisual.updateInvitation(base.localAvatar.getName(), self.partyInfo)
         self.invitationPage.show()
-        return
 
     def __prevTheme(self):
         self.nextThemeButton.show()

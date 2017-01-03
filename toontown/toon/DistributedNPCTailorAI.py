@@ -1,7 +1,7 @@
 from otp.ai.AIBaseGlobal import *
 from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
-import ToonDNA
+from toontown.toon.DistributedNPCToonBaseAI import *
+from toontown.toon import ToonDNA
 from direct.task.Task import Task
 from toontown.ai import DatabaseObject
 from toontown.estate import ClosetGlobals
@@ -26,8 +26,6 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         if self.freeClothes:
             self.useJellybeans = False
 
-        return
-
     def getTailor(self):
         return 1
 
@@ -37,7 +35,6 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         self.customerDNA = None
         self.customerId = None
         DistributedNPCToonBaseAI.delete(self)
-        return
 
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
@@ -76,11 +73,13 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         numClothes = len(av.clothesTopsList) / 4 + len(av.clothesBottomsList) / 2
         if numClothes >= av.maxClothes - 1:
             return 1
+        
         return 0
 
     def hasEnoughJbs(self, av):
         if av.getTotalMoney() >= self.jbCost:
             return True
+        
         return False
 
     def sendShoppingMovie(self, avId, flag):
@@ -129,7 +128,6 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         self.sendClearMovie(None)
         if self.air.questManager.hasTailorClothingTicket(av, self):
             self.air.questManager.removeClothingTicket(av, self)
-        return
 
     def setDNA(self, blob, finished, which):
         avId = self.air.getAvatarIdFromSender()
@@ -208,4 +206,3 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
             self.sendClearMovie(None)
         else:
             self.notify.warning('not busy with avId: %s, busy: %s ' % (avId, self.busy))
-        return

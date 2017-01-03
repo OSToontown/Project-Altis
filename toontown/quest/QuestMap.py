@@ -7,7 +7,7 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.quest import Quests
 from toontown.suit import SuitPlannerBase
-import QuestMapGlobals
+from toontown.quest import QuestMapGlobals
 
 class QuestMap(DirectFrame):
 

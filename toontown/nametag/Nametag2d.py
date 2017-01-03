@@ -1,14 +1,12 @@
-from direct.task.Task import Task
 import math
+from direct.task.Task import Task
 from panda3d.core import PGButton, VBase4, DepthWriteAttrib, Point3
-
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.margins import MarginGlobals
 from toontown.margins.MarginVisible import MarginVisible
 from toontown.nametag import NametagGlobals
 from toontown.nametag.Nametag import Nametag
 from toontown.toontowngui.Clickable2d import Clickable2d
-
 
 class Nametag2d(Nametag, Clickable2d, MarginVisible):
     CONTENTS_SCALE = 0.25

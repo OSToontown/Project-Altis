@@ -1,6 +1,6 @@
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectFrame, DirectButton
-import direct.gui.DirectGuiGlobals as DGG
+from direct.gui import DirectGuiGlobals as DGG
 from toontown.parties import PartyUtils
 
 class CannonGui(DirectObject):

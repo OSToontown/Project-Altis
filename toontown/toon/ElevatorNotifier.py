@@ -10,7 +10,6 @@ class ElevatorNotifier:
 
     def __init__(self):
         self.frame = None
-        return
 
     def handleButton(self):
         self.__handleButton(1)
@@ -30,7 +29,6 @@ class ElevatorNotifier:
             self.doneButton['command'] = self.__handleButtonWithoutStopping
         self.doneButton.show()
         self.frame.show()
-        return
 
     def cleanup(self):
         if self.frame:
@@ -40,7 +38,6 @@ class ElevatorNotifier:
         self.doneButton = None
         self.okImageList = None
         self.cancelImageList = None
-        return
 
     def setOkButton(self):
         self.doneButton['image'] = self.okImageList
@@ -60,18 +57,13 @@ class ElevatorNotifier:
             if place:
                 self.createFrame(message, pos, True, ttDialog)
                 place.setState('stopped')
-        return
 
     def showMeWithoutStopping(self, message, pos = None, ttDialog = False):
         if self.frame == None:
             self.createFrame(message, pos, False, ttDialog)
-        return
 
     def __handleButtonWithoutStopping(self):
         self.cleanup()
 
     def isNotifierOpen(self):
-        if self.frame:
-            return True
-        else:
-            return False
+        return True if self.frame else False

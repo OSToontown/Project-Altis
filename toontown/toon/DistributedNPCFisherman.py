@@ -3,9 +3,8 @@ from direct.interval.LerpInterval import LerpPosHprInterval
 from direct.task.Task import Task
 from pandac.PandaModules import *
 import time
-
-from DistributedNPCToonBase import *
-import NPCToons
+from toontown.toon.DistributedNPCToonBase import *
+from toontown.toon import NPCToons
 from toontown.chat.ChatGlobals import *
 from toontown.fishing import FishSellGUI
 from toontown.nametag.NametagGlobals import *

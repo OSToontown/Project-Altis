@@ -1,7 +1,6 @@
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.battle.DistributedBattleAI import DistributedBattleAI
 
-
 class DistributedBattleTutorialAI(DistributedBattleAI):
     notify = directNotify.newCategory('DistributedBattleTutorialAI')
 

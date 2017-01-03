@@ -1,10 +1,10 @@
 import operator
 import random
 import time
-import Experience
-import InventoryNew
-import TTEmote
-import Toon
+from toontown.toon import Experience
+from toontown.toon import InventoryNew
+from toontown.toon import TTEmote
+from toontown.toon import Toon
 import copy
 from direct.controls.GravityWalker import GravityWalker
 from direct.directnotify import DirectNotifyGlobal
@@ -61,6 +61,7 @@ from toontown.toonbase import ToontownGlobals
 
 if base.wantKarts:
     from toontown.racing.KartDNA import *
+
 if (__debug__):
     import pdb
 
@@ -345,7 +346,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def b_setSCSinging(self, msgIndex):
         self.setSCSinging(msgIndex)
         self.d_setSCSinging(msgIndex)
-        return None
 
     def d_setSCSinging(self, msgIndex):
         messenger.send('wakeup')

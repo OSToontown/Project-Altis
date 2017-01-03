@@ -8,4 +8,3 @@ class BaseActivityFSM(FSM):
         FSM.__init__(self, self.__class__.__name__)
         self.activity = activity
         self.defaultTransitions = None
-        return

@@ -6,12 +6,13 @@ from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
-import DistributedToon
+from toontown.toon import DistributedToon
 from toontown.friends import FriendInviter
-import ToonTeleportPanel
+from toontown.toon import ToonTeleportPanel
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownBattleGlobals import Tracks, Levels
+
 globalAvatarDetail = None
 
 def showPlayerDetail(avId, avName, playerId = None):
@@ -21,13 +22,11 @@ def showPlayerDetail(avId, avName, playerId = None):
         globalAvatarDetail = None
     globalAvatarDetail = PlayerDetailPanel(avId, avName, playerId)
 
-
 def hidePlayerDetail():
     global globalAvatarDetail
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-
 
 def unloadPlayerDetail():
     global globalAvatarDetail

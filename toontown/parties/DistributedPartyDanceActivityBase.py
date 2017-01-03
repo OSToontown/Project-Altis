@@ -17,6 +17,7 @@ from toontown.parties.PartyDanceActivityToonFSM import ToonDancingStates
 from toontown.parties.KeyCodes import KeyCodes
 from toontown.parties.KeyCodesGui import KeyCodesGui
 from toontown.parties import PartyGlobals
+
 DANCE_FLOOR_COLLISION = 'danceFloor_collision'
 DanceViews = Enum(('Normal', 'Dancing', 'Isometric'))
 

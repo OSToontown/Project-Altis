@@ -35,8 +35,6 @@ class TrackPoster(DirectFrame):
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
         self.chooseButton = DirectButton(parent=self.poster, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text=TTLocalizer.TrackChoiceGuiChoose, text_scale=0.06, text_pos=(0, -0.02), command=callback, extraArgs=[trackId], pos=(0, 0, -0.16), scale=0.8)
         guiButton.removeNode()
-        return
-
 
 class TrackChoiceGui(DirectFrame):
 
@@ -59,7 +57,6 @@ class TrackChoiceGui(DirectFrame):
 
         self.trackChoicePosters[0].setPos(0, 0, -0.2)
         self.trackChoicePosters[1].setPos(0, 0, 0.4)
-        return
 
     def chooseTrack(self, trackId):
         self.timer.stop()

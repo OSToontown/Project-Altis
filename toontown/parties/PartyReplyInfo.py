@@ -1,11 +1,9 @@
 
-
 class SingleReply:
 
     def __init__(self, inviteeId, status):
         self.inviteeId = inviteeId
         self.status = status
-
 
 class PartyReplyInfoBase:
 

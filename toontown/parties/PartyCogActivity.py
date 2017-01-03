@@ -11,12 +11,12 @@ from pandac.PandaModules import CollisionSphere, CollisionNode, CollisionHandler
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase.ToontownTimer import ToontownTimer
-import PartyGlobals
-import PartyCogUtils
-from PartyCog import PartyCogManager
-from PartyCogActivityPlayer import PartyCogActivityPlayer
-from PartyCogActivityPlayer import PartyCogActivityLocalPlayer
-from StretchingArrow import StretchingArrow
+from toontown.parties import PartyGlobals
+from toontown.parties import PartyCogUtils
+from toontown.parties.PartyCog import PartyCogManager
+from toontown.parties.PartyCogActivityPlayer import PartyCogActivityPlayer
+from toontown.parties.PartyCogActivityPlayer import PartyCogActivityLocalPlayer
+from toontown.parties.StretchingArrow import StretchingArrow
 
 class PartyCogActivity(DirectObject):
     notify = directNotify.newCategory('PartyCogActivity')
@@ -35,7 +35,6 @@ class PartyCogActivity(DirectObject):
         self.resultsIval = None
         self.arenaModel = arenaModel
         self.texture = texture
-        return
 
     def load(self):
         self.arena = loader.loadModel(self.arenaModel)
@@ -121,8 +120,6 @@ class PartyCogActivity(DirectObject):
             self._doorStartPos.append(door.getPos())
             door.setPos(door, 0, 0, -7.0)
 
-        return
-
     def _destroyArenaDoors(self):
         for ival in self._arenaDoorIvals:
             ival.finish()
@@ -134,7 +131,6 @@ class PartyCogActivity(DirectObject):
             timer.removeNode()
 
         self._arenaDoorTimers = None
-        return
 
     def createDoorTimer(self, team):
         timer = ToontownTimer(useImage=False, highlightNearEnd=False)
@@ -240,7 +236,6 @@ class PartyCogActivity(DirectObject):
             self.ignore(eventName)
 
         self.toonPieEventNames = {}
-        return
 
     def enable(self):
         self.enableEnterGateCollision()

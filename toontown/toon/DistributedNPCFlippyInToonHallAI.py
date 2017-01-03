@@ -1,4 +1,4 @@
-from DistributedNPCToonAI import *
+from toontown.toon.DistributedNPCToonAI import *
 
 class DistributedNPCFlippyInToonHallAI(DistributedNPCToonAI):
 

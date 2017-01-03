@@ -3,13 +3,13 @@ import types
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import TownBattleAttackPanel
-import TownBattleWaitPanel
-import TownBattleChooseAvatarPanel
-import TownBattleSOSPanel
-import TownBattleSOSPetSearchPanel
-import TownBattleSOSPetInfoPanel
-import TownBattleToonPanel
+from toontown.town import TownBattleAttackPanel
+from toontown.town import TownBattleWaitPanel
+from toontown.town import TownBattleChooseAvatarPanel
+from toontown.town import TownBattleSOSPanel
+from toontown.town import TownBattleSOSPetSearchPanel
+from toontown.town import TownBattleSOSPetInfoPanel
+from toontown.town import TownBattleToonPanel
 from toontown.toontowngui import TTDialog
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattleBase

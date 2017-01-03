@@ -1,7 +1,7 @@
 import random
 
-
 class PetManagerAI:
+	
     def __init__(self, air):
         self.air = air
 

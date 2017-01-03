@@ -16,7 +16,6 @@ class DistributedSecurityMgr(DistributedObject):
     def delete(self):
         DistributedObject.delete(self)
         self.cr.whitelistMgr = None
-        return
 
     def disable(self):
         self.notify.debug("i'm disabling SecurityMgr right now.")

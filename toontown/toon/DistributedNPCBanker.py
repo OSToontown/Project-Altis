@@ -1,15 +1,14 @@
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-
 from DistributedNPCToonBase import *
 from toontown.chat.ChatGlobals import *
 from toontown.estate import BankGUI, BankGlobals
 from toontown.nametag.NametagGlobals import *
 from toontown.toonbase import TTLocalizer
 
-
 class DistributedNPCBanker(DistributedNPCToonBase):
+    
     def __init__(self, cr):
         DistributedNPCToonBase.__init__(self, cr)
         self.jellybeanJar = None

@@ -1,12 +1,10 @@
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-
-import ToonHead
+from toontown.toon import ToonHead
 from toontown.distributed import DelayDelete
 from toontown.nametag.Nametag import Nametag
 from toontown.nametag.NametagFloat2d import NametagFloat2d
 from toontown.toonbase import ToontownGlobals
-
 
 class ToonHeadFrame(DirectFrame):
 

@@ -1,11 +1,9 @@
 from direct.task.Task import Task
 from pandac.PandaModules import VBase4, PandaNode
-
 from toontown.margins.MarginVisible import MarginVisible
 from toontown.nametag import NametagGlobals
 from toontown.nametag.Nametag2d import Nametag2d
 from toontown.nametag.Nametag3d import Nametag3d
-
 
 class NametagGroup:
     CHAT_TIMEOUT_MIN = 4.0

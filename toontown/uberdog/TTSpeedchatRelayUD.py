@@ -3,4 +3,3 @@ from otp.uberdog.SpeedchatRelayUD import SpeedchatRelayUD
 
 class TTSpeedchatRelayUD(SpeedchatRelayUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("TTSpeedchatRelayUD")
-

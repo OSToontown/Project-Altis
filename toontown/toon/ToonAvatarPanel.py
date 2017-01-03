@@ -2,17 +2,17 @@ from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.showbase import DirectObject
-import ToonHead
+from toontown.toon import ToonHead
 from toontown.friends import FriendHandle
-import LaffMeter
+from toontown.toon import LaffMeter
 from otp.avatar import Avatar
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.friends import ToontownFriendSecret
-import ToonAvatarDetailPanel
-import AvatarPanelBase
+from toontown.toon import ToonAvatarDetailPanel
+from toontown.toon import AvatarPanelBase
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPGlobals
 
@@ -158,8 +158,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             text_align=TextNode.ALeft,
             command=self.__handleGoto)
 
-
-
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
             self.goToButton['state'] = DGG.DISABLED
 
@@ -183,8 +181,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             text_pos=(0.06, -0.0125),
             text_align=TextNode.ALeft,
             command=self.__handleWhisper)
-
-
 
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
             self.whisperButton['state'] = DGG.DISABLED
@@ -244,7 +240,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             text_align=TextNode.ALeft,
             command=ignoreCmd)
 
-
         if base.cr.productName not in ['JP', 'DE', 'BR', 'FR']:
             self.reportButton = DirectButton(
                 parent=self.frame,
@@ -289,14 +284,10 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             pos=(-0.133773, 0, -0.395),
             command=self.__handleDetails)
 
-
         self.__makeBoardingGui()
         self.__makePetGui(avatar)
-
         self.__checkGroupStatus()
-
         gui.removeNode()
-
 
         if wantsLaffMeter:
             self.__makeLaffMeter(avatar)

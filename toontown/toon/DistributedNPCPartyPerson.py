@@ -2,8 +2,7 @@ from direct.distributed import ClockDelta
 from direct.distributed.DistributedObject import DistributedObject
 from direct.task.Task import Task
 from pandac.PandaModules import *
-
-from DistributedNPCToonBase import DistributedNPCToonBase
+from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from otp.otpbase import OTPLocalizer
 from toontown.chat.ChatGlobals import *
 from toontown.parties import PartyGlobals
@@ -13,8 +12,8 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui import TeaserPanel
 
-
 class DistributedNPCPartyPerson(DistributedNPCToonBase):
+
     def __init__(self, cr):
         DistributedNPCToonBase.__init__(self, cr)
         self.isInteractingWithLocalToon = 0
@@ -22,7 +21,6 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         self.button = None
         self.askGui = None
         self.teaserDialog = None
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -32,7 +30,6 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         if self.isInteractingWithLocalToon:
             base.localAvatar.posCamera(0, 0)
         DistributedNPCToonBase.disable(self)
-        return
 
     def delete(self):
         if self.askGui:
@@ -62,7 +59,6 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
             self.clearMat()
         else:
             self.notify.warning('announceGenerate: Could not find party_person_%s' % side)
-        return
 
     def getCollSphereRadius(self):
         return 1.0

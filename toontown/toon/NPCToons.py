@@ -1,14 +1,13 @@
 import random
 import string
 import sys, os
-import ToonDNA
+from toontown.toon import ToonDNA
 from pandac.PandaModules import *
 from toontown.hood import ZoneUtil
 from toontown.nametag import NametagGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
 
 try:
     config = simbase.config
@@ -80,18 +79,18 @@ def getRandomDNA(seed, gender):
     return randomDNA.asTuple()
 
 def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
-    import DistributedNPCToonAI
-    import DistributedNPCClerkAI
-    import DistributedNPCTailorAI
-    import DistributedNPCBlockerAI
-    import DistributedNPCFishermanAI
-    import DistributedNPCPetclerkAI
-    import DistributedNPCKartClerkAI
-    import DistributedNPCPartyPersonAI
-    import DistributedNPCSpecialQuestGiverAI
-    import DistributedNPCFlippyInToonHallAI
-    import DistributedNPCScientistAI
-    import DistributedNPCBankerAI
+    from toontown.toon import DistributedNPCToonAI
+    from toontown.toon import DistributedNPCClerkAI
+    from toontown.toon import DistributedNPCTailorAI
+    from toontown.toon import DistributedNPCBlockerAI
+    from toontown.toon import DistributedNPCFishermanAI
+    from toontown.toon import DistributedNPCPetclerkAI
+    from toontown.toon import DistributedNPCKartClerkAI
+    from toontown.toon import DistributedNPCPartyPersonAI
+    from toontown.toon import DistributedNPCSpecialQuestGiverAI
+    from toontown.toon import DistributedNPCFlippyInToonHallAI
+    from toontown.toon import DistributedNPCScientistAI
+    from toontown.toon import DistributedNPCBankerAI
     canonicalZoneId, name, dnaType, gender, protected, type = desc
     if type == NPC_REGULAR:
         npc = DistributedNPCToonAI.DistributedNPCToonAI(air, npcId, questCallback=questCallback)
@@ -186,7 +185,7 @@ def createNpcsInZone(air, zoneId):
 
 
 def createLocalNPC(npcId):
-    import Toon
+    from toontown.toon import Toon
     if npcId not in NPCToonDict:
         return None
     desc = NPCToonDict[npcId]

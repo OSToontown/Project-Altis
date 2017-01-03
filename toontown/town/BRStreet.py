@@ -1,10 +1,9 @@
-from direct.task.Task import Task
 import random
-
+from direct.task.Task import Task
 from toontown.town import Street
 
-
 class BRStreet(Street.Street):
+    
     def enter(self, requestStatus):
         Street.Street.enter(self, requestStatus)
         taskMgr.doMethodLater(1, self.__windTask, 'BR-wind')

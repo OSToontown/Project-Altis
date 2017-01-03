@@ -19,8 +19,8 @@ from toontown.toonbase import ToontownGlobals
 from toontown.effects import Splash
 from toontown.minigame.MinigamePowerMeter import MinigamePowerMeter
 from toontown.minigame.ArrowKeys import ArrowKeys
-import PartyGlobals
-import PartyUtils
+from toontown.parties import PartyGlobals
+from toontown.parties import PartyUtils
 from DistributedPartyTeamActivity import DistributedPartyTeamActivity
 
 class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):

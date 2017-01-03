@@ -13,7 +13,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
 from toontown.parties import PartyGlobals
 from toontown.parties.Decoration import Decoration
-import PartyUtils
+from toontown.parties import PartyUtils
 
 class DistributedParty(DistributedObject.DistributedObject):
     notify = directNotify.newCategory('DistributedParty')

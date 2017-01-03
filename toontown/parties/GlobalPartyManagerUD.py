@@ -2,7 +2,7 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 from direct.distributed.PyDatagram import *
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.task import Task
-from PartyGlobals import *
+from toontown.parties.PartyGlobals import *
 from datetime import datetime, timedelta
 from pandac.PandaModules import *
 

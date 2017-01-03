@@ -18,6 +18,7 @@ class ScavengerHuntDataStore(DataStore):
             avId, goal = qData
             self.__addGoalToAvatarId(avId, goal)
             return (qId, (avId,))
+        
         return None
 
     def __addGoalToAvatarId(self, avId, goal):
@@ -35,8 +36,8 @@ class ScavengerHuntDataStore(DataStore):
         else:
             self.data.setdefault(avId, set())
             self.data[avId].add(goal)
+        
         self.incrementWriteCount()
-        return
 
     def __getGoalsForAvatarId(self, avId):
         if self.wantAnyDbm:
@@ -49,4 +50,3 @@ class ScavengerHuntDataStore(DataStore):
             return data
         else:
             return list(self.data.get(avId, []))
-        return

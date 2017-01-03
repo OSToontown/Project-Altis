@@ -2,9 +2,8 @@ from direct.gui.DirectGui import *
 from direct.task.Task import Task
 from pandac.PandaModules import *
 from pandac.PandaModules import *
-
-from DistributedNPCToonBase import *
-import NPCToons
+from toontown.toon.DistributedNPCToonBase import *
+from toontown.toon import NPCToons
 from toontown.chat.ChatGlobals import *
 from toontown.hood import ZoneUtil
 from toontown.nametag.NametagGlobals import *
@@ -12,8 +11,8 @@ from toontown.pets import PetshopGUI
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
 
-
 class DistributedNPCPetclerk(DistributedNPCToonBase):
+
     def __init__(self, cr):
         DistributedNPCToonBase.__init__(self, cr)
         self.isLocalToon = 0
@@ -180,7 +179,6 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         self.petshopGui = None
         if not bTimedOut:
             self.sendUpdate('transactionDone')
-        return
 
     def popupPetshopGUI(self, task):
         if not self.petSeeds:

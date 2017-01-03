@@ -5,12 +5,9 @@ from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 import random
 
-
 LOADING_SCREEN_SORT_INDEX = 4000
 
-
 class ToontownLoadingScreen:
-
     defaultTex = 'phase_3.5/maps/loading/default.jpg'
     zone2picture = {
         ToontownGlobals.GoofySpeedway : 'phase_3.5/maps/loading/gs.jpg',

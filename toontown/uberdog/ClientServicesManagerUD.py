@@ -1,22 +1,20 @@
 import anydbm
 import base64
+import hashlib
+import hmac
+import json
+import time
+import urllib2
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
 from direct.fsm.FSM import FSM
-import hashlib
-import hmac
-import json
 from pandac.PandaModules import *
-import time
-import urllib2
-
 from otp.ai.MagicWordGlobal import *
 from otp.distributed import OtpDoGlobals
 from toontown.makeatoon.NameGenerator import NameGenerator
 from toontown.toon.ToonDNA import ToonDNA
 from toontown.toonbase import TTLocalizer
-
 
 # Import from PyCrypto only if we are using a database that requires it. This
 # allows local hosted and developer builds of the game to run without it:

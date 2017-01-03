@@ -2,8 +2,8 @@ from toontown.suit import Suit
 from toontown.town import MMStreet
 from toontown.town import TownLoader
 
-
 class MMTownLoader(TownLoader.TownLoader):
+
     def __init__(self, hood, parentFSM, doneEvent):
         TownLoader.TownLoader.__init__(self, hood, parentFSM, doneEvent)
         self.streetClass = MMStreet.MMStreet

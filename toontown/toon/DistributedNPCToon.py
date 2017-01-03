@@ -1,7 +1,6 @@
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-
-from DistributedNPCToonBase import *
+from toontown.toon.DistributedNPCToonBase import *
 from toontown.chat.ChatGlobals import *
 from toontown.hood import ZoneUtil
 from toontown.nametag.NametagGlobals import *
@@ -11,11 +10,10 @@ from toontown.quest import TrackChoiceGui
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
 
-
 ChoiceTimeout = 20
 
-
 class DistributedNPCToon(DistributedNPCToonBase):
+    
     def __init__(self, cr):
         DistributedNPCToonBase.__init__(self, cr)
 

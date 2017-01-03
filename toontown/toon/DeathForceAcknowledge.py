@@ -5,7 +5,7 @@ from toontown.toonbase import TTLocalizer
 from direct.showbase import Transitions
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-import LaffMeter
+from toontown.toon import LaffMeter
 
 class DeathForceAcknowledge:
 

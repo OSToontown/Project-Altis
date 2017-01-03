@@ -3,9 +3,9 @@ import random
 import re
 import time
 import zlib
-import DistributedToon
-import LaffMeter
-import Toon
+from toontown.toon import DistributedToon
+from toontown.toon import LaffMeter
+from toontown.toon import Toon
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.gui import DirectGuiGlobals
@@ -63,6 +63,7 @@ from toontown.friends.FriendHandle import FriendHandle
 WantNewsPage = base.config.GetBool('want-news-page', ToontownGlobals.DefaultWantNewsPageSetting)
 if WantNewsPage:
     from toontown.shtiker import NewsPage
+
 AdjustmentForNewsButton = -0.275
 ClaraBaseXPos = 0.12
 if (__debug__):

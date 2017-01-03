@@ -13,7 +13,6 @@ class PetFlee(Impulse.Impulse):
         self.lookAtNode.hide()
         self.vel = None
         self.rotVel = None
-        return
 
     def destroy(self):
         self.lookAtNode.removeNode()

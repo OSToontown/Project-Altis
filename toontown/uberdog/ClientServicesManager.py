@@ -2,12 +2,10 @@ from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 import hmac
 from pandac.PandaModules import *
-
 from otp.distributed.PotentialAvatar import PotentialAvatar
 from otp.otpbase import OTPGlobals
 from toontown.chat.ChatGlobals import WTSystem
 from toontown.chat.WhisperPopup import WhisperPopup
-
 
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')

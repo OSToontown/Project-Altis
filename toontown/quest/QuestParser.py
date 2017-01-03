@@ -10,8 +10,7 @@ import re
 import sys
 import token
 import tokenize
-
-import BlinkingArrows
+from toontown.quest import BlinkingArrows
 from otp.speedchat import SpeedChatGlobals
 from toontown.ai import DistributedBlackCatMgr
 from toontown.char import Char
@@ -22,7 +21,6 @@ from toontown.suit import SuitDNA
 from toontown.toon import ToonHeadFrame
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
-
 
 notify = DirectNotifyGlobal.directNotify.newCategory('QuestParser')
 lineDict = {}

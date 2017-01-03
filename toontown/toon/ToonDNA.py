@@ -2600,7 +2600,6 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.gloveColor = 0
         else:
             notify.error("tuple must be in format ('%s', '%s', '%s', '%s')")
-        return
 
     def newToonFromProperties(self, head, torso, legs, gender, armColor, gloveColor, legColor, headColor, topTexture, topTextureColor, sleeveTexture, sleeveTextureColor, bottomTexture, bottomTextureColor):
         self.type = 't'

@@ -1,3 +1,4 @@
+import types
 from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
@@ -7,7 +8,6 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-import types
 from toontown.toon import NPCToons
 from toontown.toon import NPCFriendPanel
 from toontown.toonbase import ToontownBattleGlobals

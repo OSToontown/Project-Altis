@@ -24,7 +24,6 @@ class PublicPartyGui(DirectFrame):
         self.load()
         self.gui.removeNode()
         self.accept('stoppedAsleep', self._close)
-        return
 
     def load(self):
         for backgroundName in ['background', 'parties_background', 'activities_background']:
@@ -44,7 +43,6 @@ class PublicPartyGui(DirectFrame):
             tempPos = self.gui.find('**/helpText_locator').getPos()
             instructionPos = (tempPos.getX(), tempPos.getZ())
         self.instructionsLabel = DirectLabel(parent=self, relief=None, text=TTLocalizer.PartyGateInstructions, text_align=TextNode.ACenter, text_scale=TTLocalizer.PPGinstructionsLabel, text_pos=instructionPos)
-        return
 
     def createListAndLabel(self, typeString, numItems):
         list = DirectScrolledList(parent=self, relief=None, incButton_image=(self.gui.find('**/%sButtonDown_up' % typeString),
@@ -132,8 +130,6 @@ class PublicPartyGui(DirectFrame):
             item.setPythonTag('activityIds', activityIds)
             self.partyList.addItem(item)
 
-        return
-
     def partyClicked(self, item):
         self.partyStartButton['state'] = DirectGuiGlobals.NORMAL
         if self.selectedItem is not None:
@@ -161,7 +157,6 @@ class PublicPartyGui(DirectFrame):
         if not minLabel.isEmpty():
             minLabel['frameColor'] = self.selectedFrameColor
         self.fillActivityList(item.getPythonTag('activityIds'))
-        return
 
     def fillActivityList(self, activityIds):
         self.activityList.removeAndDestroyAllItems()
@@ -179,20 +174,16 @@ class PublicPartyGui(DirectFrame):
             item = DirectLabel(relief=None, text=text, text_align=TextNode.ACenter, text_scale=0.05, text_pos=(0.0, -0.15), geom_scale=0.3, geom_pos=Vec3(0.0, 0.0, 0.07), geom=PartyUtils.getPartyActivityIcon(self.activityIconsModel, PartyGlobals.ActivityIds.getString(activityId)))
             self.activityList.addItem(item)
 
-        return
-
     def _startParty(self):
         if self.selectedItem is None:
             self.partyStartButton['state'] = DirectGuiGlobals.DISABLED
             return
         self.doneStatus = (self.selectedItem.getPythonTag('shardId'), self.selectedItem.getPythonTag('zoneId'))
         messenger.send(self.doneEvent)
-        return
 
     def _close(self):
         self.doneStatus = None
         messenger.send(self.doneEvent)
-        return
 
     def destroy(self):
         self.activityIconsModel.removeNode()

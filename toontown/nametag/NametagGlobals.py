@@ -1,6 +1,5 @@
 from pandac.PandaModules import VBase4
 
-
 CCNormal = 0
 CCNoChat = 1
 CCNonPlayer = 2

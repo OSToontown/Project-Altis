@@ -1,16 +1,16 @@
 import random
 import types
-import AccessoryGlobals
-import Motion
-import TTEmote
-import ToonDNA
+from toontown.toon import AccessoryGlobals
+from toontown.toon import Motion
+from toontown.toon import TTEmote
+from toontown.toon import ToonDNA
 from direct.actor import Actor
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor
 from direct.task.Task import Task
 from pandac.PandaModules import *
-from ToonHead import *
+from toontown.toon.ToonHead import *
 from otp.avatar import Avatar
 from otp.avatar import Emote
 from otp.avatar.Avatar import teleportNotify

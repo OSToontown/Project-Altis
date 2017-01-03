@@ -1,6 +1,5 @@
 from pandac.PandaModules import *
 
-
 def makeCard(book=False):
     cardMaker = CardMaker('laughing-man-cm')
     cardMaker.setHasUvs(1)

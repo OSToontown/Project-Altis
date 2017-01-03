@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-from PartyGlobals import *
-import PartyUtils
+from toontown.parties.PartyGlobals import *
+from toontown.parties import PartyUtils
 import time
 # ugh all these activities
 from toontown.parties.DistributedPartyJukeboxActivityAI import DistributedPartyJukeboxActivityAI

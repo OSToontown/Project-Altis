@@ -11,7 +11,7 @@ from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-import TownBattle
+from toontown.town import TownBattle
 from toontown.toon import Toon
 from toontown.toon.Toon import teleportDebug
 from toontown.battle import BattleParticles

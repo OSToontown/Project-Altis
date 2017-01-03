@@ -3,7 +3,7 @@ from toontown.parties.DistributedPartyActivityAI import DistributedPartyActivity
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.fsm.FSM import FSM
 from toontown.effects import FireworkShows
-import PartyGlobals
+from toontown.parties import PartyGlobals
 import random
 
 class DistributedPartyFireworksActivityAI(DistributedPartyActivityAI, FSM):

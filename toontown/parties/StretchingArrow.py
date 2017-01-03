@@ -91,4 +91,3 @@ class StretchingArrow(DirectFrame):
             self.setAlphaScale(abs(self.ratioDrawn) - (downTime - fadeOutTime))
         else:
             self.setAlphaScale(1.0)
-        return

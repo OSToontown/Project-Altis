@@ -1,5 +1,4 @@
 
-
 class SimpleMailBase:
 
     def __init__(self, msgId, senderId, year, month, day, body):

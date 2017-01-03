@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.parties.DistributedPartyActivityAI import DistributedPartyActivityAI
 from toontown.toonbase import TTLocalizer
-import PartyGlobals
+from toontown.parties import PartyGlobals
 
 class DistributedPartyCannonActivityAI(DistributedPartyActivityAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyCannonActivityAI")

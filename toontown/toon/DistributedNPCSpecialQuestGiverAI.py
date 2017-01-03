@@ -12,7 +12,6 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
         self.hq = hq
         self.tutorial = tutorial
         self.pendingAvId = None
-        return
 
     def getTutorial(self):
         return self.tutorial
@@ -88,7 +87,6 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
         self.pendingAvId = None
         self.pendingTracks = None
         self.pendingTrackQuest = None
-        return
 
     def sendTimeoutMovie(self, task):
         self.pendingAvId = None
@@ -227,4 +225,3 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
         elif self.busy:
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCToonAI.setMovieDone busy with %s' % self.busy)
             self.notify.warning('somebody called setMovieDone that I was not busy with! avId: %s' % avId)
-        return

@@ -2,6 +2,7 @@ from pandac.PandaModules import BitMask32
 from pandac.PandaModules import Point3, VBase4
 from direct.showbase import PythonUtil
 from toontown.toonbase import TTLocalizer
+
 KICK_TO_PLAYGROUND_EVENT = 'parties_kickToPlayground'
 MaxSetInvites = 1000
 MaxSetPartiesInvitedTo = 100

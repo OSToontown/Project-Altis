@@ -1,7 +1,7 @@
 from otp.ai.AIBaseGlobal import *
 from direct.task.Task import Task
 from pandac.PandaModules import *
-from DistributedNPCToonBaseAI import *
+from toontown.toon.DistributedNPCToonBaseAI import *
 from toontown.quest import Quests
 
 class DistributedNPCToonAI(DistributedNPCToonBaseAI):
@@ -13,7 +13,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         self.tutorial = 0
         self.pendingAvId = None
         self.task = None
-        return
 
     def getTutorial(self):
         return self.tutorial
@@ -71,7 +70,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         self.notify.warning('chooseQuest: avatar: %s chose a quest not offered: %s' % (avId, questId))
         self.pendingAvId = None
         self.pendingQuests = None
-        return
 
     def chooseTrack(self, trackId):
         avId = self.air.getAvatarIdFromSender()
@@ -105,7 +103,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         self.pendingAvId = None
         self.pendingTracks = None
         self.pendingTrackQuest = None
-        return
 
     def sendTimeoutMovie(self, task):
         self.pendingAvId = None
@@ -260,7 +257,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         elif self.busy:
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCToonAI.setMovieDone busy with %s' % self.busy)
             self.notify.warning('somebody called setMovieDone that I was not busy with! avId: %s' % avId)
-        return
 
     def __handleUnexpectedExit(self, avId):
         self.notify.warning('avatar:' + str(avId) + ' has exited unexpectedly')
@@ -268,7 +264,6 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         self.clearTasks()
         taskMgr.remove(self.uniqueName('clearMovie'))
         self.sendClearMovie(None)
-        return
 
     def clearTasks(self):
         if self.task:

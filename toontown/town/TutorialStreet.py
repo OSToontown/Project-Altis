@@ -1,4 +1,4 @@
-import TTStreet
+from toontown.town import TTStreet
 
 class TutorialStreet(TTStreet.TTStreet):
 

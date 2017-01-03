@@ -4,7 +4,6 @@ from direct.showbase.DirectObject import DirectObject
 from pandac.PandaModules import *
 import random
 import string
-
 from toontown.fishing import FishSellGUI
 from toontown.hood import ZoneUtil
 from toontown.pets import Pet, PetConstants
@@ -16,7 +15,6 @@ from toontown.pets import PetUtil
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
-
 
 Dialog_MainMenu = 0
 Dialog_AdoptPet = 1

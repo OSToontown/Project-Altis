@@ -71,7 +71,6 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         rng = RandomNumGen(self.doId)
         self._generationSeedBase = rng.randrange(1000)
         self._lastDropTime = 0.0
-        return
 
     def getCurGeneration(self):
         if self._orderedGenerationIndex is None:

@@ -1,8 +1,8 @@
+import string
 from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
-import string
 from toontown.toon import LaffMeter
 from toontown.battle import BattleBase
 from direct.gui.DirectGui import *

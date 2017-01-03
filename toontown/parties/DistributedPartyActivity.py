@@ -16,6 +16,7 @@ from toontown.parties.JellybeanRewardGui import JellybeanRewardGui
 from toontown.parties.PartyUtils import getPartyActivityIcon, getCenterPosFromGridSize
 
 class DistributedPartyActivity(DistributedObject.DistributedObject):
+    
     def __init__(self, cr, activityId, activityType, wantLever = False, wantRewardGui = False):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.activityId = activityId

@@ -1,7 +1,6 @@
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.fsm.FSM import FSM
-
 from toontown.ai import DistributedBlackCatMgrAI
 from toontown.building import FADoorCodes
 from toontown.building.HQBuildingAI import HQBuildingAI
@@ -12,8 +11,8 @@ from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 
-
 class TutorialFSM(FSM):
+    
     def __init__(self, air, zones, avId):
         FSM.__init__(self, 'TutorialFSM')
 

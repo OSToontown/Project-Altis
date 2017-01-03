@@ -37,7 +37,6 @@ class TeamActivityGui:
         self.statusText.hide()
         self.timer = PartyUtils.getNewToontownTimer()
         self.timer.hide()
-        return
 
     def unload(self):
         self.hideWaitToStartCountdown()
@@ -58,7 +57,6 @@ class TeamActivityGui:
         if self.timer is not None:
             self.timer.destroy()
             del self.timer
-        return
 
     def showStatus(self, text):
         self.statusText.setText(text)
@@ -84,7 +82,6 @@ class TeamActivityGui:
     def disableSwitchButton(self):
         if self.switchButton is not None:
             self.switchButton.hide()
-        return
 
     def handleSwitchButtonClick(self):
         self.disableSwitchButton()
@@ -108,7 +105,6 @@ class TeamActivityGui:
         self._countdownAlmostDoneCallback = None
         if self.countdownText is not None:
             self.countdownText.hide()
-        return
 
     def _updateCountdownTask(self, task):
         countdownTime = int(task.duration - task.time)
@@ -122,7 +118,6 @@ class TeamActivityGui:
             return Task.done
         else:
             return Task.cont
-        return
 
     def showTimer(self, duration):
         self.timer.setTime(duration)

@@ -1,9 +1,8 @@
 from direct.interval.IntervalGlobal import Sequence
 from direct.task.Task import Task
 from pandac.PandaModules import *
-
-from DistributedNPCToonBase import *
-import NPCToons
+from toontown.toon.DistributedNPCToonBase import *
+from toontown.toon import NPCToons
 from toontown.chat.ChatGlobals import *
 from toontown.hood import ZoneUtil
 from toontown.minigame import ClerkPurchase

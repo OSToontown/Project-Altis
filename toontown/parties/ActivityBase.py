@@ -1,5 +1,4 @@
 
-
 class ActivityBase:
 
     def __init__(self, activityId, x, y, h):

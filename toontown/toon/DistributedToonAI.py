@@ -1,10 +1,10 @@
 import random
 import time
 import re
-import Experience
-import InventoryBase
-import ModuleListAI
-import ToonDNA
+from toontown.toon import Experience
+from toontown.toon import InventoryBase
+from toontown.toon import ModuleListAI
+from toontown.toon import ToonDNA
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNodeAI
 from direct.distributed.ClockDelta import *
@@ -12,7 +12,7 @@ from direct.distributed.MsgTypes import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.task import Task
 from pandac.PandaModules import *
-from NPCToons import npcFriends
+from toontown.toon.NPCToons import npcFriends
 from otp.ai.AIBaseGlobal import *
 from otp.ai.MagicWordGlobal import *
 from otp.avatar import DistributedAvatarAI

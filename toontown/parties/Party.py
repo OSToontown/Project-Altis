@@ -69,7 +69,6 @@ class Party(Place.Place):
         self.parentFSMState = parentFSMState
         self.isPartyEnding = False
         self.accept('partyStateChanged', self.setPartyState)
-        return
 
     def delete(self):
         self.unload()
@@ -81,7 +80,6 @@ class Party(Place.Place):
             if not hasattr(self, 'partyPlanner') or self.partyPlanner is None:
                 self.partyPlanner = PartyPlanner.PartyPlanner(self.partyPlannerDoneEvent)
         self.parentFSMState.addChild(self.fsm)
-        return
 
     def unload(self):
         if hasattr(self, 'partyPlanner'):
@@ -94,7 +92,6 @@ class Party(Place.Place):
         self.parentFSMState.removeChild(self.fsm)
         del self.fsm
         Place.Place.unload(self)
-        return
 
     def enter(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -162,7 +159,6 @@ class Party(Place.Place):
           'hoodId': hoodId,
           'loader': 'safeZoneLoader',
           'where': 'playground'}])
-        return
 
     def exitPartyPlanning(self):
         pass

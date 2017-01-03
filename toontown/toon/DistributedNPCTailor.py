@@ -2,15 +2,13 @@ from direct.gui.DirectGui import *
 from direct.task.Task import Task
 from pandac.PandaModules import *
 from pandac.PandaModules import *
-
-from DistributedNPCToonBase import *
-import NPCToons
-import TailorClothesGUI
-import ToonDNA
+from toontown.toon.DistributedNPCToonBase import *
+from toontown.toon import NPCToons
+from toontown.toon import TailorClothesGUI
+from toontown.toon import ToonDNA
 from toontown.chat.ChatGlobals import *
 from toontown.estate import ClosetGlobals
 from toontown.toonbase import TTLocalizer
-
 
 class DistributedNPCTailor(DistributedNPCToonBase):
 
@@ -24,7 +22,6 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         self.roomAvailable = 0
         self.button = None
         self.popupInfo = None
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -49,7 +46,6 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         self.oldStyle = None
         base.localAvatar.posCamera(0, 0)
         DistributedNPCToonBase.disable(self)
-        return
 
     def handleCollisionSphereEnter(self, collEntry):
         base.cr.playGame.getPlace().fsm.request('purchase')
@@ -59,7 +55,6 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         self.notify.warning('unexpected exit')
         self.av = None
         self.oldStyle = None
-        return
 
     def resetTailor(self):
         self.ignoreAll()
@@ -295,4 +290,3 @@ class DistributedNPCTailor(DistributedNPCToonBase):
                         self.av.swapToonTorso(self.av.style.torso, genClothes=0)
                         self.av.loop('neutral', 0)
                     self.av.generateToonClothes()
-        return

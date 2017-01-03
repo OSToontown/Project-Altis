@@ -1,4 +1,4 @@
-from DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
+from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
 from toontown.toonbase import TTLocalizer
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
@@ -47,7 +47,6 @@ class DistributedNPCPartyPersonAI(DistributedNPCToonBaseAI):
             self.d_setMovie(avId, flag)
             self.sendClearMovie(None)
         DistributedNPCToonBaseAI.avatarEnter(self)
-        return
 
     def rejectAvatar(self, avId):
         self.notify.warning('rejectAvatar: should not be called by a party person!')
@@ -93,11 +92,9 @@ class DistributedNPCPartyPersonAI(DistributedNPCToonBaseAI):
             if av:
                 self.d_setMovie(avId, NPCToons.PARTY_MOVIE_MAYBENEXTTIME)
         self.sendClearMovie(None)
-        return
 
     def __handleUnexpectedExit(self, avId):
         self.notify.warning('avatar:' + str(avId) + ' has exited unexpectedly')
         self.notify.warning('not busy with avId: %s, busy: %s ' % (avId, self.busy))
         taskMgr.remove(self.uniqueName('clearMovie'))
         self.sendClearMovie(None)
-        return
