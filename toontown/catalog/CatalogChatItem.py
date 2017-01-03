@@ -1,8 +1,9 @@
 from pandac.PandaModules import *
-import CatalogItem
+from toontown.catalog import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.toonbase import TTLocalizer
+
 bannedPhrases = [11009]
 
 class CatalogChatItem(CatalogItem.CatalogItem):

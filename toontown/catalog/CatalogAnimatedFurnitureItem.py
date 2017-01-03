@@ -1,4 +1,5 @@
-from CatalogFurnitureItem import *
+from toontown.catalog.CatalogFurnitureItem import *
+
 FTAnimRate = 6
 AnimatedFurnitureItemKeys = (10020, 270, 990, 460, 470, 480, 490, 491, 492)
 
@@ -19,7 +20,6 @@ class CatalogAnimatedFurnitureItem(CatalogFurnitureItem):
                 return 1
         else:
             return 1
-        return
 
     def setAnimRate(self, model, rate):
         seqNodes = model.findAllMatches('**/seqNode*')

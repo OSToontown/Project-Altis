@@ -14,17 +14,14 @@ class DistributedTrophyMgr(DistributedObject.DistributedObject):
             base.cr.trophyManager.delete()
         base.cr.trophyManager = self
         DistributedObject.DistributedObject.generate(self)
-        return
 
     def disable(self):
         base.cr.trophyManager = None
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         base.cr.trophyManager = None
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def d_requestTrophyScore(self):
         self.sendUpdate('requestTrophyScore', [])

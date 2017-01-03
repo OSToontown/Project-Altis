@@ -2,7 +2,7 @@ from otp.ai.AIBase import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.ClockDelta import *
 from ElevatorConstants import *
-import DistributedElevatorAI
+from toontown.building import DistributedElevatorAI
 from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.task import Task
@@ -15,7 +15,6 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
         DistributedElevatorAI.DistributedElevatorAI.__init__(self, air, bldg, numSeats, antiShuffle=antiShuffle, minLaff=minLaff)
         self.anyToonsBailed = 0
         self.boardingParty = None
-        return
 
     def delete(self):
         for seatIndex in xrange(len(self.seats)):
@@ -44,7 +43,6 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
             self.clearEmptyNow(seatIndex)
             if self.countFullSeats() == 0:
                 self.fsm.request('waitEmpty')
-        return
 
     def acceptExiter(self, avId):
         seatIndex = self.findAvatar(avId)
@@ -82,7 +80,6 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
             if self.countFullSeats() == 0:
                 self.fsm.request('waitEmpty')
             taskMgr.doMethodLater(TOON_EXIT_ELEVATOR_TIME, self.clearEmptyNow, self.uniqueName('clearEmpty-%s' % seatIndex), extraArgs=(seatIndex,))
-        return
 
     def enterOpening(self):
         DistributedElevatorAI.DistributedElevatorAI.enterOpening(self)
@@ -163,6 +160,7 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
 
         else:
             self.notify.warning('The elevator left, but was empty.')
+        
         self.fsm.request('closed')
 
     def requestExit(self, *args):
@@ -191,4 +189,3 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
                     self.rejectingExitersHandler(*newArgs)
             else:
                 self.notify.warning('avId: %s does not exist, but tried to exit an elevator' % avId)
-            return

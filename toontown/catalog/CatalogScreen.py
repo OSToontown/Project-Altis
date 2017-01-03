@@ -1,15 +1,14 @@
+import random
 from direct.actor import Actor
 from direct.gui.DirectGui import *
 from direct.gui.DirectScrolledList import *
 from pandac.PandaModules import *
 from pandac.PandaModules import *
-import random
-
-import CatalogFurnitureItem
-import CatalogInvalidItem
-import CatalogItem
-import CatalogItemPanel
-import CatalogItemTypes
+from toontown.catalog import CatalogFurnitureItem
+from toontown.catalog import CatalogInvalidItem
+from toontown.catalog import CatalogItem
+from toontown.catalog import CatalogItemPanel
+from toontown.catalog import CatalogItemTypes
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.nametag import NametagGlobals
 from toontown.nametag import NametagGroup
@@ -17,7 +16,6 @@ from toontown.toon import DistributedToon
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
-
 
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2

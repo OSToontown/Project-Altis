@@ -1,6 +1,6 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
+from toontown.building.ElevatorConstants import *
 
 def getLeftClosePoint(type):
     width = ElevatorData[type]['width']

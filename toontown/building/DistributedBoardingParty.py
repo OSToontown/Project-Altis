@@ -3,8 +3,7 @@ from direct.distributed import DistributedObject
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-
-import BoardingGroupShow
+from toontown.building import BoardingGroupShow
 from toontown.building import BoardingPartyBase
 from toontown.chat.ChatGlobals import *
 from toontown.chat.WhisperPopup import *
@@ -16,7 +15,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui import TeaserPanel
-
 
 class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPartyBase.BoardingPartyBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBoardingParty')
@@ -31,7 +29,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         self.lastInvitationFailedMessage = {}
         self.goToPreShowTrack = None
         self.goToShowTrack = None
-        return
 
     def generate(self):
         self.load()
@@ -62,7 +59,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         localAvatar.boardingParty = None
         localAvatar.chatMgr.chatInputSpeedChat.removeBoardingGroupMenu()
         self.lastInvitationFailedMessage = {}
-        return
 
     def getElevatorIdList(self):
         return self.elevatorIdList
@@ -157,7 +153,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             self.groupPanel = None
         else:
             self.notify.debug('new info posted on some other group')
-        return
 
     def postInvite(self, leaderId, inviterId, merger):
         self.notify.debug('post Invite')
@@ -171,7 +166,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                 if base.config.GetBool('reject-boarding-group-invites', 0):
                     self.groupInviteePanel.forceCleanup()
                     self.groupInviteePanel = None
-        return
 
     def postKick(self, leaderId):
         self.notify.debug('%s was kicked out of the Boarding Group by %s' % (localAvatar.doId, leaderId))
@@ -199,7 +193,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         if self.isInviteePanelUp():
             self.groupInviteePanel.cleanup()
             self.groupInviteePanel = None
-        return
 
     def postInviteNotQualify(self, avId, reason, elevatorId):
         messenger.send('updateGroupStatus')
@@ -404,7 +397,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                         else:
                             messageText = TTLocalizer.BoardingMessageGroupDisbandedGeneric
                             localAvatar.setSystemMessage(0, messageText, WTToontownBoardingGroup)
-        return
 
     def requestInvite(self, inviteeId):
         self.notify.debug('requestInvite %s' % inviteeId)
@@ -572,7 +564,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         if self.goToShowTrack:
             self.goToShowTrack.finish()
             self.goToShowTrack = None
-        return
 
     def cancelGoToElvatorDest(self):
         self.notify.debug('%s cancelled the GoTo Button.' % localAvatar.doId)
@@ -602,7 +593,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         if self.isInviteePanelUp():
             self.groupInviteePanel.forceCleanup()
             self.groupInviteePanel = None
-        return
 
     def forceCleanupInviterPanels(self):
         if self.inviterPanels:

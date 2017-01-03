@@ -1,5 +1,4 @@
 
-
 class ServerEventBuffer:
 
     def __init__(self, air, name, avId, period = None):
@@ -10,14 +9,12 @@ class ServerEventBuffer:
             period = 6 * 60.0
         self.period = period
         self.lastFlushTime = None
-        return
 
     def destroy(self):
         self.flush()
 
     def flush(self):
         self.lastFlushTime = None
-        return
 
     def writeEvent(self, msg):
         self.air.writeServerEvent(self.name, self.avId, msg)
@@ -27,8 +24,6 @@ class ServerEventBuffer:
             self.lastFlushTime = globalClock.getFrameTime()
         elif globalClock.getFrameTime() - self.lastFlushTime > self.period * 60.0:
             self.flush()
-        return
-
 
 class ServerEventAccumulator(ServerEventBuffer):
 

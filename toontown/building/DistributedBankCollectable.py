@@ -1,12 +1,11 @@
 from direct.distributed.DistributedObject import DistributedObject
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-
 from otp.otpbase import OTPGlobals
 from toontown.effects import DustCloud
 
-
 class DistributedBankCollectable(DistributedObject):
+
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
 

@@ -1,6 +1,5 @@
 from pandac.PandaModules import *
 
-
 class ChatBalloon(NodePath):
     TEXT_X_OFFSET = -0.05
     TEXT_Y_OFFSET = -0.05

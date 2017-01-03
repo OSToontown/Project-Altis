@@ -1,13 +1,12 @@
+import time
 from direct.distributed.ClockDelta import *
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.task.Task import Task
-import time
-
 from otp.ai.MagicWordGlobal import *
 from toontown.building.DistributedBankCollectableAI import DistributedBankCollectableAI
 
-
 class DistributedBankInteriorAI(DistributedObjectAI):
+
     def __init__(self, block, air, zoneId):
         DistributedObjectAI.__init__(self, air)
 

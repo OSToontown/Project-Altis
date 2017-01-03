@@ -1,8 +1,7 @@
-from direct.distributed.DistributedObjectAI import DistributedObjectAI
-from CatalogGenerator import CatalogGenerator
-from toontown.toonbase import ToontownGlobals
 import time
-
+from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from toontown.catalog.CatalogGenerator import CatalogGenerator
+from toontown.toonbase import ToontownGlobals
 
 class CatalogManagerAI(DistributedObjectAI):
     notify = directNotify.newCategory('CatalogManagerAI')

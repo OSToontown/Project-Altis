@@ -3,16 +3,17 @@ from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
-import CatalogItemTypes
-import CatalogItem
-from CatalogWallpaperItem import getAllWallpapers
-from CatalogFlooringItem import getAllFloorings
-from CatalogMouldingItem import getAllMouldings
-from CatalogWainscotingItem import getAllWainscotings
-from CatalogFurnitureItem import getAllFurnitures
-from CatalogFurnitureItem import FLTrunk
+from toontown.catalog import CatalogItemTypes
+from toontown.catalog import CatalogItem
+from toontown.catalog.CatalogWallpaperItem import getAllWallpapers
+from toontown.catalog.CatalogFlooringItem import getAllFloorings
+from toontown.catalog.CatalogMouldingItem import getAllMouldings
+from toontown.catalog.CatalogWainscotingItem import getAllWainscotings
+from toontown.catalog.CatalogFurnitureItem import getAllFurnitures
+from toontown.catalog.CatalogFurnitureItem import FLTrunk
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from otp.otpbase import OTPGlobals
+
 CATALOG_PANEL_WORDWRAP = 10
 CATALOG_PANEL_CHAT_WORDWRAP = 9
 CATALOG_PANEL_ACCESSORY_WORDWRAP = 11

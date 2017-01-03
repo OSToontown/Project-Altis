@@ -1,6 +1,5 @@
-from direct.distributed.DistributedObjectAI import DistributedObjectAI
 import cPickle
-
+from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
 class DistributedHQInteriorAI(DistributedObjectAI):
     notify = directNotify.newCategory('DistributedHQInteriorAI')

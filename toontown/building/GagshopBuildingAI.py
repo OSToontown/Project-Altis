@@ -1,11 +1,11 @@
-import DistributedDoorAI
-import DistributedGagshopInteriorAI
-import DoorTypes
+from toontown.building import DistributedDoorAI
+from toontown.building import DistributedGagshopInteriorAI
+from toontown.building import DoorTypes
 from pandac.PandaModules import *
 from toontown.toon import NPCToons
 
-
 class GagshopBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone

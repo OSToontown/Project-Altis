@@ -1,7 +1,6 @@
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-
 class DistributedTutorialInteriorAI(DistributedObjectAI):
     notify = directNotify.newCategory('DistributedTutorialInteriorAI')
 

@@ -1,5 +1,5 @@
-from ElevatorConstants import *
-import DistributedBossElevatorAI
+from toontown.building.ElevatorConstants import *
+from toontown.building import DistributedBossElevatorAI
 
 class DistributedVPElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorAI):
 

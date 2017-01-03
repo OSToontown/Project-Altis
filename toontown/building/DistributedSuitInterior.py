@@ -1,7 +1,7 @@
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from ElevatorConstants import *
-import ElevatorUtils
+from toontown.building.ElevatorConstants import *
+from toontown.building import ElevatorUtils
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -63,7 +63,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
          State.State('Reward', self.enterReward, self.exitReward, ['Off']),
          State.State('Off', self.enterOff, self.exitOff, ['Elevator', 'WaitForAllToonsInside', 'Battle'])], 'Off', 'Off')
         self.fsm.enterInitialState()
-        return
 
     def __uniqueName(self, name):
         DistributedSuitInterior.id += 1
@@ -127,7 +126,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.rightDoorIn = None
         self.leftDoorOut = None
         self.rightDoorOut = None
-        return
 
     def __addToon(self, toon):
         self.accept(toon.uniqueName('disable'), self.__handleUnexpectedExit, extraArgs=[toon])
@@ -235,16 +233,16 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.sendUpdate('reserveJoinDone', [])
 
     def enterOff(self, ts = 0):
-        return None
+        pass
 
     def exitOff(self):
-        return None
+        pass
 
     def enterWaitForAllToonsInside(self, ts = 0):
-        return None
+        pass
 
     def exitWaitForAllToonsInside(self):
-        return None
+        pass
 
     def __playElevator(self, ts, name, callback):
         SuitHs = []
@@ -298,7 +296,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         track.append(Func(callback))
         track.start(ts)
         self.activeIntervals[name] = track
-        return
 
     def enterElevator(self, ts = 0):
         self.currentFloor += 1
@@ -315,7 +312,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
     def exitElevator(self):
         self.elevatorMusic.stop()
         self.__finishInterval(self.elevatorName)
-        return None
 
     def __playCloseElevatorOut(self, name):
         track = Sequence(Wait(SUIT_LEAVE_ELEVATOR_TIME), Parallel(SoundInterval(self.closeSfx), LerpPosInterval(self.leftDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL), startPos=Point3(0, 0, 0), blendType='easeOut'), LerpPosInterval(self.rightDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], ElevatorUtils.getRightClosePoint(ELEVATOR_NORMAL), startPos=Point3(0, 0, 0), blendType='easeOut')))
@@ -327,13 +323,11 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
             self.__playCloseElevatorOut(self.uniqueName('close-out-elevator'))
             camera.setPos(0, -15, 6)
             camera.headsUp(self.elevatorModelOut)
-        return None
 
     def exitBattle(self):
         if self.elevatorOutOpen == 1:
             self.__finishInterval(self.uniqueName('close-out-elevator'))
             self.elevatorOutOpen = 0
-        return None
 
     def __playReservesJoining(self, ts, name, callback):
         index = 0
@@ -350,7 +344,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
 
     def enterReservesJoining(self, ts = 0):
         self.__playReservesJoining(ts, self.uniqueName('reserves-joining'), self.__handleReserveJoinDone)
-        return None
 
     def __handleReserveJoinDone(self):
         self.joiningReserves = []
@@ -359,7 +352,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
 
     def exitReservesJoining(self):
         self.__finishInterval(self.uniqueName('reserves-joining'))
-        return None
 
     def enterResting(self, ts = 0):
         base.playMusic(self.waitMusic, looping=1, volume=0.7)
@@ -379,7 +371,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
          'avId': base.localAvatar.doId,
          'bldgDoId': self.distBldgDoId}
         messenger.send('DSIDoneEvent', [request])
-        return
 
     def exitReward(self):
-        return None
+        pass

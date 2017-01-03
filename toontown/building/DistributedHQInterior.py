@@ -1,6 +1,6 @@
 import cPickle
 import random
-import ToonInteriorColors
+from toontown.building import ToonInteriorColors
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.task.Task import Task
@@ -11,8 +11,8 @@ from toontown.toonbase.ToontownGlobals import *
 from toontown.dna.DNAParser import DNADoor
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
-
 class DistributedHQInterior(DistributedObject.DistributedObject):
+    
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.dnaStore = cr.playGame.dnaStore

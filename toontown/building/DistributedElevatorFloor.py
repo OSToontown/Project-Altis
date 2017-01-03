@@ -1,9 +1,9 @@
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
-from ElevatorUtils import *
-import DistributedElevatorFSM
+from toontown.building.ElevatorConstants import *
+from toontown.building.ElevatorUtils import *
+from toontown.building import DistributedElevatorFSM
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -31,6 +31,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
                  'Closing',
                  'Opening'],
      'Closed': ['Opening']}
+    
     id = 0
 
     def __init__(self, cr):
@@ -47,7 +48,6 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         self.wantState = 0
         self.latch = None
         self.lastState = self.state
-        return
 
     def setupElevator2(self):
         self.elevatorModel = loader.loadModel('phase_4/models/modules/elevator')
@@ -217,7 +217,6 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
               'zoneId': zoneId,
               'shardId': None,
               'avId': -1}])
-        return
 
     def exitClosing(self):
         self.lastState = self.state
@@ -258,7 +257,6 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def setBldgDoId(self, bldgDoId):
         self.bldg = None
         self.setupElevator()
-        return
 
     def getElevatorModel(self):
         return self.elevatorModel

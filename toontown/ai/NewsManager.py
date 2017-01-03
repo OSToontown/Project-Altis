@@ -1,3 +1,5 @@
+import calendar
+from copy import deepcopy
 from pandac.PandaModules import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -5,14 +7,11 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import SuitBattleGlobals
 from toontown.toonbase import TTLocalizer
-import HolidayDecorator
-import HalloweenHolidayDecorator
-import CrashedLeaderBoardDecorator
+from toontown.ai import HolidayDecorator
+from toontown.ai import HalloweenHolidayDecorator
+from toontown.ai import CrashedLeaderBoardDecorator
 from direct.interval.IntervalGlobal import *
-import calendar
-from copy import deepcopy
 from toontown.suit import SuitDNA
-
 
 decorationHolidays = [ToontownGlobals.WINTER_DECORATIONS,
  ToontownGlobals.WACKY_WINTER_DECORATIONS,
@@ -53,14 +52,12 @@ class NewsManager(DistributedObject.DistributedObject):
         base.cr.newsManager = self
         base.localAvatar.inventory.setInvasionCreditMultiplier(1)
         self.weeklyCalendarHolidays = []
-        return
 
     def delete(self):
         self.cr.newsManager = None
         if self.holidayDecorator:
             self.holidayDecorator.exit()
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def setPopulation(self, population):
         self.population = population

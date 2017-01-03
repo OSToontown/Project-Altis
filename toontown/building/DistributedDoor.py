@@ -1,5 +1,5 @@
-import DoorTypes
-import FADoorCodes
+from toontown.building import DoorTypes
+from toontown.building import FADoorCodes
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
@@ -17,8 +17,8 @@ from toontown.toontowngui import TeaserPanel
 from toontown.nametag.NametagGroup import NametagGroup
 from toontown.nametag.Nametag import Nametag
 
-
 class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
+    
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.openSfx = base.loader.loadSfx('phase_3.5/audio/sfx/Door_Open_1.ogg')
@@ -134,8 +134,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             return 'door_trigger_' + str(self.block)
 
     def getTriggerName_wip(self):
-        name = 'door_trigger_%d' % (self.doId,)
-        return name
+        return 'door_trigger_%d' % (self.doId,)
 
     def getEnterTriggerEvent(self):
         return 'enter' + self.getTriggerName()

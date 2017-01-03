@@ -1,7 +1,6 @@
 import copy
-
-import DistributedElevatorIntAI
-from ElevatorConstants import *
+from toontown.building import DistributedElevatorIntAI
+from toontown.building.ElevatorConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
@@ -13,8 +12,8 @@ from toontown.battle import BattleBase
 from toontown.battle import DistributedBattleBldgAI
 from toontown.toonbase.ToontownBattleGlobals import *
 
-
 class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
+    
     def __init__(self, air, elevator):
         self.air = air
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)

@@ -3,7 +3,6 @@ from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from otp.ai.AIBaseGlobal import *
 
-
 class DistributedAnimatedPropAI(DistributedObjectAI.DistributedObjectAI):
 
     def __init__(self, air, propId):

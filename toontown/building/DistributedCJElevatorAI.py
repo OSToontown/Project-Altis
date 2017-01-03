@@ -1,5 +1,5 @@
-from ElevatorConstants import *
-import DistributedBossElevatorAI
+from toontown.building.ElevatorConstants import *
+from toontown.building import DistributedBossElevatorAI
 
 class DistributedCJElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorAI):
 
@@ -7,4 +7,3 @@ class DistributedCJElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorA
         DistributedBossElevatorAI.DistributedBossElevatorAI.__init__(self, air, bldg, zone, antiShuffle=antiShuffle, minLaff=minLaff)
         self.type = ELEVATOR_CJ
         self.countdownTime = ElevatorData[self.type]['countdown']
-

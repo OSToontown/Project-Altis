@@ -1,8 +1,9 @@
-import CatalogItem
+from toontown.catalog import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
+
 LoyaltyEmoteItems = (20, 21, 22, 23, 24)
 
 class CatalogEmoteItem(CatalogItem.CatalogItem):

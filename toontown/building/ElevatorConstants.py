@@ -1,4 +1,5 @@
 from pandac.PandaModules import *
+
 ELEVATOR_NORMAL = 0
 ELEVATOR_VP = 1
 ELEVATOR_MINT = 2
@@ -18,6 +19,7 @@ REJECT_NOT_YET_AVAILABLE = 6
 REJECT_BOARDINGPARTY = 7
 REJECT_NOTPAID = 8
 MAX_GROUP_BOARDING_TIME = 6.0
+
 if __dev__:
     try:
         config = simbase.config
@@ -27,6 +29,7 @@ if __dev__:
     elevatorCountdown = config.GetFloat('elevator-countdown', -1)
     if elevatorCountdown != -1:
         bboard.post('elevatorCountdown', elevatorCountdown)
+
 ElevatorData = {ELEVATOR_NORMAL: {'openTime': 2.0,
                    'closeTime': 2.0,
                    'width': 3.5,

@@ -1,7 +1,6 @@
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-
 class DistributedKartShopInteriorAI(DistributedObjectAI):
     notify = directNotify.newCategory('DistributedKartShopInteriorAI')
 

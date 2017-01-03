@@ -1,11 +1,11 @@
-import DistributedDoorAI
-import DistributedHQInteriorAI
-import DoorTypes
+from toontown.building import DistributedDoorAI
+from toontown.building import DistributedHQInteriorAI
+from toontown.building import DoorTypes
 from pandac.PandaModules import *
 from toontown.toon import NPCToons
 
-
 class HQBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone

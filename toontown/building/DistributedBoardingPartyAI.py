@@ -2,13 +2,14 @@ from otp.otpbase import OTPGlobals
 from otp.ai.AIBase import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.ClockDelta import *
-from ElevatorConstants import *
+from toontown.building.ElevatorConstants import *
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from toontown.building import BoardingPartyBase
+
 GROUPMEMBER = 0
 GROUPINVITE = 1
 
@@ -32,6 +33,8 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             elevator = simbase.air.doId2do.get(elevatorId)
             elevator.setBoardingParty(self)
 
+        # TODO: FIX ME!
+        
         '''
         store = simbase.air.dnaStoreMap.get(self.zoneId)
         if store:
@@ -52,7 +55,6 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
         else:
             self.visibleZones = [self.zoneId]
         '''
-        return
 
     def cleanup(self):
         BoardingPartyBase.BoardingPartyBase.cleanup(self)

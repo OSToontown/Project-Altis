@@ -1,20 +1,18 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 import random
-
-import BattleParticles
-from BattleProps import *
-from BattleSounds import *
-import HealJokes
-import MovieCamera
-import MovieUtil
+from toontown.battle import BattleParticles
+from toontown.battle.BattleProps import *
+from toontown.batle.BattleSounds import *
+from toontown.battle import HealJokes
+from toontown.battle import MovieCamera
+from toontown.battle import MovieUtil
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 from toontown.toon import LaughingManGlobals
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
-
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieNPCSOS')
 soundFiles = ('AA_heal_tickle.ogg', 'AA_heal_telljoke.ogg', 'AA_heal_smooch.ogg', 'AA_heal_happydance.ogg', 'AA_heal_pixiedust.ogg', 'AA_heal_juggle.ogg')
@@ -62,7 +60,6 @@ def __doNPCSOS(sos):
         return NPCSOSfn_dict[track](sos, level, hp)
     else:
         return __cogsMiss(sos, 0, 0)
-    return
 
 
 def __healToon(toon, hp, ineffective = 0):

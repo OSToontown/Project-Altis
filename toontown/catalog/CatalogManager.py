@@ -1,7 +1,6 @@
+import time
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.catalog.CatalogItemList import CatalogItemList
-import time
-
 
 class CatalogManager(DistributedObject):
     notify = directNotify.newCategory('CatalogManager')

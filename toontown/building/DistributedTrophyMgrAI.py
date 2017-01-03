@@ -1,13 +1,10 @@
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-
 MAX_LISTING = 10
-
 AV_ID_INDEX = 0
 NAME_INDEX = 1
 SCORE_INDEX = 2
-
 
 class DistributedTrophyMgrAI(DistributedObjectAI):
     notify = directNotify.newCategory('DistributedTrophyMgrAI')

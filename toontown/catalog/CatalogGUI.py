@@ -8,8 +8,8 @@ from toontown.catalog import CatalogGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
-
 class CatalogGUI(NodePath, DirectObject):
+
     def __init__(self, phone, doneEvent=None):
         NodePath.__init__(self, aspect2d.attachNewNode('CatalogGUI'))
         DirectObject.__init__(self)

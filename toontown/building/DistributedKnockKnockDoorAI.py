@@ -1,4 +1,4 @@
-import DistributedAnimatedPropAI
+from toontown.building import DistributedAnimatedPropAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM
@@ -6,8 +6,8 @@ from direct.fsm import State
 from direct.task.Task import Task
 from otp.ai.AIBaseGlobal import *
 
-
 class DistributedKnockKnockDoorAI(DistributedAnimatedPropAI.DistributedAnimatedPropAI):
+    
     def __init__(self, air, propId):
         DistributedAnimatedPropAI.DistributedAnimatedPropAI.__init__(self, air, propId)
         self.fsm.setName('DistributedKnockKnockDoor')

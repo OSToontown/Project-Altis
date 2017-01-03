@@ -1,5 +1,6 @@
 import string
 import sys
+import time
 from direct.showbase import DirectObject
 from otp.otpbase import OTPLocalizer
 from toontown.toonbase import TTLocalizer
@@ -13,7 +14,6 @@ from otp.speedchat import SpeedChatGlobals
 from otp.chat.TalkMessage import TalkMessage
 from otp.chat.TalkAssistant import TalkAssistant
 from toontown.speedchat import TTSCDecoders
-import time
 
 class TTTalkAssistant(TalkAssistant):
     notify = DirectNotifyGlobal.directNotify.newCategory('TTTalkAssistant')

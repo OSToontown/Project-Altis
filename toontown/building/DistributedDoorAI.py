@@ -3,8 +3,8 @@ from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from otp.ai.AIBaseGlobal import *
 
-
 class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
+    
     def __init__(self, air, blockNumber, doorType, doorIndex=0, lockValue=0, swing=3):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.block = blockNumber

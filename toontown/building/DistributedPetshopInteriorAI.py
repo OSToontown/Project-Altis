@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObjectAI
 
-
 class DistributedPetshopInteriorAI(DistributedObjectAI.DistributedObjectAI):
+    
     def __init__(self, block, air, zoneId):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.block = block

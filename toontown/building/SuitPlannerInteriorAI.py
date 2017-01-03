@@ -1,13 +1,11 @@
-from direct.directnotify import DirectNotifyGlobal
 import random
 import types
-
-import SuitBuildingGlobals
+from direct.directnotify import DirectNotifyGlobal
+from toontown.building import SuitBuildingGlobals
 from otp.ai.AIBaseGlobal import *
 from toontown.suit import DistributedSuitAI
 from toontown.suit import SuitDNA
 from toontown.suit.SuitInvasionGlobals import IFSkelecog, IFWaiter, IFV2
-
 
 class SuitPlannerInteriorAI:
     notify = DirectNotifyGlobal.directNotify.newCategory('SuitPlannerInteriorAI')
@@ -26,8 +24,8 @@ class SuitPlannerInteriorAI:
         if isinstance(bldgLevel, types.StringType):
             self.notify.warning('bldgLevel is a string!')
             bldgLevel = int(bldgLevel)
+        
         self._genSuitInfos(numFloors, bldgLevel, bldgTrack)
-        return
 
     def __genJoinChances(self, num):
         joinChances = []

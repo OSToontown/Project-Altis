@@ -1,27 +1,27 @@
-from CatalogItemList import CatalogItemList
-from CatalogInvalidItem import CatalogInvalidItem
-from CatalogFurnitureItem import CatalogFurnitureItem
-from CatalogChatItem import CatalogChatItem
-from CatalogClothingItem import CatalogClothingItem
-from CatalogEmoteItem import CatalogEmoteItem
-from CatalogWallpaperItem import CatalogWallpaperItem
-from CatalogWindowItem import CatalogWindowItem
-from CatalogFlooringItem import CatalogFlooringItem
-from CatalogMouldingItem import CatalogMouldingItem
-from CatalogWainscotingItem import CatalogWainscotingItem
-from CatalogPoleItem import CatalogPoleItem
-from CatalogPetTrickItem import CatalogPetTrickItem
-from CatalogBeanItem import CatalogBeanItem
-from CatalogGardenItem import CatalogGardenItem
-from CatalogRentalItem import CatalogRentalItem
-from CatalogGardenStarterItem import CatalogGardenStarterItem
-from CatalogNametagItem import CatalogNametagItem
-from CatalogToonStatueItem import CatalogToonStatueItem
-from CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem
-from CatalogAccessoryItem import CatalogAccessoryItem
-
+from toontown.catalog.CatalogItemList import CatalogItemList
+from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
+from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
+from toontown.catalog.CatalogChatItem import CatalogChatItem
+from toontown.catalog.CatalogClothingItem import CatalogClothingItem
+from toontown.catalog.CatalogEmoteItem import CatalogEmoteItem
+from toontown.catalog.CatalogWallpaperItem import CatalogWallpaperItem
+from toontown.catalog.CatalogWindowItem import CatalogWindowItem
+from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem
+from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem
+from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
+from toontown.catalog.CatalogPoleItem import CatalogPoleItem
+from toontown.catalog.CatalogPetTrickItem import CatalogPetTrickItem
+from toontown.catalog.CatalogBeanItem import CatalogBeanItem
+from toontown.catalog.CatalogGardenItem import CatalogGardenItem
+from toontown.catalog.CatalogRentalItem import CatalogRentalItem
+from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem
+from toontown.catalog.CatalogNametagItem import CatalogNametagItem
+from toontown.catalog.CatalogToonStatueItem import CatalogToonStatueItem
+from toontown.catalog.CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem
+from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
 
 class PopularItemManagerAI:
+
     def __init__(self, air):
         self.air = air
 

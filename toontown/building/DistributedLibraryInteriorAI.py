@@ -1,7 +1,7 @@
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-
 class DistributedLibraryInteriorAI(DistributedObjectAI):
+
     def __init__(self, block, air, zoneId):
         DistributedObjectAI.__init__(self, air)
 

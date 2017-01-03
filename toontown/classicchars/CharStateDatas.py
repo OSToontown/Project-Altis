@@ -5,7 +5,7 @@ from direct.fsm import StateData
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.PythonUtil import *
 from direct.task import Task
-import CCharPaths
+from toontown.classicchars import CCharPaths
 from toontown.toonbase import ToontownGlobals
 
 class CharNeutralState(StateData.StateData):
@@ -56,7 +56,6 @@ class CharWalkState(StateData.StateData):
         self.oldOffsetX = 0
         self.olfOffsetY = 0
         self.walkTrack = None
-        return
 
     def enter(self, startTrack = None, playRate = None):
         StateData.StateData.enter(self)

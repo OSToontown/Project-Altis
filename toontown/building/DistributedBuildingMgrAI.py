@@ -1,5 +1,4 @@
 from direct.directnotify.DirectNotifyGlobal import *
-
 from otp.ai.AIBaseGlobal import *
 from toontown.building import DistributedBuildingAI
 from toontown.building import GagshopBuildingAI

@@ -1,9 +1,8 @@
-import CatalogItem
-import CatalogAtticItem
+from toontown.catalog import CatalogItem
+from toontown.catalog import CatalogAtticItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from CatalogSurfaceColors import *
-
+from toontown.catalog.CatalogSurfaceColors import *
 
 STWallpaper = 0
 STMoulding = 1
@@ -11,8 +10,8 @@ STFlooring = 2
 STWainscoting = 3
 NUM_ST_TYPES = 4
 
-
 class CatalogSurfaceItem(CatalogAtticItem.CatalogAtticItem):
+
     def setPatternIndex(self, patternIndex):
         self.patternIndex = patternIndex
 

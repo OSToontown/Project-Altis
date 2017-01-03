@@ -1,11 +1,12 @@
-import DistributedElevator
-import DistributedBossElevator
-from ElevatorConstants import *
+from toontown.building import DistributedElevator
+from toontown.building import DistributedBossElevator
+from toontown.building.ElevatorConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 
 class DistributedVPElevator(DistributedBossElevator.DistributedBossElevator):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedVPElevator')
+    
     def __init__(self, cr):
         DistributedBossElevator.DistributedBossElevator.__init__(self, cr)
         self.type = ELEVATOR_VP
