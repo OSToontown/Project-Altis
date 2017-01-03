@@ -1,4 +1,4 @@
-fro otp.level import ZoneEntityBase
+from otp.level import ZoneEntityBase
 
 class ZoneEntityAI(ZoneEntityBase.ZoneEntityBase):
 

@@ -3,7 +3,7 @@ from direct.interval.IntervalGlobal import *
 import random
 from toontown.battle import BattleParticles
 from toontown.battle.BattleProps import *
-from toontown.batle.BattleSounds import *
+from toontown.battle.BattleSounds import *
 from toontown.battle import HealJokes
 from toontown.battle import MovieCamera
 from toontown.battle import MovieUtil

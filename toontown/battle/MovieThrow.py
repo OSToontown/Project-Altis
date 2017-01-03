@@ -1,3 +1,4 @@
+import random
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleBase import *
@@ -6,7 +7,6 @@ from toontown.battle.BattleSounds import *
 from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
 from direct.directnotify import DirectNotifyGlobal
-from toontown.battle import random
 from toontown.battle import MovieCamera
 from toontown.battle import MovieUtil
 from toontown.battle.MovieUtil import calcAvgSuitPos

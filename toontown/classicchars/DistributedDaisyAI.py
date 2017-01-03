@@ -9,7 +9,7 @@ from direct.task import Task
 import random
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from toontown.classichars import CharStateDatasAI
+from toontown.classicchars import CharStateDatasAI
 
 class DistributedDaisyAI(DistributedCCharBaseAI.DistributedCCharBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedDaisyAI')
