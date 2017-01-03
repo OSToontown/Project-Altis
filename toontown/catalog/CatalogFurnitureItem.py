@@ -1,6 +1,6 @@
-import CatalogAtticItem
-import CatalogItem
 import random
+from toontown.catalog import CatalogAtticItem
+from toontown.catalog import CatalogItem
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 

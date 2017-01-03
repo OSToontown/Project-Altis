@@ -1,8 +1,8 @@
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
-from ElevatorUtils import *
+from toontown.building.ElevatorConstants import *
+from toontown.building.ElevatorUtils import *
 from direct.showbase import PythonUtil
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State

@@ -1,5 +1,5 @@
-from pandac.PandaModules import *
 import string
+from pandac.PandaModules import *
 from direct.showbase.MessengerGlobal import *
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.EventManagerGlobal import *
@@ -34,7 +34,6 @@ class DummyLauncherBase:
                 self.phaseComplete[phase] = 100
 
             self.downloadDoneTask(None)
-        return
 
     def isTestServer(self):
         return base.config.GetBool('is-test-server', 0)

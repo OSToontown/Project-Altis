@@ -1,8 +1,8 @@
-from direct.directnotify import DirectNotifyGlobal
 import string
-import LevelConstants
-from direct.showbase.PythonUtil import lineInfo, uniqueElements
 import types
+from direct.directnotify import DirectNotifyGlobal
+from otp.level import LevelConstants
+from direct.showbase.PythonUtil import lineInfo, uniqueElements
 
 class Level:
     notify = DirectNotifyGlobal.directNotify.newCategory('Level')
@@ -10,7 +10,6 @@ class Level:
     def __init__(self):
         self.levelSpec = None
         self.initialized = 0
-        return
 
     def initializeLevel(self, levelId, levelSpec, scenarioIndex):
         self.levelId = levelId
@@ -90,8 +89,6 @@ class Level:
             else:
                 Level.notify.error('trying to destroy entity %s, but it is already gone' % entId)
 
-        return
-
     def createAllEntitiesOfType(self, entType):
         self.onEntityTypePreCreate(entType)
         for entId in self.entType2ids[entType]:
@@ -131,6 +128,7 @@ class Level:
             return self.entities.get(entId)
         else:
             return None
+        
         return None
 
     def getEntityType(self, entId):
@@ -206,7 +204,6 @@ class Level:
         else:
             self.entId2createCallbacks.setdefault(entId, [])
             self.entId2createCallbacks[entId].append(callback)
-        return
 
     def getEntityDestroyEvent(self, entId):
         return 'entityDestroy-%s-%s' % (self.levelId, entId)

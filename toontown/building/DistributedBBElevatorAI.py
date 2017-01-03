@@ -1,5 +1,5 @@
-from ElevatorConstants import *
-import DistributedBossElevatorAI
+from toontown.building.ElevatorConstants import *
+from toontown.building import DistributedBossElevatorAI
 
 class DistributedBBElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorAI):
 
@@ -14,4 +14,5 @@ class DistributedBBElevatorAI(DistributedBossElevatorAI.DistributedBossElevatorA
             result = DistributedBossElevatorAI.DistributedBossElevatorAI.checkBoard(self, av)
         else:
             result = REJECT_NOT_YET_AVAILABLE
+        
         return result

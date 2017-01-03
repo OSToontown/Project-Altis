@@ -1,5 +1,5 @@
 from direct.distributed import DistributedObjectAI
-import Entity
+from otp.level import Entity
 from direct.directnotify import DirectNotifyGlobal
 
 class DistributedEntityAI(DistributedObjectAI.DistributedObjectAI, Entity.Entity):
@@ -13,9 +13,9 @@ class DistributedEntityAI(DistributedObjectAI.DistributedObjectAI, Entity.Entity
             air = level
             level = None
             self.levelDoId = 0
+        
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         Entity.Entity.__init__(self, level, entId)
-        return
 
     def generate(self):
         self.notify.debug('generate')

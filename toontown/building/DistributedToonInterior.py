@@ -1,8 +1,7 @@
 import cPickle
 import random
-
-import ToonInterior
-import ToonInteriorColors
+from toontown.building import ToonInterior
+from toontown.building import ToonInteriorColors
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
@@ -18,7 +17,6 @@ from toontown.toon import ToonHead
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToonBaseGlobal import *
-
 
 SIGN_LEFT = -4
 SIGN_RIGHT = 4

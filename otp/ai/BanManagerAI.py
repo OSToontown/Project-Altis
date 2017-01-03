@@ -1,12 +1,11 @@
+import datetime
 from direct.directnotify import DirectNotifyGlobal
 from toontown.uberdog.ClientServicesManagerUD import executeHttpRequest
-import datetime
 from direct.fsm.FSM import FSM
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
 from otp.ai.MagicWordGlobal import *
 from direct.showbase.DirectObject import DirectObject
-
 
 class BanFSM(FSM):
 
@@ -146,4 +145,3 @@ def ban(reason, duration):
         return "'%s' is not a valid reason." % reason
     simbase.air.banManager.ban(target.doId, duration, reason)
     return "Banned %s from the game server!" % target.getName()
-

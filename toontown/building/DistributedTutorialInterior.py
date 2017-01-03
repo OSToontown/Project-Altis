@@ -1,14 +1,14 @@
+import random
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from toontown.dna.DNAParser import *
-import ToonInterior
+from toontown.building import ToonInterior
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
-import random
-import ToonInteriorColors
+from toontown.building import ToonInteriorColors
 from toontown.hood import ZoneUtil
 from toontown.char import Char
 from toontown.suit import SuitDNA
@@ -18,8 +18,8 @@ from toontown.toon import DistributedNPCSpecialQuestGiver
 from toontown.toonbase import TTLocalizer
 from toontown.chat.ChatGlobals import CFSpeech
 
-
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
+
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
 

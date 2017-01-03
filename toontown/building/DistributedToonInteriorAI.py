@@ -1,5 +1,4 @@
 import cPickle
-
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
@@ -7,8 +6,8 @@ from otp.ai.AIBaseGlobal import *
 from toontown.toon import NPCToons
 from toontown.toonbase.ToontownGlobals import *
 
-
 class DistributedToonInteriorAI(DistributedObjectAI.DistributedObjectAI):
+
     def __init__(self, block, air, zoneId, building):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.block = block

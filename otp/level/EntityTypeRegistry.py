@@ -1,11 +1,11 @@
-from pandac.PandaModules import *
-from direct.directnotify import DirectNotifyGlobal
 import types
-import AttribDesc
-import EntityTypeDesc
-from direct.showbase.PythonUtil import mostDerivedLast
 import os
 import string
+from pandac.PandaModules import *
+from direct.directnotify import DirectNotifyGlobal
+from otp.level import AttribDesc
+from otp.level import EntityTypeDesc
+from direct.showbase.PythonUtil import mostDerivedLast
 
 class EntityTypeRegistry:
     notify = DirectNotifyGlobal.directNotify.newCategory('EntityTypeRegistry')
@@ -68,8 +68,6 @@ class EntityTypeRegistry:
                         typenames.append(tn)
 
             self.typeName2derivedTypeNames[typename] = typenames
-
-        return
 
     def getAllTypeNames(self):
         return self.entTypeName2typeDesc.keys()

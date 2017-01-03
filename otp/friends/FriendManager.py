@@ -37,7 +37,6 @@ class FriendManager(DistributedObject.DistributedObject):
     def disable(self):
         base.cr.friendManager = None
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         self.gameSpecificFunction = None

@@ -1,7 +1,7 @@
 from direct.showbase.PythonUtil import boolEqual
 from SpeedChatTypes import *
-from SCSettings import SCSettings
-from SCTerminal import SCWhisperModeChangeEvent
+from otp.speedchat.SCSettings import SCSettings
+from otp.speedchat.SCTerminal import SCWhisperModeChangeEvent
 from otp.otpbase import OTPLocalizer
 
 class SpeedChat(SCMenu):
@@ -16,14 +16,12 @@ class SpeedChat(SCMenu):
         if structure is not None:
             self.rebuildFromStructure(structure)
         self._lastTransform = None
-        return
 
     def destroy(self):
         if self.isVisible():
             self.exitVisible()
         self._lastTransform = None
         SCMenu.destroy(self)
-        return
 
     def __str__(self):
         return "%s: '%s'" % (self.__class__.__name__, self.name)
@@ -41,7 +39,6 @@ class SpeedChat(SCMenu):
             if newTransform != self._lastTransform:
                 self.invalidateAll()
         self._lastTransform = newTransform
-        return
 
     def setWhisperMode(self, whisperMode):
         if not boolEqual(self.settings.whisperMode, whisperMode):

@@ -56,7 +56,6 @@ class CharWalkState(StateData.StateData):
         self.oldOffsetX = 0
         self.olfOffsetY = 0
         self.walkTrack = None
-        return
 
     def enter(self, startTrack = None, playRate = None):
         StateData.StateData.enter(self)

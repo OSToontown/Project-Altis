@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from direct.distributed.MsgTypes import *
 from direct.directnotify import DirectNotifyGlobal
-import LoginBase
+from otp.login import LoginBase
 from direct.distributed.PyDatagram import PyDatagram
 
 class LoginTTIAccount(LoginBase.LoginBase):
@@ -13,6 +13,7 @@ class LoginTTIAccount(LoginBase.LoginBase):
     def supportsRelogin(self):
         if __debug__:
             return 1
+        
         return 0
 
     def authorize(self, username, password):
@@ -20,7 +21,6 @@ class LoginTTIAccount(LoginBase.LoginBase):
 
     def sendLoginMsg(self):
         cr = self.cr
-        # TODO
 
     def resendPlayToken(self):
         self.notify.error('Cannot resend playtoken!')

@@ -14,7 +14,6 @@ class SettingsMgr(DistributedObjectGlobal, SettingsMgrBase):
                 self._scheduleChangedSettingRequest()
             self._crConnectEvent = self.cr.getConnectedEvent()
             self.accept(self._crConnectEvent, self._handleConnected)
-        return
 
     def _handleConnected(self):
         self._scheduleChangedSettingRequest()

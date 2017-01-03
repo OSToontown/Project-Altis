@@ -4,6 +4,7 @@ from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from otp.avatar import AvatarDNA
+
 notify = directNotify.newCategory('CharDNA')
 charTypes = ['mk',
  'vmk',

@@ -1,4 +1,4 @@
-import Entity
+from otp.level import Entity
 
 class VisibilityExtender(Entity.Entity):
 
@@ -13,14 +13,12 @@ class VisibilityExtender(Entity.Entity):
         if self.event is not None:
             self.eventName = self.getOutputEventName(self.event)
             self.accept(self.eventName, self.handleEvent)
-        return
 
     def destroyVisExt(self):
         if self.eventName is not None:
             self.ignore(self.eventName)
         if self.extended:
             self.retract()
-        return
 
     def handleEvent(self, doExtend):
         if doExtend:

@@ -121,7 +121,6 @@ def smokeTest4(self):
     p0.emitter.setRadius(1.0000)
     self.addParticles(p0)
 
-
 @particle
 def gearExplosionSmall(self):
     self.reset()

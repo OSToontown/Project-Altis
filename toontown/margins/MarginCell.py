@@ -1,7 +1,7 @@
 from pandac.PandaModules import NodePath
 
-
 class MarginCell(NodePath):
+
     def __init__(self):
         NodePath.__init__(self, 'cell')
 

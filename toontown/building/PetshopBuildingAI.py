@@ -1,14 +1,14 @@
-import DistributedDoorAI
-import DistributedPetshopInteriorAI
-import DoorTypes
+from toontown.building import DistributedDoorAI
+from toontown.building import DistributedPetshopInteriorAI
+from toontown.building import DoorTypes
 from pandac.PandaModules import *
 from toontown.hood import ZoneUtil
 # from toontown.pets import DistributedPetAI, PetTraits, PetUtil
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 
-
 class PetshopBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone

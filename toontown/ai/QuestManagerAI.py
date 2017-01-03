@@ -4,13 +4,11 @@ from otp.ai.MagicWordGlobal import *
 from toontown.hood import ZoneUtil
 from toontown.quest import Quests
 
-
 QuestIdIndex = 0
 QuestFromNpcIdIndex = 1
 QuestToNpcIdIndex = 2
 QuestRewardIdIndex = 3
 QuestProgressIndex = 4
-
 
 class QuestManagerAI:
     notify = directNotify.newCategory('QuestManagerAI')

@@ -1,4 +1,5 @@
-import EditMgrBase
+from otp.level import EditMgrBase
+
 if __dev__:
     from direct.showbase.PythonUtil import list2dict
     import EditorGlobals
@@ -30,7 +31,6 @@ class EditMgrAI(EditMgrBase.EditMgrBase):
             self.lastAllocatedEntId = id
             self.level.setAttribChange(self.entId, 'insertEntity', data)
             self.level.levelSpec.doSetAttrib(self.entId, 'requestNewEntity', None)
-            return
 
         def getSpecSaveEvent(self):
             return 'requestSave-%s' % self.level.levelId
@@ -38,4 +38,3 @@ class EditMgrAI(EditMgrBase.EditMgrBase):
         def setRequestSave(self, data):
             messenger.send(self.getSpecSaveEvent())
             self.level.levelSpec.doSetAttrib(self.entId, 'requestSave', None)
-            return

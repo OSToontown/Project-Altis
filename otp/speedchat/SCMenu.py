@@ -1,9 +1,9 @@
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.task import Task
-from SCConstants import *
+from otp.speedchat.SCConstants import *
 from direct.interval.IntervalGlobal import *
-from SCObject import SCObject
+from otp.speedchat.SCObject import SCObject
 from direct.showbase.PythonUtil import makeTuple
 import types
 
@@ -54,7 +54,6 @@ class SCMenu(SCObject, NodePath):
         self.fadeIval = None
         self.width = 1
         self.inFinalize = 0
-        return
 
     def destroy(self):
         self.stopFade()
@@ -77,7 +76,6 @@ class SCMenu(SCObject, NodePath):
         self.removeNode()
         taskMgr.remove(self.FinalizeTaskName)
         taskMgr.remove(self.ActiveMemberSwitchTaskName)
-        return
 
     def clearMenu(self):
         while len(self):
@@ -133,7 +131,6 @@ class SCMenu(SCObject, NodePath):
 
         addChildren(self, structure)
         addChildren = None
-        return
 
     def fadeFunc(self, t):
         cs = self.getColorScale()
@@ -143,7 +140,6 @@ class SCMenu(SCObject, NodePath):
         if self.fadeIval is not None:
             self.fadeIval.pause()
             self.fadeIval = None
-        return
 
     def enterVisible(self):
         SCObject.enterVisible(self)
@@ -181,8 +177,6 @@ class SCMenu(SCObject, NodePath):
             if member.isVisible():
                 member.exitVisible()
 
-        return
-
     def setHolder(self, holder):
         self.holder = holder
 
@@ -205,7 +199,6 @@ class SCMenu(SCObject, NodePath):
         if self.activeMember is not None:
             self.activeMember.reparentTo(self)
             self.activeMember.enterActive()
-        return
 
     def memberGainedInputFocus(self, member):
         self.__cancelActiveMemberSwitch()
@@ -226,12 +219,10 @@ class SCMenu(SCObject, NodePath):
                 self.activeCandidate = member
             else:
                 self.__setActiveMember(member)
-        return
 
     def __cancelActiveMemberSwitch(self):
         taskMgr.remove(self.ActiveMemberSwitchTaskName)
         self.activeCandidate = None
-        return
 
     def memberLostInputFocus(self, member):
         if member is self.activeCandidate:
@@ -240,7 +231,6 @@ class SCMenu(SCObject, NodePath):
             pass
         elif not member.hasStickyFocus():
             self.__setActiveMember(None)
-        return
 
     def memberViewabilityChanged(self, member):
         self.invalidate()
@@ -344,7 +334,6 @@ class SCMenu(SCObject, NodePath):
             self.activeMember.reparentTo(self)
         self.validate()
         self.inFinalize = 0
-        return
 
     def append(self, element):
         if isinstance(self.__members, types.TupleType):
@@ -430,7 +419,6 @@ class SCMenu(SCObject, NodePath):
             self.__members[i].posInParentMenu = i
 
         self.invalidate()
-        return
 
     def privSetSettingsRef(self, settingsRef):
         SCObject.privSetSettingsRef(self, settingsRef)

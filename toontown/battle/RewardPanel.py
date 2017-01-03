@@ -1,12 +1,11 @@
 import copy
+import math
+import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
-import math
 from pandac.PandaModules import *
-import random
-
-import Fanfare
+from toontown.battle import Fanfare
 from otp.otpbase import OTPGlobals
 from toontown.coghq import CogDisguiseGlobals
 from toontown.quest import Quests
@@ -15,7 +14,6 @@ from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
 
 class RewardPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('RewardPanel')

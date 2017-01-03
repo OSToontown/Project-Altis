@@ -1,3 +1,4 @@
+import random
 from direct.distributed.ClockDelta import *
 from pandac.PandaModules import *
 from direct.showbase.PythonUtil import Functor, sameElements, list2dict, uniqueElements
@@ -6,14 +7,13 @@ from toontown.distributed.ToontownMsgTypes import *
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
 from direct.distributed import DistributedObject
-import Level
-import LevelConstants
+from otp.level import Level
+from otp.level import LevelConstants
 from direct.directnotify import DirectNotifyGlobal
-import EntityCreator
+from otp.level import EntityCreator
 from direct.gui import OnscreenText
 from direct.task import Task
-import LevelUtil
-import random
+from otp.level import LevelUtil
 
 class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLevel')
@@ -46,7 +46,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
             base.cr.timeManager.synchronize('DistributedLevel.generate')
         else:
             self.notify.warning('generate(): no TimeManager!')
-        return
 
     def setLevelZoneId(self, zoneId):
         self.levelZone = zoneId
@@ -153,7 +152,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
                     base.localAvatar.setPos(render, 0, 0, 0)
         if initialZoneEnt is not None:
             self.enterZone(initialZoneEnt.entId)
-        return
 
     def createEntityCreator(self):
         return EntityCreator.EntityCreator(level=self)
@@ -232,7 +230,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
             self.titleText = None
         self.zonesEnteredList = []
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         DistributedLevel.notify.debug('delete')
@@ -266,7 +263,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
 
                 self.accept(self.getEntityCreateEvent(parentId), doReparent)
             self.parent2pendingChildren[parentId].append(entity)
-        return
 
     def getZoneNode(self, zoneEntId):
         return self.zoneNum2node.get(zoneEntId)
@@ -278,7 +274,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         base.localAvatar.setPos(zoneNode, 0, 0, 0)
         base.localAvatar.setHpr(zoneNode, 0, 0, 0)
         self.enterZone(zoneNum)
-        return
 
     def showZone(self, zoneNum):
         zone = self.getZoneNode(zoneNum)
@@ -307,7 +302,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         else:
             node = self.getZoneNode(zoneNum)
         node.setAlphaScale(alpha)
-        return
 
     def initVisibility(self):
         self.curVisibleZoneNums = list2dict(self.zoneNums)
@@ -335,7 +329,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
             self.forceSetZoneThisFrame()
             self.setVisibility(zoneNums)
         taskMgr.add(self.visChangeTask, self.uniqueName(DistributedLevel.VisChangeTaskName), priority=49)
-        return
 
     def shutdownVisibility(self):
         taskMgr.remove(self.uniqueName(DistributedLevel.VisChangeTaskName))
@@ -361,7 +354,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         self.notify.debug('lockVisibility to zoneNum %s' % zoneNum)
         self.lockVizZone = zoneNum
         self.enterZone(self.lockVizZone)
-        return
 
     def unlockVisibility(self):
         self.notify.debug('unlockVisibility')
@@ -432,7 +424,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
             self.fForceSetZoneThisFrame = 0
         self.curZoneNum = zoneNum
         self.curVisibleZoneNums = visibleZoneNums
-        return
 
     def setVisibility(self, vizList):
         if self.fColorZones and DistributedLevel.ColorZonesAllDOs:
@@ -553,7 +544,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
             else:
                 doOuch(None)
             self.doingOuch = 1
-        return
 
     def stopOuch(self):
         if hasattr(self, 'doingOuch'):

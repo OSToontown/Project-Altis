@@ -1,9 +1,9 @@
+import random
+import string
 from pandac.PandaModules import *
 from direct.showbase import DirectObject
-import random
 from direct.task import Task
 from direct.gui.DirectGui import *
-import string
 from direct.gui import OnscreenText
 
 class NameTumbler(DirectFrame):

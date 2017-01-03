@@ -154,7 +154,6 @@ class AIZoneDataObj:
             taskMgr.add(self._doCollisions, self._getCTravTaskName(name=cTravName), priority=OTPGlobals.AICollisionPriority, extraArgs=[self._zoneId])
             self._collTravsStarted.add(cTravName)
         self.setRespectPrevTransform(respectPrevTransform, cTravName=cTravName)
-        return
 
     def stopCollTrav(self, cTravName = None):
         if cTravName is None:
@@ -164,7 +163,6 @@ class AIZoneDataObj:
             self.notify.info('removing %s collision traversal for (%s, %s)' % (cTravName, self._parentId, self._zoneId))
             taskMgr.remove(self._getCTravTaskName(name=cTravName))
             self._collTravsStarted.remove(cTravName)
-        return
 
     def setRespectPrevTransform(self, flag, cTravName = None):
         if cTravName is None:

@@ -1,5 +1,5 @@
-from otp.otpbase import OTPLocalizer
 import types
+from otp.otpbase import OTPLocalizer
 
 class Emote:
     EmoteClear = -1
@@ -17,6 +17,5 @@ class Emote:
         elif self.emoteFunc[index][1] == 0:
             return 1
         return 0
-
 
 globalEmote = None

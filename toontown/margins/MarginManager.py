@@ -1,10 +1,9 @@
-from pandac.PandaModules import PandaNode
 import random
-
+from pandac.PandaModules import PandaNode
 from toontown.margins.MarginCell import MarginCell
 
-
 class MarginManager(PandaNode):
+
     def __init__(self):
         PandaNode.__init__(self, 'margins')
 
@@ -17,10 +16,8 @@ class MarginManager(PandaNode):
         cell.setPos(x, 0, y)
         cell.setScale(0.2)
         cell.setActive(True)
-
         self.cells.add(cell)
         self.reorganize()
-
         return cell
 
     def removeCell(self, cell):

@@ -1,6 +1,6 @@
-from SCTerminal import SCTerminalSelectedEvent
-from SCTerminal import SCTerminalLinkedEmoteEvent
-from SCStaticTextTerminal import SCStaticTextMsgEvent
-from SCGMTextTerminal import SCGMTextMsgEvent
-from SCCustomTerminal import SCCustomMsgEvent
-from SCEmoteTerminal import SCEmoteMsgEvent, SCEmoteNoAccessEvent
+from otp.speedchat.SCTerminal import SCTerminalSelectedEvent
+from otp.speedchat.SCTerminal import SCTerminalLinkedEmoteEvent
+from otp.speedchat.SCStaticTextTerminal import SCStaticTextMsgEvent
+from otp.speedchat.SCGMTextTerminal import SCGMTextMsgEvent
+from otp.speedchat.SCCustomTerminal import SCCustomMsgEvent
+from otp.speedchat.SCEmoteTerminal import SCEmoteMsgEvent, SCEmoteNoAccessEvent

@@ -1,8 +1,8 @@
+import time
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.distributed.ClockDelta import *
 from direct.fsm.FSM import FSM
-import time
 
 class DistributedPolarPlaceEffectMgrAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPolarPlaceEffectMgrAI")

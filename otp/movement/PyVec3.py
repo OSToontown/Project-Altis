@@ -1,6 +1,6 @@
-from pandac.PandaModules import *
 import types
 import math
+from pandac.PandaModules import *
 
 class PyVec3:
     Epsilon = 0.0001

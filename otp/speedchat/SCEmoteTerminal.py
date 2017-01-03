@@ -1,7 +1,8 @@
 from direct.gui.DirectGui import *
-from SCTerminal import SCTerminal
+from otp.speedchat.SCTerminal import SCTerminal
 from otp.otpbase.OTPLocalizer import EmoteList, EmoteWhispers
 from otp.avatar import Emote
+
 SCEmoteMsgEvent = 'SCEmoteMsg'
 SCEmoteNoAccessEvent = 'SCEmoteNoAccess'
 
@@ -49,7 +50,6 @@ class SCEmoteTerminal(SCTerminal):
         self.lastEmoteEnableState = self.__emoteEnabled()
         args.update(dbArgs)
         SCTerminal.finalize(self, dbArgs=args)
-        return
 
     def __emoteEnableStateChanged(self):
         if self.isDirty():
@@ -74,7 +74,6 @@ class SCEmoteTerminal(SCTerminal):
             btn['text_fg'] = self.getColorScheme().getTextDisabledColor() + (1,)
             btn['rolloverSound'] = None
             btn['clickSound'] = None
-        return
 
     def enterVisible(self):
         SCTerminal.enterVisible(self)

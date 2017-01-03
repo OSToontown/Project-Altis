@@ -1,6 +1,6 @@
-import DistributedElevator
-import DistributedBossElevator
-from ElevatorConstants import *
+from toontown.building import DistributedElevator
+from toontown.building import DistributedBossElevator
+from toontown.building.ElevatorConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 

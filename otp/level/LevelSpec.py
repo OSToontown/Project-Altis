@@ -1,9 +1,9 @@
+import string
+import types
 from pandac import PandaModules as PM
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.PythonUtil import list2dict, uniqueElements
-import string
-import LevelConstants
-import types
+from otp.level import LevelConstants
 if __dev__:
     import os
 
@@ -47,7 +47,6 @@ class LevelSpec:
                 entId = LevelConstants.EditMgrEntId
                 self.insertEntity(entId, 'editMgr')
                 self.doSetAttrib(entId, 'name', 'EditMgr')
-        return
 
     def destroy(self):
         del self.specDict
@@ -388,8 +387,6 @@ class LevelSpec:
                     for attribName in attribNames:
                         if attribName not in spec:
                             LevelSpec.notify.warning("entId %s (%s): missing attrib '%s'" % (entId, spec['type'], attribName))
-
-            return
 
         def stringHash(self):
             h = PM.HashVal()

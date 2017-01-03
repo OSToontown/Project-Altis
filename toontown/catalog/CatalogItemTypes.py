@@ -1,23 +1,24 @@
-import CatalogFurnitureItem
-import CatalogChatItem
-import CatalogClothingItem
-import CatalogEmoteItem
-import CatalogWallpaperItem
-import CatalogFlooringItem
-import CatalogWainscotingItem
-import CatalogMouldingItem
-import CatalogWindowItem
-import CatalogPoleItem
-import CatalogPetTrickItem
-import CatalogBeanItem
-import CatalogGardenItem
-import CatalogInvalidItem
-import CatalogRentalItem
-import CatalogGardenStarterItem
-import CatalogNametagItem
-import CatalogToonStatueItem
-import CatalogAnimatedFurnitureItem
-import CatalogAccessoryItem
+from toontown.catalog import CatalogFurnitureItem
+from toontown.catalog import CatalogChatItem
+from toontown.catalog import CatalogClothingItem
+from toontown.catalog import CatalogEmoteItem
+from toontown.catalog import CatalogWallpaperItem
+from toontown.catalog import CatalogFlooringItem
+from toontown.catalog import CatalogWainscotingItem
+from toontown.catalog import CatalogMouldingItem
+from toontown.catalog import CatalogWindowItem
+from toontown.catalog import CatalogPoleItem
+from toontown.catalog import CatalogPetTrickItem
+from toontown.catalog import CatalogBeanItem
+from toontown.catalog import CatalogGardenItem
+from toontown.catalog import CatalogInvalidItem
+from toontown.catalog import CatalogRentalItem
+from toontown.catalog import CatalogGardenStarterItem
+from toontown.catalog import CatalogNametagItem
+from toontown.catalog import CatalogToonStatueItem
+from toontown.catalog import CatalogAnimatedFurnitureItem
+from toontown.catalog import CatalogAccessoryItem
+
 INVALID_ITEM = 0
 FURNITURE_ITEM = 1
 CHAT_ITEM = 2

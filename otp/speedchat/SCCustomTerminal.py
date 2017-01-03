@@ -5,7 +5,6 @@ SCCustomMsgEvent = 'SCCustomMsg'
 def decodeSCCustomMsg(textId):
     return CustomSCStrings.get(textId, None)
 
-
 class SCCustomTerminal(SCTerminal):
 
     def __init__(self, textId):

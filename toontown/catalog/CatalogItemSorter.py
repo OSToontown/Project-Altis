@@ -1,23 +1,22 @@
-from CatalogFurnitureItem import CatalogFurnitureItem # Furniture
-from CatalogChatItem import CatalogChatItem # Phrase
-from CatalogClothingItem import CatalogClothingItem # Clothing
-from CatalogEmoteItem import CatalogEmoteItem # Emotion
-from CatalogWallpaperItem import CatalogWallpaperItem # Furniture
-from CatalogWindowItem import CatalogWindowItem # Furniture
-from CatalogFlooringItem import CatalogFlooringItem # Furniture
-from CatalogMouldingItem import CatalogMouldingItem # Furniture
-from CatalogWainscotingItem import CatalogWainscotingItem # Furniture
-from CatalogPoleItem import CatalogPoleItem # Special
-from CatalogPetTrickItem import CatalogPetTrickItem # Special
-from CatalogBeanItem import CatalogBeanItem # Furniture
-from CatalogGardenItem import CatalogGardenItem # Special
-from CatalogRentalItem import CatalogRentalItem # Special
-from CatalogGardenStarterItem import CatalogGardenStarterItem # Special
-from CatalogNametagItem import CatalogNametagItem # Nametag
-from CatalogToonStatueItem import CatalogToonStatueItem # Special
-from CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem # Furniture
-from CatalogAccessoryItem import CatalogAccessoryItem # Clothing
-
+from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem # Furniture
+from toontown.catalog.CatalogChatItem import CatalogChatItem # Phrase
+from toontown.catalog.CatalogClothingItem import CatalogClothingItem # Clothing
+from toontown.catalog.CatalogEmoteItem import CatalogEmoteItem # Emotion
+from toontown.catalog.CatalogWallpaperItem import CatalogWallpaperItem # Furniture
+from toontown.catalog.CatalogWindowItem import CatalogWindowItem # Furniture
+from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem # Furniture
+from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem # Furniture
+from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem # Furniture
+from toontown.catalog.CatalogPoleItem import CatalogPoleItem # Special
+from toontown.catalog.CatalogPetTrickItem import CatalogPetTrickItem # Special
+from toontown.catalog.CatalogBeanItem import CatalogBeanItem # Furniture
+from toontown.catalog.CatalogGardenItem import CatalogGardenItem # Special
+from toontown.catalog.CatalogRentalItem import CatalogRentalItem # Special
+from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem # Special
+from toontown.catalog.CatalogNametagItem import CatalogNametagItem # Nametag
+from toontown.catalog.CatalogToonStatueItem import CatalogToonStatueItem # Special
+from toontown.catalog.CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem # Furniture
+from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem # Clothing
 
 class CatalogItemSorter:
     SPECIAL_ITEMS = (CatalogToonStatueItem, CatalogPoleItem, CatalogGardenStarterItem,

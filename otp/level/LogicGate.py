@@ -1,6 +1,6 @@
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
-import Entity
+from otp.level import Entity
 
 def andTest(self, a, b):
     if b:
@@ -49,7 +49,6 @@ class LogicGate(Entity.Entity, DirectObject.DirectObject):
         self.setIsInput2(self.isInput2)
         self.setInput1Event(self.input1Event)
         self.setInput2Event(self.input2Event)
-        return
 
     def destroy(self):
         self.ignore(self.input1Event)
@@ -57,7 +56,6 @@ class LogicGate(Entity.Entity, DirectObject.DirectObject):
         self.ignore(self.input2Event)
         self.input2Event = None
         Entity.Entity.destroy(self)
-        return
 
     def setLogicType(self, logicType):
         self.logicType = logicType

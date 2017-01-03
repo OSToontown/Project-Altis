@@ -1,6 +1,6 @@
+import random
 from pandac.PandaModules import StringStream
 from direct.distributed.PyDatagram import PyDatagram
-import random
 
 class ClsendTracker:
     clsendNotify = directNotify.newCategory('clsend')

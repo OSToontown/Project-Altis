@@ -1,13 +1,12 @@
-from direct.distributed.DistributedObject import DistributedObject
 import random
-
+from direct.distributed.DistributedObject import DistributedObject
 from toontown.building import  ToonInteriorColors
 from toontown.dna.DNAParser import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
-
 class DistributedLibraryInterior(DistributedObject):
+
     def announceGenerate(self):
         DistributedObject.announceGenerate(self)
 

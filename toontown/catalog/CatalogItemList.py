@@ -1,6 +1,6 @@
-import CatalogItem
-from pandac.PandaModules import *
 import types
+from toontown.catalog import CatalogItem
+from pandac.PandaModules import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 
@@ -21,12 +21,10 @@ class CatalogItemList:
                 self.__blob = source.__blob
             else:
                 self.__list = source[:]
-        return
 
     def markDirty(self):
         if self.__list:
             self.__blob = None
-        return
 
     def getBlob(self, store = None):
         if store == None or store == self.store:

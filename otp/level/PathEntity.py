@@ -1,7 +1,7 @@
 from toontown.toonbase.ToontownGlobals import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
-import BasicEntities
+from otp.level import BasicEntities
 from toontown.suit import GoonPathData
 
 class PathEntity(BasicEntities.NodePathEntity):
@@ -25,7 +25,6 @@ class PathEntity(BasicEntities.NodePathEntity):
         else:
             PathEntity.notify.warning('invalid pathIndex: %s' % pathIndex)
             self.path = None
-        return
 
     def makePathTrack(self, node, velocity, name, turnTime = 1, lookAroundNode = None):
         track = Sequence(name=name)

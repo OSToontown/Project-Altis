@@ -14,7 +14,6 @@ class DownloadWatcher(DirectObject):
          -0.1,
          0.1), borderWidth=(0.02, 0.02), scale=0.25, range=100, sortOrder=50, frameColor=(0.5, 0.5, 0.5, 0.5), barColor=(0.2, 0.7, 0.2, 0.5), text='0%', text_scale=0.16, text_fg=(1, 1, 1, 1), text_align=TextNode.ACenter, text_pos=(0, -0.05))
         self.accept('launcherPercentPhaseComplete', self.update)
-        return
 
     def update(self, phase, percent, reqByteRate, actualByteRate):
         phaseName = self.phaseNames[phase]

@@ -1,12 +1,11 @@
 import random
-
 from otp.ai.MagicWordGlobal import *
 from toontown.fishing import FishGlobals
 from toontown.fishing.FishBase import FishBase
 from toontown.toonbase import TTLocalizer
 
-
 class FishManagerAI:
+
     def __init__(self, air):
         self.air = air
         self.ponds = {}

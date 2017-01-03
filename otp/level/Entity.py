@@ -1,6 +1,6 @@
+import string
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.PythonUtil import lineInfo
-import string
 from direct.directnotify import DirectNotifyGlobal
 
 class Entity(DirectObject):
@@ -14,7 +14,6 @@ class Entity(DirectObject):
         self.entId = entId
         if self.level is not None and self.entId is not None:
             self.level.initializeEntity(self)
-        return
 
     def __str__(self):
         if hasattr(self, 'level') and self.level:
@@ -63,6 +62,7 @@ class Entity(DirectObject):
         setFuncName = 'set%s%s' % (attrib[0].upper(), attrib[1:])
         if hasattr(self, setFuncName):
             return getattr(self, setFuncName)
+        
         return None
 
     def callSetters(self, *attribs):
@@ -80,8 +80,6 @@ class Entity(DirectObject):
                     if doDelete:
                         delattr(self, attrib)
                     setter(value)
-
-        return
 
     def setAttribInit(self, attrib, value):
         self.__dict__[attrib] = value

@@ -1,10 +1,10 @@
+import random
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
-import random
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
-import ToonInteriorColors
+from toontown.building import ToonInteriorColors
 from toontown.dna.DNAParser import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase

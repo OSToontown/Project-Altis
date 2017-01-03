@@ -1,6 +1,7 @@
 from direct.showbase import PythonUtil
 
-class MagicError(Exception): pass
+class MagicError(Exception):
+    pass
 
 def ensureAccess(access, msg='Insufficient access'):
     if spellbook.getInvokerAccess() < access:

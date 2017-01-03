@@ -1,6 +1,6 @@
 from toontown.toonbase.ToontownGlobals import *
 from direct.directnotify import DirectNotifyGlobal
-import BasicEntities
+from otp.level import BasicEntities
 
 class ModelEntity(BasicEntities.NodePathEntity):
     LoadFuncs = {'loadModelCopy': loader.loadModelCopy,
@@ -17,7 +17,6 @@ class ModelEntity(BasicEntities.NodePathEntity):
         self.entInitialized = True
         self.model = None
         self.loadModel()
-        return
 
     def destroy(self):
         if self.model:
@@ -65,7 +64,6 @@ class ModelEntity(BasicEntities.NodePathEntity):
                 self.model.flattenMedium()
             elif self.flattenType == 'strong':
                 self.model.flattenStrong()
-        return
 
     def setModelPath(self, path):
         self.modelPath = path

@@ -1,4 +1,5 @@
 from pandac.PandaModules import *
+from direct.gui.DirectGuiGlobals import NO_FADE_SORT_INDEX
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from toontown.toon import ToonDNA

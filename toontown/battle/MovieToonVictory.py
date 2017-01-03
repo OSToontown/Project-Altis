@@ -1,12 +1,13 @@
+import types
 from direct.interval.IntervalGlobal import *
 from direct.showbase.DirectObject import DirectObject
-from RewardPanel import *
-from BattleSounds import *
-import MovieCamera
+from toontown.battle.RewardPanel import *
+from toontown.battle.BattleSounds import *
+from toontown.battle import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
-import types
-notify = DirectNotifyGlobal.directNotify.newCategory('MovieToonVictory')
 from toontown.nametag import NametagGlobals
+
+notify = DirectNotifyGlobal.directNotify.newCategory('MovieToonVictory')
 
 def __findToonReward(rewards, toon):
     for r in rewards:
@@ -24,11 +25,9 @@ class ToonVictorySkipper(DirectObject):
         self._startTimes = {}
         self._ivals = []
         self._battle = None
-        return
 
     def destroy(self):
         self._ivals = None
-        return
 
     def getSetupFunc(self, index):
         return Func(self._setupSkipListen, index)

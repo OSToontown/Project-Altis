@@ -1,12 +1,13 @@
-from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
-from direct.directnotify import DirectNotifyGlobal
 import random
+from direct.interval.IntervalGlobal import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleProps import *
+from direct.directnotify import DirectNotifyGlobal
 from direct.particles import ParticleEffect
-import BattleParticles
-import BattleProps
+from toontown.battle import BattleParticles
+from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer
+
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieUtil')
 SUIT_LOSE_DURATION = 6.0
 SUIT_LURE_DISTANCE = 2.6
@@ -165,7 +166,6 @@ def insertDeathSuit(suit, deathSuit, battle = None, pos = None, hpr = None):
             deathSuit.setPos(battle, pos)
         if battle != None and hpr != None:
             deathSuit.setHpr(battle, hpr)
-    return
 
 
 def removeDeathSuit(suit, deathSuit):
@@ -189,8 +189,6 @@ def insertReviveSuit(suit, deathSuit, battle = None, pos = None, hpr = None):
             deathSuit.setPos(battle, pos)
         if battle != None and hpr != None:
             deathSuit.setHpr(battle, hpr)
-    return
-
 
 def removeReviveSuit(suit, deathSuit):
     notify.debug('removeDeathSuit()')

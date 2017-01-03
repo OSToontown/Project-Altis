@@ -1,8 +1,8 @@
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
-from SCObject import SCObject
-from SCElement import SCElement
-from SCMenu import SCMenu
+from otp.speedchat.SCObject import SCObject
+from otp.speedchat.SCElement import SCElement
+from otp.speedchat.SCMenu import SCMenu
 import types
 
 class SCMenuHolder(SCElement):
@@ -21,14 +21,13 @@ class SCMenuHolder(SCElement):
         self.scArrow = scGui.find('**/chatArrow')
         self.menu = None
         self.setMenu(menu)
-        return
 
     def destroy(self):
         if self.menu is not None:
             self.menu.destroy()
             self.menu = None
+        
         SCElement.destroy(self)
-        return
 
     def setTitle(self, title):
         self.title = title
@@ -47,7 +46,6 @@ class SCMenuHolder(SCElement):
             self.menu.reparentTo(self, 1)
             self.menu.hide()
         self.updateViewability()
-        return
 
     def getMenu(self):
         return self.menu
@@ -58,13 +56,11 @@ class SCMenuHolder(SCElement):
             self.menu.setColorScale(cS, cS, cS, 1)
             self.menu.enterVisible()
             self.menu.show()
-        return
 
     def hideMenu(self):
         if self.menu is not None:
             self.menu.hide()
             self.menu.exitVisible()
-        return
 
     def getMenuOverlap(self):
         if self.parentMenu.isTopLevel():
@@ -111,7 +107,6 @@ class SCMenuHolder(SCElement):
                 break
 
         self.setViewable(isViewable)
-        return
 
     def getMinSubmenuWidth(self):
         parentMenu = self.getParentMenu()
@@ -119,6 +114,7 @@ class SCMenuHolder(SCElement):
             myWidth, myWeight = self.getMinDimensions()
         else:
             myWidth = parentMenu.getWidth()
+        
         return 0.15 + myWidth * self.getMenuOverlap()
 
     def getMinDimensions(self):
@@ -130,7 +126,6 @@ class SCMenuHolder(SCElement):
         SCElement.invalidate(self)
         if self.menu is not None:
             self.menu.invalidate()
-        return
 
     def finalize(self, dbArgs = {}):
         if not self.isDirty():
@@ -154,7 +149,6 @@ class SCMenuHolder(SCElement):
          'frameColor': frameColor}
         args.update(dbArgs)
         SCElement.finalize(self, dbArgs=args)
-        return
 
     def hasStickyFocus(self):
         return 1
@@ -163,16 +157,13 @@ class SCMenuHolder(SCElement):
         SCObject.privSetSettingsRef(self, settingsRef)
         if self.menu is not None:
             self.menu.privSetSettingsRef(settingsRef)
-        return
 
     def invalidateAll(self):
         SCObject.invalidateAll(self)
         if self.menu is not None:
             self.menu.invalidateAll()
-        return
 
     def finalizeAll(self):
         SCObject.finalizeAll(self)
         if self.menu is not None:
             self.menu.finalizeAll()
-        return

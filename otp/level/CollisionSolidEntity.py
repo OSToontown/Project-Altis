@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from direct.directnotify import DirectNotifyGlobal
-import BasicEntities
+from otp.level import BasicEntities
 
 class CollisionSolidEntity(BasicEntities.NodePathEntity):
     notify = DirectNotifyGlobal.directNotify.newCategory('CollisionSolidEntity')
@@ -10,7 +10,6 @@ class CollisionSolidEntity(BasicEntities.NodePathEntity):
         self.collNodePath = None
         BasicEntities.NodePathEntity.__init__(self, level, entId)
         self.initSolid()
-        return
 
     def destroy(self):
         self.destroySolid()
@@ -36,7 +35,6 @@ class CollisionSolidEntity(BasicEntities.NodePathEntity):
         if self.collNodePath is not None:
             self.collNodePath.removeNode()
             self.collNodePath = None
-        return
 
     if __dev__:
 

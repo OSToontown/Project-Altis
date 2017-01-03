@@ -1,8 +1,8 @@
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.task.Task import Task
 
-
 class DistributedBankCollectableAI(DistributedObjectAI):
+
     def requestGrab(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)

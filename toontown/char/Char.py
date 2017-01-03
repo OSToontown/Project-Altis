@@ -1,10 +1,11 @@
+import random
 from otp.avatar import Avatar
 from toontown.nametag import NametagGlobals
 from pandac.PandaModules import *
 from direct.task import Task
-import random
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
+
 AnimDict = {'mk': (('walk', 'walk', 3),
         ('run', 'run', 3),
         ('neutral', 'wait', 3),
@@ -97,21 +98,25 @@ class Char(Avatar.Avatar):
     def __init__(self):
         try:
             self.Char_initialized
+            return
         except:
             self.Char_initialized = 1
-            Avatar.Avatar.__init__(self)
-            self.setPickable(0)
-            self.setPlayerType(NametagGlobals.CCNonPlayer)
-            self.dialogueArray = []
-            self.chatterArray = [[], [], []]
+        
+        Avatar.Avatar.__init__(self)
+        self.setPickable(0)
+        self.setPlayerType(NametagGlobals.CCNonPlayer)
+        self.dialogueArray = []
+        self.chatterArray = [[], [], []]
 
     def delete(self):
         try:
             self.Char_deleted
+            return
         except:
             self.Char_deleted = 1
-            self.unloadDialogue()
-            Avatar.Avatar.delete(self)
+        
+        self.unloadDialogue()
+        Avatar.Avatar.delete(self)
 
     def updateCharDNA(self, newDNA):
         if newDNA.name != self.style.name:

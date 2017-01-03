@@ -1,14 +1,13 @@
+import sys
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 from pandac.PandaModules import *
-import sys
-
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.chat.ChatGlobals import *
 
-
 class ChatInputTyped(DirectObject.DirectObject):
+
     def __init__(self, mainEntry = 0):
         self.whisperName = None
         self.whisperId = None
@@ -21,7 +20,6 @@ class ChatInputTyped(DirectObject.DirectObject):
         self.history = ['']
         self.historySize = base.config.GetInt('chat-history-size', 10)
         self.historyIndex = 0
-        return
 
     def typeCallback(self, extraArgs):
         self.activate()
@@ -61,7 +59,6 @@ class ChatInputTyped(DirectObject.DirectObject):
         if self.wantHistory:
             self.accept('arrow_up-up', self.getPrevHistory)
             self.accept('arrow_down-up', self.getNextHistory)
-        return
 
     def hide(self):
         self.chatEntry.set('')

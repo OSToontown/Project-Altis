@@ -2,8 +2,8 @@ from toontown.building import DistributedDoorAI
 from toontown.building import DoorTypes
 from toontown.building.DistributedTutorialInteriorAI import DistributedTutorialInteriorAI
 
-
 class TutorialBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber, tutorialNpcId):
         self.air = air
         self.exteriorZone = exteriorZone

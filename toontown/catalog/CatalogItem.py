@@ -1,12 +1,11 @@
+import types
+import sys
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
-import types
-import sys
-
 
 CatalogReverseType = None
 CatalogItemVersion = 8
@@ -40,7 +39,6 @@ class CatalogItem:
             self.decodeDatagram(*args, **kw)
         else:
             self.makeNewItem(*args, **kw)
-        return
 
     def isAward(self):
         result = self.specialEventId != 0

@@ -4,12 +4,10 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
 from direct.task import Task
 from pandac.PandaModules import *
-
 from Avatar import Avatar
 from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPGlobals
 from toontown.battle.BattleProps import globalPropPool
-
 
 class DistributedAvatar(DistributedActor, Avatar):
     HpTextGenerator = TextNode('HpTextGenerator')

@@ -1,12 +1,13 @@
-from direct.directnotify.DirectNotifyGlobal import directNotify
+from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-
 class DistributedDistrictAI(DistributedObjectAI):
-    notify = directNotify.newCategory('DistributedDistrictAI')
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedDistrictAI')
 
-    name = 'District'
-    available = 0
+    def __init__(self, air):
+        DistributedObjectAI.__init__(self, air)
+        self.name = 'NotGiven'
+        self.available = 0
 
     def setName(self, name):
         self.name = name

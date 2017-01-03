@@ -1,8 +1,9 @@
-from BattleBase import *
 import random
+from toontown.battle.BattleBase import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.otpbase import OTPLocalizer
 from toontown.toonbase import TTLocalizer
+
 notify = DirectNotifyGlobal.directNotify.newCategory('SuitBattleGlobals')
 debugAttackSequence = {}
 
@@ -88,7 +89,6 @@ def pickSuitAttack(attacks, suitLevel):
                 return i
 
         return attackNum
-    return
 
 
 def getSuitAttack(suitName, suitLevel, attackNum = -1):

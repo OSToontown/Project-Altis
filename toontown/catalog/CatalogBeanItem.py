@@ -1,4 +1,4 @@
-import CatalogItem
+from toontown.catalog import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer

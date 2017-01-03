@@ -1,6 +1,5 @@
-from ElevatorConstants import *
+from toontown.building.ElevatorConstants import *
 from toontown.toonbase import ToontownGlobals
-
 
 try:
     config = base.config

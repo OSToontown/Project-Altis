@@ -9,7 +9,6 @@ class GarbageLeakServerEventAggregator(DirectObject):
         self._sentLeakDesc2num = {}
         self._curLeakDesc2num = {}
         self.accept(GarbageReport.GarbageCycleCountAnnounceEvent, self._handleCycleCounts)
-        return
 
     def destroy(self):
         self._stopSending()
@@ -30,7 +29,6 @@ class GarbageLeakServerEventAggregator(DirectObject):
         if self._doLaterName:
             self.removeTask(self._doLaterName)
         self._doLaterName = None
-        return
 
     def _sendLeaks(self, task = None):
         for desc, curNum in self._curLeakDesc2num.iteritems():

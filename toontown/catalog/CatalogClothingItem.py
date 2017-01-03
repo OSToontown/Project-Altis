@@ -1,11 +1,12 @@
-import CatalogItem
+import random
+from toontown.catalog import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import ToonDNA
-import random
 from direct.showbase import PythonUtil
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
+
 CTArticle = 0
 CTString = 1
 CTBasePrice = 2

@@ -24,7 +24,6 @@ class DistributedDistrict(DistributedObject):
             del self.cr.activeDistrictMap[self.doId]
         DistributedObject.delete(self)
         messenger.send('shardInfoUpdated')
-        return
 
     def setAvailable(self, available):
         self.available = available

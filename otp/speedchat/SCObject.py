@@ -8,7 +8,6 @@ class SCObject(DirectObject):
         self.settingsRef = None
         self.__visible = 0
         self.__dirty = 1
-        return
 
     def destroy(self):
         self.ignoreAll()
@@ -53,7 +52,6 @@ class SCObject(DirectObject):
             return self.getSubmenuOverlap()
         else:
             return self.settingsRef.topLevelOverlap
-        return
 
     def privSetSettingsRef(self, settingsRef):
         self.settingsRef = settingsRef

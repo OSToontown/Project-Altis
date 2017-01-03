@@ -1,1 +1,1 @@
-from ToonBase import *
+from toontown.toonbase.ToonBase import *

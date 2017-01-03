@@ -1,4 +1,4 @@
-import Entity
+from otp.level import Entity
 
 class VisibilityBlocker:
 
@@ -14,13 +14,11 @@ class VisibilityBlocker:
             self.__nextSetZoneDoneEvent = self.level.cr.getNextSetZoneDoneEvent()
             self.acceptOnce(self.__nextSetZoneDoneEvent, self.okToUnblockVis)
             self.level.forceSetZoneThisFrame()
-        return
 
     def cancelUnblockVis(self):
         if self.__nextSetZoneDoneEvent is not None:
             self.ignore(self.__nextSetZoneDoneEvent)
             self.__nextSetZoneDoneEvent = None
-        return
 
     def isWaitingForUnblockVis(self):
         return self.__nextSetZoneDoneEvent is not None

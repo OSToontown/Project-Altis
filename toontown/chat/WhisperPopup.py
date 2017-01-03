@@ -1,12 +1,10 @@
 from panda3d.core import TextNode, PGButton, Point3
-
 from toontown.chat import ChatGlobals
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.margins import MarginGlobals
 from toontown.margins.MarginVisible import MarginVisible
 from toontown.nametag import NametagGlobals
 from toontown.toontowngui.Clickable2d import Clickable2d
-
 
 class WhisperQuitButton(Clickable2d):
     CONTENTS_SCALE = 12

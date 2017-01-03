@@ -1,23 +1,27 @@
 from otp.avatar import DistributedAvatar
-import Char
+from toontown.char import Char
 
 class DistributedChar(DistributedAvatar.DistributedAvatar, Char.Char):
 
     def __init__(self, cr):
         try:
             self.DistributedChar_initialized
+            return
         except:
             self.DistributedChar_initialized = 1
-            DistributedAvatar.DistributedAvatar.__init__(self, cr)
-            Char.Char.__init__(self)
+       
+        DistributedAvatar.DistributedAvatar.__init__(self, cr)
+        Char.Char.__init__(self)
 
     def delete(self):
         try:
             self.DistributedChar_deleted
+            return
         except:
             self.DistributedChar_deleted = 1
-            Char.Char.delete(self)
-            DistributedAvatar.DistributedAvatar.delete(self)
+       
+        Char.Char.delete(self)
+        DistributedAvatar.DistributedAvatar.delete(self)
 
     def setDNAString(self, dnaString):
         Char.Char.setDNAString(self, dnaString)

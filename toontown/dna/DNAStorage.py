@@ -473,10 +473,3 @@ class DNAStorage:
                 packer.pack('zone ID', edge.zoneId, UINT16)
 
         return packer
-
-            
-        
-            
-            
-            
-            

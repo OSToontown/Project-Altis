@@ -5,7 +5,6 @@ from direct.fsm import StateData
 from direct.showbase import DirectObject
 from direct.task import Task
 from pandac.PandaModules import *
-
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.hood import Place
 from toontown.hood import ZoneUtil
@@ -15,7 +14,6 @@ from toontown.toon import NPCForceAcknowledge
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToonBaseGlobal import *
-
 
 class ToonInterior(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonInterior')

@@ -110,7 +110,6 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
                     self.state = 'waitCloseComplete'
                 elif self.state == 'done':
                     self.finished()
-                return
 
         class TestNonRequiredNonSetFields(TaskThreaded.TaskThread, TimeoutTest):
             Timeout = 60
@@ -123,7 +122,6 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
                 testObj = self.parent.cr.doFind('DistributedTestObject')
                 if testObj is not None:
                     self.finished()
-                return
 
             def tearDown(self):
                 self.stopTimeout(self.timeoutName)

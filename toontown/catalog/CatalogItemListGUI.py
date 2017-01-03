@@ -1,7 +1,7 @@
 from toontown.catalog.CatalogItemPage import CatalogItemPage
 
-
 class CatalogItemListGUI:
+
     def __init__(self, catalogGui):
         self.catalogGui = catalogGui
         self.items = {}

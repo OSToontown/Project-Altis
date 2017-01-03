@@ -48,7 +48,6 @@ class Elevator(StateData.StateData):
         del self.upButton
         del self.downButton
         del self.rolloverButton
-        return
 
     def enter(self):
         self.fsm.enterInitialState()
@@ -124,7 +123,6 @@ class Elevator(StateData.StateData):
             self.hopWarning.reparentTo(self.exitButton.stateNodePath[2])
         else:
             self.hopWarning = None
-        return
 
     def disableExitButton(self):
         if self.hopWarning:

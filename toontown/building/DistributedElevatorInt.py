@@ -1,9 +1,9 @@
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
-from ElevatorUtils import *
-import DistributedElevator
+from toontown.building.ElevatorConstants import *
+from toontown.building.ElevatorUtils import *
+from toontown.building import DistributedElevator
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -31,7 +31,6 @@ class DistributedElevatorInt(DistributedElevator.DistributedElevator):
           'zoneId': target_sz,
           'shardId': None,
           'avId': -1}], force=1)
-        return
 
     def enterWaitCountdown(self, ts):
         DistributedElevator.DistributedElevator.enterWaitCountdown(self, ts)

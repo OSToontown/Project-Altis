@@ -1,5 +1,5 @@
-import ZoneEntityBase
-import BasicEntities
+from otp.level import ZoneEntityBase
+from otp.level import BasicEntities
 
 class ZoneEntity(ZoneEntityBase.ZoneEntityBase, BasicEntities.NodePathAttribs):
 
@@ -14,7 +14,6 @@ class ZoneEntity(ZoneEntityBase.ZoneEntityBase, BasicEntities.NodePathAttribs):
         BasicEntities.NodePathAttribs.initNodePathAttribs(self, doReparent=0)
         self.visibleZoneNums = {}
         self.incrementRefCounts(self.visibility)
-        return
 
     def destroy(self):
         BasicEntities.NodePathAttribs.destroy(self)

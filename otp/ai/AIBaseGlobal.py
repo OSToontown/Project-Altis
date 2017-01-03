@@ -1,4 +1,4 @@
-from AIBase import *
+from otp.ai.AIBase import *
 __builtins__['simbase'] = AIBase()
 __builtins__['ostream'] = Notify.out()
 __builtins__['run'] = simbase.run
@@ -18,9 +18,9 @@ def inspect(anObject):
     from direct.tkpanels import Inspector
     Inspector.inspect(anObject)
 
-
 __builtins__['inspect'] = inspect
 if not __debug__ and __dev__:
     notify = directNotify.newCategory('ShowBaseGlobal')
     notify.error("You must set 'want-dev' to false in non-debug mode.")
+
 taskMgr.finalInit()

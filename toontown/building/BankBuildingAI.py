@@ -1,12 +1,11 @@
 from pandac.PandaModules import *
-
 from toontown.building import DistributedBankInteriorAI
 from toontown.building import DistributedDoorAI
 from toontown.building import DoorTypes
 from toontown.toon import NPCToons
 
-
 class BankBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone

@@ -25,12 +25,12 @@ class Splash(NodePath):
             self.pSystem.setScale(0.4)
             self.pSystem.setBin('fixed', 150, 1)
             self.particles = self.pSystem.particlesDict.get('particles-1')
+        
         self.track = None
         self.trackId = Splash.splashCount
         Splash.splashCount += 1
         self.setBin('fixed', 100, 1)
         self.hide()
-        return
 
     def createTrack(self, rate = 1):
         self.ripples.createTrack(rate)
@@ -41,6 +41,7 @@ class Splash(NodePath):
             particleSequence = Sequence(Func(self.pSystem.show), Func(self.particles.induceLabor), Func(self.pSystem.start, self), Wait(2.2), Func(self.pSystem.hide), Func(self.pSystem.disable))
         else:
             particleSequence = Sequence()
+        
         self.track = Sequence(Func(self.show), Parallel(self.ripples.track, rippleSequence, particleSequence), Func(self.hide), name='splashdown-%d-track' % self.trackId)
 
     def play(self, rate = 1):
@@ -66,4 +67,5 @@ class Splash(NodePath):
             self.pSystem.cleanup()
             del self.pSystem
             del self.particles
+        
         self.removeNode()

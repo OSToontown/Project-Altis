@@ -1,6 +1,6 @@
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
-import BasicEntities
+from otp.level import BasicEntities
 from pandac.PandaModules import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
@@ -51,13 +51,11 @@ class CutScene(BasicEntities.NodePathEntity, DirectObject.DirectObject):
         self.subjectNodePath.setPos(self.pos)
         self.subjectNodePath.setHpr(self.hpr)
         self.setStartStop(self.startStopEvent)
-        return
 
     def destroy(self):
         self.ignore(self.startStopEvent)
         self.startStopEvent = None
         BasicEntities.NodePathEntity.destroy(self)
-        return
 
     def setEffect(self, effect):
         self.effect = effect
@@ -86,7 +84,6 @@ class CutScene(BasicEntities.NodePathEntity, DirectObject.DirectObject):
             self.track.pause()
             self.track = None
             base.localAvatar.startUpdateSmartCamera()
-        return
 
     def setStartStop(self, event):
         if self.startStopEvent:

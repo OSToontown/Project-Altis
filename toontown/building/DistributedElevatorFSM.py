@@ -1,8 +1,8 @@
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from ElevatorConstants import *
-from ElevatorUtils import *
+from toontown.building.ElevatorConstants import *
+from toontown.building.ElevatorUtils import *
 from direct.showbase import PythonUtil
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
@@ -55,7 +55,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
          None,
          None]
         self.boardingParty = None
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -90,7 +89,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             self.fillSlot(*slot)
 
         self.deferredSlots = []
-        return
 
     def disable(self):
         for track in self.offTrack:
@@ -112,7 +110,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             self.closeDoors.pause()
         self.request('off')
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         for track in self.offTrack:
@@ -136,7 +133,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         del self.closeSfx
         self.isSetup = 0
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def setBldgDoId(self, bldgDoId):
         self.bldgDoId = bldgDoId
@@ -149,7 +145,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             self.notify.error('setBldgDoId: elevator %d cannot find bldg %d!' % (self.doId, self.bldgDoId))
             return
         self.setupElevator()
-        return
 
     def gotToon(self, index, avId, toonList):
         request = self.toonRequests.get(index)
@@ -299,7 +294,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
                 del self.boardedAvIds[avId]
         else:
             self.notify.warning('toon: ' + str(avId) + " doesn't exist, and" + ' cannot exit the elevator!')
-        return
 
     def handleEnterSphere(self, collEntry):
         self.notify.debug('Entering Elevator Sphere....')
@@ -384,8 +378,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
                 if av.getParent().compareTo(self.getElevatorModel()) == 0:
                     av.detachNode()
 
-        return
-
     def enterClosed(self, ts):
         self.__doorsClosed(self.getZoneId())
 
@@ -446,7 +438,6 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             elevator = self.elevatorFSM
             del self.elevatorFSM
             elevator.signalDone(doneStatus)
-        return
 
     def getElevatorModel(self):
         self.notify.error('getElevatorModel: pure virtual -- inheritors must override')

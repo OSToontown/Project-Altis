@@ -2,9 +2,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-
-import DistributedAnimatedProp
-from KnockKnockJokes import *
+from toontown.building import DistributedAnimatedProp
+from toontown.building.KnockKnockJokes import *
 from toontown.chat.ChatGlobals import *
 from toontown.distributed import DelayDelete
 from toontown.nametag.NametagGlobals import *
@@ -12,8 +11,8 @@ from toontown.nametag.NametagGroup import NametagGroup
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedKnockKnockDoor(DistributedAnimatedProp.DistributedAnimatedProp):
+    
     def __init__(self, cr):
         DistributedAnimatedProp.DistributedAnimatedProp.__init__(self, cr)
 
@@ -104,7 +103,6 @@ class DistributedKnockKnockDoor(DistributedAnimatedProp.DistributedAnimatedProp)
             self.nametag.destroy()
         self.nametag = None
         self.nametagNP = None
-        return
 
     def enterOff(self):
         DistributedAnimatedProp.DistributedAnimatedProp.enterOff(self)
@@ -127,7 +125,6 @@ class DistributedKnockKnockDoor(DistributedAnimatedProp.DistributedAnimatedProp)
             if track != None:
                 track.start(ts)
                 self.avatarTracks.append(track)
-        return
 
     def exitPlaying(self):
         DistributedAnimatedProp.DistributedAnimatedProp.exitPlaying(self)

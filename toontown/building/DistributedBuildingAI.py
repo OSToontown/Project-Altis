@@ -1,16 +1,15 @@
 import random
 import time
-
-import DistributedDoorAI
-import DistributedElevatorExtAI
-import DistributedKnockKnockDoorAI
-import DistributedSuitInteriorAI
-import DistributedToonHallInteriorAI
-import DistributedToonInteriorAI
-import DoorTypes
-import FADoorCodes
-import SuitBuildingGlobals
-import SuitPlannerInteriorAI
+from toontown.building import DistributedDoorAI
+from toontown.building import DistributedElevatorExtAI
+from toontown.building import DistributedKnockKnockDoorAI
+from toontown.building import DistributedSuitInteriorAI
+from toontown.building import DistributedToonHallInteriorAI
+from toontown.building import DistributedToonInteriorAI
+from toontown.building import DoorTypes
+from toontown.building import FADoorCodes
+from toontown.building import SuitBuildingGlobals
+from toontown.building import SuitPlannerInteriorAI
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
@@ -23,8 +22,8 @@ from toontown.cogdominium.SuitPlannerCogdoInteriorAI import SuitPlannerCogdoInte
 from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownGlobals import ToonHall
 
-
 class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
+    
     def __init__(self, air, blockNumber, zoneId, trophyMgr):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.block = blockNumber

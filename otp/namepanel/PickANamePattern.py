@@ -1,5 +1,4 @@
 
-
 class PickANamePattern:
 
     def __init__(self, nameStr, gender):
@@ -57,8 +56,6 @@ class PickANamePattern:
             pattern = self._recursiveCompute(splitPermutation, nameParts)
             if pattern is not None:
                 return pattern
-
-        return
 
     def _getNameParts(self, gender):
         pass

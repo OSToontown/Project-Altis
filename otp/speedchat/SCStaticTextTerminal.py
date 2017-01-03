@@ -1,10 +1,9 @@
-from SCTerminal import SCTerminal
+from otp.speedchat.SCTerminal import SCTerminal
 from otp.otpbase.OTPLocalizer import SpeedChatStaticText
 SCStaticTextMsgEvent = 'SCStaticTextMsg'
 
 def decodeSCStaticTextMsg(textId):
     return SpeedChatStaticText.get(textId, None)
-
 
 class SCStaticTextTerminal(SCTerminal):
 

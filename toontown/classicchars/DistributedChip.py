@@ -3,7 +3,11 @@ from toontown.classicchars import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
+<<<<<<< HEAD
 from toontown.clar import CharStateDatas
+=======
+from toontown.classicchars import CharStateDatas
+>>>>>>> 932a32c9a2bf8f975e71f576a5101041807586d0
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 
@@ -13,12 +17,14 @@ class DistributedChip(DistributedCCharBase.DistributedCCharBase):
     def __init__(self, cr):
         try:
             self.DistributedChip_initialized
+            return
         except:
             self.DistributedChip_initialized = 1
-            DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Chip, 'ch')
-            self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
-            self.fsm.enterInitialState()
-            self.handleHolidays()
+        
+        DistributedCCharBase.DistributedCCharBase.__init__(self, cr, TTLocalizer.Chip, 'ch')
+        self.fsm = ClassicFSM.ClassicFSM(self.getName(), [State.State('Off', self.enterOff, self.exitOff, ['Neutral']), State.State('Neutral', self.enterNeutral, self.exitNeutral, ['Walk']), State.State('Walk', self.enterWalk, self.exitWalk, ['Neutral'])], 'Off', 'Off')
+        self.fsm.enterInitialState()
+        self.handleHolidays()
 
     def disable(self):
         self.fsm.requestFinalState()
@@ -32,10 +38,12 @@ class DistributedChip(DistributedCCharBase.DistributedCCharBase):
     def delete(self):
         try:
             self.DistributedChip_deleted
+            return
         except:
             del self.fsm
-            self.DistributedChip_deleted = 1
-            DistributedCCharBase.DistributedCCharBase.delete(self)
+        
+        self.DistributedChip_deleted = 1
+        DistributedCCharBase.DistributedCCharBase.delete(self)
 
     def generate(self):
         DistributedCCharBase.DistributedCCharBase.generate(self)

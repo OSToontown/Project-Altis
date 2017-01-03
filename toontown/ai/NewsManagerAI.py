@@ -1,7 +1,6 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
-
 class NewsManagerAI(DistributedObjectAI):
     notify = directNotify.newCategory('NewsManagerAI')
 
@@ -91,4 +90,3 @@ class NewsManagerAI(DistributedObjectAI):
 
     def sendSystemMessage(self, todo0, todo1):
         pass
-

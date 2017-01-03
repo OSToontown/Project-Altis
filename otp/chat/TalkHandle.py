@@ -8,7 +8,6 @@ class TalkHandle(AvatarHandle):
         self.accountId = None
         self.accountName = None
         self.addMessageInfo(message)
-        return
 
     def getName(self):
         return self.avatarName
@@ -38,4 +37,3 @@ class TalkHandle(AvatarHandle):
     def setTalkWhisper(self, fromAV, fromAC, avatarName, chat, mods, flags):
         newText, scrubbed = localAvatar.scrubTalk(chat, mods)
         base.talkAssistant.receiveWhisperTalk(fromAV, avatarName, fromAC, None, self.avatarId, self.getName(), newText, scrubbed)
-        return

@@ -6,4 +6,3 @@ class SpeedchatRelayUD(DistributedObjectUD):
 
     def forwardSpeedchat(self, todo0, todo1, todo2, todo3, todo4, todo5):
         pass
-

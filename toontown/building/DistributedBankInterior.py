@@ -1,19 +1,18 @@
+import random
 from direct.distributed.ClockDelta import *
 from direct.distributed.DistributedObject import DistributedObject
 from direct.fsm import ClassicFSM, State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-import random
-
-import ToonInteriorColors
+from toontown.building import ToonInteriorColors
 from toontown.dna.DNAParser import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 
-
 class DistributedBankInterior(DistributedObject):
+
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
 

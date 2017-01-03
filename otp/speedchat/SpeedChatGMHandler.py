@@ -9,7 +9,6 @@ class SpeedChatGMHandler(DirectObject.DirectObject):
     def __init__(self):
         if SpeedChatGMHandler.scStructure is None:
             self.generateSCStructure()
-        return
 
     def generateSCStructure(self):
         SpeedChatGMHandler.scStructure = [OTPLocalizer.PSCMenuGM]

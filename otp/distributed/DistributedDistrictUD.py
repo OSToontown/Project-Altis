@@ -9,4 +9,3 @@ class DistributedDistrictUD(DistributedObjectUD):
 
     def setAvailable(self, todo0):
         pass
-

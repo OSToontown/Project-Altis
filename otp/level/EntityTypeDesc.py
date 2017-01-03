@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-import AttribDesc
+from otp.level import AttribDesc
 from direct.showbase.PythonUtil import mostDerivedLast
 
 class EntityTypeDesc:

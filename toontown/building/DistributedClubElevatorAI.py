@@ -7,7 +7,6 @@ from toontown.building import DistributedElevatorFSMAI
 from toontown.building import ElevatorConstants
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFloorAI')
     defaultTransitions = {

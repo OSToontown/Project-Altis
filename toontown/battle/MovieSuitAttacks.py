@@ -1,14 +1,14 @@
-import MovieCamera
-import MovieUtil
-import BattleParticles
+from toontown.battle import MovieCamera
+from toontown.battle import MovieUtil
+from toontown.battle import BattleParticles
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
-from BattleBase import *
-from BattleBase import *
-from BattleProps import *
-from BattleSounds import *
-from SuitBattleGlobals import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleProps import *
+from toontown.battle.BattleSounds import *
+from toontown.battle.SuitBattleGlobals import *
 from toontown.chat.ChatGlobals import *
 from toontown.nametag import NametagGlobals
 from toontown.nametag.NametagGlobals import *

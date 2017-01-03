@@ -1,6 +1,7 @@
+import copy
 from otp.otpbase import OTPGlobals
 from toontown.toonbase import ToontownGlobals
-import copy
+
 BOARDCODE_OKAY = 1
 BOARDCODE_MISSING = 0
 BOARDCODE_MINLAFF = -1
@@ -56,6 +57,7 @@ class BoardingPartyBase:
                 if 0 in returnList:
                     returnList.remove(0)
                 return returnList
+        
         return []
 
     def getGroupInviteList(self, avatarId):
@@ -67,6 +69,7 @@ class BoardingPartyBase:
                 if 0 in returnList:
                     returnList.remove(0)
                 return returnList
+        
         return []
 
     def getGroupKickList(self, avatarId):
@@ -78,6 +81,7 @@ class BoardingPartyBase:
                 if 0 in returnList:
                     returnList.remove(0)
                 return returnList
+        
         return []
 
     def hasActiveGroup(self, avatarId):
@@ -85,6 +89,7 @@ class BoardingPartyBase:
         if avatarId in memberList:
             if len(memberList) > 1:
                 return True
+        
         return False
 
     def hasPendingInvite(self, avatarId):
