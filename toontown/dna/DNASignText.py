@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 from toontown.dna import DNANode
-=======
-import DNANode
-from DNAUtil import *
->>>>>>> origin/master
 
 class DNASignText(DNANode.DNANode):
     __slots__ = (

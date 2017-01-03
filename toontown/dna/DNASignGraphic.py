@@ -1,14 +1,7 @@
 from panda3d.core import LVector4f, DecalEffect
-<<<<<<< HEAD
 from toontown.dna import DNANode
 from toontown.dna import DNAError
 from toontown.dna import DNAUtil
-=======
-from DNAUtil import *
-import DNANode
-import DNAError
-import DNAUtil
->>>>>>> origin/master
 
 class DNASignGraphic(DNANode.DNANode):
     __slots__ = (

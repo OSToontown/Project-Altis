@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect, Particles, ForceGroup
 from toontown.effects.EffectController import EffectController
-from toontown.effectsPooledEffect import PooledEffect
+from toontown.effects.PooledEffect import PooledEffect
 import random
 
 class SimpleSparkles(PooledEffect, EffectController):

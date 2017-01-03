@@ -1,10 +1,5 @@
 from panda3d.core import ModelNode
-<<<<<<< HEAD
 from toontown.dna import DNAAnimProp
-=======
-from DNAUtil import *
-import DNAAnimProp
->>>>>>> origin/master
 
 class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
     __slots__ = (

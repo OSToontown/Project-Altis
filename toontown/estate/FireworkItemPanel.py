@@ -4,7 +4,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.effects import FireworkGlobals
 from toontown.effects import Fireworks
-from toontown.estate import FireworksGui
 
 class FireworkItemPanel(DirectFrame):
 

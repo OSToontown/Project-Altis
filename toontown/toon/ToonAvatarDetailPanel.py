@@ -8,7 +8,6 @@ from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import DistributedToon
 from toontown.friends import FriendInviter
-from toontown.toon import ToonTeleportPanel
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownBattleGlobals import Tracks, Levels
@@ -68,6 +67,7 @@ class ToonAvatarDetailPanel(DirectFrame):
          State.State('query', self.enterQuery, self.exitQuery, ['data', 'invalid', 'off']),
          State.State('data', self.enterData, self.exitData, ['off']),
          State.State('invalid', self.enterInvalid, self.exitInvalid, ['off'])], 'off', 'off')
+        from toontown.toon import ToonTeleportPanel
         ToonTeleportPanel.hideTeleportPanel()
         FriendInviter.hideFriendInviter()
         self.bCancel = DirectButton(self, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=1.1, relief=None, text=TTLocalizer.AvatarDetailPanelCancel, text_scale=TTLocalizer.TADPbCancel, text_pos=(0.12, -0.01), pos=TTLocalizer.TADPbCancelPos, scale=2.0, command=self.__handleCancel)

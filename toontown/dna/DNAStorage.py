@@ -1,19 +1,10 @@
 import math
 from pandac.PandaModules import *
-<<<<<<< HEAD
 from toontown.dna.DNAError import DNAError
 from toontown.dna.DNAPacker import DNAPacker
 from toontown.dna.DNASuitPoint import DNASuitPoint
 from toontown.dna.DNASuitPath import DNASuitPath
 from toontown.dna.DNASuitEdge import DNASuitEdge
-=======
-from DNAError import DNAError
-from DNAPacker import DNAPacker
-from DNAUtil import *
-from DNASuitPoint import DNASuitPoint
-from DNASuitPath import DNASuitPath
-from DNASuitEdge import DNASuitEdge
->>>>>>> origin/master
 
 class DNAStorage:
     __slots__ = (

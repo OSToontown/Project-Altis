@@ -1,3 +1,4 @@
+import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.distributed.ClockDelta import *
@@ -6,7 +7,6 @@ from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import ToontownGlobals
 from toontown.parties import PartyGlobals
 from toontown.effects import FireworkShows
-from toontown.effects import random
 
 class DistributedFireworkShowAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFireworkShowAI")

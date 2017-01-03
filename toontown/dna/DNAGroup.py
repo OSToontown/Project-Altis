@@ -1,10 +1,6 @@
 from panda3d.core import PandaNode
-<<<<<<< HEAD
 from toontown.dna import DNAUtil
-=======
-from DNAPacker import *
-import DNAUtil
->>>>>>> origin/master
+from toontown.dna import DNAPacker
 
 class DNAGroup(object):
     __slots__ = (

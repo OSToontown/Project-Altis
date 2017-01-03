@@ -1,10 +1,5 @@
 from panda3d.core import BamFile, NodePath, StringStream, decompressString
-<<<<<<< HEAD
 from toontown.dna import DNANode
-=======
-from DNAUtil import *
-import DNANode
->>>>>>> origin/master
 
 class DNASignBaseline(DNANode.DNANode):
     __slots__ = (

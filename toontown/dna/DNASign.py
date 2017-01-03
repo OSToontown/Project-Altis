@@ -1,11 +1,6 @@
 from panda3d.core import LVector4f, NodePath, DecalEffect
-<<<<<<< HEAD
 from toontown.dna import DNANode
 from toontown.dna import DNAUtil
-=======
-import DNANode
-from DNAUtil import *
->>>>>>> origin/master
 
 class DNASign(DNANode.DNANode):
     __slots__ = (
@@ -32,8 +27,8 @@ class DNASign(DNANode.DNANode):
 
     def makeFromDGI(self, dgi):
         DNANode.DNANode.makeFromDGI(self, dgi)
-        self.code = dgiExtractString8(dgi)
-        self.color = dgiExtractColor(dgi)
+        self.code = DNAUtil.dgiExtractString8(dgi)
+        self.color = DNAUtil.dgiExtractColor(dgi)
 
     def traverse(self, nodePath, dnaStorage):
         sign = dnaStorage.findNode(self.code)

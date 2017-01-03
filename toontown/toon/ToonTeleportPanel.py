@@ -7,7 +7,6 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
 from otp.avatar.Avatar import teleportNotify
-from toontown.toon import ToonAvatarDetailPanel
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 
@@ -82,6 +81,7 @@ class ToonTeleportPanel(DirectFrame):
             'off', 'off')
         from toontown.friends import FriendInviter
         FriendInviter.hideFriendInviter()
+        from toontown.toon import ToonAvatarDetailPanel
         ToonAvatarDetailPanel.hideAvatarDetail()
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         self.bOk = DirectButton(self, image=(buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr')), relief=None, text=TTLocalizer.TeleportPanelOK, text_scale=0.05, text_pos=(0.0, -0.1), pos=(0.0, 0.0, -0.1), command=self.__handleOk)

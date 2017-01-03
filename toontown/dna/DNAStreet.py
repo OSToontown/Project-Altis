@@ -1,13 +1,7 @@
 from panda3d.core import LVector4f
-<<<<<<< HEAD
 from toontown.dna import DNANode
 from toontown.dna import DNAError
 from toontown.dna import DNAUtil
-=======
-import DNANode
-import DNAError
-from DNAUtil import *
->>>>>>> origin/master
 
 class DNAStreet(DNANode.DNANode):
     __slots__ = (
@@ -96,13 +90,13 @@ class DNAStreet(DNANode.DNANode):
 
     def makeFromDGI(self, dgi):
         DNANode.DNANode.makeFromDGI(self, dgi)
-        self.code = dgiExtractString8(dgi)
-        self.streetTexture = dgiExtractString8(dgi)
-        self.sideWalkTexture = dgiExtractString8(dgi)
-        self.curbTexture = dgiExtractString8(dgi)
-        self.streetColor = dgiExtractColor(dgi)
-        self.sideWalkColor = dgiExtractColor(dgi)
-        self.curbColor = dgiExtractColor(dgi)
+        self.code = DNAUtil.dgiExtractString8(dgi)
+        self.streetTexture = DNAUtil.dgiExtractString8(dgi)
+        self.sideWalkTexture = DNAUtil.dgiExtractString8(dgi)
+        self.curbTexture = DNAUtil.dgiExtractString8(dgi)
+        self.streetColor = DNAUtil.dgiExtractColor(dgi)
+        self.sideWalkColor = DNAUtil.dgiExtractColor(dgi)
+        self.curbColor = DNAUtil.dgiExtractColor(dgi)
 
     def traverse(self, nodePath, dnaStorage):
         node = dnaStorage.findNode(self.code)
@@ -112,7 +106,7 @@ class DNAStreet(DNANode.DNANode):
         nodePath = node.copyTo(nodePath, 0)
         node.setName(self.getName())
         streetTexture = dnaStorage.findTexture(self.streetTexture)
-        sidewalkTexture = dnaStorage.findTexture(self.sideWalkTexture)
+        sideWalkTexture = dnaStorage.findTexture(self.sideWalkTexture)
         curbTexture = dnaStorage.findTexture(self.curbTexture)
         
         if streetTexture is None:

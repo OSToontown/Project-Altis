@@ -1,14 +1,7 @@
 from panda3d.core import LVector4f, LVector3f, DecalEffect
-<<<<<<< HEAD
 from toontown.dna import DNAGroup
 from toontown.dna import DNAError
 from toontown.dna import DNAUtil
-=======
-from DNAUtil import *
-import DNAGroup
-import DNAError
-import DNAUtil
->>>>>>> origin/master
 
 class DNACornice(DNAGroup.DNAGroup):
     __slots__ = (

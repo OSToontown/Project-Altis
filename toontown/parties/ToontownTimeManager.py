@@ -1,7 +1,7 @@
 import time
 from datetime import datetime, timedelta
 from direct.directnotify.DirectNotifyGlobal import directNotify
-from direct.distributed import DistributedObjectss
+from direct.distributed import DistributedObject
 from toontown.parties.ToontownTimeZone import ToontownTimeZone, UTC
 
 class ToontownTimeManager(DistributedObject.DistributedObject):

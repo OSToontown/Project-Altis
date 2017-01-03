@@ -1,13 +1,7 @@
 from panda3d.core import LVector4f, NodePath, DecalEffect
-<<<<<<< HEAD
 from toontown.dna import DNAGroup
 from toontown.dna import DNAError
 from toontown.dna import DNAUtil
-=======
-import DNAGroup
-import DNAError
-from DNAUtil import *
->>>>>>> origin/master
 import random
 
 class DNAWindows(DNAGroup.DNAGroup):
@@ -91,8 +85,8 @@ class DNAWindows(DNAGroup.DNAGroup):
 
     def makeFromDGI(self, dgi):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi)
-        self.code = dgiExtractString8(dgi)
-        self.color = dgiExtractColor(dgi)
+        self.code = DNAUtil.dgiExtractString8(dgi)
+        self.color = DNAUtil.dgiExtractColor(dgi)
         self.windowCount = dgi.getUint8()
 
     def traverse(self, nodePath, dnaStorage):

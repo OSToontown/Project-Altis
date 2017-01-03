@@ -1,12 +1,6 @@
 from panda3d.core import LVector4f, ModelNode
-<<<<<<< HEAD
 from toontown.dna import DNANode
 from toontown.dna import DNAUtil
-=======
-from DNAUtil import *
-import DNANode
-import DNAUtil
->>>>>>> origin/master
 
 class DNAProp(DNANode.DNANode):
     __slots__ = (
