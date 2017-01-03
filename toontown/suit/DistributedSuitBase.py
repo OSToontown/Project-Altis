@@ -9,13 +9,12 @@ from direct.interval.IntervalGlobal import *
 from direct.task import Task
 import math
 from pandac.PandaModules import *
-
-import DistributedSuitPlanner
-import Suit
-import SuitBase
-import SuitDNA
-import SuitDialog
-import SuitTimings
+from toontown.suit import DistributedSuitPlanner
+from toontown.suit import Suit
+from toontown.suit import SuitBase
+from toontown.suit import SuitDNA
+from toontown.suit import SuitDialog
+from toontown.suit import SuitTimings
 from otp.avatar import DistributedAvatar
 from otp.otpbase import OTPGlobals
 from toontown.battle import BattleProps
@@ -25,7 +24,6 @@ from toontown.nametag.NametagGlobals import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
 
 class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBase.SuitBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSuitBase')

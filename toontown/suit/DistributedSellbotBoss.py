@@ -11,9 +11,8 @@ from direct.task import Task
 import math
 from pandac.PandaModules import *
 import random
-
-import DistributedBossCog
-import SuitDNA
+from toontown.suit import DistributedBossCog
+from toontown.suit import SuitDNA
 from toontown.battle import BattleBase
 from toontown.battle import MovieToonVictory
 from toontown.battle import RewardPanel
@@ -28,7 +27,6 @@ from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
 
 OneBossCog = None
 

@@ -8,8 +8,8 @@ from toontown.suit import DistributedCashbotBossGoonAI
 from toontown.battle import BattleExperienceAI
 from toontown.chat import ResistanceChat
 from direct.fsm import FSM
-import DistributedBossCogAI
-import SuitDNA
+from toontown.suit import DistributedBossCogAI
+from toontown.suit import SuitDNA
 import random
 from otp.ai.MagicWordGlobal import *
 import math

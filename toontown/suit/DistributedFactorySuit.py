@@ -3,7 +3,7 @@ from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
-import DistributedSuitBase
+from toontown.suit import DistributedSuitBase
 from direct.task.Task import Task
 import random
 from toontown.toonbase import ToontownGlobals
@@ -125,16 +125,17 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
         taskMgr.remove(self.taskName('returnTask'))
         taskMgr.remove(self.taskName('checkStray'))
         taskMgr.remove(self.taskName('chaseTask'))
-        return
 
     def delete(self):
         try:
             self.DistributedSuit_deleted
+            return
         except:
             self.DistributedSuit_deleted = 1
-            self.notify.debug('DistributedSuit %d: deleting' % self.getDoId())
-            del self.fsm
-            DistributedSuitBase.DistributedSuitBase.delete(self)
+        
+        self.notify.debug('DistributedSuit %d: deleting' % self.getDoId())
+        del self.fsm
+        DistributedSuitBase.DistributedSuitBase.delete(self)
 
     def d_requestBattle(self, pos, hpr):
         self.cr.playGame.getPlace().setState('WaitForBattle')
@@ -148,7 +149,6 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
 
     def handleBattleBlockerCollision(self):
         self.__handleToonCollision(None)
-        return
 
     def __handleToonCollision(self, collEntry):
         if collEntry:
@@ -166,7 +166,6 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
         self.notify.debug('Distributed suit %d: requesting a Battle with toon: %d' % (self.doId, toonId))
         self.d_requestBattle(self.getPos(), self.getHpr())
         self.setState('WaitForBattle')
-        return None
 
     def setPath(self):
         self.notify.debug('setPath %s' % self.doId)
@@ -179,7 +178,6 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
             self.path.reparentTo(parent)
             self.walkTrack = self.path.makePathTrack(self.idealPathNode, self.velocity, self.uniqueName('suitWalk'))
         self.setState('Walk')
-        return
 
     def initializeBodyCollisions(self, collIdStr):
         DistributedSuitBase.DistributedSuitBase.initializeBodyCollisions(self, collIdStr)

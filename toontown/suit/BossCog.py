@@ -9,8 +9,8 @@ from pandac.PandaModules import *
 import string
 import types
 
-import Suit
-import SuitDNA
+from toontown.suit import Suit
+from toontown.suit import SuitDNA
 from otp.avatar import Avatar
 from toontown.battle import BattleParticles
 from toontown.battle import BattleProps

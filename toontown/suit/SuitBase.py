@@ -1,6 +1,6 @@
-import SuitDNA
-from SuitLegList import *
-import SuitTimings
+from toontown.suit import SuitDNA
+from toontown.suit.SuitLegList import *
+from toontown.suit import SuitTimings
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from pandac.PandaModules import *

@@ -1,13 +1,12 @@
 from direct.directnotify.DirectNotifyGlobal import *
 from pandac.PandaModules import *
-
 from toontown.suit import SuitDNA
 from toontown.suit import SuitDialog
 from toontown.suit.DistributedSuitBaseAI import DistributedSuitBaseAI
 from toontown.tutorial.DistributedBattleTutorialAI import DistributedBattleTutorialAI
 
-
 class FakeBattleManager:
+
     def __init__(self, avId):
         self.avId = avId
 

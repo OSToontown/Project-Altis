@@ -12,8 +12,8 @@ import math
 from pandac.PandaModules import *
 import random
 
-import DistributedBossCog
-import SuitDNA
+from toontown.suit import DistributedBossCog
+from toontown.suit import SuitDNA
 from toontown.battle import BattleBase
 from toontown.battle import MovieToonVictory
 from toontown.battle import RewardPanel

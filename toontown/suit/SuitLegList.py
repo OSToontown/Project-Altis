@@ -2,7 +2,6 @@ from toontown.dna.DNAParser import DNASuitPoint
 from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownGlobals
 
-
 class SuitLeg:
     TWalkFromStreet = 0
     TWalkToStreet = 1

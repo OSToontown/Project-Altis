@@ -1,9 +1,9 @@
 from otp.ai.AIBaseGlobal import *
-from GoonGlobals import *
+from toontown.suit.GoonGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
 from toontown.coghq import DistributedCrushableEntityAI
-import GoonPathData
+from toontown.suit import GoonPathData
 from direct.distributed import ClockDelta
 import random
 from direct.task import Task
@@ -28,7 +28,6 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
         self.pathStartTime = None
         self.walkTrackTime = 0.0
         self.totalPathTime = 1.0
-        return
 
     def delete(self):
         taskMgr.remove(self.taskName('sync'))
@@ -91,7 +90,6 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
              avId,
              pauseTime,
              ClockDelta.globalClockDelta.getFrameNetworkTime()])
-        return
 
     def updateGrid(self):
         if not self.parameterized:

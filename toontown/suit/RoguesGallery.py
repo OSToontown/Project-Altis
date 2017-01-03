@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from direct.fsm import StateData
-import Suit
-import SuitDNA
+from toontown.suit import Suit
+from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
 import random
 

@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
-from GoonGlobals import *
+from toontown.suit.GoonGlobals import *
 from direct.fsm import FSM
 from direct.distributed import ClockDelta
 from otp.level import BasicEntities
@@ -10,10 +10,10 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import DistributedCrushableEntity
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import MovingPlatform
-import Goon
+from toontown.suit import Goon
 from direct.task.Task import Task
 from otp.level import PathEntity
-import GoonDeath
+from toontown.suit import GoonDeath
 import random
 
 class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goon.Goon, FSM.FSM):

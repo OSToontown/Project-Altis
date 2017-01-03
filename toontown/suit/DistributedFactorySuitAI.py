@@ -1,8 +1,8 @@
 from otp.ai.AIBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
-import DistributedSuitBaseAI
-import SuitDialog
+from toontown.suit import DistributedSuitBaseAI
+from toontown.suit import SuitDialog
 
 class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedFactorySuitAI')
@@ -13,7 +13,6 @@ class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.battleCellIndex = None
         self.chasing = 0
         self.factoryGone = 0
-        return
 
     def factoryIsGoingDown(self):
         self.factoryGone = 1
@@ -24,7 +23,6 @@ class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         del self.blocker
         self.ignoreAll()
         DistributedSuitBaseAI.DistributedSuitBaseAI.delete(self)
-        return
 
     def setLevelDoId(self, levelDoId):
         self.levelDoId = levelDoId

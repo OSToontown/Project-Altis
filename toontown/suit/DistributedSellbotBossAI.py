@@ -1,8 +1,7 @@
 import random
-
-import DistributedBossCogAI
-import DistributedSuitAI
-import SuitDNA
+from toontown.suit import DistributedBossCogAI
+from toontown.suit import DistributedSuitAI
+from toontown.suit import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.fsm import FSM
@@ -12,7 +11,6 @@ from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
-
 
 class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSellbotBossAI')

@@ -7,9 +7,9 @@ import math
 from pandac.PandaModules import *
 import random
 
-import DistributedBossCog
-import DistributedCashbotBossGoon
-import SuitDNA
+from toontown.suit import DistributedBossCog
+from toontown.suit import DistributedCashbotBossGoon
+from toontown.suit import SuitDNA
 from otp.otpbase import OTPGlobals
 from toontown.battle import MovieToonVictory
 from toontown.battle import RewardPanel

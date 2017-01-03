@@ -1,12 +1,12 @@
 import copy
 import math
 import random
-import DistributedSuitBase
-import DistributedSuitPlanner
-import Suit
-import SuitBase
-import SuitDialog
-import SuitTimings
+from toontown.suit import DistributedSuitBase
+from toontown.suit import DistributedSuitPlanner
+from toontown.suit import Suit
+from toontown.suit import SuitBase
+from toontown.suit import SuitDialog
+from toontown.suit import SuitTimings
 from direct.directnotify import DirectNotifyGlobal
 from direct.directtools.DirectGeometry import CLAMP
 from direct.distributed.ClockDelta import *

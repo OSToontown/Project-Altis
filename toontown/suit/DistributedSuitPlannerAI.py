@@ -1,8 +1,8 @@
 import random
-import DistributedSuitAI
-import SuitDNA
-import SuitPlannerBase
-import SuitTimings
+from toontown.suit import DistributedSuitAI
+from toontown.suit import SuitDNA
+from toontown.suit import SuitPlannerBase
+from toontown.suit import SuitTimings
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed import DistributedObjectAI
 from direct.task import Task

@@ -2,17 +2,17 @@ from otp.ai.AIBaseGlobal import *
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from otp.avatar import DistributedAvatarAI
-import SuitTimings
+from toontown.suit import SuitTimings
 from direct.task import Task
-import SuitPlannerBase
-import SuitBase
-import SuitDialog
-import SuitDNA
-from SuitLegList import *
+from toontown.suit import SuitPlannerBase
+from toontown.suit import SuitBase
+from toontown.suit import SuitDialog
+from toontown.suit import SuitDNA
+from toontown.suit.SuitLegList import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
 from toontown.building import FADoorCodes
-import DistributedSuitBaseAI
+from toontown.suit import DistributedSuitBaseAI
 from toontown.hood import ZoneUtil
 from toontown.toon import NPCToons
 import random

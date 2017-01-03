@@ -5,7 +5,6 @@ from pandac.PandaModules import *
 from toontown.dna.DNAParser import DNASuitPoint
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBase.SuitPlannerBase):
 
     def __init__(self, cr):

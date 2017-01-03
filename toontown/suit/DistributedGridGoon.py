@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
 from direct.directnotify import DirectNotifyGlobal
-import DistributedGoon
+from toontown.suit import DistributedGoon
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import MovingPlatform
 
@@ -22,7 +22,6 @@ class DistributedGridGoon(DistributedGoon.DistributedGoon):
         DistributedGoon.DistributedGoon.generate(self)
         self.ignore(self.uniqueName('wallHit'))
         self.mazeWalkTrack = None
-        return
 
     def delete(self):
         if self.mazeWalkTrack:
@@ -45,7 +44,6 @@ class DistributedGridGoon(DistributedGoon.DistributedGoon):
         duration = distance / self.velocity
         self.mazeWalkTrack = Sequence(Func(self.headsUp, nextPos[0], nextPos[1], nextPos[2]), LerpPosInterval(self, duration=duration, pos=nextPos, startPos=curPos), name=self.uniqueName('mazeWalkTrack'))
         self.mazeWalkTrack.start()
-        return
 
     def enterWalk(self, avId = None, ts = 0):
         pass
