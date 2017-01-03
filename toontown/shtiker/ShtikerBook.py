@@ -3,13 +3,11 @@ from direct.fsm import StateData
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 from pandac.PandaModules import *
-
 from toontown.effects import DistributedFireworkShow
 from toontown.nametag import NametagGlobals
 from toontown.parties import DistributedPartyFireworksActivity
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 class ShtikerBook(DirectFrame, StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('ShtikerBook')

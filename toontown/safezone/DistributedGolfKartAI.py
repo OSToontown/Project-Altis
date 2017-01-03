@@ -1,6 +1,5 @@
 import random
-
-from TrolleyConstants import *
+from toontown.safezone.TrolleyConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
@@ -9,7 +8,6 @@ from otp.ai.AIBase import *
 from toontown.golf import GolfGlobals
 from toontown.golf import GolfManagerAI
 from toontown.toonbase.ToontownGlobals import *
-
 
 class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGolfKartAI')

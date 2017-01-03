@@ -2,12 +2,12 @@ from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from TrolleyConstants import *
+from toontown.safezone.TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from direct.distributed import DistributedNode
 from direct.distributed.ClockDelta import globalClockDelta
-from CheckersBoard import CheckersBoard
+from toontown.safezone.CheckersBoard import CheckersBoard
 from direct.fsm import ClassicFSM, State
 from direct.fsm import StateData
 from toontown.toonbase.ToontownTimer import ToontownTimer
@@ -109,8 +109,6 @@ class DistributedCheckers(DistributedNode.DistributedNode):
             y.hide()
             zz.reparentTo(z)
             zz.hide()
-
-        return
 
     def setName(self, name):
         self.name = name

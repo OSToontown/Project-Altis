@@ -1,4 +1,4 @@
-from TrolleyConstants import *
+from toontown.safezone.TrolleyConstants import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
@@ -11,7 +11,6 @@ from toontown.minigame import TrolleyHolidayMgrAI
 from toontown.minigame import TrolleyWeekendMgrAI
 from toontown.quest import Quests
 from toontown.toonbase.ToontownGlobals import *
-
 
 class DistributedTrolleyAI(DistributedObjectAI.DistributedObjectAI):
     notify = directNotify.newCategory('DistributedTrolleyAI')

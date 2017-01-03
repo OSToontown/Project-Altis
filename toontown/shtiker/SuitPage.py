@@ -1,6 +1,6 @@
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
 from direct.task.Task import Task
-import SummonCogDialog
+from toontown.shtiker import SummonCogDialog
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals

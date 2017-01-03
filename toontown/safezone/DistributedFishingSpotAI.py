@@ -5,8 +5,6 @@ from toontown.fishing.FishBase import FishBase
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 
-
-
 class DistributedFishingSpotAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFishingSpotAI")
 

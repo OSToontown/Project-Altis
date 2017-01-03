@@ -1,4 +1,4 @@
-from TrolleyConstants import *
+from toontown.safezone.TrolleyConstants import *
 from direct.distributed.ClockDelta import *
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
@@ -7,8 +7,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.safezone import PicnicGameGlobals
 
-
 class PicnicGameSelectMenu(DirectFrame):
+    
     def __init__(self, picnicFunction, menuType):
         self.picnicFunction = picnicFunction
         DirectFrame.__init__(

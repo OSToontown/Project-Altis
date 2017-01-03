@@ -1,7 +1,7 @@
 from otp.ai.AIBaseGlobal import *
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
-from PurchaseManagerConstants import *
+from toontown.shtiker.PurchaseManagerConstants import *
 import copy
 from direct.task.Task import Task
 from direct.distributed import DistributedObjectAI

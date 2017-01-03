@@ -14,7 +14,8 @@ from toontown.parties.CalendarGuiMonth import CalendarGuiMonth
 from toontown.parties.PartyUtils import getPartyActivityIcon
 from toontown.parties.Party import Party
 from toontown.parties.ServerTimeGui import ServerTimeGui
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
+
 EventsPage_Host = 0
 EventsPage_Invited = 1
 EventsPage_Calendar = 2

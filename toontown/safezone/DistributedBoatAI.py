@@ -4,7 +4,6 @@ from direct.fsm import ClassicFSM, State
 from otp.ai.AIBase import *
 from toontown.toonbase.ToontownGlobals import *
 
-
 class DistributedBoatAI(DistributedObjectAI.DistributedObjectAI):
 
     def __init__(self, air):

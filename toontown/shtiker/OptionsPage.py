@@ -3,15 +3,13 @@ from direct.gui.DirectGui import *
 from direct.showbase import PythonUtil
 from direct.task import Task
 from pandac.PandaModules import *
-
-import DisplaySettingsDialog
-import ShtikerPage
+from toontown.shtiker import DisplaySettingsDialog
+from toontown.shtiker import ShtikerPage
 from otp.speedchat import SCColorScheme
 from otp.speedchat import SCStaticTextTerminal
 from otp.speedchat import SpeedChat
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
-
 
 speedChatStyles = (
     (

@@ -15,7 +15,6 @@ from direct.showutil import Rope
 import math
 from direct.task.Task import Task
 import random
-import random
 from toontown.fishing import FishingTargetGlobals
 from toontown.fishing import FishBase
 from toontown.fishing import FishPanel
@@ -23,7 +22,6 @@ from toontown.effects import Ripples
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownTimer
 from direct.fsm import ClassicFSM, State
-from direct.fsm import State
 from toontown.hood import ZoneUtil
 from toontown.toontowngui import TeaserPanel
 

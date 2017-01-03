@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObjectAI
 
-
 class DistributedGameTableAI(DistributedObjectAI.DistributedObjectAI):
+    
     def __init__(self, air):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
 

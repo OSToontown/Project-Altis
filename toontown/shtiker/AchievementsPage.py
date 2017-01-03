@@ -1,9 +1,8 @@
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 from toontown.achievements import AchievementsGlobals
 
 class AchievementsPage(ShtikerPage.ShtikerPage):

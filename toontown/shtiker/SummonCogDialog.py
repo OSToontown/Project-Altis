@@ -10,6 +10,7 @@ from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.battle import SuitBattleGlobals
 from toontown.toon import NPCToons
+
 TTL = TTLocalizer
 
 class SummonCogDialog(DirectFrame, StateData.StateData):

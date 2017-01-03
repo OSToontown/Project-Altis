@@ -13,6 +13,7 @@ from pandac.PandaModules import WindowProperties
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import AwWebView
 from pandac.PandaModules import AwWebCore
+
 WEB_WIDTH_PIXELS = 784
 WEB_HEIGHT_PIXELS = 451
 WEB_WIDTH = 1024

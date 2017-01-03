@@ -1,12 +1,11 @@
 from direct.task.Task import Task
 import random
-
 from toontown.classicchars import CCharPaths
 from toontown.safezone import Playground
 from toontown.toonbase import TTLocalizer
 
-
 class BRPlayground(Playground.Playground):
+    
     def enter(self, requestStatus):
         Playground.Playground.enter(self, requestStatus)
         taskMgr.doMethodLater(1, self.__windTask, 'BR-wind')

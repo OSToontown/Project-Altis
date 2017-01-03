@@ -1,13 +1,11 @@
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
 from toontown.battle import SuitBattleGlobals
 from toontown.coghq import CogDisguiseGlobals
 from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 DeptColors = (
     Vec4(0.647, 0.608, 0.596, 1.0),

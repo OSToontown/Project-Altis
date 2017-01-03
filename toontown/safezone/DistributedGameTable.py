@@ -1,5 +1,4 @@
 import math
-
 from direct.distributed import DistributedObject
 from direct.fsm import ClassicFSM, State
 from direct.gui.DirectGui import *
@@ -12,8 +11,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownTimer import ToontownTimer
 
-
 class DistributedGameTable(DistributedObject.DistributedObject):
+    
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
 

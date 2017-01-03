@@ -1,27 +1,29 @@
-from TTSCToontaskMenu import TTSCToontaskMenu
-from TTSCFactoryMenu import TTSCFactoryMenu
-from TTSCCogMenu import TTSCCogMenu
+from toontown.speedchat.TTSCToontaskMenu import TTSCToontaskMenu
+from toontown.speedchat.TTSCFactoryMenu import TTSCFactoryMenu
+from toontown.speedchat.TTSCCogMenu import TTSCCogMenu
+
 if hasattr(base, 'wantPets') and base.wantPets:
-    from TTSCPetTrickMenu import TTSCPetTrickMenu
-from TTSCPromotionalMenu import TTSCPromotionalMenu
-from TTSCToontaskTerminal import TTSCToontaskTerminal
-from TTSCResistanceMenu import TTSCResistanceMenu
-from TTSCResistanceTerminal import TTSCResistanceTerminal
-from TTSCKartRacingMenu import TTSCKartRacingMenu
-from TTSCGolfMenu import TTSCGolfMenu
-from TTSCBoardingMenu import TTSCBoardingMenu
-from TTSCSingingMenu import TTSCSingingMenu
-from TTSCAprilToonsMenu import TTSCAprilToonsMenu
-from TTSCSillyPhaseOneMenu import TTSCSillyPhaseOneMenu
-from TTSCSillyPhaseTwoMenu import TTSCSillyPhaseTwoMenu
-from TTSCSillyPhaseThreeMenu import TTSCSillyPhaseThreeMenu
-from TTSCSillyPhaseFourMenu import TTSCSillyPhaseFourMenu
-from TTSCSillyPhaseFiveMenu import TTSCSillyPhaseFiveMenu
-from TTSCVictoryPartiesMenu import TTSCVictoryPartiesMenu
-from TTSCSellbotNerfMenu import TTSCSellbotNerfMenu
-from TTSCJellybeanJamMenu import TTSCJellybeanJamMenu
-from TTSCHalloweenMenu import TTSCHalloweenMenu
-from TTSCWinterMenu import TTSCWinterMenu
-from TTSCSellbotInvasionMenu import TTSCSellbotInvasionMenu
-from TTSCSellbotFieldOfficeMenu import TTSCSellbotFieldOfficeMenu
-from TTSCIdesOfMarchMenu import TTSCIdesOfMarchMenu
+    from toontown.speedchat.TTSCPetTrickMenu import TTSCPetTrickMenu
+
+from toontown.speedchat.TTSCPromotionalMenu import TTSCPromotionalMenu
+from toontown.speedchat.TTSCToontaskTerminal import TTSCToontaskTerminal
+from toontown.speedchat.TTSCResistanceMenu import TTSCResistanceMenu
+from toontown.speedchat.TTSCResistanceTerminal import TTSCResistanceTerminal
+from toontown.speedchat.TTSCKartRacingMenu import TTSCKartRacingMenu
+from toontown.speedchat.TTSCGolfMenu import TTSCGolfMenu
+from toontown.speedchat.TTSCBoardingMenu import TTSCBoardingMenu
+from toontown.speedchat.TTSCSingingMenu import TTSCSingingMenu
+from toontown.speedchat.TTSCAprilToonsMenu import TTSCAprilToonsMenu
+from toontown.speedchat.TTSCSillyPhaseOneMenu import TTSCSillyPhaseOneMenu
+from toontown.speedchat.TTSCSillyPhaseTwoMenu import TTSCSillyPhaseTwoMenu
+from toontown.speedchat.TTSCSillyPhaseThreeMenu import TTSCSillyPhaseThreeMenu
+from toontown.speedchat.TTSCSillyPhaseFourMenu import TTSCSillyPhaseFourMenu
+from toontown.speedchat.TTSCSillyPhaseFiveMenu import TTSCSillyPhaseFiveMenu
+from toontown.speedchat.TTSCVictoryPartiesMenu import TTSCVictoryPartiesMenu
+from toontown.speedchat.TTSCSellbotNerfMenu import TTSCSellbotNerfMenu
+from toontown.speedchat.TTSCJellybeanJamMenu import TTSCJellybeanJamMenu
+from toontown.speedchat.TTSCHalloweenMenu import TTSCHalloweenMenu
+from toontown.speedchat.TTSCWinterMenu import TTSCWinterMenu
+from toontown.speedchat.TTSCSellbotInvasionMenu import TTSCSellbotInvasionMenu
+from toontown.speedchat.TTSCSellbotFieldOfficeMenu import TTSCSellbotFieldOfficeMenu
+from toontown.speedchat.TTSCIdesOfMarchMenu import TTSCIdesOfMarchMenu

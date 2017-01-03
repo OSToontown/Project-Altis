@@ -1,5 +1,4 @@
 import inspect
-
 from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
@@ -7,8 +6,8 @@ from direct.interval.IntervalGlobal import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
-
 class GameTutorial(DirectFrame, FSM.FSM):
+    
     def __init__(self, doneFunction, doneEvent=None, callback=None):
         FSM.FSM.__init__(self, 'GameTutorial')
 

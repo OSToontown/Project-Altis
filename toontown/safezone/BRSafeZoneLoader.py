@@ -2,8 +2,8 @@ from toontown.battle import BattleParticles
 from toontown.safezone import BRPlayground
 from toontown.safezone import SafeZoneLoader
 
-
 class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
+    
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.playgroundClass = BRPlayground.BRPlayground

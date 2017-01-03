@@ -1,8 +1,8 @@
 from toontown.safezone import MMPlayground
 from toontown.safezone import SafeZoneLoader
 
-
 class MMSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
+	
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.playgroundClass = MMPlayground.MMPlayground

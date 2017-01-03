@@ -2,14 +2,14 @@ from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from TrolleyConstants import *
+from toontown.safezone.TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from direct.distributed import DistributedNode
 from direct.distributed.ClockDelta import globalClockDelta
-from ChineseCheckersBoard import ChineseCheckersBoard
-from GameTutorials import *
-from GameMenu import GameMenu
+from toontown.safezone.ChineseCheckersBoard import ChineseCheckersBoard
+from toontown.safezone.GameTutorials import *
+from toontown.safezone.GameMenu import GameMenu
 from direct.fsm import ClassicFSM, State
 from direct.fsm import StateData
 from toontown.distributed import DelayDelete
@@ -78,7 +78,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.clockNode.setPos(1.16, 0, -0.83)
         self.clockNode.setScale(0.3)
         self.clockNode.hide()
-        return
 
     def announceGenerate(self):
         DistributedNode.DistributedNode.announceGenerate(self)

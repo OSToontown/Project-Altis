@@ -2,12 +2,12 @@ from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-from TrolleyConstants import *
+from toontown.safezone.TrolleyConstants import *
 from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from direct.distributed import DistributedNode
 from direct.distributed.ClockDelta import globalClockDelta
-from ChineseCheckersBoard import ChineseCheckersBoard
+from toontown.safezone.ChineseCheckersBoard import ChineseCheckersBoard
 from direct.fsm import ClassicFSM, State
 from direct.fsm import StateData
 from toontown.distributed import DelayDelete
@@ -152,8 +152,6 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
             y = loader.loadModel('phase_6/models/golf/checker_marble.bam')
             z.setColor(0, 0, 0, 0)
             y.reparentTo(z)
-
-        return
 
     def setName(self, name):
         self.name = name

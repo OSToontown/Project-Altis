@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toon import NPCToons
@@ -17,7 +17,6 @@ class TIPPage(ShtikerPage.ShtikerPage):
 
     def load(self):
         self.title = DirectLabel(parent=self, relief=None, text=TTLocalizer.TIPPageTitle, text_scale=0.12, textMayChange=0, pos=(0, 0, 0.6))
-        return
 
     def unload(self):
         del self.title

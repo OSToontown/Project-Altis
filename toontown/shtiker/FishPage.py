@@ -1,5 +1,5 @@
 from toontown.toonbase import ToontownGlobals
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
@@ -7,6 +7,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.fishing import FishPicker
 from toontown.fishing import FishBrowser
 from toontown.fishing import FishGlobals
+
 FishPage_Tank = 0
 FishPage_Collection = 1
 FishPage_Trophy = 2

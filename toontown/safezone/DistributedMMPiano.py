@@ -5,6 +5,7 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed import DistributedObject
 from pandac.PandaModules import NodePath
 from toontown.toonbase import ToontownGlobals
+
 ChangeDirectionDebounce = 1.0
 ChangeDirectionTime = 1.0
 
@@ -22,7 +23,6 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
         self.speedUpSound = None
         self.changeDirectionSound = None
         self.lastChangeDirection = 0.0
-        return
 
     def generate(self):
         self.piano = base.cr.playGame.hood.loader.piano

@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.quest import Quests
@@ -7,6 +7,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
+
 MAX_FRAMES = 18
 Track2Anim = {ToontownBattleGlobals.HEAL_TRACK: 'juggle',
  ToontownBattleGlobals.TRAP_TRACK: 'toss',
@@ -27,7 +28,6 @@ class TrackFrame(DirectFrame):
         self.question = DirectLabel(parent=self.frame, relief=None, pos=(0, 0, -0.15), text='?', text_scale=0.4, text_pos=(0, 0.04), text_fg=(0.72, 0.72, 0.72, 1))
         self.toon = None
         filmstrip.removeNode()
-        return
 
     def makeToon(self):
         if not self.toon:
@@ -50,7 +50,6 @@ class TrackFrame(DirectFrame):
             fromFrame = 0
             toFrame = (self.toon.getNumFrames(anim) - 1) / MAX_FRAMES * self.index
             self.toon.play(anim, None, fromFrame, toFrame - 1)
-        return
 
     def setTrained(self, trackId):
         if self.toon == None:
@@ -67,7 +66,6 @@ class TrackFrame(DirectFrame):
         trackColorR, trackColorG, trackColorB = ToontownBattleGlobals.TrackColors[trackId]
         self.frame['image_color'] = Vec4(trackColorR, trackColorG, trackColorB, 1)
         self.frame['text_fg'] = Vec4(trackColorR * 0.3, trackColorG * 0.3, trackColorB * 0.3, 1)
-        return
 
     def setUntrained(self, trackId):
         if self.toon:
@@ -83,8 +81,6 @@ class TrackFrame(DirectFrame):
             self.frame['image_color'] = Vec4(trackColorR * 0.7, trackColorG * 0.7, trackColorB * 0.7, 1)
             self.frame['text_fg'] = Vec4(trackColorR * 0.3, trackColorG * 0.3, trackColorB * 0.3, 1)
             self.question['text_fg'] = Vec4(trackColorR * 0.6, trackColorG * 0.6, trackColorB * 0.6, 1)
-        return
-
 
 class TrackPage(ShtikerPage.ShtikerPage):
 
@@ -138,7 +134,6 @@ class TrackPage(ShtikerPage.ShtikerPage):
         self.endFrame.frame['text_fg'] = (1, 1, 1, 1)
         self.endFrame.frame['text_pos'] = (0, 0)
         self.endFrame.question.hide()
-        return
 
     def unload(self):
         del self.title

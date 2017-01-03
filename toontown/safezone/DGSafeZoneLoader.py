@@ -1,8 +1,8 @@
 from toontown.safezone import DGPlayground
 from toontown.safezone import SafeZoneLoader
 
-
 class DGSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
+    
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.playgroundClass = DGPlayground.DGPlayground

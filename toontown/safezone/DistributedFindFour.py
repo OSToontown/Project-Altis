@@ -10,14 +10,12 @@ from direct.showbase import PythonUtil
 from direct.task.Task import Task
 from pandac.PandaModules import *
 from random import *
-
-from ChineseCheckersBoard import ChineseCheckersBoard
-from TrolleyConstants import *
+from toontown.safezone.ChineseCheckersBoard import ChineseCheckersBoard
+from toontown.safezone.TrolleyConstants import *
 from otp.otpbase import OTPGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownTimer import ToontownTimer
-
 
 class DistributedFindFour(DistributedNode.DistributedNode):
 
