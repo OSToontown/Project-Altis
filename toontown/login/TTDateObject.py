@@ -1,4 +1,4 @@
-import DateObject
+from toontown.login import DateObject
 
 class TTDateObject(DateObject.DateObject):
 
