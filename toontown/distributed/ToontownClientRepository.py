@@ -48,7 +48,7 @@ from otp.friends.AvatarFriendsManager import AvatarFriendsManager
 from toontown.friends.TTPlayerFriendsManager import TTPlayerFriendsManager
 from toontown.friends.TTAFriendsManager import TTAFriendsManager
 from toontown.uberdog.TTSpeedchatRelay import TTSpeedchatRelay
-from toontown.distributed.DistributedDeliveryManager import DistributedDeliveryManager
+from toontown.uberdog.DistributedDeliveryManager import DistributedDeliveryManager
 from toontown.coderedemption.TTCodeRedemptionMgr import TTCodeRedemptionMgr
 
 from toontown.pets import DistributedPet, PetDetail, PetHandle
