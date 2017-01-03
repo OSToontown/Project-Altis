@@ -17,8 +17,7 @@ from toontown.racing.RaceEndPanels import RaceEndPanel
 from toontown.racing import RaceGlobals
 from pandac.PandaModules import CardMaker, OrthographicLens, LineSegs
 from direct.particles.ParticleEffect import *
-from math import fmod
-from math import sqrt
+from math import fmod, sqrt
 import time
 import operator
 from direct.gui.DirectGui import DirectFrame

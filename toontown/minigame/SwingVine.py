@@ -6,8 +6,8 @@ from direct.distributed import DistributedObject
 from direct.showutil import Rope
 import math
 from toontown.toonbase import ToontownGlobals
-import VineGameGlobals
-import VineSpider
+from toontown.minigame import VineGameGlobals
+from toontown.minigame import VineSpider
 
 class SwingVine(NodePath):
     notify = DirectNotifyGlobal.directNotify.newCategory('SwingVine')

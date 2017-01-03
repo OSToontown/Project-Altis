@@ -1,21 +1,20 @@
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from DistributedMinigame import *
+from toontown.minigame.DistributedMinigame import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-import ArrowKeys
-import TargetGameGlobals
+from toontown.minigame import ArrowKeys
+from toontown.minigame import TargetGameGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import math
 from math import *
 import random
-import random
-import RubberBand
-import FogOverlay
+from toontown.minigame import RubberBand
+from toontown.minigame import FogOverlay
 
 def circleX(angle, radius, centerX, centerY):
     x = radius * cos(angle) + centerX

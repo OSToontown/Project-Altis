@@ -1,9 +1,9 @@
-from DistributedMinigameAI import *
+from toontown.minigame.DistributedMinigameAI import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-import CannonGameGlobals
+from toontown.minigame import CannonGameGlobals
 
 class DistributedCannonGameAI(DistributedMinigameAI):
 

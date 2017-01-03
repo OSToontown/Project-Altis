@@ -11,17 +11,17 @@ from direct.distributed.ClockDelta import globalClockDelta
 from pandac.PandaModules import Point3, Vec3
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownTimer
-from DistributedMinigame import DistributedMinigame
-from MazeSuit import MazeSuit
-from OrthoWalk import OrthoWalk
-from OrthoDrive import OrthoDrive
-import MazeGameGlobals
-import MazeData
-import MazeTreasure
-import Trajectory
-import Maze
-import MinigameAvatarScorePanel
-import MinigameGlobals
+from toontown.minigame.DistributedMinigame import DistributedMinigame
+from toontown.minigame.MazeSuit import MazeSuit
+from toontown.minigame.OrthoWalk import OrthoWalk
+from toontown.minigame.OrthoDrive import OrthoDrive
+from toontown.minigame import MazeGameGlobals
+from toontown.minigame import MazeData
+from toontown.minigame import MazeTreasure
+from toontown.minigame import Trajectory
+from toontown.minigame import Maze
+from toontown.minigame import MinigameAvatarScorePanel
+from toontown.minigame import MinigameGlobals
 
 class DistributedMazeGame(DistributedMinigame):
     notify = directNotify.newCategory('DistributedMazeGame')

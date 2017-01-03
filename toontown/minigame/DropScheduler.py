@@ -1,5 +1,4 @@
 
-
 class DropScheduler:
 
     def __init__(self, gameDuration, firstDropDelay, dropPeriod, maxDropDuration, fasterDropDelay, fasterDropPeriodMult, startTime = None):
@@ -13,7 +12,6 @@ class DropScheduler:
             startTime = 0
         self._startTime = startTime
         self.curT = self._startTime + self.firstDropDelay
-        return
 
     def getT(self):
         return self.curT

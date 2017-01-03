@@ -4,12 +4,10 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.fsm.FSM import FSM
 from direct.task import Task
 import random
-
 from toontown.racing import RaceGlobals
 from toontown.racing.DistributedGagAI import DistributedGagAI
 from toontown.racing.DistributedVehicleAI import DistributedVehicleAI
 from toontown.toonbase import TTLocalizer
-
 
 class DistributedRaceAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedRaceAI")

@@ -6,10 +6,9 @@ from pandac.PandaModules import *
 from pandac.PandaModules import *
 import random
 import string
-
-import ArrowKeys
-from DistributedMinigame import *
-import PatternGameGlobals
+from toontown.minigame import ArrowKeys
+from toontown.minigame.DistributedMinigame import *
+from toontown.minigame import PatternGameGlobals
 from toontown.char import Char
 from toontown.char import CharDNA
 from toontown.chat.ChatGlobals import *
@@ -19,7 +18,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase.ToonBaseGlobal import *
-
 
 class DistributedPatternGame(DistributedMinigame):
     phase4snd = 'phase_4/audio/sfx/'

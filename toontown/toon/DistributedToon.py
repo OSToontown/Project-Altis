@@ -1063,8 +1063,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def reconsiderCheesyEffect(self, lerpTime = 0):
         effect = self.savedCheesyEffect
         hoodId = self.savedCheesyHoodId
-        if not self.cr.areCheesyEffectsAllowed():
+        if not base.cr.areCheesyEffectsAllowed():
             effect = ToontownGlobals.CENormal
+        
         if hoodId != 0:
             try:
                 currentHoodId = base.cr.playGame.hood.id
@@ -1076,8 +1077,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                     effect = ToontownGlobals.CENormal
             elif currentHoodId != None and currentHoodId != hoodId:
                 effect = ToontownGlobals.CENormal
+        
         if self.ghostMode:
             effect = ToontownGlobals.CEGhost
+        
         self.applyCheesyEffect(effect, lerpTime=lerpTime)
 
     def setGhostMode(self, flag):

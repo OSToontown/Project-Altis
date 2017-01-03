@@ -5,9 +5,7 @@ from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedSmoothNodeAI
 from direct.fsm import FSM
 from direct.task import Task
-
 from direct.distributed.PyDatagram import *
-
 
 if (__debug__):
     import pdb

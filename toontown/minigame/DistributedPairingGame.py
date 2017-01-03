@@ -1,6 +1,6 @@
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
-from DistributedMinigame import *
+from toontown.minigame.DistributedMinigame import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import TTLocalizer, ToontownTimer
@@ -9,8 +9,8 @@ from toontown.minigame import PlayingCardGlobals
 from toontown.minigame import PairingGameCard
 from toontown.minigame import PlayingCardDeck
 from toontown.minigame import PairingGameGlobals
-from OrthoWalk import OrthoWalk
-from OrthoDrive import OrthoDrive
+from toontown.minigame.OrthoWalk import OrthoWalk
+from toontown.minigame.OrthoDrive import OrthoDrive
 from direct.interval.IntervalGlobal import Sequence, Parallel, Func, LerpColorScaleInterval, LerpScaleInterval, LerpFunctionInterval, Wait, SoundInterval
 from toontown.toonbase.ToontownGlobals import GlobalDialogColor
 

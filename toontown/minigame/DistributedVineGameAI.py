@@ -1,7 +1,7 @@
-from DistributedMinigameAI import *
+from toontown.minigame.DistributedMinigameAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import VineGameGlobals
+from toontown.minigame import VineGameGlobals
 
 class DistributedVineGameAI(DistributedMinigameAI):
 

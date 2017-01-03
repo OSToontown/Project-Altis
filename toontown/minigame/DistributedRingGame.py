@@ -1,17 +1,17 @@
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from DistributedMinigame import *
+from toontown.minigame.DistributedMinigame import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.task import Task
-import ArrowKeys
-import Ring
-import RingTrack
-import RingGameGlobals
-import RingGroup
-import RingTrackGroups
+from toontown.minigame import ArrowKeys
+from toontown.minigame import Ring
+from toontown.minigame import RingTrack
+from toontown.minigame import RingGameGlobals
+from toontown.minigame import RingGroup
+from toontown.minigame import RingTrackGroups
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 

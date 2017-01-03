@@ -4,6 +4,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.minigame import DistributedMinigamePhysicsWorld
 from toontown.minigame import IceGameGlobals
 from toontown.golf import BuildGeometry
+
 MetersToFeet = 3.2808399
 FeetToMeters = 1.0 / MetersToFeet
 

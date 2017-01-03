@@ -1,8 +1,8 @@
-from DistributedMinigameAI import *
+from toontown.minigame.DistributedMinigameAI import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import RingGameGlobals
+from toontown.minigame import RingGameGlobals
 import random
 import types
 

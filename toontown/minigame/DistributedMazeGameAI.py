@@ -1,10 +1,10 @@
-from DistributedMinigameAI import *
+from toontown.minigame.DistributedMinigameAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import PatternGameGlobals
+from toontown.minigame import PatternGameGlobals
 from direct.task.Task import Task
-import MazeGameGlobals
-import MazeData
+from toontown.minigame import MazeGameGlobals
+from toontown.minigame import MazeData
 
 class DistributedMazeGameAI(DistributedMinigameAI):
 

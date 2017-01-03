@@ -1,37 +1,33 @@
 import copy
 import random
 import time
-
-import DistributedMinigameAI
-import DistributedCannonGameAI
-import DistributedCatchGameAI
-import DistributedCogThiefGameAI
-import DistributedDivingGameAI
-import DistributedIceGameAI
-import DistributedMazeGameAI
-import DistributedMinigameTemplateAI
-import DistributedPairingGameAI
-import DistributedPatternGameAI
-import DistributedPhotoGameAI
-import DistributedRaceGameAI
-import DistributedRingGameAI
-import DistributedTagGameAI
-import DistributedTargetGameAI
-import DistributedTravelGameAI
-import DistributedTugOfWarGameAI
-import DistributedTwoDGameAI
-import DistributedVineGameAI
-import TravelGameGlobals
+from toontown.minigame import DistributedCannonGameAI
+from toontown.minigame import DistributedCatchGameAI
+from toontown.minigame import DistributedCogThiefGameAI
+from toontown.minigame import DistributedDivingGameAI
+from toontown.minigame import DistributedIceGameAI
+from toontown.minigame import DistributedMazeGameAI
+from toontown.minigame import DistributedMinigameTemplateAI
+from toontown.minigame import DistributedPairingGameAI
+from toontown.minigame import DistributedPatternGameAI
+from toontown.minigame import DistributedPhotoGameAI
+from toontown.minigame import DistributedRaceGameAI
+from toontown.minigame import DistributedRingGameAI
+from toontown.minigame import DistributedTagGameAI
+from toontown.minigame import DistributedTargetGameAI
+from toontown.minigame import DistributedTravelGameAI
+from toontown.minigame import DistributedTugOfWarGameAI
+from toontown.minigame import DistributedTwoDGameAI
+from toontown.minigame import DistributedVineGameAI
+from toontown.minigame import TravelGameGlobals
 from otp.ai.MagicWordGlobal import *
 from toontown.minigame.TempMinigameAI import *
 from toontown.toonbase import ToontownGlobals
-
 
 simbase.forcedMinigameId = simbase.config.GetInt('force-minigame', 0)
 RequestMinigame = {}
 MinigameZoneRefs = {}
 DisabledMinigames = []
-
 
 def getDisabledMinigames():
     if not DisabledMinigames:
@@ -202,10 +198,13 @@ def minigame(command, arg0=None):
         return 'Stored your request for the minigame safezone: ' + str(arg0)
     if command == 'abort':
         for do in simbase.air.doId2do.values():
+            from toontown.minigame import DistributedMinigameAI
             if not isinstance(do, DistributedMinigameAI.DistributedMinigameAI):
                 continue
+            
             if invoker.doId not in do.avIdList:
                 continue
+            
             do.setGameAbort()
             return 'Skipped minigame!'
         return 'You are not currently in a minigame!'

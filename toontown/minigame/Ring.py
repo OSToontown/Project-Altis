@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import NodePath
-import RingTrack
+from toontown.minigame import RingTrack
 
 class Ring(NodePath):
 

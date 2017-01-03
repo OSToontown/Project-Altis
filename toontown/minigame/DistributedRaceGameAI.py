@@ -1,11 +1,11 @@
 from math import *
-from DistributedMinigameAI import *
+from toontown.minigame.DistributedMinigameAI import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 import random
 from direct.task.Task import Task
-import RaceGameGlobals
+from toontown.minigame import RaceGameGlobals
 
 class DistributedRaceGameAI(DistributedMinigameAI):
 

@@ -12,7 +12,6 @@ class TreasureScorePanel(DirectFrame):
         self.scoreText = DirectLabel(self, relief=None, text=str(self.score), text_scale=0.08, pos=(0.0, 0.0, -0.09))
         self.nameText = DirectLabel(self, relief=None, text=TTLocalizer.DivingGameTreasuresRetrieved, text_scale=0.05, text_pos=(0.0, 0.06), text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
         self.show()
-        return
 
     def cleanup(self):
         del self.scoreText

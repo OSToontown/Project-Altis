@@ -1,5 +1,4 @@
 from direct.directnotify import DirectNotifyGlobal
-import RingAction
 
 class RingTrack:
     notify = DirectNotifyGlobal.directNotify.newCategory('RingTrack')
@@ -16,7 +15,6 @@ class RingTrack:
         self.actions = actions
         self.actionDurations = actionDurations
         self.reverseFlag = reverseFlag
-        return
 
     def eval(self, t):
         t = float(t)

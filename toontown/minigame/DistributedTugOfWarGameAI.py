@@ -1,10 +1,10 @@
-from DistributedMinigameAI import *
+from toontown.minigame.DistributedMinigameAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 import random
 from direct.task.Task import Task
 import copy
-import TugOfWarGameGlobals
+from toontown.minigame import TugOfWarGameGlobals
 import math
 
 class DistributedTugOfWarGameAI(DistributedMinigameAI):
