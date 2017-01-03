@@ -3,11 +3,7 @@ from toontown.classicchars import DistributedCCharBase
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-<<<<<<< HEAD
-from toontown.char import CharStateDatas
-=======
 from toontown.classicchars import CharStateDatas
->>>>>>> 932a32c9a2bf8f975e71f576a5101041807586d0
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.hood import TTHood
