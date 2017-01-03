@@ -1,6 +1,7 @@
 from direct.fsm.StatePush import StateVar
 from otp.level.EntityStateVarSet import EntityStateVarSet
 from toontown.cogdominium.CogdoEntityTypes import CogdoCraneGameSettings, CogdoCraneCogSettings
+
 Settings = EntityStateVarSet(CogdoCraneGameSettings)
 CogSettings = EntityStateVarSet(CogdoCraneCogSettings)
 CranePosHprs = [(13.4, -136.6, 6, -45, 0, 0),

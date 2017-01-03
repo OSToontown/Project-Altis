@@ -1,21 +1,21 @@
+import math
+import random
 from pandac.PandaModules import Point3, CollisionSphere, CollisionNode
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.PythonUtil import Functor
 from direct.showbase.RandomNumGen import RandomNumGen
 from direct.task.Task import Task
 from toontown.minigame.MazeSuit import MazeSuit
-from CogdoGameGatherable import CogdoMemo
-from CogdoMazePlayer import CogdoMazePlayer
-from CogdoMazeLocalPlayer import CogdoMazeLocalPlayer
-from CogdoMazeGuiManager import CogdoMazeGuiManager
-from CogdoGameAudioManager import CogdoGameAudioManager
-from CogdoMazeGameObjects import CogdoMazeExit, CogdoMazeDrop
-from CogdoMazeSuits import CogdoMazeSuit, CogdoMazeSlowMinionSuit, CogdoMazeFastMinionSuit, CogdoMazeBossSuit
-from CogdoMazeGameMovies import CogdoMazeGameIntro, CogdoMazeGameFinish
-import CogdoMazeGameGlobals as Globals
-import CogdoUtil
-import math
-import random
+from toontown.cogdominium.CogdoGameGatherable import CogdoMemo
+from toontown.cogdominium.CogdoMazePlayer import CogdoMazePlayer
+from toontown.cogdominium.CogdoMazeLocalPlayer import CogdoMazeLocalPlayer
+from toontown.cogdominium.CogdoMazeGuiManager import CogdoMazeGuiManager
+from toontown.cogdominium.CogdoGameAudioManager import CogdoGameAudioManager
+from toontown.cogdominium.CogdoMazeGameObjects import CogdoMazeExit, CogdoMazeDrop
+from toontown.cogdominium.CogdoMazeSuits import CogdoMazeSuit, CogdoMazeSlowMinionSuit, CogdoMazeFastMinionSuit, CogdoMazeBossSuit
+from toontown.cogdominium.CogdoMazeGameMovies import CogdoMazeGameIntro, CogdoMazeGameFinish
+from toontown.cogdominium import CogdoMazeGameGlobals as Globals
+from toontown.cogdominium import CogdoUtil
 
 class CogdoMazeGame(DirectObject):
     notify = directNotify.newCategory('CogdoMazeGame')
@@ -90,7 +90,6 @@ class CogdoMazeGame(DirectObject):
         self.gagModel = CogdoUtil.loadMazeModel('waterBalloon')
         self._movie = CogdoMazeGameIntro(self.maze, self._exit, self.distGame.randomNumGen)
         self._movie.load()
-        return
 
     def _initAudio(self):
         self._audioMgr = CogdoGameAudioManager(Globals.MusicFiles, Globals.SfxFiles, camera, cutoff=Globals.AudioCutoff)
@@ -200,9 +199,8 @@ class CogdoMazeGame(DirectObject):
                     self.localPlayer = player
                 else:
                     player = CogdoMazePlayer(len(self.players), toon)
+                
                 self._addPlayer(player)
-
-        return
 
     def start(self):
         self.accept(self.PlayerDropCollision, self.handleLocalToonMeetsDrop)
@@ -211,6 +209,7 @@ class CogdoMazeGame(DirectObject):
         self.accept(CogdoMemo.EnterEventName, self.handleLocalToonMeetsPickup)
         if self._allowSuitsHitToons:
             self.accept(CogdoMazeSuit.COLLISION_EVENT_NAME, self.handleLocalToonMeetsSuit)
+        
         self.accept(CogdoMazePlayer.GagHitEventName, self.handleToonMeetsGag)
         self.accept(CogdoMazeSuit.GagHitEventName, self.handleLocalSuitMeetsGag)
         self.accept(CogdoMazeSuit.DeathEventName, self.handleSuitDeath)
@@ -271,6 +270,7 @@ class CogdoMazeGame(DirectObject):
 
         if player.toon.doId in self.toonId2Player:
             del self.toonId2Player[player.toon.doId]
+        
         self.guiMgr.mazeMapGui.removeToon(player.toon)
 
     def handleToonLeft(self, toonId):

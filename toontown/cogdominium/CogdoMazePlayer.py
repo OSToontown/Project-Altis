@@ -1,11 +1,11 @@
+import random
 from pandac.PandaModules import Point3, NodePath
 from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import ProjectileInterval, Track, ActorInterval
 from direct.interval.IntervalGlobal import Func, Sequence, Parallel
-from CogdoMazeGameObjects import CogdoMazeSplattable
-import CogdoMazeGameGlobals as Globals
-import CogdoUtil
-import random
+from toontown.cogdominium.CogdoMazeGameObjects import CogdoMazeSplattable
+from toontown.cogdominium import CogdoMazeGameGlobals as Globals
+from toontown.cogdominium import CogdoUtil
 
 class CogdoMazePlayer(FSM, CogdoMazeSplattable):
     notify = directNotify.newCategory('CogdoMazePlayer')
@@ -30,7 +30,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         self._throwSfx = base.cogdoGameAudioMgr.createSfxIval('throw')
         self.accept(toon.getDisableEvent(), self.removed)
         self.request('Off')
-        return
 
     def destroy(self):
         if self.equippedGag:

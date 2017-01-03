@@ -17,7 +17,6 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
         self.collNodePath = None
         self.availableTex = None
         self.usedTex = None
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)

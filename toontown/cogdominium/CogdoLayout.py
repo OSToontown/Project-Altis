@@ -21,4 +21,5 @@ class CogdoLayout:
     def getBossBattleFloor(self):
         if not self.hasBossBattle():
             self.notify.error('getBossBattleFloor(): cogdo has no boss battle')
+        
         return self.getNumFloors() - 1

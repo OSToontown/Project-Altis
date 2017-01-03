@@ -2,10 +2,10 @@ from pandac.PandaModules import NodePath, VBase4
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.RandomNumGen import RandomNumGen
 from toontown.minigame.MazeBase import MazeBase
-import CogdoMazeGameGlobals as Globals
-from CogdoMazeGameObjects import CogdoMazeWaterCooler
-import CogdoMazeData
-import CogdoUtil
+from toontown.cogdominium import CogdoMazeGameGlobals as Globals
+from toontown.cogdominium.CogdoMazeGameObjects import CogdoMazeWaterCooler
+from toontown.cogdominium import CogdoMazeData
+from toontown.cogdominium import CogdoUtil
 
 class CogdoMaze(MazeBase, DirectObject):
 
@@ -193,11 +193,11 @@ class CogdoMazeFactory:
         y = self._rng.randint(0, self.height - 1)
         openBarriers(x, y)
         self._barrierData = data
-        return
 
     def _generateMazeData(self):
         if not hasattr(self, 'quadrantData'):
             self._gatherQuadrantData()
+        
         self._data = {}
         self._data['width'] = (self.width + 1) * self.frameWallThickness + self.width * self.quadrantSize
         self._data['height'] = (self.height + 1) * self.frameWallThickness + self.height * self.quadrantSize
@@ -302,6 +302,7 @@ class CogdoMazeFactory:
 
         if flatten:
             self._model.flattenStrong()
+        
         return self._model
 
     def _createQuadrant(self, filepath, serialNum, angle, size):

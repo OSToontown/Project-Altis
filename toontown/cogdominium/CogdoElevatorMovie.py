@@ -10,8 +10,8 @@ from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase import TTLocalizer
 from toontown.suit import Suit, SuitDNA
 from toontown.toon import Toon, ToonHead, ToonDNA
-from CogdoUtil import CogdoGameMovie
-import CogdoUtil
+from toontown.cogdominium.CogdoUtil import CogdoGameMovie
+from toontown.cogdominium import CogdoUtil
 
 class CogdoElevatorMovie(CogdoGameMovie):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogdoElevatorMovie')
@@ -22,7 +22,6 @@ class CogdoElevatorMovie(CogdoGameMovie):
         self._toonDialogueSfx = None
         self.toonHead = None
         self.frame = None
-        return
 
     def displayLine(self, text):
         self.notify.debug('displayLine')
@@ -97,7 +96,6 @@ class CogdoElevatorMovie(CogdoGameMovie):
 
         self._ival = Sequence(Func(start), Func(self.displayLine, dialogue), Wait(self.elevatorDuration), Func(end))
         self._startUpdateTask()
-        return
 
     def _updateTask(self, task):
         dt = globalClock.getDt()

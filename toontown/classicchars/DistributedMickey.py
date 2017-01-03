@@ -32,7 +32,6 @@ class DistributedMickey(DistributedCCharBase.DistributedCCharBase):
         self.walk = None
         self.fsm.requestFinalState()
         self.notify.debug('Mickey Disbled')
-        return
 
     def delete(self):
         try:
@@ -56,8 +55,8 @@ class DistributedMickey(DistributedCCharBase.DistributedCCharBase):
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self)
         else:
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self, self.diffPath)
+        
         self.fsm.request('Neutral')
-        return
 
     def enterOff(self):
         pass

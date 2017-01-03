@@ -11,6 +11,7 @@ from toontown.minigame.MinigameRulesPanel import MinigameRulesPanel
 from toontown.cogdominium.CogdoGameRulesPanel import CogdoGameRulesPanel
 from toontown.minigame import MinigameGlobals
 from toontown.toonbase import TTLocalizer as TTL
+
 SCHELLGAMES_DEV = __debug__ and base.config.GetBool('schellgames-dev', False)
 
 class DistCogdoGame(DistCogdoGameBase, DistributedObject):
@@ -36,7 +37,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._toonsInEntranceElev = StateVar(False)
         self._wantStashElevator = StateVar(False)
         self._stashElevatorFC = FunctionCall(self._doStashElevator, self._toonsInEntranceElev, self._gotInterior, self._wantStashElevator)
-        return
 
     def getTitle(self):
         pass
@@ -68,14 +68,12 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             return interior.getToonIds()
         else:
             return []
-        return
 
     def getToon(self, toonId):
         if toonId in self.cr.doId2do:
             return self.cr.doId2do[toonId]
         else:
             return None
-        return None
 
     def getNumPlayers(self):
         return len(self.getToonIds())
@@ -131,13 +129,13 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._waitingStartLabel.destroy()
         self._waitingStartLabel = None
         DistributedObject.delete(self)
-        return
 
     def getDifficulty(self):
         if self.difficultyOverride is not None:
             return self.difficultyOverride
         if hasattr(base, 'cogdoGameDifficulty'):
             return float(base.cogdoGameDifficulty)
+        
         return CogdoGameConsts.getDifficulty(self.getSafezoneId())
 
     def getSafezoneId(self):
@@ -145,6 +143,7 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             return self.exteriorZoneOverride
         if hasattr(base, 'cogdoGameSafezoneId'):
             return CogdoGameConsts.getSafezoneId(base.cogdoGameSafezoneId)
+        
         return CogdoGameConsts.getSafezoneId(self.exteriorZone)
 
     def enterNotLoaded(self):
@@ -192,7 +191,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             self._rulesPanel.exit()
             self._rulesPanel.unload()
             self._rulesPanel = None
-        return
 
     def _handleRulesDone(self):
         self.ignore(self._rulesDoneEvent)
@@ -201,7 +199,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._rulesPanel = None
         self.fsm.request('WaitServerStart')
         self.d_setAvatarReady()
-        return
 
     def d_setAvatarReady(self):
         self.sendUpdate('setAvatarReady', [])
@@ -215,6 +212,7 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             msg = TTL.MinigameWaitingForOtherPlayers
         else:
             msg = TTL.MinigamePleaseWait
+        
         self._waitingStartLabel['text'] = msg
         self._waitingStartLabel.show()
 

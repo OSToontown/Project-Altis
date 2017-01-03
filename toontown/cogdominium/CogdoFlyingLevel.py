@@ -3,12 +3,12 @@ from pandac.PandaModules import CollisionPlane, CollisionNode
 from direct.showbase.RandomNumGen import RandomNumGen
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.PythonUtil import bound as clamp
-import CogdoUtil
-import CogdoFlyingGameGlobals as Globals
-from CogdoFlyingLevelQuadrant import CogdoFlyingLevelQuadrant
-from CogdoFlyingObjects import CogdoFlyingGatherableFactory, CogdoFlyingPlatform, CogdoFlyingLevelFog
-from CogdoFlyingObstacles import CogdoFlyingObtacleFactory
-from CogdoGameExit import CogdoGameExit
+from toontown.cogdominium import CogdoUtil
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium.CogdoFlyingLevelQuadrant import CogdoFlyingLevelQuadrant
+from toontown.cogdominium.CogdoFlyingObjects import CogdoFlyingGatherableFactory, CogdoFlyingPlatform, CogdoFlyingLevelFog
+from toontown.cogdominium.CogdoFlyingObstacles import CogdoFlyingObtacleFactory
+from toontown.cogdominium.CogdoGameExit import CogdoGameExit
 from otp.otpbase import OTPGlobals
 
 class CogdoFlyingLevel(DirectObject):
@@ -52,7 +52,6 @@ class CogdoFlyingLevel(DirectObject):
         self._frameModel.flattenStrong()
         self.gatherableFactory = CogdoFlyingGatherableFactory()
         self.obstacleFactory = CogdoFlyingObtacleFactory()
-        return
 
     def getExit(self):
         return self._exit
@@ -152,7 +151,6 @@ class CogdoFlyingLevel(DirectObject):
                 self.quadrants[quadNum + 1].update(dt)
             if quadNum != self._currentQuadNum:
                 self._switchToQuadrant(quadNum)
-        return
 
     def _switchToQuadrant(self, quadNum):
         self.visibleQuadIndices = []
@@ -194,7 +192,6 @@ class CogdoFlyingLevelFactory:
         self.quadVisibiltyBehind = quadVisibiltyBehind
         self._rng = rng or RandomNumGen(1)
         self._level = None
-        return
 
     def loadAndBuildLevel(self, safezoneId):
         levelNode = NodePath('level')
@@ -235,9 +232,11 @@ class CogdoFlyingLevelFactory:
     def createLevel(self, safezoneId = 2000):
         if self._level is None:
             self.loadAndBuildLevel(safezoneId)
+        
         return self._level
 
     def createLevelFog(self):
         if self._level is None:
             self.loadAndBuildLevel()
+        
         return CogdoFlyingLevelFog(self._level)

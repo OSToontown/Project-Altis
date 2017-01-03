@@ -3,8 +3,9 @@ from pandac.PandaModules import TextNode
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownIntervals
 from toontown.toonbase import TTLocalizer
-import CogdoUtil
-import CogdoGameConsts
+from toontown.cogdominium import CogdoUtil
+from toontown.cogdominium import CogdoGameConsts
+
 MEMOICON_SCALE = 0.2
 
 class CogdoMemoGui(DirectFrame):
@@ -13,7 +14,6 @@ class CogdoMemoGui(DirectFrame):
         DirectFrame.__init__(self, parent=parent, relief=None, state=DGG.NORMAL, sortOrder=DGG.BACKGROUND_SORT_INDEX)
         self._initModel()
         self.hide()
-        return
 
     def destroy(self):
         ToontownIntervals.cleanup('memocount_pulse')
@@ -31,7 +31,6 @@ class CogdoMemoGui(DirectFrame):
         self._memoIcon = CogdoUtil.loadModel('memo_card', game='shared', group='gui')
         self._memoIcon.reparentTo(self)
         self._memoIcon.setScale(MEMOICON_SCALE)
-        return
 
     def setCount(self, count):
         self._countLabel['text'] = str(count)

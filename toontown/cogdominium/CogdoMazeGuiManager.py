@@ -3,10 +3,10 @@ from direct.interval.MetaInterval import Sequence
 from direct.interval.FunctionInterval import Func
 from toontown.toonbase.ToontownTimer import ToontownTimer
 from toontown.toonbase import ToontownIntervals
-from CogdoMazeGameGuis import CogdoMazeHud, CogdoMazeMapGui, CogdoMazeBossGui
-from CogdoGameMessageDisplay import CogdoGameMessageDisplay
-import CogdoMazeGameGlobals as Globals
-from CogdoMemoGui import CogdoMemoGui
+from toontown.cogdominium.CogdoMazeGameGuis import CogdoMazeHud, CogdoMazeMapGui, CogdoMazeBossGui
+from toontown.cogdominium.CogdoGameMessageDisplay import CogdoGameMessageDisplay
+from toontown.cogdominium import CogdoMazeGameGlobals as Globals
+from toontown.cogdominium.CogdoMemoGui import CogdoMemoGui
 
 class CogdoMazeGuiManager:
 
@@ -19,6 +19,7 @@ class CogdoMazeGuiManager:
             self._bossGui = CogdoMazeBossGui(bossCode)
         else:
             self._bossGui = None
+        
         self._memoGui = CogdoMemoGui(self.root)
         self._memoGui.posNextToLaffMeter()
         self._presentGuiIval = None
@@ -26,7 +27,6 @@ class CogdoMazeGuiManager:
         self._hud = CogdoMazeHud()
         self._timer = None
         self._initMessageDisplay()
-        return
 
     def _initTimer(self):
         self._timer = ToontownTimer()
@@ -57,20 +57,17 @@ class CogdoMazeGuiManager:
         if self._presentTimerIval:
             self._presentTimerIval.pause()
             self._presentTimerIval = None
-        return
 
     def destroyMazeMap(self):
         if hasattr(self, 'mazeMapGui') and self.mazeMapGui is not None:
             self.mazeMapGui.destroy()
             del self.mazeMapGui
-        return
 
     def destroyTimer(self):
         if self._timer is not None:
             self._timer.stop()
             self._timer.destroy()
             self._timer = None
-        return
 
     def showPickupCounter(self):
         ToontownIntervals.start(ToontownIntervals.getPresentGuiIval(self._memoGui, 'present_memo'))
@@ -84,12 +81,10 @@ class CogdoMazeGuiManager:
     def showBossGui(self):
         if self._bossGui is not None:
             self._bossGui.show()
-        return
 
     def hideBossGui(self):
         if self._bossGui is not None:
             self._bossGui.hide()
-        return
 
     def revealMazeMap(self):
         self.mazeMapGui.revealAll()
@@ -103,13 +98,11 @@ class CogdoMazeGuiManager:
         self._timer.setTime(duration)
         self._timer.countdown(duration, timerExpiredCallback)
         self._presentTimerIval = ToontownIntervals.start(ToontownIntervals.getPresentGuiIval(self._timer, 'present_timer', startPos=(0, 0, 0.35)))
-        return
 
     def hideTimer(self):
         if hasattr(self, 'timer') and self._timer is not None:
             self._timer.hide()
             self._timer.stop()
-        return
 
     def setMessage(self, text, color = None, transition = 'fade'):
         self.messageDisplay.updateMessage(text, color, transition)

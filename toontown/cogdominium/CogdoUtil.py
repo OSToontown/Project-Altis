@@ -1,4 +1,5 @@
 from pandac.PandaModules import ColorBlendAttrib
+
 ModelPhase = 5
 ModelTypes = {'animation': 'a',
  'model': 'm',
@@ -12,10 +13,8 @@ Games = {'flying': 'cfg',
 def loadFlyingModel(baseName, type = 'model', group = 'area'):
     return loadModel(baseName, 'flying', type=type, group=group)
 
-
 def loadMazeModel(baseName, type = 'model', group = 'area'):
     return loadModel(baseName, 'maze', type=type, group=group)
-
 
 def getModelPath(baseName, game = 'shared', type = 'model', group = 'area'):
     extension = ''
@@ -28,10 +27,8 @@ def getModelPath(baseName, game = 'shared', type = 'model', group = 'area'):
      baseName,
      extension)
 
-
 def loadModel(baseName, game = 'shared', type = 'model', group = 'area'):
     return loader.loadModel(getModelPath(baseName, game, type, group))
-
 
 class VariableContainer:
     pass
@@ -54,7 +51,6 @@ class CogdoGameMovie:
     def __init__(self):
         self._ival = None
         self._task = None
-        return
 
     def load(self):
         from toontown.toonbase import ToontownGlobals
@@ -78,7 +74,6 @@ class CogdoGameMovie:
         self._ival = None
         self._dialogueLabel.removeNode()
         del self._dialogueLabel
-        return
 
     def getIval(self):
         return self._ival
@@ -102,14 +97,13 @@ class CogdoGameMovie:
     def end(self):
         self._ival.finish()
 
-
 def initializeLightCone(np, bin = 'fixed', sorting = 3):
     np.node().setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
     if bin:
         np.setBin(bin, sorting)
+    
     np.setDepthWrite(False)
     np.setTwoSided(True, 10000)
-
 
 ROTATE_TABLE_ALLOWED_ANGLES = (0, 90, 180, 270)
 

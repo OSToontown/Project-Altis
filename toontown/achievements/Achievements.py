@@ -7,7 +7,7 @@ COG = 0
 V2COG = 1
 SKELECOG = 2
 
-class FriendAchievement():
+class FriendAchievement:
 
     def __init__(self, neededFriends=1):
         self.neededFriends = neededFriends
@@ -20,12 +20,12 @@ class FriendAchievement():
 
         return 0
 
-class TrolleyAchievement():
+class TrolleyAchievement:
 
     def hasComplete(self, av):
         return 1
 
-class SuitsAchievement():
+class SuitsAchievement:
 
     def __init__(self, neededSuits=1, neededType=ANY_TYPE, revive=0, skele=0):
         self.neededSuits = neededSuits
@@ -40,12 +40,12 @@ class SuitsAchievement():
 
         return 0
 
-class EstateAchievement():
+class EstateAchievement:
 
     def hasComplete(self, av):
         return 1
 
-class VPAchievement():
+class VPAchievement:
 
     def __init__(self, neededLaff=ANY_LAFF, solo=False):
         self.neededLaff = neededLaff
@@ -68,7 +68,7 @@ class VPAchievement():
 
         return complete
 
-class CFOAchievement():
+class CFOAchievement:
 
     def __init__(self, neededLaff=ANY_LAFF, solo=False):
         self.neededLaff = neededLaff
@@ -91,7 +91,7 @@ class CFOAchievement():
 
         return complete
 
-class CJAchievement():
+class CJAchievement:
 
     def __init__(self, neededLaff=ANY_LAFF, solo=False):
         self.neededLaff = neededLaff
@@ -114,7 +114,7 @@ class CJAchievement():
 
         return complete
 
-class CEOAchievement():
+class CEOAchievement:
 
     def __init__(self, neededLaff=ANY_LAFF, solo=False):
         self.neededLaff = neededLaff

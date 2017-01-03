@@ -3,9 +3,9 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Parallel, Wait, LerpHprInterval, LerpScaleInterval, LerpFunctionInterval
 from otp.otpbase import OTPGlobals
 from toontown.toonbase import ToontownGlobals
-from CogdoGameGatherable import CogdoGameGatherable, CogdoMemo
-import CogdoFlyingGameGlobals as Globals
-import CogdoUtil
+from toontown.cogdominium.CogdoGameGatherable import CogdoGameGatherable, CogdoMemo
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium import CogdoUtil
 from direct.particles import ParticleEffect
 from direct.particles import Particles
 from direct.particles import ForceGroup
@@ -233,9 +233,7 @@ class CogdoFlyingPowerup(CogdoFlyingGatherable):
         lerp.setStartScale(nodepath.getScale())
 
     def wasPickedUpByToon(self, toon):
-        if toon.doId in self._pickedUpList:
-            return True
-        return False
+        return toon.doId in self._pickedUpList
 
     def ghostPowerup(self):
         if self._isToonLocal:
@@ -306,7 +304,6 @@ class CogdoFlyingPropeller(CogdoFlyingGatherable):
                 self.addPropeller(prop)
         else:
             self.disable()
-        return
 
     def addPropeller(self, prop):
         if len(self.usedPropellers) > 0:
@@ -325,14 +322,11 @@ class CogdoFlyingPropeller(CogdoFlyingGatherable):
             if len(self.activePropellers) == 0:
                 self._wasPickedUp = True
             return prop
+        
         return None
 
     def isPropeller(self):
-        if len(self.activePropellers) > 0:
-            return True
-        else:
-            return False
-
+        return len(self.activePropellers) > 0
 
 class CogdoFlyingLevelFog:
 
@@ -374,8 +368,8 @@ class CogdoFlyingPlatform:
         self._type = type
         if parent is not None:
             self._model.reparentTo(parent)
+        
         self._initCollisions()
-        return
 
     def __str__(self):
         return '<%s model=%s, type=%s>' % (self.__class__.__name__, self._model, self._type)
@@ -430,6 +424,7 @@ class CogdoFlyingPlatform:
             spawnPos = spawnLoc.getPos(parent) + Vec3(x, y, 0.0)
         else:
             spawnPos = self._floorColl.getPos(parent) + Vec3(x, y, 0.0)
+        
         return spawnPos
 
     @staticmethod

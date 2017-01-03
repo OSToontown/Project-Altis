@@ -5,7 +5,7 @@ from toontown.toonbase import ToontownGlobals
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 
-class AchievementGui():
+class AchievementGui:
     
     def __init__(self):
         self.queue = []

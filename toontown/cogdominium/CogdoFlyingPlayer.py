@@ -7,10 +7,10 @@ from direct.interval.MetaInterval import Sequence, Parallel
 from direct.distributed.ClockDelta import globalClockDelta
 from toontown.toonbase import ToontownGlobals
 from toontown.effects import DustCloud
-import CogdoFlyingGameGlobals as Globals
-import CogdoUtil
-from CogdoFlyingObjects import CogdoFlyingGatherable
-from CogdoFlyingUtil import swapAvatarShadowPlacer
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium import CogdoUtil
+from toontown.cogdominium.CogdoFlyingObjects import CogdoFlyingGatherable
+from toontown.cogdominium.CogdoFlyingUtil import swapAvatarShadowPlacer
 
 class CogdoFlyingPlayer(FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogdoFlyingPlayer')
@@ -181,6 +181,7 @@ class CogdoFlyingPlayer(FSM):
     def isInvulnerable(self):
         if Globals.Level.GatherableTypes.InvulPowerup in self.activeBuffs:
             return True
+        
         return False
 
     def setFuelState(self, fuelState):
@@ -190,14 +191,12 @@ class CogdoFlyingPlayer(FSM):
         self.oldFuelState = fuelState
 
     def hasFuelStateChanged(self):
-        if self.fuelState != self.oldFuelState:
-            return True
-        else:
-            return False
+        return self.fuelState != self.oldFuelState
 
     def updatePropellerSmoke(self):
         if not self.hasFuelStateChanged():
             return
+        
         if self.fuelState in [Globals.Gameplay.FuelStates.FuelNoPropeller, Globals.Gameplay.FuelStates.FuelNormal]:
             self.propellerSmoke.stop()
         elif self.fuelState in [Globals.Gameplay.FuelStates.FuelVeryLow, Globals.Gameplay.FuelStates.FuelEmpty]:
@@ -223,10 +222,7 @@ class CogdoFlyingPlayer(FSM):
             self.legalEaglesTargeting.remove(legalEagle)
 
     def isLegalEagleTarget(self):
-        if len(self.legalEaglesTargeting) > 0:
-            return True
-        else:
-            return False
+        return len(self.legalEaglesTargeting) > 0
 
     def setBlades(self, fuelState):
         if fuelState not in Globals.Gameplay.FuelStates:
@@ -345,7 +341,6 @@ class CogdoFlyingPlayer(FSM):
         if self.spawnInterval:
             self.spawnInterval.clearToInitial()
             self.spawnInterval = None
-        return
 
     def start(self):
         swapAvatarShadowPlacer(self.toon, self.toon.uniqueName('toonShadowPlacer'))

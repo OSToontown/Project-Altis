@@ -1,3 +1,4 @@
+import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
@@ -6,10 +7,8 @@ from direct.fsm import State
 from direct.fsm.StatePush import StateVar, FunctionCall
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import NodePath
-import random
-
-from CogdoElevatorMovie import CogdoElevatorMovie
-from CogdoExecutiveSuiteMovies import CogdoExecutiveSuiteIntro
+from toontown.cogdominium.CogdoElevatorMovie import CogdoElevatorMovie
+from toontown.cogdominium.CogdoExecutiveSuiteMovies import CogdoExecutiveSuiteIntro
 from toontown.battle import BattleBase
 from toontown.building import ElevatorUtils
 from toontown.building.ElevatorConstants import *
@@ -23,7 +22,6 @@ from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
 
 PAINTING_DICT = {'s': 'tt_m_ara_crg_paintingMoverShaker',
  'l': 'tt_m_ara_crg_paintingLegalEagle',

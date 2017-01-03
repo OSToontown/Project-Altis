@@ -9,9 +9,9 @@ from toontown.toonbase import ToontownGlobals
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
 from toontown.battle import BattleProps
-import CogdoUtil
-import CogdoFlyingGameGlobals as Globals
-from CogdoFlyingUtil import swapAvatarShadowPlacer
+from toontown.cogdominium import CogdoUtil
+from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
+from toontown.cogdominium.CogdoFlyingUtil import swapAvatarShadowPlacer
 from direct.particles import ParticleEffect
 from direct.particles import Particles
 from direct.particles import ForceGroup
@@ -102,6 +102,7 @@ class CogdoFlyingObstacle(DirectObject):
         else:
             self.model = model
             self.model.setName(name)
+        
         self.currentT = 0.0
         self.direction = 1.0
         self.collNode = None
@@ -127,7 +128,6 @@ class CogdoFlyingObstacle(DirectObject):
             if self.motionPattern == CogdoFlyingObstacle.MotionTypes.BackForth:
                 movePart2 = LerpFunc(moveObstacle, fromData=self.motionPath.getMaxT(), toData=0.0, duration=dur, blendType=blendType)
                 self.motionSequence.append(movePart2)
-        return
 
     def _initCollisions(self, name, collSolid):
         self.collName = name
@@ -144,29 +144,26 @@ class CogdoFlyingObstacle(DirectObject):
     def disable(self):
         if self.collNode is not None:
             self.collNode.setIntoCollideMask(BitMask32(0))
-        return
 
     def enable(self):
         if self.collNode is not None:
             self.collNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
-        return
 
     def startMoving(self, elapsedTime = 0.0):
         if self.motionSequence is not None:
             self.motionSequence.loop()
             self.motionSequence.setT(elapsedTime % self.motionSequence.getDuration())
-        return
 
     def stopMoving(self):
         if self.motionSequence is not None:
             self.motionSequence.pause()
-        return
 
     def destroy(self):
         self.ignoreAll()
         if self.motionSequence is not None:
             self.motionSequence.clearToInitial()
             del self.motionSequence
+        
         del self.collSolid
         self.collNodePath.removeNode()
         del self.collNodePath
@@ -174,7 +171,6 @@ class CogdoFlyingObstacle(DirectObject):
         self.model.removeNode()
         del self.model
         del self.motionPath
-        return
 
     def update(self, dt):
         pass
@@ -243,21 +239,18 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         CogdoFlyingObstacle.__init__(self, Globals.Level.ObstacleTypes.Minion, index, self.mopathNodePath, collSolid, motionPath=motionPath, motionPattern=CogdoFlyingObstacle.MotionTypes.Loop, blendMotion=False, instanceModel=False)
         self.lastPos = None
         self.suit.loop('neutral')
-        return
 
     def attachPropeller(self):
         if self.prop is None:
             self.prop = BattleProps.globalPropPool.getProp('propeller')
             head = self.suit.find('**/joint_head')
             self.prop.reparentTo(head)
-        return
 
     def detachPropeller(self):
         if self.prop:
             self.prop.cleanup()
             self.prop.removeNode()
             self.prop = None
-        return
 
     def startMoving(self, elapsedTime):
         CogdoFlyingObstacle.startMoving(self, elapsedTime)
@@ -273,7 +266,6 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
             self.mopathNodePath.lookAt(self.currPos + vec)
         self.mopathNodePath.setP(0)
         self.lastPos = self.mopathNodePath.getPos()
-        return
 
     def destroy(self):
         self.mopathNodePath.removeNode()
