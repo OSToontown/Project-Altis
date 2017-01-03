@@ -1,4 +1,4 @@
-import ActiveCell
+from toontown.coghq import ActiveCell
 from direct.directnotify import DirectNotifyGlobal
 
 class DirectionalCell(ActiveCell.ActiveCell):

@@ -24,7 +24,6 @@ class DistributedTarget(DistributedObject.DistributedObject):
         self.pinballHiScorer = ''
         self.onscreenMessage = None
         self.fadeTrack = None
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -36,7 +35,6 @@ class DistributedTarget(DistributedObject.DistributedObject):
             self.fadeTrack.pause()
             self.fadeTrack = None
         self.__clearOnscreenMessage()
-        return
 
     def generateInit(self):
         DistributedObject.DistributedObject.generateInit(self)
@@ -196,7 +194,6 @@ class DistributedTarget(DistributedObject.DistributedObject):
             if toon:
                 self.pinballHiScorer = toon.getName()
         self.showScore()
-        return
 
     def b_setCurPinballScore(self, avId, score, multiplier):
         self.setCurPinballScore(avId, score, multiplier)
@@ -214,14 +211,12 @@ class DistributedTarget(DistributedObject.DistributedObject):
             self.onscreenMessage.titles['text'] = titleText
             self.onscreenMessage.scores['text'] = scoreText
         base.foobar = self.onscreenMessage
-        return
 
     def __clearOnscreenMessage(self):
         self.notify.debug('----- __clearOnscreenMessage')
         if self.onscreenMessage:
             self.onscreenMessage.destroy()
             self.onscreenMessage = None
-        return
 
     def setPinballHiScore(self, score):
         self.pinballHiScore = score

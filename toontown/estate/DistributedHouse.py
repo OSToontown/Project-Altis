@@ -16,7 +16,7 @@ from toontown.toonbase import TTLocalizer
 import random
 from direct.showbase import PythonUtil
 from toontown.hood import Place
-import HouseGlobals
+from toontown.estate import HouseGlobals
 from toontown.building import ToonInteriorColors
 from direct.showbase.MessengerGlobal import messenger
 from toontown.dna.DNAParser import DNADoor
@@ -42,7 +42,6 @@ class DistributedHouse(DistributedObject.DistributedObject):
         self.randomGenerator = None
         self.housePosInd = 0
         self.house_loaded = 0
-        return
 
     def disable(self):
         DistributedObject.DistributedObject.disable(self)
@@ -73,7 +72,6 @@ class DistributedHouse(DistributedObject.DistributedObject):
             self.nametag.setAvatar(NodePath())
             self.nametag.destroy()
             self.nametag = None
-        return
 
     def load(self):
         self.notify.debug('load')
@@ -222,7 +220,6 @@ class DistributedHouse(DistributedObject.DistributedObject):
         self.floorMat.setDepthWrite(0)
         self.floorMat.setPos(0, -.025, 0)
         self.floorMat.setScale(0.45 * xScale)
-        return
 
     def __setupNametag(self):
         if self.nametag:

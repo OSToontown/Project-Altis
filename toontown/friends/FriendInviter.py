@@ -14,6 +14,7 @@ from toontown.pets import Pet
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPGlobals
 from otp.uberdog import RejectCode
+
 globalFriendInviter = None
 
 def showFriendInviter(avId, avName, avDisableName):

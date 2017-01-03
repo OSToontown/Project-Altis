@@ -12,7 +12,6 @@ from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
-
 class HoodAI:
     notify = directNotify.newCategory('HoodAI')
     notify.setInfo(True)

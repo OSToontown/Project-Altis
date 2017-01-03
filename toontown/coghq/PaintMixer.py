@@ -1,4 +1,4 @@
-import PlatformEntity
+from toontown.coghq import PlatformEntity
 
 class PaintMixer(PlatformEntity.PlatformEntity):
 

@@ -1,4 +1,4 @@
-import DistributedBarrelBaseAI
+from toontown.coghq import DistributedBarrelBaseAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
 

@@ -3,7 +3,6 @@ from toontown.town.BRTownLoader import BRTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
 
-
 class BRHood(ToonHood):
     notify = directNotify.newCategory('BRHood')
 

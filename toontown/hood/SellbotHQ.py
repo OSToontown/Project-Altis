@@ -2,7 +2,6 @@ from toontown.coghq.SellbotCogHQLoader import SellbotCogHQLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.CogHood import CogHood
 
-
 class SellbotHQ(CogHood):
     notify = directNotify.newCategory('SellbotHQ')
 

@@ -4,8 +4,8 @@ from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *
-import FishGlobals
-import FishPhoto
+from toontown.fishing import FishGlobals
+from toontown.fishing import FishPhoto
 
 class FishPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('FishPanel')

@@ -4,15 +4,12 @@ from toontown.coghq import LabotOfficeFloor_01b_Cogs
 from toontown.coghq import NullCogs
 from toontown.toonbase import ToontownGlobals
 
-
 def getLawOfficeFloorSpecModule(floorId):
     return LawbotOfficeSpecModules[floorId]
-
 
 def getCogSpecModule(floorId):
     floor = LawbotOfficeFloorId2FloorName[roomId]
     return CogSpecModules.get(floorId, NullCogs)
-
 
 def getNumBattles(floorId):
     return floorId2numBattles[floorId]

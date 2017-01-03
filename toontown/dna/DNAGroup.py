@@ -1,5 +1,5 @@
 from panda3d.core import PandaNode
-import DNAUtil
+from toontown.dna import DNAUtil
 
 class DNAGroup(object):
     __slots__ = (

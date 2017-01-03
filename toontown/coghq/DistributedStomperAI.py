@@ -1,8 +1,8 @@
 from otp.ai.AIBase import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
-import DistributedCrusherEntityAI
-import StomperGlobals
+from toontown.coghq import DistributedCrusherEntityAI
+from toontown.coghq import StomperGlobals
 from direct.distributed import ClockDelta
 from toontown.coghq import CrusherCellAI
 

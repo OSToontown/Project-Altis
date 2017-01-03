@@ -2,7 +2,7 @@ import DistributedLawnDecor
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
-import GardenGlobals
+from toontown.estate import GardenGlobals
 from toontown.toonbase import TTLocalizer
 
 class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
@@ -13,7 +13,6 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         self.model = None
         self.growthLevel = -1
         self.waterTrackDict = {}
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -23,7 +22,6 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
 
         self.waterTrackDict = None
         DistributedLawnDecor.DistributedLawnDecor.delete(self)
-        return
 
     def disable(self):
         self.notify.debug('disable')
@@ -147,6 +145,7 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
             return False
         elif self.growthLevel < self.growthThresholds[0]:
             return True
+        
         return False
 
     def isGTESeedling(self):

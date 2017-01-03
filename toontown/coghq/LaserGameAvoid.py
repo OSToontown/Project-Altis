@@ -1,11 +1,10 @@
 import random
-
 from direct.distributed import ClockDelta
 from direct.task import Task
 from toontown.coghq import LaserGameBase
 
-
 class LaserGameAvoid(LaserGameBase.LaserGameBase):
+    
     def __init__(self, funcSuccess, funcFail, funcSendGrid, funcSetGrid):
         LaserGameBase.LaserGameBase.__init__(self, funcSuccess, funcFail, funcSendGrid, funcSetGrid)
         self.setGridSize(8, 8)

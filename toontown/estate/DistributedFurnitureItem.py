@@ -5,10 +5,10 @@ from toontown.catalog import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
 from toontown.toonbase import TTLocalizer
-import DistributedHouseItem
+from toontown.estate import DistributedHouseItem
 from direct.distributed import DistributedSmoothNode
 from direct.task import Task
-import HouseGlobals
+from toontown.estate import HouseGlobals
 
 class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, DistributedSmoothNode.DistributedSmoothNode):
     notify = directNotify.newCategory('DistributedFurnitureItem')
@@ -43,7 +43,6 @@ class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, Distri
         self.furnitureMgr = None
         DistributedHouseItem.DistributedHouseItem.disable(self)
         DistributedSmoothNode.DistributedSmoothNode.disable(self)
-        return
 
     def delete(self):
         self.removeNode()

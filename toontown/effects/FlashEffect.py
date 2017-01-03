@@ -1,6 +1,6 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from EffectController import EffectController
+from toontown.effects.EffectController import EffectController
 
 class FlashEffect(NodePath, EffectController):
 

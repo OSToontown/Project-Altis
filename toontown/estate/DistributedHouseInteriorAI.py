@@ -6,9 +6,9 @@ from toontown.catalog.CatalogWallpaperItem import CatalogWallpaperItem
 from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem
 from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem
 from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
-from DNAFurnitureReaderAI import DNAFurnitureReaderAI
+from toontown.estate.DNAFurnitureReaderAI import DNAFurnitureReaderAI
 from toontown.dna.DNAParser import *
-import HouseGlobals
+from toontown.estate import HouseGlobals
 import random
 
 # The house interior DNA files for each

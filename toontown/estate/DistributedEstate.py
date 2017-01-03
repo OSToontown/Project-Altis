@@ -19,14 +19,14 @@ import cPickle
 import time
 from direct.showbase import PythonUtil
 from toontown.hood import Place
-import Estate
-import HouseGlobals
+from toontown.estate import Estate
+from toontown.estate import HouseGlobals
 from toontown.estate import GardenGlobals
 from toontown.estate import DistributedFlower
 from toontown.estate import DistributedGagTree
 from toontown.estate import DistributedStatuary
-import GardenDropGame
-import GardenProgressMeter
+from toontown.estate import GardenDropGame
+from toontown.estate import GardenProgressMeter
 from toontown.estate import FlowerSellGUI
 from toontown.toontowngui import TTDialog
 
@@ -100,7 +100,6 @@ class DistributedEstate(DistributedObject.DistributedObject):
             self.flowerSellBox.removeNode()
             del self.flowerSellBox
             self.flowerSellBox = None
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)

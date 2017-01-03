@@ -2,10 +2,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from direct.task.Task import Task
 from pandac.PandaModules import *
-
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 class BankGUI(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('BankGUI')

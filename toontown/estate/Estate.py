@@ -15,7 +15,7 @@ from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.pets import PetTutorial
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs, TLNull
-import HouseGlobals
+from toontown.estate import HouseGlobals
 
 class Estate(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Estate')
@@ -77,7 +77,6 @@ class Estate(Place.Place):
         self.fsm.enterInitialState()
         self.doneEvent = doneEvent
         self.parentFSMState = parentFSMState
-        return
 
     def delete(self):
         self.unload()

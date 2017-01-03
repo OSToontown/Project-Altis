@@ -8,7 +8,6 @@ from otp.ai.MagicWordGlobal import *
 from toontown.catalog.CatalogFurnitureItem import *
 from toontown.catalog.CatalogItem import Customization, WindowPlacement, Location
 
-
 class DistributedHouseAI(DistributedObjectAI):
     notify = directNotify.newCategory("DistributedHouseAI")
 

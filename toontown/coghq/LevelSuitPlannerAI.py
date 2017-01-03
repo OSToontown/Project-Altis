@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.showbase import DirectObject
 from toontown.suit import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
-import LevelBattleManagerAI
+from toontown.coghq import LevelBattleManagerAI
 import types
 import random
 
@@ -108,6 +108,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         battle = self.battleMgr.getBattle(cellId)
         if not battle.suitCanJoin():
             return 0
+        
         return 1
 
     def requestBattle(self, suit, toonId):
@@ -216,7 +217,6 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
             if not addSuitToBlocker():
                 self.accept(self.getBattleBlockerEvent(newCell), addSuitToBlocker)
-        return
 
     def getBattleBlockerEvent(self, cellId):
         return 'battleBlockerAdded-' + str(self.level.doId) + '-' + str(cellId)

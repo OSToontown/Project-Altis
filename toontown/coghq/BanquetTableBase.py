@@ -1,5 +1,4 @@
 
-
 class BanquetTableBase:
     HUNGRY = 1
     DEAD = 0

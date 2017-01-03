@@ -2,9 +2,9 @@ from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
-import DistributedCloset
-import ClosetGlobals
-import TrunkGUI
+from toontown.estate import DistributedCloset
+from toontown.estate import ClosetGlobals
+from toontown.estate import TrunkGUI
 from toontown.toon import ToonDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -87,7 +87,6 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
             self.lid = lNode
         if not lNode.isEmpty():
             self.scale = lLid.getScale()[0] * 0.6
-        return
 
     def popupChangeClothesGUI(self, task):
         self.notify.debug('popupChangeClothesGUI')
@@ -164,7 +163,6 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
         if self.popupInfo != None:
             self.popupInfo.destroy()
             self.popupInfo = None
-        return
 
     def __handleSwapHat(self):
         item = self.av.getHat()
@@ -311,7 +309,6 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
                     if which & ToonDNA.SHOES:
                         self.av.setShoes(shoesIdx, shoesTexture, shoesColor)
                     self.av.generateToonAccessories()
-        return
 
     def __popupNotOwnerPanel(self):
         if self.popupInfo != None:
@@ -342,7 +339,6 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
         DirectButton(self.popupInfo, image=okButtonImage, relief=None, text=TTLocalizer.ClosetPopupOK, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(0.0, 0.0, -0.21), command=self._handleNotOwnerMessageOK)
         buttons.removeNode()
         self.popupInfo.reparentTo(aspect2d)
-        return
 
     def __popupAreYouSurePanel(self):
         if self.popupInfo != None:

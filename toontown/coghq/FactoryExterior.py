@@ -10,7 +10,6 @@ from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 
-
 class FactoryExterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('FactoryExterior')
 

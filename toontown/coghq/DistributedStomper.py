@@ -4,8 +4,8 @@ from StomperGlobals import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp
 import math
-import DistributedCrusherEntity
-import MovingPlatform
+from toontown.coghq import DistributedCrusherEntity
+from toontown.coghq import MovingPlatform
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals

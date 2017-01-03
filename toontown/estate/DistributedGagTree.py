@@ -6,12 +6,13 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.toonbase import TTLocalizer
-import GardenGlobals
-import HouseGlobals
+from toontown.estate import GardenGlobals
+from toontown.estate import HouseGlobals
 from direct.task import Task
 from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from toontown.estate import DistributedLawnDecor
+
 DIRT_AS_WATER_INDICATOR = True
 
 class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
@@ -31,7 +32,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.signHasBeenStuck2Ground = False
         self._teaserPanel = None
         self.setName('DistributedGagTree')
-        return
 
     def delete(self):
         DistributedPlantBase.DistributedPlantBase.delete(self)
@@ -44,7 +44,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         del self.sandMound
         self.signModel.removeNode()
         self.signModel = None
-        return
 
     def setTypeIndex(self, typeIndex):
         DistributedPlantBase.DistributedPlantBase.setTypeIndex(self, typeIndex)
@@ -153,7 +152,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
             self.doPicking()
         else:
             self.finishInteraction()
-        return
 
     def doPicking(self):
         if not self.canBePicked():

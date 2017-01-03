@@ -53,7 +53,6 @@ class InGameEditor(AppShell):
         self.accept('DIRECT_manipulateObjectCleanup', self.manipCleanupHook)
         self.accept('DIRECT_undo', self.manipCleanupHook)
         self.accept('DIRECT_redo', self.manipCleanupHook)
-        return
 
     def getEventMsgName(self, event):
         return 'InGameEditor%s_%s' % (self.level.getLevelId(), event)

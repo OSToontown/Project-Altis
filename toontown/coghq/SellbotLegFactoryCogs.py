@@ -1,4 +1,5 @@
-from SpecImports import *
+from toontown.coghq.SpecImports import *
+
 LobbyParent = 10014
 BoilerParent = 10030
 PipeLeftParent = 10023

@@ -1,5 +1,5 @@
 from panda3d.core import LVector3f, PandaNode
-import DNAGroup
+from toontown.dna import DNAGroup
 
 class DNANode(DNAGroup.DNAGroup):
     __slots__ = (

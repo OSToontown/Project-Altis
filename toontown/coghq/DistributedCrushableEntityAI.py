@@ -11,7 +11,6 @@ class DistributedCrushableEntityAI(DistributedEntityAI.DistributedEntityAI):
         self.grid = None
         self.width = 1
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
-        return
 
     def generate(self):
         DistributedEntityAI.DistributedEntityAI.generate(self)

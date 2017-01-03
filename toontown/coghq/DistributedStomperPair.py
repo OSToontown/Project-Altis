@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 import math
-import StomperGlobals
+from toontown.coghq import StomperGlobals
 from direct.directnotify import DirectNotifyGlobal
 from otp.level import BasicEntities
 
@@ -11,7 +11,6 @@ class DistributedStomperPair(BasicEntities.DistributedNodePathEntity):
     def __init__(self, cr):
         BasicEntities.DistributedNodePathEntity.__init__(self, cr)
         self.children = None
-        return
 
     def delete(self):
         BasicEntities.DistributedNodePathEntity.delete(self)

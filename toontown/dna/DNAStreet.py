@@ -1,12 +1,12 @@
 from panda3d.core import LVector4f
-import DNANode
-import DNAError
-import DNAUtil
+from toontown.dna import DNANode
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 
 class DNAStreet(DNANode.DNANode):
     __slots__ = (
         'code', 'streetTexture', 'sideWalkTexture', 'curbTexture', 'streetColor', 'sideWalkColor', 'curbColor',
-        'setTexCnt', 'setColCnt', 'sidewalkTexture')
+        'setTexCnt', 'setColCnt')
 
     COMPONENT_CODE = 19
 
@@ -69,7 +69,7 @@ class DNAStreet(DNANode.DNANode):
             self.streetTexture = texture
         
         if self.setTexCnt == 1:
-            self.sidewalkTexture = texture
+            self.sideWalkTexture = texture
         
         if self.setTexCnt == 2:
             self.curbTexture = texture
@@ -112,7 +112,7 @@ class DNAStreet(DNANode.DNANode):
         if streetTexture is None:
             raise DNAError.DNAError('street texture not found in DNAStorage : ' + self.streetTexture)
         
-        if sidewalkTexture is None:
+        if sideWalkTexture is None:
             raise DNAError.DNAError('sidewalk texture not found in DNAStorage : ' + self.sideWalkTexture)
         
         if curbTexture is None:
@@ -127,7 +127,7 @@ class DNAStreet(DNANode.DNANode):
             streetNode.setColorScale(self.streetColor, 0)
         
         if not sidewalkNode.isEmpty():
-            sidewalkNode.setTexture(sidewalkTexture, 1)
+            sidewalkNode.setTexture(sideWalkTexture, 1)
             sidewalkNode.setColorScale(self.sideWalkColor, 0)
         
         if not curbNode.isEmpty():

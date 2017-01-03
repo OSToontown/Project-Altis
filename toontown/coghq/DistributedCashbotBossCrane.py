@@ -1,3 +1,4 @@
+import random
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
@@ -10,7 +11,6 @@ from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
-import random
 from toontown.nametag import NametagGlobals
 
 class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):

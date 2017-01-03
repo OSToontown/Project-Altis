@@ -8,7 +8,6 @@ from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
 from toontown.hood import ZoneUtil
 from toontown.safezone import Train
 
-
 class CashbotHQExterior(CogHQExterior.CogHQExterior):
     notify = DirectNotifyGlobal.directNotify.newCategory('CashbotHQExterior')
     TrackZ = -67

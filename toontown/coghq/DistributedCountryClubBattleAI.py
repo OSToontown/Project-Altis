@@ -1,4 +1,4 @@
-import CogDisguiseGlobals
+from toontown.coghq import CogDisguiseGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -7,7 +7,6 @@ from toontown.battle.BattleBase import *
 from toontown.coghq import DistributedLevelBattleAI
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import getCountryClubCreditMultiplier
-
 
 class DistributedCountryClubBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCountryClubBattleAI')

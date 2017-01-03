@@ -9,10 +9,10 @@ from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from toontown.toon import ToonDNA
 from direct.fsm import ClassicFSM, State, StateData
-import ClosetGUI
+from toontown.estate import ClosetGUI
 from direct.task.Task import Task
-import ClosetGlobals
-import DistributedFurnitureItem
+from toontown.estate import ClosetGlobals
+from toontown.estate import DistributedFurnitureItem
 from toontown.toonbase import TTLocalizer
 
 class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
@@ -57,7 +57,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
          State.State('closed', self.enterClosed, self.exitClosed, ['open', 'off']),
          State.State('open', self.enterOpen, self.exitOpen, ['closed', 'off'])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def generate(self):
         DistributedFurnitureItem.DistributedFurnitureItem.generate(self)
@@ -117,7 +116,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             self.freeAvatar()
         self.ignoreAll()
         DistributedFurnitureItem.DistributedFurnitureItem.disable(self)
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -192,7 +190,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             self.accept('closetAsleep', self._handleCancel)
             self.sendUpdate('enterAvatar', [])
             self.hasLocalAvatar = 1
-        return
 
     def setState(self, mode, avId, ownerId, gender, topList, botList):
         self.notify.debug('setState, mode=%s, avId=%s, ownerId=%d' % (mode, avId, ownerId))
@@ -217,7 +214,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                     else:
                         taskMgr.doMethodLater(0.5, self.popupChangeClothesGUI, self.uniqueName('popupChangeClothesGUI'))
                 self.fsm.request('open')
-        return
 
     def _revertGender(self):
         if self.gender:
@@ -280,7 +276,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         if self.popupInfo != None:
             self.popupInfo.destroy()
             self.popupInfo = None
-        return
 
     def __handleSwap(self):
         self.d_setDNA(self.av.getStyle().makeNetString(), 0)
@@ -426,7 +421,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         DirectButton(self.popupInfo, image=okButtonImage, relief=None, text=TTLocalizer.ClosetPopupOK, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(0.0, 0.0, -0.16), command=self.__handleTimeoutMessageOK)
         buttons.removeNode()
         self.popupInfo.reparentTo(aspect2d)
-        return
 
     def __handleTimeoutMessageOK(self):
         self.popupInfo.reparentTo(hidden)
@@ -450,7 +444,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         DirectButton(self.popupInfo, image=okButtonImage, relief=None, text=TTLocalizer.ClosetPopupOK, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(0.0, 0.0, -0.21), command=self._handleNotOwnerMessageOK)
         buttons.removeNode()
         self.popupInfo.reparentTo(aspect2d)
-        return
 
     def _handleNotOwnerMessageOK(self):
         self.popupInfo.reparentTo(hidden)
@@ -468,7 +461,6 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         DirectButton(self.popupInfo, image=cancelButtonImage, relief=None, text=TTLocalizer.ClosetPopupCancel, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(0.1, 0.0, -0.21), command=self._handleNotSure)
         buttons.removeNode()
         self.popupInfo.reparentTo(aspect2d)
-        return
 
     def _handleYesImSure(self):
         self.popupInfo.reparentTo(hidden)

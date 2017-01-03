@@ -6,9 +6,8 @@ from direct.showbase import PythonUtil
 from direct.showutil import Rope
 from direct.task import Task
 from pandac.PandaModules import *
-
-import DistributedFurnitureItem
-import PhoneGlobals
+from toontown.estate import DistributedFurnitureItem
+from toontown.estate import PhoneGlobals
 from toontown.catalog import CatalogItem
 from toontown.catalog.CatalogGUI import CatalogGUI
 from toontown.catalog.CatalogItemListGUI import CatalogItemListGUI
@@ -17,7 +16,6 @@ from toontown.quest import Quests
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
-
 
 class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
     notify = directNotify.newCategory('DistributedPhone')

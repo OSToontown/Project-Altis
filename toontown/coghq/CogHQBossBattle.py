@@ -1,3 +1,4 @@
+import math
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -11,7 +12,6 @@ from toontown.battle import BattlePlace
 from toontown.suit import Suit
 from toontown.nametag.NametagGlobals import *
 from toontown.nametag import NametagGlobals
-import math
 
 class CogHQBossBattle(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQBossBattle')

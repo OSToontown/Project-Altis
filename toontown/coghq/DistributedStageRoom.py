@@ -5,9 +5,9 @@ from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import StageRoomBase, StageRoom
-import FactoryEntityCreator
-import StageRoomSpecs
+from toontown.coghq import StageRoomBase, StageRoom
+from toontown.coghq import FactoryEntityCreator
+from toontown.coghq import StageRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
 from toontown.nametag.NametagGlobals import *
@@ -16,7 +16,6 @@ if __dev__:
 
 def getStageRoomReadyPostName(doId):
     return 'stageRoomReady-%s' % doId
-
 
 class DistributedStageRoom(DistributedLevel.DistributedLevel, StageRoomBase.StageRoomBase, StageRoom.StageRoom):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStageRoom')

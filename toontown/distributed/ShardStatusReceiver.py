@@ -1,4 +1,6 @@
+
 class ShardStatusReceiver:
+
     def __init__(self, air):
         self.air = air
 

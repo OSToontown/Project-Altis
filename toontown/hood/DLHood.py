@@ -3,7 +3,6 @@ from toontown.town.DLTownLoader import DLTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
 
-
 class DLHood(ToonHood):
     notify = directNotify.newCategory('DLHood')
 

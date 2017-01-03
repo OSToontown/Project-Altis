@@ -1,4 +1,4 @@
-import FactorySpecs
+from toontown.coghq import FactorySpecs
 from otp.level import LevelSpec
 from toontown.toonbase import ToontownGlobals
 
@@ -21,7 +21,7 @@ class LawOfficeBase:
     if __dev__:
 
         def getEntityTypeReg(self):
-            import FactoryEntityTypes
+            from toontown.coghq import FactoryEntityTypes
             from otp.level import EntityTypeRegistry
             typeReg = EntityTypeRegistry.EntityTypeRegistry(FactoryEntityTypes)
             return typeReg

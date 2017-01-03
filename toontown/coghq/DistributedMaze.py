@@ -5,7 +5,7 @@ from toontown.toonbase.ToontownGlobals import *
 import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import globalClockDelta
-import DistributedBarrelBase
+from toontown.coghq import DistributedBarrelBase
 from otp.level.BasicEntities import DistributedNodePathEntity
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer

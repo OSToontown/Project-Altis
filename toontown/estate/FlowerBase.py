@@ -1,4 +1,4 @@
-import GardenGlobals
+from toontown.estate import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 

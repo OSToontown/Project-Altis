@@ -13,6 +13,7 @@ from direct.showbase import PythonUtil
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
+
 camPos50 = (Point3(0.0, -10.0, 50.0),
  Point3(0.0, -9.66, 49.06),
  Point3(0.0, 1.5, 12.38),

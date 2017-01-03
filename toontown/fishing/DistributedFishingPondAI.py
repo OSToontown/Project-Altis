@@ -3,7 +3,6 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.fishing import FishingTargetGlobals
 from toontown.fishing.DistributedFishingTargetAI import DistributedFishingTargetAI
 
-
 class DistributedFishingPondAI(DistributedObjectAI):
     notify = directNotify.newCategory("DistributedFishingPondAI")
 

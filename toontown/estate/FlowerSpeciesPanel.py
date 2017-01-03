@@ -3,8 +3,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
-import GardenGlobals
-import FlowerPhoto
+from toontown.estate import GardenGlobals
+from toontown.estate import FlowerPhoto
 from toontown.estate import BeanRecipeGui
 
 class FlowerSpeciesPanel(DirectFrame):
@@ -49,7 +49,6 @@ class FlowerSpeciesPanel(DirectFrame):
         self.setScale(1.2)
         albumGui.removeNode()
         self.beanRecipeGui = None
-        return
 
     def destroy(self):
         if self.flowerPanel:
@@ -58,7 +57,6 @@ class FlowerSpeciesPanel(DirectFrame):
         self.flowerCollection = None
         self.cleanupBeanRecipeGui()
         DirectFrame.destroy(self)
-        return
 
     def load(self):
         pass
@@ -103,7 +101,6 @@ class FlowerSpeciesPanel(DirectFrame):
         if self.beanRecipeGui is not None:
             self.beanRecipeGui.hide()
         DirectFrame.hide(self)
-        return
 
     def showRecipe(self):
         if base.localAvatar.flowerCollection.hasSpecies(self.species):
@@ -150,4 +147,3 @@ class FlowerSpeciesPanel(DirectFrame):
         if self.beanRecipeGui:
             self.beanRecipeGui.destroy()
             self.beanRecipeGui = None
-        return

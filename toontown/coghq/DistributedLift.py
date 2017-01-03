@@ -5,8 +5,8 @@ from otp.level import BasicEntities
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import LiftConstants
-import MovingPlatform
+from toontown.coghq import LiftConstants
+from toontown.coghq import MovingPlatform
 
 class DistributedLift(BasicEntities.DistributedNodePathEntity):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLift')

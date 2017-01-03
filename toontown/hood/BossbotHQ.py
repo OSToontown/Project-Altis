@@ -4,7 +4,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.hood.CogHood import CogHood
 from toontown.hood import ZoneUtil
 
-
 class BossbotHQ(CogHood):
     notify = directNotify.newCategory('BossbotHQ')
 

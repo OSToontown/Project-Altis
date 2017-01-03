@@ -61,7 +61,6 @@ class House(Place.Place):
          State.State('stopped', self.enterStopped, self.exitStopped, ['walk']),
          State.State('final', self.enterFinal, self.exitFinal, ['start', 'teleportIn'])], 'start', 'final')
         self.parentFSMState = parentFSMState
-        return
 
     def load(self):
         Place.Place.load(self)

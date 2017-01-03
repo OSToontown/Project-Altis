@@ -5,7 +5,7 @@ from direct.fsm import ClassicFSM
 from toontown.building import DistributedDoorAI
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
-import CogDisguiseGlobals
+from toontown.coghq import CogDisguiseGlobals
 from toontown.building import FADoorCodes
 from toontown.building import DoorTypes
 

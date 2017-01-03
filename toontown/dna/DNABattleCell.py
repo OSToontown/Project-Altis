@@ -1,4 +1,4 @@
-from DNAUtil import *
+from toontown.dna.DNAUtil import *
 
 class DNABattleCell(object):
     __slots__ = (

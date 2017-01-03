@@ -3,8 +3,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
-import GenusPanel
-import FishGlobals
+from toontown.fishing import GenusPanel
+from toontown.fishing import FishGlobals
 
 class FishBrowser(DirectScrolledList):
     notify = DirectNotifyGlobal.directNotify.newCategory('FishBrowser')

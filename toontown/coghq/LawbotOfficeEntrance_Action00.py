@@ -1,5 +1,6 @@
 from toontown.coghq.SpecImports import *
 import random
+
 GlobalEntities = {1000: {'type': 'levelMgr',
         'name': 'LevelMgr',
         'comment': '',

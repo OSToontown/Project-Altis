@@ -52,7 +52,6 @@ class MoleHill(NodePath):
             self.downIval.pause()
             self.downIval = None
         self.removeNode()
-        return
 
     def switchUp(self):
         self.isUp = 1
@@ -115,7 +114,6 @@ class MoleHill(NodePath):
         else:
             self.popIval = Sequence(Func(self.setHillType, moleType), LerpPosInterval(self.mole, timeToMoveUp, Point3(0, 0, 0.0)), Func(self.moleColNodePath.unstash), Wait(timeToStayUp), Func(self.stashMoleCollision), LerpPosInterval(self.mole, timeToMoveDown, Point3(0, 0, -2.5)), Func(self.switchDown))
         self.popIval.start()
-        return
 
     def setGameStartTime(self, gameStartTime):
         self.gameStartTime = gameStartTime
@@ -137,7 +135,6 @@ class MoleHill(NodePath):
             self.downIval.pause()
         self.downIval = Sequence(Func(self.stashMoleCollision), LerpPosInterval(self.mole, 1, Point3(0, 0, -2.5)), Func(self.switchDown))
         self.downIval.start()
-        return
 
     def forceMoleDown(self):
         if self.popIval:
@@ -149,4 +146,3 @@ class MoleHill(NodePath):
         self.stashMoleCollision()
         self.switchDown()
         self.mole.setPos(0, 0, -2.5)
-        return

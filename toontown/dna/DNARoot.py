@@ -1,7 +1,7 @@
-from DNAGroup import DNAGroup
-from parser import *
-from tokens import *
-from ply import yacc
+from toontown.dna.DNAGroup import DNAGroup
+from toontown.dna.parser import *
+from toontown.dna.tokens import *
+from toontown.dna.ply import yacc
 
 class DNARoot(DNAGroup):
     __slots__ = (

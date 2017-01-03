@@ -1,3 +1,4 @@
+import random
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleBase import *
@@ -6,7 +7,6 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.battle import SuitBattleGlobals
-import random
 from toontown.suit import SuitDNA
 from direct.fsm import State
 from direct.fsm import ClassicFSM, State

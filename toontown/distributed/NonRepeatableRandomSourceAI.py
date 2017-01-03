@@ -21,7 +21,6 @@ class NonRepeatableRandomSourceAI(DistributedObjectAI):
         self.removeTask(self._sampleTask)
         self._sampleTask = None
         DistributedObjectAI.delete(self)
-        return
 
     def _sampleRandomTask(self, task = None):
         self._sampleRandom()
@@ -42,7 +41,6 @@ class NonRepeatableRandomSourceAI(DistributedObjectAI):
          'NonRepeatableRandomSource',
          context,
          num])
-        return
 
     def getRandomSamplesReply(self, context, samples):
         callback, = self._requests.pop(context)

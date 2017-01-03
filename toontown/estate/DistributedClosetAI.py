@@ -1,8 +1,7 @@
 from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemAI
 from toontown.toon.ToonDNA import ToonDNA
 from direct.distributed.ClockDelta import globalClockDelta
-import ClosetGlobals
-
+from toontown.estate import ClosetGlobals
 
 class DistributedClosetAI(DistributedFurnitureItemAI):
     notify = directNotify.newCategory('DistributedClosetAI')

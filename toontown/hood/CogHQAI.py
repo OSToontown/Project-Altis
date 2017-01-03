@@ -5,7 +5,6 @@ from toontown.coghq import LobbyManagerAI
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
-
 class CogHQAI:
     notify = directNotify.newCategory('CogHQAI')
     notify.setInfo(True)

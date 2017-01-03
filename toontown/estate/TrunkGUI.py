@@ -4,7 +4,7 @@ from pandac.PandaModules import *
 from direct.distributed import ClockDelta
 from direct.fsm import StateData
 from direct.task.Task import Task
-import ClosetGlobals
+from toontown.estate import ClosetGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
@@ -31,7 +31,6 @@ class TrunkGUI(StateData.StateData):
         self.cancelEvent = cancelEvent
         self.genderChange = 0
         self.verify = None
-        return
 
     def load(self):
         self.gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
@@ -103,7 +102,6 @@ class TrunkGUI(StateData.StateData):
             self.shoesTrashButton = addTrashButton(-0.4, TTLocalizer.TrunkDeleteShoes, ToonDNA.SHOES)
             self.button = DirectButton(relief=None, image=(self.gui.find('**/CrtAtoon_Btn1_UP'), self.gui.find('**/CrtAtoon_Btn1_DOWN'), self.gui.find('**/CrtAtoon_Btn1_RLLVR')), pos=(-0.15, 0, -0.85), command=self.__handleButton, text=('', TTLocalizer.MakeAToonDone, TTLocalizer.MakeAToonDone), text_font=ToontownGlobals.getInterfaceFont(), text_scale=0.08, text_pos=(0, -0.03), text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1))
             trashcanGui.removeNode()
-        return
 
     def unload(self):
         taskMgr.remove(self.taskName('rotateL'))
@@ -226,7 +224,6 @@ class TrunkGUI(StateData.StateData):
     def setupButtons(self):
         self.acceptOnce('last', self.__handleBackward)
         self.acceptOnce('next', self.__handleForward)
-        return None
 
     def setupScrollInterface(self):
         self.notify.debug('setupScrollInterface')
@@ -292,7 +289,6 @@ class TrunkGUI(StateData.StateData):
         self.swapShoes(0)
         self.updateTrashButtons()
         self.setupButtons()
-        return
 
     def updateTrashButtons(self):
         if not self.isOwner:
@@ -546,7 +542,6 @@ class TrunkGUI(StateData.StateData):
         if status == 'ok':
             messenger.send(self.deleteEvent, [which])
         messenger.send('wakeup')
-        return
 
     def taskName(self, idString):
         return idString + '-TrunkGUI'

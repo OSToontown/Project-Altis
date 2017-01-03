@@ -16,8 +16,8 @@ import random
 import cPickle
 from direct.showbase import PythonUtil
 from toontown.hood import Place
-import Estate
-import HouseGlobals
+from toontown.estate import Estate
+from toontown.estate import HouseGlobals
 
 class DistributedGarden(DistributedObject.DistributedObject):
     notify = directNotify.newCategory('DistributedGarden')
@@ -36,7 +36,6 @@ class DistributedGarden(DistributedObject.DistributedObject):
 
         self.dx = 1.0 / self.gridCells
         self.occupied = []
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -59,7 +58,6 @@ class DistributedGarden(DistributedObject.DistributedObject):
         del self.props
         self.props = None
         self.unload()
-        return
 
     def sendNewProp(self, prop, x, y, z):
         self.notify.debug('sendNewProp')

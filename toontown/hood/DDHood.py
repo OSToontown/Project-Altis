@@ -1,10 +1,8 @@
 from pandac.PandaModules import Vec4
-
 from toontown.safezone.DDSafeZoneLoader import DDSafeZoneLoader
 from toontown.town.DDTownLoader import DDTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
-
 
 class DDHood(ToonHood):
     notify = directNotify.newCategory('DDHood')

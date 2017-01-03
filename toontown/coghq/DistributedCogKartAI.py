@@ -4,7 +4,6 @@ from toontown.building import ElevatorConstants
 from toontown.safezone import DistributedGolfKartAI
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedCogKartAI(DistributedElevatorExtAI.DistributedElevatorExtAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCogKartAI')
 

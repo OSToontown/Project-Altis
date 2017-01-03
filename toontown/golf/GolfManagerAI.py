@@ -3,15 +3,12 @@ from direct.showbase import DirectObject
 from pandac.PandaModules import *
 from toontown.golf import DistributedGolfCourseAI
 
-
 RequestHole = {}
-
 
 def GolfManagerAI():
     if not hasattr(simbase, 'golf'):
         simbase.golf = __GolfManagerAI()
     return simbase.golf
-
 
 class __GolfManagerAI(DirectObject.DirectObject):
     notify = directNotify.newCategory('GolfManagerAI')

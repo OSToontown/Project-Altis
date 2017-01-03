@@ -1,8 +1,6 @@
 
-
 def stubFunction(*args):
     pass
-
 
 class LockBase:
     stateNames = ['off',
@@ -15,7 +13,6 @@ class LockBase:
      None,
      4.0,
      None]
-
 
 class DistributedDoorEntityBase:
     stateNames = ['off',

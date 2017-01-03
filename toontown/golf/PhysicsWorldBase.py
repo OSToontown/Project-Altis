@@ -9,7 +9,7 @@ from toontown.minigame import ArrowKeys
 from direct.showbase import PythonUtil
 from direct.task import Task
 from direct.distributed.ClockDelta import *
-import BuildGeometry
+from toontown.golf import BuildGeometry
 from toontown.golf import GolfGlobals
 import random, time
 
@@ -171,7 +171,6 @@ class PhysicsWorldBase:
             self.notify.debug('SET cycle time %s' % ((globalClock.getRealTime() + self.timingCycleOffset) % self.timingCycleLength))
 
     def getSimCycleTime(self):
-        return
         return self.timingSimTime % self.timingCycleLength
 
     def startSim(self):
@@ -264,8 +263,6 @@ class PhysicsWorldBase:
                             self.commonObjectInfoDict[key] = event
 
                 motor.setParamVel(force)
-
-        return
 
     def commonObjectEvent(self, key, model, type, force, event):
         self.notify.debug('commonObjectForceEvent %s %s %s %s %s' % (key,

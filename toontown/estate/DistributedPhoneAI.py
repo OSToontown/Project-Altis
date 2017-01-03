@@ -5,8 +5,7 @@ from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 from toontown.catalog.CatalogItemList import CatalogItemList
 from direct.distributed.ClockDelta import *
 import time
-import PhoneGlobals
-
+from toontown.estate import PhoneGlobals
 
 class DistributedPhoneAI(DistributedFurnitureItemAI):
     notify = directNotify.newCategory('DistributedPhoneAI')

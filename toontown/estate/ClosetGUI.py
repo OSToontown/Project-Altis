@@ -2,7 +2,7 @@ from direct.showbase.PythonUtil import Functor
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.makeatoon import ClothesGUI
-import ClosetGlobals
+from toontown.estate import ClosetGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
@@ -36,7 +36,6 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
             self.bottomTrashButton = DirectButton(parent=self.trashPanel, image=trashImage, relief=None, textMayChange=1, pos=(-0.09, 0, -0.2), command=self.__handleDelete, extraArgs=[ClosetGlobals.SHORTS], scale=(0.5, 0.5, 0.5), text=TTLocalizer.ClosetDeleteShorts, text_font=ToontownGlobals.getInterfaceFont(), text_scale=0.12, text_pos=(0.3, 0), text_fg=(0.8, 0.2, 0.2, 1), text_shadow=(0, 0, 0, 1))
             self.button = DirectButton(relief=None, image=(self.gui.find('**/CrtAtoon_Btn1_UP'), self.gui.find('**/CrtAtoon_Btn1_DOWN'), self.gui.find('**/CrtAtoon_Btn1_RLLVR')), pos=(-0.15, 0, -0.85), command=self.__handleButton, text=('', TTLocalizer.MakeAToonDone, TTLocalizer.MakeAToonDone), text_font=ToontownGlobals.getInterfaceFont(), text_scale=0.08, text_pos=(0, -0.03), text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1))
             trashcanGui.removeNode()
-        return
 
     def unload(self):
         self.ignore('verifyDone')
@@ -108,7 +107,6 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         if self.isOwner:
             self.updateTrashButtons()
         self.setupButtons()
-        return
 
     def updateTrashButtons(self):
         if len(self.tops) < 2:
@@ -219,4 +217,3 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
         if status == 'ok':
             messenger.send(self.deleteEvent, [t_or_b])
         messenger.send('wakeup')
-        return

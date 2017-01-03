@@ -54,7 +54,6 @@ class PathMasterEntity(PathEntity.PathEntity):
             self.pathTarget7 = None
         else:
             self.pathTargetList[7] = self.pathTarget7
-        return
 
     def destroy(self):
         PathEntity.PathEntity.destroy(self)

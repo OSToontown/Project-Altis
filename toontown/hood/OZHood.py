@@ -1,9 +1,7 @@
 from pandac.PandaModules import Vec4
-
 from toontown.safezone.OZSafeZoneLoader import OZSafeZoneLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
-
 
 class OZHood(ToonHood):
     notify = directNotify.newCategory('OZHood')

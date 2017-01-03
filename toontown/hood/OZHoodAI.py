@@ -8,8 +8,8 @@ from toontown.safezone.DistributedPicnicBasketAI import DistributedPicnicBasketA
 from toontown.safezone import DistributedGameTableAI
 from toontown.hood import ZoneUtil
 
-
 class OZHoodAI(HoodAI.HoodAI):
+    
     def __init__(self, air):
         HoodAI.HoodAI.__init__(self, air,
                                ToontownGlobals.OutdoorZone,

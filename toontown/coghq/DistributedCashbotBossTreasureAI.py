@@ -1,5 +1,6 @@
 class DistributedCashbotBossTreasureAI:
     pass
+
 '''from toontown.safezone import DistributedSZTreasureAI
 
 class DistributedCashbotBossTreasureAI(DistributedSZTreasureAI.DistributedSZTreasureAI):

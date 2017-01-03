@@ -8,7 +8,6 @@ from toontown.coghq import StageRoomBase, LevelSuitPlannerAI
 from toontown.suit import DistributedStageSuitAI
 from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals
 
-
 class DistributedStageRoomAI(DistributedLevelAI.DistributedLevelAI, StageRoomBase.StageRoomBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStageRoomAI')
 

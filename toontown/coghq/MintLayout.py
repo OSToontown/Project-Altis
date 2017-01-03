@@ -836,8 +836,6 @@ class MintLayout:
         else:
             return
 
-        return
-
     def __str__(self):
         return 'MintLayout: id=%s, floor=%s, numRooms=%s, numBattles=%s' % (self.mintId,
          self.floorNum,

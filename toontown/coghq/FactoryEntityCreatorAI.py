@@ -1,29 +1,29 @@
 from otp.level import EntityCreatorAI
 from direct.showbase.PythonUtil import Functor
-import DistributedBeanBarrelAI
-import DistributedButtonAI
-import DistributedCrateAI
-import DistributedLiftAI
-import DistributedDoorEntityAI
-import DistributedGagBarrelAI
-import DistributedGridAI
+from toontown.coghq import DistributedBeanBarrelAI
+from toontown.coghq import DistributedButtonAI
+from toontown.coghq import DistributedCrateAI
+from toontown.coghq import DistributedLiftAI
+from toontown.coghq import DistributedDoorEntityAI
+from toontown.coghq import DistributedGagBarrelAI
+from toontown.coghq import DistributedGridAI
 from toontown.suit import DistributedGridGoonAI
 from toontown.suit import DistributedGoonAI
-import DistributedHealBarrelAI
-import DistributedStomperPairAI
-import DistributedTriggerAI
-import DistributedStomperAI
-import DistributedLaserFieldAI
-import DistributedSecurityCameraAI
-import DistributedMoverAI
-import DistributedElevatorMarkerAI
-import DistributedSinkingPlatformAI
-import ActiveCellAI
-import CrusherCellAI
-import DirectionalCellAI
-import FactoryLevelMgrAI
-import BattleBlockerAI
-import DistributedGolfGreenGameAI
+from toontown.coghq import DistributedHealBarrelAI
+from toontown.coghq import DistributedStomperPairAI
+from toontown.coghq import DistributedTriggerAI
+from toontown.coghq import DistributedStomperAI
+from toontown.coghq import DistributedLaserFieldAI
+from toontown.coghq import DistributedSecurityCameraAI
+from toontown.coghq import DistributedMoverAI
+from toontown.coghq import DistributedElevatorMarkerAI
+from toontown.coghq import DistributedSinkingPlatformAI
+from toontown.coghq import ActiveCellAI
+from toontown.coghq import CrusherCellAI
+from toontown.coghq import DirectionalCellAI
+from toontown.coghq import FactoryLevelMgrAI
+from toontown.coghq import BattleBlockerAI
+from toontown.coghq import DistributedGolfGreenGameAI
 from toontown.coghq import DistributedMoleFieldAI
 from toontown.coghq import DistributedMazeAI
 

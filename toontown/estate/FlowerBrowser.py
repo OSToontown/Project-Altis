@@ -3,8 +3,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
-import FlowerSpeciesPanel
-import GardenGlobals
+from toontown.estate import FlowerSpeciesPanel
+from toontown.estate import GardenGlobals
 
 class FlowerBrowser(DirectScrolledList):
     notify = DirectNotifyGlobal.directNotify.newCategory('FlowerBrowser')
@@ -44,7 +44,6 @@ class FlowerBrowser(DirectScrolledList):
     def destroy(self):
         DirectScrolledList.destroy(self)
         self.parent = None
-        return
 
     def update(self):
         pass

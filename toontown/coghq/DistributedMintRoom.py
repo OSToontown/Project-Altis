@@ -3,23 +3,20 @@ from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 import random
-
-import FactoryEntityCreator
-import MintRoomBase, MintRoom
-import MintRoomSpecs
+from toontown.coghq import FactoryEntityCreator
+from toontown.coghq import MintRoomBase, MintRoom
+from toontown.coghq import MintRoomSpecs
 from otp.level import DistributedLevel
 from otp.level import LevelSpec, LevelConstants
 from toontown.nametag.NametagGlobals import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase.ToontownGlobals import *
 
-
 if __dev__:
     from otp.level import EditorGlobals
 
 def getMintRoomReadyPostName(doId):
     return 'mintRoomReady-%s' % doId
-
 
 class DistributedMintRoom(DistributedLevel.DistributedLevel, MintRoomBase.MintRoomBase, MintRoom.MintRoom):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMintRoom')
@@ -36,7 +33,6 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel, MintRoomBase.MintRo
         self.suitsInitialized = 0
         self.goonClipPlanes = {}
         self.mint = None
-        return
 
     def createEntityCreator(self):
         return FactoryEntityCreator.FactoryEntityCreator(level=self)

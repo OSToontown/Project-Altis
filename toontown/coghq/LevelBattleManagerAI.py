@@ -13,7 +13,6 @@ class LevelBattleManagerAI(BattleManagerAI.BattleManagerAI):
         if battleExpAggreg is None:
             battleExpAggreg = BattleExperienceAggregatorAI.BattleExperienceAggregatorAI()
         self.battleExpAggreg = battleExpAggreg
-        return
 
     def destroyBattleMgr(self):
         battles = self.cellId2battle.values()
@@ -27,7 +26,6 @@ class LevelBattleManagerAI(BattleManagerAI.BattleManagerAI):
         del self.battleBlockers
         del self.cellId2battle
         del self.battleExpAggreg
-        return
 
     def newBattle(self, cellId, zoneId, pos, suit, toonId, roundCallback = None, finishCallback = None, maxSuits = 4):
         battle = self.cellId2battle.get(cellId, None)

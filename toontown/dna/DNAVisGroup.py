@@ -1,7 +1,7 @@
 from panda3d.core import LVector3f
-import DNAGroup
-import DNABattleCell
-import DNAUtil
+from toontown.dna import DNAGroup
+from toontown.dna import DNABattleCell
+from toontown.dna import DNAUtil
 
 class DNAVisGroup(DNAGroup.DNAGroup):
     __slots__ = (

@@ -105,7 +105,6 @@ class PlayGame(StateData.StateData):
         self.hood = None
         self.quietZoneDoneEvent = uniqueName('quietZoneDone')
         self.quietZoneStateData = None
-        return
 
     def enter(self, hoodId, zoneId, avId):
         if hoodId == ToontownGlobals.Tutorial:
@@ -127,7 +126,6 @@ class PlayGame(StateData.StateData):
           'zoneId': zoneId,
           'shardId': None,
           'avId': avId}])
-        return
 
     def exit(self):
         if base.placeBeforeObjects and self.quietZoneStateData:
@@ -135,7 +133,6 @@ class PlayGame(StateData.StateData):
             self.quietZoneStateData.unload()
             self.quietZoneStateData = None
         self.ignore(self.quietZoneDoneEvent)
-        return
 
     def load(self):
         pass
@@ -197,7 +194,6 @@ class PlayGame(StateData.StateData):
             self.fsm.request('quietZone', [doneStatus])
         else:
             self.notify.error('Exited hood with unexpected mode %s' % how)
-        return
 
     def _destroyHood(self):
         self.unload()
@@ -221,7 +217,6 @@ class PlayGame(StateData.StateData):
             self.quietZoneStateData.exit()
             self.quietZoneStateData.unload()
             self.quietZoneStateData = None
-        return
 
     def handleWaitForSetZoneResponse(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -276,7 +271,6 @@ class PlayGame(StateData.StateData):
         self.hood.loadLoader(requestStatus)
         if not base.placeBeforeObjects:
             loader.endBulkLoad('hood')
-        return
 
     def handleLeftQuietZone(self):
         status = self.quietZoneStateData.getRequestStatus()
@@ -292,7 +286,6 @@ class PlayGame(StateData.StateData):
             loader.endBulkLoad('hood')
         else:
             self.handleLeftQuietZone()
-        return
 
     def enterTTHood(self, requestStatus):
         self.accept(self.hoodDoneEvent, self.handleHoodDone)
@@ -423,11 +416,11 @@ class PlayGame(StateData.StateData):
          'how': 'teleportIn',
          'shardId': None}
         self.acceptOnce('setLocalEstateZone', self.goHome)
-        if avId > 0:
+
+        if avId:
             base.cr.estateMgr.getLocalEstateZone(avId)
         else:
             base.cr.estateMgr.getLocalEstateZone(base.localAvatar.getDoId())
-        return
 
     def goHome(self, ownerId, zoneId):
         self.notify.debug('goHome ownerId = %s' % ownerId)
@@ -446,7 +439,6 @@ class PlayGame(StateData.StateData):
             self.doneStatus['where'] = 'estate'
         self.doneStatus['ownerId'] = ownerId
         self.fsm.request('quietZone', [self.doneStatus])
-        return
 
     def goHomeFailed(self, task):
         self.notify.debug('goHomeFailed')
@@ -562,4 +554,3 @@ class PlayGame(StateData.StateData):
             return self.hood.hoodId
         else:
             return None
-        return None

@@ -1,5 +1,5 @@
-import DNAProp
-from DNAUtil import *
+from toontown.dna import DNAProp
+from toontown.dna.DNAUtil import *
 
 class DNAAnimProp(DNAProp.DNAProp):
     __slots__ = (

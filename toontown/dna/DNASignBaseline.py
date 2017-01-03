@@ -1,5 +1,5 @@
 from panda3d.core import BamFile, NodePath, StringStream, decompressString
-import DNANode
+from toontown.dna import DNANode
 
 class DNASignBaseline(DNANode.DNANode):
     __slots__ = (

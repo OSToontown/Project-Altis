@@ -1,4 +1,4 @@
-from CrateGlobals import *
+from toontown.coghq.CrateGlobals import *
 from otp.level import DistributedEntityAI
 from direct.directnotify import DirectNotifyGlobal
 
@@ -27,7 +27,6 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
                     self.gridCells[i][j] = []
 
             self.initialized = 1
-        return
 
     def addActiveCell(self, cell):
         self.activeCellList.append(cell)
@@ -42,7 +41,6 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
                 self.notify.debug('row/col out of range %s/%s' % (row, col))
         else:
             self.notify.debug("didn't have record of obj")
-        return
 
     def addObjectByPos(self, objId, pos, width = 1):
         if not self.initialized:
@@ -73,8 +71,6 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
             col = min(col, self.numRow)
             col = max(0, col)
             return self.addObjectByRowCol(objId, row, col)
-
-        return
 
     def addObjectByRowCol(self, objId, row, col):
         if row >= 0 and row < self.numRow - 1 and col >= 0 and col < self.numCol - 1:

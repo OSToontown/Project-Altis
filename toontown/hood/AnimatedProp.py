@@ -1,6 +1,5 @@
 from direct.showbase.DirectObject import DirectObject
 
-
 class AnimatedProp(DirectObject):
     notify = directNotify.newCategory('AnimatedProp')
 

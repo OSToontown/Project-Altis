@@ -1,6 +1,6 @@
 import math
 import random
-import GenericAnimatedProp
+from toontown.hood import GenericAnimatedProp
 from direct.actor import Actor
 from direct.interval.IntervalGlobal import Sequence, ActorInterval, Wait, Func, SoundInterval, Parallel
 from direct.fsm import FSM

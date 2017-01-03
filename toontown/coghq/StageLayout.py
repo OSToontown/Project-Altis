@@ -627,6 +627,7 @@ class StageLayout:
         self.numHallways = self.numRooms - 1
         hallwayRng = self.getRng()
         connectorRoomNames = StageRoomSpecs.CashbotStageConnectorRooms
+        
         for i in xrange(self.numHallways):
             self.hallways.append(hallwayRng.choice(connectorRoomNames))
 

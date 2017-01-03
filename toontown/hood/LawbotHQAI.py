@@ -7,8 +7,8 @@ from toontown.suit import DistributedLawbotBossAI
 from toontown.suit import DistributedSuitPlannerAI
 from toontown.toonbase import ToontownGlobals
 
-
 class LawbotHQAI(CogHQAI.CogHQAI):
+    
     def __init__(self, air):
         CogHQAI.CogHQAI.__init__(
             self, air, ToontownGlobals.LawbotHQ, ToontownGlobals.LawbotLobby,

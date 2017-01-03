@@ -6,8 +6,8 @@ import random
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
-import HouseGlobals
-import Estate
+from toontown.estate import HouseGlobals
+from toontown.estate import Estate
 
 class EstateManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('EstateManager')
@@ -17,7 +17,6 @@ class EstateManager(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.availableZones = 0
         self.popupInfo = None
-        return
 
     def disable(self):
         self.notify.debug("i'm disabling EstateManager rightnow.")
@@ -27,7 +26,6 @@ class EstateManager(DistributedObject.DistributedObject):
             self.popupInfo.destroy()
             self.popupInfo = None
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def allocateMyEstateZone(self):
         self.getLocalEstateZone(base.localAvatar.getDoId())

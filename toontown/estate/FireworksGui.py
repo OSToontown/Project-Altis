@@ -2,7 +2,7 @@ from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
-import FireworkItemPanel
+from toontown.estate import FireworkItemPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.effects import FireworkGlobals
 from toontown.effects import Fireworks
@@ -19,7 +19,6 @@ class FireworksGui(DirectFrame):
         self.itemList = []
         self.type = None
         self.load()
-        return
 
     def load(self):
         itemTypes = [0,
@@ -60,7 +59,6 @@ class FireworksGui(DirectFrame):
             self.colorButtons.append([button, buttonBg])
 
         self.__initColor(0)
-        return
 
     def unload(self):
         del self.parent

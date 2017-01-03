@@ -1,6 +1,5 @@
 from toontown.coghq.SpecImports import *
 
-
 GlobalEntities = {
     1000: {
         'type': 'levelMgr',

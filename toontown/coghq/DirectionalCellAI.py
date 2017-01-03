@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
-import ActiveCellAI
-import CrateGlobals
+from toontown.coghq import ActiveCellAI
+from toontown.coghq import CrateGlobals
 from direct.task import Task
 
 class DirectionalCellAI(ActiveCellAI.ActiveCellAI):
@@ -10,7 +10,6 @@ class DirectionalCellAI(ActiveCellAI.ActiveCellAI):
         self.dir = [0, 0]
         ActiveCellAI.ActiveCellAI.__init__(self, level, entId)
         self.moveTrack = None
-        return
 
     def delete(self):
         if self.moveTrack:
@@ -18,7 +17,6 @@ class DirectionalCellAI(ActiveCellAI.ActiveCellAI):
             del self.moveTrack
             self.moveTrack = None
         taskMgr.remove(self.taskName('moveTask'))
-        return
 
     def setState(self, state, objId = None):
         ActiveCellAI.ActiveCellAI.setState(self, state, objId)

@@ -1,8 +1,8 @@
-import DistributedLawnDecor
+from toontown.estate import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
 from direct.interval.IntervalGlobal import *
-import GardenGlobals
+from toontown.estate import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI

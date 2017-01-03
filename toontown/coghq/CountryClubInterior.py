@@ -1,3 +1,4 @@
+import random
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
@@ -15,7 +16,6 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.coghq import DistributedCountryClub
 from toontown.building import Elevator
 from toontown.nametag import NametagGlobals
-import random
 
 class CountryClubInterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('CountryClubInterior')

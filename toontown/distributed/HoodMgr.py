@@ -2,10 +2,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from pandac.PandaModules import *
 import random
-
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
-
 
 class HoodMgr(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('HoodMgr')

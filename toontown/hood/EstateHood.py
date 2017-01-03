@@ -12,7 +12,6 @@ from toontown.estate.EstateLoader import EstateLoader
 from toontown.estate import HouseGlobals
 from toontown.hood import ZoneUtil
 
-
 class EstateHood(Hood):
     notify = directNotify.newCategory('EstateHood')
 

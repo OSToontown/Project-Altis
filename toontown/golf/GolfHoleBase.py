@@ -25,7 +25,6 @@ class GolfHoleBase:
         self.frame = 0
         self.onSlick = 0
         self.didHoleBreak = 0
-        return
 
     def loadLevel(self):
         tm = self.holeInfo['terrainModel']

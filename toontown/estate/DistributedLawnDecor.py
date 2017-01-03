@@ -47,7 +47,6 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.shadowScale = 1
         self.expectingReplacement = 0
         self.movie = None
-        return
 
     def setHeading(self, h):
         self.notify.debug('setting h')
@@ -98,7 +97,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             self.model = loader.loadModel(self.defaultModel)
             self.model.setScale(0.4, 0.4, 0.1)
             self.model.reparentTo(self.rotateNode)
-        return
+
 
     def setupShadow(self):
         self.shadowJoint = self.rotateNode.attachNewNode('shadow')

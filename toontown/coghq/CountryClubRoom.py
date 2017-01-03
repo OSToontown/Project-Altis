@@ -1,10 +1,10 @@
+import random
 from pandac.PandaModules import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import CountryClubRoomSpecs
 from direct.directnotify import DirectNotifyGlobal
-import random
 
 class CountryClubRoom(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('CountryClubRoom')

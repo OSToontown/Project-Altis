@@ -7,6 +7,7 @@ from direct.task import Task
 from toontown.estate import GardenGlobals
 from direct.interval.IntervalGlobal import *
 from toontown.estate import SpecialsPhoto
+
 USE_SCROLLING_BEAN_BOX = False
 JELLY_BEAN_PICKER_HAS_EMPTY_BOX = False
 CAN_CHANGE_BEAN_COLOR = True
@@ -54,8 +55,6 @@ class GenericBoxScrollList(DirectScrolledList):
         self.defineoptions(kw, optiondefs)
         DirectScrolledList.__init__(self, parent, forceHeight=self.forceHeight)
         self.initialiseoptions(GenericBoxScrollList)
-        return None
-
 
 class BoxItem(NodePath):
 
@@ -104,7 +103,6 @@ class JellyBeanPicker(DirectFrame):
             beanParent = newBox.attachNewNode('bean_%d' % beanIndex)
             loadJellyBean(beanParent, beanIndex)
         self.jellyBeanBoxList.append(newBox)
-        return
 
     def setColorText(self):
         for beanIndex in xrange(len(self.jellyBeanBoxList)):
@@ -143,6 +141,7 @@ class SpiffyBeanBox(DirectButton):
     def getSelectedIndex(self):
         if hasattr(self, 'selectedIndex'):
             return self.selectedIndex
+        
         return 0
 
     def setSelectedIndex(self, newIndex):
@@ -189,7 +188,6 @@ class PlantingGUI(DirectFrame):
         self.matchBoxesToAvailableMoney()
         if PICKER_ALWAYS_UP:
             self.spiffyBeanBoxClicked(0)
-        return
 
     def destroy(self):
         if self.boxList:
@@ -210,7 +208,6 @@ class PlantingGUI(DirectFrame):
                 photo.destroy()
 
             self.specialPhotoList = []
-        return
 
     def __cancel(self):
         messenger.send(self.doneEvent, [0, '', -1])
@@ -290,7 +287,6 @@ class PlantingGUI(DirectFrame):
                 self.specialPhotoList.append(specialsPhoto)
 
         self.specialButton = GenericBoxScrollList(self.specialButtonFrame, items, incButton_pos=(0, 0, -0.135), incButton_scale=(0.75, 1.0, -1.0), decButton_pos=(0, 0, 0.135), decButton_scale=(0.75, 1.0, 1.0), command=self.photoSpecialChanged)
-        return
 
     def photoSpecialChanged(self):
         if not hasattr(self, 'specialButton'):

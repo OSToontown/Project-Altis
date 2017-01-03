@@ -4,7 +4,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.effects import FireworkGlobals
 from toontown.effects import Fireworks
-import FireworksGui
+from toontown.estate import FireworksGui
 
 class FireworkItemPanel(DirectFrame):
 
@@ -16,7 +16,6 @@ class FireworkItemPanel(DirectFrame):
         DirectFrame.__init__(self, image=DGG.getDefaultDialogGeom(), image_color=(0.75, 0.75, 0.75, 1), image_scale=(0.25, 0, 0.25), relief=None)
         self.initialiseoptions(FireworkItemPanel)
         self.load()
-        return
 
     def load(self):
         self.picture = DirectButton(parent=self, image=(DGG.getDefaultDialogGeom(), DGG.getDefaultDialogGeom(), DGG.getDefaultDialogGeom()), relief=None, command=self.__launchFirework, extraArgs=[self.type], image_color=(0.8, 0.9, 1, 1))
@@ -26,7 +25,6 @@ class FireworkItemPanel(DirectFrame):
         panelWidth = 7
         nameFont = ToontownGlobals.getInterfaceFont()
         self.quantityLabel = DirectLabel(parent=self.picture, relief=None, pos=(0, 0, 0.0), scale=0.45, text=self.name, text_scale=0.6, text_fg=(0, 0, 0, 1), text_pos=(0, -.14, 0), text_font=nameFont, text_wordwrap=panelWidth)
-        return
 
     def unload(self):
         del self.picture

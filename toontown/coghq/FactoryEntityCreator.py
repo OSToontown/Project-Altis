@@ -1,15 +1,15 @@
 from otp.level import EntityCreator
-import FactoryLevelMgr
-import PlatformEntity
-import ConveyorBelt
-import GearEntity
-import PaintMixer
-import GoonClipPlane
-import MintProduct
-import MintProductPallet
-import MintShelf
-import PathMasterEntity
-import RenderingEntity
+from toontown.coghq import FactoryLevelMgr
+from toontown.coghq import PlatformEntity
+from toontown.coghq import ConveyorBelt
+from toontown.coghq import GearEntity
+from toontown.coghq import PaintMixer
+from toontown.coghq import GoonClipPlane
+from toontown.coghq import MintProduct
+from toontown.coghq import MintProductPallet
+from toontown.coghq import MintShelf
+from toontown.coghq import PathMasterEntity
+from toontown.coghq import RenderingEntity
 
 class FactoryEntityCreator(EntityCreator.EntityCreator):
 

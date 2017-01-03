@@ -854,11 +854,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def handleFriendOffline(self, doId):
         self.notify.debug('Friend %d now offline.' % doId)
-        try:
-            del self.friendsOnline[doId]
-            messenger.send('friendOffline', [doId])
-        except:
-            pass
+
+        if doId not in self.friendsOnline:
+            return
+        
+        del self.friendsOnline[doId]
+        messenger.send('friendOffline', [doId])
 
     def handleGenerateWithRequiredOtherOwner(self, di):
         # Toontown only makes use of OwnerViews for LocalToon.

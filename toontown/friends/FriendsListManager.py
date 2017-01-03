@@ -1,8 +1,8 @@
 from pandac.PandaModules import *
-import FriendsListPanel
-import FriendInviter
-import FriendInvitee
-import FriendNotifier
+from toontown.friends import FriendsListPanel
+from toontown.friends import FriendInviter
+from toontown.friends import FriendInvitee
+from toontown.friends import FriendNotifier
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import ToonTeleportPanel
 from toontown.friends import ToontownFriendSecret
@@ -15,7 +15,7 @@ from toontown.toon import ToonAvatarDetailPanel
 from toontown.toon import PlayerDetailPanel
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import Toon
-import FriendHandle
+from toontown.friends import FriendHandle
 from otp.otpbase import OTPGlobals
 from toontown.nametag import NametagGlobals
 

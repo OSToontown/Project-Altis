@@ -14,7 +14,6 @@ class MintProduct(BasicEntities.NodePathEntity):
         self.model = None
         self.mintId = self.level.mintId
         self.loadModel()
-        return
 
     def destroy(self):
         if self.model:
@@ -31,7 +30,6 @@ class MintProduct(BasicEntities.NodePathEntity):
         self.model.flattenStrong()
         if self.model:
             self.model.reparentTo(self)
-        return
 
     if __dev__:
 

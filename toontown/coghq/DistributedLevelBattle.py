@@ -4,7 +4,6 @@ from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 import random
-
 from otp.avatar import Emote
 from toontown.battle import DistributedBattle
 from toontown.battle import SuitBattleGlobals
@@ -16,7 +15,6 @@ from toontown.suit import SuitDNA
 from toontown.toon import TTEmote
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedLevelBattle(DistributedBattle.DistributedBattle):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLevelBattle')
 
@@ -24,7 +22,6 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
         DistributedBattle.DistributedBattle.__init__(self, cr)
         self.levelRequest = None
         self.levelBattle = 1
-        return
 
     def setLevelDoId(self, levelDoId):
         self.levelDoId = levelDoId

@@ -1,5 +1,6 @@
-from SpecImports import *
+from toontown.coghq,SpecImports import *
 from toontown.toonbase import ToontownGlobals
+
 CogParent = 10000
 LowerCogParent = 10003
 BattleParent = 10002

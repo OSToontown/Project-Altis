@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-import FishGlobals
+from toontown.fishing import FishGlobals
 
 class DirectRegion(NodePath):
     notify = DirectNotifyGlobal.directNotify.newCategory('DirectRegion')

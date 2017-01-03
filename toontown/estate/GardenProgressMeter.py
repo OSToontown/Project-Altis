@@ -18,7 +18,7 @@ import random
 import random
 import cPickle
 from direct.showbase import PythonUtil
-import GameSprite
+from toontown.estate import GameSprite
 from math import pi
 from toontown.estate import GardenGlobals
 SHOVEL = 0
@@ -43,7 +43,6 @@ class GardenProgressMeter(DirectObject.DirectObject):
         self.load()
         thing = self.model.find('**/item_board')
         self.block = self.model1.find('**/minnieCircle')
-        return
 
     def load(self):
         model = loader.loadModel('phase_5.5/models/gui/package_delivery_panel')
@@ -66,7 +65,6 @@ class GardenProgressMeter(DirectObject.DirectObject):
         self.congratsText = DirectLabel(scale=1.1, relief=None, text_pos=(0, 0.2), text_wordwrap=16, text=congratsMessage, text_font=ToontownGlobals.getSignFont(), pos=(0.0, 0.0, 0.0), text_scale=0.1, text0_fg=(1, 1, 1, 1), parent=self.frame)
         gui2 = loader.loadModel('phase_3/models/gui/quit_button')
         self.quitButton = DirectButton(parent=self.frame, relief=None, image=(gui2.find('**/QuitBtn_UP'), gui2.find('**/QuitBtn_DN'), gui2.find('**/QuitBtn_RLVR')), pos=(0.5, 1.0, -0.32), scale=0.9, text='Exit', text_font=ToontownGlobals.getSignFont(), text0_fg=(1, 1, 1, 1), text1_fg=(1, 1, 1, 1), text2_fg=(1, 1, 1, 1), text_scale=0.045, text_pos=(0, -0.01), command=self.__handleExit)
-        return
 
     def unload(self):
         self.frame.destroy()
@@ -76,7 +74,6 @@ class GardenProgressMeter(DirectObject.DirectObject):
             self.acceptErrorDialog = None
         taskMgr.remove('gameTask')
         self.ignoreAll()
-        return
 
     def show(self):
         self.frame.show()

@@ -1,7 +1,7 @@
-import DistributedLawnDecor
+from toontown.estate import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
-import GardenGlobals
+from toontown.estate import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
@@ -48,7 +48,6 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         self.worldScale = 1.0
         if 'worldScale' in GardenGlobals.PlantAttributes[typeIndex]:
             self.worldScale = GardenGlobals.PlantAttributes[typeIndex]['worldScale']
-        return
 
     def getTypeIndex(self):
         return self.typeIndex
@@ -132,4 +131,3 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
-        return

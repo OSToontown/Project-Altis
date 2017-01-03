@@ -7,8 +7,8 @@ from toontown.suit import DistributedCashbotBossAI
 from toontown.suit import DistributedSuitPlannerAI
 from toontown.toonbase import ToontownGlobals
 
-
 class CashbotHQAI(CogHQAI.CogHQAI):
+    
     def __init__(self, air):
         CogHQAI.CogHQAI.__init__(
             self, air, ToontownGlobals.CashbotHQ, ToontownGlobals.CashbotLobby,

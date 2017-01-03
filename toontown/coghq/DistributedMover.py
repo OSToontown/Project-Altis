@@ -1,8 +1,7 @@
 from math import *
 import math
 import random
-
-from StomperGlobals import *
+from toontown.coghq.StomperGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
 from direct.interval.IntervalGlobal import *
@@ -11,7 +10,6 @@ from direct.task import Task
 from otp.level import BasicEntities
 from pandac.PandaModules import *
 from pandac.PandaModules import NodePath
-
 
 class DistributedMover(BasicEntities.DistributedNodePathEntity):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMover')

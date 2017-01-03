@@ -5,9 +5,9 @@ from CrateGlobals import *
 from direct.showbase.PythonUtil import fitSrcAngle2Dest
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
-import MovingPlatform
+from toontown.coghq import MovingPlatform
 from direct.task.Task import Task
-import DistributedCrushableEntity
+from toontown.coghq import DistributedCrushableEntity
 
 class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCrate')

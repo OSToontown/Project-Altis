@@ -9,8 +9,8 @@ from direct.interval.IntervalGlobal import *
 from toontown.minigame import Purchase
 from direct.gui import OnscreenText
 from toontown.building import SuitInterior
-import QuietZoneState
-import ZoneUtil
+from toontown.hood import QuietZoneState
+from toontown.hood import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.toon.Toon import teleportDebug
 from toontown.dna.DNAParser import *

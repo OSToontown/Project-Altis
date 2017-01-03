@@ -7,8 +7,8 @@ from toontown.suit import DistributedSellbotBossAI
 from toontown.suit import DistributedSuitPlannerAI
 from toontown.toonbase import ToontownGlobals
 
-
 class SellbotHQAI(CogHQAI.CogHQAI):
+    
     def __init__(self, air):
         CogHQAI.CogHQAI.__init__(
             self, air, ToontownGlobals.SellbotHQ, ToontownGlobals.SellbotLobby,

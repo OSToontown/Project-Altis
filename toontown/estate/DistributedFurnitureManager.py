@@ -23,7 +23,6 @@ class DistributedFurnitureManager(DistributedObject.DistributedObject):
         self.director = 0
         self.notify.debug('disable')
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -36,7 +35,6 @@ class DistributedFurnitureManager(DistributedObject.DistributedObject):
             if self.cr.objectManager == None:
                 import houseDesign
                 self.cr.objectManager = houseDesign.ObjectManager()
-        return
 
     def setOwnerName(self, name):
         self.ownerName = name
@@ -135,8 +133,8 @@ class DistributedFurnitureManager(DistributedObject.DistributedObject):
             dfitem = base.cr.doId2do[objectId]
         else:
             dfitem = None
+        
         self.doCallbackContext(context, [retcode, dfitem])
-        return
 
     def deleteItemFromAtticResponse(self, retcode, context):
         self.doCallbackContext(context, [retcode])

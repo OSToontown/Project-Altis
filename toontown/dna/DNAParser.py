@@ -1,11 +1,10 @@
 from direct.stdpy import threading
-
-import DNALoader
-from DNAStorage import DNAStorage
-from DNASuitPoint import DNASuitPoint
-from DNAGroup import DNAGroup
-from DNAVisGroup import DNAVisGroup
-from DNADoor import DNADoor
+from toontown.dna import DNALoader
+from toontown.dna.DNAStorage import DNAStorage
+from toontown.dna.DNASuitPoint import DNASuitPoint
+from toontown.dna.DNAGroup import DNAGroup
+from toontown.dna.DNAVisGroup import DNAVisGroup
+from toontown.dna.DNADoor import DNADoor
 
 class DNABulkLoader(object):
     __slots__ = (

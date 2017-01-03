@@ -1,7 +1,7 @@
 from otp.ai.AIBase import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.level import DistributedEntityAI
-import StomperGlobals
+from toontown.coghq import StomperGlobals
 from direct.distributed import ClockDelta
 
 class DistributedStomperPairAI(DistributedEntityAI.DistributedEntityAI):
@@ -11,7 +11,6 @@ class DistributedStomperPairAI(DistributedEntityAI.DistributedEntityAI):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
         self.stompers = [None, None]
         self.hitPtsTaken = 3
-        return
 
     def generate(self):
         DistributedEntityAI.DistributedEntityAI.generate(self)

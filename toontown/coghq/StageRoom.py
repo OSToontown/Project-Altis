@@ -18,7 +18,6 @@ class StageRoom(DirectObject.DirectObject):
             self.setGeom(loadFunc(path))
         self.localToonFSM = ClassicFSM.ClassicFSM('StageRoomLocalToonPresent', [State.State('off', self.enterLtOff, self.exitLtOff, ['notPresent']), State.State('notPresent', self.enterLtNotPresent, self.exitLtNotPresent, ['present']), State.State('present', self.enterLtPresent, self.exitLtPresent, ['notPresent'])], 'notPresent', 'notPresent')
         self.localToonFSM.enterInitialState()
-        return
 
     def delete(self):
         del self.localToonFSM

@@ -1,6 +1,6 @@
-import DNALandmarkBuilding
-import DNAError
-import DNAUtil
+from toontown.dna import DNALandmarkBuilding
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 
 class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
     __slots__ = (

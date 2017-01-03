@@ -1,6 +1,6 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-import MovingPlatform
+from toontown.coghq import MovingPlatform
 from otp.level import BasicEntities
 
 class ConveyorBelt(BasicEntities.NodePathEntity):

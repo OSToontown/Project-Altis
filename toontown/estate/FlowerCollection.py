@@ -1,6 +1,6 @@
-import GardenGlobals
+from toontown.estate import GardenGlobals
 from direct.directnotify import DirectNotifyGlobal
-import FlowerBase
+from toontown.estate import FlowerBase
 
 class FlowerCollection:
     notify = DirectNotifyGlobal.directNotify.newCategory('FlowerCollection')

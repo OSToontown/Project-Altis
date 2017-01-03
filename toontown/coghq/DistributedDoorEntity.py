@@ -4,7 +4,7 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
-import DistributedDoorEntityBase
+from toontown.coghq import DistributedDoorEntityBase
 from direct.fsm import FourState
 from direct.fsm import ClassicFSM
 from otp.level import DistributedEntity

@@ -1,4 +1,4 @@
-import FishGlobals
+from toontown.fishing import FishGlobals
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 

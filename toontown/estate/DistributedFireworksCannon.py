@@ -1,13 +1,13 @@
 from toontown.toonbase.ToontownGlobals import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from HouseGlobals import *
+from toontown.estate.HouseGlobals import *
 from toontown.effects import DistributedFireworkShow
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from pandac.PandaModules import CollisionSphere
 from pandac.PandaModules import CollisionNode
-import FireworksGui
+from toontown.estate import FireworksGui
 
 class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow):
     notify = directNotify.newCategory('DistributedFireworksCannon')
@@ -47,7 +47,6 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
             self.fireworksGui.destroy()
             self.fireworksGui = None
         DistributedFireworkShow.DistributedFireworkShow.disable(self)
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -70,7 +69,6 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
         self.sendUpdate('avatarExit')
         self.fireworksGui.destroy()
         self.fireworksGui = None
-        return
 
     def freeAvatar(self):
         base.localAvatar.posCamera(0, 0)

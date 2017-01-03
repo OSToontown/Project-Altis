@@ -5,9 +5,9 @@ from direct.fsm import ClassicFSM, State
 from toontown.safezone import SafeZoneLoader
 import random
 from toontown.launcher import DownloadForceAcknowledge
-import House
-import Estate
-import HouseGlobals
+from toontown.estate import House
+from toontown.estate import Estate
+from toontown.estate import HouseGlobals
 import random
 import math
 from toontown.coghq import MovingPlatform
@@ -43,7 +43,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.cloudTrack = None
         self.sunMoonNode = None
         self.fsm.enterInitialState()
-        return
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)
@@ -103,7 +102,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         if self.barrel:
             self.barrel.removeNode()
         SafeZoneLoader.SafeZoneLoader.unload(self)
-        return
 
     def enter(self, requestStatus):
         self.estateOwnerId = requestStatus.get('ownerId', base.localAvatar.doId)

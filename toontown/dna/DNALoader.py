@@ -2,32 +2,33 @@ from pandac.PandaModules import *
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.distributed.PyDatagram import PyDatagram
 from direct.stdpy.file import *
-import DNAUtil
-import DNAError
-import DNAAnimBuilding
-import DNAAnimProp
-import DNACornice
-import DNADoor
-import DNAFlatBuilding
-import DNAFlatDoor
-import DNAGroup
-import DNAInteractiveProp
-import DNALandmarkBuilding
-import DNANode
-import DNAProp
-import DNASign
-import DNASignBaseline
-import DNASignGraphic
-import DNASignText
-import DNAStreet
-import DNAVisGroup
-import DNAWall
-import DNAWindows
-import DNABattleCell
-import DNASuitPoint
+from toontown.dna import DNAUtil
+from toontown.dna import DNAError
+from toontown.dna import DNAAnimBuilding
+from toontown.dna import DNAAnimProp
+from toontown.dna import DNACornice
+from toontown.dna import DNADoor
+from toontown.dna import DNAFlatBuilding
+from toontown.dna import DNAFlatDoor
+from toontown.dna import DNAGroup
+from toontown.dna import DNAInteractiveProp
+from toontown.dna import DNALandmarkBuilding
+from toontown.dna import DNANode
+from toontown.dna import DNAProp
+from toontown.dna import DNASign
+from toontown.dna import DNASignBaseline
+from toontown.dna import DNASignGraphic
+from toontown.dna import DNASignText
+from toontown.dna import DNAStreet
+from toontown.dna import DNAVisGroup
+from toontown.dna import DNAWall
+from toontown.dna import DNAWindows
+from toontown.dna import DNABattleCell
+from toontown.dna import DNASuitPoint
 import zlib
 import sys
 import os
+
 sys.setrecursionlimit(10000)
 
 compClassTable = {

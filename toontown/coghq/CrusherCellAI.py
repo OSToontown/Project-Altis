@@ -1,4 +1,4 @@
-import ActiveCellAI
+from toontown.coghq import ActiveCellAI
 from direct.directnotify import DirectNotifyGlobal
 
 class CrusherCellAI(ActiveCellAI.ActiveCellAI):

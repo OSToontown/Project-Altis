@@ -50,7 +50,6 @@ class GardenTutorial(DirectFrame, FSM.FSM):
         curState = base.cr.playGame.getPlace().getState()
         self.notify.debug('Estate.getState() == %s' % curState)
         self.request('Page1')
-        return
 
     def enterPage1(self, *args):
         self.title['text'] = (TTLocalizer.GardenTutorialTitle1,)

@@ -9,7 +9,6 @@ class EffectController:
         self.endEffect = None
         self.f = None
         self.p0 = None
-        return
 
     def createTrack(self):
         pass
@@ -42,8 +41,8 @@ class EffectController:
 
         else:
             self.createTrack()
+        
         self.track.start()
-        return
 
     def stop(self):
         if self.track:
@@ -56,7 +55,6 @@ class EffectController:
             self.endEffect.pause()
             self.endEffect = None
         self.cleanUpEffect()
-        return
 
     def finish(self):
         if self.track:
@@ -68,7 +66,6 @@ class EffectController:
         if self.endEffect:
             self.endEffect.pause()
             self.endEffect = None
-        return
 
     def startLoop(self, lod = None):
         if lod != None:
@@ -81,7 +78,6 @@ class EffectController:
             self.createTrack()
         if self.startEffect:
             self.startEffect.start()
-        return
 
     def stopLoop(self):
         if self.startEffect:
@@ -89,7 +85,6 @@ class EffectController:
             self.startEffect = None
         if self.endEffect and not self.endEffect.isPlaying():
             self.endEffect.start()
-        return
 
     def getTrack(self):
         if not self.track:

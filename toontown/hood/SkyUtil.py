@@ -1,9 +1,7 @@
 from pandac.PandaModules import CompassEffect, NodePath
 from direct.task.Task import Task
 
-
 notify = directNotify.newCategory('SkyUtil')
-
 
 def cloudSkyTrack(task):
     task.h += globalClock.getDt() * 0.25

@@ -226,4 +226,3 @@ class GolfScoreBoard:
         self.scoreboard = None
         self.golfCourse = None
         taskMgr.remove('hide score board')
-        return

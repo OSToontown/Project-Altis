@@ -1,26 +1,25 @@
 import os
-from DNAAnimBuilding import DNAAnimBuilding
-from DNAAnimProp import DNAAnimProp
-from DNABattleCell import DNABattleCell
-from DNACornice import DNACornice
-from DNADoor import DNADoor
-from DNAFlatBuilding import DNAFlatBuilding
-from DNAFlatDoor import DNAFlatDoor
-from DNAGroup import DNAGroup
-from DNAInteractiveProp import DNAInteractiveProp
-from DNALandmarkBuilding import DNALandmarkBuilding
-from DNANode import DNANode
-from DNAProp import DNAProp
-from DNASign import DNASign
-from DNASignBaseline import DNASignBaseline
-from DNASignGraphic import DNASignGraphic
-from DNASignText import DNASignText
-from DNAStreet import DNAStreet
-from DNASuitPoint import DNASuitPoint
-from DNAVisGroup import DNAVisGroup
-from DNAWall import DNAWall
-from DNAWindows import DNAWindows
-
+from toontown.dna.DNAAnimBuilding import DNAAnimBuilding
+from toontown.dna.DNAAnimProp import DNAAnimProp
+from toontown.dna.DNABattleCell import DNABattleCell
+from toontown.dna.DNACornice import DNACornice
+from toontown.dna.DNADoor import DNADoor
+from toontown.dna.DNAFlatBuilding import DNAFlatBuilding
+from toontown.dna.DNAFlatDoor import DNAFlatDoor
+from toontown.dna.DNAGroup import DNAGroup
+from toontown.dna.DNAInteractiveProp import DNAInteractiveProp
+from toontown.dna.DNALandmarkBuilding import DNALandmarkBuilding
+from toontown.dna.DNANode import DNANode
+from toontown.dna.DNAProp import DNAProp
+from toontown.dna.DNASign import DNASign
+from toontown.dna.DNASignBaseline import DNASignBaseline
+from toontown.dna.DNASignGraphic import DNASignGraphic
+from toontown.dna.DNASignText import DNASignText
+from toontown.dna.DNAStreet import DNAStreet
+from toontown.dna.DNASuitPoint import DNASuitPoint
+from toontown.dna.DNAVisGroup import DNAVisGroup
+from toontown.dna.DNAWall import DNAWall
+from toontown.dna.DNAWindows import DNAWindows
 
 def p_dna(p):
     pass

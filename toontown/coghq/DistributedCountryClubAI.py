@@ -6,7 +6,6 @@ from toontown.coghq import BattleExperienceAggregatorAI
 from toontown.coghq import CountryClubLayout, DistributedCountryClubRoomAI
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedCountryClubAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCountryClubAI')
 

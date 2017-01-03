@@ -5,8 +5,8 @@ from direct.fsm import StateData
 from direct.showbase.PythonUtil import PriorityCallbacks
 from toontown.safezone import PublicWalk
 from toontown.launcher import DownloadForceAcknowledge
-import TrialerForceAcknowledge
-import ZoneUtil
+from toontown.hood import TrialerForceAcknowledge
+from toontown.hood import ZoneUtil
 from toontown.friends import FriendsListManager
 from toontown.toonbase import ToontownGlobals
 from toontown.toon.Toon import teleportDebug
@@ -16,7 +16,7 @@ from otp.otpbase import OTPLocalizer
 from otp.avatar import Emote
 from otp.avatar.Avatar import teleportNotify
 from direct.task import Task
-import QuietZoneState
+from toontown.hood import QuietZoneState
 from toontown.distributed import ToontownDistrictStats
 
 class Place(StateData.StateData, FriendsListManager.FriendsListManager):

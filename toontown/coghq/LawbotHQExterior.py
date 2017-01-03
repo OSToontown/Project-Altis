@@ -9,7 +9,6 @@ from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 
-
 class LawbotHQExterior(CogHQExterior.CogHQExterior):
     notify = DirectNotifyGlobal.directNotify.newCategory('LawbotHQExterior')
 

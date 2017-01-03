@@ -59,12 +59,12 @@ class ToontownDistrictAI(DistributedDistrictAI):
         DistributedDistrictAI.setName(self, name)
 
         # Send a shard status update containing our name:
-        status = {'name': name}
-        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, status])
+        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, {'name': \
+            name}])
 
     def setAvailable(self, available):
         DistributedDistrictAI.setAvailable(self, available)
 
         # Send a shard status update containing our availability:
-        status = {'available': bool(available)}
-        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, status])
+        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, {'available': \
+            bool(available)}])

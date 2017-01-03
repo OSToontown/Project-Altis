@@ -1,11 +1,9 @@
 import random
-
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.PythonUtil import invertDictLossless
 from direct.showbase.PythonUtil import normalDistrib, lerp
 from toontown.coghq import MintRoomSpecs
 from toontown.toonbase import ToontownGlobals
-
 
 OfficeBuildingFloorSequences = {
     13300: [

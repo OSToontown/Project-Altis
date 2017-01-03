@@ -1,7 +1,7 @@
 from panda3d.core import LVector4f
-import DNANode
-import DNAUtil
-import DNAError
+from toontown.dna import DNANode
+from toontown.dna import DNAUtil
+from toontown.dna import DNAError
 
 class DNALandmarkBuilding(DNANode.DNANode):
     __slots__ = (

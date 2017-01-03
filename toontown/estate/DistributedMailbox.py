@@ -1,6 +1,6 @@
 from direct.distributed import DistributedObject
 from toontown.toonbase import ToontownGlobals
-import MailboxGlobals
+from toontown.estate import MailboxGlobals
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogItemList
 from toontown.toontowngui import TTDialog
@@ -262,14 +262,12 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             self.nameText = nameOrigin.attachNewNode(text)
             self.nameText.setH(90)
             self.nameText.setScale(0.2)
-        return
 
     def __clearDialog(self, event):
         DistributedMailbox.notify.debug('__clearDialog')
         self.mailboxDialog.cleanup()
         self.mailboxDialog = None
         self.freeAvatar()
-        return
 
     def sendInviteReadButNotReplied(self, inviteKey):
         self.sendUpdate('markInviteReadButNotReplied', [inviteKey])

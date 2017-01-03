@@ -2,9 +2,7 @@ from toontown.safezone.TTSafeZoneLoader import TTSafeZoneLoader
 from toontown.town.TTTownLoader import TTTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
-
 from otp.ai.MagicWordGlobal import *
-
 
 class TTHood(ToonHood):
     notify = directNotify.newCategory('TTHood')

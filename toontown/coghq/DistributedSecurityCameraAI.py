@@ -1,5 +1,4 @@
 import random
-
 from direct.directnotify import DirectNotifyGlobal
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
@@ -12,8 +11,8 @@ from toontown.coghq import BattleBlockerAI
 from toontown.coghq import LaserGameMineSweeper
 from toontown.coghq import LaserGameRoll
 
-
 class DistributedSecurityCameraAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathAttribs):
+    
     def __init__(self, level, entId):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedSecurityCameraAI')

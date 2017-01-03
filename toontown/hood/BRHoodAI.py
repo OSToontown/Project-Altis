@@ -6,8 +6,8 @@ from toontown.ai import DistributedPolarPlaceEffectMgrAI
 from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
 
-
 class BRHoodAI(HoodAI.HoodAI):
+    
     def __init__(self, air):
         HoodAI.HoodAI.__init__(self, air,
                                ToontownGlobals.TheBrrrgh,

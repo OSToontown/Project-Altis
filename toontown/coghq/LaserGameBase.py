@@ -1,10 +1,9 @@
 import random
-
 from direct.distributed import ClockDelta
 from direct.task import Task
 
-
 class LaserGameBase:
+
     def __init__(self, funcSuccess, funcFail, funcSendGrid, funcSetGrid):
         self.funcSuccess = funcSuccess
         self.funcFail = funcFail

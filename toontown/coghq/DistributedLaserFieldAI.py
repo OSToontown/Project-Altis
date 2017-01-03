@@ -1,5 +1,4 @@
 import random
-
 from direct.directnotify import DirectNotifyGlobal
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
@@ -14,8 +13,8 @@ from toontown.coghq import LaserGameDrag
 from toontown.coghq import LaserGameMineSweeper
 from toontown.coghq import LaserGameRoll
 
-
 class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEntities.NodePathAttribs):
+    
     def __init__(self, level, entId):
         BattleBlockerAI.BattleBlockerAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedLaserFieldAI')

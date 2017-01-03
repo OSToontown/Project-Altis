@@ -8,8 +8,8 @@ from toontown.building import DistributedElevatorFloorAI
 from toontown.building.ElevatorConstants import *
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedLawOfficeElevatorIntAI(DistributedElevatorFloorAI.DistributedElevatorFloorAI):
+    
     def __init__(self, air, lawOfficeId, bldg, avIds):
         DistributedElevatorFloorAI.DistributedElevatorFloorAI.__init__(self, air, bldg, avIds)
         self.lawOfficeId = lawOfficeId

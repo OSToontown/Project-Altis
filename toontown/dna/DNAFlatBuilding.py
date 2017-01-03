@@ -1,7 +1,6 @@
 from panda3d.core import NodePath, DecalEffect
-import DNANode
-import DNAWall
-
+from toontown.dna import DNANode
+from toontown.dna import DNAWall
 import random
 
 class DNAFlatBuilding(DNANode.DNANode):

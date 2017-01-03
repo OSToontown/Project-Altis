@@ -1,7 +1,7 @@
 from panda3d.core import LVector4f, NodePath, DecalEffect
-import DNAGroup
-import DNAError
-import DNAUtil
+from toontown.dna import DNAGroup
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 import random
 
 class DNAWindows(DNAGroup.DNAGroup):

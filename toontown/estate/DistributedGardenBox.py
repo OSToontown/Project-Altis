@@ -1,7 +1,7 @@
-import DistributedLawnDecor
+from toontown.estate import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
-import GardenGlobals
+from toontown.estateimport GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI
@@ -45,7 +45,6 @@ class DistributedGardenBox(DistributedLawnDecor.DistributedLawnDecor):
         self.model.setScale(self.plotScale)
         self.model.reparentTo(self.rotateNode)
         self.stick2Ground()
-        return
 
     def handleEnterPlot(self, entry = None):
         pass

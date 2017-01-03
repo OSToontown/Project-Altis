@@ -2,7 +2,6 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from toontown.estate import MailboxGlobals
 
-
 class DistributedMailboxAI(DistributedObjectAI):
     notify = directNotify.newCategory('DistributedMailboxAI')
 

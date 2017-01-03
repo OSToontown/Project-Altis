@@ -120,4 +120,3 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
              'allowRedirect': 0,
              'doorDoId': self.otherDoId}
             messenger.send('doorDoneEvent', [request])
-        return

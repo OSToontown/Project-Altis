@@ -2,7 +2,6 @@ from toontown.safezone.GSSafeZoneLoader import GSSafeZoneLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
 
-
 class GSHood(ToonHood):
     notify = directNotify.newCategory('GSHood')
 

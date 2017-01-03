@@ -1,8 +1,8 @@
 from CrateGlobals import *
 from direct.directnotify import DirectNotifyGlobal
-import DistributedCrushableEntityAI
+from toontown.coghq import DistributedCrushableEntityAI
 from direct.task import Task
-import CrateGlobals
+from toontown.coghq import CrateGlobals
 
 class DistributedCrateAI(DistributedCrushableEntityAI.DistributedCrushableEntityAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCrateAI')
@@ -13,7 +13,6 @@ class DistributedCrateAI(DistributedCrushableEntityAI.DistributedCrushableEntity
         self.avId = 0
         self.tPowerUp = 0
         self.width = 2
-        return
 
     def generate(self):
         DistributedCrushableEntityAI.DistributedCrushableEntityAI.generate(self)

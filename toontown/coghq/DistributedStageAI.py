@@ -7,7 +7,6 @@ from toontown.coghq import BattleExperienceAggregatorAI
 from toontown.coghq import StageLayout, DistributedStageRoomAI
 from toontown.toonbase import ToontownGlobals
 
-
 class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStageAI')
 

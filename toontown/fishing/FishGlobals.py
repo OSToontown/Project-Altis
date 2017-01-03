@@ -3,6 +3,7 @@ from math import ceil, pow
 import random
 from toontown.toonbase import ToontownGlobals
 import copy
+
 NoMovie = 0
 EnterMovie = 1
 ExitMovie = 2

@@ -9,8 +9,8 @@ from toontown.toonbase import ToontownGlobals
 from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
 
-
 class TTHoodAI(HoodAI.HoodAI):
+    
     def __init__(self, air):
         HoodAI.HoodAI.__init__(self, air,
                                ToontownGlobals.ToontownCentral,

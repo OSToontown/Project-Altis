@@ -5,9 +5,9 @@ from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import FactoryBase
-import FactoryEntityCreator
-import FactorySpecs
+from toontown.coghq import FactoryBase
+from toontown.coghq import FactoryEntityCreator
+from toontown.coghq import FactorySpecs
 from otp.level import LevelSpec
 from otp.level import LevelConstants
 from toontown.toonbase import TTLocalizer

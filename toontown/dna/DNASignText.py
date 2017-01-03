@@ -1,4 +1,4 @@
-import DNANode
+from toontown.dna import DNANode
 
 class DNASignText(DNANode.DNANode):
     __slots__ = (

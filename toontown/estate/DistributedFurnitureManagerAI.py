@@ -14,10 +14,10 @@ from DistributedTrunkAI import DistributedTrunkAI
 from otp.ai.MagicWordGlobal import *
 
 class FurnitureError(Exception):
+
     def __init__(self, code):
         Exception.__init__(self)
         self.code = code
-
 
 class DistributedFurnitureManagerAI(DistributedObjectAI):
     notify = directNotify.newCategory("DistributedFurnitureManagerAI")

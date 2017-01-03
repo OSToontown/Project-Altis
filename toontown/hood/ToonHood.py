@@ -11,7 +11,6 @@ from toontown.cogdominium import CogdoInterior
 from toontown.toon.Toon import teleportDebug
 from toontown.hood import SkyUtil
 
-
 class ToonHood(Hood):
     notify = directNotify.newCategory('ToonHood')
 

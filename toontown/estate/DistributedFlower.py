@@ -4,6 +4,7 @@ from toontown.estate import FlowerBase
 from toontown.estate import GardenGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
+
 DIRT_AS_WATER_INDICATOR = True
 DIRT_MOUND_HEIGHT = 0.3
 
@@ -61,7 +62,6 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             desat.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
         elif not self.isSeedling():
             nodePath.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
-        return
 
     def loadModel(self):
         DistributedPlantBase.DistributedPlantBase.loadModel(self)
@@ -119,7 +119,6 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             self.doPicking()
         else:
             self.finishInteraction()
-        return
 
     def doPicking(self):
         if not self.canBePicked():
@@ -191,4 +190,3 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
-        return

@@ -15,6 +15,7 @@ from toontown.toon import ToonHead
 from toontown.toonbase import TTLocalizer
 from toontown.minigame import Trajectory
 from toontown.effects import DustCloud
+
 GROUND_PLANE_MIN = -15
 CANNON_ROTATION_MIN = -55
 CANNON_ROTATION_MAX = 50
@@ -67,7 +68,6 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         self.flyColNodePath = None
         self.localAvId = base.localAvatar.doId
         self.model_Created = 0
-        return
 
     def disable(self):
         taskMgr.remove(self.uniqueName('fireCannon'))
@@ -82,8 +82,8 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
             self.hitTrack.finish()
             del self.hitTrack
             self.hitTrack = None
+        
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         self.offstage()
@@ -135,7 +135,6 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         self.sndHitChair = base.loader.loadSfx('phase_11/audio/sfx/LB_toon_jury.ogg')
         self.cannon.hide()
         self.flashingLabel = None
-        return
 
     def unload(self):
         if self.cannon:

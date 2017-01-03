@@ -6,4 +6,3 @@ class DistributedGardenBoxAI(DistributedLawnDecorAI):
 
     def setTypeIndex(self, todo0):
         pass
-

@@ -2,7 +2,6 @@ from toontown.coghq.LawbotCogHQLoader import LawbotCogHQLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.CogHood import CogHood
 
-
 class LawbotHQ(CogHood):
     notify = directNotify.newCategory('LawbotHQ')
 

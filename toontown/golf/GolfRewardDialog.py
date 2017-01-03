@@ -25,7 +25,6 @@ class GolfRewardDialog:
         self.endMovieCallback = endMovieCallback
         self.aimTimesList = aimTimesList
         self.setup(localAvId)
-        return
 
     def calcTrophyTextListForOnePlayer(self, avId):
         retval = []
@@ -255,7 +254,6 @@ class GolfRewardDialog:
         self.rankLabel = DirectLabel(parent=self.rewardBoard, relief=None, pos=(-0, 0, 0.17), text_align=TextNode.ACenter, text='', text_scale=0.06)
         self.trophyLabel = DirectLabel(parent=self.rewardBoard, relief=None, pos=(-0.7, 0, 0.05), text_align=TextNode.ALeft, text='', text_scale=0.06, text_wordwrap=20)
         self.movie = self.createRewardMovie(localAvId)
-        return
 
     def delete(self):
         self.movie.pause()
@@ -264,7 +262,6 @@ class GolfRewardDialog:
         self.notify.debug('Reward board is destroyed')
         self.movie = None
         self.notify.debug('Movie is deleted')
-        return
 
     def getMovie(self):
         return self.movie

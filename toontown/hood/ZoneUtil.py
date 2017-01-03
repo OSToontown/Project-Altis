@@ -4,7 +4,6 @@ from direct.directnotify import DirectNotifyGlobal
 zoneUtilNotify = DirectNotifyGlobal.directNotify.newCategory('ZoneUtil')
 tutorialDict = None
 
-
 def isGoofySpeedwayZone(zoneId):
     return zoneId == 8000
 

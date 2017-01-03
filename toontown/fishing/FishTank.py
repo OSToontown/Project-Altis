@@ -1,5 +1,5 @@
-import FishBase
-import FishGlobals
+from toontown.fishing import FishBase
+from toontown.fishing import FishGlobals
 
 class FishTank:
 

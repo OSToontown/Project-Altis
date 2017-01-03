@@ -1,12 +1,10 @@
 import random
-
-import DistributedLawOfficeAI
-import DistributedStageAI
+from toontown.coghq import DistributedLawOfficeAI
+from toontown.coghq import DistributedStageAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from toontown.coghq import StageLayout
 from toontown.toonbase import ToontownGlobals
-
 
 StageId2Layouts = {
     ToontownGlobals.LawbotStageIntA: (0, 1, 2),
@@ -14,7 +12,6 @@ StageId2Layouts = {
     ToontownGlobals.LawbotStageIntC: (6, 7, 8),
     ToontownGlobals.LawbotStageIntD: (9, 10, 11)
 }
-
 
 class LawOfficeManagerAI(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('LawOfficeManagerAI')

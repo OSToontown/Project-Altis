@@ -9,8 +9,7 @@ from direct.task.Task import Task
 import math
 from pandac.PandaModules import *
 from pandac.PandaModules import *
-
-import CannonGlobals
+from toontown.estate import CannonGlobals
 from toontown.effects import DustCloud
 from toontown.effects import Splash
 from toontown.effects import Wake
@@ -23,7 +22,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase.ToonBaseGlobal import *
-
 
 LAND_TIME = 2
 WORLD_SCALE = 2.0

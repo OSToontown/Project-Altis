@@ -8,7 +8,6 @@ from toontown.coghq import FactoryEntityCreatorAI, CountryClubRoomSpecs
 from toontown.suit import DistributedMintSuitAI
 from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals
 
-
 class DistributedCountryClubRoomAI(DistributedLevelAI.DistributedLevelAI, CountryClubRoomBase.CountryClubRoomBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCountryClubRoomAI')
 

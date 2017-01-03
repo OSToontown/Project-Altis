@@ -5,7 +5,6 @@ from direct.gui.DirectScrolledList import *
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 from pandac.PandaModules import *
-
 from toontown.estate import DistributedToonStatuary
 from toontown.estate import GardenGlobals
 from toontown.estate import PlantingGUI
@@ -14,7 +13,6 @@ from toontown.toon import DistributedToon
 from toontown.toon import Toon
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 class ToonStatueSelectionGUI(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonStatueSelectionGUI')
@@ -39,7 +37,6 @@ class ToonStatueSelectionGUI(DirectFrame):
         self.textDownColor = Vec4(0.5, 0.9, 1, 1)
         self.textDisabledColor = Vec4(0.4, 0.8, 0.4, 1)
         self.createFriendsList()
-        return
 
     def destroy(self):
         self.doneEvent = None
@@ -53,7 +50,6 @@ class ToonStatueSelectionGUI(DirectFrame):
         self.doId2Dna = {}
         self.scrollList.destroy()
         DirectFrame.destroy(self)
-        return
 
     def __cancel(self):
         messenger.send(self.doneEvent, [0, '', -1])
@@ -85,7 +81,6 @@ class ToonStatueSelectionGUI(DirectFrame):
             clipNP = self.scrollList.attachNewNode(clipper)
             self.scrollList.setClipPlane(clipNP)
             self.__makeScrollList()
-        return
 
     def checkFamily(self, doId):
         test = 0
