@@ -1,6 +1,12 @@
 from panda3d.core import LVector4f, ModelNode
+<<<<<<< HEAD
 from toontown.dna import DNANode
 from toontown.dna import DNAUtil
+=======
+from DNAUtil import *
+import DNANode
+import DNAUtil
+>>>>>>> origin/master
 
 class DNAProp(DNANode.DNANode):
     __slots__ = (
@@ -68,3 +74,12 @@ class DNAProp(DNANode.DNANode):
         #self.smartFlatten(node)
         for child in self.children:
             child.traverse(node, dnaStorage)
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNAProp'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.packColor('color', *self.color)
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

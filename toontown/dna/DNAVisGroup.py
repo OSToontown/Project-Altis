@@ -1,7 +1,13 @@
 from panda3d.core import LVector3f
+<<<<<<< HEAD
 from toontown.dna import DNAGroup
 from toontown.dna import DNABattleCell
 from toontown.dna import DNAUtil
+=======
+import DNAGroup
+import DNABattleCell
+from DNAUtil import *
+>>>>>>> origin/master
 
 class DNAVisGroup(DNAGroup.DNAGroup):
     __slots__ = (
@@ -65,7 +71,7 @@ class DNAVisGroup(DNAGroup.DNAGroup):
 
         numVisibles = dgi.getUint16()
         for _ in xrange(numVisibles):
-            self.addVisible(DNAUtil.dgiExtractString8(dgi))
+            self.addVisible(dgiExtractString8(dgi))
 
         numCells = dgi.getUint16()
         for _ in xrange(numCells):
@@ -73,3 +79,25 @@ class DNAVisGroup(DNAGroup.DNAGroup):
             h = dgi.getUint8()
             x, y, z = [dgi.getInt32() / 100.0 for i in xrange(3)]
             self.addBattleCell(DNABattleCell.DNABattleCell(w, h, LVector3f(x, y, z)))
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNAVisGroup'  # Override the name for debugging.
+        packer.pack('suit edge count', len(self.suitEdges), UINT16)
+        for edge in self.suitEdges:
+            startPointIndex = edge.startPoint.index
+            packer.pack('start point index', startPointIndex, UINT16)
+            endPointIndex = edge.endPoint.index
+            packer.pack('end point index', endPointIndex, UINT16)
+        packer.pack('visible count', len(self.visibles), UINT16)
+        for visible in self.visibles:
+            packer.pack('visible', visible, STRING)
+        packer.pack('battle cell count', len(self.battleCells), UINT16)
+        for cell in self.battleCells:
+            packer.pack('width', cell.width, UINT8)
+            packer.pack('height', cell.height, UINT8)
+            for component in cell.pos:
+                packer.pack('position', int(component * 100), INT32)
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

@@ -2,7 +2,7 @@ from panda3d.core import LVector4f
 import DNANode
 import DNAFlatBuilding
 import DNAError
-import DNAUtil
+from DNAUtil import *
 
 class DNAWall(DNANode.DNANode):
     __slots__ = (
@@ -36,9 +36,9 @@ class DNAWall(DNANode.DNANode):
 
     def makeFromDGI(self, dgi):
         DNANode.DNANode.makeFromDGI(self, dgi)
-        self.code = DNAUtil.dgiExtractString8(dgi)
+        self.code = dgiExtractString8(dgi)
         self.height = dgi.getInt16() / 100.0
-        self.color = DNAUtil.dgiExtractColor(dgi)
+        self.color = dgiExtractColor(dgi)
 
     def traverse(self, nodePath, dnaStorage):
         node = dnaStorage.findNode(self.code)
@@ -55,3 +55,14 @@ class DNAWall(DNANode.DNANode):
         
         node.flattenStrong()
         DNAFlatBuilding.DNAFlatBuilding.currentWallHeight += self.height
+        
+        
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNAWall'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.pack('height', int(self.height * 100), INT16)
+        packer.packColor('color', *self.color)
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

@@ -1,5 +1,10 @@
 from panda3d.core import LVector3f, PandaNode
+<<<<<<< HEAD
 from toontown.dna import DNAGroup
+=======
+from DNAUtil import *
+import DNAGroup
+>>>>>>> origin/master
 
 class DNANode(DNAGroup.DNAGroup):
     __slots__ = (
@@ -57,3 +62,16 @@ class DNANode(DNAGroup.DNAGroup):
             child.traverse(node, dnaStorage)
         
         node.flattenMedium()
+        
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNANode'  # Override the name for debugging.
+        for component in self.pos:
+            packer.pack('position', int(component * 100), INT32)
+        for component in self.hpr:
+            packer.pack('rotation', int(component * 100), INT32)
+        for component in self.scale:
+            packer.pack('scale', int(component * 100), UINT16)
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

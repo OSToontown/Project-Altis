@@ -1,7 +1,13 @@
 from panda3d.core import LVector4f
+<<<<<<< HEAD
 from toontown.dna import DNANode
 from toontown.dna import DNAError
 from toontown.dna import DNAUtil
+=======
+import DNANode
+import DNAError
+from DNAUtil import *
+>>>>>>> origin/master
 
 class DNAStreet(DNANode.DNANode):
     __slots__ = (
@@ -90,13 +96,13 @@ class DNAStreet(DNANode.DNANode):
 
     def makeFromDGI(self, dgi):
         DNANode.DNANode.makeFromDGI(self, dgi)
-        self.code = DNAUtil.dgiExtractString8(dgi)
-        self.streetTexture = DNAUtil.dgiExtractString8(dgi)
-        self.sideWalkTexture = DNAUtil.dgiExtractString8(dgi)
-        self.curbTexture = DNAUtil.dgiExtractString8(dgi)
-        self.streetColor = DNAUtil.dgiExtractColor(dgi)
-        self.sideWalkColor = DNAUtil.dgiExtractColor(dgi)
-        self.curbColor = DNAUtil.dgiExtractColor(dgi)
+        self.code = dgiExtractString8(dgi)
+        self.streetTexture = dgiExtractString8(dgi)
+        self.sideWalkTexture = dgiExtractString8(dgi)
+        self.curbTexture = dgiExtractString8(dgi)
+        self.streetColor = dgiExtractColor(dgi)
+        self.sideWalkColor = dgiExtractColor(dgi)
+        self.curbColor = dgiExtractColor(dgi)
 
     def traverse(self, nodePath, dnaStorage):
         node = dnaStorage.findNode(self.code)
@@ -136,3 +142,15 @@ class DNAStreet(DNANode.DNANode):
 
         nodePath.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
         nodePath.flattenStrong()
+        
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNAStreet'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.pack('street texture', self.streetTexture, STRING)
+        packer.pack('side walk texture', self.sideWalkTexture, STRING)
+        packer.pack('curb texture', self.curbTexture, STRING)
+        packer.packColor('street color', *self.streetColor)
+        packer.packColor('side walk color', *self.sideWalkColor)
+        packer.packColor('curb color', *self.curbColor)
+        return packer

@@ -1,5 +1,10 @@
 from panda3d.core import ModelNode
+<<<<<<< HEAD
 from toontown.dna import DNAAnimProp
+=======
+from DNAUtil import *
+import DNAAnimProp
+>>>>>>> origin/master
 
 class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
     __slots__ = (
@@ -39,3 +44,14 @@ class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
         node.flattenStrong()
         for child in self.children:
             child.traverse(node, dnaStorage)
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAAnimProp.DNAAnimProp.packerTraverse(
+            self, recursive=False, verbose=verbose)
+        packer.name = 'DNAInteractiveProp'  # Override the name for debugging.
+
+        packer.pack('cell ID', self.cellId, INT16)
+
+        if recursive:
+            packer += self.packerTraverseChildren(verbose=verbose)
+        return packer

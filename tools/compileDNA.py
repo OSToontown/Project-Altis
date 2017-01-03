@@ -59,7 +59,7 @@ def loadDNAFile(dnaStore, filename):
             return ''
         f.seek(0)
         root.read(f)
-    return str(root.traverse(recursive=True, verbose=args.verbose))
+    return str(root.packerTraverse(recursive=True, verbose=args.verbose))
 
 
 def process_single_file(filename):
@@ -78,15 +78,15 @@ def process_single_file(filename):
         f.write(header + data)
     if args.verbose:
         catalogCodeCount = 0
-        for root, codes in dnaStore.catalogCodes.items():
+        for root, codes in dnaStore.packerCatalogCodes.items():
             catalogCodeCount += len(codes)
         print 'Catalog code count:', catalogCodeCount
         print 'Texture count:', len(dnaStore.textures)
         print 'Font count:', len(dnaStore.fonts)
-        print 'Node count:', len(dnaStore.nodes)
-        print 'Hood node count:', len(dnaStore.hoodNodes)
-        print 'Place node count:', len(dnaStore.placeNodes)
-        print 'Block number count:', len(dnaStore.blockNumbers)
+        print 'Node count:', len(dnaStore.packerNodes)
+        print 'Hood node count:', len(dnaStore.packerHoodNodes)
+        print 'Place node count:', len(dnaStore.packerPlaceNodes)
+        print 'Block number count:', len(dnaStore.packerBlockNumbers)
         print 'Block zone ID count:', len(dnaStore.blockZones)
         print 'Block title count:', len(dnaStore.blockTitles)
         print 'Block article count:', len(dnaStore.blockArticles)

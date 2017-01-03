@@ -1,7 +1,14 @@
 from panda3d.core import LVector4f, DecalEffect, NodePath
+<<<<<<< HEAD
 from toontown.dna import DNAGroup
 from toontown.dna import DNAError
 from toontown.dna import DNAUtil
+=======
+from DNAUtil import *
+import DNAGroup
+import DNAError
+import DNAUtil
+>>>>>>> origin/master
 
 class DNADoor(DNAGroup.DNAGroup):
     __slots__ = (
@@ -87,3 +94,10 @@ class DNADoor(DNAGroup.DNAGroup):
         block = dnaStorage.getBlock(nodePath.getName())
         DNADoor.setupDoor(doorNode, nodePath, nodePath.find('**/*door_origin'), dnaStorage, 
             block, self.getColor())
+            
+    def packerTraverse(self, recursive=True, verbose=False):
+        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
+        packer.name = 'DNADoor'  # Override the name for debugging.
+        packer.pack('code', self.code, STRING)
+        packer.packColor('color', *self.color)
+        return packer

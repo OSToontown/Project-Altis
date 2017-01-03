@@ -1,33 +1,5 @@
 import struct
-
-# Byte orders...
-LITTLE_ENDIAN = '<'
-BIG_ENDIAN = '>'
-
-# Data types...
-
-# Signed integers...
-INT8 = 'b'
-INT16 = 'h'
-INT32 = 'i'
-INT64 = 'q'
-
-# Unsigned integers...
-UINT8 = 'B'
-UINT16 = 'H'
-UINT32 = 'I'
-UINT64 = 'Q'
-
-# Strings...
-STRING = 'S'
-
-# Booleans...
-BOOLEAN = '?'
-
-# Floats... (signed)
-FLOAT32 = 'f'
-FLOAT64 = 'd'  # double
-
+from DNAUtil import *
 
 class DNAPacker:
     
