@@ -2235,24 +2235,28 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 newDuration = max(10.0, nextTime * 60 - time.time())
                 if existingDuration and existingDuration >= newDuration:
                     taskMgr.remove(taskName)
-                    taskMgr.doMethodLater(newDuration, self.__deliverBothPurchases, taskName)
+                    taskMgr.doMethodLater(newDuration, self.__deliverGiftPurchase, taskName)
                 elif existingDuration and existingDuration < newDuration:
                     pass
                 else:
-                    taskMgr.doMethodLater(newDuration, self.__deliverBothPurchases, taskName)
+                    taskMgr.doMethodLater(newDuration, self.__deliverGiftPurchase, taskName)
         return
 
     def __deliverBothPurchases(self, task):
+        '''
+        This should only ever be used if the DistributedDelieveryManager is
+        broken or not generated.
+        '''
         now = int(time.time() / 60 + 0.5)
         delivered, remaining = self.onOrder.extractDeliveryItems(now)
         deliveredGifts, remainingGifts = self.onGiftOrder.extractDeliveryItems(now)
-        #simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now)
         giftItem = CatalogItemList.CatalogItemList(deliveredGifts, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
         if len(giftItem) > 0:
             self.air.writeServerEvent('Getting Gift', self.doId, 'sender %s receiver %s gift %s' % (giftItem[0].giftTag, self.doId, giftItem[0].getName()))
         self.b_setMailboxContents(self.mailboxContents + delivered + deliveredGifts)
         self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NewItems)
         self.b_setBothSchedules(remaining, remainingGifts)
+        #simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now)
         return Task.done
 
     def setGiftSchedule(self, onGiftOrder, doUpdateLater = True):
