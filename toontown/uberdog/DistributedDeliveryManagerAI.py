@@ -34,8 +34,13 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
     def receiveAcceptAddName(self, todo0):
         pass
 
-    def addGift(self, avId, item, context, optional = -1, senderId = 0):
+    def addGift(self, avId, item, context, optional = -1, senderId = None):
         av = self.air.doId2do.get(avId)
+        sender = self.air.doId2do.get(senderId)
+        
+        if not sender and senderId:
+            self.notify.warning("Gift Sender %d is not online or doesn't exist!" % senderId)
+            return
         
         if not av:
             self.notify.warning("Toon %d is not online or doesn't exist!" % avId)

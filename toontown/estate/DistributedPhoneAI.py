@@ -174,3 +174,4 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         
         simbase.air.deliveryManager.addGift(avId, item, context, optional, senderId)
         self.sendUpdateToAvatarId(senderId, 'requestGiftPurchaseResponse', [context, resp])
+        taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs=[senderId, 'purchaseItemComplete', []])
