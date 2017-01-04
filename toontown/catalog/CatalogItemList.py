@@ -45,7 +45,7 @@ class CatalogItemList:
     
     def getNextDeliveryDate(self):
         if len(self) == 0:
-            return None
+            return
         
         nextDeliveryDate = None
         for item in self:
@@ -60,7 +60,7 @@ class CatalogItemList:
     
     def getNextDeliveryItem(self):
         if len(self) == 0:
-            return None
+            return
         
         nextDeliveryDate = None
         nextDeliveryItem = None
@@ -69,8 +69,6 @@ class CatalogItemList:
                 if nextDeliveryDate == None or item.deliveryDate < nextDeliveryDate:
                     nextDeliveryDate = item.deliveryDate
                     nextDeliveryItem = item
-                
-            item.deliveryDate < nextDeliveryDate
         
         return nextDeliveryItem
 
@@ -81,8 +79,8 @@ class CatalogItemList:
         for item in self:
             if item.deliveryDate <= cutoffTime:
                 beforeTime.append(item)
-                continue
-            afterTime.append(item)
+            else:
+                afterTime.append(item)
         
         return (CatalogItemList(beforeTime, store = self.store), CatalogItemList(afterTime, store = self.store))
 
