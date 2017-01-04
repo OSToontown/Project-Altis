@@ -34,7 +34,7 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
     def receiveAcceptAddName(self, todo0):
         pass
 
-    def addGift(self, avId, item, context, optional, senderId):
+    def addGift(self, avId, item, context, optional = -1, senderId = 0):
         av = self.air.doId2do.get(avId)
         
         if not av:
