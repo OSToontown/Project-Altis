@@ -1,6 +1,5 @@
-from toontown.catalog from toontown.catalog import CatalogItemfrom toontown.catalog import CatalogAtticItem
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
+from toontown.catalog import CatalogItem, CatalogAtticItem
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.catalog.CatalogSurfaceColors import *
 
 STWallpaper = 0

@@ -1,6 +1,7 @@
 import random
 from toontown.catalog import CatalogAtticItem
-from toontown.catalog from toontown.catalog import CatalogItemfrom toontown.toonbase import TTLocalizer
+from toontown.catalog import CatalogItem
+from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
 FTModelName = 0

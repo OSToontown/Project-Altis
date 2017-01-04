@@ -1,7 +1,7 @@
 import types
 import random
 import time
-from toontown.catalog from toontown.catalog import CatalogItemfrom toontown.catalog import CatalogItemList
+from toontown.catalog import CatalogItem, CatalogItemList
 from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem, nextAvailableCloset, getAllClosets, get50ItemCloset, getMaxClosets, get50ItemTrunk
 from toontown.catalog.CatalogAnimatedFurnitureItem import CatalogAnimatedFurnitureItem
 from toontown.catalog.CatalogClothingItem import CatalogClothingItem, getAllClothes

@@ -1,7 +1,6 @@
 from pandac.PandaModules import *
-from toontown.catalog import CatalogAtticItem
-from toontown.catalog from toontown.catalog import CatalogItemfrom toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
+from toontown.catalog import CatalogItem, CatalogAtticItem
+from toontown.toonbase import ToontownGlobals, TTLocalizer
 
 WVTModelName = 0
 WVTBasePrice = 1
