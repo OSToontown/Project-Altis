@@ -66,7 +66,7 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
         delivered, remaining = av.onGiftOrder.extractDeliveryItems(now)
         self.notify.info('Gift Delivery for %s: %s.' % (av.doId, delivered))
         av.b_setMailboxContents(av.mailboxContents + delivered)
-        av.sendDeliverGifts(av.doId, now)
+        self.sendDeliverGifts(av.doId, now)
         av.b_setCatalogNotify(av.catalogNotify, ToontownGlobals.NewItems)
         
     def sendDeliverGifts(self, avId, now):
