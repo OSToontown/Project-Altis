@@ -319,7 +319,8 @@ class CatalogItem:
         dg.addUint8(self.specialEventId)
 
     def getTypeCode(self):
-        from toontown.catalog import CatalogItemTypes        return CatalogItemTypes.CatalogItemTypes[self.__class__]
+        from toontown.catalog import CatalogItemTypes        
+        return CatalogItemTypes.CatalogItemTypes[self.__class__]
 
     def applyColor(self, model, colorDesc):
         if model == None or colorDesc == None:
@@ -399,7 +400,8 @@ class CatalogItem:
 
 
 def encodeCatalogItem(dg, item, store):
-    from toontown.catalog import CatalogItemTypes    flags = item.getTypeCode()
+    from toontown.catalog import CatalogItemTypes    
+    flags = item.getTypeCode()
     if item.isSaleItem():
         flags |= CatalogItemTypes.CatalogItemSaleFlag
     if item.giftTag != None:
@@ -416,7 +418,8 @@ def encodeCatalogItem(dg, item, store):
 
 def decodeCatalogItem(di, versionNumber, store):
     global CatalogReverseType
-    from toontown.catalog import CatalogItemTypes    if CatalogReverseType == None:
+    from toontown.catalog import CatalogItemTypes    
+    if CatalogReverseType == None:
         CatalogReverseType = {}
         for itemClass, index in CatalogItemTypes.CatalogItemTypes.items():
             CatalogReverseType[index] = itemClass
