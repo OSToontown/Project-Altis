@@ -138,4 +138,39 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs=[avId, 'purchaseItemComplete', []])
 
     def requestGiftPurchaseMessage(self, context, avId, item, optional):
-        pass # TODO
+        senderId = self.air.getAvatarIdFromSender()
+        
+        av = self.air.doId2do.get(senderId)
+        reciver = self.air.doId2do.get(avId)
+        
+        if not reciver:
+            self.notify.warning("Toon %d is not online or doesn't exist!" % avId)
+            return
+        
+        if not av:
+            self.air.writeServerEvent('suspicious', senderId, 'Used phone from other shard!')
+            return
+            
+        item = CatalogItem.getItem(item)
+        if isinstance(item, CatalogInvalidItem):
+            self.air.writeServerEvent('suspicious', avId, 'Tried to purchase invalid catalog item.')
+            return
+        if item.loyaltyRequirement():
+            self.air.writeServerEvent('suspicious', avId, 'Tried to purchase an unimplemented loyalty item!')
+            return
+        if item in av.backCatalog:
+            price = item.getPrice(CatalogItem.CatalogTypeBackorder)
+        elif item in av.weeklyCatalog or item in av.monthlyCatalog:
+            price = item.getPrice(0)
+        else:
+            return
+         
+        if not av.takeMoney(price):
+            return
+
+        resp = item.recordPurchase(av, optional)
+        if resp < 0:
+            av.addMoney(price)
+        
+        simbase.air.deliveryManager.addGift(avId, item, context, optional, senderId)
+        self.sendUpdateToAvatarId(senderId, 'requestGiftPurchaseResponse', [context, resp])

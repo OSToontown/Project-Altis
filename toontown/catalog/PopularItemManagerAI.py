@@ -50,6 +50,7 @@ class PopularItemManagerAI:
             simbase.backups.save('catalog', ('popular-items',), (popularItems))
         except ValueError:
             pass
+            
 
     def requestPopularItems(self):
         # Load the current popularItems

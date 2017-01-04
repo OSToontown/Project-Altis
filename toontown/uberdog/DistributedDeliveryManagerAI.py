@@ -34,8 +34,17 @@ class DistributedDeliveryManagerAI(DistributedObjectAI):
     def receiveAcceptAddName(self, todo0):
         pass
 
-    def addGift(self, todo0, todo1, todo2, todo3, todo4):
-        pass
+    def addGift(self, avId, item, context, optional, senderId):
+        av = self.air.doId2do.get(avId)
+        
+        if not av:
+            self.notify.warning("Toon %d is not online or doesn't exist!" % avId)
+            return
+    
+        item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
+        av.onOrder.append(item)
+        av.b_setDeliverySchedule(av.onOrder)
+        self.air.popularItemManager.avBoughtItem(item)
 
     def receiveRejectAddGift(self, todo0):
         pass
