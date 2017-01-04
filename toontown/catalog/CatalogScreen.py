@@ -6,12 +6,8 @@ from pandac.PandaModules import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
-import CatalogItem
-import CatalogInvalidItem
-import CatalogFurnitureItem
+from toontown.catalog import CatalogItemimport, CatalogInvalidItem, CatalogFurnitureItem, CatalogItemPanel, CatalogItemTypes
 from toontown.toonbase import TTLocalizer
-import CatalogItemPanel
-import CatalogItemTypes
 from direct.actor import Actor
 import random
 from toontown.toon import DistributedToon
@@ -75,11 +71,11 @@ class CatalogScreen(DirectFrame):
 
     
     def show(self):
-        self.accept('CatalogItemPurchaseRequest', self._CatalogScreen__handlePurchaseRequest)
-        self.accept('CatalogItemGiftPurchaseRequest', self._CatalogScreen__handleGiftPurchaseRequest)
-        self.accept(localAvatar.uniqueName('moneyChange'), self._CatalogScreen__moneyChange)
-        self.accept(localAvatar.uniqueName('bankMoneyChange'), self._CatalogScreen__bankMoneyChange)
-        self.accept(localAvatar.uniqueName('emblemsChange'), self._CatalogScreen__emblemChange)
+        self.accept('CatalogItemPurchaseRequest', self.__handlePurchaseRequest)
+        self.accept('CatalogItemGiftPurchaseRequest', self.__handleGiftPurchaseRequest)
+        self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
+        self.accept(localAvatar.uniqueName('bankMoneyChange'), self.__bankMoneyChange)
+        self.accept(localAvatar.uniqueName('emblemsChange'), self.__emblemChange)
         deliveryText = 'setDeliverySchedule-%s' % base.localAvatar.doId
         self.accept(deliveryText, self.remoteUpdate)
         render.hide()
@@ -99,8 +95,8 @@ class CatalogScreen(DirectFrame):
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleWait
         
         base.cr.deliveryManager.sendAck()
-        self.accept('DeliveryManagerAck', self._CatalogScreen__handleUDack)
-        taskMgr.doMethodLater(10.0, self._CatalogScreen__handleNoAck, 'ackTimeOut')
+        self.accept('DeliveryManagerAck', self.__handleUDack)
+        taskMgr.doMethodLater(10.0, self.__handleNoAck, 'ackTimeOut')
 
     
     def hide(self):
@@ -582,9 +578,9 @@ class CatalogScreen(DirectFrame):
         self.emblemCatalogButton.hide()
         self.emblemCatalogButton2 = DirectButton(self.base, relief = None, pos = (0, 0, 1.05), frameSize = (-0.20000000000000001, 0.25, -2.0, -1.45), image_scale = (1.0, 1.0, smash), image_pos = (0.0, 0.0, -1.8999999999999999 + lift), image = backDown, pressEffect = 0, command = self.showEmblemItems, text = TTLocalizer.CatalogEmblem, text_font = ToontownGlobals.getSignFont(), text_pos = (1.75, 0.13200000000000001), text_scale = 0.065000000000000002, text_fg = (0.35299999999999998, 0.627, 0.627, 1.0), text2_fg = (0.35299999999999998, 0.42699999999999999, 0.42699999999999999, 1.0))
         self.emblemCatalogButton2.hide()
-        self._CatalogScreen__makeFFlist()
+        self.__makeFFlist()
         if len(self.ffList) > 0:
-            self.giftToggle = DirectButton(self.base, relief = None, pressEffect = 0, image = (giftToggleUp, giftToggleDown, giftToggleUp), image_scale = (1.0, 1, 0.69999999999999996), command = self._CatalogScreen__giftToggle, text = TTLocalizer.CatalogGiftToggleOff, text_font = ToontownGlobals.getSignFont(), text_pos = TTLocalizer.CSgiftTogglePos, text_scale = TTLocalizer.CSgiftToggle, text_fg = (0.35299999999999998, 0.627, 0.627, 1.0), text3_fg = (0.14999999999999999, 0.29999999999999999, 0.29999999999999999, 1.0), text2_fg = (0.35299999999999998, 0.42699999999999999, 0.42699999999999999, 1.0), image_color = Vec4(1.0, 1.0, 0.20000000000000001, 1.0), image1_color = Vec4(0.90000000000000002, 0.84999999999999998, 0.20000000000000001, 1.0), image2_color = Vec4(0.90000000000000002, 0.84999999999999998, 0.20000000000000001, 1.0), image3_color = Vec4(0.5, 0.45000000000000001, 0.20000000000000001, 1.0))
+            self.giftToggle = DirectButton(self.base, relief = None, pressEffect = 0, image = (giftToggleUp, giftToggleDown, giftToggleUp), image_scale = (1.0, 1, 0.69999999999999996), command = self.__giftToggle, text = TTLocalizer.CatalogGiftToggleOff, text_font = ToontownGlobals.getSignFont(), text_pos = TTLocalizer.CSgiftTogglePos, text_scale = TTLocalizer.CSgiftToggle, text_fg = (0.35299999999999998, 0.627, 0.627, 1.0), text3_fg = (0.14999999999999999, 0.29999999999999999, 0.29999999999999999, 1.0), text2_fg = (0.35299999999999998, 0.42699999999999999, 0.42699999999999999, 1.0), image_color = Vec4(1.0, 1.0, 0.20000000000000001, 1.0), image1_color = Vec4(0.90000000000000002, 0.84999999999999998, 0.20000000000000001, 1.0), image2_color = Vec4(0.90000000000000002, 0.84999999999999998, 0.20000000000000001, 1.0), image3_color = Vec4(0.5, 0.45000000000000001, 0.20000000000000001, 1.0))
             self.giftToggle.setPos(0.0, 0, -0.035000000000000003)
             self.giftLabel = DirectLabel(self.base, relief = None, image = giftFriends, image_scale = (1.1499999999999999, 1, 1.1399999999999999), text = ' ', text_font = ToontownGlobals.getSignFont(), text_pos = (1.2, -0.96999999999999997), text_scale = 0.070000000000000007, text_fg = (0.39200000000000002, 0.54900000000000004, 0.627, 1.0), sortOrder = 100, textMayChange = 1)
             self.giftLabel.setPos(-0.14999999999999999, 0, 0.080000000000000002)
@@ -601,9 +597,9 @@ class CatalogScreen(DirectFrame):
             clipper.setPlane(Plane(Vec3(-1, 0, 0), Point3(0.17000000000000001, 0, 0)))
             clipNP = self.scrollList.attachNewNode(clipper)
             self.scrollList.setClipPlane(clipNP)
-            self._CatalogScreen__makeScrollList()
+            self.__makeScrollList()
             friendId = self.ffList[0]
-            self._CatalogScreen__chooseFriend(self.ffList[0][0], self.ffList[0][1])
+            self.__chooseFriend(self.ffList[0][0], self.ffList[0][1])
             self.update()
             self.createdGiftGui = 1
         
@@ -952,7 +948,7 @@ class CatalogScreen(DirectFrame):
     def update(self, lock = 0):
         if not hasattr(self.giftAvatar, 'doId'):
             if self.gifting == 1:
-                self._CatalogScreen__giftToggle()
+                self.__giftToggle()
             
         
         if hasattr(self, 'beanBank'):
@@ -967,17 +963,17 @@ class CatalogScreen(DirectFrame):
         
 
     
-    def _CatalogScreen__handlePurchaseRequest(self, item):
-        item.requestPurchase(self['phone'], self._CatalogScreen__handlePurchaseResponse)
+    def __handlePurchaseRequest(self, item):
+        item.requestPurchase(self['phone'], self.__handlePurchaseResponse)
         taskMgr.remove('clarabelleAskAnythingElse')
 
     
-    def _CatalogScreen__handleGiftPurchaseRequest(self, item):
-        item.requestGiftPurchase(self['phone'], self.frienddoId, self._CatalogScreen__handleGiftPurchaseResponse)
+    def __handleGiftPurchaseRequest(self, item):
+        item.requestGiftPurchase(self['phone'], self.frienddoId, self.__handleGiftPurchaseResponse)
         taskMgr.remove('clarabelleAskAnythingElse')
 
     
-    def _CatalogScreen__handlePurchaseResponse(self, retCode, item):
+    def __handlePurchaseResponse(self, retCode, item):
         if retCode == ToontownGlobals.P_UserCancelled:
             self.update()
             return None
@@ -985,7 +981,7 @@ class CatalogScreen(DirectFrame):
         self.setClarabelleChat(item.getRequestPurchaseErrorText(retCode), item.getRequestPurchaseErrorTextTimeout())
 
     
-    def _CatalogScreen__handleGiftPurchaseResponse(self, retCode, item):
+    def __handleGiftPurchaseResponse(self, retCode, item):
         if retCode == ToontownGlobals.P_UserCancelled:
             return None
         
@@ -993,7 +989,7 @@ class CatalogScreen(DirectFrame):
             return None
         
         self.setClarabelleChat(item.getRequestGiftPurchaseErrorText(retCode) % self.receiverName)
-        self._CatalogScreen__loadFriend()
+        self.__loadFriend()
         
         def askAnythingElse(task):
             self.setClarabelleChat(TTLocalizer.CatalogAnythingElse)
@@ -1003,7 +999,7 @@ class CatalogScreen(DirectFrame):
         
 
     
-    def _CatalogScreen__clearDialog(self, event):
+    def __clearDialog(self, event):
         self.responseDialog.cleanup()
         self.responseDialog = None
 
@@ -1032,21 +1028,21 @@ class CatalogScreen(DirectFrame):
         
 
     
-    def _CatalogScreen__moneyChange(self, money):
+    def __moneyChange(self, money):
         if self.gifting > 0:
             self.update(1)
         else:
             self.update(0)
 
     
-    def _CatalogScreen__bankMoneyChange(self, bankMoney):
+    def __bankMoneyChange(self, bankMoney):
         if self.gifting > 0:
             self.update(1)
         else:
             self.update(0)
 
     
-    def _CatalogScreen__emblemChange(self, newEmblems):
+    def __emblemChange(self, newEmblems):
         self.silverLabel['text'] = str(newEmblems[0])
         self.goldLabel['text'] = str(newEmblems[1])
 
@@ -1073,7 +1069,7 @@ class CatalogScreen(DirectFrame):
         return test
 
     
-    def _CatalogScreen__makeFFlist(self):
+    def __makeFFlist(self):
         for familyMember in base.cr.avList:
             if familyMember.id != base.localAvatar.doId:
                 newFF = (familyMember.id, familyMember.name, NametagGroup.CCNonPlayer)
@@ -1117,7 +1113,7 @@ class CatalogScreen(DirectFrame):
         
 
     
-    def _CatalogScreen__makeScrollList(self):
+    def __makeScrollList(self):
         for ff in self.ffList:
             ffbutton = self.makeFamilyButton(ff[0], ff[1], ff[2])
             if ffbutton:
@@ -1130,20 +1126,20 @@ class CatalogScreen(DirectFrame):
     
     def makeFamilyButton(self, familyId, familyName, colorCode):
         fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
-        return DirectButton(relief = None, text = familyName, text_scale = 0.040000000000000001, text_align = TextNode.ALeft, text_fg = fg, text1_bg = self.textDownColor, text2_bg = self.textRolloverColor, text3_fg = self.textDisabledColor, textMayChange = 0, command = self._CatalogScreen__chooseFriend, extraArgs = [
+        return DirectButton(relief = None, text = familyName, text_scale = 0.040000000000000001, text_align = TextNode.ALeft, text_fg = fg, text1_bg = self.textDownColor, text2_bg = self.textRolloverColor, text3_fg = self.textDisabledColor, textMayChange = 0, command = self.__chooseFriend, extraArgs = [
             familyId,
             familyName])
 
     
-    def _CatalogScreen__chooseFriend(self, friendId, friendName):
+    def __chooseFriend(self, friendId, friendName):
         messenger.send('wakeup')
         self.frienddoId = friendId
         self.receiverName = friendName
         self.friendLabel['text'] = TTLocalizer.CatalogGiftTo % self.receiverName
-        self._CatalogScreen__loadFriend()
+        self.__loadFriend()
 
     
-    def _CatalogScreen__loadFriend(self):
+    def __loadFriend(self):
         if self.allowGetDetails == 0:
             CatalogScreen.notify.warning('smashing requests')
         
@@ -1159,14 +1155,14 @@ class CatalogScreen(DirectFrame):
             self.giftAvatar.doId = self.frienddoId
             self.giftAvatar.forceAllowDelayDelete()
             self.giftAvatar.generate()
-            base.cr.getAvatarDetails(self.giftAvatar, self._CatalogScreen__handleAvatarDetails, 'DistributedToon')
+            base.cr.getAvatarDetails(self.giftAvatar, self.__handleAvatarDetails, 'DistributedToon')
             self.gotAvatar = 0
             self.allowGetDetails = 0
             self.scrollList['state'] = DGG.DISABLED
         
 
     
-    def _CatalogScreen__handleAvatarDetails(self, gotData, avatar, dclass):
+    def __handleAvatarDetails(self, gotData, avatar, dclass):
         if self.giftAvatar.doId != avatar.doId or gotData == 0:
             CatalogScreen.notify.error('Get Gift Avatar Failed')
             self.gotAvatar = 0
@@ -1179,7 +1175,7 @@ class CatalogScreen(DirectFrame):
         self.update()
 
     
-    def _CatalogScreen__giftToggle(self):
+    def __giftToggle(self):
         messenger.send('wakeup')
         if self.gifting == -1:
             self.gifting = 1
@@ -1188,7 +1184,7 @@ class CatalogScreen(DirectFrame):
             self.scrollList.show()
             self.hideEmblems()
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOn
-            self._CatalogScreen__loadFriend()
+            self.__loadFriend()
         else:
             self.gifting = -1
             self.giftLabel.hide()
@@ -1199,7 +1195,7 @@ class CatalogScreen(DirectFrame):
             self.update()
 
     
-    def _CatalogScreen__handleUDack(self, caller = None):
+    def __handleUDack(self, caller = None):
         taskMgr.remove('ackTimeOut')
         if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['state'] = DGG.NORMAL
@@ -1207,7 +1203,7 @@ class CatalogScreen(DirectFrame):
         
 
     
-    def _CatalogScreen__handleNoAck(self, caller = None):
+    def __handleNoAck(self, caller = None):
         if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleNoAck
         

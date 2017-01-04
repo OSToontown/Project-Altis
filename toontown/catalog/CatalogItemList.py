@@ -1,7 +1,5 @@
-# File: C (Python 2.4)
-
-import CatalogItem
-from pandac.PandaModules import *
+from toontown.catalog import CatalogItem
+from panda3d.core import *
 import types
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator

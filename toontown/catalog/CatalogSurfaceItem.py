@@ -1,5 +1,4 @@
-from toontown.catalog import CatalogItem
-from toontown.catalog import CatalogAtticItem
+from toontown.catalog from toontown.catalog import CatalogItemfrom toontown.catalog import CatalogAtticItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.catalog.CatalogSurfaceColors import *

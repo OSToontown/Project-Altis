@@ -1,6 +1,5 @@
 import time
-from toontown.catalog import CatalogItem
-from toontown.toonbase import ToontownGlobals
+from toontown.catalog from toontown.catalog import CatalogItemfrom toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *

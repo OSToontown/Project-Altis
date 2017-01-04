@@ -1,5 +1,4 @@
-from toontown.catalog import CatalogItem
-from toontown.toonbase import TTLocalizer
+from toontown.catalog from toontown.catalog import CatalogItemfrom toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil
 from direct.gui.DirectGui import *
 from toontown.toonbase import ToontownGlobals

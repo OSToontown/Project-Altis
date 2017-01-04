@@ -1,6 +1,5 @@
 import random, types
-from toontown.catalog import CatalogItem
-from CatalogAccessoryItemGlobals import *
+from toontown.catalog from toontown.catalog import CatalogItemfrom CatalogAccessoryItemGlobals import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import ToonDNA
