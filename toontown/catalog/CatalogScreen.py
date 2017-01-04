@@ -6,7 +6,7 @@ from pandac.PandaModules import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
-from toontown.catalog import CatalogItemimport, CatalogInvalidItem, CatalogFurnitureItem, CatalogItemPanel, CatalogItemTypes
+from toontown.catalog import CatalogItem, CatalogInvalidItem, CatalogFurnitureItem, CatalogItemPanel, CatalogItemTypes
 from toontown.toonbase import TTLocalizer
 from direct.actor import Actor
 import random
