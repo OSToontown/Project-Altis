@@ -4655,16 +4655,14 @@ MapPageYouAreAtHome = 'You are at\nyour estate'
 MapPageYouAreAtSomeonesHome = 'You are at %s estate'
 MapPageGoTo = 'Go To\n%s'
 OptionsPageTitle = 'Options'
+OptionsPageSpecial = 'Advanced'
 OptionsTabTitle = 'Options\n& Codes'
-OptionsPagePurchase = 'Subscribe'
 OptionsPageLogout = 'Logout'
 OptionsPageExitToontown = 'Exit Toontown'
-OptionsPageMusicOnLabel = 'Music is on.'
-OptionsPageMusicOffLabel = 'Music is off.'
-OptionsPageSFXOnLabel = 'Sound Effects are on.'
-OptionsPageSFXOffLabel = 'Sound Effects are off.'
-OptionsPageToonChatSoundsOnLabel = '   Type Chat Sounds are on.'
-OptionsPageToonChatSoundsOffLabel = '   Type Chat Sounds are off.'
+OptionsPageMusic = 'Music:'
+OptionsPageSFX = 'Sound Effects:'
+OptionsPageToonChatSoundsOnLabel = 'Type Chat Sounds are on.'
+OptionsPageToonChatSoundsOffLabel = 'Type Chat Sounds are off.'
 OptionsPageFriendsEnabledLabel = 'Accepting new friend requests.'
 OptionsPageFriendsDisabledLabel = 'Not accepting friend requests.'
 OptionsPageWhisperEnabledLabel = 'Allowing whispers from anyone.'
@@ -9818,6 +9816,12 @@ buffIdStrings = {
   1: ('Your gag accuracy will be slight increased for the next %d %s.',
       'Reward: Increased gag accuracy')
 }
+
+# Controls
+RemapPrompt = 'Choose the keys you wish to remap.'
+RemapPopup = 'Press the key you wish to remap this control to.'
+Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
+            'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
 
 def getBuffString(buffId, buffTime):
     if buffTime < 60:

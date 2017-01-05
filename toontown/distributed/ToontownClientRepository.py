@@ -64,6 +64,9 @@ from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.hood import StreetSign
 
+# Import DMENU
+from toontown.dmenu import DMenuScreen
+
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     SupportTutorial = 1
     GameGlobalsId = OTP_DO_ID_TOONTOWN
@@ -157,7 +160,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                     toon.setDNA(dna)
                                 except Exception, e:
                                     print e
-
+        self.DMENU_SCREEN = None
     def congratulations(self, avatarChoice):
         self.acceptedScreen = loader.loadModel('phase_3/models/gui/toon_council')
         self.acceptedScreen.setScale(0.667)
@@ -211,21 +214,30 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.sendSetAvatarIdMsg(0)
         self.clearFriendState()
         if self.music == None and base.musicManagerIsValid:
-            themeList = ('phase_3/audio/bgm/ttaFriendsManager_theme.ogg', 'phase_3/audio/bgm/ttaFriendsManager_theme_2.ogg')
-            self.music = base.musicManager.getSound(random.choice(themeList))
+            theme = ('phase_3/audio/bgm/tt_theme.ogg')
+            self.music = base.musicManager.getSound(theme)
             if self.music:
                 self.music.setLoop(1)
                 self.music.setVolume(0.9)
                 self.music.play()
+        
         base.playMusic(self.music, looping=1, volume=0.9, interrupt=None)
         self.handler = self.handleMessageType
         self.avChoiceDoneEvent = 'avatarChooserDone'
-        self.avChoice = AvatarChooser.AvatarChooser(avList, self.loginFSM, self.avChoiceDoneEvent)
-        self.avChoice.load(self.isPaid())
-        self.avChoice.enter()
+        
+        self.avChoice = None # Will be set in the main menu
+        
+        self.PAT_AVLIST = avList
+        self.PAT_LOGINFSM = self.loginFSM
+        self.PAT_DONEEVENT = self.avChoiceDoneEvent
+        
+        self.dmenu = DMenuScreen.DMenuScreen
+        self.dmenu()
+        
         self.accept(self.avChoiceDoneEvent, self.__handleAvatarChooserDone, [avList])
         if config.GetBool('want-gib-loader', 1):
             self.loadingBlocker = ToontownLoadingBlocker.ToontownLoadingBlocker(avList)
+
 
     def __handleAvatarChooserDone(self, avList, doneStatus):
         done = doneStatus['mode']

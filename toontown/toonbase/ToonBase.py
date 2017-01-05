@@ -46,9 +46,13 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDynamicShadows = 0
         self.exitErrorCode = 0
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        self.camLens.setMinFov(settings['fieldofview']/(4./3.))
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
-        self.musicManager.setVolume(0.65)
+        self.musicManager.setVolume(settings.get("musicVol"))
+        
+        for sfm in self.sfxManagerList:
+            sfm.setVolume(settings.get("sfxVol"))
+        self.sfxActive = settings.get("sfxVol") > 0.0
         self.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         tpm = TextPropertiesManager.getGlobalPtr()
         candidateActive = TextProperties()
@@ -159,6 +163,29 @@ class ToonBase(OTPBase.OTPBase):
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
         self.filters = CommonFilters(self.win, self.cam)
+        
+        self.wantCustomControls = settings.get('want-Custom-Controls', False)
+
+        self.MOVE_UP = 'arrow_up'   
+        self.MOVE_DOWN = 'arrow_down'
+        self.MOVE_LEFT = 'arrow_left'      
+        self.MOVE_RIGHT = 'arrow_right'
+        self.JUMP = 'control'
+        self.ACTION_BUTTON = 'delete'
+        self.SCREENSHOT_KEY = 'f9'
+        keymap = settings.get('keymap', {})
+        if self.wantCustomControls:
+            self.MOVE_UP = keymap.get('MOVE_UP', self.MOVE_UP)
+            self.MOVE_DOWN = keymap.get('MOVE_DOWN', self.MOVE_DOWN)
+            self.MOVE_LEFT = keymap.get('MOVE_LEFT', self.MOVE_LEFT)
+            self.MOVE_RIGHT = keymap.get('MOVE_RIGHT', self.MOVE_RIGHT)
+            self.JUMP = keymap.get('JUMP', self.JUMP)
+            self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
+            self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
+            ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
+        
+        self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 't')
+        
 
         self.Widescreen = settings.get('Widescreen', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
@@ -498,3 +525,22 @@ class ToonBase(OTPBase.OTPBase):
         wp = WindowProperties()
         wp.setMinimized(True)
         base.win.requestProperties(wp)
+
+    def reloadControls(self):
+        keymap = settings.get('keymap', {})
+        self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 'r')
+        if self.wantCustomControls:
+            self.MOVE_UP = keymap.get('MOVE_UP', self.MOVE_UP)
+            self.MOVE_DOWN = keymap.get('MOVE_DOWN', self.MOVE_DOWN)
+            self.MOVE_LEFT = keymap.get('MOVE_LEFT', self.MOVE_LEFT)
+            self.MOVE_RIGHT = keymap.get('MOVE_RIGHT', self.MOVE_RIGHT)
+            self.JUMP = keymap.get('JUMP', self.JUMP)
+            self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
+            ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
+        else:
+            self.MOVE_UP = 'arrow_up'
+            self.MOVE_DOWN = 'arrow_down'
+            self.MOVE_LEFT = 'arrow_left'      
+            self.MOVE_RIGHT = 'arrow_right'
+            self.JUMP = 'control'
+            self.ACTION_BUTTON = 'delete'

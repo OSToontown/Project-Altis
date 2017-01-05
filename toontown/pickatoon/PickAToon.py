@@ -205,8 +205,6 @@ class PickAToon:
         self.toon.animFSM.request('neutral')
         self.toon.setName(av.name)
         self.toon.show()
-        lastAreaName = ToontownGlobals.hoodNameMap.get(av.lastHood, [''])[-1]
-        self.area.setText(lastAreaName)
 
     def turnHead(self, task):
         def clamprotation(i, mn = -1, mx = 1):
