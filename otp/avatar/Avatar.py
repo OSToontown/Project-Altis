@@ -36,6 +36,7 @@ class Avatar(Actor, ShadowCaster):
 
         Actor.__init__(self, None, None, other, flattenable=0, setFinal=1)
         self.enableBlend()
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
         ShadowCaster.__init__(self)
         self.name = ''
         self.__font = OTPGlobals.getInterfaceFont()

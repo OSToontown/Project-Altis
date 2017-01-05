@@ -42,7 +42,7 @@ class ChatManager(DirectObject.DirectObject):
     def __init__(self, cr, localAvatar):
         self.cr = cr
         self.localAvatar = localAvatar
-        self.wantBackgroundFocus = 1
+        self.wantBackgroundFocus = not base.wantCustomControls
         self.__scObscured = 0
         self.__normalObscured = 0
         self.openChatWarning = None
@@ -130,9 +130,9 @@ class ChatManager(DirectObject.DirectObject):
         if self.problemActivatingChat:
             self.problemActivatingChat.destroy()
             self.problemActivatingChat = None
-        
         del self.localAvatar
         del self.cr
+        return
 
     def obscure(self, normal, sc):
         self.__scObscured = sc
@@ -215,6 +215,8 @@ class ChatManager(DirectObject.DirectObject):
             if self.wantBackgroundFocus:
                 self.chatInputNormal.chatEntry['backgroundFocus'] = 1
             self.acceptOnce('enterNormalChat', self.fsm.request, ['normalChat'])
+            if not self.wantBackgroundFocus:
+                self.accept(base.CHAT_HOTKEY, messenger.send, ['enterNormalChat'])
 
     def checkObscurred(self):
         if not self.__scObscured:
@@ -395,10 +397,14 @@ class ChatManager(DirectObject.DirectObject):
         self.chatInputSpeedChat.hide()
 
     def enterNormalChat(self):
+        if base.wantCustomControls:
+            base.localAvatar.controlManager.disableWASD()
         result = self.chatInputNormal.activateByData()
         return result
 
     def exitNormalChat(self):
+        if base.wantCustomControls:
+            base.localAvatar.controlManager.enableWASD()
         self.chatInputNormal.deactivate()
 
     def enterOpenChatWarning(self):
@@ -411,13 +417,14 @@ class ChatManager(DirectObject.DirectObject):
         if self.leaveToPayDialog == None:
             self.leaveToPayDialog = LeaveToPayDialog.LeaveToPayDialog(self.paidNoParentPassword)
             self.leaveToPayDialog.setCancel(self.__handleLeaveToPayCancel)
-        
         self.leaveToPayDialog.show()
+        return
 
     def exitLeaveToPayDialog(self):
         if self.leaveToPayDialog:
             self.leaveToPayDialog.destroy()
             self.leaveToPayDialog = None
+        return
 
     def enterUnpaidChatWarning(self):
         self.notify.error('called enterUnpaidChatWarning() on parent class')
@@ -466,6 +473,7 @@ class ChatManager(DirectObject.DirectObject):
             self.chatMoreInfo = SecretFriendsInfoPanel.SecretFriendsInfoPanel('secretFriendsInfoDone')
         self.chatMoreInfo.show()
         self.accept('secretFriendsInfoDone', self.__secretFriendsInfoDone)
+        return
 
     def exitChatMoreInfo(self):
         self.chatMoreInfo.hide()
@@ -474,14 +482,15 @@ class ChatManager(DirectObject.DirectObject):
     def enterChatPrivacyPolicy(self):
         if self.chatPrivacyPolicy == None:
             self.chatPrivacyPolicy = PrivacyPolicyPanel.PrivacyPolicyPanel('privacyPolicyDone')
-        
         self.chatPrivacyPolicy.show()
         self.accept('privacyPolicyDone', self.__privacyPolicyDone)
+        return
 
     def exitChatPrivacyPolicy(self):
         cleanupDialog('privacyPolicyDialog')
         self.chatPrivacyPolicy = None
         self.ignore('privacyPolicyDone')
+        return
 
     def enterSecretChatActivated(self):
         self.notify.error('called enterSecretChatActivated() on parent class')
@@ -509,3 +518,10 @@ class ChatManager(DirectObject.DirectObject):
 
     def __privacyPolicyDone(self):
         self.fsm.request('activateChat')
+
+    def reloadWASD(self):
+        self.wantBackgroundFocus = not base.wantCustomControls
+        if self.wantBackgroundFocus:
+            self.chatInputNormal.chatEntry['backgroundFocus'] = 1
+        else:
+            self.chatInputNormal.chatEntry['backgroundFocus'] = 0
