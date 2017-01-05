@@ -1,2 +1,2 @@
-# Toontown-Advance
-Toontown Advance is a private server for Disney's now defunct MMO-RPG, Toontown Online.
+# Project Altis
+Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Online.
