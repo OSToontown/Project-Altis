@@ -1,11 +1,12 @@
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
+from direct.gui.DirectGuiGlobals import NO_FADE_SORT_INDEX
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 import random
 
-LOADING_SCREEN_SORT_INDEX = 4000
+NO_FADE_SORT_INDEX = 4000
 
 class ToontownLoadingScreen:
 
@@ -40,18 +41,18 @@ class ToontownLoadingScreen:
         self.__count = 0
         self.__expectedCount = range
         if gui:
-            self.title.reparentTo(base.a2dpBottomLeft, LOADING_SCREEN_SORT_INDEX)
+            self.title.reparentTo(base.a2dpBottomLeft, NO_FADE_SORT_INDEX) #LOADING_SCREEN_SORT_INDEX
             self.title.setPos(0.24, 0, 0.23)
             self.gui.setPos(0, -0.1, 0)
-            self.gui.reparentTo(aspect2d, LOADING_SCREEN_SORT_INDEX)
+            self.gui.reparentTo(aspect2d, NO_FADE_SORT_INDEX)
             #self.gui.setTexture(self.background, 1)
-            self.logo.reparentTo(base.a2dpTopCenter, LOADING_SCREEN_SORT_INDEX)
+            self.logo.reparentTo(base.a2dpTopCenter, NO_FADE_SORT_INDEX)
         else:
-            self.title.reparentTo(base.a2dpBottomLeft, LOADING_SCREEN_SORT_INDEX)
+            self.title.reparentTo(base.a2dpBottomLeft, NO_FADE_SORT_INDEX)
             self.gui.reparentTo(hidden)
             self.logo.reparentTo(hidden)
         
-        self.waitBar.reparentTo(base.a2dpBottomCenter, LOADING_SCREEN_SORT_INDEX)
+        self.waitBar.reparentTo(base.a2dpBottomCenter, NO_FADE_SORT_INDEX)
         self.waitBar.update(self.__count)
 
     def end(self):

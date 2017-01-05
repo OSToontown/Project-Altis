@@ -5152,3 +5152,13 @@ def disguise(command, suitIndex, value):
         return 'Merits set.'
     else:
         return 'Unknow command: %s' % command
+        
+@magicWord(category=CATEGORY_PROGRAMMER)
+def printDNA():
+    '''
+    Print the targets DNA in a pretty fashion.
+    '''
+    target = spellbook.getTarget()
+    return str(target.dna.__str__())
+    
+
