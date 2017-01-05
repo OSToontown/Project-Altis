@@ -7,6 +7,7 @@ from sys import platform
 import sys
 import tempfile
 import time
+import ToontownAsyncLoader
 from direct.directnotify import DirectNotifyGlobal
 from direct.filter.CommonFilters import CommonFilters
 from direct.gui import DirectGuiGlobals
@@ -81,6 +82,10 @@ class ToonBase(OTPBase.OTPBase):
         oldLoader = self.loader
         self.loader = ToontownLoader.ToontownLoader(self)
         __builtins__['loader'] = self.loader
+        
+        self.asyncLoader = ToontownAsyncLoader.ToontownAsyncLoader(self)
+        __builtins__['asyncloader'] = self.asyncLoader
+        
         oldLoader.destroy()
         self.accept('PandaPaused', self.disableAllAudio)
         self.accept('PandaRestarted', self.enableAllAudio)
@@ -153,6 +158,31 @@ class ToonBase(OTPBase.OTPBase):
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
         self.filters = CommonFilters(self.win, self.cam)
+
+        self.currentScale = settings.get('texture-scale', 1.0)
+        self.setTextureScale()
+        self.setRatio()
+        
+        self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
+
+        self.lodMaxRange = 750
+        self.lodMinRange = 5
+        self.lodDelayFactor = 0.4
+
+    def updateAspectRatio(self):
+        fadeSequence = Sequence(
+            Func(base.transitions.fadeOut, .2),
+            Wait(.2),
+            Func(self.setRatio),
+            Func(base.transitions.fadeIn, .2)).start()
+
+    def setRatio(self): # Set the aspect ratio
+        print(GraphicsOptions.AspectRatios[self.Widescreen])
+        base.setAspectRatio(GraphicsOptions.AspectRatios[self.Widescreen])
+            
+    def setTextureScale(self): # Set the global texture scale (TODO)
+        scale = settings.get('texture-scale')
+
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
