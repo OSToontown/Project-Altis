@@ -4,6 +4,7 @@ import DNAUtil
 
 class DNAProp(DNANode.DNANode):
     COMPONENT_CODE = 4
+    __slots__ = ('code', 'color')
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)

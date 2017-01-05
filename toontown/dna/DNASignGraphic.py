@@ -5,6 +5,7 @@ import DNAUtil
 
 class DNASignGraphic(DNAProp.DNAProp):
     COMPONENT_CODE = 8
+    __slots__ = ('width', 'height')
 
     def __init__(self, name):
         DNAProp.DNAProp.__init__(self, name)

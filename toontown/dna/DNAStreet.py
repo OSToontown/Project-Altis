@@ -5,6 +5,8 @@ import DNAUtil
 
 class DNAStreet(DNANode.DNANode):
     COMPONENT_CODE = 19
+    __slots__ = ('code', 'streetTexture', 'sideWalkTexture', 'curbTexture', 'streetColor', 'sidewalkColor'
+                 'curbColor')
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)

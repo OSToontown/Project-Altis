@@ -4,6 +4,7 @@ import DNAUtil
 
 class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
     COMPONENT_CODE = 16
+    __slots__ = ('animName')
     
     def __init__(self, name):
         DNALandmarkBuilding.DNALandmarkBuilding.__init__(self, name)

@@ -7,6 +7,7 @@ import random
 class DNAFlatBuilding(DNANode.DNANode):
     COMPONENT_CODE = 9
     currentWallHeight = 0
+    __slots__ = ('width', 'hasDoor')
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)

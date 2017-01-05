@@ -3,6 +3,7 @@ import DNAGroup
 
 class DNANode(DNAGroup.DNAGroup):
     COMPONENT_CODE = 3
+    __slots__ = ('pos', 'hpr', 'scale')
 
     def __init__(self, name):
         DNAGroup.DNAGroup.__init__(self, name)

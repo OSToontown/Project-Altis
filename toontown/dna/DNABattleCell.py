@@ -2,6 +2,7 @@ from DNAUtil import *
 
 class DNABattleCell:
     COMPONENT_CODE = 21
+    __slots__ = ('width', 'height', 'pos')
 
     def __init__(self, width, height, pos):
         self.width = width

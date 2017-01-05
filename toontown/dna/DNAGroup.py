@@ -3,6 +3,7 @@ import DNAUtil
 
 class DNAGroup:
     COMPONENT_CODE = 1
+    __slots__ = ('name', 'children', 'parent', 'visGroup')
 
     def __init__(self, name):
         self.name = name

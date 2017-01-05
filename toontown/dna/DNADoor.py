@@ -5,6 +5,7 @@ import DNAUtil
 
 class DNADoor(DNAGroup.DNAGroup):
     COMPONENT_CODE = 17
+    __slots__ = ('code', 'color')
 
     def __init__(self, name):
         DNAGroup.DNAGroup.__init__(self, name)

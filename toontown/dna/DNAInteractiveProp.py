@@ -3,6 +3,7 @@ import DNAAnimProp
 
 class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
     COMPONENT_CODE = 15
+    __slots__ = ('cellId')
 
     def __init__(self, name):
         DNAAnimProp.DNAAnimProp.__init__(self, name)
