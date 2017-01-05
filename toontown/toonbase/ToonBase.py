@@ -303,7 +303,6 @@ class ToonBase(OTPBase.OTPBase):
             if strTextLabel is not None:
                 strTextLabel.destroy()
             coordTextLabel.destroy()
-        return
 
     def addScreenshotString(self, str):
         if len(self.screenshotStr):
@@ -496,12 +495,13 @@ class ToonBase(OTPBase.OTPBase):
             config.GetInt('shard-high-pop', ToontownGlobals.HIGH_POP)
         )
 
-    def playMusic(self, music, looping = 0, interrupt = 1, volume = None, time = 0.0):
-        OTPBase.OTPBase.playMusic(self, music, looping, interrupt, volume, time)
+    def playMusic(self, *args, **kw):
+        OTPBase.OTPBase.playMusic(self, *args, **kw)
 
-    # OS X Specific Actions
     def exitOSX(self):
-        self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=TTLocalizer.OptionsPageExitConfirm, style=TTDialog.TwoChoice)
+        self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=TTLocalizer.OptionsPageExitConfirm, 
+            style=TTDialog.TwoChoice)
+        
         self.confirm.show()
         self.accept('confirmDone', self.handleConfirm)
 

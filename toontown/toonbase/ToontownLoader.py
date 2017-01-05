@@ -90,8 +90,8 @@ class ToontownLoader(Loader.Loader):
         
         return ret
 
-    def playSfx(sfx, volume, node):
-        ret = base.playSfx(sfx, volume=volume, node=node)
+    def playSfx(self, *args, **kw):
+        ret = base.playSfx(*args, **kw)
         self.tick()
         return ret
 

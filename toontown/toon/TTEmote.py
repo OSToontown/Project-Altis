@@ -42,7 +42,7 @@ def doAnnoyed(toon, volume = 1):
         sfx = base.loader.loadSfx('phase_3.5/audio/sfx/avatar_emotion_angry.ogg')
 
     def playSfx():
-        base.loader.playSfx(sfx, volume=volume, node=toon)
+        base.loader.playSfx(sfx, 0, 1, volume, node=toon)
 
     track = Sequence(Func(toon.angryEyes), Func(toon.blinkEyes), Func(toon.play, 'angry'), Func(playSfx))
     exitTrack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes))
