@@ -1,6 +1,5 @@
 from panda3d.core import *
 from toontown.dna import DNASuitEdge
-from toontown.dna import DNAStorage
 from toontown.dna import DNASuitPath
 from toontown.dna import DNASuitPoint
 from toontown.dna import DNAError
