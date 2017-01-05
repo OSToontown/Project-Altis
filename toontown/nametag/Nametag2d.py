@@ -50,7 +50,7 @@ class Nametag2d(Nametag, Clickable2d, MarginVisible):
         Clickable2d.destroy(self)
 
     def getUniqueName(self):
-        return 'Nametag2d-' + str(id(self))
+        return 'Nametag2d-%s' % id(self)
 
     def getChatBalloonModel(self):
         return NametagGlobals.chatBalloon2dModel

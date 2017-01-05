@@ -28,7 +28,7 @@ class Nametag3d(Nametag, Clickable3d):
         Clickable3d.destroy(self)
 
     def getUniqueName(self):
-        return 'Nametag3d-' + str(id(self))
+        return 'Nametag3d-%s' % id(self)
 
     def getChatBalloonModel(self):
         return NametagGlobals.chatBalloon3dModel

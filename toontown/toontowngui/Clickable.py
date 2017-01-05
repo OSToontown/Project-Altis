@@ -52,7 +52,7 @@ class Clickable(PandaNode, DirectObject):
             self.contents = None
 
     def getUniqueName(self):
-        return 'Clickable-' + str(id(self))
+        return 'Clickable-%s' % id(self)
 
     def setActive(self, active):
         self.active = active

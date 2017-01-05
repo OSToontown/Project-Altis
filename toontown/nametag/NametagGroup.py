@@ -75,7 +75,7 @@ class NametagGroup:
         self.avatar = None
 
     def getUniqueName(self):
-        return 'NametagGroup-' + str(id(self))
+        return 'NametagGroup-%s' % id(self)
 
     def tick(self, task):
         if (self.avatar is None) or (self.avatar.isEmpty()):

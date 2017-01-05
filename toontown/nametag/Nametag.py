@@ -80,7 +80,7 @@ class Nametag:
         self.avatar = None
 
     def getUniqueName(self):
-        return 'Nametag-' + str(id(self))
+        return 'Nametag-%s' % id(self)
 
     def getChatBalloonModel(self):
         pass
