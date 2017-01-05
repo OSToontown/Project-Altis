@@ -504,7 +504,6 @@ class SuitPlannerBase:
         self.suitWalkSpeed = ToontownGlobals.SuitWalkSpeed
         self.dnaStore = None
         self.pointIndexes = {}
-        return
 
     def delete(self):
         del self.dnaStore
