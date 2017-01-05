@@ -1,21 +1,25 @@
-from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
+from panda3d.core import *
+from panda3d.direct import *
+from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.DirectObject import DirectObject
-from pandac.PandaModules import *
-import random
-import string
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownTimer
+from direct.task import Task
+from otp.namepanel import NameTumbler
+from otp.otpbase import OTPGlobals
+from otp.otpbase import OTPLocalizer
 from toontown.fishing import FishSellGUI
-from toontown.hood import ZoneUtil
 from toontown.pets import Pet, PetConstants
 from toontown.pets import PetDNA
-from toontown.pets import PetDetail
-from toontown.pets import PetNameGenerator
-from toontown.pets import PetTraits
 from toontown.pets import PetUtil
-from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import ToontownTimer
-
+from toontown.pets import PetDetail
+from toontown.pets import PetTraits
+from toontown.pets import PetNameGenerator
+from toontown.hood import ZoneUtil
+import string
+import random
 Dialog_MainMenu = 0
 Dialog_AdoptPet = 1
 Dialog_ChoosePet = 2
@@ -45,6 +49,7 @@ class PetshopGUI(DirectObject):
             self.bNo = DirectButton(self, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), relief=None, text=TTLocalizer.TutorialNo, text_scale=0.05, text_pos=(0.0, -0.1), pos=(0.15, 0.0, -0.1), command=lambda : messenger.send(doneEvent, [0]))
             buttons.removeNode()
             gui.removeNode()
+            return
 
     class NamePicker(DirectFrame):
         notify = DirectNotifyGlobal.directNotify.newCategory('PetshopGUI.NamePicker')
@@ -92,6 +97,7 @@ class PetshopGUI(DirectObject):
             cancelIcon = model.find('**/CancelIcon')
             self.cancelButton = DirectButton(parent=self, relief=None, pos=(-0.04, 0, -0.47), image=cancelImageList, geom=cancelIcon, scale=modelScale, pressEffect=False, command=lambda : messenger.send(doneEvent, [-1]))
             self.randomName()
+            return
 
         def checkNames(self):
             if __dev__:
@@ -199,6 +205,7 @@ class PetshopGUI(DirectObject):
             if not base.localAvatar.hasPet():
                 self.returnPetButton['state'] = DGG.DISABLED
             model.removeNode()
+            return
 
     class AdoptPetDlg(DirectFrame):
         notify = DirectNotifyGlobal.directNotify.newCategory('PetshopGUI.AdoptPetDlg')
@@ -231,6 +238,7 @@ class PetshopGUI(DirectObject):
             self.cancelButton = DirectButton(parent=self, relief=None, image=cancelImageList, geom=cancelIcon, scale=modelScale, text=('', TTLocalizer.PetshopGoBack), text_pos=(-5.8, 4.4), text_scale=0.7, pressEffect=False, command=lambda : messenger.send(doneEvent, [0]))
             self.okButton = DirectButton(parent=self, relief=None, image=okImageList, geom=checkIcon, scale=modelScale, text=('', TTLocalizer.PetshopAdopt), text_pos=(5.8, 4.4), text_scale=0.7, pressEffect=False, command=lambda : messenger.send(doneEvent, [1]))
             model.removeNode()
+            return
 
         def destroy(self):
             self.ignore(localAvatar.uniqueName('moneyChange'))
@@ -261,6 +269,7 @@ class PetshopGUI(DirectObject):
                 self.okButton = DirectButton(parent=self, relief=None, image=okImageList, geom=checkIcon, scale=modelScale, text=('', TTLocalizer.PetshopReturn), text_pos=(5.8, 4.4), text_scale=0.7, pressEffect=False, command=lambda : messenger.send(doneEvent, [1]))
                 self.petView = self.attachNewNode('petView')
                 self.petView.setPos(-0.15, 0, 0.8)
+                avatar.announceGenerate()
                 self.petModel = Pet.Pet(forGui=1)
                 self.petModel.setDNA(avatar.getDNA())
                 self.petModel.fitAndCenterHead(0.395, forGui=1)
@@ -282,6 +291,7 @@ class PetshopGUI(DirectObject):
                 self.PetPanel = None
                 self.petModel.delete()
                 DirectFrame.destroy(self)
+            return
 
     class ChoosePetDlg(DirectFrame):
         notify = DirectNotifyGlobal.directNotify.newCategory('PetshopGUI.ChoosePetDlg')
@@ -315,6 +325,7 @@ class PetshopGUI(DirectObject):
             self.petSeeds = petSeeds
             self.makePetList()
             self.showPet()
+            return
 
         def makePetList(self):
             self.numPets = len(self.petSeeds)
@@ -323,7 +334,7 @@ class PetshopGUI(DirectObject):
             self.petName = []
             self.petDesc = []
             self.petCost = []
-            for i in xrange(self.numPets):
+            for i in range(self.numPets):
                 random.seed(self.petSeeds[i])
                 zoneId = ZoneUtil.getCanonicalSafeZoneId(base.localAvatar.getZoneId())
                 name, dna, traitSeed = PetUtil.getPetInfoFromSeed(self.petSeeds[i], zoneId)
@@ -349,7 +360,7 @@ class PetshopGUI(DirectObject):
                     descList.append('\t%s' % trait)
 
                 descList.append(TTLocalizer.PetshopDescCost % cost)
-                self.petDesc.append(string.join(descList, '\n'))
+                self.petDesc.append('\n'.join(descList))
                 self.petCost.append(cost)
 
         def destroy(self):
@@ -378,6 +389,7 @@ class PetshopGUI(DirectObject):
                 self.okButton['state'] = DGG.DISABLED
             else:
                 self.okButton['state'] = DGG.NORMAL
+            return
 
         def __moneyChange(self, money):
             self.moneyDisplay['text'] = str(base.localAvatar.getTotalMoney())
@@ -399,6 +411,7 @@ class PetshopGUI(DirectObject):
         self.timer.posInTopRightCorner()
         self.timer.countdown(PetConstants.PETCLERK_TIMER, self.__timerExpired)
         self.doDialog(Dialog_MainMenu)
+        return
 
     def __timerExpired(self):
         messenger.send(self.eventDict['guiDone'], [True])
@@ -419,6 +432,7 @@ class PetshopGUI(DirectObject):
         if self.dialog != None:
             self.dialog.destroy()
             self.dialog = None
+        return
 
     def popDialog(self):
         self.dialogStack.pop()
@@ -501,6 +515,7 @@ class PetshopGUI(DirectObject):
                 self.notify.warning('Tried to go home, but place is None.')
                 return
             place.goHomeNow(base.localAvatar.lastHood)
+        return
 
     def __handleReturnPetDlg(self, exitVal):
         if exitVal == 0:

@@ -140,7 +140,6 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
             self.mood.setComponent(mood, value, announce=0)
 
         self.requiredMoodComponents = {}
-        DistributedPetProxy.notify.debug('time since last seen: %s' % self.getTimeSinceLastSeen())
         self.style = [self.head,
          self.ears,
          self.nose,

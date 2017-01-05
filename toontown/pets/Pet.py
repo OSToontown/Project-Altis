@@ -1,22 +1,19 @@
-from direct.actor import Actor
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
-from direct.distributed.ClockDelta import globalClockDelta
+from direct.interval.IntervalGlobal import *
 from direct.fsm.ClassicFSM import *
 from direct.fsm.State import *
-from direct.interval.IntervalGlobal import *
-from direct.showbase import PythonUtil
-from direct.task import Task
-from pandac.PandaModules import *
-import random
-import types
-from toontown.pets.PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
+from direct.distributed.ClockDelta import globalClockDelta
 from otp.avatar import Avatar
-from toontown.chat.ChatGlobals import *
-from toontown.nametag import NametagGlobals
+from direct.actor import Actor
+from direct.task import Task
 from toontown.pets import PetDNA
+from PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
+from direct.showbase import PythonUtil
+import random
+import types
 Component2IconDict = {'boredom': 'Bored',
  'restlessness': None,
  'playfulness': 'Play',
@@ -30,6 +27,11 @@ Component2IconDict = {'boredom': 'Bored',
  'surprise': 'Surprised',
  'affection': 'Love'}
 
+from toontown.nametag import *
+from toontown.nametag.NametagGlobals import *
+from toontown.nametag.NametagGroup import *
+from toontown.chat.ChatGlobals import *
+
 class Pet(Avatar.Avatar):
     notify = DirectNotifyGlobal.directNotify.newCategory('Pet')
     SerialNum = 0
@@ -40,8 +42,11 @@ class Pet(Avatar.Avatar):
      Interactions.NEUTRAL: 'neutral'}
 
     def __init__(self, forGui = 0):
+        self.doodleChat = base.config.GetBool('want-doodle-chat', False)
         Avatar.Avatar.__init__(self)
         self.serialNum = Pet.SerialNum
+        if base.wantSmoothAnim:
+            self.setBlend(frameBlend = True)
         Pet.SerialNum += 1
         self.lockedDown = 0
         self.setPickable(1)
@@ -108,14 +113,16 @@ class Pet(Avatar.Avatar):
         return self.style
 
     def setDNA(self, dna):
+        if base.wantSmoothAnim:
+            self.setBlend(frameBlend = True)
         if self.style:
             pass
         else:
             self.style = dna
             self.generatePet()
-            self.generateMoods()
             self.initializeDropShadow()
             self.initializeNametag3d()
+            self.generateMoods()
             self.dropShadow.setScale(0.75)
 
     def generatePet(self):
@@ -261,6 +268,8 @@ class Pet(Avatar.Avatar):
         self.eyesClosedTexture.setMinfilter(Texture.FTLinear)
         self.eyesClosedTexture.setMagfilter(Texture.FTLinear)
         self.eyesOpen()
+        if base.wantSmoothAnim:
+            self.setBlend(frameBlend = True)
         return None
 
     def initializeBodyCollisions(self, collIdStr):
@@ -277,16 +286,24 @@ class Pet(Avatar.Avatar):
         return color
 
     def generateMoods(self):
+        nodePath = NodePath(self.nametag.getNameIcon())
+
+        if not nodePath:
+            return
+
         moodIcons = loader.loadModel('phase_4/models/char/petEmotes')
-        self.moodIcons = self.attachNewNode('moodIcons')
-        self.moodIcons.setScale(2.0)
-        self.moodIcons.setZ(3.65)
+        self.moodIcons = nodePath.attachNewNode('moodIcons')
+        self.moodIcons.setScale(6.0)
+        self.moodIcons.setZ(3.5)
+
         moods = moodIcons.findAllMatches('**/+GeomNode')
         for moodNum in xrange(0, moods.getNumPaths()):
             mood = moods.getPath(moodNum)
             mood.reparentTo(self.moodIcons)
             mood.setBillboardPointEye()
             mood.hide()
+
+        moodIcons.removeNode()
 
     def clearMood(self):
         if self.moodModel:
@@ -295,13 +312,9 @@ class Pet(Avatar.Avatar):
         return
 
     def showMood(self, mood):
-        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
-            holidayIds = base.cr.newsManager.getHolidayIdList()
-            if (ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds) and not mood == 'confusion':
-                self.speakMood(mood)
-                return
-            else:
-                self.clearChat()
+        #if base.cr.newsManager.isHolidayRunning(ToontownGlobals.APRIL_TOONS_WEEK) and mood != 'confusion':
+        if self.doodleChat and mood != 'confusion':
+            self.speakMood(mood)
         else:
             self.clearChat()
         mood = Component2IconDict[mood]
@@ -322,12 +335,7 @@ class Pet(Avatar.Avatar):
         return
 
     def speakMood(self, mood):
-        if self.moodModel:
-            self.moodModel.hide()
-        if base.config.GetBool('want-speech-bubble', 1):
-            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
-        else:
-            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
+        self.setChatAbsolute(random.choice(TTLocalizer.SpokenMoods[mood]), CFSpeech)
 
     def getGenderString(self):
         if self.style:
@@ -461,6 +469,8 @@ class Pet(Avatar.Avatar):
         return track
 
     def enterTeleportIn(self, timestamp):
+        if base.wantSmoothAnim:
+            self.setBlend(frameBlend = True)
         self.track = self.getTeleportInTrack()
         self.track.start(globalClockDelta.localElapsedTime(timestamp))
 
