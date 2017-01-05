@@ -11546,7 +11546,7 @@ NPCToonDict = {20000: (-1,
          6),
         'm',
         0,
-        NPC_REGULAR),
+        NPC_REGULAR)}
 
 if config.GetBool('want-new-toonhall', 1):
     NPCToonDict[2001] = (2513,
