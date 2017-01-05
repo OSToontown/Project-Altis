@@ -1,11 +1,5 @@
-import operator
-import random
-import time
-from toontown.toon import Experience
-from toontown.toon import InventoryNew
-from toontown.toon import TTEmote
-from toontown.toon import Toon
-import copy
+import operator, copy, random, time, gc
+from toontown.toon import Experience, InventoryNew, TTEmote, Toon
 from direct.controls.GravityWalker import GravityWalker
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -2669,3 +2663,7 @@ def promote(deptIndex):
     invoker = spellbook.getInvoker()
     invoker.sendUpdate('requestPromotion', [deptIndex])
     return 'Your promotion request has been sent.'
+    
+@magicWord(category=CATEGORY_PROGRAMMER)
+def enableGC():
+    gc.enable()
