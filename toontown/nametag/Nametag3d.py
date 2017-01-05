@@ -137,6 +137,14 @@ class Nametag3d(Nametag, Clickable3d):
             reversed=self.chatReversed,
             button=self.chatButton[self.clickState])
         self.chatBalloon.reparentTo(self.contents)
+        
+        
+        # Chat balloon Popup Effect
+        # TODO: Anim toggle
+        self.chatBalloon.setScale(0, 0, 0)
+        Sequence(
+            self.chatBalloon.scaleInterval(.2, VBase3(1.1, 1.1, 1.1), blendType = 'easeInOut'),
+            self.chatBalloon.scaleInterval(.09, VBase3(1, 1, 1), blendType = 'easeInOut')).start()
 
     def drawNametag(self):
         if self.font is None:
