@@ -3,6 +3,7 @@ Created on Nov 16, 2016
 
 @author: Drew
 '''
+import random
 from panda3d.core import *
 from direct.task.Task import Task
 from direct.gui.DirectGui import *
@@ -18,7 +19,6 @@ from direct.interval.IntervalGlobal import *
 POP_COLORS = (Vec4(0.4, 0.4, 1.0, 1.0), Vec4(0.4, 1.0, 0.4, 1.0), Vec4(1.0, 0.4, 0.4, 1.0))
 
 class ShardPicker(ShtikerPage.ShtikerPage):
-
     notify = DirectNotifyGlobal.directNotify.newCategory('ShardPicker')
 
     def __init__(self):
@@ -34,7 +34,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.showPop = True #config.GetBool('show-total-population', 1)
         self.adminForceReload = 0
         self.load()
-        return
     
     def showPicker(self):
         self.enter()
@@ -42,9 +41,8 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         
     def hidePicker(self):
         Sequence(
-         self.posInterval(0.25, Point3(0.3, 0, -1), blendType = 'easeInOut'),
-         Func(self.exit)
-                 ).start()
+            self.posInterval(0.25, Point3(0.3, 0, -1), blendType = 'easeInOut'),
+            Func(self.exit)).start()
 
     def load(self):
         main_text_scale = 0.06
@@ -66,7 +64,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.regenerateScrollList()
         self.reparentTo(base.a2dBottomLeft)
         self.setPos(0.3, 0, -1)
-        return
     
     def unload(self):
         self.gui.removeNode()
@@ -98,7 +95,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
          self.listZorigin,
          self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor=(0.4, 0.4, 1, 0.5), itemFrame_borderWidth=(0.01, 0.01), numItemsVisible=15, forceHeight=0.065, items=self.shardButtons)
         self.scrollList.scrollTo(selectedIndex)
-        return
 
     def askForShardInfoUpdate(self, task = None):
         ToontownDistrictStats.refresh('shardInfoUpdated')
@@ -176,8 +172,10 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         if zoneId != None and ZoneUtil.isWelcomeValley(zoneId):
             return ToontownGlobals.WelcomeValleyToken
         else:
-            return base.cr.defaultShard
-        return
+            if hasattr(base, 'localAvatar'):
+                return base.localAvatar.defaultShard
+            else:
+                return random.choice(base.cr.listActiveShards())
 
     def updateScrollList(self):
         curShardTuples = base.cr.listActiveShards()
@@ -197,8 +195,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
              0,
              0))
         currentShardId = self.getCurrentShardId()
-        actualShardId = base.cr.defaultShard
-        actualShardName = None
+        shardName = None
         anyChanges = 0
         totalPop = 0
         totalWVPop = 0
@@ -206,8 +203,9 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.shardButtons = []
         for i in range(len(curShardTuples)):
             shardId, name, pop, WVPop, hour = curShardTuples[i]
-            if shardId == actualShardId:
-                actualShardName = name
+            if shardId == currentShardId:
+                shardName = name
+            
             totalPop += pop
             totalWVPop += WVPop
             currentMap[shardId] = 1
@@ -257,23 +255,23 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             self.regenerateScrollList()
         self.totalPopulationText['text'] = TTLocalizer.ShardPagePopulationTotal % totalPop
         helpText = TTLocalizer.ShardPageHelpIntro
-        if actualShardName:
+        if shardName:
             if currentShardId == ToontownGlobals.WelcomeValleyToken:
-                helpText += TTLocalizer.ShardPageHelpWelcomeValley % actualShardName
+                helpText += TTLocalizer.ShardPageHelpWelcomeValley % shardName
             else:
-                helpText += TTLocalizer.ShardPageHelpWhere % actualShardName
+                helpText += TTLocalizer.ShardPageHelpWhere % shardName
+        
         if self.adminForceReload:
             self.adminForceReload = 0
-        return
 
     def enter(self):
         self.askForShardInfoUpdate()
         self.updateScrollList()
-        currentShardId = self.getCurrentShardId()
-        buttonTuple = self.shardButtonMap.get(currentShardId)
+        buttonTuple = self.shardButtonMap.get(self.getCurrentShardId())
         if buttonTuple:
             i = self.shardButtons.index(buttonTuple[0])
             self.scrollList.scrollTo(i, centered=1)
+        
         ShtikerPage.ShtikerPage.enter(self)
         self.accept('shardInfoUpdated', self.updateScrollList)
 
