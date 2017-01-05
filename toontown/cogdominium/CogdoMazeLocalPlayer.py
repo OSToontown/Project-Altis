@@ -45,7 +45,7 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
          'boss': False,
          'minion': False}
         
-        self.accept('control', self.controlKeyPressed)
+        self.accept(base.JUMP, self.controlKeyPressed)
 
     def destroy(self):
         self.toon.showName()
@@ -133,7 +133,7 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
     def enterDone(self):
         CogdoMazePlayer.enterDone(self)
         self._guiMgr.hideQuestArrow()
-        self.ignore('control')
+        self.ignore(base.JUMP)
         self._guiMgr.setMessage('')
         if self.exited == False:
             self.lostMemos()

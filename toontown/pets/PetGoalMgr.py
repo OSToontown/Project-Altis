@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import randFloat, lerp
@@ -18,6 +19,7 @@ class PetGoalMgr(DirectObject.DirectObject):
             self.pscSetup = PStatCollector('App:Show code:petThink:UpdatePriorities:Setup')
             self.pscFindPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:FindPrimary')
             self.pscSetPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:SetPrimary')
+        return
 
     def destroy(self):
         if __dev__:
@@ -40,12 +42,14 @@ class PetGoalMgr(DirectObject.DirectObject):
     def addGoal(self, goal):
         self.goals[goal] = None
         goal.setGoalMgr(self)
+        return
 
     def removeGoal(self, goal):
         if self.primaryGoal == goal:
             self._setPrimaryGoal(None)
         goal.clearGoalMgr()
         del self.goals[goal]
+        return
 
     def updatePriorities(self):
         if len(self.goals) == 0:
@@ -96,9 +100,11 @@ class PetGoalMgr(DirectObject.DirectObject):
         self.primaryStartT = globalClock.getFrameTime()
         if goal is not None:
             goal.fsm.request('foreground')
+        return
 
     def _handlePrimaryGoalDone(self):
         self._setPrimaryGoal(None)
+        return
 
     def __repr__(self):
         string = '%s' % self.__class__.__name__

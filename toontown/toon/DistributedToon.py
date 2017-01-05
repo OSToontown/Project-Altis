@@ -1,11 +1,5 @@
-import operator
-import random
-import time
-from toontown.toon import Experience
-from toontown.toon import InventoryNew
-from toontown.toon import TTEmote
-from toontown.toon import Toon
-import copy
+import operator, copy, random, time, gc
+from toontown.toon import Experience, InventoryNew, TTEmote, Toon
 from direct.controls.GravityWalker import GravityWalker
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -110,6 +104,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(base, 'wantPets') and base.wantPets:
             self.petTrickPhrases = []
             self.petDNA = None
+        
         self.customMessages = []
         self.resistanceMessages = []
         self.cogSummonsEarned = []
@@ -225,6 +220,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.removeGMIcon()
         if self.doId in self.cr.toons:
             del self.cr.toons[self.doId]
+        
         DistributedPlayer.DistributedPlayer.disable(self)
 
     def delete(self):
@@ -304,6 +300,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self._gmType = None
         if self._isGM:
             self._gmType = type
+        
         if self._isGM != wasGM:
             self._handleGMName()
 
@@ -426,6 +423,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if ZoneUtil.getCanonicalHoodId(zoneId) == ToontownGlobals.FunnyFarm:
             self.defaultZone = ToontownGlobals.ToontownCentral
             return
+        
         if not base.cr.isPaid() or launcher and not launcher.getPhaseComplete(hoodPhase):
             self.defaultZone = ToontownGlobals.ToontownCentral
         else:
@@ -515,6 +513,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if base.localAvatar.sleepFlag == 1:
             if not base.cr.identifyAvatar(fromAV) == base.localAvatar:
                 base.cr.ttaFriendsManager.d_sleepAutoReply(fromAV)
+        
         newText, scrubbed = self.scrubTalk(chat, mods)
         self.displayTalkWhisper(fromAV, avatarName, chat, mods)
         timestamp = time.strftime('%m-%d-%Y %H:%M:%S', time.localtime())
@@ -841,12 +840,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.track != None:
             DelayDelete.cleanupDelayDeletes(self.track)
         Toon.Toon.exitTeleportOut(self)
-        return
 
     def b_setAnimState(self, animName, animMultiplier = 1.0, callback = None, extraArgs = []):
         self.d_setAnimState(animName, animMultiplier, None, extraArgs)
         self.setAnimState(animName, animMultiplier, None, None, callback, extraArgs)
-        return
 
     def d_setAnimState(self, animName, animMultiplier = 1.0, timestamp = None, extraArgs = []):
         timestamp = globalClockDelta.getFrameNetworkTime()
@@ -1325,12 +1322,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         realIndexToSend = 0
         if type(index) == type(0) and 0 <= index and index < len(speedChatStyles):
             realIndexToSend = index
+        
         self.sendUpdate('setSpeedChatStyleIndex', [realIndexToSend])
 
     def setSpeedChatStyleIndex(self, index):
         realIndexToUse = 0
         if type(index) == type(0) and 0 <= index and index < len(speedChatStyles):
             realIndexToUse = index
+        
         self.speedChatStyleIndex = realIndexToUse
         nameKey, arrowColor, rolloverColor, frameColor = speedChatStyles[realIndexToUse]
         self.nametag.setSpeedChatColor(VBase4(frameColor[0], frameColor[1], frameColor[2], 1))
@@ -1380,6 +1379,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         for emblemIndex, emblemPrice in enumerate(itemEmblemPrices):
             if emblemIndex >= len(self.emblems):
                 return False
+
             if self.emblems[emblemIndex] < emblemPrice:
                 return False
 
@@ -1624,7 +1624,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
         def releaseKart(self):
             self.kartId = None
-            return
 
         def setKartBodyType(self, bodyType):
             self.kartDNA[KartDNA.bodyType] = bodyType
@@ -1824,6 +1823,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             pass
         elif type == 'invasion':
             pass
+        
         self.sendUpdate('reqCogSummons', [type, suitIndex])
 
     def cogSummonsResponse(self, returnCode, suitIndex, doId):
@@ -2663,3 +2663,7 @@ def promote(deptIndex):
     invoker = spellbook.getInvoker()
     invoker.sendUpdate('requestPromotion', [deptIndex])
     return 'Your promotion request has been sent.'
+    
+@magicWord(category=CATEGORY_PROGRAMMER)
+def enableGC():
+    gc.enable()

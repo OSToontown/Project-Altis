@@ -4655,16 +4655,14 @@ MapPageYouAreAtHome = 'You are at\nyour estate'
 MapPageYouAreAtSomeonesHome = 'You are at %s estate'
 MapPageGoTo = 'Go To\n%s'
 OptionsPageTitle = 'Options'
+OptionsPageSpecial = 'Advanced'
 OptionsTabTitle = 'Options\n& Codes'
-OptionsPagePurchase = 'Subscribe'
 OptionsPageLogout = 'Logout'
 OptionsPageExitToontown = 'Exit Toontown'
-OptionsPageMusicOnLabel = 'Music is on.'
-OptionsPageMusicOffLabel = 'Music is off.'
-OptionsPageSFXOnLabel = 'Sound Effects are on.'
-OptionsPageSFXOffLabel = 'Sound Effects are off.'
-OptionsPageToonChatSoundsOnLabel = '   Type Chat Sounds are on.'
-OptionsPageToonChatSoundsOffLabel = '   Type Chat Sounds are off.'
+OptionsPageMusic = 'Music:'
+OptionsPageSFX = 'Sound Effects:'
+OptionsPageToonChatSoundsOnLabel = 'Type Chat Sounds are on.'
+OptionsPageToonChatSoundsOffLabel = 'Type Chat Sounds are off.'
 OptionsPageFriendsEnabledLabel = 'Accepting new friend requests.'
 OptionsPageFriendsDisabledLabel = 'Not accepting friend requests.'
 OptionsPageWhisperEnabledLabel = 'Allowing whispers from anyone.'
@@ -5078,14 +5076,14 @@ BattleGlobalLureAccLow = 'Low'
 BattleGlobalLureAccMedium = 'Medium'
 AttackMissed = 'MISSED'
 NPCCallButtonLabel = 'CALL'
-LoaderLabel = 'Loading...'
+LoaderLabel = 'Loading Project Altis...'
 StarringIn = 'Starring In...'
-HeadingToHood = 'Heading %(to)s %(hood)s...'
-HeadingToYourEstate = 'Heading to your estate...'
-HeadingToEstate = "Heading to %s's estate..."
-HeadingToFriend = "Heading to %s's friend's estate..."
-HeadingToPlayground = 'Heading to the Playground...'
-HeadingToStreet = 'Heading %(to)s %(street)s...'
+HeadingToHood = 'Loading %(hood)s...'
+HeadingToYourEstate = 'Loading your estate...'
+HeadingToEstate = "Loading %s's estate..."
+HeadingToFriend = "Loading your %s's friend's estate..."
+HeadingToPlayground = 'Loading your the Playground...'
+HeadingToStreet = 'Loading %(street)s...'
 TownBattleRun = 'Run all the way back to the playground?'
 TownBattleChooseAvatarToonTitle = 'WHICH TOON?'
 TownBattleChooseAvatarCogTitle = 'WHICH ' + Cog.upper() + '?'
@@ -7624,9 +7622,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7007: 'Dewin Tymme',
  7008: 'Ima Cagedtoon',
  7009: 'Jimmy Thelock',
-# Start with 91913.
-91917: 'Magic Cat',
-91918: 'Trap Cat'}
+ 91917: 'Prince Frizzy'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
  2514: ('Toontown Bank', ''),
  2516: ('Toontown School House', ''),
@@ -9818,6 +9814,12 @@ buffIdStrings = {
   1: ('Your gag accuracy will be slight increased for the next %d %s.',
       'Reward: Increased gag accuracy')
 }
+
+# Controls
+RemapPrompt = 'Choose the keys you wish to remap.'
+RemapPopup = 'Press the key you wish to remap this control to.'
+Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
+            'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
 
 def getBuffString(buffId, buffTime):
     if buffTime < 60:

@@ -4,7 +4,10 @@ from toontown.toonbase import TTLocalizer
 import os
 from direct.showbase import AppRunnerGlobal
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
+import PetNamesEnglish
+from StringIO import StringIO
 
 class PetNameGenerator:
     notify = DirectNotifyGlobal.directNotify.newCategory('PetNameGenerator')
@@ -20,23 +23,7 @@ class PetNameGenerator:
         self.girlFirsts = []
         self.neutralFirsts = []
         self.nameDictionary = {}
-        searchPath = DSearchPath()
-        if AppRunnerGlobal.appRunner:
-            searchPath.appendDirectory(Filename.expandFrom('$TT_3_ROOT/phase_3/etc'))
-        else:
-            searchPath.appendDirectory(Filename('/phase_3/etc'))
-            if os.path.expandvars('$TOONTOWN') != '':
-                searchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('$TOONTOWN/src/configfiles')))
-            else:
-                searchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('toontown/src/configfiles')))
-            searchPath.appendDirectory(Filename('.'))
-        if __debug__:
-            filename = '../resources/phase_3/etc/'+TTLocalizer.PetNameMaster
-        else:
-            filename = '/phase_3/etc/'+TTLocalizer.PetNameMaster
-        input = open(filename, 'r')
-        if not input:
-            self.notify.error('PetNameGenerator: Error opening name list text file.')
+        input = StringIO(PetNamesEnglish.PETNAMES)
         currentLine = input.readline()
         while currentLine:
             if currentLine.lstrip()[0:1] != '#':

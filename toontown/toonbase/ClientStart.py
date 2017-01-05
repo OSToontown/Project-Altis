@@ -40,6 +40,13 @@ if 'loadDisplay' not in settings:
     settings['loadDisplay'] = 'pandagl'
 if 'toonChatSounds' not in settings:
     settings['toonChatSounds'] = True
+if 'newGui' not in settings:
+    settings['newGui'] = False
+if 'show-disclaimer' not in settings:
+    settings['show-disclaimer'] = True
+if 'fieldofview' not in settings:
+    settings['fieldofview'] = 52
+settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])
@@ -84,7 +91,7 @@ ToonBase.ToonBase()
 from pandac.PandaModules import *
 if base.win is None:
     notify.error('Unable to open window; aborting.')
-
+    
 launcher.setPandaErrorCode(0)
 launcher.setPandaWindowOpen()
 ConfigVariableDouble('decompressor-step-time').setValue(0.01)
@@ -109,8 +116,7 @@ from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 if base.musicManagerIsValid:
-    themeList = ('phase_3/audio/bgm/tti_theme.ogg', 'phase_3/audio/bgm/tti_theme_2.ogg')
-    music = base.loader.loadMusic(random.choice(themeList))
+    music = base.loader.loadMusic('phase_3/audio/bgm/tt_theme.ogg')
     if music:
         music.setLoop(1)
         music.setVolume(0.9)

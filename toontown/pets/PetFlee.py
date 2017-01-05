@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 
@@ -13,6 +14,7 @@ class PetFlee(Impulse.Impulse):
         self.lookAtNode.hide()
         self.vel = None
         self.rotVel = None
+        return
 
     def destroy(self):
         self.lookAtNode.removeNode()

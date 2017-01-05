@@ -35,6 +35,8 @@ class Avatar(Actor, ShadowCaster):
             self.Avatar_initialized = 1
 
         Actor.__init__(self, None, None, other, flattenable=0, setFinal=1)
+        self.enableBlend()
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
         ShadowCaster.__init__(self)
         self.name = ''
         self.__font = OTPGlobals.getInterfaceFont()
@@ -54,7 +56,6 @@ class Avatar(Actor, ShadowCaster):
             self.acceptNametagAmbientLightChange()
         
         OTPRender.renderReflection(False, self.nametag3d, 'otp_avatar_nametag', None)
-        self.setBlend(frameBlend=True)
         self.getGeomNode().showThrough(OTPRender.ShadowCameraBitmask)
         self.nametag3d.hide(OTPRender.ShadowCameraBitmask)
         self.collTube = None
@@ -88,6 +89,7 @@ class Avatar(Actor, ShadowCaster):
         except:
             self.Avatar_deleted = 1
         
+        self.disableBlend()
         self.deleteNametag3d()
         Actor.cleanup(self)
         if self.ManagesNametagAmbientLightChanged:

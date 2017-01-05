@@ -7,6 +7,7 @@ from sys import platform
 import sys
 import tempfile
 import time
+import ToontownAsyncLoader
 from direct.directnotify import DirectNotifyGlobal
 from direct.filter.CommonFilters import CommonFilters
 from direct.gui import DirectGuiGlobals
@@ -28,6 +29,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownAccess
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
+from toontown.options import GraphicsOptions
+from direct.interval.IntervalGlobal import Sequence, Func, Wait
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
@@ -44,9 +47,13 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDynamicShadows = 0
         self.exitErrorCode = 0
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        self.camLens.setMinFov(settings['fieldofview']/(4./3.))
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
-        self.musicManager.setVolume(0.65)
+        self.musicManager.setVolume(settings.get("musicVol"))
+        
+        for sfm in self.sfxManagerList:
+            sfm.setVolume(settings.get("sfxVol"))
+        self.sfxActive = settings.get("sfxVol") > 0.0
         self.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         tpm = TextPropertiesManager.getGlobalPtr()
         candidateActive = TextProperties()
@@ -81,6 +88,11 @@ class ToonBase(OTPBase.OTPBase):
         oldLoader = self.loader
         self.loader = ToontownLoader.ToontownLoader(self)
         __builtins__['loader'] = self.loader
+        
+        self.asyncLoader = ToontownAsyncLoader.ToontownAsyncLoader(self)
+        __builtins__['asyncloader'] = self.asyncLoader
+        
+        __builtins__['NO_FADE_SORT_INDEX'] = 4000
         oldLoader.destroy()
         self.accept('PandaPaused', self.disableAllAudio)
         self.accept('PandaRestarted', self.enableAllAudio)
@@ -153,6 +165,55 @@ class ToonBase(OTPBase.OTPBase):
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
         self.filters = CommonFilters(self.win, self.cam)
+        
+        self.wantCustomControls = settings.get('want-Custom-Controls', False)
+
+        self.MOVE_UP = 'arrow_up'   
+        self.MOVE_DOWN = 'arrow_down'
+        self.MOVE_LEFT = 'arrow_left'      
+        self.MOVE_RIGHT = 'arrow_right'
+        self.JUMP = 'control'
+        self.ACTION_BUTTON = 'delete'
+        self.SCREENSHOT_KEY = 'f9'
+        keymap = settings.get('keymap', {})
+        if self.wantCustomControls:
+            self.MOVE_UP = keymap.get('MOVE_UP', self.MOVE_UP)
+            self.MOVE_DOWN = keymap.get('MOVE_DOWN', self.MOVE_DOWN)
+            self.MOVE_LEFT = keymap.get('MOVE_LEFT', self.MOVE_LEFT)
+            self.MOVE_RIGHT = keymap.get('MOVE_RIGHT', self.MOVE_RIGHT)
+            self.JUMP = keymap.get('JUMP', self.JUMP)
+            self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
+            self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
+            ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
+        
+        self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 't')
+        
+
+        self.Widescreen = settings.get('Widescreen', 0)
+        self.currentScale = settings.get('texture-scale', 1.0)
+        self.setTextureScale()
+        self.setRatio()
+        
+        self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
+
+        self.lodMaxRange = 750
+        self.lodMinRange = 5
+        self.lodDelayFactor = 0.4
+
+    def updateAspectRatio(self):
+        fadeSequence = Sequence(
+            Func(base.transitions.fadeOut, .2),
+            Wait(.2),
+            Func(self.setRatio),
+            Func(base.transitions.fadeIn, .2)).start()
+
+    def setRatio(self): # Set the aspect ratio
+        print(GraphicsOptions.AspectRatios[self.Widescreen])
+        base.setAspectRatio(GraphicsOptions.AspectRatios[self.Widescreen])
+            
+    def setTextureScale(self): # Set the global texture scale (TODO)
+        scale = settings.get('texture-scale')
+
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
@@ -244,7 +305,6 @@ class ToonBase(OTPBase.OTPBase):
             if strTextLabel is not None:
                 strTextLabel.destroy()
             coordTextLabel.destroy()
-        return
 
     def addScreenshotString(self, str):
         if len(self.screenshotStr):
@@ -437,12 +497,13 @@ class ToonBase(OTPBase.OTPBase):
             config.GetInt('shard-high-pop', ToontownGlobals.HIGH_POP)
         )
 
-    def playMusic(self, music, looping = 0, interrupt = 1, volume = None, time = 0.0):
-        OTPBase.OTPBase.playMusic(self, music, looping, interrupt, volume, time)
+    def playMusic(self, *args, **kw):
+        OTPBase.OTPBase.playMusic(self, *args, **kw)
 
-    # OS X Specific Actions
     def exitOSX(self):
-        self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=TTLocalizer.OptionsPageExitConfirm, style=TTDialog.TwoChoice)
+        self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=TTLocalizer.OptionsPageExitConfirm, 
+            style=TTDialog.TwoChoice)
+        
         self.confirm.show()
         self.accept('confirmDone', self.handleConfirm)
 
@@ -466,3 +527,22 @@ class ToonBase(OTPBase.OTPBase):
         wp = WindowProperties()
         wp.setMinimized(True)
         base.win.requestProperties(wp)
+
+    def reloadControls(self):
+        keymap = settings.get('keymap', {})
+        self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 'r')
+        if self.wantCustomControls:
+            self.MOVE_UP = keymap.get('MOVE_UP', self.MOVE_UP)
+            self.MOVE_DOWN = keymap.get('MOVE_DOWN', self.MOVE_DOWN)
+            self.MOVE_LEFT = keymap.get('MOVE_LEFT', self.MOVE_LEFT)
+            self.MOVE_RIGHT = keymap.get('MOVE_RIGHT', self.MOVE_RIGHT)
+            self.JUMP = keymap.get('JUMP', self.JUMP)
+            self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
+            ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
+        else:
+            self.MOVE_UP = 'arrow_up'
+            self.MOVE_DOWN = 'arrow_down'
+            self.MOVE_LEFT = 'arrow_left'      
+            self.MOVE_RIGHT = 'arrow_right'
+            self.JUMP = 'control'
+            self.ACTION_BUTTON = 'delete'

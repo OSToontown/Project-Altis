@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 import math

@@ -279,12 +279,14 @@ def loadSkelDialog():
         murmur = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_murmur.ogg')
         statement = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_statement.ogg')
         question = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_question.ogg')
-        SkelSuitDialogArray = [grunt,
-         murmur,
-         statement,
-         question,
-         statement,
-         statement]
+        SkelSuitDialogArray = [
+            grunt,
+            murmur,
+            statement,
+            question,
+            statement,
+            statement
+        ]
 
 
 def unloadDialog(level):
@@ -449,6 +451,8 @@ class Suit(Avatar.Avatar):
         self.loadModel(Preloaded[filepath], copy = True)
         self.loadAnims(animDict)
         self.setSuitClothes()
+        self.setBlend(frameBlend = True)
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
 
     def generateAnimDict(self):
         animDict = {}
@@ -745,6 +749,8 @@ class Suit(Avatar.Avatar):
         self.generateCorporateMedallion()
         self.generateCorporateTie()
         self.setHeight(self.height)
+        self.setBlend(frameBlend = True)
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
         parts = self.findAllMatches('**/pPlane*')
         for partNum in xrange(0, parts.getNumPaths()):
             bb = parts.getPath(partNum)

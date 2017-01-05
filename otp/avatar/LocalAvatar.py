@@ -1,5 +1,6 @@
 import math
 import random
+import ToontownControlManager
 from direct.controls import ControlManager
 from direct.controls.GhostWalker import GhostWalker
 from direct.controls.GravityWalker import GravityWalker
@@ -42,7 +43,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         base.pushCTrav(self.cTrav)
         self.cTrav.setRespectPrevTransform(1)
         self.avatarControlsEnabled = 0
-        self.controlManager = ControlManager.ControlManager(True, passMessagesThrough)
+        self.controlManager = ToontownControlManager.ToontownControlManager(True)
         self.initializeCollisions()
         self.initializeSmartCamera()
         self.cameraPositions = []
@@ -62,6 +63,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.sleepFlag = 0
         self.isDisguised = 0
         self.movingFlag = 0
+        self.preventCameraDisable = False
         self.swimmingFlag = 0
         self.lastNeedH = None
         self.accept('friendOnline', self.__friendOnline)
@@ -76,6 +78,10 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.accept('avatarMoving', self.clearPageUpDown)
         self.showNametag2d()
         self.setPickable(0)
+        self.neverSleep = False
+
+    def setPreventCameraDisable(self, prevent):
+        self.preventCameraDisable = prevent
 
     def useSwimControls(self):
         self.controlManager.use('swim', self)
@@ -357,22 +363,23 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.b_setAnimState(state, 1.0)
         return Task.done
 
-    def jumpLandAnimFix(self, jumpTime):
-        if self.playingAnim != 'run' and self.playingAnim != 'walk':
-            return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
+    if 1:
+        def jumpLandAnimFix(self, jumpTime):
+            if self.playingAnim != 'run' and self.playingAnim != 'walk':
+                return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
 
-    def jumpHardLand(self):
-        if self.allowHardLand():
-            self.b_setAnimState('jumpLand', 1.0)
-            self.stopJumpLandTask()
-            self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
-        if self.d_broadcastPosHpr:
-            self.d_broadcastPosHpr()
+        def jumpHardLand(self):
+            if self.allowHardLand():
+                self.b_setAnimState('jumpLand', 1.0)
+                self.stopJumpLandTask()
+                self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
+            if self.d_broadcastPosHpr:
+                self.d_broadcastPosHpr()
 
-    def jumpLand(self):
-        self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
-        if self.d_broadcastPosHpr:
-            self.d_broadcastPosHpr()
+        def jumpLand(self):
+            self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
+            if self.d_broadcastPosHpr:
+                self.d_broadcastPosHpr()
 
     def setupAnimationEvents(self):
         self.accept('jumpStart', self.jumpStart, [])
@@ -422,38 +429,35 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.controlManager.setSpeeds(OTPGlobals.ToonForwardSlowSpeed, OTPGlobals.ToonJumpSlowForce, OTPGlobals.ToonReverseSlowSpeed, OTPGlobals.ToonRotateSlowSpeed)
 
     def pageUp(self):
-        if not self.avatarControlsEnabled:
+        if not (self.avatarControlsEnabled or self.preventCameraDisable):
             return
         self.wakeUp()
         if not self.isPageUp:
             self.isPageDown = 0
             self.isPageUp = 1
-            self.lerpCameraFov(70, 0.6)
             self.setCameraPositionByIndex(self.cameraIndex)
         else:
             self.clearPageUpDown()
 
     def pageDown(self):
-        if not self.avatarControlsEnabled:
+        if not (self.avatarControlsEnabled and self.preventCameraDisable):
             return
         self.wakeUp()
         if not self.isPageDown:
             self.isPageUp = 0
             self.isPageDown = 1
-            self.lerpCameraFov(70, 0.6)
             self.setCameraPositionByIndex(self.cameraIndex)
         else:
             self.clearPageUpDown()
 
     def clearPageUpDown(self):
         if self.isPageDown or self.isPageUp:
-            self.lerpCameraFov(self.fov, 0.6)
             self.isPageDown = 0
             self.isPageUp = 0
             self.setCameraPositionByIndex(self.cameraIndex)
 
     def nextCameraPos(self, forward):
-        if not self.avatarControlsEnabled:
+        if not (self.avatarControlsEnabled or self.preventCameraDisable):
             return
         self.wakeUp()
         self.__cameraHasBeenMoved = 1
@@ -608,7 +612,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             camera.setPos(savePos)
             camera.setHpr(saveHpr)
             taskMgr.remove('posCamera')
-            camera.lerpPosHpr(x, y, z, h, p, r, time, task='posCamera')
+            self.cameraLerp = LerpPosHprInterval(camera, time, Point3(x, y, z), Point3(h, p, r), other=self, name='posCamera')
+            self.cameraLerp.start()
 
     def getClampedAvatarHeight(self):
         return max(self.getHeight(), 3.0)
@@ -757,17 +762,13 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.__cameraHasBeenMoved = 0
         self.__lastPosWrtRender = camera.getPos(render)
         self.__lastHprWrtRender = camera.getHpr(render)
+        self.handleCameraFloorInteraction()
         self.__idealCameraObstructed = 0
         if not self.__disableSmartCam:
             self.ccTrav.traverse(self.__geom)
             if self.camCollisionQueue.getNumEntries() > 0:
-                try:
-                    self.camCollisionQueue.sortEntries()
-                    self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
-                except AssertionError:  # FIXME: Hacky.
-                    pass
-            if not self.__onLevelGround:
-                self.handleCameraFloorInteraction()
+                self.camCollisionQueue.sortEntries()
+                self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
         if not self.__idealCameraObstructed:
             self.nudgeCamera()
         if not self.__disableSmartCam:
@@ -824,20 +825,27 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.popCameraToDest()
 
     def handleCameraFloorInteraction(self):
-        self.putCameraFloorRayOnCamera()
-        self.ccTravFloor.traverse(self.__geom)
-        if self.__onLevelGround:
-            return
+        self.camFloorRayNode.setPos(camera.getPos())
+        self.ccTravFloor.traverse(self._LocalAvatar__geom)
         if self.camFloorCollisionQueue.getNumEntries() == 0:
             return
         self.camFloorCollisionQueue.sortEntries()
         camObstrCollisionEntry = self.camFloorCollisionQueue.getEntry(0)
         camHeightFromFloor = camObstrCollisionEntry.getSurfacePoint(self.ccRayNodePath)[2]
-        self.cameraZOffset = camera.getPos()[2] + camHeightFromFloor
-        if self.cameraZOffset < 0:
-            self.cameraZOffset = 0
-        if self.__floorDetected == 0:
-            self.__floorDetected = 1
+        heightOfFloorUnderCamera = (camera.getPos()[2] - ToontownGlobals.FloorOffset) + camHeightFromFloor
+        camIdealHeightFromFloor = self.getIdealCameraPos()[2]
+        camTargetHeight = heightOfFloorUnderCamera + camIdealHeightFromFloor
+        self.cameraZOffset = camTargetHeight - camIdealHeightFromFloor
+        if self.cameraZOffset < 0.0:
+            self.cameraZOffset = self.cameraZOffset * 0.33
+            if self.cameraZOffset < -(self.getClampedAvatarHeight() * 0.5):
+                if self.cameraZOffset < -self.getClampedAvatarHeight():
+                    self.cameraZOffset = 0.0
+                else:
+                    self.cameraZOffset = -(self.getClampedAvatarHeight() * 0.5)
+        
+        if self._LocalAvatar__floorDetected == 0:
+            self._LocalAvatar__floorDetected = 1
             self.popCameraToDest()
 
     def lerpCameraFov(self, fov, time):
@@ -934,24 +942,24 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         return self.animMultiplier
 
     def enableRun(self):
-        self.accept('arrow_up', self.startRunWatch)
-        self.accept('arrow_up-up', self.stopRunWatch)
-        self.accept('control-arrow_up', self.startRunWatch)
-        self.accept('control-arrow_up-up', self.stopRunWatch)
-        self.accept('alt-arrow_up', self.startRunWatch)
-        self.accept('alt-arrow_up-up', self.stopRunWatch)
-        self.accept('shift-arrow_up', self.startRunWatch)
-        self.accept('shift-arrow_up-up', self.stopRunWatch)
+        self.accept(base.MOVE_UP, self.startRunWatch)
+        self.accept(base.MOVE_UP + '-up', self.stopRunWatch)
+        self.accept('control-'+ base.MOVE_UP, self.startRunWatch)
+        self.accept('control-'+ base.MOVE_UP + '-up', self.stopRunWatch)
+        self.accept('alt-'+ base.MOVE_UP, self.startRunWatch)
+        self.accept('alt-'+ base.MOVE_UP + '-up', self.stopRunWatch)
+        self.accept('shift-' + base.MOVE_UP, self.startRunWatch)
+        self.accept('shift-' + base.MOVE_UP + '-up', self.stopRunWatch)
 
     def disableRun(self):
-        self.ignore('arrow_up')
-        self.ignore('arrow_up-up')
-        self.ignore('control-arrow_up')
-        self.ignore('control-arrow_up-up')
-        self.ignore('alt-arrow_up')
-        self.ignore('alt-arrow_up-up')
-        self.ignore('shift-arrow_up')
-        self.ignore('shift-arrow_up-up')
+        self.ignore(base.MOVE_UP)
+        self.ignore(base.MOVE_UP + '-up')
+        self.ignore('control-'+ base.MOVE_UP)
+        self.ignore('control-' + base.MOVE_UP + '-up')
+        self.ignore('alt-' + base.MOVE_UP)
+        self.ignore('alt-' + base.MOVE_UP + '-up')
+        self.ignore('shift-' + base.MOVE_UP)
+        self.ignore('shift-' + base.MOVE_UP + '-up')
 
     def startRunWatch(self):
 
@@ -978,15 +986,26 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.soundRun.stop()
         self.soundWalk.stop()
 
+    def disableSleeping(self):
+        self.neverSleep = True
+
+    def enableSleeping(self):
+        self.neverSleep = False
+
     def wakeUp(self):
+        if self.neverSleep:
+            return
         if self.sleepCallback != None:
             taskMgr.remove(self.uniqueName('sleepwatch'))
             self.startSleepWatch(self.sleepCallback)
         self.lastMoved = globalClock.getFrameTime()
         if self.sleepFlag:
             self.sleepFlag = 0
+        return
 
     def gotoSleep(self):
+        if self.neverSleep:
+            return
         if not self.sleepFlag:
             self.b_setAnimState('Sleep', self.animMultiplier)
             self.sleepFlag = 1

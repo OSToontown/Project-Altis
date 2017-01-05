@@ -12,62 +12,39 @@ class DNACornice(DNAGroup.DNAGroup):
     def __init__(self, name):
         DNAGroup.DNAGroup.__init__(self, name)
         self.code = ''
-        self.color = LVector4f(1, 1, 1, 1)
-
-    def setCode(self, code):
-        self.code = code
-
+        self.color = LVector4f(1)
+        
     def getCode(self):
         return self.code
-
-    def setColor(self, color):
-        self.color = color
-
+        
     def getColor(self):
         return self.color
 
-    def makeFromDGI(self, dgi):
-        DNAGroup.DNAGroup.makeFromDGI(self, dgi)
+    def makeFromDGI(self, dgi, store):
+        DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
         self.code = DNAUtil.dgiExtractString8(dgi)
         self.color = DNAUtil.dgiExtractColor(dgi)
 
-    def traverse(self, nodePath, dnaStorage):
-        pParentXScale = nodePath.getParent().getScale().getX()
-        parentZScale = nodePath.getScale().getZ()
-        node = dnaStorage.findNode(self.code)
-        if node is None:
+    def traverse(self, np, store):
+        parentXScale = np.getParent().getScale().getX()
+        parentZScale = np.getScale().getZ()
+        scaleRatio = parentXScale / parentZScale
+        
+        node = store.findNode(self.code)
+        if node.isEmpty():
             raise DNAError.DNAError('DNACornice code %d not found in DNAStorage' % self.code)
         
-        nodePathA = nodePath.attachNewNode('cornice-internal', 0)
-        node = node.find('**/*_d')
-        np = node.copyTo(nodePathA, 0)
-        np.setPosHprScale(
-            LVector3f(0, 0, 0),
-            LVector3f(0, 0, 0),
-            LVector3f(1, pParentXScale/parentZScale, pParentXScale/parentZScale))
+        internalNode = np.attachNewNode("cornice-internal")
+        node = node.find("**/*_d")
         
-        np.setEffect(DecalEffect.make())
-        np.flattenStrong()
-        node = node.getParent().find('**/*_nd')
-        np = node.copyTo(nodePathA, 1)
-        np.setPosHprScale(
-            LVector3f(0, 0, 0),
-            LVector3f(0, 0, 0),
-            LVector3f(1, pParentXScale/parentZScale, pParentXScale/parentZScale))
+        _np = node.copyTo(internalNode, 0)
+        _np.setScale(1, scaleRatio, scaleRatio)
+        _np.setEffect(DecalEffect.make())
         
-        np.flattenStrong()
-        nodePathA.setPosHprScale(
-            LVector3f(0, 0, node.getScale().getZ()),
-            LVector3f(0, 0, 0),
-            LVector3f(1, 1, 1))
+        node = node.getParent().find("**/*_nd")
+        np_d = node.copyTo(internalNode, 1)
+        np_d.setScale(1, scaleRatio, scaleRatio)
         
-        nodePathA.setColor(self.color)
-        nodePathA.flattenStrong()
-        
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
-        packer.name = 'DNACornice'  # Override the name for debugging.
-        packer.pack('code', self.code, STRING)
-        packer.packColor('color', *self.color)
-
-        return packer
+        internalNode.setZ(node.getScale().getZ())
+        internalNode.setColor(self.color)
+        internalNode.flattenStrong()

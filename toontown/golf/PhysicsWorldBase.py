@@ -5,7 +5,6 @@ from pandac.PandaModules import *
 from math import *
 import math
 from direct.fsm.FSM import FSM
-from toontown.minigame import ArrowKeys
 from direct.showbase import PythonUtil
 from direct.task import Task
 from direct.distributed.ClockDelta import *
@@ -28,6 +27,8 @@ class PhysicsWorldBase:
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPhysicsWorld')
 
     def __init__(self, canRender = 0):
+        if canRender:
+            from toontown.minigame import ArrowKeys
         self.canRender = canRender
         self.world = OdeWorld()
         self.space = OdeSimpleSpace()

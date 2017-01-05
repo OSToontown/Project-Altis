@@ -1,112 +1,97 @@
-from panda3d.core import BamFile, NodePath, StringStream, decompressString
-from toontown.dna import DNANode
+from panda3d.core import BamFile, NodePath, TextNode, DecalEffect
+from toontown.dna import DNANode, DNAUtil, DNAError
+import math
 
 class DNASignBaseline(DNANode.DNANode):
-    __slots__ = (
-        'data', 'code', 'color', 'flags', 'indent', 'kern', 'wiggle', 
-        'stumble', 'stomp', 'width', 'height')
-
     COMPONENT_CODE = 6
 
-    def __init__(self):
-        DNANode.DNANode.__init__(self, '')
-        self.code = ''
-        self.color = (1, 1, 1, 1)
-        self.flags = ''
-        self.indent = 0.0
-        self.kern = 0.0
-        self.wiggle = 0.0
-        self.stumble = 0.0
-        self.stomp = 0.0
-        self.width = 0.0
-        self.height = 0.0
-        self.data = ''
-        
-    def setCode(self, code):
-        self.code = code
+    def __init__(self, name):
+        DNANode.DNANode.__init__(self, name)
 
-    def setColor(self, color):
-        self.color = color
-
-    def setHeight(self, height):
-        self.height = height
-
-    def setIndent(self, indent):
-        self.indent = indent
-
-    def setKern(self, kern):
-        self.kern = kern
-
-    def setStomp(self, stomp):
-        self.stomp = stomp
-
-    def setStumble(self, stumble):
-        self.stumble = stumble
-
-    def setWiggle(self, wiggle):
-        self.wiggle = wiggle
-
-    def setWidth(self, width):
-        self.width = width
-
-    def setFlags(self, flags):
-        self.flags = flags
-
-    def makeFromDGI(self, dgi):
-        DNANode.DNANode.makeFromDGI(self, dgi)
-        self.data = dgi.getString()
-        
-        if len(self.data):
-            self.data = decompressString(self.data)
+    def makeFromDGI(self, dgi, store):
+        DNANode.DNANode.makeFromDGI(self, dgi, store)
+        self.text = dgi.getString()
+        self.code = dgi.getString()
+        self.color = DNAUtil.dgiExtractColor(dgi)
+        self.flags = dgi.getString()
+        self.indent = dgi.getFloat32()
+        self.kern = dgi.getFloat32()
+        self.wiggle = dgi.getFloat32()
+        self.stumble = dgi.getFloat32()
+        self.stomp = dgi.getFloat32()
+        self.width = dgi.getFloat32()
+        self.height = dgi.getFloat32()
 
     def traverse(self, nodePath, dnaStorage):
-        node = nodePath.attachNewNode('baseline', 0)
-        node.setPosHpr(self.pos, self.hpr)
-        node.setPos(node, 0, -0.1, 0)
-        if self.data:
-            bf = BamFile()
-            ss = StringStream()
-            ss.setData(self.data)
-            bf.openRead(ss)
+        root = NodePath('signroot')
+        head_root = NodePath('root')
+        wantDecalTest = base.config.GetBool('want-sign-decal-test', False)
+        x = 0
+        for i in range(len(self.text)):
+            tn = TextNode("text")
+            tn.setText(self.text[i])
+            tn.setTextColor(self.color)
+            font = dnaStorage.findFont(self.code)
 
-            if not bf.getReader().getSource():
-                # failed to load sign text.
-                return
-            
-            signText = NodePath(bf.readNode())
-            signText.reparentTo(node)
-        
-        node.flattenStrong()
-        for child in self.children:
-            child.traverse(nodePath, dnaStorage)
-            
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
-        packer.name = 'DNASignBaseline'  # Override the name for debugging.
+            if font == None:
+                raise DNAError.DNAError('Font code %s not found.' %self.code)
 
-        traversed_data = ''
-        text = ''
+            tn.setFont(font)
 
-        for child in self.children:
-            if child.__class__.__name__ == 'DNASignText':
-                text += child.letters
+            if i == 0 and 'b' in self.flags:
+                tn.setTextScale(1.5)
+            np = root.attachNewNode(tn)
+            np.setScale(self.scale)
+            np.setDepthWrite(0)
+
+            if i % 2:
+                np.setPos(x + self.stumble, 0, self.stomp)
+                np.setR(-self.wiggle)
             else:
-                if recursive:
-                    traversed_data += child.packerTraverse(recursive=recursive, verbose=verbose)
+                np.setPos(x - self.stumble, 0, self.stomp)
+                np.setR(self.wiggle)
 
-        packer.pack('sign node text', text, STRING)
-        packer.pack('sign node code', self.code, STRING)
-        packer.packColor('sign node color', *self.color)
-        packer.pack('sign node flags', self.flags, STRING)
-        packer.pack('sign node indent', self.indent, FLOAT32)
-        packer.pack('sign node kern', self.kern, FLOAT32)
-        packer.pack('sign node wiggle', self.wiggle, FLOAT32)
-        packer.pack('sign node stumble', self.stumble, FLOAT32)
-        packer.pack('sign node stomp', self.stomp, FLOAT32)
-        packer.pack('sign node width', self.width, FLOAT32)
-        packer.pack('sign node height', self.height, FLOAT32)
+            x += tn.getWidth() * np.getSx() + self.kern
 
-        if recursive:
-            packer += traversed_data + chr(255)
+        for i in range(root.getNumChildren()):
+            c = root.getChild(i)
+            c.setX(c.getX() - x / 2.)
 
-        return packer
+        if self.width and self.height:
+            for i in range(root.getNumChildren()):
+                node = root.getChild(i)
+
+                A = (node.getX() / (self.height / 2.))
+                B = (self.indent * math.pi / 180.)
+
+                theta = A + B
+                d = node.getY()
+                x = math.sin(theta) * (self.height / 2.)
+                y = (math.cos(theta) - 1) * (self.height / 2.)
+                radius = math.hypot(x, y)
+
+                if radius != 0:
+                    j = (radius + d) / radius
+                    x *= j
+                    y *= j
+                node.setPos(x, 0, y)
+                node.setR(node, (theta * 180.) / math.pi)
+
+        collection = root.findAllMatches("**/+TextNode")
+        for i in range(collection.getNumPaths()):
+            xnp = collection.getPath(i)
+            np2 = xnp.getParent().attachNewNode(xnp.node().generate())
+            np2.setTransform(xnp.getTransform())
+            xnp.removeNode()
+        
+        _np = nodePath.attachNewNode(root.node())
+        _np.setPosHpr(self.pos, self.hpr)
+        
+        if wantDecalTest:
+            root.setEffect(DecalEffect.make())
+        else:
+            _np.setDepthOffset(50)
+
+        self.traverseChildren(_np, dnaStorage)
+
+        _np.flattenStrong()

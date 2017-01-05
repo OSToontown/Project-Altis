@@ -143,7 +143,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.fsm.requestFinalState()
         if self.hasLocalToon():
             self.removeLocalToon()
-            base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+            base.camLens.setMinFov(settings['fieldofview']/(4./3.))
         self.localToonFsm.request('WaitForServer')
         self.ignoreAll()
         for suit in self.suits:
@@ -788,9 +788,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
             camTrack.append(Func(setCamFov, self.camFov))
             camTrack.append(Func(camera.wrtReparentTo, self))
-            interval = camera.posInterval(1.0, self.camJoinPos)
-            camTrack.append(interval)
-            interval = camera.hprInterval(1.0, self.camJoinHpr)
+            interval = camera.posHprInterval(0.6, self.camJoinPos, self.camJoinHpr)
             camTrack.append(interval)
             return Parallel(joinTrack, camTrack, name=name)
         else:
@@ -1010,7 +1008,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def __enterLocalToonWaitForInput(self):
         self.notify.debug('enterLocalToonWaitForInput()')
-        camera.posHprInterval(1.0, self.camPos, self.camHpr).start()
+        camera.posHprInterval(0.4, self.camPos, self.camHpr, blendType = 'easeInOut').start()
         base.camLens.setMinFov(self.camMenuFov/(4./3.))
         NametagGlobals.setWant2dNametags(False)
         self.townBattle.setState('Attack')
@@ -1247,11 +1245,11 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if stateName == 'died':
             self.movie.reset()
             camera.reparentTo(render)
-            camera.posHprInterval(1.0, Point3(localAvatar, 5.2, 5.45), Point3(localAvatar.getHeight() * 0.66, 131.5, 3.6)).start()
+            camera.posHprInterval(0.5, Point3(localAvatar, 5.2, 5.45), Point3(localAvatar.getHeight() * 0.66, 131.5, 3.6), blendType = 'easeInOut').start()
         else:
             camera.wrtReparentTo(base.localAvatar)
             messenger.send('localToonLeftBattle')
-        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        base.camLens.setMinFov(settings['fieldofview']/(4./3.))
 
     def enterNoLocalToon(self):
         self.notify.debug('enterNoLocalToon()')

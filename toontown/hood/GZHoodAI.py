@@ -23,7 +23,7 @@ class GZHoodAI(HoodAI.HoodAI):
 
     def findGolfKarts(self, dnaGroup, zoneId, area, overrideDNAZone=False):
         golfKarts = []
-        if isinstance(dnaGroup, DNAGroup) and ('golf_kart' in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and ('golf_kart' in dnaGroup.getName()):
             nameInfo = dnaGroup.getName().split('_')
             golfCourse = int(nameInfo[2])
             for i in xrange(dnaGroup.getNumChildren()):

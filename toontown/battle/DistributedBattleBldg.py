@@ -134,7 +134,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         camPos = Point3(0, -6, 4)
         camHpr = Vec3(0, 0, 0)
         camTrack.append(Func(camera.reparentTo, base.localAvatar))
-        camTrack.append(Func(setCamFov, ToontownGlobals.DefaultCameraFov))
+        camTrack.append(Func(setCamFov, settings['fieldofview']))
         camTrack.append(Func(camera.setPosHpr, camPos, camHpr))
         mtrack = Parallel(suitTrack, toonTrack, camTrack)
         done = Func(callback)

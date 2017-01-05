@@ -294,7 +294,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             self.setupTrack.finish()
             del self.setupTrack
             self.setupTrack = None
-        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        base.camLens.setMinFov(settings['fieldofview']/(4./3.))
         base.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         if self.arrowKeys:
             self.arrowKeys.setPressHandlers(self.arrowKeys.NULL_HANDLERS)
