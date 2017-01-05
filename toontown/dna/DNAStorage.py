@@ -25,6 +25,23 @@ class DNAStorage:
         self.suitEdges = {}
         self.suitPoints = []
         
+    def cleanup(self):
+        self.resetBattleCells()
+        self.resetBlockNumbers()
+        self.resetDNAGroups()
+        self.resetDNAVisGroups()
+        self.resetDNAVisGroupsAI()
+        self.resetFonts()
+        self.resetHood()
+        self.resetHoodNodes()
+        self.resetNodes()
+        self.resetPlaceNodes()
+        self.resetSuitPoints()
+        self.resetTextures()
+        self.resetCatalogCodes()
+        ModelPool.garbageCollect()
+        TexturePool.garbageCollect()
+        
     def resetBattleCells(self):
         pass
 
@@ -89,6 +106,9 @@ class DNAStorage:
 
     def getCatalogCode(self, category, index):
         return self.catalogCodes[category][index]
+        
+    def resetCatalogCodes(self):
+        self.catalogCodes = {}
 
     def findNode(self, code):
         if code in self.nodes:

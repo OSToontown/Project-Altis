@@ -90,7 +90,10 @@ def getLineOfTokens(gen):
             if re.match(FLOAT, token[1]):
                 number = float(token[1])
             else:
-                number = int(token[1])
+                try:
+                    number = int(token[1])
+                except ValueError:
+                    number = float(token[1])
             if nextNeg:
                 tokens.append(-number)
                 nextNeg = 0
