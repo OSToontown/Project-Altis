@@ -4,9 +4,7 @@ from toontown.toonbase.TTLocalizer import Controls, RemapPrompt, RemapPopup
 from toontown.toonbase.ToontownGlobals import OptionsPageHotkey
 from toontown.toontowngui import TTDialog
 
-
 class ControlRemap:
-
     UP = 0
     LEFT = 1
     DOWN = 2
@@ -119,11 +117,10 @@ class ControlRemap:
         self.dialog.show()    
 
         self.fsm = ClassicFSM.ClassicFSM(
-            'ControlRemapDialog',
-            [
+            'ControlRemapDialog', [
                 State.State('off', self.enterShow, self.exitShow, ['waitForKey']),
-                State.State('waitForKey', self.enterWaitForKey, self.exitWaitForKey, ['off']),               
-            ], 'off', 'off')
+                State.State('waitForKey', self.enterWaitForKey, self.exitWaitForKey, ['off'])], 'off', 'off')
+        
         self.fsm.enterInitialState()
         self.dialog.accept('doneRemapping', self.exit)
         messenger.send('disable-hotkeys')
@@ -211,8 +208,6 @@ class ControlRemap:
             base.localAvatar.controlManager.disable()
         except:
             self.unload()
-
-        pass
 
     def exitSave(self):
         pass
