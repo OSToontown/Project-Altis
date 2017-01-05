@@ -5,8 +5,8 @@ from toontown.dna import DNASuitPoint
 from toontown.dna import DNAError
 
 class DNAStorage(object):
-    __slots__ = ('visGroups', 'DNAGroups', 'textures', 'fonts', 'fontFilename', 'catalogCodes', 'nodes', 'hoodNodes', 'placeNodes', 
-        'blockDoors', 'blockZones', 'blockNumbers', 'blockTitles', 'blockArticles', 'blockBuildingTypes', 'suitEdges', 'suitPoints')
+    __slots__ = ('visGroups', 'DNAGroups', 'textures', 'fonts', 'fontFilenames', 'catalogCodes', 'nodes', 'hoodNodes', 'placeNodes', 
+        'blockDoors', 'blockZones', 'blockNumbers', 'blockTitles', 'blockArticles', 'blockBuildingTypes', 'suitEdges', 'suitPoints',)
 
     def __init__(self):
         self.visGroups = []
