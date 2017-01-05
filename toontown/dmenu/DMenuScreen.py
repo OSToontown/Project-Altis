@@ -20,9 +20,8 @@ if DMENU_GAME == 'Toontown':
     from toontown.toonbase import TTLocalizer
     from toontown.hood import SkyUtil
     from toontown.toon import Toon, ToonDNA
-    from otp.nametag.NametagConstants import *
-    from otp.nametag.NametagGroup import *
-    from otp.nametag.NametagGlobals import *
+    from toontown.nametag.NametagGroup import *
+    from toontown.nametag.NametagGlobals import *
 
 # The camera's initial position when first entering main menu
 INIT_POS = (-62, 0, 11)
