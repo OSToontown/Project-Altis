@@ -29,6 +29,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownAccess
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
+from toontown.options import GraphicsOptions
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
@@ -159,6 +160,7 @@ class ToonBase(OTPBase.OTPBase):
         self.localAvatarStyle = None
         self.filters = CommonFilters(self.win, self.cam)
 
+        self.Widescreen = settings.get('Widescreen', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
         self.setTextureScale()
         self.setRatio()
