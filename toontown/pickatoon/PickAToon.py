@@ -67,11 +67,11 @@ class PickAToon:
         self.jumpIn = None
         if base.showDisclaimer:
             FeatureComingSoonDialog.FeatureComingSoonDialog(text="\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! There may be many bugs and crashes! If you encounter any, PLEASE report them to the developers!\nThanks, and enjoy Project Altis!")
+        
         #self.optionsMgr = PickAToonOptions.PickAToonOptions()
         self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
         self.shardPicker = ShardPicker.ShardPicker()
         self.buttonList = []
-        return
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -92,7 +92,6 @@ class PickAToon:
         self.title.reparentTo(hidden)
         self.quitButton.hide()
         self.deleteButton.hide()
-        return None
 
     def load(self):
         self.patNode = render.attachNewNode('patNode')
@@ -189,6 +188,7 @@ class PickAToon:
             base.camera.setPos(-60, 0, 11)
             taskMgr.remove("turnHead")
             self.deleteButton.hide()
+        
         self.checkPlayButton()
         self.area['text'] = ''
             
@@ -276,7 +276,6 @@ class PickAToon:
         ModelPool.garbageCollect()
         TexturePool.garbageCollect()
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
-        return None
 
     def getChoice(self):
         return self.selectedToon
@@ -294,6 +293,7 @@ class PickAToon:
         base.acceptOnce('pat-del-diag-done', diagDone)
         delDialog = TTGlobalDialog(message=DEL % av.name, style=YesNo,
                                    doneEvent='pat-del-diag-done')
+        
         base.transitions.fadeScreen(.5)
 
     def __handleQuit(self):

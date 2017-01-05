@@ -33,6 +33,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.lowPop, self.midPop, self.highPop = base.getShardPopLimits()
         self.showPop = True #config.GetBool('show-total-population', 1)
         self.adminForceReload = 0
+        self.currentShard = 0
         self.load()
     
     def showPicker(self):
@@ -151,6 +152,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             popText = TTLocalizer.ShardPageMed
         else:
             popText = TTLocalizer.ShardPageHigh
+        
         return popText
 
     def getPopChoiceHandler(self, pop):
@@ -162,6 +164,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             handler = self.choseShard
         else:
             handler = self.shardChoiceReject
+        
         return handler
 
     def getCurrentZoneId(self):
@@ -172,10 +175,10 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         if zoneId != None and ZoneUtil.isWelcomeValley(zoneId):
             return ToontownGlobals.WelcomeValleyToken
         else:
-            if hasattr(base, 'localAvatar'):
-                return base.localAvatar.defaultShard
-            else:
-                return random.choice(base.cr.listActiveShards())
+            if not base.cr.defaultShard:
+                base.cr.defaultShard = random.choice(base.cr.listActiveShards())
+            
+            return base.cr.defaultShard
 
     def updateScrollList(self):
         curShardTuples = base.cr.listActiveShards()
