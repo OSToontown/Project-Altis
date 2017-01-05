@@ -249,7 +249,7 @@ dclass DistributedPlayer : DistributedAvatar {
   setDISLname(string) broadcast ownrecv ram;
   setDISLid(uint32 = 0) broadcast ownrecv ram db airecv required;
   setTalk(DoId fromAv, DoId fromAcc, string(0-256) avName,
-          string(0-400) chat, TalkModification [], uint8 flags) broadcast;
+          string(0-400) chat, TalkModification [], uint8 flags) broadcast ownsend;
   OwningAccount(DoId);
   WishName(string = "") db ram;
   WishNameState(string = "OPEN") db ram;

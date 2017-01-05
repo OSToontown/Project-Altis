@@ -1,5 +1,5 @@
 #!/usr/bin/env python2
-from ply import lex
+from toontown.dna.ply import lex
 from toontown.dna import DNAStorage
 from toontown.dna import DNARoot
 from toontown.dna.tokens import *
