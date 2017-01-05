@@ -33,7 +33,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.lowPop, self.midPop, self.highPop = base.getShardPopLimits()
         self.showPop = True #config.GetBool('show-total-population', 1)
         self.adminForceReload = 0
-        self.currentShard = 0
         self.load()
     
     def showPicker(self):
