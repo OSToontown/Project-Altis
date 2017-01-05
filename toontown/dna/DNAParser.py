@@ -1,5 +1,4 @@
 from direct.stdpy import threading
-
 from toontown.dna import DNALoader
 from toontown.dna.DNAStorage import *
 from toontown.dna.DNASuitPoint import *
@@ -20,6 +19,9 @@ from toontown.suit.SuitLegList import *
 
 
 class DNABulkLoader:
+    __slots__ = (
+        'dnaStorage', 'dnaFiles')
+
     def __init__(self, storage, files):
         self.dnaStorage = storage
         self.dnaFiles = files
@@ -43,6 +45,7 @@ def loadDNAFile(dnaStorage, file):
     dnaLoader.destroy()
     if node.node().getNumChildren() > 0:
         return node.node()
+    
     return None
 
 def loadDNAFileAI(dnaStorage, file):
@@ -50,4 +53,3 @@ def loadDNAFileAI(dnaStorage, file):
     data = dnaLoader.loadDNAFileAI(dnaStorage, file)
     dnaLoader.destroy()
     return data
-

@@ -1,12 +1,13 @@
 from panda3d.core import LVector4f
-import DNANode
-import DNAError
-import DNAUtil
+from toontown.dna import DNANode
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 
 class DNAStreet(DNANode.DNANode):
+    __slots__ = ('code', 'streetTexture', 'sideWalkTexture', 'curbTexture', 'streetColor', 
+        'sidewalkColor', 'curbColor')
+    
     COMPONENT_CODE = 19
-    __slots__ = ('code', 'streetTexture', 'sideWalkTexture', 'curbTexture', 'streetColor', 'sidewalkColor'
-                 'curbColor')
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)

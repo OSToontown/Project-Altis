@@ -1,11 +1,14 @@
 from panda3d.core import *
-import DNASuitEdge
-import DNAStorage
-import DNASuitPath
-import DNASuitPoint
-import DNAError
+from toontown.dna import DNASuitEdge
+from toontown.dna import DNAStorage
+from toontown.dna import DNASuitPath
+from toontown.dna import DNASuitPoint
+from toontown.dna import DNAError
 
-class DNAStorage:
+class DNAStorage(object):
+    __slots__ = ('visGroups', 'DNAGroups', 'textures', 'fonts', 'fontFilename', 'catalogCodes', 'nodes', 'hoodNodes', 'placeNodes', 
+        'blockDoors', 'blockZones', 'blockNumbers', 'blockTitles', 'blockArticles', 'blockBuildingTypes', 'suitEdges', 'suitPoints')
+
     def __init__(self):
         self.visGroups = []
         self.DNAGroups = {}
@@ -102,6 +105,7 @@ class DNAStorage:
     def getNumCatalogCodes(self, category):
         if category not in self.catalogCodes:
             return 0
+        
         return len(self.catalogCodes[category])
 
     def getCatalogCode(self, category, index):
@@ -119,6 +123,7 @@ class DNAStorage:
             nodes = self.placeNodes
         else:
             return NodePath()
+        
         filename = nodes[code][0]
         search = nodes[code][1]
         try:
@@ -126,8 +131,10 @@ class DNAStorage:
         except:
            print "DNAStorage: Failed to load %s!" % (filename)
            return
+        
         if search:
             model = model.find("**/" + search)
+        
         model.setTag("DNACode", code)
         return model
 
@@ -187,6 +194,7 @@ class DNAStorage:
         block = name[name.find(':')-2:name.find(':')]
         if not block[0].isdigit():
             block = block[1:]
+        
         return block
 
     def getBlockBuildingType(self, blockNumber):
@@ -196,6 +204,7 @@ class DNAStorage:
     def getTitleFromBlockNumber(self, blockNumber):
         if blockNumber in self.blockTitles:
             return self.blockTitles[blockNumber]
+        
         return ''
         
     def getDoorPosHprFromBlockNumber(self, blockNumber):
@@ -229,8 +238,10 @@ class DNAStorage:
         # NOTICE: Game-specific hack
         if 'gag_shop' in np.getName():
             return False
+        
         if 'pet_shop' in np.getName():
             return False
+        
         return True
 
     def storeSuitEdge(self, startIndex, endIndex, zoneId):

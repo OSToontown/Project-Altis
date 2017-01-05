@@ -1,9 +1,11 @@
 from panda3d.core import LVector3f, PandaNode
-import DNAGroup
+from toontown.dna import DNAGroup
 
 class DNANode(DNAGroup.DNAGroup):
+    __slots__ = (
+        'pos', 'hpr', 'scale')
+    
     COMPONENT_CODE = 3
-    __slots__ = ('pos', 'hpr', 'scale')
 
     def __init__(self, name):
         DNAGroup.DNAGroup.__init__(self, name)

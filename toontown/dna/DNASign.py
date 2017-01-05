@@ -1,6 +1,6 @@
 from panda3d.core import LVector4f, NodePath, DecalEffect, ModelNode
-import DNAProp
-import DNAUtil
+from toontown.dna import DNAProp
+from toontown.dna import DNAUtil
 
 class DNASign(DNAProp.DNAProp):
     COMPONENT_CODE = 5
@@ -23,11 +23,9 @@ class DNASign(DNAProp.DNAProp):
             np = decalNode.attachNewNode(ModelNode("sign"))
         
         np.setDepthOffset(50)
-        
         origin = nodePath.find("**/*sign_origin")
         np.setPosHprScale(origin, self.pos, self.hpr, self.scale)
         np.setColor(self.color)
         np.wrtReparentTo(origin, 0)
-        
         self.traverseChildren(np, dnaStorage)
         np.flattenStrong()

@@ -1,10 +1,12 @@
 from panda3d.core import LVector4f, ModelNode
-import DNANode
-import DNAUtil
+from toontown.dna import DNANode
+from toontown.dna import DNAUtil
 
 class DNAProp(DNANode.DNANode):
+    __slots__ = (
+        'code', 'color')
+    
     COMPONENT_CODE = 4
-    __slots__ = ('code', 'color')
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)
@@ -34,7 +36,9 @@ class DNAProp(DNANode.DNANode):
             node = dnaStorage.findNode(self.code)
             if node.isEmpty():
                 return
+            
             node = node.copyTo(nodePath)
+        
         node.setPosHprScale(self.pos, self.hpr, self.scale)
         node.setName(self.name)
         node.setColorScale(self.color)

@@ -1,2 +1,3 @@
+
 class DNAError(Exception):
     pass

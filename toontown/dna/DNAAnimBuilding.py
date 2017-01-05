@@ -1,14 +1,16 @@
-import DNALandmarkBuilding
-import DNAError
-import DNAUtil
+from toontown.dna import DNALandmarkBuilding
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 
 class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
+    __slots__ = (
+        'animName')
+    
     COMPONENT_CODE = 16
-    __slots__ = ('animName')
     
     def __init__(self, name):
         DNALandmarkBuilding.DNALandmarkBuilding.__init__(self, name)
-        self.animName = ""
+        self.animName = ''
         
     def getAnimName(self):
         return self.animName
@@ -21,6 +23,7 @@ class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
         result = store.findNode(self.code)
         if result.isEmpty():
             raise DNAError.DNAError('DNAAnimBuilding code ' + self.code + ' not found in dnastore')
+        
         _np = result.copyTo(np)
         _np.setName(self.name)
         _np.setPosHprScale(self.pos, self.hpr, self.scale)

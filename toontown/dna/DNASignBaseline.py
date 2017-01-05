@@ -1,5 +1,5 @@
 from panda3d.core import BamFile, NodePath, TextNode, DecalEffect
-import DNANode, DNAUtil, DNAError
+from toontown.dna import DNANode, DNAUtil, DNAError
 import math
 
 class DNASignBaseline(DNANode.DNANode):

@@ -1,11 +1,13 @@
 from panda3d.core import LVector4f
-import DNANode
-import DNAUtil
-import DNAError
+from toontown.dna import DNANode
+from toontown.dna import DNAUtil
+from toontown.dna import DNAError
 
 class DNALandmarkBuilding(DNANode.DNANode):
+    __slots__ = (
+        'code', 'wallColor')
+    
     COMPONENT_CODE = 13
-    __slots__ = ('code', 'wallColor')
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)
@@ -40,12 +42,14 @@ class DNALandmarkBuilding(DNANode.DNANode):
         node = dnaStorage.findNode(self.code)
         if node is None:
             raise DNAError.DNAError('DNALandmarkBuilding code ' + self.code + ' not found in DNAStorage')
+        
         npA = nodePath
         nodePath = node.copyTo(nodePath)
         nodePath.setName(self.name)
         nodePath.setPosHprScale(self.pos, self.hpr, self.scale)
         if dnaStorage.allowSuitOrigin(nodePath):
             self.setupSuitBuildingOrigin(npA, nodePath)
+        
         self.traverseChildren(nodePath, dnaStorage)
         if "gag_shop" not in self.name:
             nodePath.flattenStrong()

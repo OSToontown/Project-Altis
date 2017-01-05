@@ -1,13 +1,14 @@
 from panda3d.core import NodePath, DecalEffect, LPoint3f
-import DNANode
-import DNAWall
-
+from toontown.dna import DNANode
+from toontown.dna import DNAWall
 import random
 
 class DNAFlatBuilding(DNANode.DNANode):
+    __slots__ = (
+        'width', 'hasDoor')
+    
     COMPONENT_CODE = 9
     currentWallHeight = 0
-    __slots__ = ('width', 'hasDoor')
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)
@@ -38,7 +39,7 @@ class DNAFlatBuilding(DNANode.DNANode):
         node.setPosHprScale(self.pos, self.hpr, scale)
 
         numCodes = store.getNumCatalogCodes(wallCode)
-        if numCodes == 0:
+        if not numCodes:
             return
 
         wallNode = store.findNode(store.getCatalogCode(wallCode, random.randint(0, numCodes - 1)))
@@ -65,7 +66,6 @@ class DNAFlatBuilding(DNANode.DNANode):
         DNAFlatBuilding.currentWallHeight = 0
         node = np.attachNewNode(self.name)
         internalNode = node.attachNewNode(self.getName() + '-internal')
-
         scale = LPoint3f(self.scale)
         scale.setX(self.width)
         internalNode.setScale(scale)
@@ -84,10 +84,8 @@ class DNAFlatBuilding(DNANode.DNANode):
 
             cameraBarrier = result.copyTo(internalNode)
             cameraBarrier.setScale(1, 1, DNAFlatBuilding.currentWallHeight)
-
             self.setupSuitFlatBuilding(np, store)
             self.setupCogdoFlatBuilding(np, store)
-
             internalNode.flattenStrong()
 
             collNp = node.find("**/door_*/+CollisionNode")
@@ -95,15 +93,12 @@ class DNAFlatBuilding(DNANode.DNANode):
                 collNp.setName("KnockKnockDoorSphere_" + store.getBlock(self.name))
 
             cameraBarrier.wrtReparentTo(np)
-
             wallCollection = internalNode.findAllMatches("wall*")
             doorCollection = internalNode.findAllMatches("**/door*")
             corniceCollection = internalNode.findAllMatches("**/cornice*_d")
             windowCollection = internalNode.findAllMatches("**/window*")
-
             wallHolder = node.attachNewNode("wall_holder")
             wallDecal = node.attachNewNode("wall_decal")
-
             wallCollection.reparentTo(wallHolder)
             doorCollection.reparentTo(wallDecal)
             corniceCollection.reparentTo(wallDecal)
@@ -116,11 +111,9 @@ class DNAFlatBuilding(DNANode.DNANode):
 
             wallHolder.flattenStrong()
             wallDecal.flattenStrong()
-
             holderChild0 = wallHolder.getChild(0)
             wallDecal.getChildren().reparentTo(holderChild0)
             holderChild0.reparentTo(internalNode)
             holderChild0.setEffect(DecalEffect.make())
-
             wallHolder.removeNode()
             wallDecal.removeNode()

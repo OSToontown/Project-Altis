@@ -1,11 +1,13 @@
 from panda3d.core import LVector4f, DecalEffect
-import DNAProp
-import DNAError
-import DNAUtil
+from toontown.dna import DNAProp
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 
 class DNASignGraphic(DNAProp.DNAProp):
+    __slots__ = (
+        'width', 'height')
+    
     COMPONENT_CODE = 8
-    __slots__ = ('width', 'height')
 
     def __init__(self, name):
         DNAProp.DNAProp.__init__(self, name)
@@ -22,6 +24,7 @@ class DNASignGraphic(DNAProp.DNAProp):
         node = dnaStorage.findNode(self.code)
         if node is None:
             raise DNAError.DNAError('DNASignGraphic code ' + self.code + ' not found in storage')
+        
         node = node.copyTo(nodePath)
         node.setScale(self.scale)
         node.setScale(node, self.getParent().scale)
@@ -32,6 +35,5 @@ class DNASignGraphic(DNAProp.DNAProp):
         
         node.setEffect(DecalEffect.make())
         node.getNode(0).setEffect(DecalEffect.make())
-        
         node.setY(node, -0.025)
         self.traverseChildren(node, dnaStorage)

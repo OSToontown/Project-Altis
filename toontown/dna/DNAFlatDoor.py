@@ -1,5 +1,5 @@
 from panda3d.core import NodePath, DecalEffect
-import DNADoor
+from toontown.dna import DNADoor
 
 class DNAFlatDoor(DNADoor.DNADoor):
     COMPONENT_CODE = 18
@@ -14,10 +14,5 @@ class DNAFlatDoor(DNADoor.DNADoor):
         if base.config.GetBool('want-dna-depth-offsets', False):
             node.setDepthOffset(0)
         else:
-            '''
-            The reason we set the parent to decal is because the actual door 
-            will flicker without this. Why this is actually needed is unknown 
-            but it works.
-            '''
             node.getParent().node().setEffect(DecalEffect.make())
             node.node().setEffect(DecalEffect.make())

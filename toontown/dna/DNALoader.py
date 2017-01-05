@@ -1,24 +1,24 @@
-import DNASuitPoint
-import DNAError
-import DNAGroup
-import DNAVisGroup
-import DNANode
-import DNAProp
-import DNASign
-import DNASignBaseline
-import DNASignText
-import DNASignGraphic
-import DNAFlatBuilding
-import DNAWall
-import DNAWindows
-import DNACornice
-import DNALandmarkBuilding
-import DNAAnimProp
-import DNAInteractiveProp
-import DNAAnimBuilding
-import DNADoor
-import DNAFlatDoor
-import DNAStreet
+from toontown.dna import DNASuitPoint
+from toontown.dna import DNAError
+from toontown.dna import DNAGroup
+from toontown.dna import DNAVisGroup
+from toontown.dna import DNANode
+from toontown.dna import DNAProp
+from toontown.dna import DNASign
+from toontown.dna import DNASignBaseline
+from toontown.dna import DNASignText
+from toontown.dna import DNASignGraphic
+from toontown.dna import DNAFlatBuilding
+from toontown.dna import DNAWall
+from toontown.dna import DNAWindows
+from toontown.dna import DNACornice
+from toontown.dna import DNALandmarkBuilding
+from toontown.dna import DNAAnimProp
+from toontown.dna import DNAInteractiveProp
+from toontown.dna import DNAAnimBuilding
+from toontown.dna import DNADoor
+from toontown.dna import DNAFlatDoor
+from toontown.dna import DNAStreet
 
 import zlib
 

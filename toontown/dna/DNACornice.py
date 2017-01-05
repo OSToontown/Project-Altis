@@ -1,11 +1,13 @@
 from panda3d.core import LVector4f, LVector3f, DecalEffect
-import DNAGroup
-import DNAError
-import DNAUtil
+from toontown.dna import DNAGroup
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 
 class DNACornice(DNAGroup.DNAGroup):
+    __slots__ = (
+        'code', 'color')
+    
     COMPONENT_CODE = 12
-    __slots__ = ('code', 'color')
 
     def __init__(self, name):
         DNAGroup.DNAGroup.__init__(self, name)

@@ -1,9 +1,11 @@
 from panda3d.core import ModelNode
-import DNAAnimProp
+from toontown.dna import DNAAnimProp
 
 class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
+    __slots__ = (
+        'cellId')
+    
     COMPONENT_CODE = 15
-    __slots__ = ('cellId')
 
     def __init__(self, name):
         DNAAnimProp.DNAAnimProp.__init__(self, name)
@@ -26,6 +28,7 @@ class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
             node = dnaStorage.findNode(self.code)
             node = node.copyTo(nodePath)
             node.setName(self.name)
+        
         node.setTag('DNAAnim', self.animName)
         node.setTag('DNACellIndex', str(self.cellId))
         node.setPosHprScale(self.pos, self.hpr, self.scale)

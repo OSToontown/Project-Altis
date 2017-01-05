@@ -1,8 +1,11 @@
-import DNAProp
-from DNAUtil import *
+from toontown.dna import DNAProp
+from toontown.dna.DNAUtil import *
 from panda3d.core import ModelNode
 
 class DNAAnimProp(DNAProp.DNAProp):
+    __slots__ = (
+        'animName')
+
     COMPONENT_CODE = 14
 
     def __init__(self, name):
@@ -26,6 +29,7 @@ class DNAAnimProp(DNAProp.DNAProp):
             node = dnaStorage.findNode(self.code)
             node = node.copyTo(nodePath)
             node.setName(self.name)
+        
         node.setTag('DNAAnim', self.animName)
         node.setPosHprScale(self.pos, self.hpr, self.scale)
         node.setColorScale(self.color)

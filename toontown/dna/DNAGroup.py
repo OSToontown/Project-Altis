@@ -1,9 +1,11 @@
 from panda3d.core import PandaNode
-import DNAUtil
+from toontown.dna import DNAUtil
 
-class DNAGroup:
+class DNAGroup(object):
+    __slots__ = (
+        'name', 'children', 'parent', 'visGroup')
+    
     COMPONENT_CODE = 1
-    __slots__ = ('name', 'children', 'parent', 'visGroup')
 
     def __init__(self, name):
         self.name = name

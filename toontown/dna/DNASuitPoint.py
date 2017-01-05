@@ -1,4 +1,8 @@
-class DNASuitPoint:
+
+class DNASuitPoint(object):
+    __slots__ = (
+        'index', 'pointType', 'pos', 'graphId', 'landmarkBuildingIndex')
+    
     COMPONENT_CODE = 20
     STREET_POINT = STREEPOINT = 0
     FRONT_DOOR_POINT = FRONTDOORPOINT = 1

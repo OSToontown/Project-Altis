@@ -1,8 +1,10 @@
-from DNAUtil import *
+from toontown.dna.DNAUtil import *
 
-class DNABattleCell:
+class DNABattleCell(object):
+    __slots__ = (
+        'width', 'height', 'pos')
+    
     COMPONENT_CODE = 21
-    __slots__ = ('width', 'height', 'pos')
 
     def __init__(self, width, height, pos):
         self.width = width

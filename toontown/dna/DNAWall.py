@@ -1,10 +1,13 @@
 from panda3d.core import LVector4f, LPoint3f
-import DNANode
-import DNAFlatBuilding
-import DNAError
-import DNAUtil
+from toontown.dna import DNANode
+from toontown.dna import DNAFlatBuilding
+from toontown.dna import DNAError
+from toontown.dna import DNAUtil
 
 class DNAWall(DNANode.DNANode):
+    __slots__ = (
+        'code', 'height', 'color')
+
     COMPONENT_CODE = 10
 
     def __init__(self, name):
@@ -32,16 +35,13 @@ class DNAWall(DNANode.DNANode):
         node = dnaStorage.findNode(self.code)
         if node is None:
             raise DNAError.DNAError('DNAWall code ' + self.code + ' not found in DNAStorage')
-        node = node.copyTo(nodePath)
         
+        node = node.copyTo(nodePath)
         pos = LPoint3f(self.pos)
         pos.setZ(DNAFlatBuilding.DNAFlatBuilding.currentWallHeight)
-        
         scale = LPoint3f(self.scale)
         scale.setZ(self.height)
-        
         node.setPosHprScale(pos, self.hpr, scale)
         node.setColor(self.color)
-        
         self.traverseChildren(node, dnaStorage)
         DNAFlatBuilding.DNAFlatBuilding.currentWallHeight += self.height
