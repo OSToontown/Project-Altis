@@ -146,7 +146,7 @@ class Trolley(StateData.StateData):
 
     def enterBoarding(self, nodePath):
         camera.wrtReparentTo(nodePath)
-        self.cameraBoardTrack = LerpPosHprInterval(camera, 1.5, Point3(-35, 0, 8), Point3(-90, 0, 0))
+        self.cameraBoardTrack = camera.posHprInterval(1.5, Point3(-35, 0, 8), Point3(-90, 0, 0), blendType = 'easeInOut')
         self.cameraBoardTrack.start()
         return None
 
