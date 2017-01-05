@@ -55,6 +55,7 @@ class Avatar(Actor, ShadowCaster):
         
         OTPRender.renderReflection(False, self.nametag3d, 'otp_avatar_nametag', None)
         self.setBlend(frameBlend=True)
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
         self.getGeomNode().showThrough(OTPRender.ShadowCameraBitmask)
         self.nametag3d.hide(OTPRender.ShadowCameraBitmask)
         self.collTube = None
