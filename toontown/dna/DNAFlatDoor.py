@@ -14,5 +14,4 @@ class DNAFlatDoor(DNADoor.DNADoor):
         if base.config.GetBool('want-dna-depth-offsets', False):
             node.setDepthOffset(0)
         else:
-            node.getParent().node().setEffect(DecalEffect.make())
-            node.node().setEffect(DecalEffect.make())
+            node.getNode(0).setEffect(DecalEffect.make())
