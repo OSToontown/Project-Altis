@@ -30,6 +30,7 @@ from toontown.toonbase import ToontownAccess
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
 from toontown.options import GraphicsOptions
+from direct.interval.IntervalGlobal import Sequence, Func, Wait
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
