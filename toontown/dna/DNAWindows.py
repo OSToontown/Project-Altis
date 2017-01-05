@@ -1,13 +1,11 @@
-from panda3d.core import LVector4f, NodePath, DecalEffect
-from toontown.dna import DNAGroup
-from toontown.dna import DNAError
-from toontown.dna import DNAUtil
+from panda3d.core import LVector4f, NodePath, DecalEffect, DepthWriteAttrib
+import DNAGroup
+import DNAError
+import DNAUtil
+
 import random
 
 class DNAWindows(DNAGroup.DNAGroup):
-    __slots__ = (
-        'code', 'color', 'windowCount')
-
     COMPONENT_CODE = 11
 
     def __init__(self, name):
@@ -40,20 +38,18 @@ class DNAWindows(DNAGroup.DNAGroup):
         stripped = code[:-1]
         node_r = dnaStorage.findNode(stripped + 'r')
         node_l = dnaStorage.findNode(stripped + 'l')
-        
         if (node_r is None) or (node_l is None):
             raise DNAError.DNAError('DNAWindows code %s not found in'
                            'DNAStorage' % code)
 
         def makeWindow(x, y, z, parentNode, color, scale, hpr, flip=False):
             node = node_r if not flip else node_l
-            window = node.copyTo(parentNode, 0)
+            window = node.copyTo(parentNode)
             window.setColor(color)
             window.setScale(NodePath(), scale)
             window.setHpr(hpr)
             window.setPos(x, 0, z)
-            window.setEffect(DecalEffect.make())
-            window.flattenStrong()
+            window.setAttrib(DepthWriteAttrib.makeDefault(), 0)
 
         offset = lambda: random.random() % 0.0375
         if windowCount == 1:
@@ -83,8 +79,8 @@ class DNAWindows(DNAGroup.DNAGroup):
         else:
             raise NotImplementedError('Invalid window count ' + str(windowCount))
 
-    def makeFromDGI(self, dgi):
-        DNAGroup.DNAGroup.makeFromDGI(self, dgi)
+    def makeFromDGI(self, dgi, store):
+        DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
         self.code = DNAUtil.dgiExtractString8(dgi)
         self.color = DNAUtil.dgiExtractColor(dgi)
         self.windowCount = dgi.getUint8()
@@ -92,7 +88,6 @@ class DNAWindows(DNAGroup.DNAGroup):
     def traverse(self, nodePath, dnaStorage):
         if self.getWindowCount() == 0:
             return
-        
         parentX = nodePath.getParent().getScale().getX()
         scale = random.random() % 0.0375
         if parentX <= 5.0:
@@ -101,15 +96,7 @@ class DNAWindows(DNAGroup.DNAGroup):
             scale += 1.15
         else:
             scale += 1.3
-        
         hpr = (0, 0, 0)
-        DNAWindows.setupWindows(nodePath, dnaStorage, self.getCode(), self.getWindowCount(), 
-            self.getColor(), hpr, scale)
-            
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
-        packer.name = 'DNAWindows'  # Override the name for debugging.
-        packer.pack('code', self.code, STRING)
-        packer.packColor('color', *self.color)
-        packer.pack('window count', self.windowCount, UINT8)
-        return packer
+        DNAWindows.setupWindows(nodePath, dnaStorage, self.getCode(),
+                                self.getWindowCount(), self.getColor(), hpr,
+                                scale)

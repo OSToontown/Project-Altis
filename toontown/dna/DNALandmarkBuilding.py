@@ -1,95 +1,67 @@
 from panda3d.core import LVector4f
-from toontown.dna import DNANode
-from toontown.dna import DNAUtil
-from toontown.dna import DNAError
+import DNANode
+import DNAUtil
+import DNAError
 
 class DNALandmarkBuilding(DNANode.DNANode):
-    __slots__ = (
-        'code', 'wallColor', 'title', 'article', 'buildingType', 'door')
-   
     COMPONENT_CODE = 13
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)
         self.code = ''
-        self.wallColor = LVector4f(1, 1, 1, 1)
-        self.title = ''
-        self.article = ''
-        self.buildingType = ''
-        self.door = None
-
-    def setArticle(self, article):
-        self.article = article
-
-    def getArticle(self):
-        return self.article
-
-    def setBuildingType(self, buildingType):
-        self.buildingType = buildingType
-
-    def getBuildingType(self):
-        return self.buildingType
-
-    def setTitle(self, title):
-        self.title = title
-
-    def getTitle(self):
-        return self.title
-
+        self.wallColor = LVector4f(1)
+        
     def getCode(self):
         return self.code
-
-    def setCode(self, code):
-        self.code = code
-
-    def setWallColor(self, color):
-        self.wallColor = color
-
+        
     def getWallColor(self):
         return self.wallColor
 
     def setupSuitBuildingOrigin(self, nodePathA, nodePathB):
-        if (self.getName()[:2] == 'tb') and (self.getName()[3].isdigit()) and (self.getName().find(':') != -1):
-            name = self.getName()
+        if (self.name[:2] == 'tb') and (self.name[2].isdigit()) and (self.name.find(':') != -1):
+            name = self.name
             name = 's' + name[1:]
             node = nodePathB.find('**/*suit_building_origin')
-            
             if node.isEmpty():
+                print 'DNALandmarkBuilding ' + name + ' did not find **/*suit_building_origin'
                 node = nodePathA.attachNewNode(name)
-                node.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
+                node.setPosHprScale(self.pos, self.hpr, self.scale)
             else:
-                node.wrtReparentTo(nodePathA, 0)
+                node.wrtReparentTo(nodePathA)
                 node.setName(name)
 
-    def makeFromDGI(self, dgi):
-        DNANode.DNANode.makeFromDGI(self, dgi)
+    def makeFromDGI(self, dgi, store):
+        DNANode.DNANode.makeFromDGI(self, dgi, store)
         self.code = DNAUtil.dgiExtractString8(dgi)
         self.wallColor = DNAUtil.dgiExtractColor(dgi)
-        self.title = DNAUtil.dgiExtractString8(dgi)
-        self.article = DNAUtil.dgiExtractString8(dgi)
-        self.buildingType = DNAUtil.dgiExtractString8(dgi)
 
     def traverse(self, nodePath, dnaStorage):
         node = dnaStorage.findNode(self.code)
         if node is None:
-            raise DNAError.DNAError('DNALandmarkBuilding code %s' % str(self.code) + ' not found in DNAStorage')
-        
+            raise DNAError.DNAError('DNALandmarkBuilding code ' + self.code + ' not found in DNAStorage')
         npA = nodePath
-        nodePath = node.copyTo(nodePath, 0)
-        nodePath.setName(self.getName())
-        nodePath.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
-        self.setupSuitBuildingOrigin(npA, nodePath)
-        for child in self.children:
-            child.traverse(nodePath, dnaStorage)
-        
-        nodePath.flattenStrong()
-        
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNANode.DNANode.packerTraverse(self, recursive=False, verbose=verbose)
-        packer.name = 'DNALandmarkBuilding'  # Override the name for debugging.
-        packer.pack('code', self.code, STRING)
-        packer.packColor('wall color', *self.wallColor)
+        nodePath = node.copyTo(nodePath)
+        nodePath.setName(self.name)
+        nodePath.setPosHprScale(self.pos, self.hpr, self.scale)
+        if dnaStorage.allowSuitOrigin(nodePath):
+            self.setupSuitBuildingOrigin(npA, nodePath)
+        self.traverseChildren(nodePath, dnaStorage)
+        if "gag_shop" not in self.name:
+            nodePath.flattenStrong()
+            
+        if 'toon_landmark_DG_pet_shop' in self.name: #The DG Petshop is only here to hide the doodle holes.
+            petshop = nodePath
+            doodlehole1 = petshop.find('**/*doodle1')
+            doodlehole2 = petshop.find('**/*doodle2')
+            
+            if not doodlehole1.isEmpty() and not base.config('want-dg-petshop-doodle-holes', False):
+                doodlehole1.hide()
+            if not doodlehole2.isEmpty() and not base.config('want-dg-petshop-doodle-holes', False):
+                doodlehole2.hide()
 
-        if recursive:
-            packer += self.packerTraverseChildren(verbose=verbose)
-        return packer
+        elif 'toon_landmark_TT_library' in self.name:
+            library = nodePath
+            
+            shadow = library.find('**/square_drop_shadow')
+            if not shadow.isEmpty():
+                shadow.setDepthOffset(2)

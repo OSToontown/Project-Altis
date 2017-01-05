@@ -1,12 +1,9 @@
 from panda3d.core import LVector3f
-from toontown.dna import DNAGroup
-from toontown.dna import DNABattleCell
-from toontown.dna import DNAUtil
+import DNAGroup
+import DNABattleCell
+import DNAUtil
 
 class DNAVisGroup(DNAGroup.DNAGroup):
-    __slots__ = (
-        'visibles', 'suitEdges', 'battleCells')
-    
     COMPONENT_CODE = 2
 
     def __init__(self, name):
@@ -42,6 +39,9 @@ class DNAVisGroup(DNAGroup.DNAGroup):
     def getSuitEdge(self, i):
         return self.suitEdges[i]
 
+    def getVisible(self, i):
+        return self.visibles[i]
+
     def getVisibleName(self, i):
         return self.visibles[i]
 
@@ -55,7 +55,7 @@ class DNAVisGroup(DNAGroup.DNAGroup):
         self.visibles.remove(visible)
 
     def makeFromDGI(self, dgi, dnaStorage):
-        DNAGroup.DNAGroup.makeFromDGI(self, dgi)
+        DNAGroup.DNAGroup.makeFromDGI(self, dgi, dnaStorage)
 
         numEdges = dgi.getUint16()
         for _ in xrange(numEdges):
@@ -73,25 +73,3 @@ class DNAVisGroup(DNAGroup.DNAGroup):
             h = dgi.getUint8()
             x, y, z = [dgi.getInt32() / 100.0 for i in xrange(3)]
             self.addBattleCell(DNABattleCell.DNABattleCell(w, h, LVector3f(x, y, z)))
-            
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
-        packer.name = 'DNAVisGroup'  # Override the name for debugging.
-        packer.pack('suit edge count', len(self.suitEdges), UINT16)
-        for edge in self.suitEdges:
-            startPointIndex = edge.startPoint.index
-            packer.pack('start point index', startPointIndex, UINT16)
-            endPointIndex = edge.endPoint.index
-            packer.pack('end point index', endPointIndex, UINT16)
-        packer.pack('visible count', len(self.visibles), UINT16)
-        for visible in self.visibles:
-            packer.pack('visible', visible, STRING)
-        packer.pack('battle cell count', len(self.battleCells), UINT16)
-        for cell in self.battleCells:
-            packer.pack('width', cell.width, UINT8)
-            packer.pack('height', cell.height, UINT8)
-            for component in cell.pos:
-                packer.pack('position', int(component * 100), INT32)
-        if recursive:
-            packer += self.packerTraverseChildren(verbose=verbose)
-        return packer

@@ -1,8 +1,4 @@
-
-class DNASuitEdge(object):
-    __slots__ = (
-        'startpt', 'endpt', 'zoneId')
-    
+class DNASuitEdge:
     def __init__(self, startpt, endpt, zoneId):
         self.startpt = startpt
         self.endpt = endpt

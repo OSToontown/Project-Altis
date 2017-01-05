@@ -1,75 +1,78 @@
-from panda3d.core import LVector4f, DecalEffect, NodePath
-from toontown.dna import DNAGroup
-from toontown.dna import DNAError
-from toontown.dna import DNAUtil
+from panda3d.core import LVector4f, LVecBase3f, LVecBase4f, DecalEffect, NodePath
+import DNAGroup
+import DNAError
+import DNAUtil
 
 class DNADoor(DNAGroup.DNAGroup):
-    __slots__ = (
-        'code', 'color')
-    
     COMPONENT_CODE = 17
 
     def __init__(self, name):
         DNAGroup.DNAGroup.__init__(self, name)
         self.code = ''
-        self.color = LVector4f(1, 1, 1, 1)
-
-    def setCode(self, code):
-        self.code = code
-
-    def getCode(self):
-        return self.code
-
-    def setColor(self, color):
-        self.color = color
-
-    def getColor(self):
-        return self.color
+        self.color = LVector4f(1)
 
     @staticmethod
     def setupDoor(doorNodePath, parentNode, doorOrigin, dnaStore, block, color):
-        doorNodePath.setPosHprScale(doorOrigin, (0, 0, 0), (0, 0, 0), (1, 1, 1))
-        doorNodePath.setColor(color, 0)
-        leftHole = doorNodePath.find('door_*_hole_left')
-        leftHole.flattenStrong()
-        leftHole.setName('doorFrameHoleLeft')
-        rightHole = doorNodePath.find('door_*_hole_right')
-        rightHole.flattenStrong()
-        rightHole.setName('doorFrameHoleRight')
-        leftHole.hide()
-        rightHole.hide()
-        leftDoor = doorNodePath.find('door_*_left')
-        leftDoor.flattenStrong()
-        leftDoor.setName('leftDoor')
-        rightDoor = doorNodePath.find('door_*_right')
-        rightDoor.flattenStrong()
-        rightDoor.setName('rightDoor')
-        doorFlat = doorNodePath.find('door_*_flat')
-        doorFlat.flattenStrong()
+        doorNodePath.setPosHprScale(doorOrigin, LVecBase3f(0), LVecBase3f(0), LVecBase3f(1))
+        doorNodePath.setColor(color)
+        
+        leftHole = doorNodePath.find("door_*_hole_left")
+        leftHole.setName("doorFrameHoleLeft")
+        leftHoleGeom = leftHole.find("**/+GeomNode")
+        leftHoleGeom.setName("doorFrameHoleLeftGeom")
+        
+        rightHole = doorNodePath.find("door_*_hole_right")
+        rightHole.setName("doorFrameHoleRight")
+        rightHoleGeom = rightHole.find("**/+GeomNode")
+        rightHoleGeom.setName("doorFrameHoleRightGeom")
+        
+        leftDoor = doorNodePath.find("door_*_left")
+        leftDoor.setName("leftDoor")
+        
+        rightDoor = doorNodePath.find("door_*_right")
+        rightDoor.setName("rightDoor")
+        
+        doorFlat = doorNodePath.find("door_*_flat")
+        doorFlat.setEffect(DecalEffect.make())
+        
         leftHole.wrtReparentTo(doorFlat, 0)
         rightHole.wrtReparentTo(doorFlat, 0)
-        doorFlat.setEffect(DecalEffect.make())
+        
+        if not leftHoleGeom.getNode(0).isGeomNode():
+            leftHoleGeom = leftHoleGeom.find("**/+GeomNode")
+    
+        if not rightHoleGeom.getNode(0).isGeomNode():
+            rightHoleGeom = rightHoleGeom.find("**/+GeomNode")
+            
+        leftHoleGeom.setEffect(DecalEffect.make())
+        rightHoleGeom.setEffect(DecalEffect.make())
+        
         rightDoor.wrtReparentTo(parentNode, 0)
         leftDoor.wrtReparentTo(parentNode, 0)
+        
         rightDoor.setColor(color, 0)
         leftDoor.setColor(color, 0)
-        leftHole.setColor((0, 0, 0, 1), 0)
-        rightHole.setColor((0, 0, 0, 1), 0)
-        leftDoor.hide()
+        
         rightDoor.hide()
-
-        doorTrigger = doorNodePath.find('door_*_trigger')
+        leftDoor.hide()
+        
+        rightHole.hide()
+        leftHole.hide()
+        
+        leftHole.setColor(LVecBase4f(0, 0, 0, 1), 0)
+        rightHole.setColor(LVecBase4f(0, 0, 0, 1), 0)
+        
+        doorTrigger = doorNodePath.find("door_*_trigger")
         doorTrigger.setScale(2, 2, 2)
         doorTrigger.wrtReparentTo(parentNode, 0)
-        doorTrigger.setName('door_trigger_' + block)
+        doorTrigger.setName("door_trigger_" + str(block))
+        
+        storeNp = NodePath("door_trigger_" + str(block))
+        storeNp.setPosHprScale(doorTrigger, LVecBase3f(0), LVecBase3f(0), LVecBase3f(1))
+        dnaStore.storeBlockDoor(block, storeNp)
 
-        if not dnaStore.getDoorPosHprFromBlockNumber(block):
-            dnaStore.storeBlockDoor(block, doorOrigin)
-
-        doorNodePath.flattenMedium()
-
-    def makeFromDGI(self, dgi):
-        DNAGroup.DNAGroup.makeFromDGI(self, dgi)
+    def makeFromDGI(self, dgi, store):
+        DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
         self.code = DNAUtil.dgiExtractString8(dgi)
         self.color = DNAUtil.dgiExtractColor(dgi)
 
@@ -81,16 +84,8 @@ class DNADoor(DNAGroup.DNAGroup):
         node = dnaStorage.findNode(self.code)
         if node is None:
             raise DNAError.DNAError('DNADoor code ' + self.code + ' not found in DNAStorage')
-        
-        doorNode = node.copyTo(frontNode, 0)
-        doorNode.flattenMedium()
+        doorNode = node.copyTo(frontNode)
         block = dnaStorage.getBlock(nodePath.getName())
-        DNADoor.setupDoor(doorNode, nodePath, nodePath.find('**/*door_origin'), dnaStorage, 
-            block, self.getColor())
-            
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNAGroup.DNAGroup.packerTraverse(self, recursive=False, verbose=verbose)
-        packer.name = 'DNADoor'  # Override the name for debugging.
-        packer.pack('code', self.code, STRING)
-        packer.packColor('color', *self.color)
-        return packer
+        DNADoor.setupDoor(doorNode, nodePath, nodePath.find('**/*door_origin'), dnaStorage, block, self.color)
+
+setupDoor = DNADoor.setupDoor

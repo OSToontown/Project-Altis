@@ -1,8 +1,4 @@
-
-class DNASuitPath(object):
-    __slots__ = (
-        'suitPoints')
-
+class DNASuitPath:
     def __init__(self):
         self.suitPoints = []
 

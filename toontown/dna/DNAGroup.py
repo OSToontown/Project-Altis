@@ -1,11 +1,7 @@
 from panda3d.core import PandaNode
-from toontown.dna import DNAUtil
-from toontown.dna import DNAPacker
+import DNAUtil
 
-class DNAGroup(object):
-    __slots__ = (
-        'name', 'children', 'parent', 'visGroup')
-
+class DNAGroup:
     COMPONENT_CODE = 1
 
     def __init__(self, name):
@@ -13,6 +9,9 @@ class DNAGroup(object):
         self.children = []
         self.parent = None
         self.visGroup = None
+        
+    def getName(self):
+        return self.name
 
     def add(self, child):
         self.children += [child]
@@ -25,7 +24,7 @@ class DNAGroup(object):
 
     def setParent(self, parent):
         self.parent = parent
-        self.visGroup = parent.getVisGroup()
+        self.visGroup = parent.visGroup
 
     def getParent(self):
         return self.parent
@@ -34,43 +33,16 @@ class DNAGroup(object):
         self.parent = None
         self.visGroup = None
 
-    def getVisGroup(self):
-        return self.visGroup
-
     def getNumChildren(self):
         return len(self.children)
 
-    def getName(self):
-        return self.name
-
-    def setName(self, name):
-        self.name = name
-
-    def makeFromDGI(self, dgi):
+    def makeFromDGI(self, dgi, store):
         self.name = DNAUtil.dgiExtractString8(dgi)
-        DNAUtil.dgiExtractString8(dgi)
-        DNAUtil.dgiExtractString8(dgi)
 
     def traverse(self, nodePath, dnaStorage):
-        node = PandaNode(self.name)
-        nodePath = nodePath.attachNewNode(node, 0)
+        np = nodePath.attachNewNode(self.name)
+        self.traverseChildren(np, dnaStorage)
+        
+    def traverseChildren(self, np, store):
         for child in self.children:
-            child.traverse(nodePath, dnaStorage)
-            
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNAPacker(name='DNAGroup', verbose=verbose)
-
-        packer.pack('component code', self.COMPONENT_CODE, UINT8)
-        packer.pack('name', self.name, STRING)
-
-        if recursive:
-            packer += self.packerTraverseChildren(verbose=verbose)
-        return packer
-
-    def packerTraverseChildren(self, verbose=False):
-        packer = DNAPacker(verbose=verbose)
-        for child in self.children:
-            packer += child.packerTraverse(recursive=True, verbose=verbose)
-
-        packer.pack('increment parent', 255, UINT8)
-        return packer
+            child.traverse(np, store)

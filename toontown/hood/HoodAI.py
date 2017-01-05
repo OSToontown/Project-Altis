@@ -82,7 +82,7 @@ class HoodAI:
     def findFishingPonds(self, dnaGroup, zoneId, area):
         fishingPonds = []
         fishingPondGroups = []
-        if isinstance(dnaGroup, DNAGroup) and ('fishing_pond' in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and ('fishing_pond' in dnaGroup.getName()):
             fishingPondGroups.append(dnaGroup)
 
             fishingPond = DistributedFishingPondAI(simbase.air)
@@ -101,7 +101,7 @@ class HoodAI:
 
     def findFishingSpots(self, dnaGroup, fishingPond):
         fishingSpots = []
-        if isinstance(dnaGroup, DNAGroup) and ('fishing_spot' in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and ('fishing_spot' in dnaGroup.getName()):
             fishingSpot = DistributedFishingSpotAI(simbase.air)
             fishingSpot.setPondDoId(fishingPond.doId)
             x, y, z = dnaGroup.getPos()
@@ -134,7 +134,7 @@ class HoodAI:
 
     def findPartyGates(self, dnaGroup, zoneId):
         partyGates = []
-        if isinstance(dnaGroup, DNAGroup) and ('prop_party_gate' in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and ('prop_party_gate' in dnaGroup.getName()):
             partyGate = DistributedPartyGateAI(simbase.air)
             partyGate.setArea(zoneId)
             partyGate.generateWithRequired(zoneId)
