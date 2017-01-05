@@ -6,6 +6,7 @@ from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.nametag import NametagGlobals
 from toontown.nametag.Nametag import Nametag
 from toontown.toontowngui.Clickable3d import Clickable3d
+from direct.interval.IntervalGlobal import Sequence
 
 class Nametag3d(Nametag, Clickable3d):
     SCALING_MIN_DISTANCE = 1
