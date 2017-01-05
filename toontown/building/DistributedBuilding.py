@@ -72,6 +72,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.cogWeakenSound = None
         self.toonGrowSound = None
         self.toonSettleSound = None
+        self.floorIndicator = []
         self.leftDoor = None
 
     def generate(self):
@@ -287,7 +288,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         return nodePath
 
     def loadElevator(self, newNP, cogdo = False):
-        self.floorIndicator = [None, None, None, None, None]
+        self.floorIndicator = []
         self.elevatorNodePath = hidden.attachNewNode('elevatorNodePath')
         if cogdo:
             self.elevatorModel = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_csa_elevatorB')
@@ -297,7 +298,10 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             for i in xrange(npc.getNumPaths()):
                 np = npc.getPath(i)
                 floor = int(np.getName()[-1:]) - 1
-                self.floorIndicator[floor] = np
+                if len(self.floorIndicator) != floor:
+                    self.floorIndicator.append(np)
+                else:
+                    self.floorIndicator[floor] = np
                 if floor < self.numFloors:
                     np.setColor(LIGHT_OFF_COLOR)
                 else:
