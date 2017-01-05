@@ -5,7 +5,7 @@ from toontown.dna import DNAUtil
 
 class DNAStreet(DNANode.DNANode):
     __slots__ = ('code', 'streetTexture', 'sideWalkTexture', 'curbTexture', 'streetColor', 
-        'sidewalkColor', 'curbColor')
+        'sideWalkColor', 'curbColor')
     
     COMPONENT_CODE = 19
 
