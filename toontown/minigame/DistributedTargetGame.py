@@ -707,7 +707,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.__removeAllToonDropShadows()
         render.clearFog()
         base.camLens.setFar(ToontownGlobals.DefaultCameraFar)
-        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        base.camLens.setMinFov(settings['fieldofview']/(4./3.))
         camera.setHpr(0, 90, 0)
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         self.arrowKeys.destroy()

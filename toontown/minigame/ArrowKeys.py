@@ -2,11 +2,11 @@ from pandac.PandaModules import ModifierButtons
 from direct.showbase.DirectObject import DirectObject
 
 class ArrowKeys(DirectObject):
-    UP_KEY = 'arrow_up'
-    DOWN_KEY = 'arrow_down'
-    LEFT_KEY = 'arrow_left'
-    RIGHT_KEY = 'arrow_right'
-    JUMP_KEY = 'control'
+    UP_KEY = base.MOVE_UP
+    DOWN_KEY = base.MOVE_DOWN
+    LEFT_KEY = base.MOVE_LEFT
+    RIGHT_KEY = base.MOVE_RIGHT
+    JUMP_KEY = base.JUMP
     UP_INDEX = 0
     DOWN_INDEX = 1
     LEFT_INDEX = 2

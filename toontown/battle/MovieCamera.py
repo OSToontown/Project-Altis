@@ -538,15 +538,20 @@ def makeShot(x, y, z, h, p, r, duration, other = None, name = 'makeShot'):
 
 
 def focusShot(x, y, z, duration, target, other = None, splitFocusPoint = None, name = 'focusShot'):
-    track = Sequence()
-    if other:
-        track.append(camera.posInterval(1.0, Point3(x, y, z), other=other))
-    else:
-        track.append(camera.posInterval(1.0, Point3(x, y, z)))
+    track = Sequence() # XDDDD
+
+
     if splitFocusPoint:
-        track.append(Func(focusCameraBetweenPoints, target, splitFocusPoint))
+        rotate = focusCameraBetweenPoints(target, splitFocusPoint)
+        camera.lookAt(rotate)    
+        targetQuat = Quat()
+        targetQuat.setHpr(camera.getHpr())
+        track.append(camera.posQuatInterval(0.6, Point3(x, y, z), targetQuat, other=other, blendType='easeInOut'))
     else:
-        track.append(Func(camera.lookAt, target))
+        camera.lookAt(target)    
+        targetQuat = Quat()
+        targetQuat.setHpr(camera.getHpr())
+        track.append(camera.posQuatInterval(0.6, Point3(x, y, z), targetQuat, other=other, blendType='easeInOut'))
     track.append(Wait(duration))
     return track
 
@@ -596,14 +601,14 @@ def chooseRewardShot(av, duration, allowGroupShot = 1):
 
 def heldShot(x, y, z, h, p, r, duration, name = 'heldShot'):
     track = Sequence(name=name)
-    track.append(camera.posHprInterval(1.0, Point3(x, y, z), Point3(h, p, r)))
+    track.append(camera.posHprInterval(0.6, Point3(x, y, z), Point3(h, p, r), blendType = 'easeInOut'))
     track.append(Wait(duration))
     return track
 
 
 def heldRelativeShot(other, x, y, z, h, p, r, duration, name = 'heldRelativeShot'):
     track = Sequence(name=name)
-    track.append(camera.posHprInterval(1.0, Point3(x, y, z), Point3(h, p, r), other=other))
+    track.append(camera.posHprInterval(0.6, Point3(x, y, z), Point3(h, p, r), other=other, blendType = 'easeInOut'))
     track.append(Wait(duration))
     return track
 
@@ -690,8 +695,11 @@ def suitCameraShakeShot(avatar, duration, shakeIntensity, quake = 0):
     if random.random() > 0.5:
         x = -x
     z = 7 + random.random() * 3
-    track.append(camera.posInterval(1.0, Point3(x, -5, z)))
-    track.append(Func(camera.lookAt, Point3(0, 0, 0)))
+    targetPos=camera.setPos(x, -5, z)
+    camera.lookAt(Point3(0, 0, 0))    
+    targetQuat = Quat()
+    targetQuat.setHpr(camera.getHpr())
+    track.append(camera.posQuatInterval(0.6, Point3(targetPos), targetQuat, blendType='easeInOut'))
     track.append(Wait(shakeDelay))
     track.append(shakeCameraTrack(shakeIntensity))
     track.append(Wait(postShakeDelay))
@@ -783,7 +791,10 @@ def focusCameraBetweenPoints(point1, point2):
         z = point2[2] + (point1[2] - point2[2]) * 0.5
     else:
         z = point1[2] + (point2[2] - point1[2]) * 0.5
-    camera.lookAt(Point3(x, y, z))
+    camera.lookAt(Point3(x, y, z))    
+    targetQuat = Quat()
+    targetQuat.setHpr(camera.getHpr())
+    return (Point3(x, y, z))
 
 
 def randomCamera(suit, toon, battle, attackDuration, openShotDuration):
