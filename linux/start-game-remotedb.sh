@@ -15,7 +15,7 @@ export TTA_PLAYCOOKIE=$ttaUsername
 export TTA_GAMESERVER="127.0.0.1"
 
 echo "==============================="
-echo "Starting Toontown Advance..."
+echo "Starting Toontown Project Altis..."
 echo "Username: $ttaUsername"
 echo "Gameserver: $TTA_GAMESERVER"
 echo "==============================="

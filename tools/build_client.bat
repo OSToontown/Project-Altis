@@ -1,6 +1,6 @@
 @echo off
 
-Echo Building Toontown Advance...
+Echo Building Toontown Project Altis...
 
 cd ../
 

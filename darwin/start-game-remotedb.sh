@@ -18,7 +18,7 @@ export TTA_PLAYCOOKIE=$ttaUsername
 export TTA_GAMESERVER=$TTA_GAMESERVER
 
 echo "==============================="
-echo "Starting Toontown Advance..."
+echo "Starting Toontown Project Altis..."
 echo "Username: $ttaUsername"
 echo "Gameserver: $TTA_GAMESERVER"
 echo "==============================="

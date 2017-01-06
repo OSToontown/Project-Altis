@@ -15,7 +15,7 @@ set /P BASE_CHANNEL="Base channel (DEFAULT: 1000000): " || ^
 set BASE_CHANNEL=1000000
 
 echo ===============================
-echo Starting Toontown Advance UberDOG server...
+echo Starting Toontown Project Altis UberDOG server...
 echo ppython: %PPYTHON_PATH%
 echo Base channel: %BASE_CHANNEL%
 echo Max channels: %MAX_CHANNELS%

@@ -82,7 +82,7 @@ class RewardPanel(DirectFrame):
              ToontownBattleGlobals.TrackColors[i][2],
              1), text='0/0', text_scale=0.18, text_fg=(0, 0, 0, 1), text_align=TextNode.ACenter, text_pos=(0, -0.05), pos=(0.4, 0, -0.09 * i)))
 
-        self._battleGui = loader.loadModel('phase_3.5/models/gui/battle_gui')
+        self._battleGui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
         self.skipButton = DirectButton(parent=self, relief=None, image=(self._battleGui.find('**/tt_t_gui_gen_skipSectionUp'),
          self._battleGui.find('**/tt_t_gui_gen_skipSectionDown'),
          self._battleGui.find('**/tt_t_gui_gen_skipSectionRollOver'),
@@ -90,7 +90,6 @@ class RewardPanel(DirectFrame):
          TTLocalizer.RewardPanelSkip,
          TTLocalizer.RewardPanelSkip,
          ''), text_scale=TTLocalizer.RPskipScale, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=TTLocalizer.RPskipPos, textMayChange=0, command=self._handleSkip)
-        return
 
     def getNextExpValue(self, curSkill, trackIndex):
         retVal = ToontownBattleGlobals.UberSkill
@@ -271,14 +270,12 @@ class RewardPanel(DirectFrame):
         trackBar['value'] = newValue
         trackBar['barColor'] = (ToontownBattleGlobals.TrackColors[track][0],
          ToontownBattleGlobals.TrackColors[track][1],
-         ToontownBattleGlobals.TrackColors[track][2],
-         1)
+         ToontownBattleGlobals.TrackColors[track][2], 1)
 
     def resetBarColor(self, track):
         self.trackBars[track]['barColor'] = (ToontownBattleGlobals.TrackColors[track][0] * 0.8,
          ToontownBattleGlobals.TrackColors[track][1] * 0.8,
-         ToontownBattleGlobals.TrackColors[track][2] * 0.8,
-         1)
+         ToontownBattleGlobals.TrackColors[track][2] * 0.8, 1)
 
     def incrementMerits(self, toon, dept, newValue, totalMerits):
         meritBar = self.meritBars[dept]
@@ -347,13 +344,13 @@ class RewardPanel(DirectFrame):
         if self.newGagIcon:
             self.newGagIcon.removeNode()
             self.newGagIcon = None
+        
         self.gagExpFrame.show()
         self.newGagFrame.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
         self.itemFrame.hide()
         self.missedItemFrame.hide()
-        return
 
     def getNewGagIntervalList(self, toon, track, level):
         leftCongratsAnticipate = 1.0
@@ -361,12 +358,13 @@ class RewardPanel(DirectFrame):
         finalDelay = 1.5
         leftString, rightString = self.getRandomCongratsPair(toon)
         intervalList = [Func(self.newGag, toon, track, level),
-         Wait(leftCongratsAnticipate),
-         Func(self.congratsLeft.setProp, 'text', leftString),
-         Wait(rightCongratsAnticipate),
-         Func(self.congratsRight.setProp, 'text', rightString),
-         Wait(finalDelay),
-         Func(self.cleanupNewGag)]
+            Wait(leftCongratsAnticipate),
+            Func(self.congratsLeft.setProp, 'text', leftString),
+            Wait(rightCongratsAnticipate),
+            Func(self.congratsRight.setProp, 'text', rightString),
+            Wait(finalDelay),
+            Func(self.cleanupNewGag)]
+        
         return intervalList
 
     def getUberGagIntervalList(self, toon, track, level):
@@ -375,12 +373,13 @@ class RewardPanel(DirectFrame):
         finalDelay = 1.5
         leftString, rightString = self.getRandomCongratsPair(toon)
         intervalList = [Func(self.uberGagInterval, toon, track, level),
-         Wait(leftCongratsAnticipate),
-         Func(self.congratsLeft.setProp, 'text', leftString),
-         Wait(rightCongratsAnticipate),
-         Func(self.congratsRight.setProp, 'text', rightString),
-         Wait(finalDelay),
-         Func(self.cleanupNewGag)]
+            Wait(leftCongratsAnticipate),
+            Func(self.congratsLeft.setProp, 'text', leftString),
+            Wait(rightCongratsAnticipate),
+            Func(self.congratsRight.setProp, 'text', rightString),
+            Wait(finalDelay),
+            Func(self.cleanupNewGag)]
+        
         return intervalList
 
     def vanishFrames(self):
@@ -402,7 +401,7 @@ class RewardPanel(DirectFrame):
 
         self.endTrackFrame.show()
         self.endTrackFrame['text'] = TTLocalizer.RewardPanelEndTrack % {'gagName': ToontownBattleGlobals.Tracks[track].capitalize(),
-         'avName': toon.getName()}
+            'avName': toon.getName()}
         gagLast = base.localAvatar.inventory.buttonLookup(track, ToontownBattleGlobals.UBER_GAG_LEVEL_INDEX)
         self.gagIcon = gagLast.copyTo(self.endTrackFrame)
         self.gagIcon.setPos(0, 0, -0.25)
@@ -411,7 +410,6 @@ class RewardPanel(DirectFrame):
     def cleanIcon(self):
         self.gagIcon.removeNode()
         self.gagIcon = None
-        return
 
     def cleanupEndTrack(self):
         self.endTrackFrame.hide()

@@ -11,7 +11,7 @@ set /P TTA_GAMESERVER="Gameserver (DEFAULT: 167.114.28.238): " || ^
 set TTA_GAMESERVER=167.114.28.238
 
 echo ===============================
-echo Starting Toontown Advance...
+echo Starting Toontown Project Altis...
 echo ppython: %PPYTHON_PATH%
 echo Username: %ttaUsername%
 echo Gameserver: %TTA_GAMESERVER%

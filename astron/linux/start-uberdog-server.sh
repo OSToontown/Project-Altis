@@ -12,7 +12,7 @@ read -p "Base channel (DEFAULT: 1000000): " BASE_CHANNEL
 BASE_CHANNEL=${BASE_CHANNEL:-1000000}
 
 echo "==============================="
-echo "Starting Toontown Advance UberDOG server..."
+echo "Starting Toontown Project Altis UberDOG server..."
 echo "Base channel: $BASE_CHANNEL"
 echo "Max channels: $MAX_CHANNELS"
 echo "State Server: $STATESERVER"
