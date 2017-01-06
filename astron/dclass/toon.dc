@@ -600,6 +600,7 @@ from toontown.coghq import DistributedCogHQDoor/AI
 from toontown.coghq import DistributedSellbotHQDoor/AI
 from toontown.toon import DistributedNPCToonBase/AI
 from toontown.toon import DistributedNPCToon/AI
+from toontown.toon import DistributedNPCHQOfficer/AI
 from toontown.toon import DistributedNPCSpecialQuestGiver/AI
 from toontown.toon import DistributedNPCFlippyInToonHall/AI
 from toontown.toon import DistributedNPCScientist/AI
@@ -2325,6 +2326,13 @@ dclass DistributedNPCToonBase : DistributedNode {
 };
 
 dclass DistributedNPCToon : DistributedNPCToonBase {
+  setMovie(uint8, uint32, uint32, uint16[], int16) broadcast ram;
+  setMovieDone() airecv clsend;
+  chooseQuest(uint16) airecv clsend;
+  chooseTrack(int8) airecv clsend;
+};
+
+dclass DistributedNPCHQOfficer : DistributedNPCToonBase {
   setMovie(uint8, uint32, uint32, uint16[], int16) broadcast ram;
   setMovieDone() airecv clsend;
   chooseQuest(uint16) airecv clsend;
