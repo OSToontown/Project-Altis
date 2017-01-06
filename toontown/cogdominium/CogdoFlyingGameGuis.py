@@ -57,7 +57,10 @@ class CogdoFlyingProgressGui(DirectFrame):
         return
 
     def _getToonMarker(self, toon):
-        return self._laffMeterModel.find('**/' + toon.style.getType() + 'head')
+        type = self._laffMeterModel.find('**/' + toon.style.getType() + 'head')
+        if type.isEmpty():
+            type = self._laffMeterModel.find('**/bunnyhead')
+        return type
 
     def update(self):
         for toon, marker in self._toonMarkers.items():

@@ -21,12 +21,12 @@ class CogdoGameGatherable(NodePath, DirectObject):
             self._model = model
             self._model.reparentTo(self)
             self._model.setPosHpr(0, 0, 0, 0, 0, 0)
-        
         self._animDuration = animDuration
         self._animSeq = None
         self._initCollisions(triggerRadius, triggerOffset)
         self._update = None
         self._wasPickedUp = False
+        return
 
     def _initCollisions(self, triggerRadius, triggerOffset):
         self.collSphere = CollisionSphere(triggerOffset[0], triggerOffset[1], triggerOffset[2], triggerRadius)
@@ -43,6 +43,7 @@ class CogdoGameGatherable(NodePath, DirectObject):
             self._animSeq = None
         self.collNodePath.removeNode()
         self.removeNode()
+        return
 
     def enable(self):
         self.accept('enter' + self.getName(), self._handleEnterCollision)
@@ -93,19 +94,19 @@ class CogdoGameGatherable(NodePath, DirectObject):
             self._animSeq.start(elapsedSeconds)
         else:
             self.hide()
+        return
+
 
 class CogdoMemo(CogdoGameGatherable):
     EnterEventName = 'CogdoMemo_Enter'
 
     def __init__(self, serialNum, model = None, pitch = 0, triggerRadius = 1.0, spinRate = 60):
         if model is None:
-            node = CogdoUtil.loadModel('memo', 'shared')
-            model = node.find('**/memo')
-            model.detachNode()
-            node.removeNode()
+            model = CogdoUtil.loadModel('joke', 'shared')
         model.setP(pitch)
         self._spinRate = spinRate
         CogdoGameGatherable.__init__(self, serialNum, model, triggerRadius, name='CogdoMemo')
+        return
 
     def destroy(self):
         del self._spinRate

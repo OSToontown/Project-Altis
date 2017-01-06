@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
@@ -6,7 +7,6 @@ from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
 from direct.fsm import FSM
 from direct.task import Task
-
 smileyDoId = 1
 
 class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM):
@@ -32,6 +32,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         self.touchedBossSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_sandbag.ogg')
         self.touchedBossSoundInterval = SoundInterval(self.touchedBossSfx, duration=0.8)
         self.lerpInterval = None
+        return
 
     def disable(self):
         self.cleanup()
@@ -54,6 +55,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         del self.hitBossSoundInterval
         del self.touchedBossSoundInterval
         self.craneGame = None
+        return
 
     def setupPhysics(self, name):
         an = ActorNode('%s-%s' % (name, self.doId))
@@ -125,10 +127,12 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
             vel.normalize()
             impact = vel[1]
             if impact >= self.getMinImpact():
+                print 'hit! %s' % impact
                 self.hitBossSoundInterval.start()
                 self.doHitBoss(impact)
             else:
                 self.touchedBossSoundInterval.start()
+                print '--not hard enough: %s' % impact
 
     def doHitBoss(self, impact):
         self.d_hitBoss(impact)

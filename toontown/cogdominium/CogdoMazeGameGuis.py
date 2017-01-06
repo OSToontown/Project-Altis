@@ -17,6 +17,7 @@ class CogdoMazeMapGui(MazeMapGui):
         MazeMapGui.__init__(self, mazeCollTable, bgColor=Globals.MapGuiBgColor, fgColor=Globals.MapGuiFgColor)
         self._suit2marker = {}
         self._initModel()
+        self.reparentTo(base.a2dBottomRight)
         self.setPos(*Globals.MapGuiPos)
         self.setScale(Globals.MapGuiScale)
 

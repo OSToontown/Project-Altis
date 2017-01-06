@@ -14,8 +14,6 @@ class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
         DistCogdoGame.__init__(self, cr)
         self.game = CogdoMazeGame(self)
         self._numSuits = (0, 0, 0)
-        if __debug__ and base.config.GetBool('schellgames-dev', True):
-            self.accept('onCodeReload', self.__sgOnCodeReload)
 
     def delete(self):
         del self.randomNumGen
@@ -49,6 +47,7 @@ class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
                 bossCode += '%X' % self.randomNumGen.randint(0, 15)
 
         self.game.load(mazeFactory, self._numSuits, bossCode)
+        return
 
     def exitLoaded(self):
         self.game.unload()
@@ -229,3 +228,11 @@ class DistCogdoMazeGame(DistCogdoGame, DistCogdoMazeGameBase):
     def setToonDisconnect(self, toonId):
         DistCogdoGame.setToonDisconnect(self, toonId)
         self.game.handleToonDisconnected(toonId)
+
+from otp.ai.MagicWordGlobal import *
+@magicWord(category=CATEGORY_PROGRAMMER)
+def revealMap():
+    if hasattr(base.cr, 'cogdoGame'):
+        game = base.cr.cogdoGame
+        game.game.guiMgr.mazeMapGui.showExit()
+        game.game.guiMgr.mazeMapGui.revealAll()

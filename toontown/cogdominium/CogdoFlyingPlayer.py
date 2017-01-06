@@ -181,7 +181,6 @@ class CogdoFlyingPlayer(FSM):
     def isInvulnerable(self):
         if Globals.Level.GatherableTypes.InvulPowerup in self.activeBuffs:
             return True
-        
         return False
 
     def setFuelState(self, fuelState):
@@ -191,12 +190,14 @@ class CogdoFlyingPlayer(FSM):
         self.oldFuelState = fuelState
 
     def hasFuelStateChanged(self):
-        return self.fuelState != self.oldFuelState
+        if self.fuelState != self.oldFuelState:
+            return True
+        else:
+            return False
 
     def updatePropellerSmoke(self):
         if not self.hasFuelStateChanged():
             return
-        
         if self.fuelState in [Globals.Gameplay.FuelStates.FuelNoPropeller, Globals.Gameplay.FuelStates.FuelNormal]:
             self.propellerSmoke.stop()
         elif self.fuelState in [Globals.Gameplay.FuelStates.FuelVeryLow, Globals.Gameplay.FuelStates.FuelEmpty]:
@@ -222,7 +223,10 @@ class CogdoFlyingPlayer(FSM):
             self.legalEaglesTargeting.remove(legalEagle)
 
     def isLegalEagleTarget(self):
-        return len(self.legalEaglesTargeting) > 0
+        if len(self.legalEaglesTargeting) > 0:
+            return True
+        else:
+            return False
 
     def setBlades(self, fuelState):
         if fuelState not in Globals.Gameplay.FuelStates:
@@ -341,6 +345,7 @@ class CogdoFlyingPlayer(FSM):
         if self.spawnInterval:
             self.spawnInterval.clearToInitial()
             self.spawnInterval = None
+        return
 
     def start(self):
         swapAvatarShadowPlacer(self.toon, self.toon.uniqueName('toonShadowPlacer'))

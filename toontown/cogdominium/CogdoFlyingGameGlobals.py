@@ -3,7 +3,13 @@ from pandac.PandaModules import VBase4, Vec3, Point3
 from toontown.cogdominium.CogdoUtil import VariableContainer, DevVariableContainer
 
 AI = VariableContainer()
-AI.GameActions = PythonUtil.Enum(('LandOnWinPlatform', 'WinStateFinished', 'GotoWinState', 'HitWhirlwind', 'HitLegalEagle', 'HitMinion', 'DebuffInvul', 'RequestEnterEagleInterest', 'RequestExitEagleInterest', 'RanOutOfTimePenalty', 'Died', 'Spawn', 'SetBlades', 'BladeLost'))
+
+AI.GameActions = PythonUtil.Enum(('LandOnWinPlatform', 'WinStateFinished',
+    'GotoWinState', 'HitWhirlwind', 'HitLegalEagle', 'HitMinion', 'DebuffInvul',
+    'RequestEnterEagleInterest', 'RequestExitEagleInterest', 'RanOutOfTimePenalty',
+    'Died', 'Spawn', 'SetBlades', 'BladeLost')
+)
+
 AI.BroadcastPeriod = 0.3
 AI.SafezoneId2DeathDamage = {2000: 1,
  1000: 2,
@@ -42,6 +48,7 @@ Camera.AlphaBetweenToon = 0.35
 Camera.SpinRadius = 9.0
 Camera.MaxSpinAngle = 20.0
 Camera.MaxSpinX = 16.0
+Camera.GameCameraFar = 400.0
 Gameplay = VariableContainer()
 Gameplay.SecondsUntilGameOver = 60.0 * 3.0
 Gameplay.TimeRunningOutSeconds = 45.0
@@ -123,7 +130,7 @@ Gameplay.BackpackState2TextureName = {Gameplay.BackpackStates.Normal: 'tt_t_ara_
  Gameplay.BackpackStates.Targeted: 'tt_t_ara_cfg_propellerPack_eagleTarget',
  Gameplay.BackpackStates.Attacked: 'tt_t_ara_cfg_propellerPack_eagleAttack',
  Gameplay.BackpackStates.Refuel: 'tt_t_ara_cfg_propellerPack_flash'}
-Gameplay.MinionDnaName = 'bf'
+Gameplay.MinionDnaName = ['bf', 'b', 'dt', 'ac', 'bs', 'sd']
 Gameplay.MinionScale = 0.8
 Gui = VariableContainer()
 Gui.FuelNumBladesPos2D = (-0.005, -0.017)
@@ -168,15 +175,15 @@ LegalEagle.PostCooldownHeightOffNest = 40.0
 Dev = DevVariableContainer('cogdoflying')
 Dev.DisableDeath = False
 Dev.InfiniteFuel = False
-Dev.InfiniteTimeLimit = True
+Dev.InfiniteTimeLimit = False
 Dev.Invincibility = False
 Dev.NoLegalEagleAttacks = False
 Audio = VariableContainer()
 Audio.Cutoff = 75.0
-Audio.MusicFiles = {'normal': 'phase_4/audio/bgm/MG_cannon_game.ogg',
- 'end': 'phase_4/audio/bgm/FF_safezone.ogg',
- 'waiting': 'phase_4/audio/bgm/m_match_bg2.ogg',
- 'invul': 'phase_4/audio/bgm/MG_CogThief.ogg',
+Audio.MusicFiles = {'normal': 'phase_9/audio/bgm/CHQ_FACT_bg.ogg',
+ 'end': 'phase_7/audio/bgm/encntr_toon_winning_indoor.ogg',
+ 'waiting': 'phase_7/audio/bgm/encntr_toon_winning_indoor.ogg',
+ 'invul': 'phase_9/audio/bgm/encntr_toon_winning.ogg',
  'timeRunningOut': 'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg'}
 Audio.SfxFiles = {'propeller': 'phase_4/audio/sfx/TB_propeller.ogg',
  'propeller_damaged': 'phase_5/audio/sfx/tt_s_ara_cfg_propellers_damaged.ogg',

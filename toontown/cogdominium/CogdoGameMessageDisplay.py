@@ -68,8 +68,8 @@ class CogdoGameMessageDisplay:
                 self.transitionInterval.append(LerpFunc(self.messageLabel.setAlphaScale, fromData=0.0, toData=1.0, duration=CogdoGameConsts.MessageLabelBlinkTime, extraArgs=[]))
             else:
                 self.transitionInterval.append(Func(self.messageLabel.setAlphaScale, 1.0))
-        
         self.transitionInterval.start()
+        return
 
     def showMessageTemporarily(self, message = '', duration = 3.0, color = None):
         self.updateMessage(message, color)

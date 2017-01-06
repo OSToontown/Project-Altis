@@ -115,14 +115,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.glasses = (0, 0, 0)
         self.backpack = (0, 0, 0)
         self.shoes = (0, 0, 0)
-        self.cogTypes = [0, 0, 0, 0]
-        self.cogLevel = [0, 0, 0, 0]
-        self.cogParts = [0, 0, 0, 0]
-        self.cogRadar = [0, 0, 0, 0]
+        self.cogTypes = [0, 0, 0, 0, 0]
+        self.cogLevel = [0, 0, 0, 0, 0]
+        self.cogParts = [0, 0, 0, 0, 0]
+        self.cogRadar = [0, 0, 0, 0, 0]
         self.cogIndex = -1
         self.disguisePageFlag = 0
         self.sosPageFlag = 0
-        self.buildingRadar = [0, 0, 0, 0]
+        self.buildingRadar = [0, 0, 0, 0, 0]
         self.fishingRod = 0
         self.fishingTrophies = []
         self.trackArray = []
@@ -188,7 +188,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self._dbCheckDoLater = None
         self.teleportOverride = 0
         self._gmDisabled = False
-        self.promotionStatus = [0, 0, 0, 0]
+        self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
 
     def generate(self):
@@ -4564,7 +4564,7 @@ def bank(command, value):
         return 'Bank transfer successful!'
     else:
         return 'Invalid command!'
-		
+
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def setMaxMoney(moneyVal):
     """Set target's money and maxMoney values."""

@@ -52,8 +52,9 @@ class CogdoFlyingLevelQuadrant:
         for np in self._model.findAllMatches('**/*LayerStack*'):
             np.wrtReparentTo(self._model)
 
-        for np in self._model.find('**/static').getChildren():
-            np.wrtReparentTo(self._model)
+        if not self._model.find('**/static').isEmpty():
+            for np in self._model.find('**/static').getChildren():
+                np.wrtReparentTo(self._model)
 
         self._model.flattenMedium()
 
@@ -138,8 +139,6 @@ class CogdoFlyingLevelQuadrant:
 
         def generatePowerUps():
             for powerupType, locName in Globals.Level.PowerupType2Loc.iteritems():
-                if powerupType == Globals.Level.GatherableTypes.LaffPowerup and Globals.Level.IgnoreLaffPowerups:
-                    continue
                 gatherables = gatherableModel.findAllMatches('**/%s' % locName)
                 for gatherable in gatherables:
                     pickup = self._level.gatherableFactory.createPowerup(powerupType)
