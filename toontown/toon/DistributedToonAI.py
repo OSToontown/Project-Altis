@@ -1214,38 +1214,31 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogLevels(self):
         return self.cogLevels
 
-    def incCogLevel(self, deptIndex):
-        cogLevel = self.cogLevels[deptIndex]
-        maxSuitType = SuitDNA.suitsPerDept - 1
-        maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-        maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
-        if (cogLevel == maxCogLevel) or (cogLevel == maxSuitLevel):
-            self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
-            self.d_setPromotionStatus(self.promotionStatus)
+    def incCogLevel(self, dept):
+        newLevel = self.cogLevels[dept] + 1
+        cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+        lastCog = self.cogTypes[dept] >= SuitDNA.suitsPerDept - 1
+        if not lastCog:
+            maxLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level'] + 4
         else:
-            self.cogLevels[deptIndex] += 1
+            maxLevel = ToontownGlobals.MaxCogSuitLevel
+        if newLevel > maxLevel:
+            if not lastCog:
+                self.cogTypes[dept] += 1
+                self.d_setCogTypes(self.cogTypes)
+                cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+                self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+                self.d_setCogLevels(self.cogLevels)
+        else:
+            self.cogLevels[dept] += 1
             self.d_setCogLevels(self.cogLevels)
-            self.cogMerits[deptIndex] = 0
-            self.d_setCogMerits(self.cogMerits)
-        self.air.writeServerEvent(
-            'cogSuit', self.doId,
-            '%s|%s|%s' % (deptIndex, self.cogTypes[deptIndex], self.cogLevels[deptIndex]))
-
-    def requestPromotion(self, dept):
-        if self.promotionStatus[dept] == ToontownGlobals.PendingPromotion:
-            self.cogTypes[dept] += 1
-            self.d_setCogTypes(self.cogTypes)
-            cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
-            self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
-            self.d_setCogLevels(self.cogLevels)
-            self.cogMerits[dept] = 0
-            self.d_setCogMerits(self.cogMerits)
-            maxHp = self.getMaxHp()
-            maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
-            self.b_setMaxHp(maxHp)
-            self.toonUp(maxHp)
-            self.promotionStatus[dept] = ToontownGlobals.WantPromotion
-            self.d_setPromotionStatus(self.promotionStatus)
+            if lastCog:
+                if self.cogLevels[dept] in ToontownGlobals.CogSuitHPLevels:
+                    maxHp = self.getMaxHp()
+                    maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
+                    self.b_setMaxHp(maxHp)
+                    self.toonUp(maxHp)
+        self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
 
     def getNumPromotions(self, dept):
         if dept not in SuitDNA.suitDepts:
@@ -1345,15 +1338,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogMerits(self):
         return self.cogMerits
 
-    def b_promote(self, deptIndex):
-        self.promote(deptIndex)
-        self.d_promote(deptIndex)
+    def b_promote(self, dept):
+        self.promote(dept)
+        self.d_promote(dept)
 
-    def promote(self, deptIndex):
-        self.incCogLevel(deptIndex)
+    def promote(self, dept):
+        if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
+            self.cogMerits[dept] = 0
+        self.incCogLevel(dept)
 
-    def d_promote(self, deptIndex):
+    def d_promote(self, dept):
         merits = self.getCogMerits()
+        if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
+            merits[dept] = 0
         self.d_setCogMerits(merits)
 
     def readyForPromotion(self, dept):
@@ -4394,23 +4391,15 @@ def maxToon(missingTrack=None):
         emotes[emoteId] = 1
     invoker.b_setEmoteAccess(emotes)
 
-    # Max out their Cog suits:
-    suitDeptCount = len(SuitDNA.suitDepts)
-    cogParts = []
-    for i in xrange(suitDeptCount):
-        cogParts.append(CogDisguiseGlobals.PartsPerSuitBitmasks[i])
-    invoker.b_setCogParts(cogParts)
-    maxSuitType = SuitDNA.suitsPerDept - 1
-    invoker.b_setCogTypes([maxSuitType] * suitDeptCount)
-    maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-    invoker.b_setCogLevels([maxSuitLevel] * suitDeptCount)
-    cogMerits = []
-    for i in xrange(suitDeptCount):
-        suitIndex = (SuitDNA.suitsPerDept * (i+1)) - 1
-        suitMerits = CogDisguiseGlobals.MeritsPerLevel[suitIndex]
-        cogMerits.append(suitMerits[SuitDNA.levelsPerSuit - 1])
-    invoker.b_setCogMerits(cogMerits)
-    invoker.b_setPromotionStatus([1] * suitDeptCount)
+    # Max out cog suits (ORDER: Bossbot, Lawbot, Cashbot, Sellbot)
+    invoker.b_setCogParts([
+        CogDisguiseGlobals.PartsPerSuitBitmasks[0], # Bossbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[3]  # Sellbot
+    ])
+    invoker.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 4)
+    invoker.b_setCogTypes([SuitDNA.suitsPerDept-1] * 4)
 
     # Max their Cog gallery:
     deptCount = len(SuitDNA.suitDepts)

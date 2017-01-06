@@ -2654,15 +2654,6 @@ def zone(zoneId):
     """
     base.cr.sendSetZoneMsg(zoneId, [zoneId])
     return 'You have been moved to zone %d.' % zoneId
-
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
-def promote(deptIndex):
-    """
-    sends a request to promote the invoker's [deptIndex] Cog disguise.
-    """
-    invoker = spellbook.getInvoker()
-    invoker.sendUpdate('requestPromotion', [deptIndex])
-    return 'Your promotion request has been sent.'
     
 @magicWord(category=CATEGORY_PROGRAMMER)
 def enableGC():

@@ -1,11 +1,10 @@
-import random
 from otp.ai.AIBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
+import random
 from toontown.suit import SuitDNA
 from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase.ToontownBattleGlobals import getInvasionMultiplier
-
-MeritMultiplier = 0.5
+MeritMultiplier = 3.0
 
 class PromotionManagerAI:
     notify = DirectNotifyGlobal.directNotify.newCategory('PromotionManagerAI')
@@ -18,15 +17,22 @@ class PromotionManagerAI:
 
     def recoverMerits(self, av, cogList, zoneId, multiplier = 1, extraMerits = None):
         avId = av.getDoId()
-        meritsRecovered = [0, 0, 0, 0]
+        meritsRecovered = [0,
+         0,
+         0,
+         0]
         if extraMerits is None:
-            extraMerits = [0, 0, 0, 0]
+            extraMerits = [0,
+             0,
+             0,
+             0]
         if self.air.suitInvasionManager.getInvading():
             multiplier *= getInvasionMultiplier()
-        for i in xrange(len(extraMerits)):
+        for i in range(len(extraMerits)):
             if CogDisguiseGlobals.isSuitComplete(av.getCogParts(), i):
                 meritsRecovered[i] += extraMerits[i]
                 self.notify.debug('recoverMerits: extra merits = %s' % extraMerits[i])
+
         self.notify.debug('recoverMerits: multiplier = %s' % multiplier)
         for cogDict in cogList:
             dept = SuitDNA.suitDepts.index(cogDict['track'])
@@ -45,10 +51,17 @@ class PromotionManagerAI:
                         self.notify.debug('recoverMerits: merits = %s' % merits)
                     else:
                         self.notify.debug('recoverMerits: virtual cog!')
-        if meritsRecovered != [0, 0, 0, 0]:
-            actualCounted = [0, 0, 0, 0]
+
+        if meritsRecovered != [0,
+         0,
+         0,
+         0]:
+            actualCounted = [0,
+             0,
+             0,
+             0]
             merits = av.getCogMerits()
-            for i in xrange(len(meritsRecovered)):
+            for i in range(len(meritsRecovered)):
                 max = CogDisguiseGlobals.getTotalMerits(av, i)
                 if max:
                     if merits[i] + meritsRecovered[i] <= max:
@@ -58,6 +71,7 @@ class PromotionManagerAI:
                         actualCounted[i] = max - merits[i]
                         merits[i] = max
                     av.b_setCogMerits(merits)
+
             if reduce(lambda x, y: x + y, actualCounted):
                 self.air.writeServerEvent('merits', avId, '%s|%s|%s|%s' % tuple(actualCounted))
                 self.notify.debug('recoverMerits: av %s recovered merits %s' % (avId, actualCounted))

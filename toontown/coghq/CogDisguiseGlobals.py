@@ -1,14 +1,15 @@
-import types
 from toontown.suit import SuitDNA
+import types
 from toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil
 from otp.otpbase import OTPGlobals
-from toontown.battle import SuitBattleGlobals
 PartsPerSuit = (10,
+ 10,
  10,
  10,
  10)
 PartsPerSuitBitmasks = (56411,
+ 56411,
  56411,
  56411,
  56411)
@@ -117,29 +118,235 @@ PartsQueryNames = ({1: PartNameStrings[0],
   8192: PartNameStrings[12],
   16384: PartNameStrings[14],
   32768: PartNameStrings[15],
+  65536: PartNameStrings[15]},
+ {1: PartNameStrings[0],
+  2: PartNameStrings[1],
+  4: PartNameStrings[1],
+  8: PartNameStrings[3],
+  16: PartNameStrings[4],
+  32: PartNameStrings[4],
+  64: SimplePartNameStrings[0],
+  128: SimplePartNameStrings[0],
+  256: SimplePartNameStrings[0],
+  512: SimplePartNameStrings[0],
+  1024: PartNameStrings[10],
+  2048: PartNameStrings[11],
+  4096: PartNameStrings[12],
+  8192: PartNameStrings[12],
+  16384: PartNameStrings[14],
+  32768: PartNameStrings[15],
   65536: PartNameStrings[15]})
+MeritsPerLevel = ((100, #Flunky
+  130,
+  160,
+  190,
+  800),
+ (160, #Pencil Pusher
+  210,
+  260,
+  310,
+  1300),
+ (260, #Yesman
+  340,
+  420,
+  500,
+  2100), 
+ (420, #Micromanager
+  550,
+  680,
+  810,
+  3400), 
+ (680, #Downsizer
+  890,
+  1100,
+  1310,
+  5550),
+ (1100, #Head Hunter
+  1440,
+  1780,
+  2120,
+  8900),
+ (1780, #Corporate Raider
+  2330,
+  2880,
+  3430,
+  14400),
+ (2880, #The Big Cheese
+  3770,
+  4660,
+  5550,
+  23300,
+  0),
+ (60, #Bottom Feeder
+  80,
+  100,
+  120,
+  500),
+ (100, #Bloodsucker
+  130,
+  160,
+  190,
+  800),
+ (160, #Double Talker
+  210,
+  260,
+  310,
+  1300),
+ (260, #Ambulance Chaser
+  340,
+  420,
+  500,
+  2100), 
+ (420, #Back Stabber
+  550,
+  680,
+  810,
+  3400),
+ (680, #Spin Doctor 
+  890,
+  1100,
+  1310,
+  5550),
+ (1100, #Legal Eagle
+  1440,
+  1780,
+  2120,
+  8900),
+ (1780, #Big Wig
+  2330,
+  2880,
+  3430,
+  14400,
+  0),
+ (40, #Short Change
+  50,
+  60,
+  70,
+  300),
+ (60, #Penny Pincher
+  80,
+  100,
+  120,
+  500),
+ (100, #Tightwad
+  130,
+  160,
+  190,
+  800),
+ (160, #Bean Counter
+  210,
+  260,
+  310,
+  1300),
+ (260, #Number Cruncher
+  340,
+  420,
+  500,
+  2100),
+ (420, #Money Bags
+  550,
+  680,
+  810,
+  3400),
+ (680, #Loan Shark
+  890,
+  1100,
+  1310,
+  5550),
+ (1100, #Robber Baron
+  1440,
+  1780,
+  2120,
+  8900,
+  0),
+ (20, #Cold Caller
+  30,
+  40,
+  50,
+  200),
+ (40, #Telemarketer
+  50,
+  60,
+  70,
+  300),
+ (60, #Name Dropper
+  80,
+  100,
+  120,
+  500),
+ (100, #Glad Hander
+  130,
+  160,
+  190,
+  800),
+ (160, #Mover & Shaker
+  210,
+  260,
+  310,
+  1300),
+ (260, #Two-Face
+  340,
+  420,
+  500,
+  2100),
+ (420, #The Mingler
+  550,
+  680,
+  810,
+  3400),
+ (680, #Mr. Hollywood
+  890,
+  1100,
+  1310,
+  890,
+  0),
+ (160, #Con Artist
+  210,
+  260,
+  310,
+  1300),
+ (260, #Connoisseur
+  340,
+  420,
+  500,
+  2100), 
+ (420, #The Swindler
+  550,
+  680,
+  810,
+  3400), 
+ (680, #Middleman
+  890,
+  1100,
+  1310,
+  5550),
+ (1100, #Toxic Manager
+  1440,
+  1780,
+  2120,
+  8900),
+ (1780, #Magnate
+  2330,
+  2880,
+  3430,
+  14400),
+ (2880, #Big Fish
+  3770,
+  4660,
+  5550,
+  23300,
+ (5550, #Head Honcho
+  8900,
+  14400,
+  23300,
+  33300,
+  0)))             
 suitTypes = PythonUtil.Enum(('NoSuit', 'NoMerits', 'FullSuit'))
-
-
-def makeMeritHierarchy(baseMerits):
-    meritHierarchy = []
-    for _ in xrange(SuitDNA.suitsPerDept):
-        meritTier = []
-        for _ in xrange(SuitDNA.levelsPerSuit):
-            baseMerits += (baseMerits*25) / 100
-            meritTier.append(baseMerits)
-        meritHierarchy.append(tuple(meritTier))
-        baseMerits /= 2
-    return meritHierarchy
-
-
-MeritsPerLevel = makeMeritHierarchy(100)  # Bossbot
-MeritsPerLevel += makeMeritHierarchy(75)  # Lawbot
-MeritsPerLevel += makeMeritHierarchy(50)  # Cashbot
-MeritsPerLevel += makeMeritHierarchy(25)  # Sellbot
 
 def getNextPart(parts, partIndex, dept):
     dept = dept2deptIndex(dept)
+    if dept == 4:
+        return 1
     needMask = PartsPerSuitBitmasks[dept] & PartsQueryMasks[partIndex]
     haveMask = parts[dept] & PartsQueryMasks[partIndex]
     nextPart = ~needMask | haveMask
@@ -164,20 +371,10 @@ def isSuitComplete(parts, dept):
 
     return 1
 
-
-def isPaidSuitComplete(av, parts, dept):
-    isPaid = 0
-    base = getBase()
-    if av and av.getGameAccess() == OTPGlobals.AccessFull:
-        isPaid = 1
-    if isPaid:
-        if isSuitComplete(parts, dept):
-            return 1
-    return 0
-
-
 def getTotalMerits(toon, index):
     from toontown.battle import SuitBattleGlobals
+    if index == 4:
+        return 0
     cogIndex = toon.cogTypes[index] + SuitDNA.suitsPerDept * index
     cogTypeStr = SuitDNA.suitHeadTypes[cogIndex]
     cogBaseLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
@@ -186,7 +383,7 @@ def getTotalMerits(toon, index):
     return MeritsPerLevel[cogIndex][cogLevel]
 
 
-def getTotalParts(bitString, shiftWidth = 32):
+def getTotalParts(bitString, shiftWidth = 40):
     sum = 0
     for shift in xrange(0, shiftWidth):
         sum = sum + (bitString >> shift & 1)
