@@ -3,8 +3,6 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory('BattleExprienceAI')
 
-EXP_MULTIPLIER = simbase.config.GetFloat('battle-xp-multiplier', 1.0)
-
 def getSkillGained(toonSkillPtsGained, toonId, track):
     exp = 0
     expList = []
@@ -14,7 +12,7 @@ def getSkillGained(toonSkillPtsGained, toonId, track):
     else:
         expList = [0, 0, 0, 0, 0, 0, 0, 0]
         exp = expList[track]
-    return (int(exp)) * EXP_MULTIPLIER
+    return (int(exp)) 
 
 def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toonOrigQuests, toonItems, toonOrigMerits, toonMerits, toonParts, suitsKilled, helpfulToonsList = None):
     if helpfulToonsList == None:
