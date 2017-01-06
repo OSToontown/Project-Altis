@@ -51,6 +51,7 @@ class DNAWindows(DNAGroup.DNAGroup):
             window.setScale(NodePath(), scale)
             window.setHpr(hpr)
             window.setPos(x, 0, z)
+            window.setEffect(DecalEffect.make())
             window.setAttrib(DepthWriteAttrib.makeDefault(), 0)
 
         offset = lambda: random.random() % 0.0375
