@@ -1016,7 +1016,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = 'bG9sLndlLmNoYW5nZS50aGlzLnRvby5tdWNo'
+        self.key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
 
         # Instantiate our account DB interface:
         if accountDBType == 'developer':
@@ -1073,23 +1073,22 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.account2fsm[sender].request('Start', *args)
 
     def login(self, cookie, authKey):
-        self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))
-
         sender = self.air.getMsgSender()
+        
+        self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
         digest_maker.update(cookie)
         serverKey = digest_maker.hexdigest()
-        if serverKey == authKey:
-            # This login is authentic!
-            pass
-        else:
-            # This login is not authentic.
-            self.killConnection(sender, ' ')
+        
+        if not hmac.compare_digest(serverKey, authKey):
+            # recieved a bad authentication key from the client, drop there connection!
+            self.killConnection(sender, 'Failed to login, recieved a bad login token %s' % (cookie))
+            return
 
         if sender >> 32:
-            self.killConnection(sender, 'Client is already logged in.')
+            self.killConnection(sender, 'Failed to login, client is already logged in.')
             return
 
         if sender in self.connection2fsm:
