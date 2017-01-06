@@ -105,7 +105,7 @@ want-travel-game #f
 # Picnic table board games:
 want-game-tables #f
 
-# Battles
+# Cog Battles
 battle-xp-multiplier 5
 
 # Cog headquarters:
@@ -119,9 +119,6 @@ want-bossbot-headquarters #t
 want-resistance-toonup #f
 want-resistance-restock #f
 want-resistance-dance #f
-
-# Cog battles:
-base-xp-multiplier 10.0
 
 # Cog buildings:
 want-cogbuildings #t
