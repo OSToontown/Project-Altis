@@ -1,25 +1,17 @@
-AchievementTitles = ('It\'s fun with friends',
-                     'Mr Popular',
-                     'Famous Toon',
-                     'Trolley Time!',
-                     'VP',
-                     'VP',
-                     'VP',
-                     'VP')
-AchievementDesc = ('You made a Friend!',
-                   'You made 10 Friends!',
-                   'You made 50 Friends!',
-                   'You rode the Trolley!',
-                   'You defeated the VP!',
-                   'You defeated the VP with 1 laff!',
-                   'You soloed the VP!',
-                   'You soloed the VP with 1 laff!')
-#(model, node, color, scale)
-AchievementImages = (('phase_3.5/models/gui/friendslist_gui', '**/FriendsBox_Rollover', (1, 1, 1, 1), 1),
-                     ('phase_3.5/models/gui/friendslist_gui', '**/FriendsBox_Rollover', (1, 1, 1, 1), 1),
-                     ('phase_3.5/models/gui/friendslist_gui', '**/FriendsBox_Rollover', (1, 1, 1, 1), 1),
-                     ('phase_3.5/models/gui/stickerbook_gui', '**/trolley', (1, 1, 1, 1), 0.3),
-                     ('phase_3.5/models/gui/stickerbook_gui', '**/BossHead3Icon', (1, 1, 1, 1), 0.3),
-                     ('phase_3.5/models/gui/stickerbook_gui', '**/BossHead3Icon', (1, 1, 1, 1), 0.3),
-                     ('phase_3.5/models/gui/stickerbook_gui', '**/BossHead3Icon', (1, 1, 1, 1), 0.3),
-                     ('phase_3.5/models/gui/stickerbook_gui', '**/BossHead3Icon', (1, 1, 1, 1), 0.3))
+AchievementTitles = ("Make a friend",
+                     "Make 10 friends",
+                     "Make 50 friends",
+                     "Make 100 friends",
+                     "Ride the trolley",
+                     "Complete Toontown Central",
+                     "Complete Donald's Dock",
+                     "Complete your first factory!")
+
+AchievementImages = (('phase_3/achievements/ttpa_achievement_makefriend.png'), # Make a friend
+                     ('phase_3/achievements/ttpa_achievement_makefriend10.png'), # Make 10 friends
+                     ('phase_3/achievements/ttpa_achievement_makefriend.png'), # 50 friends
+                     ('phase_3/achievements/ttpa_achievement_makefriend.png'), # 100 friends
+                     ('phase_3/achievements/ttpa_achievement_trolley.png'), # Trolley
+                     ('phase_3/achievements/ttpa_achievement_makefriend.png'), # Complete TTC
+                     ('phase_3/achievements/ttpa_achievement_makefriend.png'), # Complete DD
+                     ('phase_3/achievements/ttpa_achievement_makefriend.png')) # Complete first factory

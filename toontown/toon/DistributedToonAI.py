@@ -544,7 +544,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.air.questManager.toonMadeFriend(self)
 
         if self.air.wantAchievements:
-            self.air.achievementsManager.toonMadeFriend(self.doId)
+            self.air.achievementsManager.friends(self.doId)
 
     def d_setMaxNPCFriends(self, max):
         self.sendUpdate('setMaxNPCFriends', [max])
