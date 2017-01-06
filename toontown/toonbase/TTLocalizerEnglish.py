@@ -2240,6 +2240,7 @@ MovieNPCSOSSound = 'Sound'
 MovieNPCSOSThrow = 'Throw'
 MovieNPCSOSSquirt = 'Squirt'
 MovieNPCSOSDrop = 'Drop'
+MovieNPCSOSZap = 'Zap'
 MovieNPCSOSAll = 'All'
 MoviePetSOSTrickFail = 'Sigh'
 MoviePetSOSTrickSucceedBoy = 'Good boy!'
@@ -4856,6 +4857,7 @@ TrackChoiceGuiHEAL = 'Toonup lets you heal other Toons in battle.'
 TrackChoiceGuiTRAP = 'Traps are powerful gags that must be used with Lure.'
 TrackChoiceGuiLURE = 'Use Lure to stun Cogs or draw them into traps.'
 TrackChoiceGuiSOUND = 'Sound gags affect all Cogs, but are not very powerful.'
+TrackChoiceGuiZAP = 'Zap gags are weak, but when paired with squirt, they can shortcircuit a cog and deal 2x damage.'
 TrackChoiceGuiDROP = 'Drop gags do lots of damage, but are not very accurate.'
 EmotePageTitle = 'Expressions / Emotions'
 EmotePageDance = 'You have built the following dance sequence:'
@@ -4960,6 +4962,13 @@ BattleGlobalAvPropStrings = (('Feather',
   'Fire Hose',
   'Storm Cloud',
   'Geyser'),
+ ('Joybuzzer',
+  'Carpet',
+  'Balloon',
+  'Kart Battery',
+  'Tazer',
+  'Tesla Coil',
+  'Lightning'),
  ('Flower Pot',
   'Sandbag',
   'Anvil',
@@ -5009,6 +5018,13 @@ BattleGlobalAvPropStringsSingular = (('a Feather',
   'a Fire Hose',
   'a Storm Cloud',
   'a Geyser'),
+ ('a Joybuzzer',
+  'a Carpet',
+  'a Balloon',
+  'a Kart Battery',
+  'a Tazer',
+  'a Tesla Coil',
+  'Lightning'),
  ('a Flower Pot',
   'a Sandbag',
   'an Anvil',
@@ -5058,6 +5074,13 @@ BattleGlobalAvPropStringsPlural = (('Feathers',
   'Fire Hoses',
   'Storm Clouds',
   'Geysers'),
+ ('Joybuzzers',
+  'Carpets',
+  'Balloons',
+  'Kart Batteries',
+  'Tazers',
+  'Tesla Coils',
+  'Lightning'),
  ('Flower Pots',
   'Sandbags',
   'Anvils',
@@ -5071,6 +5094,7 @@ BattleGlobalAvTrackAccStrings = ('Medium',
  'High',
  'Medium',
  'High',
+ 'Medium',
  'Low')
 BattleGlobalLureAccLow = 'Low'
 BattleGlobalLureAccMedium = 'Medium'
