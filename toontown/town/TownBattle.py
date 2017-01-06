@@ -228,6 +228,7 @@ class TownBattle(StateData.StateData):
         self.timer.setTime(time)
 		
     def __cogPanels(self, num):
+        self.notify.debug('cogPanels() num: %d' % (num))
         for panel in self.cogPanels:
             panel.hide()
             panel.setPos(0, 0, 0.7)
@@ -251,7 +252,7 @@ class TownBattle(StateData.StateData):
             self.notify.error('Bad number of cogs: %s' % num)
 
     def __enterPanels(self, num, localNum):
-        self.notify.info('enterPanels() num: %d localNum: %d' % (num, localNum))
+        self.notify.debug('enterPanels() num: %d localNum: %d' % (num, localNum))
         for toonPanel in self.toonPanels:
             toonPanel.hide()
             toonPanel.setPos(0, 0, -0.9)
