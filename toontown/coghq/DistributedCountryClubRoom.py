@@ -11,6 +11,8 @@ from toontown.coghq import CountryClubRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
 from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import CFThought, CFTimeout
+
 if __dev__:
     from otp.level import EditorGlobals
 
