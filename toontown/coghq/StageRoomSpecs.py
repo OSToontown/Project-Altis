@@ -79,6 +79,7 @@ CogSpecModules = {'LawbotOfficeOilRoom_Battle00': LawbotOfficeOilRoom_Battle00_C
  'LawbotOfficeOilRoom_Battle01': LawbotOfficeOilRoom_Battle01_Cogs,
  'LawbotOfficeBoilerRoom_Battle00': LawbotOfficeBoilerRoom_Battle00_Cogs,
  'LawbotOfficeBoilerRoom_Trap00': LawbotOfficeBoilerRoom_Trap00_Cogs,
+ 'LawbotOfficeBoilerRoom_Action01': LawbotOfficeBoilerRoom_Action01_Cogs,
  'LawbotOfficeLobby_Trap00': LawbotOfficeLobby_Trap00_Cogs,
  'LawbotOfficeDiamondRoom_Trap00': LawbotOfficeDiamondRoom_Trap00_Cogs,
  'LawbotOfficeDiamondRoom_Battle00': LawbotOfficeDiamondRoom_Battle00_Cogs,
