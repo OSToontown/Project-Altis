@@ -86,7 +86,7 @@ class WhisperPopup(Clickable2d, MarginVisible):
     TEXT_MAX_ROWS = 6
     TEXT_WORD_WRAP = 8
 
-    QUIT_BUTTON_SHIFT = (0.42, 0, 0.42)
+    QUIT_BUTTON_SHIFT = (-0.42, 0, -0.42)
 
     WHISPER_TIMEOUT_MIN = 10
     WHISPER_TIMEOUT_MAX = 20

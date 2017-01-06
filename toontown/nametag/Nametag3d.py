@@ -10,7 +10,7 @@ from direct.interval.IntervalGlobal import Sequence
 
 class Nametag3d(Nametag, Clickable3d):
     SCALING_MIN_DISTANCE = 1
-    SCALING_MAX_DISTANCE = 50
+    SCALING_MAX_DISTANCE = 200
     SCALING_FACTOR = 0.065
 
     def __init__(self):
@@ -49,7 +49,7 @@ class Nametag3d(Nametag, Clickable3d):
 
     def doBillboardEffect(self):
         billboardEffect = BillboardEffect.make(
-            Vec3(0, 0, 1), True, False, self.billboardOffset, base.cam,
+            Vec3(0, 0, 1), False, False, self.billboardOffset, base.cam,
             Point3(0, 0, 0))
         self.contents.setEffect(billboardEffect)
 
