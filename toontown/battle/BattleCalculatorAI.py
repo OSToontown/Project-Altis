@@ -56,6 +56,7 @@ class BattleCalculatorAI:
         self.battle = battle
         self.SuitAttackers = {}
         self.currentlyLuredSuits = {}
+        self.currentlyWetSuits = []
         self.successfulLures = {}
         self.toonAtkOrder = []
         self.toonHPAdjusts = {}
@@ -535,6 +536,27 @@ class BattleCalculatorAI:
                     else:
                         attackDamage = 0
                     bonus = 0
+                elif atkTrack == SQUIRT:
+                    if targetId not in self.currentlyWetSuits:
+                        self.currentlyWetSuits.append(targetId)	
+                    organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
+                    propBonus = self.__checkPropBonus(attackTrack)
+                    attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
+                elif atkTrack == ZAP:
+                    organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
+                    propBonus = self.__checkPropBonus(attackTrack)
+                    if self.__isWet(targetId) == 1:
+                        if random.randint(0,99) <= InstaKillChance[atkLevel]:
+                            suit = self.battle.findSuit(targetId)
+                            if suit.getHP() > 500:
+                                attackDamage = 500
+                            else:
+                                suit.b_setSkeleRevives(0)
+                                attackDamage = suit.getHP()
+                        else:
+                            attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 2
+                    else:
+                        attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
                 else:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
@@ -624,6 +646,12 @@ class BattleCalculatorAI:
                 if dmg > 0:
                     return dmg
 
+            return 0
+			
+    def __isWet(self, suit):
+        if suit in self.currentlyWetSuits:
+            return 1
+        else:
             return 0
 
     def __attackDamageForTgt(self, attack, tgtPos, suit = 0):
@@ -1396,6 +1424,7 @@ class BattleCalculatorAI:
         if self.notify.getDebug():
             self.notify.debug('Toon skills gained after this round: ' + repr(self.toonSkillPtsGained))
             self.__printSuitAtkStats()
+        self.currentlyWetSuits = []
         return None
 
     def __calculateFiredCogs():

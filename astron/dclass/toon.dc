@@ -947,15 +947,16 @@ dclass DistributedToon : DistributedPlayer {
   setBankMoney(int32 = 0) required ownrecv;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
   setHp(int16 = 15) required broadcast ownrecv db;
+  setUber(int16) required broadcast ownrecv db;
   toonUp(uint16) broadcast ownrecv;
   takeDamage(uint16) broadcast ownrecv;
   setBattleId(uint32 = 0) required broadcast ram;
-  setExperience(blob = [0*14]) required broadcast db;
+  setExperience(blob = [0*16]) required broadcast db;
   setMaxCarry(uint8 = 20) required ownrecv db;
-  setTrackAccess(uint16[] = [0,0,0,0,1,1,0]) required broadcast ownrecv db;
+  setTrackAccess(uint16[] = [0,0,0,0,1,1,0,0]) required broadcast ownrecv db;
   setTrackProgress(int8 = -1, uint32 = 0) required ownrecv db;
-  setTrackBonusLevel(int8[] = [-1,-1,-1,-1,-1,-1,-1]) required broadcast ownrecv db;
-  setInventory(blob = [0*7, 0*7, 0*7, 0*7, 1, 0*6, 1, 0*6, 0*7]) required ownrecv db;
+  setTrackBonusLevel(int8[] = [-1,-1,-1,-1,-1,-1,-1,-1]) required broadcast ownrecv db;
+  setInventory(blob = [0*7, 0*7, 0*7, 0*7, 1, 0*6, 1, 0*6, 0*7, 0*7]) required ownrecv db;
   setMaxNPCFriends(uint16 = 16) required ownrecv db;
   setNPCFriendsDict(FriendEntry[] = []) required ownrecv db;
   setDefaultShard(uint32 = 0) required ownrecv broadcast db;
@@ -1542,7 +1543,8 @@ dclass DistributedMinigame : DistributedObject {
   setGameStart(int16) broadcast;
   setGameExit() broadcast;
   setGameAbort() broadcast;
-  requestVoteSkip() airecv clsend;
+  requestSkip() airecv clsend;
+  setVoteSkips(uint8) broadcast;
 };
 
 dclass DistributedMinigameTemplate : DistributedMinigame {

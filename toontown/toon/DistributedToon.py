@@ -1,5 +1,5 @@
 import operator, copy, random, time, gc
-from toontown.toon import Experience, InventoryNew, TTEmote, Toon
+from toontown.toon import Experience, InventoryNewOLD, TTEmote, Toon
 from direct.controls.GravityWalker import GravityWalker
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -311,7 +311,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setInventory(self, inventoryNetString):
         if not self.inventory:
-            self.inventory = InventoryNew.InventoryNew(self, inventoryNetString)
+            self.inventory = InventoryNewOLD.InventoryNewOLD(self, inventoryNetString)
         self.inventory.updateInvString(inventoryNetString)
 
     def setLastHood(self, lastHood):

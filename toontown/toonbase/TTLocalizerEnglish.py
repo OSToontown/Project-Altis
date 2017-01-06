@@ -2240,6 +2240,7 @@ MovieNPCSOSSound = 'Sound'
 MovieNPCSOSThrow = 'Throw'
 MovieNPCSOSSquirt = 'Squirt'
 MovieNPCSOSDrop = 'Drop'
+MovieNPCSOSZap = 'Zap'
 MovieNPCSOSAll = 'All'
 MoviePetSOSTrickFail = 'Sigh'
 MoviePetSOSTrickSucceedBoy = 'Good boy!'
@@ -4856,6 +4857,7 @@ TrackChoiceGuiHEAL = 'Toonup lets you heal other Toons in battle.'
 TrackChoiceGuiTRAP = 'Traps are powerful gags that must be used with Lure.'
 TrackChoiceGuiLURE = 'Use Lure to stun Cogs or draw them into traps.'
 TrackChoiceGuiSOUND = 'Sound gags affect all Cogs, but are not very powerful.'
+TrackChoiceGuiZAP = 'Zap gags are weak, but when paired with squirt, they can shortcircuit a cog and deal 2x damage.'
 TrackChoiceGuiDROP = 'Drop gags do lots of damage, but are not very accurate.'
 EmotePageTitle = 'Expressions / Emotions'
 EmotePageDance = 'You have built the following dance sequence:'
@@ -4872,6 +4874,8 @@ InventoryTotalGags = 'Total gags\n%d / %d'
 InventroyPinkSlips = '%s Pink Slips'
 InventroyPinkSlip = '1 Pink Slip'
 InventoryDelete = 'DELETE'
+InventoryDeleteAll = 'DELETE ALL'
+InventoryDeleteConfirm = "Are you sure you want to delete all your gags? Don't worry, your level 7 gags will be safe"
 InventoryDone = 'DONE'
 InventoryDeleteHelp = 'Click on a gag to DELETE it.'
 InventorySkillCredit = 'Skill credit: %s'
@@ -4888,11 +4892,14 @@ InventoryAffectsAllToons = 'Affects: All Toons'
 InventoryAffectsAllCogs = 'Affects: All ' + Cogs
 InventoryHealString = 'Toon-up'
 InventoryDamageString = 'Damage'
+InventoryLureString = 'Rounds active'
 InventoryBattleMenu = 'BATTLE MENU'
 InventoryRun = 'RUN'
 InventorySOS = 'SOS'
 InventoryPass = 'PASS'
 InventoryFire = 'FIRE'
+InventoryLevelsShow = 'SHOW LEVELS'
+InventoryLevelsHide = 'HIDE LEVELS'
 InventoryClickToAttack = 'Click a\ngag to\nattack'
 InventoryDamageBonus = '(+%d)'
 NPCForceAcknowledgeMessage = "You must ride the trolley before leaving.\n\n\n\n\n\n\n\n\nYou can find the trolley next to Goofy's Gag Shop."
@@ -4916,6 +4923,7 @@ BattleGlobalTracks = ['toon-up',
  'sound',
  'throw',
  'squirt',
+ 'zap',
  'drop']
 BattleGlobalNPCTracks = ['restock', 'toons hit', 'cogs miss']
 BattleGlobalAvPropStrings = (('Feather',
@@ -4960,6 +4968,13 @@ BattleGlobalAvPropStrings = (('Feather',
   'Fire Hose',
   'Storm Cloud',
   'Geyser'),
+ ('Joybuzzer',
+  'Carpet',
+  'Balloon',
+  'Kart Battery',
+  'Tazer',
+  'Tesla Coil',
+  'Lightning'),
  ('Flower Pot',
   'Sandbag',
   'Anvil',
@@ -5009,6 +5024,13 @@ BattleGlobalAvPropStringsSingular = (('a Feather',
   'a Fire Hose',
   'a Storm Cloud',
   'a Geyser'),
+ ('a Joybuzzer',
+  'a Carpet',
+  'a Balloon',
+  'a Kart Battery',
+  'a Tazer',
+  'a Tesla Coil',
+  'Lightning'),
  ('a Flower Pot',
   'a Sandbag',
   'an Anvil',
@@ -5058,6 +5080,13 @@ BattleGlobalAvPropStringsPlural = (('Feathers',
   'Fire Hoses',
   'Storm Clouds',
   'Geysers'),
+ ('Joybuzzers',
+  'Carpets',
+  'Balloons',
+  'Kart Batteries',
+  'Tazers',
+  'Tesla Coils',
+  'Lightning'),
  ('Flower Pots',
   'Sandbags',
   'Anvils',
@@ -5071,6 +5100,7 @@ BattleGlobalAvTrackAccStrings = ('Medium',
  'High',
  'Medium',
  'High',
+ 'Medium',
  'Low')
 BattleGlobalLureAccLow = 'Low'
 BattleGlobalLureAccMedium = 'Medium'

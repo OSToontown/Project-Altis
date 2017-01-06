@@ -15,6 +15,7 @@ Track2Anim = {ToontownBattleGlobals.HEAL_TRACK: 'juggle',
  ToontownBattleGlobals.SOUND_TRACK: 'sound',
  ToontownBattleGlobals.THROW_TRACK: 'throw',
  ToontownBattleGlobals.SQUIRT_TRACK: 'firehose',
+ ToontownBattleGlobals.ZAP_TRACK: 'cast',
  ToontownBattleGlobals.DROP_TRACK: 'pushbutton'}
 
 class TrackFrame(DirectFrame):

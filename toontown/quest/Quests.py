@@ -3644,14 +3644,6 @@ def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
     questsMatchingReward = Tier2Reward2QuestsDict[tier].get(rewardId, [])
     if notify.getDebug():
         notify.debug('questsMatchingReward: %s tier: %s = %s' % (rewardId, tier, questsMatchingReward))
-    if rewardId == 400 and QuestDict[questsMatchingReward[0]][QuestDictNextQuestIndex] == NA:
-        bestQuest = chooseTrackChoiceQuest(tier, av)
-        if notify.getDebug():
-            notify.debug('single part track choice quest: %s tier: %s avId: %s trackAccess: %s bestQuest: %s' % (rewardId,
-             tier,
-             av.getDoId(),
-             av.getTrackAccess(),
-             bestQuest))
     else:
         validQuestsMatchingReward = PythonUtil.intersection(questsMatchingReward, validQuestPool)
         if notify.getDebug():
@@ -4099,6 +4091,7 @@ TrackTrainingQuotas = {ToontownBattleGlobals.HEAL_TRACK: 15,
  ToontownBattleGlobals.SOUND_TRACK: 15,
  ToontownBattleGlobals.THROW_TRACK: 15,
  ToontownBattleGlobals.SQUIRT_TRACK: 15,
+ ToontownBattleGlobals.ZAP_TRACK: 15,
  ToontownBattleGlobals.DROP_TRACK: 15}
 
 class TrackTrainingReward(Reward):
@@ -4448,7 +4441,8 @@ RewardDict = {
     404: (TrackTrainingReward, ToontownBattleGlobals.SOUND_TRACK),
     405: (TrackTrainingReward, ToontownBattleGlobals.THROW_TRACK),
     406: (TrackTrainingReward, ToontownBattleGlobals.SQUIRT_TRACK),
-    407: (TrackTrainingReward, ToontownBattleGlobals.DROP_TRACK),
+    407: (TrackTrainingReward, ToontownBattleGlobals.ZAP_TRACK),
+    408: (TrackTrainingReward, ToontownBattleGlobals.DROP_TRACK),
     500: (MaxQuestCarryReward, 2),
     501: (MaxQuestCarryReward, 3),
     502: (MaxQuestCarryReward, 4),
@@ -4561,21 +4555,36 @@ RewardDict = {
     1313: (TrackProgressReward, ToontownBattleGlobals.SOUND_TRACK, 13),
     1314: (TrackProgressReward, ToontownBattleGlobals.SOUND_TRACK, 14),
     1315: (TrackProgressReward, ToontownBattleGlobals.SOUND_TRACK, 15),
-    1601: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 1),
-    1602: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 2),
-    1603: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 3),
-    1604: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 4),
-    1605: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 5),
-    1606: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 6),
-    1607: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 7),
-    1608: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 8),
-    1609: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 9),
-    1610: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 10),
-    1611: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 11),
-    1612: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 12),
-    1613: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 13),
-    1614: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 14),
-    1615: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 15),
+    1601: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 1),
+    1602: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 2),
+    1603: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 3),
+    1604: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 4),
+    1605: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 5),
+    1606: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 6),
+    1607: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 7),
+    1608: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 8),
+    1609: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 9),
+    1610: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 10),
+    1611: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 11),
+    1612: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 12),
+    1613: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 13),
+    1614: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 14),
+    1615: (TrackProgressReward, ToontownBattleGlobals.ZAP_TRACK, 15),
+    1701: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 1),
+    1702: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 2),
+    1703: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 3),
+    1704: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 4),
+    1705: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 5),
+    1706: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 6),
+    1707: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 7),
+    1708: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 8),
+    1709: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 9),
+    1710: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 10),
+    1711: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 11),
+    1712: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 12),
+    1713: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 13),
+    1714: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 14),
+    1715: (TrackProgressReward, ToontownBattleGlobals.DROP_TRACK, 15),
     900: (TrackCompleteReward, None),
     901: (TrackCompleteReward, ToontownBattleGlobals.HEAL_TRACK),
     902: (TrackCompleteReward, ToontownBattleGlobals.TRAP_TRACK),
@@ -4583,7 +4592,8 @@ RewardDict = {
     904: (TrackCompleteReward, ToontownBattleGlobals.SOUND_TRACK),
     905: (TrackCompleteReward, ToontownBattleGlobals.THROW_TRACK),
     906: (TrackCompleteReward, ToontownBattleGlobals.SQUIRT_TRACK),
-    907: (TrackCompleteReward, ToontownBattleGlobals.DROP_TRACK),
+    907: (TrackCompleteReward, ToontownBattleGlobals.ZAP_TRACK),
+    908: (TrackCompleteReward, ToontownBattleGlobals.DROP_TRACK),
     2205: (CheesyEffectReward, ToontownGlobals.CEBigToon, 2000, 10),
     2206: (CheesyEffectReward, ToontownGlobals.CESmallToon, 2000, 10),
     2101: (CheesyEffectReward, ToontownGlobals.CEBigHead, 1000, 10),
@@ -4837,7 +4847,7 @@ def avatarHasAllRequiredRewards(av, tier):
     for rewardId in rewardList:
         if rewardId == 900:
             found = 0
-            for actualRewardId in (901, 902, 903, 904, 905, 906, 907):
+            for actualRewardId in (901, 902, 903, 904, 905, 906, 907, 908):
                 if actualRewardId in rewardHistory:
                     found = 1
                     rewardHistory.remove(actualRewardId)

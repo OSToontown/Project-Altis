@@ -288,6 +288,7 @@ INpassButton = 0.05
 INrunButton = 0.05
 INdetailNameLabel = 1.0
 INfireButton = 0.05
+INlevelsButton = 0.04
 NPCFimgLabel = 1.0
 PIPsecretsButton = 0.045
 PIPwisperButton = 0.06

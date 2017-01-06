@@ -697,6 +697,7 @@ class RewardPanel(DirectFrame):
          0,
          0,
          0,
+         0,
          0]
         trackEnded = 0
         for trackIndex in xrange(len(earnedExp)):

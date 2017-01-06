@@ -20,6 +20,7 @@ import MovieSuitAttacks
 import MovieThrow
 import MovieToonVictory
 import MovieTrap
+import MovieZap
 import MovieUtil
 import PlayByPlayText
 import RewardPanel
@@ -451,6 +452,10 @@ class Movie(DirectObject.DirectObject):
                 track.append(ival)
                 camTrack.append(camIval)
             ival, camIval = MovieSquirt.doSquirts(self.__findToonAttack(SQUIRT))
+            if ival:
+                track.append(ival)
+                camTrack.append(camIval)
+            ival, camIval = MovieZap.doZaps(self.__findToonAttack(ZAP))
             if ival:
                 track.append(ival)
                 camTrack.append(camIval)

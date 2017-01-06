@@ -6,13 +6,13 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.shtiker import PurchaseManagerAI
 from toontown.shtiker import NewbiePurchaseManagerAI
+import MinigameCreatorAI
 from direct.task import Task
 import random
-from toontown.minigame import MinigameGlobals
+import MinigameGlobals
 from direct.showbase import PythonUtil
-from toontown.minigame import TravelGameGlobals
+import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
-
 EXITED = 0
 EXPECTED = 1
 JOINED = 2
@@ -29,27 +29,28 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
     def __init__(self, air, minigameId):
         try:
             self.DistributedMinigameAI_initialized
-            return
         except:
             self.DistributedMinigameAI_initialized = 1
-        
-        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.minigameId = minigameId
-        self.frameworkFSM = ClassicFSM.ClassicFSM('DistributedMinigameAI', [State.State('frameworkOff', self.enterFrameworkOff, self.exitFrameworkOff, ['frameworkWaitClientsJoin']),
-         State.State('frameworkWaitClientsJoin', self.enterFrameworkWaitClientsJoin, self.exitFrameworkWaitClientsJoin, ['frameworkWaitClientsReady', 'frameworkWaitClientsExit', 'frameworkCleanup']),
-         State.State('frameworkWaitClientsReady', self.enterFrameworkWaitClientsReady, self.exitFrameworkWaitClientsReady, ['frameworkGame', 'frameworkWaitClientsExit', 'frameworkCleanup']),
-         State.State('frameworkGame', self.enterFrameworkGame, self.exitFrameworkGame, ['frameworkWaitClientsExit', 'frameworkCleanup']),
-         State.State('frameworkWaitClientsExit', self.enterFrameworkWaitClientsExit, self.exitFrameworkWaitClientsExit, ['frameworkCleanup']),
-         State.State('frameworkCleanup', self.enterFrameworkCleanup, self.exitFrameworkCleanup, ['frameworkOff'])], 'frameworkOff', 'frameworkOff')
-        self.frameworkFSM.enterInitialState()
-        self.avIdList = []
-        self.stateDict = {}
-        self.scoreDict = {}
-        self.difficultyOverride = None
-        self.trolleyZoneOverride = None
-        self.metagameRound = -1
-        self.startingVotes = {}
-        self.skipVotes = 0
+            DistributedObjectAI.DistributedObjectAI.__init__(self, air)
+            self.minigameId = minigameId
+            self.frameworkFSM = ClassicFSM.ClassicFSM('DistributedMinigameAI', [State.State('frameworkOff', self.enterFrameworkOff, self.exitFrameworkOff, ['frameworkWaitClientsJoin']),
+             State.State('frameworkWaitClientsJoin', self.enterFrameworkWaitClientsJoin, self.exitFrameworkWaitClientsJoin, ['frameworkWaitClientsReady', 'frameworkWaitClientsExit', 'frameworkCleanup']),
+             State.State('frameworkWaitClientsReady', self.enterFrameworkWaitClientsReady, self.exitFrameworkWaitClientsReady, ['frameworkGame', 'frameworkWaitClientsExit', 'frameworkCleanup']),
+             State.State('frameworkGame', self.enterFrameworkGame, self.exitFrameworkGame, ['frameworkWaitClientsExit', 'frameworkCleanup']),
+             State.State('frameworkWaitClientsExit', self.enterFrameworkWaitClientsExit, self.exitFrameworkWaitClientsExit, ['frameworkCleanup']),
+             State.State('frameworkCleanup', self.enterFrameworkCleanup, self.exitFrameworkCleanup, ['frameworkOff'])], 'frameworkOff', 'frameworkOff')
+            self.frameworkFSM.enterInitialState()
+            self.avIdList = []
+            self.stateDict = {}
+            self.scoreDict = {}
+            self.difficultyOverride = None
+            self.trolleyZoneOverride = None
+            self.metagameRound = -1
+            self.startingVotes = {}
+            self.skipVoters = []
+            self.voteSkipEnabled = True # Enable it for the beginning of the game, we will then disable it once the game starts or gtes skipped
+
+        return
 
     def addChildGameFSM(self, gameFSM):
         self.frameworkFSM.getStateNamed('frameworkGame').addChild(gameFSM)
@@ -75,6 +76,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         if self.difficultyOverride is not None:
             self.difficultyOverride = MinigameGlobals.QuantizeDifficultyOverride(difficultyOverride)
         self.trolleyZoneOverride = trolleyZoneOverride
+        return
 
     def setMetagameRound(self, roundNum):
         self.metagameRound = roundNum
@@ -96,6 +98,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
         self.frameworkFSM.request('frameworkWaitClientsJoin')
+        self.sendUpdate('setVoteSkips', [0]) 
 
     def delete(self):
         self.notify.debug('BASE: delete: deleting AI minigame object')
@@ -308,7 +311,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
 
         scoreList = []
         if not self.normalExit:
-            randReward = random.randrange(DEFAULT_POINTS, MAX_POINTS + 1)
+            randReward = 0
         for avId in self.avIdList:
             if self.normalExit:
                 score = int(self.scoreDict[avId] + 0.5)
@@ -456,13 +459,37 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
     def getMetagameRound(self):
         return self.metagameRound
 
-    def requestVoteSkip(self):
+    def requestSkip(self):
+        avId = self.air.getAvatarIdFromSender()
+        
+        if self.voteSkipEnabled and avId in self.avIdList and avId not in self.skipVoters:
+            self.skipVoters.append(avId)
+            if self.checkSkipPercentage():
+                self.voteSkipEnabled = False
+                self.setGameAbort()
+            else:
+                self.sendUpdate('setVoteSkips', [len(self.skipVoters)]) 
+        else:
+            return
+    
+    def checkSkipPercentage(self):
+        # For the percentage to pass:
+        # For 1 toon - obviously skip
+        # For 2 toons - both agree
+        # For 3 toons - 2/3
+        # For 4 toons - 3/4
+        
         if len(self.avIdList) == 1:
-            self.setGameAbort()
-            return
-
-        if self.skipVotes >= len(self.avIdList) - 1:
-            self.setGameAbort()
-            return
-
-        self.skipVotes += 1
+            if len(self.skipVoters) == 1:
+                return True
+        elif len(self.avIdList) == 2:
+            if len(self.skipVoters) == 2:
+                return True
+        elif len(self.avIdList) == 3:
+            if len(self.skipVoters) >= 2:
+                return True
+        elif len(self.avIdList) == 4:
+            if len(self.skipVoters) >= 3:
+                return True
+        else:
+            return False            
