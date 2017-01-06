@@ -1,5 +1,6 @@
 from toontown.safezone import SafeZoneLoader
 from toontown.safezone import TTPlayground
+from panda3d.core import DecalEffect
 
 class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     
@@ -19,6 +20,13 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         bank = self.geom.find('**/*toon_landmark_TT_bank_DNARoot')
         doorTrigger = bank.find('**/door_trigger*')
         doorTrigger.setY(doorTrigger.getY() - 1.5)
+        library = self.geom.find('**/*toon_landmark_TT_library_DNARoot')
+        if not library.isEmpty():
+            libraryDoor = library.find('**/door_double_round_ur')
+            if not libraryDoor.isEmpty():
+                libraryDoorGeom = libraryDoor.find('**/+GeomNode')
+                libraryDoorGeom.setEffect(DecalEffect.make())
+                libraryDoor.setY(0.0930333)
 
     def unload(self):
         SafeZoneLoader.SafeZoneLoader.unload(self)
