@@ -36,6 +36,7 @@ class SuitInvasionManagerAI:
 
     def startInvasion(self, suitDeptIndex=None, suitTypeIndex=None, flags=0,
                       type=INVASION_TYPE_NORMAL):
+        
         if self.invading:
             # An invasion is currently in progress; ignore this request.
             return False
@@ -204,6 +205,7 @@ class SuitInvasionManagerAI:
                     type = SuitDNA.getDeptFullname(self.getSuitName())
             else:
                 type = None
+            
             status = {
                 'invasion': {
                     'type': type,

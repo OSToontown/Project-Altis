@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 import random
 import string
 import copy
@@ -7,6 +8,8 @@ from toontown.toonbase import TTLocalizer
 import os
 from direct.showbase import AppRunnerGlobal
 from direct.directnotify import DirectNotifyGlobal
+import ToonNamesEnglish
+from StringIO import StringIO
 
 class NameGenerator:
     text = TextNode('text')
@@ -37,22 +40,14 @@ class NameGenerator:
         self.lastPrefixes = []
         self.lastSuffixes = []
         self.nameDictionary = {}
-        searchPath = DSearchPath()
-        if __debug__:
-            searchPath.appendDirectory(Filename('../resources/phase_3/etc'))
-        searchPath.appendDirectory(Filename('/phase_3/etc'))
-        filename = Filename(TTLocalizer.NameShopNameMaster)
-        found = vfs.resolveFilename(filename, searchPath)
-        if not found:
-            self.notify.error("NameGenerator: Error opening name list text file '%s.'" % TTLocalizer.NameShopNameMaster)
-        input = StreamReader(vfs.openReadFile(filename, 1), 1)
-        currentLine = input.readline().strip()
+        input = StringIO(ToonNamesEnglish.TOONNAMES)
+        currentLine = input.readline()
         while currentLine:
             if currentLine.lstrip()[0:1] != '#':
                 a1 = currentLine.find('*')
                 a2 = currentLine.find('*', a1 + 1)
-                self.nameDictionary[int(currentLine[0:a1])] = (int(currentLine[a1 + 1:a2]), currentLine[a2 + 1:len(currentLine)])
-            currentLine = input.readline().strip()
+                self.nameDictionary[int(currentLine[0:a1])] = (int(currentLine[a1 + 1:a2]), currentLine[a2 + 1:].rstrip())
+            currentLine = input.readline()
 
         masterList = [self.boyTitles,
          self.girlTitles,

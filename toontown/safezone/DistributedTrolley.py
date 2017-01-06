@@ -267,6 +267,11 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             self.storeToonTrack(avId, track)
             track.start()
             if avId == base.localAvatar.getDoId() and hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
+                avHeight = max(base.localAvatar.getHeight(), 3.0)
+                scaleFactor = avHeight * 0.3333333333
+                camera.wrtReparentTo(base.localAvatar)
+                camera.posQuatInterval(1.5, (0, -9 * scaleFactor, avHeight), (0, 0, 0), other=base.localAvatar, blendType='easeInOut').start()
+                self.loader.place.trolley.fsm.request('exiting')
                 self.loader.place.trolley.fsm.request('exiting')
         else:
             DistributedTrolley.notify.warning('toon: ' + str(avId) + " doesn't exist, and" + ' cannot exit the trolley!')

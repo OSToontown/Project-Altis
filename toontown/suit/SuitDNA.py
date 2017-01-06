@@ -210,8 +210,6 @@ class SuitDNA(AvatarDNA.AvatarDNA):
             self.dept = dgi.getFixedString(1)
         else:
             notify.error('unknown avatar type: ', self.type)
-        
-        return None
 
     def __defaultGoon(self):
         self.type = 'g'

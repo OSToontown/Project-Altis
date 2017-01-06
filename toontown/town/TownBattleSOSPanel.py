@@ -35,7 +35,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         bgd = loader.loadModel('phase_3.5/models/gui/frame')
         gui = loader.loadModel('phase_3.5/models/gui/frame4names')
         scrollGui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
-        backGui = loader.loadModel('phase_3.5/models/gui/battle_gui')
+        backGui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
         self['image'] = bgd
         self['image_pos'] = (0.0, 0.1, -0.08)
         self.setScale(0.3)

@@ -81,7 +81,9 @@ class SuitLeg:
             return SuitTimings.toSuitBuilding
         if self.type in (SuitLeg.TToToonBuilding, SuitLeg.TToCogHQ,
                          SuitLeg.TFromCogHQ):
+            
             return SuitTimings.toToonBuilding
+        
         return 0.0
 
     def getEndTime(self):
@@ -102,6 +104,7 @@ class SuitLeg:
     def getTypeName(self):
         if self.type in SuitLeg.TypeToName:
             return SuitLeg.TypeToName[self.type]
+        
         return '**invalid**'
 
 
@@ -178,6 +181,7 @@ class SuitLegList:
             return SuitLeg.TToToonBuilding
         if endPointType == DNASuitPoint.SIDE_DOOR_POINT:
             return SuitLeg.TToSuitBuilding
+        
         return SuitLeg.TToSky
 
     def getNumLegs(self):

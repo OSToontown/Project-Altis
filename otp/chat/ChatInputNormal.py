@@ -26,8 +26,8 @@ class ChatInputNormal(DirectObject.DirectObject):
         messenger.send('enterNormalChat')
 
     def delete(self):
-        self.ignore('arrow_up-up')
-        self.ignore('arrow_down-up')
+        self.ignore(base.MOVE_UP + '-up')
+        self.ignore(base.MOVE_DOWN + '-up')
         self.chatFrame.destroy()
         del self.chatFrame
         del self.chatButton
@@ -50,8 +50,8 @@ class ChatInputNormal(DirectObject.DirectObject):
         self.chatEntry['focus'] = 1
         self.chatFrame.show()
         if self.wantHistory:
-            self.accept('arrow_up-up', self.getPrevHistory)
-            self.accept('arrow_down-up', self.getNextHistory)
+            self.accept(base.MOVE_UP + '-up', self.getPrevHistory)
+            self.accept(base.MOVE_DOWN + '-up', self.getNextHistory)
         return True
 
     def deactivate(self):
@@ -60,8 +60,8 @@ class ChatInputNormal(DirectObject.DirectObject):
         self.chatFrame.hide()
         self.whisperLabel.hide()
         base.win.closeIme()
-        self.ignore('arrow_up-up')
-        self.ignore('arrow_down-up')
+        self.ignore(base.MOVE_UP + '-up')
+        self.ignore(base.MOVE_DOWN + '-up')
 
     def checkForOverRide(self):
         return False

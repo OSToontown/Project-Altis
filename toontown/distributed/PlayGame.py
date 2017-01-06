@@ -252,14 +252,11 @@ class PlayGame(StateData.StateData):
                         avName = owner.getName()
                         loader.beginBulkLoad('hood', TTLocalizer.HeadingToEstate % avName, count, 1, TTLocalizer.TIP_ESTATE, zoneId)
             elif ZoneUtil.isCogHQZone(zoneId):
-                loader.beginBulkLoad('hood', TTLocalizer.HeadingToHood % {'to': toHoodPhrase,
-                 'hood': hoodName}, count, 1, TTLocalizer.TIP_COGHQ, zoneId)
+                loader.beginBulkLoad('hood', TTLocalizer.HeadingToHood % {'hood': hoodName}, count, 1, TTLocalizer.TIP_COGHQ, zoneId)
             elif ZoneUtil.isGoofySpeedwayZone(zoneId):
-                loader.beginBulkLoad('hood', TTLocalizer.HeadingToHood % {'to': toHoodPhrase,
-                 'hood': hoodName}, count, 1, TTLocalizer.TIP_KARTING, zoneId)
+                loader.beginBulkLoad('hood', TTLocalizer.HeadingToHood % {'hood': hoodName}, count, 1, TTLocalizer.TIP_KARTING, zoneId)
             else:
-                loader.beginBulkLoad('hood', TTLocalizer.HeadingToHood % {'to': toHoodPhrase,
-                 'hood': hoodName}, count, 1, TTLocalizer.TIP_GENERAL, zoneId)
+                loader.beginBulkLoad('hood', TTLocalizer.HeadingToHood % {'hood': hoodName}, count, 1, TTLocalizer.TIP_GENERAL, zoneId)
         if hoodId == ToontownGlobals.Tutorial:
             self.loadDnaStoreTutorial()
         else:

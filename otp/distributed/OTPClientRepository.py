@@ -429,6 +429,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.uberZoneInterest = None
         self.wantSwitchboard = config.GetBool('want-switchboard', 0)
         self.wantSwitchboardHacks = base.config.GetBool('want-switchboard-hacks', 0)
+        self.defaultShard = 0
 
         self.__pendingGenerates = {}
         self.__pendingMessages = {}
@@ -1252,12 +1253,17 @@ class OTPClientRepository(ClientRepositoryBase):
     def enterWaitOnEnterResponses(self, shardId, hoodId, zoneId, avId):
         self.cleanGameExit = False
         self.handlerArgs = {'hoodId': hoodId,
-         'zoneId': zoneId,
-         'avId': avId}
+            'zoneId': zoneId,
+            'avId': avId}
+
+        if self.defaultShard:
+            shardId = self.defaultShard
+
         if shardId is not None:
             district = self.activeDistrictMap.get(shardId)
         else:
             district = None
+        
         if not district:
             self.distributedDistrict = self.getStartingDistrict()
             if self.distributedDistrict is None:
@@ -1266,6 +1272,7 @@ class OTPClientRepository(ClientRepositoryBase):
             shardId = self.distributedDistrict.doId
         else:
             self.distributedDistrict = district
+        
         self.notify.info('Entering shard %s' % shardId)
         localAvatar.setLocation(shardId, zoneId)
         base.localAvatar.defaultShard = shardId

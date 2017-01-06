@@ -1,5 +1,6 @@
 from toontown.dna import DNAProp
 from toontown.dna.DNAUtil import *
+from panda3d.core import ModelNode
 
 class DNAAnimProp(DNAProp.DNAProp):
     __slots__ = (
@@ -10,39 +11,26 @@ class DNAAnimProp(DNAProp.DNAProp):
     def __init__(self, name):
         DNAProp.DNAProp.__init__(self, name)
         self.animName = ''
-
-    def setAnim(self, anim):
-        self.animName = anim
-
-    def getAnim(self):
+        
+    def getAnimName(self):
         return self.animName
 
-    def makeFromDGI(self, dgi):
-        DNAProp.DNAProp.makeFromDGI(self, dgi)
+    def makeFromDGI(self, dgi, store):
+        DNAProp.DNAProp.makeFromDGI(self, dgi, store)
         self.animName = dgiExtractString8(dgi)
 
     def traverse(self, nodePath, dnaStorage):
         node = None
-        if self.getCode() == 'DCS':
-            node = ModelNode(self.getName())
+        if self.code == 'DCS':
+            node = ModelNode(self.name)
             node.setPreserveTransform(ModelNode.PTNet)
-            node = nodePath.attachNewNode(node, 0)
+            node = nodePath.attachNewNode(node)
         else:
-            node = dnaStorage.findNode(self.getCode())
-            node = node.copyTo(nodePath, 0)
-            node.setName(self.getName())
+            node = dnaStorage.findNode(self.code)
+            node = node.copyTo(nodePath)
+            node.setName(self.name)
         
-        node.setTag('DNAAnim', self.getAnim())
-        node.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
-        node.setColorScale(self.getColor(), 0)
-        node.flattenStrong()
-        for child in self.children:
-            child.traverse(node, dnaStorage)
-            
-    def packerTraverse(self, recursive=True, verbose=False):
-        packer = DNAProp.DNAProp.packerTraverse(self, recursive=False, verbose=verbose)
-        packer.name = 'DNAAnimProp'  # Override the name for debugging.
-        packer.pack('anim name', self.animName, STRING)
-        if recursive:
-            packer += self.packerTraverseChildren(verbose=verbose)
-        return packer
+        node.setTag('DNAAnim', self.animName)
+        node.setPosHprScale(self.pos, self.hpr, self.scale)
+        node.setColorScale(self.color)
+        self.traverseChildren(node, dnaStorage)

@@ -13,7 +13,7 @@ class TownBattleToonPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownBattleToonPanel')
 
     def __init__(self, id):
-        gui = loader.loadModel('phase_3.5/models/gui/battle_gui')
+        gui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
         DirectFrame.__init__(self, relief=None, image=gui.find('**/ToonBtl_Status_BG'), image_color=Vec4(0.5, 0.9, 0.5, 0.7))
         self.setScale(0.8)
         self.initialiseoptions(TownBattleToonPanel)

@@ -49,7 +49,7 @@ class OZHoodAI(HoodAI.HoodAI):
 
     def findPicnicTables(self, dnaGroup, zoneId, area, overrideDNAZone=False):
         picnicTables = []
-        if isinstance(dnaGroup, DNAGroup) and ('picnic_table' in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and ('picnic_table' in dnaGroup.getName()):
             nameInfo = dnaGroup.getName().split('_')
             for i in xrange(dnaGroup.getNumChildren()):
                 childDnaGroup = dnaGroup.at(i)
@@ -84,7 +84,7 @@ class OZHoodAI(HoodAI.HoodAI):
 
     def findGameTables(self, dnaGroup, zoneId, area, overrideDNAZone=False):
         gameTables = []
-        if isinstance(dnaGroup, DNAGroup) and ('game_table' in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and ('game_table' in dnaGroup.getName()):
             for i in xrange(dnaGroup.getNumChildren()):
                 childDnaGroup = dnaGroup.at(i)
                 if 'game_table' in childDnaGroup.getName():

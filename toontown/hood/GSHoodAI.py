@@ -45,7 +45,7 @@ class GSHoodAI(HoodAI.HoodAI):
     def findRacingPads(self, dnaGroup, zoneId, area, padType='racing_pad'):
         racingPads = []
         racingPadGroups = []
-        if isinstance(dnaGroup, DNAGroup) and (padType in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and (padType in dnaGroup.getName()):
             racingPadGroups.append(dnaGroup)
 
             if padType == 'racing_pad':
@@ -75,7 +75,7 @@ class GSHoodAI(HoodAI.HoodAI):
 
     def findStartingBlocks(self, dnaGroup, racePad):
         startingBlocks = []
-        if isinstance(dnaGroup, DNAGroup) and ('starting_block' in dnaGroup.getName()):
+        if isinstance(dnaGroup, DNAGroup.DNAGroup) and ('starting_block' in dnaGroup.getName()):
             x, y, z = dnaGroup.getPos()
             h, p, r = dnaGroup.getHpr()
             if isinstance(racePad, DistributedRacePadAI):

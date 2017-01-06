@@ -592,7 +592,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         camera.reparentTo(render)
         camera.setPosHpr(tunnelOrigin, 0, 20, 12, 180, -20, 0)
         base.transitions.irisIn(0.4)
+        
+        avHeight = max(base.localAvatar.getHeight(), 3.0)
+        scaleFactor = avHeight * 0.3333333333
+        
         toonTrack = self.getTunnelInToonTrack(endX, tunnelOrigin)
+        toonTrack.append(Func(camera.wrtReparentTo, base.localAvatar))
+        toonTrack.append(camera.posHprInterval(.8, (0, -9 * scaleFactor, avHeight), (0, 0, 0), other=base.localAvatar, blendType='easeInOut'))
 
         def cleanup(self = self, tunnelOrigin = tunnelOrigin):
             self.stopSound()
