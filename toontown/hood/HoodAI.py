@@ -182,6 +182,6 @@ class HoodAI:
             suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, zoneId)
             suitPlanner.generateWithRequired(zoneId)
             suitPlanner.d_setZoneId(zoneId)
-            #suitPlanner.initTasks()
+            suitPlanner.initTasks()
             self.suitPlanners.append(suitPlanner)
             self.air.suitPlanners[zoneId] = suitPlanner

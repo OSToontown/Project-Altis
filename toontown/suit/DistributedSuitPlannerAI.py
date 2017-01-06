@@ -80,7 +80,6 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.battleList = []
         self.battleMgr = BattleManagerAI.BattleManagerAI(self.air)
         self.setupDNA()
-        return
         if self.notify.getDebug():
             self.notify.debug('Creating a building manager AI in zone' + str(self.zoneId))
         self.buildingMgr = self.air.buildingManagers.get(self.zoneId)
