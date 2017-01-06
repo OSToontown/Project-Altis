@@ -15,9 +15,9 @@ class InventoryBase(DirectObject.DirectObject):
         self.toon = toon
         if invStr == None:
             self.inventory = []
-            for track in range(0, len(Tracks)):
+            for track in xrange(0, len(Tracks)):
                 level = []
-                for thisLevel in range(0, len(Levels[track])):
+                for thisLevel in xrange(0, len(Levels[track])):
                     level.append(0)
 
                 self.inventory.append(level)
@@ -25,14 +25,13 @@ class InventoryBase(DirectObject.DirectObject):
         else:
             self.inventory = self.makeFromNetString(invStr)
         self.calcTotalProps()
-        return
 
     def unload(self):
         del self.toon
 
     def __str__(self):
         retStr = 'totalProps: %d\n' % self.totalProps
-        for track in range(0, len(Tracks)):
+        for track in xrange(0, len(Tracks)):
             retStr += Tracks[track] + ' = ' + str(self.inventory[track]) + '\n'
 
         return retStr
@@ -49,8 +48,8 @@ class InventoryBase(DirectObject.DirectObject):
     def makeNetString(self):
         dataList = self.inventory
         datagram = PyDatagram()
-        for track in range(0, len(Tracks)):
-            for level in range(0, len(Levels[track])):
+        for track in xrange(0, len(Tracks)):
+            for level in xrange(0, len(Levels[track])):
                 datagram.addUint8(dataList[track][level])
 
         dgi = PyDatagramIterator(datagram)
@@ -60,9 +59,9 @@ class InventoryBase(DirectObject.DirectObject):
         dataList = []
         dg = PyDatagram(netString)
         dgi = PyDatagramIterator(dg)
-        for track in range(0, len(Tracks)):
+        for track in xrange(0, len(Tracks)):
             subList = []
-            for level in range(0, len(Levels[track])):
+            for level in xrange(0, len(Levels[track])):
                 if dgi.getRemainingSize() > 0:
                     value = dgi.getUint8()
                 else:
@@ -77,9 +76,9 @@ class InventoryBase(DirectObject.DirectObject):
         dataList = []
         dg = PyDatagram(netString)
         dgi = PyDatagramIterator(dg)
-        for track in range(0, numTracks):
+        for track in xrange(0, numTracks):
             subList = []
-            for level in range(0, numLevels):
+            for level in xrange(0, numLevels):
                 if dgi.getRemainingSize() > 0:
                     value = dgi.getUint8()
                 else:
@@ -174,43 +173,40 @@ class InventoryBase(DirectObject.DirectObject):
 
     def calcTotalProps(self):
         self.totalProps = 0
-        for track in range(0, len(Tracks)):
-            for level in range(0, len(Levels[track])):
+        for track in xrange(0, len(Tracks)):
+            for level in xrange(0, len(Levels[track])):
                 if level <= LAST_REGULAR_GAG_LEVEL:
                     self.totalProps += self.numItem(track, level)
 
-        return None
-
     def countPropsInList(self, invList):
         totalProps = 0
-        for track in range(len(Tracks)):
-            for level in range(len(Levels[track])):
+        for track in xrange(len(Tracks)):
+            for level in xrange(len(Levels[track])):
                 if level <= LAST_REGULAR_GAG_LEVEL:
                     totalProps += invList[track][level]
 
         return totalProps
 
     def setToMin(self, newInventory):
-        for track in range(len(Tracks)):
-            for level in range(len(Levels[track])):
+        for track in xrange(len(Tracks)):
+            for level in xrange(len(Levels[track])):
                 self.inventory[track][level] = min(self.inventory[track][level], newInventory[track][level])
 
         self.calcTotalProps()
-        return None
 
     def validateItemsBasedOnExp(self, newInventory, allowUber = 0):
         if type(newInventory) == type('String'):
             tempInv = self.makeFromNetString(newInventory)
         else:
             tempInv = newInventory
-        for track in range(len(Tracks)):
-            for level in range(len(Levels[track])):
+        for track in xrange(len(Tracks)):
+            for level in xrange(len(Levels[track])):
                 if tempInv[track][level] > self.getMax(track, level):
                     return 0
                 if tempInv[track][level] > 0 and not self.toon.hasTrackAccess(track):
                     commentStr = "Player %s trying to purchase gag they don't have track access to. track: %s level: %s" % (self.toon.doId, track, level)
                     dislId = self.toon.DISLid
-                    if config.GetBool('want-ban-gagtrack', False):
+                    if simbase.config.GetBool('want-ban-gagtrack', False):
                         #simbase.air.banManager.ban(self.toon.doId, dislId, commentStr)
                         pass
                     return 0
