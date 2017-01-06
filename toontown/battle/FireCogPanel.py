@@ -19,7 +19,7 @@ class FireCogPanel(StateData.StateData):
         self.loaded = 0
 
     def load(self):
-        gui = loader.loadModel('phase_3.5/models/gui/battle_gui')
+        gui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
         self.frame = DirectFrame(relief=None, image=gui.find('**/BtlPick_TAB'), image_color=Vec4(1, 0.2, 0.2, 1))
         self.frame.hide()
         self.statusFrame = DirectFrame(parent=self.frame, relief=None, image=gui.find('**/ToonBtl_Status_BG'), image_color=Vec4(0.5, 0.9, 0.5, 1), pos=(0.611, 0, 0))
