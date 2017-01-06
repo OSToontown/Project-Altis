@@ -523,7 +523,7 @@ def __doTesla(zap, delay, fShowStun):
     def getSprayStartPos(coil = coil, toon = toon):
         toon.update(0)
         p = coil.getPos(render)
-        p.setZ(5)
+        #p.setZ(5) Temp "fix," this doesn't like to cooperate
         return p
 
     sprayTrack = Sequence()
