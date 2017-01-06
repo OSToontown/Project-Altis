@@ -3992,7 +3992,7 @@ class MaxMoneyReward(Reward):
         return self.reward[0]
 
     def sendRewardAI(self, av):
-        return
+        av.b_setMaxMoney(self.getAmount())
 
     def countReward(self, qrc):
         qrc.maxMoney = self.getAmount()

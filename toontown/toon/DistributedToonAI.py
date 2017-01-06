@@ -127,7 +127,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.fishingTrophies = []
         self.trackArray = []
         self.emoteAccess = [0] * 26
-        self.maxMoney = 10000
         self.maxBankMoney = ToontownGlobals.MaxBankMoney
         self.gardenSpecials = []
         self.houseId = 0
@@ -2327,8 +2326,21 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getSpeedChatStyleIndex(self):
         return self.speedChatStyleIndex
 
+    def b_setMaxMoney(self, maxMoney):
+        self.d_setMaxMoney(maxMoney)
+        self.setMaxMoney(maxMoney)
+        if self.getMoney() > maxMoney:
+            self.b_setBankMoney(self.bankMoney + (self.getMoney() - maxMoney))
+            self.b_setMoney(maxMoney)
+
+    def d_setMaxMoney(self, maxMoney):
+        self.sendUpdate('setMaxMoney', [maxMoney])
+
+    def setMaxMoney(self, maxMoney):
+        self.maxMoney = maxMoney
+
     def getMaxMoney(self):
-        return 10000
+        return self.maxMoney
 
     def addMoney(self, deltaMoney):
         money = deltaMoney + self.money
@@ -4513,7 +4525,7 @@ def money(money):
     Modifies the target's current money value.
     """
     target = spellbook.getTarget()
-    maxMoney = 10000
+    maxMoney = target.getMaxMoney()
     if not 0 <= money <= maxMoney:
         return 'Money value must be in xrange (0-%d).' % maxMoney
     target.b_setMoney(money)
@@ -4552,6 +4564,15 @@ def bank(command, value):
         return 'Bank transfer successful!'
     else:
         return 'Invalid command!'
+		
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def setMaxMoney(moneyVal):
+    """Set target's money and maxMoney values."""
+    if not 40 <= moneyVal <= 250:
+        return 'Money value must be between 40 and 250.'
+    spellbook.getTarget().b_setMaxMoney(moneyVal)
+    spellbook.getTarget().b_setMoney(moneyVal)
+    return 'maxMoney set to %s' % moneyVal
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def fishingRod(rod):
