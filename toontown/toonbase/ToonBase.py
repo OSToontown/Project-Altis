@@ -154,6 +154,10 @@ class ToonBase(OTPBase.OTPBase):
         WLEnter.setTextColor(1.0, 0.0, 0.0, 1)
         tpMgr.setProperties('WLDisplay', WLDisplay)
         tpMgr.setProperties('WLEnter', WLEnter)
+        textShadow = TextProperties()
+        textShadow.setShadow(.01)
+        textShadow.setTextColor(0.8, 0.4, 0.0, 1)
+        tpMgr.setProperties('textShadow', textShadow)
         del tpMgr
         self.lastScreenShotTime = globalClock.getRealTime()
         self.accept('InputState-forward', self.__walking)

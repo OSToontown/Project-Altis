@@ -12,7 +12,7 @@ from toontown.toontowngui import TeaserPanel
 
 ChoiceTimeout = 20
 
-class DistributedNPCToon(DistributedNPCToonBase):
+class DistributedNPCHQOfficer(DistributedNPCToonBase):
     
     def __init__(self, cr):
         DistributedNPCToonBase.__init__(self, cr)
@@ -20,7 +20,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
         self.curQuestMovie = None
         self.questChoiceGui = None
         self.trackChoiceGui = None
-        self.npcType = 'Shopkeeper'
+        self.npcType = 'HQ Officer'
 
     def allowedToTalk(self):
         return True

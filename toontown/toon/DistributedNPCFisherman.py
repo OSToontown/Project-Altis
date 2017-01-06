@@ -21,6 +21,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
         self.popupInfo = None
         self.fishGui = None
         self.nextCollision = 0
+        self.npcType = 'Fisherman'
         return
 
     def disable(self):

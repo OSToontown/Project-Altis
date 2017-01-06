@@ -22,6 +22,7 @@ class DistributedNPCTailor(DistributedNPCToonBase):
         self.roomAvailable = 0
         self.button = None
         self.popupInfo = None
+        self.npcType = 'Clothing Tailor'
 
     def disable(self):
         self.ignoreAll()
