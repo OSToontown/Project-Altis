@@ -10,7 +10,6 @@ from toontown.chat.WhisperPopup import WhisperPopup
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')
 
-    # --- LOGIN LOGIC ---
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
 
@@ -18,7 +17,7 @@ class ClientServicesManager(DistributedObjectGlobal):
 
         token = self.cr.playToken or 'dev'
 
-        key = 'bG9sLndlLmNoYW5nZS50aGlzLnRvby5tdWNo'
+        key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
         digest_maker = hmac.new(key)
         digest_maker.update(token)
         clientKey = digest_maker.hexdigest()
@@ -28,8 +27,6 @@ class ClientServicesManager(DistributedObjectGlobal):
     def acceptLogin(self, timestamp):
         messenger.send(self.doneEvent, [{'mode': 'success', 'timestamp': timestamp}])
 
-
-    # --- AVATARS LIST ---
     def requestAvatars(self):
         self.sendUpdate('requestAvatars')
 
@@ -48,7 +45,6 @@ class ClientServicesManager(DistributedObjectGlobal):
 
         self.cr.handleAvatarsList(avList)
 
-    # --- AVATAR CREATION/DELETION ---
     def sendCreateAvatar(self, avDNA, _, index):
         self.sendUpdate('createAvatar', [avDNA.makeNetString(), index])
 
@@ -58,9 +54,6 @@ class ClientServicesManager(DistributedObjectGlobal):
     def sendDeleteAvatar(self, avId):
         self.sendUpdate('deleteAvatar', [avId])
 
-    # No deleteAvatarResp; it just sends a setAvatars when the deed is done.
-
-    # --- AVATAR NAMING ---
     def sendSetNameTyped(self, avId, name, callback):
         self._callback = callback
         self.sendUpdate('setNameTyped', [avId, name])
@@ -82,7 +75,6 @@ class ClientServicesManager(DistributedObjectGlobal):
     def acknowledgeAvatarNameResp(self):
         self._callback()
 
-    # --- AVATAR CHOICE ---
     def sendChooseAvatar(self, avId):
         self.sendUpdate('chooseAvatar', [avId])
 
