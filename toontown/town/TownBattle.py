@@ -233,18 +233,18 @@ class TownBattle(StateData.StateData):
             panel.setPos(0, 0, 0.7)
 
         if num == 1:
-            self.cogPanels[1].setX(self.oddPos[1])
-            self.cogPanels[1].show()
+            self.cogPanels[0].setX(self.oddPos[1])
+            self.cogPanels[0].show()
         elif num == 2:
-            for i in xrange(2):
+            for i in xrange(1):
                 self.cogPanels[i].setX(self.evenPos[i + 1])
                 self.cogPanels[i].show()
         elif num == 3:
-            for i in xrange(3):
+            for i in xrange(2):
                 self.cogPanels[i].setX(self.oddPos[i])
                 self.cogPanels[i].show()
         elif num == 4:
-            for i in xrange(4):
+            for i in xrange(3):
                 self.cogPanels[i].setX(self.evenPos[i])
                 self.cogPanels[i].show()
         else:
