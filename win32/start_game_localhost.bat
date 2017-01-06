@@ -13,7 +13,7 @@ set TTA_PLAYCOOKIE=%ttaUsername%
 set TTA_GAMESERVER=127.0.0.1
 
 echo ===============================
-echo Starting Toontown Advance...
+echo Starting Toontown Project Altis...
 echo ppython: %PPYTHON_PATH%
 echo Username: %ttaUsername%
 echo Gameserver: %TTA_GAMESERVER%
