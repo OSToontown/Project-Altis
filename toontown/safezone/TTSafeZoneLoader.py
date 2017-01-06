@@ -17,9 +17,7 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.birdSound = map(base.loader.loadSfx, ['phase_4/audio/sfx/SZ_TC_bird1.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird2.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
-        bank = self.geom.find('**/*toon_landmark_TT_bank_DNARoot')
-        doorTrigger = bank.find('**/door_trigger*')
-        doorTrigger.setY(doorTrigger.getY() - 1.5)
+        
         library = self.geom.find('**/*toon_landmark_TT_library_DNARoot')
         if not library.isEmpty():
             libraryDoor = library.find('**/door_double_round_ur')
