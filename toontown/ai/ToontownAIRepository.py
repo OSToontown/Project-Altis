@@ -200,7 +200,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         if self.config.GetBool('want-cog-headquarters', True):
             self.notify.info('Creating Cog headquarters...')
-            self.createCogHeadquarters()
+            #self.createCogHeadquarters()
 
         self.notify.info('Making district available...')
         self.distributedDistrict.b_setAvailable(1)

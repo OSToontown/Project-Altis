@@ -510,10 +510,10 @@ class SuitPlannerBase:
 
     def setupDNA(self):
         if self.dnaStore:
-            return None
+            return
+
         self.dnaStore = DNAStorage()
-        dnaFileName = self.genDNAFileName()
-        loadDNAFileAI(self.dnaStore, dnaFileName)
+        loadDNAFileAI(self.dnaStore, self.genDNAFileName())
         self.initDNAInfo()
 
     def genDNAFileName(self):
