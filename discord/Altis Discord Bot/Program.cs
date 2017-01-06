@@ -28,9 +28,9 @@ namespace Altis_Discord_Bot
                 {
                     if (e.Message.Text.Contains("up"))
                         if (!SERVER_STATUS)
-                            await e.Channel.SendMessage("@" + e.User.Name.ToString() + " The server is currently offline for a " + SERVER_REASON);
+                            await e.Channel.SendMessage($"{e.User.Mention}, The server is currently offline for {SERVER_REASON}");
                         else
-                            await e.Channel.SendMessage("@" + e.User.Name.ToString() + " The server is currently online! Hop in and join us!");
+                            await e.Channel.SendMessage($"{e.User.Mention}, The server is currently online! Hop in and join us!");
                 }
                 if(e.Message.User.Roles.Count() == 0)
                 {
@@ -38,7 +38,7 @@ namespace Altis_Discord_Bot
                     {
                         if (e.Message.Text.Contains(x))
                         {
-                            await e.Channel.SendMessage(e.User.Name.ToString() + " was kicked for bad language!");
+                            await e.Channel.SendMessage($"{e.User.Mention} was kicked for bad language!");
                             await e.Message.User.Kick();
                         }
                     }
@@ -49,12 +49,12 @@ namespace Altis_Discord_Bot
 
             _client.UserBanned += async (s, e) => {
                 var logChannel = e.Server.FindChannels("logs").FirstOrDefault();
-                await logChannel.SendMessage($"User Banned: {e.User.Name}");
+                await logChannel.SendMessage($"User Banned: {e.User.Name} ID: {e.User.Id}");
             };
 
             _client.UserUnbanned += async (s, e) => {
                 var logChannel = e.Server.FindChannels("logs").FirstOrDefault();
-                await logChannel.SendMessage($"User Un-Banned: {e.User.Name}");
+                await logChannel.SendMessage($"User Un-Banned: {e.User.Name} ID: {e.User.Id}");
             };
 
             _client.ExecuteAndWait(async () => {
