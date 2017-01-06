@@ -105,6 +105,9 @@ want-travel-game #f
 # Picnic table board games:
 want-game-tables #f
 
+# Battles
+battle-xp-multiplier 5
+
 # Cog headquarters:
 want-cog-headquarters #t
 want-sellbot-headquarters #t
