@@ -88,6 +88,8 @@ def createParticleEffect(name = None, file = None, numParticles = None, color = 
         return loadParticleFile('shred.ptf')
     elif name == 'Smile':
         return loadParticleFile('smile.ptf')
+    elif name == 'Smoke':
+        return loadParticleFile('smoke.ptf')
     elif name == 'SpriteFiredFlecks':
         return loadParticleFile('spriteFiredFlecks.ptf')
     elif name == 'Synergy':
