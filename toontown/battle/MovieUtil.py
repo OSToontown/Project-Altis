@@ -587,6 +587,16 @@ def createSuitStunInterval(suit, before, after):
     head = suit.getHeadParts()[0]
     head.calcTightBounds(p1, p2)
     return Sequence(Wait(before), Func(stars.reparentTo, head), Func(stars.setZ, max(0.0, p2[2] - 1.0)), Func(stars.loop, 'stun'), Wait(after), Func(stars.removeNode))
+	
+def zapCog(suit, before, after):
+    zapSfx = loader.loadSfx('phase_5/audio/sfx/AA_cog_shock.ogg')
+    p1 = Point3(0)
+    p2 = Point3(0)
+    head = suit.getHeadParts()[0]
+    head.calcTightBounds(p1, p2)
+    headLoop = head.hprInterval(0.5, Vec3(360, 0, 0))
+    headNormal = head.hprInterval(0, Vec3(0, 0, 0))
+    return Sequence(Wait(before), Func(base.playSfx, zapSfx), headLoop, headLoop, Wait(after), headNormal)
 
 
 def calcAvgSuitPos(throw):

@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.showbase import DirectObject
@@ -14,9 +15,9 @@ class InventoryBase(DirectObject.DirectObject):
         self.toon = toon
         if invStr == None:
             self.inventory = []
-            for track in xrange(0, len(Tracks)):
+            for track in range(0, len(Tracks)):
                 level = []
-                for thisLevel in xrange(0, len(Levels[track])):
+                for thisLevel in range(0, len(Levels[track])):
                     level.append(0)
 
                 self.inventory.append(level)
@@ -24,13 +25,14 @@ class InventoryBase(DirectObject.DirectObject):
         else:
             self.inventory = self.makeFromNetString(invStr)
         self.calcTotalProps()
+        return
 
     def unload(self):
         del self.toon
 
     def __str__(self):
         retStr = 'totalProps: %d\n' % self.totalProps
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             retStr += Tracks[track] + ' = ' + str(self.inventory[track]) + '\n'
 
         return retStr
@@ -38,6 +40,7 @@ class InventoryBase(DirectObject.DirectObject):
     def updateInvString(self, invString):
         inventory = self.makeFromNetString(invString)
         self.updateInventory(inventory)
+        return None
 
     def updateInventory(self, inv):
         self.inventory = inv
@@ -46,8 +49,8 @@ class InventoryBase(DirectObject.DirectObject):
     def makeNetString(self):
         dataList = self.inventory
         datagram = PyDatagram()
-        for track in xrange(0, len(Tracks)):
-            for level in xrange(0, len(Levels[track])):
+        for track in range(0, len(Tracks)):
+            for level in range(0, len(Levels[track])):
                 datagram.addUint8(dataList[track][level])
 
         dgi = PyDatagramIterator(datagram)
@@ -57,9 +60,9 @@ class InventoryBase(DirectObject.DirectObject):
         dataList = []
         dg = PyDatagram(netString)
         dgi = PyDatagramIterator(dg)
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             subList = []
-            for level in xrange(0, len(Levels[track])):
+            for level in range(0, len(Levels[track])):
                 if dgi.getRemainingSize() > 0:
                     value = dgi.getUint8()
                 else:
@@ -74,9 +77,9 @@ class InventoryBase(DirectObject.DirectObject):
         dataList = []
         dg = PyDatagram(netString)
         dgi = PyDatagramIterator(dg)
-        for track in xrange(0, numTracks):
+        for track in range(0, numTracks):
             subList = []
-            for level in xrange(0, numLevels):
+            for level in range(0, numLevels):
                 if dgi.getRemainingSize() > 0:
                     value = dgi.getUint8()
                 else:
@@ -91,27 +94,35 @@ class InventoryBase(DirectObject.DirectObject):
         return self.addItems(track, level, 1)
 
     def addItems(self, track, level, amount):
-        if isinstance(track, str):
+        if type(track) == type(''):
             track = Tracks.index(track)
         max = self.getMax(track, level)
-        if (not hasattr(self.toon, 'experience')) or (not hasattr(self.toon.experience, 'getExpLevel')):
+        unpaid = self.toon.getGameAccess() != ToontownGlobals.AccessFull
+        if hasattr(self.toon, 'experience') and hasattr(self.toon.experience, 'getExpLevel'):
+            if self.toon.experience.getExpLevel(track) >= level and self.toon.hasTrackAccess(track):
+                if self.numItem(track, level) <= max - amount:
+                    if self.totalProps + amount <= self.toon.getMaxCarry() or level > LAST_REGULAR_GAG_LEVEL:
+                        if not (unpaid and Levels[track][level] > UnpaidMaxSkills[track]):
+                            self.inventory[track][level] += amount
+                            self.totalProps += amount
+                            return self.inventory[track][level]
+                        else:
+                            return -3
+                    else:
+                        return -2
+                else:
+                    return -1
+            else:
+                return 0
+        else:
             return 0
-        if not (self.toon.experience.getExpLevel(track) >= level and self.toon.hasTrackAccess(track)):
-            return 0
-        if self.numItem(track, level) > max - amount:
-            return -1
-        if not (self.totalProps + amount <= self.toon.getMaxCarry() or level > LAST_REGULAR_GAG_LEVEL):
-            return -2
-        self.inventory[track][level] += amount
-        self.totalProps += amount
-        return self.inventory[track][level]
 
     def addItemWithList(self, track, levelList):
         for level in levelList:
             self.addItem(track, level)
 
     def numItem(self, track, level):
-        if isinstance(track, str):
+        if type(track) == type(''):
             track = Tracks.index(track)
         if track > len(Tracks) - 1 or level > len(Levels) - 1:
             self.notify.warning("%s is using a gag that doesn't exist %s %s!" % (self.toon.doId, track, level))
@@ -124,7 +135,6 @@ class InventoryBase(DirectObject.DirectObject):
         if self.numItem(track, level) > 0:
             self.inventory[track][level] -= 1
             self.calcTotalProps()
-            return 1
         elif self.numItem(track, level) == -1:
             return -1
 
@@ -156,7 +166,7 @@ class InventoryBase(DirectObject.DirectObject):
             return 0
 
     def getTrackAndLevel(self, propName):
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             if AvProps[track].count(propName):
                 return (tracks, AvProps[track].index(propName))
 
@@ -164,40 +174,43 @@ class InventoryBase(DirectObject.DirectObject):
 
     def calcTotalProps(self):
         self.totalProps = 0
-        for track in xrange(0, len(Tracks)):
-            for level in xrange(0, len(Levels[track])):
+        for track in range(0, len(Tracks)):
+            for level in range(0, len(Levels[track])):
                 if level <= LAST_REGULAR_GAG_LEVEL:
                     self.totalProps += self.numItem(track, level)
 
+        return None
+
     def countPropsInList(self, invList):
         totalProps = 0
-        for track in xrange(len(Tracks)):
-            for level in xrange(len(Levels[track])):
+        for track in range(len(Tracks)):
+            for level in range(len(Levels[track])):
                 if level <= LAST_REGULAR_GAG_LEVEL:
                     totalProps += invList[track][level]
 
         return totalProps
 
     def setToMin(self, newInventory):
-        for track in xrange(len(Tracks)):
-            for level in xrange(len(Levels[track])):
+        for track in range(len(Tracks)):
+            for level in range(len(Levels[track])):
                 self.inventory[track][level] = min(self.inventory[track][level], newInventory[track][level])
 
         self.calcTotalProps()
+        return None
 
     def validateItemsBasedOnExp(self, newInventory, allowUber = 0):
         if type(newInventory) == type('String'):
             tempInv = self.makeFromNetString(newInventory)
         else:
             tempInv = newInventory
-        for track in xrange(len(Tracks)):
-            for level in xrange(len(Levels[track])):
+        for track in range(len(Tracks)):
+            for level in range(len(Levels[track])):
                 if tempInv[track][level] > self.getMax(track, level):
                     return 0
                 if tempInv[track][level] > 0 and not self.toon.hasTrackAccess(track):
                     commentStr = "Player %s trying to purchase gag they don't have track access to. track: %s level: %s" % (self.toon.doId, track, level)
                     dislId = self.toon.DISLid
-                    if simbase.config.GetBool('want-ban-gagtrack', False):
+                    if config.GetBool('want-ban-gagtrack', False):
                         #simbase.air.banManager.ban(self.toon.doId, dislId, commentStr)
                         pass
                     return 0
@@ -207,6 +220,18 @@ class InventoryBase(DirectObject.DirectObject):
         return 1
 
     def validateItemsBasedOnAccess(self, newInventory):
+        if self.toon.getGameAccess() == ToontownGlobals.AccessFull:
+            return 1
+        if type(newInventory) == type('String'):
+            tempInv = self.makeFromNetString(newInventory)
+        else:
+            tempInv = newInventory
+        for track in xrange(len(Tracks)):
+            for level in xrange(len(Levels[track])):
+                if tempInv[track][level] > self.inventory[track][level]:
+                    if Levels[track][level] > UnpaidMaxSkills[track]:
+                        return 0
+
         return 1
 
     def getMinCostOfPurchase(self, newInventory):
@@ -231,16 +256,16 @@ class InventoryBase(DirectObject.DirectObject):
             self.notify.warning('Somebody is trying to buy forbidden items! ' + 'Rejecting purchase.')
             return 0
         if not self.validateItemsBasedOnAccess(newInventory):
-            simbase.air.writeServerEvent('suspicious', self.toon.doId, 'non-paid av trying to purchase paid gags')
+            simbase.air.writeServerEvent('suspicious', avId=self.toon.doId, issue='non-paid av trying to purchase paid gags')
             return 0
         self.updateInventory(newInventory)
         return 1
 
     def maxOutInv(self, filterUberGags = 0, filterPaidGags = 0):
         unpaid = self.toon.getGameAccess() != ToontownGlobals.AccessFull
-        for track in xrange(len(Tracks)):
+        for track in range(len(Tracks)):
             if self.toon.hasTrackAccess(track):
-                for level in xrange(len(Levels[track])):
+                for level in range(len(Levels[track])):
                     if level <= LAST_REGULAR_GAG_LEVEL or not filterUberGags:
                         if not filterPaidGags or not (unpaid and gagIsPaidOnly(track, level)):
                             self.addItem(track, level)
@@ -249,7 +274,7 @@ class InventoryBase(DirectObject.DirectObject):
         while addedAnything:
             addedAnything = 0
             result = 0
-            for track in xrange(len(Tracks)):
+            for track in range(len(Tracks)):
                 if self.toon.hasTrackAccess(track):
                     level = len(Levels[track]) - 1
                     if level > LAST_REGULAR_GAG_LEVEL and filterUberGags:
@@ -266,15 +291,16 @@ class InventoryBase(DirectObject.DirectObject):
                         addedAnything = 1
 
         self.calcTotalProps()
+        return None
 
-    def NPCMaxOutInv(self, targetTrack=-1, maxLevelIndex=5):
+    def NPCMaxOutInv(self, targetTrack = -1):
         result = 0
-        for level in xrange(maxLevelIndex, -1, -1):
+        for level in range(5, -1, -1):
             anySpotsAvailable = 1
             while anySpotsAvailable == 1:
                 anySpotsAvailable = 0
                 trackResults = []
-                for track in xrange(len(Tracks)):
+                for track in range(len(Tracks)):
                     if targetTrack != -1 and targetTrack != track:
                         continue
                     result = self.addItem(track, level)
@@ -290,10 +316,11 @@ class InventoryBase(DirectObject.DirectObject):
                 break
 
         self.calcTotalProps()
+        return None
 
     def zeroInv(self, killUber = 0):
-        for track in xrange(len(Tracks)):
-            for level in xrange(UBER_GAG_LEVEL_INDEX):
+        for track in range(len(Tracks)):
+            for level in range(UBER_GAG_LEVEL_INDEX):
                 self.inventory[track][level] = 0
 
             if killUber:
@@ -302,6 +329,7 @@ class InventoryBase(DirectObject.DirectObject):
                 self.inventory[track][UBER_GAG_LEVEL_INDEX] = 1
 
         self.calcTotalProps()
+        return None
 
     def _garbageInfo(self):
         return self._createStack

@@ -4357,18 +4357,18 @@ def maxToon(missingTrack=None):
     invoker = spellbook.getInvoker()
 
     # First, unlock the invoker's Gag tracks:
-    gagTracks = [1, 1, 1, 1, 1, 1, 1]
+    gagTracks = [1, 1, 1, 1, 1, 1, 1, 1]
     if missingTrack is not None:
         try:
             index = ('toonup', 'trap', 'lure', 'sound', 'throw',
-                     'squirt', 'drop').index(missingTrack)
+                     'squirt', 'zap', 'drop').index(missingTrack)
         except:
             return 'Missing Gag track is invalid!'
         if index in (4, 5):
             return 'You are required to have Throw and Squirt.'
         gagTracks[index] = 0
     invoker.b_setTrackAccess(gagTracks)
-    invoker.b_setMaxCarry(80)
+    invoker.b_setMaxCarry(110)
 
     # Next, max out their experience for the tracks they have:
     experience = Experience.Experience(invoker.getExperience(), invoker)
@@ -5030,9 +5030,9 @@ def trackBonus(trackIndex):
     Modify the invoker's track bonus level.
     """
     invoker = spellbook.getInvoker()
-    if not 0 <= trackIndex < 7:
+    if not 0 <= trackIndex < 8:
         return 'Invalid track index!'
-    trackBonusLevel = [0] * 7
+    trackBonusLevel = [0] * 8
     trackBonusLevel[trackIndex] = 1
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
@@ -5041,7 +5041,7 @@ def trackBonus(trackIndex):
 def track(command, track, value=None):
     try:
         index = ('toonup', 'trap', 'lure', 'sound', 'throw',
-                 'squirt', 'drop').index(track.lower())
+                 'squirt', 'zap', 'drop').index(track.lower())
     except:
         return 'Invalid Gag track!'
     invoker = spellbook.getInvoker()

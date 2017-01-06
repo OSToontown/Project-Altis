@@ -39,7 +39,7 @@ MAX_LEVEL_INDEX = 6
 MAX_UNPAID_LEVEL_INDEX = 4
 LAST_REGULAR_GAG_LEVEL = 5
 UBER_GAG_LEVEL_INDEX = 6
-NUM_GAG_TRACKS = 7
+NUM_GAG_TRACKS = 8
 PropTypeToTrackBonus = {AnimPropTypes.Hydrant: SQUIRT_TRACK,
  AnimPropTypes.Mailbox: THROW_TRACK,
  AnimPropTypes.Trashcan: HEAL_TRACK}
@@ -60,7 +60,8 @@ UnpaidMaxSkills = [Levels[0][1] - 1,
  Levels[3][1] - 1,
  Levels[4][4] - 1,
  Levels[5][4] - 1,
- Levels[6][1] - 1]
+ Levels[6][1] - 1,
+ Levels[7][1] - 1]
 ExperienceCap = 300
 
 def gagIsPaidOnly(track, level):
@@ -326,6 +327,13 @@ AvPropAccuracy = ((70,
   95,
   95,
   95),
+ (75,
+  75,
+  75,
+  75,
+  75,
+  75,
+  75),
  (50,
   50,
   50,
@@ -383,13 +391,22 @@ AvPropDamage = ((((8, 10), (Levels[0][0], Levels[0][1])),
   ((27, 30), (Levels[5][4], Levels[5][5])),
   ((36, 80), (Levels[5][5], Levels[5][6])),
   ((105, 105), (Levels[5][6], MaxSkill))),
- (((10, 10), (Levels[6][0], Levels[6][1])),
-  ((18, 18), (Levels[6][1], Levels[6][2])),
-  ((30, 30), (Levels[6][2], Levels[6][3])),
-  ((45, 45), (Levels[6][3], Levels[6][4])),
-  ((60, 60), (Levels[6][4], Levels[6][5])),
-  ((85, 170), (Levels[6][5], Levels[6][6])),
-  ((180, 180), (Levels[6][6], MaxSkill))))
+ ( # Zap
+  ((3, 4), (Levels[6][0], Levels[6][1])),
+  ((5, 7), (Levels[6][1], Levels[6][2])),
+  ((9, 11), (Levels[6][2], Levels[6][3])),
+  ((16, 18), (Levels[6][3], Levels[6][4])),
+  ((24, 30), (Levels[6][4], Levels[6][5])),
+  ((40, 70), (Levels[6][5], Levels[6][6])),
+  ((95, 95), (Levels[6][6], MaxSkill))
+ ),
+ (((10, 10), (Levels[7][0], Levels[7][1])),
+  ((18, 18), (Levels[7][1], Levels[7][2])),
+  ((30, 30), (Levels[7][2], Levels[7][3])),
+  ((45, 45), (Levels[7][3], Levels[7][4])),
+  ((60, 60), (Levels[7][4], Levels[7][5])),
+  ((85, 170), (Levels[7][5], Levels[7][6])),
+  ((180, 180), (Levels[7][6], MaxSkill))))
 ATK_SINGLE_TARGET = 0
 ATK_GROUP_TARGET = 1
 AvPropTargetCat = ((ATK_SINGLE_TARGET,
@@ -426,7 +443,9 @@ AvPropTarget = (0,
  2,
  3,
  3,
+ 3,
  3)
+InstaKillChance = [2, 3, 5, 8, 10, 15, 35]
 
 def getAvPropDamage(attackTrack, attackLevel, exp, organicBonus = False, propBonus = False, propAndOrganicBonusStack = False):
     minD = AvPropDamage[attackTrack][attackLevel][0][0]

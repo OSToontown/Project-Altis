@@ -1,19 +1,24 @@
-import string
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
+import string
 from toontown.toon import LaffMeter
 from toontown.battle import BattleBase
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase import TTLocalizer
 
 class TownBattleToonPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownBattleToonPanel')
 
     def __init__(self, id):
-        gui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
+        if settings['newGui'] == True:
+            gui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
+        else:
+            gui = loader.loadModel('phase_3.5/models/gui/battle_gui_old')
         DirectFrame.__init__(self, relief=None, image=gui.find('**/ToonBtl_Status_BG'), image_color=Vec4(0.5, 0.9, 0.5, 0.7))
         self.setScale(0.8)
         self.initialiseoptions(TownBattleToonPanel)
@@ -22,6 +27,8 @@ class TownBattleToonPanel(DirectFrame):
         self.sosText.hide()
         self.fireText = DirectLabel(parent=self, relief=None, pos=(0.1, 0, 0.015), text=TTLocalizer.TownBattleToonFire, text_scale=0.06)
         self.fireText.hide()
+        self.roundsText = DirectLabel(parent=self, relief=None, pos=(0.16, 0, -0.07), text='', text_scale=0.045)
+        self.roundsText.hide()
         self.undecidedText = DirectLabel(parent=self, relief=None, pos=(0.1, 0, 0.015), text=TTLocalizer.TownBattleUndecided, text_scale=0.1)
         self.healthText = DirectLabel(parent=self, text='', pos=(-0.06, 0, -0.075), text_scale=0.055)
         self.hpChangeEvent = None
@@ -90,9 +97,12 @@ class TownBattleToonPanel(DirectFrame):
         self.undecidedText.hide()
         self.sosText.hide()
         self.fireText.hide()
+        self.roundsText.hide()
         self.gagNode.hide()
         self.whichText.hide()
         self.passNode.hide()
+        self.whichText.setPos(0.1, 0, -0.08)
+        self.whichText['text_scale'] = 0.05
         if self.hasGag:
             self.gag.removeNode()
             self.hasGag = 0
@@ -118,6 +128,16 @@ class TownBattleToonPanel(DirectFrame):
             if numTargets is not None and targetIndex is not None and localNum is not None:
                 self.whichText.show()
                 self.whichText['text'] = self.determineWhichText(numTargets, targetIndex, localNum, index)
+                self.roundsText.setPos(0.16, 0, -0.07)
+                self.roundsText['text_scale'] = 0.045
+            elif track == LURE_TRACK:
+                self.roundsText['text_scale'] = 0.05
+                self.roundsText.setPos(0.1, 0, -0.08)
+            if track == LURE_TRACK:
+                self.roundsText.show()
+                self.roundsText['text'] = str(NumRoundsLured[level])
+                self.whichText.setPos(0.085, 0, -0.07)
+                self.whichText['text_scale'] = 0.045
         else:
             self.notify.error('Bad track value: %s' % track)
         return

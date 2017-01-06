@@ -4874,6 +4874,8 @@ InventoryTotalGags = 'Total gags\n%d / %d'
 InventroyPinkSlips = '%s Pink Slips'
 InventroyPinkSlip = '1 Pink Slip'
 InventoryDelete = 'DELETE'
+InventoryDeleteAll = 'DELETE ALL'
+InventoryDeleteConfirm = "Are you sure you want to delete all your gags? Don't worry, your level 7 gags will be safe"
 InventoryDone = 'DONE'
 InventoryDeleteHelp = 'Click on a gag to DELETE it.'
 InventorySkillCredit = 'Skill credit: %s'
@@ -4890,11 +4892,14 @@ InventoryAffectsAllToons = 'Affects: All Toons'
 InventoryAffectsAllCogs = 'Affects: All ' + Cogs
 InventoryHealString = 'Toon-up'
 InventoryDamageString = 'Damage'
+InventoryLureString = 'Rounds active'
 InventoryBattleMenu = 'BATTLE MENU'
 InventoryRun = 'RUN'
 InventorySOS = 'SOS'
 InventoryPass = 'PASS'
 InventoryFire = 'FIRE'
+InventoryLevelsShow = 'SHOW LEVELS'
+InventoryLevelsHide = 'HIDE LEVELS'
 InventoryClickToAttack = 'Click a\ngag to\nattack'
 InventoryDamageBonus = '(+%d)'
 NPCForceAcknowledgeMessage = "You must ride the trolley before leaving.\n\n\n\n\n\n\n\n\nYou can find the trolley next to Goofy's Gag Shop."
@@ -4918,6 +4923,7 @@ BattleGlobalTracks = ['toon-up',
  'sound',
  'throw',
  'squirt',
+ 'zap',
  'drop']
 BattleGlobalNPCTracks = ['restock', 'toons hit', 'cogs miss']
 BattleGlobalAvPropStrings = (('Feather',
