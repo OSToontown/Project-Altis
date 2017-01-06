@@ -143,7 +143,7 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         sival = ActorInterval(suit, anim)
         sival = []
         if fShowStun == 1:
-            sival = Parallel(Func(suit.loop, anim), MovieUtil.zapCog(suit, beforeStun, afterStun))
+            sival = Parallel(Func(suit.loop, anim), MovieUtil.zapCog(suit, beforeStun, afterStun, battle))
         else:
             sival = ActorInterval(suit, anim)
         showDamage = Func(suit.showHpText, -hp, openEnded=0, attackTrack=ZAP_TRACK)
@@ -162,11 +162,11 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         bonusTrack = Sequence(Wait(tContact))
         if kbbonus > 0:
             bonusTrack.append(Wait(0.75))
-            bonusTrack.append(Func(suit.showHpText, -kbbonus, 2, openEnded=0, attackTrack=THROW_TRACK))
+            bonusTrack.append(Func(suit.showHpText, -kbbonus, 2, openEnded=0, attackTrack=ZAP_TRACK))
             bonusTrack.append(updateHealthBar)
         if hpbonus > 0:
             bonusTrack.append(Wait(0.75))
-            bonusTrack.append(Func(suit.showHpText, -hpbonus, 1, openEnded=0, attackTrack=THROW_TRACK))
+            bonusTrack.append(Func(suit.showHpText, -hpbonus, 1, openEnded=0, attackTrack=ZAP_TRACK))
             bonusTrack.append(updateHealthBar)
         if died != 0:
             suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
