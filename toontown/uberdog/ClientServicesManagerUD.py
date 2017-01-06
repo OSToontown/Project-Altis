@@ -448,7 +448,7 @@ class LoginAccountFSM(OperationFSM):
 class CreateAvatarFSM(OperationFSM):
     notify = directNotify.newCategory('CreateAvatarFSM')
 
-    def enterStart(self, dna, index):
+    def enterStart(self, dna, index, uber):
         # Basic sanity-checking:
         if index >= 6:
             self.demand('Kill', 'Invalid index specified!')
@@ -460,6 +460,7 @@ class CreateAvatarFSM(OperationFSM):
 
         self.index = index
         self.dna = dna
+        self.uber = uber
 
         # Okay, we're good to go, let's query their account.
         self.demand('RetrieveAccount')
@@ -499,7 +500,8 @@ class CreateAvatarFSM(OperationFSM):
             'WishNameState': ('OPEN',),
             'WishName': ('',),
             'setDNAString': (self.dna,),
-            'setDISLid': (self.target,)
+            'setDISLid': (self.target,),
+            'setUber': (self.uber,)
         }
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
@@ -1102,8 +1104,8 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))
         self.runAccountFSM(GetAvatarsFSM)
 
-    def createAvatar(self, dna, index):
-        self.runAccountFSM(CreateAvatarFSM, dna, index)
+    def createAvatar(self, dna, index, uber):
+        self.runAccountFSM(CreateAvatarFSM, dna, index, uber)
 
     def deleteAvatar(self, avId):
         self.runAccountFSM(DeleteAvatarFSM, avId)

@@ -5449,7 +5449,13 @@ CreateYourToonTitle = 'Choose  Boy  or  Girl'
 ShapeYourToonTitle = 'Choose  Your  Type'
 PaintYourToonTitle = 'Choose  Your  Color'
 PickClothesTitle = 'Choose  Your  Clothes'
+PickStatusTitle = 'Choose  Your  Statuses'
 NameToonTitle = 'Choose  Your  Name'
+UberTitles = ['Normal', '15 Laff', '25 Laff', '34 Laff']
+UberInfos = ['Your average run of the mill toon, they have no laff or gag limits! Great for players who want to play traditionally.',
+ '15 laff ubers can NEVER gain any laff points.',
+ '25 laff ubers can gain up to 10 extra laff points from their base laff.',
+ '34 laff ubers can gain up to 19 extra laff points from their base laff.']
 CreateYourToonHead = "Click the 'head' arrows to pick different animals."
 MakeAToonClickForNextScreen = 'Click the arrow below to go to the next screen.'
 PickClothes = 'Click the arrows to pick clothes!'
