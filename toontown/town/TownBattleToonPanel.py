@@ -139,6 +139,11 @@ class TownBattleToonPanel(DirectFrame):
                 self.roundsText['text'] = str(NumRoundsLured[level])
                 self.whichText.setPos(0.085, 0, -0.07)
                 self.whichText['text_scale'] = 0.045
+            if track == ZAP_TRACK:
+                self.roundsText.show()
+                self.roundsText['text'] = str(InstaKillChance[level]) + '%'
+                self.whichText.setPos(0.085, 0, -0.07)
+                self.whichText['text_scale'] = 0.045
         else:
             self.notify.error('Bad track value: %s' % track)
         return
