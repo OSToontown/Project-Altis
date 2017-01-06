@@ -24,6 +24,7 @@ from toontown.effects import Wake
 from toontown.hood import ZoneUtil
 from toontown.nametag.NametagGlobals import *
 from toontown.suit import SuitDNA
+from toontown.suit import Suit
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 
