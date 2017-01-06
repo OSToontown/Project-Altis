@@ -138,7 +138,6 @@ class TownBattle(StateData.StateData):
         self.timer.posInTopRightCorner()
         self.timer.setScale(0.4)
         self.timer.hide()
-        return
 
     def cleanup(self):
         self.ignore(self.attackPanelDoneEvent)
@@ -186,7 +185,6 @@ class TownBattle(StateData.StateData):
         base.localAvatar.inventory.setBattleCreditMultiplier(self.creditMultiplier)
         base.localAvatar.inventory.setActivateMode('battle', heal=0, bldg=bldg, tutorialFlag=tutorialFlag)
         self.SOSPanel.bldg = bldg
-        return
 
     def exit(self):
         base.localAvatar.laffMeter.stop()
@@ -228,7 +226,6 @@ class TownBattle(StateData.StateData):
     def updateTimer(self, time):
         self.time = time
         self.timer.setTime(time)
-        return None
 		
     def __cogPanels(self, num):
         for panel in self.cogPanels:
@@ -236,25 +233,25 @@ class TownBattle(StateData.StateData):
             panel.setPos(0, 0, 0.7)
 
         if num == 1:
-            self.cogPanels[0].setX(self.oddPos[1])
-            self.cogPanels[0].show()
+            self.cogPanels[1].setX(self.oddPos[1])
+            self.cogPanels[1].show()
         elif num == 2:
             for i in xrange(2):
                 self.cogPanels[i].setX(self.evenPos[i + 1])
                 self.cogPanels[i].show()
-
         elif num == 3:
             for i in xrange(3):
                 self.cogPanels[i].setX(self.oddPos[i])
                 self.cogPanels[i].show()
-
         elif num == 4:
             for i in xrange(4):
                 self.cogPanels[i].setX(self.evenPos[i])
                 self.cogPanels[i].show()
+        else:
+            self.notify.error('Bad number of cogs: %s' % num)
 
     def __enterPanels(self, num, localNum):
-        self.notify.debug('enterPanels() num: %d localNum: %d' % (num, localNum))
+        self.notify.info('enterPanels() num: %d localNum: %d' % (num, localNum))
         for toonPanel in self.toonPanels:
             toonPanel.hide()
             toonPanel.setPos(0, 0, -0.9)
@@ -285,7 +282,6 @@ class TownBattle(StateData.StateData):
             self.toonPanels[3].show()
         else:
             self.notify.error('Bad number of toons: %s' % num)
-        return None
 
     def updateChosenAttacks(self, battleIndices, tracks, levels, targets):
         self.notify.debug('updateChosenAttacks bi=%s tracks=%s levels=%s targets=%s' % (battleIndices,
@@ -321,8 +317,6 @@ class TownBattle(StateData.StateData):
                             numTargets = None
                 self.toonPanels[battleIndices[i]].setValues(battleIndices[i], tracks[i], levels[i], numTargets, target, self.localNum)
 
-        return
-
     def chooseDefaultTarget(self):
         if self.track > -1:
             response = {}
@@ -338,9 +332,11 @@ class TownBattle(StateData.StateData):
         self.toonPanels[toonNum].updateLaffMeter(hp)
 
     def enterOff(self):
-        if self.isLoaded:
-            for toonPanel in self.toonPanels:
-                toonPanel.hide()
+        for toonPanel in self.toonPanels:
+            toonPanel.hide()
+        
+        for cogPanel in self.cogPanels:
+            cogPanel.hide()
 
         self.toonAttacks = [(-1, 0, 0),
          (-1, 0, 0),
@@ -349,7 +345,6 @@ class TownBattle(StateData.StateData):
         self.target = 0
         if hasattr(self, 'timer'):
             self.timer.hide()
-        return None
 
     def exitOff(self):
         if self.isLoaded:
@@ -359,7 +354,6 @@ class TownBattle(StateData.StateData):
         self.track = -1
         self.level = -1
         self.target = 0
-        return None
 
     def enterAttack(self):
         self.attackPanel.enter()
@@ -367,12 +361,10 @@ class TownBattle(StateData.StateData):
         for toonPanel in self.toonPanels:
             toonPanel.setValues(0, BattleBase.NO_ATTACK)
 
-        return None
 
     def exitAttack(self):
         self.ignore(self.attackPanelDoneEvent)
         self.attackPanel.exit()
-        return None
 
     def __handleAttackPanelDone(self, doneStatus):
         self.notify.debug('doneStatus: %s' % doneStatus)
@@ -492,10 +484,10 @@ class TownBattle(StateData.StateData):
         if resetActivateMode:
             self.__enterPanels(self.numToons, self.localNum)
             self.__cogPanels(self.numCogs)
-            for i in xrange(len(toons)):
+            for i in range(len(toons)):
                 self.toonPanels[i].setLaffMeter(toons[i])
 				
-            for i in xrange(len(cogs)):
+            for i in range(len(cogs)):
                 self.cogPanels[i].setCogInformation(cogs[i])
 
             if currStateName == 'ChooseCog':
@@ -510,12 +502,10 @@ class TownBattle(StateData.StateData):
         self.cog = 0
         self.chooseCogPanel.enter(self.numCogs, luredIndices=self.luredIndices, trappedIndices=self.trappedIndices, track=self.track)
         self.accept(self.chooseCogPanelDoneEvent, self.__handleChooseCogPanelDone)
-        return None
 
     def exitChooseCog(self):
         self.ignore(self.chooseCogPanelDoneEvent)
         self.chooseCogPanel.exit()
-        return None
 
     def __handleChooseCogPanelDone(self, doneStatus):
         mode = doneStatus['mode']
@@ -563,12 +553,10 @@ class TownBattle(StateData.StateData):
         self.toon = 0
         self.chooseToonPanel.enter(self.numToons, localNum=self.localNum)
         self.accept(self.chooseToonPanelDoneEvent, self.__handleChooseToonPanelDone)
-        return None
 
     def exitChooseToon(self):
         self.ignore(self.chooseToonPanelDoneEvent)
         self.chooseToonPanel.exit()
-        return None
 
     def __handleChooseToonPanelDone(self, doneStatus):
         mode = doneStatus['mode']
@@ -605,12 +593,10 @@ class TownBattle(StateData.StateData):
         canHeal, canTrap, canLure = self.checkHealTrapLure()
         self.FireCogPanel.enter(self.numCogs, luredIndices=self.luredIndices, trappedIndices=self.trappedIndices, track=self.track, fireCosts=self.cogFireCosts)
         self.accept(self.fireCogPanelDoneEvent, self.__handleCogFireDone)
-        return None
 
     def exitFire(self):
         self.ignore(self.fireCogPanelDoneEvent)
         self.FireCogPanel.exit()
-        return None
 
     def __handleCogFireDone(self, doneStatus):
         mode = doneStatus['mode']
@@ -631,12 +617,10 @@ class TownBattle(StateData.StateData):
         canHeal, canTrap, canLure = self.checkHealTrapLure()
         self.SOSPanel.enter(canLure, canTrap)
         self.accept(self.SOSPanelDoneEvent, self.__handleSOSPanelDone)
-        return None
 
     def exitSOS(self):
         self.ignore(self.SOSPanelDoneEvent)
         self.SOSPanel.exit()
-        return None
 
     def __handleSOSPanelDone(self, doneStatus):
         mode = doneStatus['mode']
@@ -670,13 +654,11 @@ class TownBattle(StateData.StateData):
         self.accept(self.proxyGenerateMessage, self.__handleProxyGenerated)
         self.accept(self.SOSPetSearchPanelDoneEvent, self.__handleSOSPetSearchPanelDone)
         messenger.send(self.battleEvent, [response])
-        return None
 
     def exitSOSPetSearch(self):
         self.ignore(self.proxyGenerateMessage)
         self.ignore(self.SOSPetSearchPanelDoneEvent)
         self.SOSPetSearchPanel.exit()
-        return None
 
     def __handleSOSPetSearchPanelDone(self, doneStatus):
         mode = doneStatus['mode']
@@ -691,12 +673,10 @@ class TownBattle(StateData.StateData):
     def enterSOSPetInfo(self):
         self.SOSPetInfoPanel.enter(self.petId)
         self.accept(self.SOSPetInfoPanelDoneEvent, self.__handleSOSPetInfoPanelDone)
-        return None
 
     def exitSOSPetInfo(self):
         self.ignore(self.SOSPetInfoPanelDoneEvent)
         self.SOSPetInfoPanel.exit()
-        return None
 
     def __handleSOSPetInfoPanelDone(self, doneStatus):
         mode = doneStatus['mode']

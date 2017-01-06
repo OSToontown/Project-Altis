@@ -26,11 +26,11 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         self.textDisabledColor = Vec4(0.4, 0.8, 0.4, 1)
         self.bldg = 0
         self.chosenNPCToons = []
-        return
+        
 
     def load(self):
         if self.isLoaded == 1:
-            return None
+            return 
         self.isLoaded = 1
         bgd = loader.loadModel('phase_3.5/models/gui/frame')
         gui = loader.loadModel('phase_3.5/models/gui/frame4names')
@@ -61,7 +61,6 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         backGui.removeNode()
         bgd.removeNode()
         self.hide()
-        return
 
     def unload(self):
         if self.isLoaded == 0:
@@ -74,7 +73,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         del self.friends
         del self.NPCFriends
         DirectFrame.destroy(self)
-        return None
+        return 
 
     def makeFriendButton(self, friendPair):
         friendId, flags = friendPair
@@ -116,8 +115,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         self.accept('friendOffline', self.__friendOffline)
         self.accept('friendsListChanged', self.__friendsListChanged)
         self.accept('friendsMapComplete', self.__friendsListChanged)
-        return
-
+        
     def exit(self):
         if self.isEntered == 0:
             return None
@@ -128,7 +126,6 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         self.ignore('friendsListChanged')
         self.ignore('friendsMapComplete')
         messenger.send(self.doneEvent)
-        return None
 
     def __close(self):
         doneStatus = {}
@@ -188,8 +185,6 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
                 if friendButton:
                     self.scrollList.addItem(friendButton)
                     self.friends[friendPair] = friendButton
-
-        return
 
     def __updateNPCFriendsPanel(self):
         self.NPCFriends = {}

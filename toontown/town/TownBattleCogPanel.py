@@ -36,6 +36,8 @@ class TownBattleCogPanel(DirectFrame):
         self.initialiseoptions(TownBattleCogPanel)
         self.hidden = False
         self.cog = None
+        self.isLoaded = 0
+        self.notify.info("Loading Cog Battle Panel!")
         self.healthText = DirectLabel(parent=self, text='', pos=(0, 0, -0.075), text_scale=0.05)
         healthGui = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
         button = healthGui.find('**/minnieCircle')
@@ -106,6 +108,9 @@ class TownBattleCogPanel(DirectFrame):
             if self.cog:
                 self.updateHealthBar()
             self.hidden = False
+            self.healthNode.show()
+            self.button.show()
+            self.glow.show()
             DirectFrame.show(self)
         else:
             self.notify.debug('Tried to unhide Cog levels when settings have not been updated!')
@@ -132,7 +137,22 @@ class TownBattleCogPanel(DirectFrame):
             self.blinkTask = None
         
         self.hidden = True
+        self.healthNode.hide()
+        self.button.hide()
+        self.glow.hide()
         DirectFrame.hide(self)
+        
+    def unload(self):
+        if self.isLoaded == 0:
+            return
+        self.isLoaded = 0
+        self.exit()
+        del self.glow
+        del self.cog
+        del self.button
+        del self.blinkTask
+        del self.hpText
+        DirectFrame.destroy(self)
 
     def cleanup(self):
         self.ignoreAll()
@@ -142,8 +162,10 @@ class TownBattleCogPanel(DirectFrame):
         
         if self.blinkTask:
             taskMgr.remove(self.blinkTask)
+            self.blinkTask = None
         
         del self.blinkTask
+        self.healthNode.removeNode()
         self.button.removeNode()
         self.glow.removeNode()
         DirectFrame.destroy(self)
