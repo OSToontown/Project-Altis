@@ -130,7 +130,7 @@ def doSuitAttack(attack):
     elif name == CHOMP:
         suitTrack = doChomp(attack)
     elif name == CIGAR_SMOKE:
-        suitTrack = doDefault(attack)
+        suitTrack = doCigarSmoke(attack)
     elif name == CLIPON_TIE:
         suitTrack = doClipOnTie(attack)
     elif name == CRUNCH:
@@ -228,7 +228,7 @@ def doSuitAttack(attack):
     elif name == SHRED:
         suitTrack = doShred(attack)
     elif name == SONG_AND_DANCE:
-        suitTrack = doDefault(attack)
+        suitTrack = doSongAndDance(attack)
     elif name == SPIN:
         suitTrack = doSpin(attack)
     elif name == SYNERGY:
@@ -238,7 +238,7 @@ def doSuitAttack(attack):
     elif name == TEE_OFF:
         suitTrack = doTeeOff(attack)
     elif name == THROW_BOOK:
-        suitTrack = doDefault(attack)
+        suitTrack = doThrowBook(attack)
     elif name == TREMOR:
         suitTrack = doTremor(attack)
     elif name == WATERCOOLER:
@@ -845,6 +845,13 @@ def doShred(attack):
     soundTrack = getSoundTrack('SA_shred.ogg', delay=3.4, node=suit)
     return Parallel(suitTrack, paperPropTrack, shredderPropTrack, partTrack, toonTrack, soundTrack)
 
+def doSongAndDance(attack):
+    suit = attack['suit']
+    battle = attack['battle']
+    suitTrack = getSuitTrack(attack)
+    toonTrack = getToonTrack(attack, suitTrack.getDuration() - 1.8, ['cringe'], suitTrack.getDuration() - 1.8, ['applause'])
+    soundTrack = getSoundTrack('AA_heal_happydance.ogg', node=suit)
+    return Parallel(suitTrack, toonTrack, soundTrack)
 
 def doFillWithLead(attack):
     suit = attack['suit']
@@ -2244,7 +2251,59 @@ def doPickPocket(attack):
         multiTrackList.append(billPropTrack)
         multiTrackList.append(soundTrack)
     return multiTrackList
+	
+def doCigarSmoke(attack):
+    suit = attack['suit']
+    battle = attack['battle']
+    target = attack['target']
+    toon = target['toon']
+    dmg = target['hp']
+    BattleParticles.loadParticles()
+    smoke = BattleParticles.createParticleEffect('Smoke')
+    BattleParticles.setEffectTexture(smoke, 'snow-particle')
+    cigar = globalPropPool.getProp('cigar')
+    suitTrack = getSuitTrack(attack)
+    cigarPosPoints = [Point3(-0.05, -0.2, -0.25), VBase3(180.0, 0.0, 0.0)]
+    cigarPropTrack = getPropTrack(cigar, suit.getRightHand(), cigarPosPoints, 0.6, 3.6, scaleUpPoint=Point3(6.0, 6.0, 6.0))
+    toonTrack = getToonTrack(attack, 3.55, ['cringe'], 3.0, ['sidestep'])
+    multiTrackList = Parallel(suitTrack, toonTrack)
+    smokeTrack = getPartTrack(smoke, 3.45, 1.5, [smoke, suit, 0])
+    multiTrackList.append(cigarPropTrack)
+    multiTrackList.append(smokeTrack)
 
+    def changeColor(parts):
+        track = Parallel()
+        for partNum in xrange(0, parts.getNumPaths()):
+            nextPart = parts.getPath(partNum)
+            track.append(Func(nextPart.setColorScale, Vec4(0, 0, 0, 1)))
+
+        return track
+
+    def resetColor(parts):
+        track = Parallel()
+        for partNum in xrange(0, parts.getNumPaths()):
+            nextPart = parts.getPath(partNum)
+            track.append(Func(nextPart.clearColorScale))
+
+        return track
+
+    if dmg > 0:
+        headParts = toon.getHeadParts()
+        torsoParts = toon.getTorsoParts()
+        legsParts = toon.getLegsParts()
+        colorTrack = Sequence()
+        colorTrack.append(Wait(3.6))
+        colorTrack.append(Func(battle.movie.needRestoreColor))
+        colorTrack.append(changeColor(headParts))
+        colorTrack.append(changeColor(torsoParts))
+        colorTrack.append(changeColor(legsParts))
+        colorTrack.append(Wait(2.2))
+        colorTrack.append(resetColor(headParts))
+        colorTrack.append(resetColor(torsoParts))
+        colorTrack.append(resetColor(legsParts))
+        colorTrack.append(Func(battle.movie.clearRestoreColor))
+        multiTrackList.append(colorTrack)
+    return multiTrackList
 
 def doFilibuster(attack):
     suit = attack['suit']
@@ -3206,6 +3265,48 @@ def doEvictionNotice(attack):
     missPoint.setX(missPoint.getX() - 1.1)
     propTrack.append(getPropThrowTrack(attack, paper, [hitPoint], [missPoint], parent=battle))
     toonTrack = getToonTrack(attack, 3.4, ['conked'], 2.8, ['jump'])
+    return Parallel(suitTrack, toonTrack, propTrack)
+	
+def doThrowBook(attack):
+    suit = attack['suit']
+    battle = attack['battle']
+    target = attack['target']
+    toon = target['toon']
+    dmg = target['hp']
+    suitDelay = 2.0
+    propDelay = 0.6
+    throwDuration = 1.5
+    paper = globalPropPool.getProp('lawbook')
+    suitTrack = getSuitTrack(attack)
+    posPoints = [Point3(0.00, -1.00, -1.85), VBase3(180.00, -45.00, -45.00)]
+    paperTrack = Sequence(getPropAppearTrack(paper, suit.getRightHand(), posPoints, propDelay, Point3(2.25, 2.25, 2.25), scaleUpTime=0.5))
+    paperTrack.append(Wait(suitDelay))
+    hitPoint = toon.getPos(battle)
+    hitPoint.setX(hitPoint.getX() + 1.2)
+    hitPoint.setY(hitPoint.getY() + 1.5)
+    if dmg > 0:
+        hitPoint.setZ(hitPoint.getZ() + 1.1)
+    movePoint = Point3(hitPoint.getX(), hitPoint.getY() - 1.8, hitPoint.getZ() + 0.2)
+    paperTrack.append(Func(battle.movie.needRestoreRenderProp, paper))
+    paperTrack.append(Func(paper.wrtReparentTo, battle))
+    paperTrack.append(getThrowTrack(paper, hitPoint, duration=throwDuration, parent=battle))
+    paperTrack.append(Wait(0.6))
+    paperTrack.append(LerpPosInterval(paper, 0.4, movePoint))
+    spinTrack = Sequence(Wait(propDelay + suitDelay + 0.2), LerpHprInterval(paper, throwDuration, Point3(-360, 0, 0)))
+    sizeTrack = Sequence(Wait(propDelay + suitDelay + 0.2), LerpScaleInterval(paper, throwDuration, Point3(6, 6, 6)), Wait(0.95), LerpScaleInterval(paper, 0.4, MovieUtil.PNT3_NEARZERO))
+    propTrack = Sequence(Parallel(paperTrack, spinTrack, sizeTrack), Func(MovieUtil.removeProp, paper), Func(battle.movie.clearRenderProp, paper))
+    damageAnims = []
+    damageAnims.append(['cringe',
+     0.01,
+     0.21,
+     0.08])
+    damageAnims.append(['slip-forward',
+     0.01,
+     0.6,
+     0.85])
+    damageAnims.extend(getSplicedLerpAnims('slip-forward', 0.31, 0.95, startTime=1.2))
+    damageAnims.append(['slip-forward', 0.01, 1.51])
+    toonTrack = getToonTrack(attack, damageDelay=4.35, splicedDamageAnims=damageAnims, dodgeDelay=2.4, dodgeAnimNames=['sidestep'], showDamageExtraTime=0.4, showMissedExtraTime=1.3)
     return Parallel(suitTrack, toonTrack, propTrack)
 
 

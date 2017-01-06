@@ -74,6 +74,7 @@ hh = (('pen-squirt', 'fountain-pen', 7),
  ('glower', 'glower', 5),
  ('throw-paper', 'throw-paper', 5),
  ('magic1', 'magic1', 5),
+ ('magic3', 'magic3', 5),
  ('roll-o-dex', 'roll-o-dex', 5))
 cr = (('pickpocket', 'pickpocket', 5), ('throw-paper', 'throw-paper', 3.5), ('glower', 'glower', 5))
 tbc = (('cigar-smoke', 'cigar-smoke', 8),
@@ -87,6 +88,7 @@ cc = (('speak', 'speak', 5),
 tm = (('speak', 'speak', 5),
  ('throw-paper', 'throw-paper', 5),
  ('pickpocket', 'pickpocket', 5),
+ ('phone', 'phone', 5),    
  ('roll-o-dex', 'roll-o-dex', 5),
  ('finger-wag', 'finger-wag', 5))
 nd = (('pickpocket', 'pickpocket', 5),
@@ -101,6 +103,7 @@ ms = (('effort', 'effort', 5),
 tf = (('phone', 'phone', 5),
  ('smile', 'smile', 5),
  ('throw-object', 'throw-object', 5),
+ ('magic3', 'magic3', 5),
  ('glower', 'glower', 5))
 m = (('speak', 'speak', 5),
  ('magic2', 'magic2', 5),
@@ -108,8 +111,10 @@ m = (('speak', 'speak', 5),
  ('golf-club-swing', 'golf-club-swing', 5))
 mh = (('magic1', 'magic1', 5),
  ('smile', 'smile', 5),
+ ('magic2', 'magic2', 5),
+ ('speak', 'speak', 5),
  ('golf-club-swing', 'golf-club-swing', 5),
- ('song-and-dance', 'song-and-dance', 5))
+ ('song-and-dance', 'song-and-dance', 8))
 sc = (('throw-paper', 'throw-paper', 3.5), ('watercooler', 'watercooler', 5), ('pickpocket', 'pickpocket', 5))
 pp = (('throw-paper', 'throw-paper', 5), ('glower', 'glower', 5), ('finger-wag', 'fingerwag', 5))
 tw = (('throw-paper', 'throw-paper', 3.5),
@@ -120,7 +125,7 @@ bc = (('phone', 'phone', 5), ('hold-pencil', 'hold-pencil', 5))
 nc = (('phone', 'phone', 5), ('throw-object', 'throw-object', 5))
 mb = (('magic1', 'magic1', 5), ('throw-paper', 'throw-paper', 3.5))
 ls = (('throw-paper', 'throw-paper', 5), ('throw-object', 'throw-object', 5), ('hold-pencil', 'hold-pencil', 5))
-rb = (('glower', 'glower', 5), ('magic1', 'magic1', 5), ('golf-club-swing', 'golf-club-swing', 5))
+rb = (('cigar-smoke', 'cigar-smoke', 8), ('magic1', 'magic1', 5), ('pickpocket', 'pickpocket', 5), ('golf-club-swing', 'golf-club-swing', 5))
 bf = (('pickpocket', 'pickpocket', 5),
  ('rubber-stamp', 'rubber-stamp', 5),
  ('shredder', 'shredder', 3.5),
@@ -132,14 +137,13 @@ b = (('effort', 'effort', 5),
 dt = (('rubber-stamp', 'rubber-stamp', 5),
  ('throw-paper', 'throw-paper', 5),
  ('speak', 'speak', 5),
- ('finger-wag', 'fingerwag', 5),
- ('throw-paper', 'throw-paper', 5))
+ ('finger-wag', 'fingerwag', 5))
 ac = (('throw-object', 'throw-object', 5),
  ('roll-o-dex', 'roll-o-dex', 5),
  ('stomp', 'stomp', 5),
  ('phone', 'phone', 5),
  ('throw-paper', 'throw-paper', 5))
-bs = (('magic1', 'magic1', 5), ('throw-paper', 'throw-paper', 5), ('finger-wag', 'fingerwag', 5))
+bs = (('magic1', 'magic1', 5), ('cigar-smoke', 'cigar-smoke', 8), ('throw-paper', 'throw-paper', 5), ('finger-wag', 'fingerwag', 5))
 sd = (('magic2', 'magic2', 5),
  ('quick-jump', 'jump', 6),
  ('stomp', 'stomp', 5),
@@ -151,9 +155,9 @@ le = (('speak', 'speak', 5),
  ('glower', 'glower', 5),
  ('throw-paper', 'throw-paper', 5))
 bw = (('finger-wag', 'fingerwag', 5),
- ('cigar-smoke', 'cigar-smoke', 8),
  ('gavel', 'gavel', 8),
  ('magic1', 'magic1', 5),
+ ('cigar-smoke', 'cigar-smoke', 8),     
  ('throw-object', 'throw-object', 5),
  ('throw-paper', 'throw-paper', 5))
 if not base.config.GetBool('want-new-cogs', 0):
@@ -560,13 +564,16 @@ class Suit(Avatar.Avatar):
         modelRoot.find('**/hands').setTexture(handTex, 1)
 
     def generateHead(self, headType):
-        filePrefix, phase = ModelDict[self.style.body]
-        filepath = 'phase_' + str(phase) + filePrefix + 'heads'
-        headModel = NodePath('cog_head')
-        Preloaded[filepath].copyTo(headModel)
+        if config.GetBool('want-new-cogs', 0):
+            filePrefix, phase = HeadModelDict[self.style.body]
+        else:
+            filePrefix, phase = ModelDict[self.style.body]
+        headModel = loader.loadModel('phase_' + str(phase) + filePrefix + 'heads')
         headReferences = headModel.findAllMatches('**/' + headType)
         for i in xrange(0, headReferences.getNumPaths()):
-            headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
+            headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'to_head')
+            if not headPart:
+                headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
             if self.headTexture:
                 headTex = loader.loadTexture('phase_' + str(phase) + '/maps/' + self.headTexture)
                 headTex.setMinfilter(Texture.FTLinearMipmapLinear)
@@ -574,8 +581,8 @@ class Suit(Avatar.Avatar):
                 headPart.setTexture(headTex, 1)
             if self.headColor:
                 headPart.setColor(self.headColor)
-            headPart.flattenStrong()
             self.headParts.append(headPart)
+
         headModel.removeNode()
 
     def generateCorporateTie(self, modelPath = None):

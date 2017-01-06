@@ -23,6 +23,7 @@ from toontown.coghq import BossbotCountryClubTeeOffRoom_Action01
 from toontown.coghq import BossbotCountryClubTeeOffRoom_Action02
 from toontown.coghq import BossbotCountryClubGreenRoom_Action01
 from toontown.coghq import BossbotCountryClubGreenRoom_Action02
+from toontown.coghq import BossbotCountryClubEntrance_Action00_Cogs
 
 def getCountryClubRoomSpecModule(roomId):
     return CashbotMintSpecModules[roomId]
@@ -59,7 +60,8 @@ CashbotMintSpecModules = {}
 for roomName, roomId in BossbotCountryClubRoomName2RoomId.items():
     CashbotMintSpecModules[roomId] = locals()[roomName]
 
-CogSpecModules = {'BossbotCountryClubFairwayRoom_Battle00': BossbotCountryClubFairwayRoom_Battle00_Cogs,
+CogSpecModules = {'BossbotCountryClubEntrance_Action00': BossbotCountryClubEntrance_Action00_Cogs,
+ 'BossbotCountryClubFairwayRoom_Battle00': BossbotCountryClubFairwayRoom_Battle00_Cogs,
  'BossbotCountryClubMazeRoom_Battle00': BossbotCountryClubMazeRoom_Battle00_Cogs,
  'BossbotCountryClubMazeRoom_Battle01': BossbotCountryClubMazeRoom_Battle01_Cogs,
  'BossbotCountryClubMazeRoom_Battle02': BossbotCountryClubMazeRoom_Battle02_Cogs,
