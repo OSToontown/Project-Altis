@@ -106,7 +106,7 @@ want-travel-game #f
 want-game-tables #f
 
 # Cog Battles
-battle-xp-multiplier 5.0
+base-xp-multiplier 5.0
 
 # Cog headquarters:
 want-cog-headquarters #t
