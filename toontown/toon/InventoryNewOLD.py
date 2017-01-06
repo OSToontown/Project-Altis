@@ -1027,8 +1027,9 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
 
     def itemIsCredit(self, track, level):
         if self.toon.earnedExperience:
-            if self.toon.earnedExperience[track] >= ExperienceCap:
-                return 0
+            if self.toon.earnedExperience[track]:
+                if self.toon.earnedExperience[track] >= ExperienceCap:
+                    return 0
         if self.battleCreditLevel == None:
             return 1
         else:

@@ -1,5 +1,6 @@
 from panda3d.core import *
 from panda3d.direct import *
+from toontown.battle.BattleGlobals import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal

@@ -5,12 +5,17 @@ BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory('BattleEx
 
 EXP_MULTIPLIER = 5
 
+
 def getSkillGained(toonSkillPtsGained, toonId, track):
     exp = 0
-    expList = toonSkillPtsGained.get(toonId, None)
-    if expList != None:
+    expList = []
+    if toonSkillPtsGained.get(toonId, None) != None:
+        expList = toonSkillPtsGained.get(toonId, None)
         exp = expList[track]
-    return int(exp + 0.5) * EXP_MULTIPLIER
+    else:
+        expList[track] = 0
+        exp = expList[track]
+    return (int(exp) + 0.5) * EXP_MULTIPLIER
 
 def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toonOrigQuests, toonItems, toonOrigMerits, toonMerits, toonParts, suitsKilled, helpfulToonsList = None):
     if helpfulToonsList == None:

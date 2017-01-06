@@ -85,7 +85,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.trophyStarSpeed = 0
         self.safeZonesVisited = []
         self.NPCFriendsDict = {}
-        self.earnedExperience = None
+        self.earnedExperience = []
         self.track = None
         self.effect = None
         self.maxCarry = 0

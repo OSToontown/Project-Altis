@@ -1198,19 +1198,18 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                     roundList.append(int(exp + 0.5))
 
                 toon.d_setEarnedExperience(roundList)
-        return
 
     def enterOff(self):
-        return None
+        return 
 
     def exitOff(self):
-        return None
+        return 
 
     def enterFaceOff(self):
-        return None
+        return 
 
     def exitFaceOff(self):
-        return None
+        return 
 
     def enterWaitForJoin(self):
         self.notify.debug('enterWaitForJoin()')
