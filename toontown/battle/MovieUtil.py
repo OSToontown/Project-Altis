@@ -31,18 +31,22 @@ largeSuits = ['f',
  'hh',
  'cr',
  'tbc',
+ 'hho',            
  'bs',
  'sd',
  'le',
  'bw',
+ 'mg',             
  'nc',
  'mb',
  'ls',
  'rb',
+ 'bfh',
  'ms',
  'tf',
  'm',
- 'mh']
+ 'mh',
+ 'txm']
 shotDirection = 'left'
 
 def avatarDodge(leftAvatars, rightAvatars, leftData, rightData):
@@ -98,6 +102,8 @@ def showProp(prop, hand, pos = None, hpr = None, scale = None):
 def showProps(props, hands, pos = None, hpr = None, scale = None):
     index = 0
     for prop in props:
+        if not prop or prop.isEmpty():
+            continue
         prop.reparentTo(hands[index])
         if pos:
             prop.setPos(pos)
@@ -166,6 +172,7 @@ def insertDeathSuit(suit, deathSuit, battle = None, pos = None, hpr = None):
             deathSuit.setPos(battle, pos)
         if battle != None and hpr != None:
             deathSuit.setHpr(battle, hpr)
+    return
 
 
 def removeDeathSuit(suit, deathSuit):
@@ -189,6 +196,8 @@ def insertReviveSuit(suit, deathSuit, battle = None, pos = None, hpr = None):
             deathSuit.setPos(battle, pos)
         if battle != None and hpr != None:
             deathSuit.setHpr(battle, hpr)
+    return
+
 
 def removeReviveSuit(suit, deathSuit):
     notify.debug('removeDeathSuit()')
@@ -252,6 +261,7 @@ def createSuitReviveTrack(suit, toon, battle, npcs = []):
     if hasattr(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
         suitTrack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
     deathSuit = suit.getLoseActor()
+    deathSuit.setBlend(frameBlend = True)
     suitTrack.append(Func(notify.debug, 'before insertDeathSuit'))
     suitTrack.append(Func(insertReviveSuit, suit, deathSuit, battle, suitPos, suitHpr))
     suitTrack.append(Func(notify.debug, 'before actorInterval lose'))
@@ -298,6 +308,7 @@ def createSuitDeathTrack(suit, toon, battle, npcs = []):
     if hasattr(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
         suitTrack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
     deathSuit = suit.getLoseActor()
+    deathSuit.setBlend(frameBlend = True)
     suitTrack.append(Func(notify.debug, 'before insertDeathSuit'))
     suitTrack.append(Func(insertDeathSuit, suit, deathSuit, battle, suitPos, suitHpr))
     suitTrack.append(Func(notify.debug, 'before actorInterval lose'))
@@ -377,11 +388,77 @@ def createSuitTeaseMultiTrack(suit, delay = 0.01):
     suitTrack = Sequence(Wait(delay), ActorInterval(suit, 'victory', startTime=0.5, endTime=1.9), Func(suit.loop, 'neutral'))
     missedTrack = Sequence(Wait(delay + 0.2), Func(indicateMissed, suit, 0.9))
     return Parallel(suitTrack, missedTrack)
+	
+def createSuitZaplessMultiTrack(suit, delay = 0.01):
+    suitTrack = Sequence(Wait(delay), ActorInterval(suit, 'neutral', startTime=0.5, endTime=1.9), Func(suit.loop, 'neutral'))
+    missedTrack = Sequence(Wait(delay + 0.2), Func(indicateMissed, suit, 0.9))
+    return Parallel(suitTrack, missedTrack)
 
 
 SPRAY_LEN = 1.5
 
 def getSprayTrack(battle, color, origin, target, dScaleUp, dHold, dScaleDown, horizScale = 1.0, vertScale = 1.0, parent = render):
+    track = Sequence()
+    sprayProp = globalPropPool.getProp('spray')
+    sprayScale = hidden.attachNewNode('spray-parent')
+    sprayRot = hidden.attachNewNode('spray-rotate')
+    spray = sprayRot
+    spray.setColor(color)
+    if color[3] < 1.0:
+        spray.setTransparency(1)
+
+    def showSpray(sprayScale, sprayRot, sprayProp, origin, target, parent):
+        if callable(origin):
+            origin = origin()
+        if callable(target):
+            target = target()
+        sprayRot.reparentTo(parent)
+        sprayRot.clearMat()
+        sprayScale.reparentTo(sprayRot)
+        sprayScale.clearMat()
+        sprayProp.reparentTo(sprayScale)
+        sprayProp.clearMat()
+        sprayRot.setPos(origin)
+        sprayRot.lookAt(Point3(target))
+
+    track.append(Func(battle.movie.needRestoreRenderProp, sprayProp))
+    track.append(Func(showSpray, sprayScale, sprayRot, sprayProp, origin, target, parent))
+
+    def calcTargetScale(target = target, origin = origin, horizScale = horizScale, vertScale = vertScale):
+        if callable(target):
+            target = target()
+        if callable(origin):
+            origin = origin()
+        distance = Vec3(target - origin).length()
+        yScale = distance / SPRAY_LEN
+        targetScale = Point3(yScale * horizScale, yScale, yScale * vertScale)
+        return targetScale
+
+    track.append(LerpScaleInterval(sprayScale, dScaleUp, calcTargetScale, startScale=PNT3_NEARZERO))
+    track.append(Wait(dHold))
+
+    def prepareToShrinkSpray(spray, sprayProp, origin, target):
+        if callable(target):
+            target = target()
+        if callable(origin):
+            origin = origin()
+        sprayProp.setPos(Point3(0.0, -SPRAY_LEN, 0.0))
+        spray.setPos(target)
+
+    track.append(Func(prepareToShrinkSpray, spray, sprayProp, origin, target))
+    track.append(LerpScaleInterval(sprayScale, dScaleDown, PNT3_NEARZERO))
+
+    def hideSpray(spray, sprayScale, sprayRot, sprayProp, propPool):
+        sprayProp.detachNode()
+        removeProp(sprayProp)
+        sprayRot.removeNode()
+        sprayScale.removeNode()
+
+    track.append(Func(hideSpray, spray, sprayScale, sprayRot, sprayProp, globalPropPool))
+    track.append(Func(battle.movie.clearRenderProp, sprayProp))
+    return track
+	
+def getZapTrack(battle, color, origin, target, dScaleUp, dHold, dScaleDown, horizScale = 1.0, vertScale = 1.0, parent = render):
     track = Sequence()
     sprayProp = globalPropPool.getProp('spray')
     sprayScale = hidden.attachNewNode('spray-parent')
@@ -524,6 +601,8 @@ def getSuitRakeOffset(suit):
         return 2.1
     elif suitName == 'tbc':
         return 1.4
+    elif suitName == 'hho':
+        return 1.4
     elif suitName == 'bs':
         return 0.4
     elif suitName == 'sd':
@@ -531,6 +610,8 @@ def getSuitRakeOffset(suit):
     elif suitName == 'le':
         return 1.3
     elif suitName == 'bw':
+        return 1.4
+    elif suitName == 'br':
         return 1.4
     elif suitName == 'nc':
         return 0.6
@@ -540,6 +621,8 @@ def getSuitRakeOffset(suit):
         return 1.4
     elif suitName == 'rb':
         return 1.6
+    elif suitName == 'bfh':
+        return 1.85
     elif suitName == 'ms':
         return 0.7
     elif suitName == 'tf':
@@ -548,6 +631,8 @@ def getSuitRakeOffset(suit):
         return 0.9
     elif suitName == 'mh':
         return 1.3
+    elif suitName == 'txm':
+        return 1.4
     else:
         notify.warning('getSuitRakeOffset(suit) - Unknown suit name: %s' % suitName)
         return 0

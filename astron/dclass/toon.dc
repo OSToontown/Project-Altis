@@ -1543,7 +1543,8 @@ dclass DistributedMinigame : DistributedObject {
   setGameStart(int16) broadcast;
   setGameExit() broadcast;
   setGameAbort() broadcast;
-  requestVoteSkip() airecv clsend;
+  requestSkip() airecv clsend;
+  setVoteSkips(uint8) broadcast;
 };
 
 dclass DistributedMinigameTemplate : DistributedMinigame {
