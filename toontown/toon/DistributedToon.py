@@ -953,7 +953,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if CogDisguiseGlobals.isPaidSuitComplete(self, parts, index):
                 cogIndex = self.cogTypes[index] + SuitDNA.suitsPerDept * index
                 cog = SuitDNA.suitHeadTypes[cogIndex]
-                self.notify.info(cog)
                 self.putOnSuit(cog)
             else:
                 self.putOnSuit(index, rental=True)
