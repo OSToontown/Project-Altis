@@ -104,6 +104,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.achievements = []
         self.cogs = []
         self.cogCounts = []
+        self.cogSummonsEarned = []
         self.NPCFriendsDict = {}
         self.clothesTopsList = []
         self.clothesBottomsList = []
