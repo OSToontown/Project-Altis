@@ -295,6 +295,7 @@ def loadSuitAnims(suit, flag = 1):
 
 def loadDialog(level):
     global SuitDialogArray
+    questions = ['COG_VO_question_1', 'COG_VO_question_2', 'COG_VO_question_3']
     if len(SuitDialogArray) > 0:
         return
     else:
@@ -302,7 +303,7 @@ def loadDialog(level):
         SuitDialogFiles = ['COG_VO_grunt',
          'COG_VO_murmur',
          'COG_VO_statement',
-         'COG_VO_question']
+         'COG_VO_question_1']
         for file in SuitDialogFiles:
             SuitDialogArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
 
@@ -319,14 +320,12 @@ def loadSkelDialog():
         murmur = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_murmur.ogg')
         statement = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_statement.ogg')
         question = loader.loadSfx('phase_5/audio/sfx/Skel_COG_VO_question.ogg')
-        SkelSuitDialogArray = [
-            grunt,
-            murmur,
-            statement,
-            question,
-            statement,
-            statement
-        ]
+        SkelSuitDialogArray = [grunt,
+         murmur,
+         statement,
+         question,
+         statement,
+         statement]
 
 
 def unloadDialog(level):
