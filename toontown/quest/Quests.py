@@ -1113,6 +1113,12 @@ class BuildingQuest(CogQuest):
 
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         return 0
+		
+    def doesBuildingTypeCount(self, type):
+        buildingTrack = self.getBuildingTrack()
+        if buildingTrack == Any or buildingTrack == type:
+            return True
+        return False
 
     def doesBuildingCount(self, avId, avList):
         return 1
@@ -1218,6 +1224,12 @@ class CogdoQuest(CogQuest):
 
     def doesCogdoCount(self, avId, avList):
         return 1
+		
+    def doesCogdoTypeCount(self, type):
+        CogdoTrack = self.getCogdoTrack()
+        if CogdoTrack == Any or CogdoTrack == type:
+            return True
+        return False
 
 
 class CogdoNewbieQuest(CogdoQuest, NewbieQuest):
@@ -16142,7 +16154,7 @@ QuestDict = {
 		 TTLocalizer.QuestDialogDict[13000]),
  13001: (FINAL_TIER,
 		 Start,
-		 (StageQuest, ToontownGlobals.LawbotStageIntB, 4),
+		 (StageQuest, ToontownGlobals.LawbotStageIntA, 4),
 		 3306,
 		 Same,
 		 NA,
