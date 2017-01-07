@@ -454,6 +454,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.isStunned = 0
         self.isDisguised = 0
         self.cogHead = 0
+        self.cogLevels = [] 
         self.uberType = 0
         self.defaultColorScale = None
         self.jar = None
@@ -5031,6 +5032,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 name = self.getName()
             suitDept = SuitDNA.suitDepts.index(SuitDNA.getSuitDept(suitType))
             suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
+            print self.cogLevels
             self.nametag.setText(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
              'dept': suitName,
              'level': self.cogLevels[suitDept] + 1})

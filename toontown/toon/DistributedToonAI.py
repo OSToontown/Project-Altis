@@ -4431,23 +4431,24 @@ def maxToon(missingTrack=None):
         emotes[emoteId] = 1
     invoker.b_setEmoteAccess(emotes)
 
-    # Max out cog suits (ORDER: Bossbot, Lawbot, Cashbot, Sellbot)
+    # Max out cog suits (ORDER: Bossbot, Lawbot, Cashbot, Sellbot, Boardbots)
     invoker.b_setCogParts([
         CogDisguiseGlobals.PartsPerSuitBitmasks[0], # Bossbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[3]  # Sellbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
     ])
-    invoker.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 4)
-    invoker.b_setCogTypes([SuitDNA.suitsPerDept-1] * 4)
+    invoker.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    invoker.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
     deptCount = len(SuitDNA.suitDepts)
     invoker.b_setCogCount(list(CogPageGlobals.COG_QUOTAS[1]) * deptCount)
     cogStatus = [CogPageGlobals.COG_COMPLETE2] * SuitDNA.suitsPerDept
     invoker.b_setCogStatus(cogStatus * deptCount)
-    invoker.b_setCogRadar([1, 1, 1, 1])
-    invoker.b_setBuildingRadar([1, 1, 1, 1])
+    invoker.b_setCogRadar([1, 1, 1, 1, 1])
+    invoker.b_setBuildingRadar([1, 1, 1, 1, 1])
 
     # Max out their racing tickets:
     invoker.b_setTickets(99999)
