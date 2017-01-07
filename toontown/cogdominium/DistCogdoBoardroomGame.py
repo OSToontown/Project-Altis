@@ -27,6 +27,7 @@ class DistCogdoBoardroomGame(CogdoBoardroomGameBase, DistCogdoLevelGame):
         self.timer.destroy()
         self.timer = None
         DistCogdoLevelGame.disable(self)
+        return
 
     def enterGame(self):
         DistCogdoLevelGame.enterGame(self)

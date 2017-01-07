@@ -116,6 +116,41 @@ mh = (('magic1', 'magic1', 5),
  ('speak', 'speak', 5),
  ('golf-club-swing', 'golf-club-swing', 5),
  ('song-and-dance', 'song-and-dance', 8))
+ca = (('pickpocket', 'pickpocket', 5),
+ ('speak', 'speak', 5),
+ ('throw-paper', 'throw-paper', 3.5),     
+ ('pen-squirt', 'fountain-pen', 5))
+cn = (('speak', 'speak', 5),
+ ('throw-paper', 'throw-paper', 5),
+ ('effort', 'effort', 5),     
+ ('magic3', 'magic3', 5),
+ ('finger-wag', 'finger-wag', 5))
+sw = (('phone', 'phone', 5),
+ ('pickpocket', 'pickpocket', 5),
+ ('throw-paper', 'throw-paper', 5),    
+ ('roll-o-dex', 'roll-o-dex', 5))
+mdm = (('smile', 'smile', 5),
+ ('roll-o-dex', 'roll-o-dex', 5),      
+ ('magic3', 'magic3', 5))
+txm = (('cigar-smoke', 'cigar-smoke', 8),
+ ('pen-squirt', 'fountain-pen', 7),
+ ('glower', 'glower', 5),
+ ('magic1', 'magic1', 5))
+mg = (('speak', 'speak', 5),
+ ('glower', 'glower', 5),     
+ ('throw-paper', 'throw-paper', 5),
+ ('throw-object', 'throw-object', 5),
+ ('magic1', 'magic1', 5),
+ ('finger-wag', 'finger-wag', 5))
+bfh = (('magic1', 'magic1', 5), ('throw-paper', 'throw-paper', 3.5), ('glower', 'glower', 5), ('watercooler', 'watercooler', 5), ('effort', 'effort', 5))
+hho = (('cigar-smoke', 'cigar-smoke', 8),
+ ('pen-squirt', 'fountain-pen', 7),
+ ('glower', 'glower', 5),
+ ('throw-paper', 'throw-paper', 5),
+ ('magic1', 'magic1', 5),
+ ('song-and-dance', 'song-and-dance', 8),
+ ('magic2', 'magic2', 5),
+ ('golf-club-swing', 'golf-club-swing', 5))
 sc = (('throw-paper', 'throw-paper', 3.5), ('watercooler', 'watercooler', 5), ('pickpocket', 'pickpocket', 5))
 pp = (('throw-paper', 'throw-paper', 5), ('glower', 'glower', 5), ('finger-wag', 'fingerwag', 5))
 tw = (('throw-paper', 'throw-paper', 3.5),
@@ -347,7 +382,8 @@ class Suit(Avatar.Avatar):
     medallionColors = {'c': Vec4(0.863, 0.776, 0.769, 1.0),
      's': Vec4(0.843, 0.745, 0.745, 1.0),
      'l': Vec4(0.749, 0.776, 0.824, 1.0),
-     'm': Vec4(0.749, 0.769, 0.749, 1.0)}
+     'm': Vec4(0.749, 0.769, 0.749, 1.0),
+     'g': Vec4(0.863, 0.776, 0.769, 1.0)}
 
     def __init__(self):
         try:
@@ -604,6 +640,8 @@ class Suit(Avatar.Avatar):
             tieTex = loader.loadTexture('phase_5/maps/cog_robot_tie_legal.jpg')
         elif dept == 'm':
             tieTex = loader.loadTexture('phase_5/maps/cog_robot_tie_money.jpg')
+        elif dept == 'g':
+            tieTex = loader.loadTexture('phase_5/maps/cog_robot_tie_board.jpg')
         tieTex.setMinfilter(Texture.FTLinearMipmapLinear)
         tieTex.setMagfilter(Texture.FTLinear)
         tie.setTexture(tieTex, 1)
@@ -620,6 +658,8 @@ class Suit(Avatar.Avatar):
             self.corpMedallion = icons.find('**/LegalIcon').copyTo(chestNull)
         elif dept == 'm':
             self.corpMedallion = icons.find('**/MoneyIcon').copyTo(chestNull)
+        elif dept == 'g':
+            self.corpMedallion = icons.find('**/BoardIcon').copyTo(chestNull)
         self.corpMedallion.setPosHprScale(0.02, 0.05, 0.04, 180.0, 0.0, 0.0, 0.51, 0.51, 0.51)
         self.corpMedallion.setColor(self.medallionColors[dept])
         icons.removeNode()

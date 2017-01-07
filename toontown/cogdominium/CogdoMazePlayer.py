@@ -30,6 +30,7 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         self._throwSfx = base.cogdoGameAudioMgr.createSfxIval('throw')
         self.accept(toon.getDisableEvent(), self.removed)
         self.request('Off')
+        return
 
     def destroy(self):
         if self.equippedGag:

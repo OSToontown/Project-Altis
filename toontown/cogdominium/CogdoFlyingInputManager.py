@@ -24,6 +24,7 @@ class CogdoFlyingInputManager:
         self.arrowKeys.destroy()
         self.arrowKeys = None
         self.refuelLerp = None
+        return
 
     def __upArrowPressed(self):
         pass

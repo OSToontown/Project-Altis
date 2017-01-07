@@ -44,7 +44,6 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
          'squashed': False,
          'boss': False,
          'minion': False}
-        
         self.accept(base.JUMP, self.controlKeyPressed)
 
     def destroy(self):
@@ -147,6 +146,7 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
             self.hints['squashed'] = True
         self._hitByDropSfx.play()
         CogdoMazePlayer.hitByDrop(self)
+        return
 
     def equipGag(self):
         CogdoMazePlayer.equipGag(self)
@@ -160,7 +160,6 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         if suitType == Globals.SuitTypes.Boss and not self.hints['boss']:
             self._guiMgr.setMessageTemporary(TTLocalizer.CogdoMazeBossHint, Globals.HintTimeout)
             self.hints['boss'] = True
-        
         if suitType != Globals.SuitTypes.Boss and not self.hints['minion']:
             self._guiMgr.setMessageTemporary(TTLocalizer.CogdoMazeMinionHint, Globals.HintTimeout)
             self.hints['minion'] = True
@@ -187,15 +186,16 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         CogdoMazePlayer.removeGag(self)
         self.throwPending = False
         messenger.send(Globals.WaterCoolerShowEventName, [])
+        return
 
     def controlKeyPressed(self):
         if self.game.finished or self.throwPending or self.getCurrentOrNextState() == 'Hit' or self.equippedGag == None:
             return
-        
         self.throwPending = True
         heading = self.toon.getH()
         pos = self.toon.getPos()
         self.game.requestUseGag(pos.getX(), pos.getY(), heading)
+        return
 
     def completeThrow(self):
         self.clearCollisions()
@@ -256,7 +256,6 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
          self.toon.hp,
          self.toon.maxHp,
          len(self.game.players)))
-        
         if self.numEntered > len(self.game.players):
             self.notify.info('%d player(s) failed in maze game' % (self.numEntered - len(self.game.players)))
 

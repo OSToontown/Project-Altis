@@ -531,6 +531,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
             self.toonMerits[avId] = [0,
              0,
              0,
+             0,
              0]
         if avId not in self.toonOrigQuests:
             flattenedQuests = []

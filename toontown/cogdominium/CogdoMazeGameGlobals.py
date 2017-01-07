@@ -83,20 +83,17 @@ SuitWalkSameDirectionProb = 1
 SuitWalkTurnAroundProb = 100
 SuitTypes = PythonUtil.Enum(('Boss', 'FastMinion', 'SlowMinion'))
 SuitData = {}
-SuitData[SuitTypes.Boss] = {'dnaName': 'ms',
- 'cellWalkPeriod': 192,
+SuitData[SuitTypes.Boss] = {'cellWalkPeriod': 192,
  'toonDamage': 3.0,
  'scale': 2.5,
  'hp': 2,
  'memos': 0}
-SuitData[SuitTypes.FastMinion] = {'dnaName': 'nd',
- 'cellWalkPeriod': 64,
+SuitData[SuitTypes.FastMinion] = {'cellWalkPeriod': 64,
  'toonDamage': 1.0,
  'scale': 1.3,
  'hp': 1,
  'memos': 3}
-SuitData[SuitTypes.SlowMinion] = {'dnaName': 'cc',
- 'cellWalkPeriod': 160,
+SuitData[SuitTypes.SlowMinion] = {'cellWalkPeriod': 160,
  'toonDamage': 2.0,
  'scale': 1.33,
  'hp': 1,
@@ -201,7 +198,7 @@ MapGuiFgColor = (0.5,
  0.5,
  0.5,
  1)
-MapGuiPos = (1.05, 0.0, -0.71)
+MapGuiPos = (-0.283, 0, 0.290)
 MapGuiScale = 0.225
 MapGuiSuitMarkerFlashColor = (1.0, 0.0, 0.0)
 MapGuiSuitMarkerSize = 0.075

@@ -1,12 +1,14 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.gui.DirectGui import *
+from toontown.toon import DistributedToon
 from toontown.toonbase import ToontownGlobals, TTLocalizer
 from toontown.cogdominium import CogdoBarrelRoomConsts
 
 class CogdoBarrelRoomRewardPanel(DirectFrame):
 
     def __init__(self):
-        DirectFrame.__init__(self, relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_scale=TTLocalizer.RPdirectFrame, pos=(0, 0, 0.587))
+        DirectFrame.__init__(self, relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_scale=TTLocalizer.RPdirectFrame, pos=(0, 0, -0.587))
         self.initialiseoptions(CogdoBarrelRoomRewardPanel)
         self.avNameLabel = DirectLabel(parent=self, relief=None, pos=(0, 0, 0.3), text='Toon Ups', text_scale=0.08)
         self.rewardLines = []
@@ -22,15 +24,15 @@ class CogdoBarrelRoomRewardPanel(DirectFrame):
 
         return
 
-    def setRewards(self, results):
-        for p in xrange(len(results[0])):
-            doId = results[0][p]
-            laff = results[1][p]
-            if doId > 0 and doId in base.cr.doId2do:
-                toon = base.cr.doId2do[doId]
-                self.rewardLines[p]['name'].setProp('text', toon.getName())
-                self.rewardLines[p]['laff'].setProp('text', str(laff))
+    def setRewards(self):
+        RewardLineIndex = 0
+        for doId in base.cr.doId2do:
+            toon = base.cr.doId2do.get(doId)
+            if isinstance(toon, DistributedToon.DistributedToon):
+                self.rewardLines[RewardLineIndex]['name'].setProp('text', toon.getName())
+                self.rewardLines[RewardLineIndex]['laff'].setProp('text', '%s/%s' % (str(toon.hp), str(toon.maxHp)))
                 if doId == base.localAvatar.getDoId():
-                    self.rewardLines[p]['frame'].setProp('relief', DGG.RIDGE)
-                    self.rewardLines[p]['frame'].setProp('borderWidth', (0.01, 0.01))
-                    self.rewardLines[p]['frame'].setProp('frameColor', (1, 1, 1, 0.5))
+                    self.rewardLines[RewardLineIndex]['frame'].setProp('relief', DGG.RIDGE)
+                    self.rewardLines[RewardLineIndex]['frame'].setProp('borderWidth', (0.01, 0.01))
+                    self.rewardLines[RewardLineIndex]['frame'].setProp('frameColor', (1, 1, 1, 0.5))
+                RewardLineIndex += 1
