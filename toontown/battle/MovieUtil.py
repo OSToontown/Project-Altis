@@ -76,6 +76,10 @@ def avatarHide(avatar):
         notify.debug('avatar.battleTrapProp = %s' % avatar.battleTrapProp)
     avatar.detachNode()
 
+	
+def miscHide(misc):
+    misc.detachNode()
+
 
 def copyProp(prop):
     from direct.actor import Actor
@@ -325,12 +329,12 @@ def createSuitReviveTrack(suit, toon, battle, npcs = []):
     return Parallel(suitTrack, deathSoundTrack, gears1Track, gears2MTrack, toonMTrack)
 
 
-def createSuitDeathTrack(suit, toon, battle, npcs = []):
+def createSuitDeathTrack(suit, toon, battle, npcs = [], headless = False):
     suitTrack = Sequence()
     suitPos, suitHpr = battle.getActorPosHpr(suit)
     if hasattr(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
         suitTrack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
-    deathSuit = suit.getLoseActor()
+    deathSuit = suit.getLoseActor(headless=headless)
     deathSuit.setBlend(frameBlend = True)
     suitTrack.append(Func(notify.debug, 'before insertDeathSuit'))
     suitTrack.append(Func(insertDeathSuit, suit, deathSuit, battle, suitPos, suitHpr))
