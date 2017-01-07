@@ -365,11 +365,22 @@ def getPartName(partArray):
 
 def isSuitComplete(parts, dept):
     dept = dept2deptIndex(dept)
-    for p in xrange(len(PartsQueryMasks)):
+    for p in range(len(PartsQueryMasks)):
         if getNextPart(parts, p, dept):
             return 0
 
     return 1
+    
+def isPaidSuitComplete(av, parts, dept):
+    isPaid = 0
+    base = getBase()
+    if av and av.getGameAccess() == OTPGlobals.AccessFull:
+        isPaid = 1
+    if isPaid:
+        if isSuitComplete(parts, dept):
+            return 1
+    return 0
+
 
 def getTotalMerits(toon, index):
     from toontown.battle import SuitBattleGlobals

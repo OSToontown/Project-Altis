@@ -4776,7 +4776,7 @@ def cogIndex(index):
     """
     Modifies the invoker's Cog index.
     """
-    if not -1 <= index <= 3:
+    if not -1 <= index <= 4:
         return 'Invalid Cog index.'
     invoker = spellbook.getInvoker()
     invoker.b_setCogIndex(index)

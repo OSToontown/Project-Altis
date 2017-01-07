@@ -944,14 +944,16 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setCogIndex(self, index):
         self.cogIndex = index
-        if self.cogIndex == -1:
+        if self.cogIndex <= -1:
             if self.isDisguised:
                 self.takeOffSuit()
         else:
             parts = self.getCogParts()
+            self.notify.debug("Applying Suit!")
             if CogDisguiseGlobals.isPaidSuitComplete(self, parts, index):
                 cogIndex = self.cogTypes[index] + SuitDNA.suitsPerDept * index
                 cog = SuitDNA.suitHeadTypes[cogIndex]
+                self.notify.info(cog)
                 self.putOnSuit(cog)
             else:
                 self.putOnSuit(index, rental=True)
