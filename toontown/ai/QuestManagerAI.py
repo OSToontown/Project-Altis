@@ -437,6 +437,26 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
+		
+    def toonKilledCogdo(self, toon, track, difficulty, zoneId, activeToons):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        zoneId = ZoneUtil.getBranchZone(zoneId)
+
+        # Iterate through the avatars current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if questClass.getCompletionStatus(av, questDesc) == Quests.INCOMPLETE:
+                if isinstance(questClass, Quests.CogdoQuest):
+                    if questClass.isLocationMatch(zoneId):
+                        if questClass.doesCogdoTypeCount(type):
+                            if questClass.doesCogdoCount(av, activeToons):
+                                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
 
     def toonDefeatedFactory(self, av, factoryId, activeVictors):
         # Get the avatars current quests.
@@ -471,7 +491,32 @@ class QuestManagerAI:
         av.b_setQuests(questList)
 
     def toonDefeatedStage(self, av, stageId, activeVictors):
-        pass
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.StageQuest):
+                if questClass.doesStageCount(av, stageId, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+		
+    def toonDefeatedCountryClub(self, toon, countryClubId, activeToonVictors):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.ClubQuest):
+                if questClass.doesClubCount(av, clubId, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
 
     def toonKilledCogs(self, av, suitsKilled, zoneId, activeToonList):
         # Get the avatar's current quests.
