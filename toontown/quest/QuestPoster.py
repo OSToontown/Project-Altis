@@ -377,6 +377,8 @@ class QuestPoster(DirectFrame):
                             icon = cogIcons.find('**/LegalIcon')
                         elif holder == 'm':
                             icon = cogIcons.find('**/MoneyIcon')
+                        elif holder == 'g':
+                            icon = cogIcons.find('**/BoardIcon')
                         rIconGeom = icon.copyTo(hidden)
                         rIconGeom.setColor(Suit.Suit.medallionColors[holder])
                         rIconGeomScale = 0.12
@@ -390,7 +392,7 @@ class QuestPoster(DirectFrame):
                         rIconGeom = self.createSuitHead(holder)
                     lPos.setX(-0.18)
                     auxText = TTLocalizer.QuestPosterAuxFrom
-                infoText = quest.getLocationName()
+                infoText = string.capwords(quest.getLocationName())
                 if infoText == '':
                     infoText = TTLocalizer.QuestPosterAnywhere
         elif quest.getType() == Quests.VisitQuest:
@@ -403,12 +405,13 @@ class QuestPoster(DirectFrame):
         elif quest.getType() == Quests.TrackChoiceQuest:
             frameBgColor = 'green'
             invModel = loader.loadModel('phase_3.5/models/gui/inventory_icons')
-            track1, track2 = quest.getChoices()
-            lIconGeom = invModel.find('**/' + AvPropsNew[track1][1])
+            posChoices = []
+            access = base.localAvatar.getTrackAccess()
+            for i in xrange(len(Tracks)):
+                if access[i] == 0:
+                    posChoices.append(i)
+            lIconGeom = invModel.find('**/' + AvPropsNew[random.choice(posChoices)][1])
             if not fComplete:
-                auxText = TTLocalizer.QuestPosterAuxOr
-                lPos.setX(-0.18)
-                rIconGeom = invModel.find('**/' + AvPropsNew[track2][1])
                 infoText = TTLocalizer.QuestPageNameAndDestination % (toNpcName,
                  toNpcBuildingName,
                  toNpcStreetName,
@@ -427,6 +430,8 @@ class QuestPoster(DirectFrame):
                 lIconGeom = loader.loadModel('phase_4/models/modules/suit_landmark_money')
             elif track == 's':
                 lIconGeom = loader.loadModel('phase_4/models/modules/suit_landmark_sales')
+            elif track == 'g':
+                lIconGeom = loader.loadModel('phase_4/models/modules/suit_landmark_board')
             else:
                 bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
                 lIconGeom = bookModel.find('**/COG_building')
@@ -460,6 +465,75 @@ class QuestPoster(DirectFrame):
                 bookModel.removeNode()
             if rIconGeom and track != Quests.Any:
                 self.loadElevator(rIconGeom, numFloors)
+                rIconGeom.setH(180)
+                self.fitGeometry(rIconGeom, fFlip=0)
+                rIconGeomScale = IMAGE_SCALE_SMALL
+            else:
+                rIconGeomScale = 0.13
+            if not fComplete:
+                headlineString = TTLocalizer.QuestsNewbieQuestHeadline
+                captions = [quest.getCaption()]
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
+                auxText = TTLocalizer.QuestsCogNewbieQuestAux
+                lPos.setX(-0.18)
+                self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
+                self.laffMeter.setScale(0.04)
+                lIconGeom = None
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+            else:
+                lIconGeom = rIconGeom
+                rIconGeom = None
+                lIconGeomScale = rIconGeomScale
+                rIconGeomScale = 1
+        elif quest.getType() == Quests.CogdoQuest:
+            frameBgColor = 'blue'
+            track = quest.getCogdoTrack()
+            numFloors = 1
+            if track == 'c':
+                lIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeMoverShaker')
+            elif track == 'l':
+                lIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeLegalEagle')
+            elif track == 'm':
+                lIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeLoanShark')
+            elif track == 's':
+                lIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeMoverShaker')
+            elif track == 'g':
+                lIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeMoverShaker')
+            else:
+                bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+                lIconGeom = bookModel.find('**/COG_building')
+                bookModel.removeNode()
+            if lIconGeom and track != Quests.Any:
+                self.loadElevator(lIconGeom, numFloors, isCogdo=True)
+                lIconGeom.setH(180)
+                self.fitGeometry(lIconGeom, fFlip=0)
+                lIconGeomScale = IMAGE_SCALE_SMALL
+            else:
+                lIconGeomScale = 0.13
+            if not fComplete:
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+        elif quest.getType() == Quests.CogdoNewbieQuest:
+            frameBgColor = 'blue'
+            track = quest.getCogdoTrack()
+            numFloors = 1
+            if track == 'c':
+                rIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeMoverShaker')
+            elif track == 'l':
+                rIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeLegalEagle')
+            elif track == 'm':
+                rIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeLoanShark')
+            elif track == 's':
+                rIconGeom = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_cbe_fieldOfficeMoverShaker')
+            else:
+                bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+                rIconGeom = bookModel.find('**/COG_building')
+                bookModel.removeNode()
+            if rIconGeom and track != Quests.Any:
+                self.loadElevator(rIconGeom, numFloors, isCogdo=True)
                 rIconGeom.setH(180)
                 self.fitGeometry(rIconGeom, fFlip=0)
                 rIconGeomScale = IMAGE_SCALE_SMALL
@@ -529,6 +603,72 @@ class QuestPoster(DirectFrame):
             frameBgColor = 'blue'
             bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
             rIconGeom = bookModel.find('**/CashBotMint')
+            bookModel.removeNode()
+            rIconGeomScale = 0.13
+            if not fComplete:
+                headlineString = TTLocalizer.QuestsNewbieQuestHeadline
+                captions = [quest.getCaption()]
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
+                auxText = TTLocalizer.QuestsCogNewbieQuestAux
+                lPos.setX(-0.18)
+                self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
+                self.laffMeter.setScale(0.04)
+                lIconGeom = None
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+            else:
+                lIconGeom = rIconGeom
+                rIconGeom = None
+                lIconGeomScale = rIconGeomScale
+                rIconGeomScale = 1
+        elif quest.getType() == Quests.StageQuest:
+            frameBgColor = 'blue'
+            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+            lIconGeom = bookModel.find('**/LawBotStage')
+            bookModel.removeNode()
+            lIconGeomScale = 0.13
+            if not fComplete:
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+        elif quest.getType() == Quests.StageNewbieQuest:
+            frameBgColor = 'blue'
+            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+            rIconGeom = bookModel.find('**/LawBotStage')
+            bookModel.removeNode()
+            rIconGeomScale = 0.13
+            if not fComplete:
+                headlineString = TTLocalizer.QuestsNewbieQuestHeadline
+                captions = [quest.getCaption()]
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
+                auxText = TTLocalizer.QuestsCogNewbieQuestAux
+                lPos.setX(-0.18)
+                self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
+                self.laffMeter.setScale(0.04)
+                lIconGeom = None
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+            else:
+                lIconGeom = rIconGeom
+                rIconGeom = None
+                lIconGeomScale = rIconGeomScale
+                rIconGeomScale = 1
+        elif quest.getType() == Quests.ClubQuest:
+            frameBgColor = 'blue'
+            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+            lIconGeom = bookModel.find('**/BossBotKart')
+            bookModel.removeNode()
+            lIconGeomScale = 0.13
+            if not fComplete:
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+        elif quest.getType() == Quests.ClubNewbieQuest:
+            frameBgColor = 'blue'
+            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+            rIconGeom = bookModel.find('**/BossBotKart')
             bookModel.removeNode()
             rIconGeomScale = 0.13
             if not fComplete:
@@ -778,6 +918,8 @@ class QuestPoster(DirectFrame):
                     icon = cogIcons.find('**/LegalIcon')
                 elif dept == 'm':
                     icon = cogIcons.find('**/MoneyIcon')
+                elif dept == 'g':
+                    icon = cogIcons.find('**/BoardIcon')
                 lIconGeom = icon.copyTo(hidden)
                 lIconGeom.setColor(Suit.Suit.medallionColors[dept])
                 cogIcons.removeNode()
@@ -830,6 +972,8 @@ class QuestPoster(DirectFrame):
                     icon = cogIcons.find('**/LegalIcon')
                 elif dept == 'm':
                     icon = cogIcons.find('**/MoneyIcon')
+                elif dept == 'g':
+                    icon = cogIcons.find('**/BoardIcon')
                 lIconGeom = icon.copyTo(hidden)
                 lIconGeom.setColor(Suit.Suit.medallionColors[dept])
                 cogIcons.removeNode()
@@ -868,7 +1012,7 @@ class QuestPoster(DirectFrame):
                 lIconGeomScale = IMAGE_SCALE_SMALL
                 cogIcons.removeNode()
             if not fComplete:
-                infoText = quest.getLocationName()
+                infoText = string.capwords(quest.getLocationName())
                 if infoText == '':
                     infoText = TTLocalizer.QuestPosterAnywhere
         if fComplete:
