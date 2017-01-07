@@ -7,6 +7,7 @@ from BattleSounds import *
 from toontown.battle import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import MovieUtil
+from toontown.chat.ChatGlobals import *
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattleParticles
 from toontown.battle import BattleProps
@@ -561,10 +562,11 @@ TRAIN_TUNNEL_END_X = 7.1
 TRAIN_TRAVEL_DISTANCE = 45
 TRAIN_SPEED = 35.0
 TRAIN_DURATION = TRAIN_TRAVEL_DISTANCE / TRAIN_SPEED
-TRAIN_MATERIALIZE_TIME = 3
+TRAIN_MATERIALIZE_TIME = 4
 TOTAL_TRAIN_TIME = TRAIN_DURATION + TRAIN_MATERIALIZE_TIME
 
 def createSuitReactionToTrain(battle, suit, hp, lure, trapProp):
+    head = suit.getHeadParts()[0]
     toon = lure['toon']
     retval = Sequence()
     suitPos, suitHpr = battle.getActorPosHpr(suit)
@@ -577,7 +579,7 @@ def createSuitReactionToTrain(battle, suit, hp, lure, trapProp):
     suitReact = ActorInterval(suit, anim)
     cogGettingHit = getSoundTrack('TL_train_cog.ogg', node=toon)
     suitTrack.append(Func(suit.loop, 'neutral'))
-    suitTrack.append(Wait(timeToGetHit + TRAIN_MATERIALIZE_TIME))
+    suitTrack.append(Parallel(Sequence(Wait(timeToGetHit-2), Func(suit.setChatAbsolute, 'Uh Oh...', CFSpeech | CFTimeout)), Sequence(LerpHprInterval(head, 1, (-60, 0, 0)), Wait(1), LerpHprInterval(head, 1, (0, 0, 0))), Wait(timeToGetHit + TRAIN_MATERIALIZE_TIME)))
     suitTrack.append(updateHealthBar)
     suitTrack.append(Parallel(suitReact, cogGettingHit))
     suitTrack.append(showDamage)
