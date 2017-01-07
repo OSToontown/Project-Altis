@@ -2269,13 +2269,9 @@ RewardPanelMeritsMaxed = 'Maxed'
 RewardPanelMeritBarLabels = ['Stock Options',
  'Jury Notices',
  'Cogbucks',
-<<<<<<< HEAD
  'Merits',
  'Gears']
-=======
- 'Merits']
 RewardPanelMeritAlert = 'Ready for promotion!'
->>>>>>> 2c97507bd81c271331a1ac61fc194c8426802742
 RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
 RewardPanelSkip = 'Skip'
