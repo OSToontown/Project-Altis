@@ -4950,11 +4950,13 @@ class Toon(Avatar.Avatar, ToonHead):
             return Sequence(Func(self.nametag3d.show), self.__doToonGhostColorScale(None, lerpTime, keepDefault=1))
         return Sequence()
 
+            
     def putOnSuit(self, suitType, setDisplayName = True, rental = False):
         if self.isDisguised:
             self.takeOffSuit()
         if launcher and not launcher.getPhaseComplete(5):
             return
+        from toontown.suit import Suit
         deptIndex = suitType
         suit = Suit.Suit()
         dna = SuitDNA.SuitDNA()
@@ -4979,10 +4981,21 @@ class Toon(Avatar.Avatar, ToonHead):
         suit.initializeDropShadow()
         suit.setPos(self.getPos())
         suit.setHpr(self.getHpr())
+        '''for part in suit.getHeadParts():
+            part.hide()
 
+        suitHeadNull = suit.find('**/joint_head')
+        toonHead = self.getPart('head', '1000')'''
         Emote.globalEmote.disableAll(self)
         toonGeom = self.getGeomNode()
         toonGeom.hide()
+        '''worldScale = toonHead.getScale(render)
+        self.headOrigScale = toonHead.getScale()
+        headPosNode = hidden.attachNewNode('headPos')
+        toonHead.reparentTo(headPosNode)
+        toonHead.setPos(0, 0, 0.2
+        headPosNode.reparentTo(suitHeadNull)
+        headPosNode.setScale(render, worldScale)'''
         suitGeom = suit.getGeomNode()
         suitGeom.reparentTo(self)
         if rental == True:
@@ -4994,18 +5007,23 @@ class Toon(Avatar.Avatar, ToonHead):
         if self.isLocal():
             if hasattr(self, 'book'):
                 self.book.obscureButton(1)
+            self.oldForward = ToontownGlobals.ToonForwardSpeed
+            self.oldReverse = ToontownGlobals.ToonReverseSpeed
+            self.oldRotate = ToontownGlobals.ToonRotateSpeed
+            ToontownGlobals.ToonForwardSpeed = ToontownGlobals.SuitWalkSpeed
+            ToontownGlobals.ToonReverseSpeed = ToontownGlobals.SuitWalkSpeed
+            ToontownGlobals.ToonRotateSpeed = ToontownGlobals.ToonRotateSlowSpeed
             if self.hasTrackAnimToSpeed():
                 self.stopTrackAnimToSpeed()
                 self.startTrackAnimToSpeed()
+            self.controlManager.disableAvatarJump()
             indices = range(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1)
             customIndices = OTPLocalizer.SCMenuCustomCogIndices[suitType]
             indices += range(customIndices[0], customIndices[1] + 1)
             self.chatMgr.chatInputSpeedChat.addCogMenu(indices)
-            self.setHealthDisplay(1)
         self.suit.loop('neutral')
         self.isDisguised = 1
         self.setFont(ToontownGlobals.getSuitFont())
-        self.setSpeechFont(ToontownGlobals.getSuitFont())
         if setDisplayName:
             if hasattr(base, 'idTags') and base.idTags:
                 name = self.getAvIdName()
@@ -5016,12 +5034,21 @@ class Toon(Avatar.Avatar, ToonHead):
             self.nametag.setText(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
              'dept': suitName,
              'level': self.cogLevels[suitDept] + 1})
-            self.nametag.setWordwrap(9.0)
+            self.nametag.setWordWrap(9.0)
 
     def takeOffSuit(self):
         if not self.isDisguised:
             return
         suitType = self.suit.style.name
+        '''toonHeadNull = self.find('**/1000/**/def_head')
+        if not toonHeadNull:
+            toonHeadNull = self.find('**/1000/**/joint_head')
+        toonHead = self.getPart('head', '1000')
+        toonHead.reparentTo(toonHeadNull)
+        toonHead.setScale(self.headOrigScale)
+        toonHead.setPos(0, 0, 0)
+        headPosNode = self.suitGeom.find('**/headPos')
+        headPosNode.removeNode()'''
         self.suitGeom.reparentTo(self.suit)
         self.resetHeight()
         self.nametag3d.setPos(0, 0, self.height + 0.5)
@@ -5030,8 +5057,7 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseAll(self)
         self.isDisguised = 0
         self.setFont(ToontownGlobals.getToonFont())
-        self.setSpeechFont(ToontownGlobals.getToonFont())
-        self.nametag.setWordwrap(None)
+        self.nametag.setWordWrap(None)
         if hasattr(base, 'idTags') and base.idTags:
             name = self.getAvIdName()
         else:
@@ -5040,11 +5066,17 @@ class Toon(Avatar.Avatar, ToonHead):
         if self.isLocal():
             if hasattr(self, 'book'):
                 self.book.obscureButton(0)
+            ToontownGlobals.ToonForwardSpeed = self.oldForward
+            ToontownGlobals.ToonReverseSpeed = self.oldReverse
+            ToontownGlobals.ToonRotateSpeed = self.oldRotate
             if self.hasTrackAnimToSpeed():
                 self.stopTrackAnimToSpeed()
                 self.startTrackAnimToSpeed()
+            del self.oldForward
+            del self.oldReverse
+            del self.oldRotate
+            self.controlManager.enableAvatarJump()
             self.chatMgr.chatInputSpeedChat.removeCogMenu()
-            self.setHealthDisplay(0)
         self.suit.delete()
         del self.suit
         del self.suitGeom
