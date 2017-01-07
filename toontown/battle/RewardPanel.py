@@ -452,6 +452,7 @@ class RewardPanel(DirectFrame):
         self.meritIncLabels[dept].show()
 
     def getTrackIntervalList(self, toon, track, origSkill, earnedSkill, hasUber, guestWaste = 0):
+        self.notify.debug("getTrackIntervalList() was called!")
         if hasUber < 0:
             print (toon.doId, 'Reward Panel received an invalid hasUber from an uberList')
         tickDelay = 1.0 / 60
@@ -507,6 +508,7 @@ class RewardPanel(DirectFrame):
         return intervalList
 
     def getMeritIntervalList(self, toon, dept, origMerits, earnedMerits):
+        self.notify.debug("getMeritIntervalList() was called!")
         tickDelay = 1.0 / 60
         intervalList = []
         totalMerits = CogDisguiseGlobals.getTotalMerits(toon, dept)
@@ -575,6 +577,7 @@ class RewardPanel(DirectFrame):
         return intervalList
 
     def getQuestIntervalList(self, toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList = []):
+        self.notify.debug("getQuestIntervalList() was called!")
         avId = toon.getDoId()
         tickDelay = 0.2
         intervalList = []
@@ -706,6 +709,9 @@ class RewardPanel(DirectFrame):
         return intervalList
 
     def getExpTrack(self, toon, origExp, earnedExp, deathList, origQuestsList, itemList, missedItemList, origMeritList, meritList, partList, toonList, uberEntry, helpfulToonsList, noSkip = False):
+        self.notify.debug("getExpTrack() was called!")
+        self.notify.debug("earnedExp = %s" % str(earnedExp))
+        self.notify.debug("meritList = %s" % str(meritList))
         track = Sequence(Func(self.initGagFrame, toon, origExp, origMeritList, noSkip=noSkip), Wait(1.0))
         endTracks = [0,
          0,
@@ -716,25 +722,29 @@ class RewardPanel(DirectFrame):
          0,
          0]
         trackEnded = 0
-        for trackIndex in xrange(len(earnedExp)):
+        self.notify.debug("Appending Track Interval Lists!")
+        for trackIndex in range(len(earnedExp)):
             if earnedExp[trackIndex] > 0 or origExp[trackIndex] >= ToontownBattleGlobals.MaxSkill:
                 track += self.getTrackIntervalList(toon, trackIndex, origExp[trackIndex], earnedExp[trackIndex], ToontownBattleGlobals.getUberFlagSafe(uberEntry, trackIndex))
                 maxExp = ToontownBattleGlobals.MaxSkill - ToontownBattleGlobals.UberSkill
                 if origExp[trackIndex] < maxExp and earnedExp[trackIndex] + origExp[trackIndex] >= maxExp:
                     endTracks[trackIndex] = 1
                     trackEnded = 1
-
-        for dept in xrange(len(SuitDNA.suitDepts)):
+                    
+        self.notify.debug("Appending Merit Interval Lists!")
+        for dept in range(len(SuitDNA.suitDepts)):
             if meritList[dept]:
                 track += self.getMeritIntervalList(toon, dept, origMeritList[dept], meritList[dept])
 
         track.append(Wait(0.75))
+        self.notify.debug("Appending Item Interval Lists!")
         itemInterval = self.getItemIntervalList(toon, itemList)
         if itemInterval:
             track.append(Func(self.initItemFrame, toon))
             track.append(Wait(0.25))
             track += itemInterval
             track.append(Wait(0.5))
+        self.notify.debug("Appending Missed Item Interval Lists!")
         missedItemInterval = self.getMissedItemIntervalList(toon, missedItemList)
         if missedItemInterval:
             track.append(Func(self.initMissedItemFrame, toon))
