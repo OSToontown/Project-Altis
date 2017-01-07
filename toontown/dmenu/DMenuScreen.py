@@ -81,8 +81,19 @@ class DMenuScreen(DirectObject):
             
             self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', constrainedLoop=0, startFrame=236, endFrame=247), Func(self.arrowSfx.play)), Parallel(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', duration=604800, constrainedLoop=1, startFrame=247, endFrame=276), Sequence(Func(self.phase3Sfx.play), Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
             self.animSeq.start()
+            self.smPhase1 = self.sillyMeter.find('**/stage1')
+            self.smPhase1.show()
             self.smPhase2 = self.sillyMeter.find('**/stage2')
-            self.smPhase2.show()
+            self.smPhase2.hide()
+            self.smPhase3 = self.sillyMeter.find('**/stage3')
+            self.smPhase3.hide()
+            self.smPhase4 = self.sillyMeter.find('**/stage4')
+            self.smPhase4.hide()
+            
+            thermometerLocator = self.sillyMeter.findAllMatches('**/uvj_progressBar')[1]
+            thermometerMesh = self.sillyMeter.find('**/tube')
+            thermometerMesh.setTexProjector(thermometerMesh.findTextureStage('default'), thermometerLocator, self.sillyMeter)
+
             self.sillyMeter.loop('phaseOne', partName='meter')
             self.sillyMeter.setBlend(frameBlend = True)
             
