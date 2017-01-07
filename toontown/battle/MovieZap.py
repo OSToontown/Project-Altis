@@ -186,7 +186,7 @@ def shortCircuitTrack(suit, battle):
     suitPos, suitHpr = battle.getActorPosHpr(suit)
     suitTrack.append(Wait(0.15))
     suitTrack.append(Func(MovieUtil.avatarHide, suit))
-    deathSound = base.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+    deathSound = base.loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
     deathSoundTrack = Sequence(Wait(0.5), SoundInterval(deathSound, volume=0.8))
     BattleParticles.loadParticles()
     smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
