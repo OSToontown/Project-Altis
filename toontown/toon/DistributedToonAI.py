@@ -1155,13 +1155,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.cogRadar
 
     def b_setBuildingRadar(self, radar):
-        self.setBuildingRadar(radar)
+        self.setBuildingRadar(radar
         self.d_setBuildingRadar(radar)
 
     def setBuildingRadar(self, radar):
         if not radar:
-            self.notify.warning('buildingRadar set to bad value: %s. Resetting to [0,0,0,0]' % radar)
+            self.notify.warning('buildingRadar set to bad value: %s. Resetting to [0,0,0,0,0]' % radar)
             self.buildingRadar = [0,
+             0,
              0,
              0,
              0]
