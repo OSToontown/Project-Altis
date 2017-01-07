@@ -12,6 +12,18 @@ from toontown.hood import ZoneUtil
 from direct.showbase.PythonUtil import lerp
 
 class BattleCalculatorAI:
+    AccuracyBonuses = [0, 20, 40, 60]
+    DamageBonuses = [0, 20, 20, 20]
+    AttackExpPerTrack = [0, 10, 20, 30, 40, 50, 60]
+    TRAP_CONFLICT = -2
+    APPLY_HEALTH_ADJUSTMENTS = 1
+    TOONS_TAKE_NO_DAMAGE = 0
+    CAP_HEALS = 1
+    CLEAR_SUIT_ATTACKERS = 1
+    SUITS_UNLURED_IMMEDIATELY = 1
+    CLEAR_MULTIPLE_TRAPS = 0
+    KBBONUS_LURED_FLAG = 0
+    KBBONUS_TGT_LURED = 1
     notify = DirectNotifyGlobal.directNotify.newCategory('BattleCalculatorAI')
     toonsAlwaysHit = simbase.config.GetBool('toons-always-hit', 0)
     toonsAlwaysMiss = simbase.config.GetBool('toons-always-miss', 0)

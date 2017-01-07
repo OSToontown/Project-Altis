@@ -169,7 +169,10 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
             bonusTrack.append(Func(suit.showHpText, -hpbonus, 1, openEnded=0, attackTrack=ZAP_TRACK))
             bonusTrack.append(updateHealthBar)
         if died != 0:
-            suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
+            if hp == suit.currHP:
+                suitTrack.append(shortCircuitTrack(suit, battle))
+            else:
+                suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
         else:
             suitTrack.append(Func(suit.loop, 'neutral'))
         if revived != 0:
@@ -177,6 +180,38 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         return Parallel(suitTrack, bonusTrack)
     else:
         return MovieUtil.createSuitZaplessMultiTrack(suit, 2.5)
+		
+def shortCircuitTrack(suit, battle):
+    suitTrack = Sequence()
+    suitPos, suitHpr = battle.getActorPosHpr(suit)
+    suitTrack.append(Wait(0.15))
+    suitTrack.append(Func(MovieUtil.avatarHide, suit))
+    deathSound = base.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+    deathSoundTrack = Sequence(Wait(0.5), SoundInterval(deathSound, volume=0.8))
+    BattleParticles.loadParticles()
+    smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
+    singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles=1)
+    smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
+    bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles=30)
+    gearPoint = Point3(suitPos.getX(), suitPos.getY(), suitPos.getZ() + suit.height - 0.2)
+    smallGears.setPos(gearPoint)
+    singleGear.setPos(gearPoint)
+    smallGears.setDepthWrite(False)
+    singleGear.setDepthWrite(False)
+    smallGearExplosion.setPos(gearPoint)
+    bigGearExplosion.setPos(gearPoint)
+    smallGearExplosion.setDepthWrite(False)
+    bigGearExplosion.setDepthWrite(False)
+    explosionTrack = Sequence()
+    explosionTrack.append(MovieUtil.createKapowExplosionTrack(battle, explosionPoint=gearPoint))
+    gears1Track = Sequence(Wait(0.5), ParticleInterval(smallGears, battle, worldRelative=0, duration=1.0, cleanup=True), name='gears1Track')
+    gears2MTrack = Track(
+        (0.1, ParticleInterval(singleGear, battle, worldRelative=0, duration=0.4, cleanup=True)),
+        (0.5, ParticleInterval(smallGearExplosion, battle, worldRelative=0, duration=0.5, cleanup=True)),
+        (0.9, ParticleInterval(bigGearExplosion, battle, worldRelative=0, duration=2.0, cleanup=True)), name='gears2MTrack'
+    )
+
+    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack, Wait(4.5))
 
 
 def say(statement):
@@ -543,8 +578,8 @@ def __doLightning(zap, delay, fShowStun, uberClone = 0):
     tButton = 0.0
     dButtonScale = 0.5
     dButtonHold = 3.0
-    tContact = 1
-    tSpray = 1
+    tContact = 1.5
+    tSpray = 1.5
     tSuitDodges = 1.8
     button = globalPropPool.getProp('button')
     button2 = MovieUtil.copyProp(button)
