@@ -104,8 +104,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                     self.__refreshPetInfo(av)
 
                 self.avatar.updateMoodFromServer(refresh)
-        base.hideFriendMargins()
-        return
 
     def __checkPetProximity(self, task = None):
         if self.petIsLocal:
@@ -270,9 +268,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         AvatarPanel.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        else:
-            base.showFriendMargins()
-        return
 
     def __fillPetInfo(self, avatar):
         self.notify.debug('__fillPetInfo(): doId=%s' % avatar.doId)
@@ -289,20 +284,21 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.nameLabel = DirectLabel(parent=self.frame, pos=(0, 0, 5.2), relief=None, text=avatar.getName(), text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_pos=(0, 0), text_scale=0.4, text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
         self.stateLabel = DirectLabel(parent=self.frame, pos=TTLocalizer.PAPstateLabelPos, relief=None, text='', text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_scale=TTLocalizer.PAPstateLabel, text_wordwrap=TTLocalizer.PAPstateLabelWordwrap, text_shadow=(1, 1, 1, 1))
         self.__refreshPetInfo(avatar)
-        return
 
     def __refreshPetInfo(self, avatar):
         self.notify.debug('__refreshPetInfo(): doId=%s' % avatar.doId)
         if avatar.doId != self.avatar.doId:
             self.notify.warning('avatar not self!')
             return
+        
         if self.frame == None:
             return
+        
         if not self.petIsLocal:
             self.avatar.updateOfflineMood()
+        
         mood = self.avatar.getDominantMood()
         self.stateLabel['text'] = TTLocalizer.PetMoodAdjectives[mood]
         self.nameLabel['text'] = avatar.getName()
         if self.petDetailPanel != None:
             self.petDetailPanel.update(avatar)
-        return

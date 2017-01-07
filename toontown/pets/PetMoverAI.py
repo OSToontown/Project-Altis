@@ -89,7 +89,8 @@ def angle(A, B):
 
     return math.atan2(by-ay, bx-ax)
 
-class PetMoverAI(FSM):    
+class PetMoverAI(FSM):
+
     def __init__(self, pet):
         self.pet = pet
         FSM.__init__(self, 'PetMoverAI-%d' % self.pet.doId)

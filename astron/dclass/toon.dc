@@ -3850,6 +3850,8 @@ dclass TTAFriendsManager : DistributedObjectGlobal {
   goingOffline(uint32 avId);
 
   getAvatarDetails(uint32) clsend;
+  getPetDetails(uint32) clsend;
+  
   friendDetails(uint32, blob, uint16[], uint16, int16, int16, uint32, uint32, blob, blob, int8[]);
 
   routeTeleportQuery(uint32 toId) clsend;

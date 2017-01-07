@@ -31,6 +31,9 @@ class TTAFriendsManager(DistributedObjectGlobal):
     def d_getAvatarDetails(self, avId):
         self.sendUpdate('getAvatarDetails', [avId])
 
+    def d_getPetDetails(self, petId):
+        self.sendUpdate('getPetDetails', [petId])
+
     def friendDetails(self, avId, inventory, trackAccess, trophies, hp, maxHp, defaultShard, lastHood, dnaString, experience, trackBonusLevel):
         fields = [
             ['setExperience' , experience],

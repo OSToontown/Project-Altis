@@ -247,6 +247,9 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
         
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
 
+    def getPetDetails(self, petId):
+        pass
+
     def toonOnline(self, doId, friendsList):
         self.onlineToons.append(doId)
 
