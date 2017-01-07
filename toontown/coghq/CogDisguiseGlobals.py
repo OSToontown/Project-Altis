@@ -345,8 +345,11 @@ suitTypes = PythonUtil.Enum(('NoSuit', 'NoMerits', 'FullSuit'))
 
 def getNextPart(parts, partIndex, dept):
     dept = dept2deptIndex(dept)
-    needMask = PartsPerSuitBitmasks[dept] & PartsQueryMasks[partIndex]
-    haveMask = parts[dept] & PartsQueryMasks[partIndex]
+    suitBitMask = PartsPerSuitBitmasks[dept] 
+    queryMask = PartsQueryMasks[partIndex]
+    needMask = queryMask & suitBitMask
+    parts = parts[dept]
+    haveMask = parts & queryMask
     nextPart = ~needMask | haveMask
     nextPart = nextPart ^ nextPart + 1
     nextPart = nextPart + 1 >> 1
