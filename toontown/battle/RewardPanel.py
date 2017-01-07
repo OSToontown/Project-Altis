@@ -95,7 +95,8 @@ class RewardPanel(DirectFrame):
          TTLocalizer.RewardPanelSkip,
          TTLocalizer.RewardPanelSkip,
          ''), text_scale=TTLocalizer.RPskipScale, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=TTLocalizer.RPskipPos, textMayChange=0, command=self._handleSkip)
-
+        self.notify.debug('Initialization done!')
+        
     def getNextExpValue(self, curSkill, trackIndex):
         retVal = ToontownBattleGlobals.UberSkill
         for amount in ToontownBattleGlobals.Levels[trackIndex]:
@@ -116,6 +117,7 @@ class RewardPanel(DirectFrame):
         return retVal
 
     def initItemFrame(self, toon):
+        self.notify.debug('Initializing Item Frame!')
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
@@ -126,6 +128,7 @@ class RewardPanel(DirectFrame):
         self.missedItemFrame.hide()
 
     def initMissedItemFrame(self, toon):
+        self.notify.debug('Initializing Missed Item Frame!')
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
@@ -136,6 +139,7 @@ class RewardPanel(DirectFrame):
         self.missedItemFrame.show()
 
     def initCogPartFrame(self, toon):
+        self.notify.debug('Initializing Cog Part Frame!')
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
@@ -147,6 +151,7 @@ class RewardPanel(DirectFrame):
         self.missedItemFrame.hide()
 
     def initQuestFrame(self, toon, avQuests):
+        self.notify.debug('Initializing Quest Frame!')
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
@@ -155,12 +160,12 @@ class RewardPanel(DirectFrame):
         self.itemFrame.hide()
         self.cogPartFrame.hide()
         self.missedItemFrame.hide()
-        for i in xrange(ToontownGlobals.MaxQuestCarryLimit):
+        for i in range(ToontownGlobals.MaxQuestCarryLimit):
             questLabel = self.questLabelList[i]
             questLabel['text_fg'] = (0, 0, 0, 1)
             questLabel.hide()
 
-        for i in xrange(len(avQuests)):
+        for i in range(len(avQuests)):
             questDesc = avQuests[i]
             questId, npcId, toNpcId, rewardId, toonProgress = questDesc
             quest = Quests.getQuest(questId)
@@ -180,7 +185,7 @@ class RewardPanel(DirectFrame):
                     questLabel['text'] = questString + ' :'
 
     def initGagFrame(self, toon, expList, meritList, noSkip = False):
-        self.notify.debug("Starting up gag frame!")
+        self.notify.debug('Initializing Gag Frame!')
         self.avNameLabel['text'] = toon.getName()
         self.endTrackFrame.hide()
         self.gagExpFrame.show()
@@ -227,7 +232,7 @@ class RewardPanel(DirectFrame):
                 meritBar.hide()
                 meritLabel.hide()
 
-        for i in xrange(len(expList)):
+        for i in range(len(expList)):
             curExp = expList[i]
             trackBar = self.trackBars[i]
             trackLabel = self.trackLabels[i]
@@ -280,6 +285,7 @@ class RewardPanel(DirectFrame):
          ToontownBattleGlobals.TrackColors[track][2], 1)
 
     def resetBarColor(self, track):
+        self.notify.debug('Resetting Bar Color for %s!' % str(track))
         self.trackBars[track]['barColor'] = (ToontownBattleGlobals.TrackColors[track][0] * 0.8,
          ToontownBattleGlobals.TrackColors[track][1] * 0.8,
          ToontownBattleGlobals.TrackColors[track][2] * 0.8, 1)
