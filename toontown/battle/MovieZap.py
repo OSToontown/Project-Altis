@@ -425,8 +425,13 @@ def __doBattery(zap, delay, fShowStun):
     tContact = 2
     tSuitDodges = 2.1
     tracks = Parallel()
-    toonTrack = Sequence(Wait(tAppearDelay), Func(MovieUtil.showProp, battery, hand_jointpath0), Func(toon.headsUp, battle, suitPos), Func(toon.loop, 'catch-run'), Wait(1), Func(toon.loop, 'catch-neutral'), Wait(3), Func(toon.stop), Func(toon.setHpr, battle, runBackHpr), Func(toon.loop, 'catch-run'), Func(toon.loop, 'neutral'), Func(MovieUtil.removeProp, battery), Func(toon.setHpr, battle, origHpr))
-    moveTrack = Sequence(Wait(tAppearDelay), LerpPosInterval(toon, runDur, midPos, other=battle), Wait(3), LerpPosInterval(toon, runDur, origPos, other=battle))
+    toonTrack = Sequence(Wait(tAppearDelay), Func(MovieUtil.showProp, battery, hand_jointpath0), Func(toon.headsUp, battle, suitPos), 
+        Func(toon.loop, 'catch-run'), Wait(1), Func(toon.loop, 'catch-neutral'), Wait(3), Func(toon.stop), Func(toon.setHpr, battle, runBackHpr),
+        Func(toon.loop, 'run'), Wait(1), Func(toon.stop), Func(toon.loop, 'catch-run'), Func(toon.loop, 'neutral'), Func(MovieUtil.removeProp, battery), Func(toon.setHpr, battle, origHpr))
+    
+    moveTrack = Sequence(Wait(tAppearDelay), LerpPosInterval(toon, runDur, midPos, other=battle), Wait(3), LerpPosInterval(toon, runDur, origPos, 
+        other=battle))
+    
     tracks.append(toonTrack)
     tracks.append(moveTrack)
     soundTrack = __getSoundTrack(level, hitSuit, tSprayDelay, toon)
@@ -440,10 +445,14 @@ def __doBattery(zap, delay, fShowStun):
 
     sprayTrack = Sequence()
     sprayTrack.append(Wait(tSprayDelay))
-    sprayTrack.append(MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, horizScale=scale, vertScale=scale))
+    sprayTrack.append(MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, 
+        horizScale=scale, vertScale=scale))
+    
     tracks.append(sprayTrack)
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, 
+            fShowStun, revived=revived))
+    
     return tracks
 
 
@@ -482,8 +491,14 @@ def __doTazer(zap, delay, fShowStun):
     tContact = 2
     tSuitDodges = 2.1
     tracks = Parallel()
-    toonTrack = Sequence(Wait(tAppearDelay), Func(MovieUtil.showProp, tazer, hand_jointpath0), Func(toon.headsUp, battle, suitPos), Func(toon.loop, 'run'), Wait(1), Func(toon.pingpong, 'cast', fromFrame=30, toFrame=40), Wait(3), Func(toon.stop), Func(toon.setHpr, battle, runBackHpr), Func(toon.loop, 'run'), Func(toon.loop, 'neutral'), Func(MovieUtil.removeProp, tazer), Func(toon.setHpr, battle, origHpr))
-    moveTrack = Sequence(Wait(tAppearDelay), LerpPosInterval(toon, runDur, midPos, other=battle), Wait(3), LerpPosInterval(toon, runDur, origPos, other=battle))
+    toonTrack = Sequence(Wait(tAppearDelay), Func(MovieUtil.showProp, tazer, hand_jointpath0), Func(toon.headsUp, battle, suitPos), 
+        Func(toon.loop, 'run'), Wait(1), Func(toon.pingpong, 'cast', fromFrame=30, toFrame=40), Wait(3), Func(toon.stop), 
+        Func(toon.setHpr, battle, runBackHpr), Func(toon.loop, 'run'), Wait(1), Func(toon.stop), Func(toon.loop, 'neutral'), 
+        Func(MovieUtil.removeProp, tazer), Func(toon.setHpr, battle, origHpr))
+    
+    moveTrack = Sequence(Wait(tAppearDelay), LerpPosInterval(toon, runDur, midPos, other=battle), Wait(3), LerpPosInterval(toon, runDur, origPos, 
+        other=battle))
+    
     tracks.append(toonTrack)
     tracks.append(moveTrack)
     soundTrack = __getSoundTrack(level, hitSuit, tSprayDelay, toon)
@@ -497,10 +512,14 @@ def __doTazer(zap, delay, fShowStun):
 
     sprayTrack = Sequence()
     sprayTrack.append(Wait(tSprayDelay))
-    sprayTrack.append(MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, horizScale=scale, vertScale=scale))
+    sprayTrack.append(MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, 
+        horizScale=scale, vertScale=scale))
+    
     tracks.append(sprayTrack)
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, 
+            toon, fShowStun, revived=revived))
+    
     return tracks
 
 
@@ -540,7 +559,9 @@ def __doTesla(zap, delay, fShowStun):
     button2 = MovieUtil.copyProp(button)
     buttons = [button, button2]
     hands = toon.getLeftHands()
-    toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, endPos), ActorInterval(toon, 'pushbutton'), Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+    toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, endPos), ActorInterval(toon, 'pushbutton'), 
+        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+    
     tracks.append(toonTrack)
     coil = globalPropPool.getProp('tesla')
     coil.setPos(endPos)
@@ -563,10 +584,14 @@ def __doTesla(zap, delay, fShowStun):
 
     sprayTrack = Sequence()
     sprayTrack.append(Wait(tSprayDelay))
-    sprayTrack.append(MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, horizScale=scale, vertScale=scale))
+    sprayTrack.append(MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, 
+        horizScale=scale, vertScale=scale))
+    
     tracks.append(sprayTrack)
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, 
+            toon, fShowStun, revived=revived))
+    
     return tracks
 
 
@@ -589,7 +614,9 @@ def __doLightning(zap, delay, fShowStun, uberClone = 0):
     origHpr = toon.getHpr(battle)
     suit = zap['target'][0]['suit']
     suitPos = suit.getPos(battle)
-    toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, suitPos), ActorInterval(toon, 'pushbutton'), Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+    toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, suitPos), ActorInterval(toon, 'pushbutton'), 
+        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+   
     tracks.append(toonTrack)
     for target in zap['target']:
         suit = target['suit']
