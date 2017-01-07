@@ -17,7 +17,6 @@ from toontown.dna.DNAWall import *
 from toontown.dna.DNAWindows import *
 from toontown.suit.SuitLegList import *
 
-
 class DNABulkLoader:
     __slots__ = (
         'dnaStorage', 'dnaFiles')
@@ -30,6 +29,7 @@ class DNABulkLoader:
         for file in self.dnaFiles:
             print 'Reading DNA file...', file
             loadDNABulk(self.dnaStorage, file)
+        
         del self.dnaStorage
         del self.dnaFiles
 
@@ -45,8 +45,6 @@ def loadDNAFile(dnaStorage, file):
     dnaLoader.destroy()
     if node.node().getNumChildren() > 0:
         return node.node()
-    
-    return None
 
 def loadDNAFileAI(dnaStorage, file):
     dnaLoader = DNALoader.DNALoader()

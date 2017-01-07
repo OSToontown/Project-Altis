@@ -24,7 +24,7 @@ class BarrelBase:
     def getGagTrack(self):
         if not hasattr(self, '_gagTrack'):
             if self.gagTrack == 'random':
-                tracks = (0, 1, 2, 3, 4, 4, 5, 5, 6)
+                tracks = (0, 1, 2, 3, 4, 4, 5, 5, 6, 7)
                 self._gagTrack = self.getRng().choice(tracks)
             else:
                 self._gagTrack = self.gagTrack

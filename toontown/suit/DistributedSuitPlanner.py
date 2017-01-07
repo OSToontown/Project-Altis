@@ -1,4 +1,4 @@
-import SuitPlannerBase
+from toontown.suit import SuitPlannerBase
 from direct.distributed import DistributedObject
 from otp.ai.MagicWordGlobal import *
 from pandac.PandaModules import *

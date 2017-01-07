@@ -37,6 +37,7 @@ AllSuitsBattle = (('drop-react', 'anvil-drop'),
  ('reach', 'walknreach'),
  ('rake-react', 'rake'),
  ('hypnotized', 'hypnotize'),
+ ('shock', 'shock'),
  ('soak', 'soak'),
  ('lured', 'lured'))
 SuitsCEOBattle = (('sit', 'sit'),
@@ -115,6 +116,7 @@ mh = (('magic1', 'magic1', 5),
  ('speak', 'speak', 5),
  ('golf-club-swing', 'golf-club-swing', 5),
  ('song-and-dance', 'song-and-dance', 8))
+<<<<<<< HEAD
 ca = (('pickpocket', 'pickpocket', 5),
  ('speak', 'speak', 5),
  ('throw-paper', 'throw-paper', 3.5),     
@@ -150,6 +152,8 @@ hho = (('cigar-smoke', 'cigar-smoke', 8),
  ('song-and-dance', 'song-and-dance', 8),
  ('magic2', 'magic2', 5),
  ('golf-club-swing', 'golf-club-swing', 5))
+=======
+>>>>>>> 2c97507bd81c271331a1ac61fc194c8426802742
 sc = (('throw-paper', 'throw-paper', 3.5), ('watercooler', 'watercooler', 5), ('pickpocket', 'pickpocket', 5))
 pp = (('throw-paper', 'throw-paper', 5), ('glower', 'glower', 5), ('finger-wag', 'fingerwag', 5))
 tw = (('throw-paper', 'throw-paper', 3.5),
@@ -459,6 +463,7 @@ class Suit(Avatar.Avatar):
         self.headColor = None
         self.headTexture = None
         self.loseActor = None
+        self.zapActor = None
         self.isSkeleton = 0
 
         if dna.name in SuitGlobals.suitProperties:
@@ -600,13 +605,16 @@ class Suit(Avatar.Avatar):
         modelRoot.find('**/hands').setTexture(handTex, 1)
 
     def generateHead(self, headType):
-        filePrefix, phase = ModelDict[self.style.body]
-        filepath = 'phase_' + str(phase) + filePrefix + 'heads'
-        headModel = NodePath('cog_head')
-        Preloaded[filepath].copyTo(headModel)
+        if config.GetBool('want-new-cogs', 0):
+            filePrefix, phase = HeadModelDict[self.style.body]
+        else:
+            filePrefix, phase = ModelDict[self.style.body]
+        headModel = loader.loadModel('phase_' + str(phase) + filePrefix + 'heads')
         headReferences = headModel.findAllMatches('**/' + headType)
         for i in xrange(0, headReferences.getNumPaths()):
-            headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
+            headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'to_head')
+            if not headPart:
+                headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
             if self.headTexture:
                 headTex = loader.loadTexture('phase_' + str(phase) + '/maps/' + self.headTexture)
                 headTex.setMinfilter(Texture.FTLinearMipmapLinear)
@@ -614,8 +622,8 @@ class Suit(Avatar.Avatar):
                 headPart.setTexture(headTex, 1)
             if self.headColor:
                 headPart.setColor(self.headColor)
-            headPart.flattenStrong()
             self.headParts.append(headPart)
+
         headModel.removeNode()
 
     def generateCorporateTie(self, modelPath = None):
@@ -777,6 +785,33 @@ class Suit(Avatar.Avatar):
             self.notify.debug('cleanupLoseActor() - got one')
             self.loseActor.cleanup()
         self.loseActor = None
+
+    def getZapActor(self):
+        if self.zapActor == None:
+            loseModel = 'phase_5/models/char/cog' + string.upper(self.style.body) + '_robot-zero'
+            filePrefix, phase = TutorialModelDict[self.style.body]
+            shockAnim = 'phase_5' + filePrefix + 'shock'
+            self.zapActor = Actor.Actor(loseModel, {'shock': shockAnim})
+            self.generateCorporateTie(self.zapActor)
+                
+
+        
+        self.zapActor.setScale(self.scale)
+        self.zapActor.setPos(self.getPos())
+        self.zapActor.setHpr(self.getHpr())
+        shadowJoint = self.zapActor.find('**/joint_shadow')
+        dropShadow = loader.loadModel('phase_3/models/props/drop_shadow')
+        dropShadow.setScale(0.45)
+        dropShadow.setColor(0.0, 0.0, 0.0, 0.5)
+        dropShadow.reparentTo(shadowJoint)
+        return self.zapActor
+		
+    def cleanupZapActor(self):
+        self.notify.debug('cleanupLoseActor()')
+        if self.zapActor != None:
+            self.notify.debug('cleanupLoseActor() - got one')
+            self.zapActor.cleanup()
+        self.zapActor = None
 
     def makeSkeleton(self):
         model = 'phase_5/models/char/cog' + string.upper(self.style.body) + '_robot-zero'

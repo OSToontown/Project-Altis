@@ -2269,8 +2269,13 @@ RewardPanelMeritsMaxed = 'Maxed'
 RewardPanelMeritBarLabels = ['Stock Options',
  'Jury Notices',
  'Cogbucks',
+<<<<<<< HEAD
  'Merits',
  'Gears']
+=======
+ 'Merits']
+RewardPanelMeritAlert = 'Ready for promotion!'
+>>>>>>> 2c97507bd81c271331a1ac61fc194c8426802742
 RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
 RewardPanelSkip = 'Skip'
@@ -2560,6 +2565,17 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
            "Why don't you chomp on this?",
            "I'm going to have you for dinner.",
            'I love to feed on Toons!'],
+ 'CigarSmoke': ['Gentlemen.',
+                "It's a good day for me to have a smoke.",
+                'Take a breath of this.',
+                "It's tradition you know.",
+                'Another day, another dollar spent.',
+                'I always have the occasional cigar.',
+                "I'll quit tomorrow, I swear.",
+                "You can't even escape my secondhand smoke.",
+                'These fumes are toxic.', 
+                'I need a good smoke.',
+                'Smoking is a dirty habit.'],
  'ClipOnTie': ['Better dress for our meeting.',
                "You can't go OUT without your tie.",
                'The best dressed ' + Cogs + ' wear them.',
@@ -3018,6 +3034,14 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
            "We don't want this to fall into the wrong hands.",
            'Easy come, easy go.',
            "Isn't this your last shred of hope?"],
+ 'SongAndDance': ['Whoa whoa whoa...',
+                  'This maybe cringe-worthy ...',
+                  "Try not to cringe.",
+                  "Think of this as a dance to the death.",
+                  "It's like dreaming with your feet.",
+                  'Never miss a chance to dance!',
+                  'When you feel sad, dance!',
+                  'I never dance to forget.'],
  'Spin': ['What do you say we go for a little spin?',
           'Do you use the spin cycle?',
           "This'll really make your head spin!",
@@ -3059,6 +3083,15 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
             'Watch the birdie!',
             'Keep your eye on the ball!',
             'Mind if I play through?'],
+ 'ThrowBook': ['My book from Law School should help.',
+               'You better have a good lawyer.',
+               "I'll have to take legal action.",
+               'Legal Eagle will be pleased to see this.',
+               'Objection!',
+               'Under article 14 subsection C...',
+               'I see you have broken the law!',
+               "It seems you don't understand the authority of law.",
+               "I'll see you in court, Toon."],
  'Tremor': ['Did you feel that?',
             'Not afraid of a little tremor are you?',
             'A tremor is only the beginning.',
@@ -5451,7 +5484,13 @@ CreateYourToonTitle = 'Choose  Boy  or  Girl'
 ShapeYourToonTitle = 'Choose  Your  Type'
 PaintYourToonTitle = 'Choose  Your  Color'
 PickClothesTitle = 'Choose  Your  Clothes'
+PickStatusTitle = 'Choose  Your  Statuses'
 NameToonTitle = 'Choose  Your  Name'
+UberTitles = ['Normal', '15 Laff', '25 Laff', '34 Laff']
+UberInfos = ['Your average run of the mill toon, they have no laff or gag limits! Great for players who want to play traditionally.',
+ '15 laff ubers can NEVER gain any laff points.',
+ '25 laff ubers can gain up to 10 extra laff points from their base laff.',
+ '34 laff ubers can gain up to 19 extra laff points from their base laff.']
 CreateYourToonHead = "Click the 'head' arrows to pick different animals."
 MakeAToonClickForNextScreen = 'Click the arrow below to go to the next screen.'
 PickClothes = 'Click the arrows to pick clothes!'

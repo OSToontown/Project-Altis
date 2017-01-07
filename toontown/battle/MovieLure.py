@@ -120,7 +120,8 @@ def __createFishingPoleMultiTrack(lure, dollar, dollarName):
             if revived != 0:
                 suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle))
             if died != 0:
-                suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
+                if not (trapProp.getName() == 'tnt' and suit.maxHP <= 42):
+                    suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
             tracks.append(suitTrack)
     else:
         tracks.append(Sequence(Wait(3.7), Func(MovieUtil.indicateMissed, suit)))
@@ -175,7 +176,8 @@ def __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet = 1, n
                 if revived != 0:
                     suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
                 elif died != 0:
-                    suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
+                    if not (trapProp.getName() == 'tnt' and suit.maxHP <= 42):
+                        suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
                 tracks.append(suitTrack)
                 tracks.append(lerpSuit(suit, suitDelay + 0.55 + shakeTotalDuration, suitMoveDuration, reachPos, battle, trapProp))
         else:
@@ -231,7 +233,8 @@ def __createHypnoGogglesMultiTrack(lure, npcs = []):
                 if revived != 0:
                     suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
                 elif died != 0:
-                    suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
+                    if not (trapProp.getName() == 'tnt' and suit.maxHP <= 42):
+                        suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
                 tracks.append(suitTrack)
                 tracks.append(lerpSuit(suit, suitDelay + 1.7, 0.7, reachPos, battle, trapProp))
         else:
@@ -378,11 +381,77 @@ def __createSuitDamageTrack(battle, suit, hp, lure, trapProp):
     elif trapName == 'tnt':
         tntTrack = ActorInterval(trapProp, 'tnt')
         explosionTrack = Sequence(Wait(2.3), createTNTExplosionTrack(battle, trapProp=trapProp, relativeTo=parent))
-        suitTrack = Sequence(ActorInterval(suit, 'flail', duration=0.7), ActorInterval(suit, 'flail', startTime=0.7, endTime=0.0), ActorInterval(suit, 'neutral', duration=0.4), ActorInterval(suit, 'flail', startTime=0.6, endTime=0.7), Wait(0.4), ActorInterval(suit, 'slip-forward', startTime=2.48, duration=0.1), Func(battle.movie.needRestoreColor), Func(suit.setColorScale, Vec4(0.2, 0.2, 0.2, 1)), Func(trapProp.reparentTo, hidden), ActorInterval(suit, 'slip-forward', startTime=2.58), Func(suit.clearColorScale), Func(trapProp.sparksEffect.cleanup), Func(battle.movie.clearRestoreColor))
-        damageTrack = Sequence(Wait(2.3), Func(suit.showHpText, -hp, openEnded=0), Func(suit.updateHealthBar, hp))
-        explosionSound = base.loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
-        soundTrack = Sequence(SoundInterval(globalBattleSoundCache.getSound('TL_dynamite.ogg'), duration=2.0, node=suit), SoundInterval(explosionSound, duration=0.6, node=suit))
+        flyPos = suit.getPos()
+        flyPos.setZ(suit.getZ() + 17)
+        dropPos = suit.getPos()
+        oldCamera = base.camera.getPos()
+        oldHPR = base.camera.getHpr()
+        
+        # Cog looks down and up
+        suitTrack = Sequence(ActorInterval(suit, 'flail', duration=0.7))
+        suitTrack.append(ActorInterval(suit, 'flail', startTime=0.7, endTime=0.0))
+        suitTrack.append(ActorInterval(suit, 'neutral', duration=0.4))
+        suitTrack.append(ActorInterval(suit, 'flail', startTime=0.6, endTime=0.7))
+        
+        if base.localAvatar in battle.activeToons:
+            suitTrack.append(Parallel(base.camera.posHprInterval(
+                             0.4, Point3(oldCamera[0], oldCamera[1], oldCamera[2]), Point3(0, 30, 0), blendType='easeInOut'),
+                 Func(battle.movie.needRestoreColor),
+                 Func(suit.setColorScale, Vec4(0.2, 0.2, 0.2, 1)),
+                 Func(trapProp.reparentTo, hidden),
+                 ActorInterval(suit, 'flail', startTime=0.9, duration=0.4, endTime=1.3),
+                 LerpPosInterval(suit, 0.3, flyPos),
+                 ))
+        else:
+            suitTrack.append(Parallel(
+                 Func(battle.movie.needRestoreColor),
+                 Func(suit.setColorScale, Vec4(0.2, 0.2, 0.2, 1)),
+                 Func(trapProp.reparentTo, hidden),
+                 ActorInterval(suit, 'flail', startTime=0.9),
+                 LerpPosInterval(suit, 0.3, flyPos),
+                 ))
+        if suit.maxHP <= 42:
+            suitTrack.append(midairSuitExplodeTrack(suit, battle))
+            damageTrack = Sequence(Wait(2.4), Func(suit.showHpText, -hp, openEnded=0), Func(suit.updateHealthBar, hp))
+            explosionSound = base.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+            soundTrack = Sequence(
+                SoundInterval(globalBattleSoundCache.getSound('TL_dynamite.ogg'), duration=2.0, node=suit),
+                SoundInterval(explosionSound, duration=0.6, node=suit)
+            )
+        else:
+            if base.localAvatar in battle.activeToons:
+                suitTrack.append(Parallel(
+                         Sequence(
+                                  Wait(0.3), 
+                                  base.camera.posHprInterval(
+                                              0.5, Point3(*oldCamera), Point3(*oldHPR), blendType='easeInOut')
+                                  ),
+                         ActorInterval(suit, 'slip-backward', playRate=1),
+                         LerpPosInterval(suit, 0.7, dropPos),
+                    )
+                )
+            else:
+                suitTrack.append(Parallel(
+                          ActorInterval(suit, 'slip-backward', playRate=1),
+                          LerpPosInterval(suit, 0.7, dropPos),
+                          )
+                )
+            suitTrack.append(Func(suit.clearColorScale))
+            suitTrack.append(Func(trapProp.sparksEffect.cleanup))
+            suitTrack.append(Func(battle.movie.clearRestoreColor))
+
+            damageTrack = Sequence(Wait(2.3), Func(suit.showHpText, -hp, openEnded=0), Func(suit.updateHealthBar, hp))
+            explosionSound = base.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+            soundTrack = Sequence(
+                SoundInterval(globalBattleSoundCache.getSound('TL_dynamite.ogg'), duration=2.0, node=suit),
+                SoundInterval(explosionSound, duration=0.6, node=suit)
+            )
         result.append(Parallel(tntTrack, suitTrack, damageTrack, explosionTrack, soundTrack))
+
+        if suit.maxHP <= 42:
+            suit.battleTrapProp = trapProp
+            result.append(Func(battle.removeTrap, suit, True))
+            return result
     elif trapName == 'traintrack':
         trainInterval = createIncomingTrainInterval(battle, suit, hp, lure, trapProp)
         result.append(trainInterval)
@@ -405,6 +474,39 @@ def __createSuitResetPosTrack(suit, battle):
     walkTrack = Sequence(Func(suit.setHpr, battle, resetHpr), ActorInterval(suit, 'walk', startTime=1, duration=moveDuration, endTime=0.0001), Func(suit.loop, 'neutral'))
     moveTrack = LerpPosInterval(suit, moveDuration, resetPos, other=battle)
     return Parallel(walkTrack, moveTrack)
+	
+def midairSuitExplodeTrack(suit, battle):
+    suitTrack = Sequence()
+    suitPos, suitHpr = battle.getActorPosHpr(suit)
+    suitPos.setZ(suitPos.getZ() + 17)
+    suitTrack.append(Wait(0.15))
+    suitTrack.append(Func(MovieUtil.avatarHide, suit))
+    deathSound = base.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+    deathSoundTrack = Sequence(Wait(0.5), SoundInterval(deathSound, volume=0.8))
+    BattleParticles.loadParticles()
+    smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
+    singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles=1)
+    smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
+    bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles=30)
+    gearPoint = Point3(suitPos.getX(), suitPos.getY(), suitPos.getZ() + suit.height - 0.2)
+    smallGears.setPos(gearPoint)
+    singleGear.setPos(gearPoint)
+    smallGears.setDepthWrite(False)
+    singleGear.setDepthWrite(False)
+    smallGearExplosion.setPos(gearPoint)
+    bigGearExplosion.setPos(gearPoint)
+    smallGearExplosion.setDepthWrite(False)
+    bigGearExplosion.setDepthWrite(False)
+    explosionTrack = Sequence()
+    explosionTrack.append(MovieUtil.createKapowExplosionTrack(battle, explosionPoint=gearPoint))
+    gears1Track = Sequence(Wait(0.5), ParticleInterval(smallGears, battle, worldRelative=0, duration=1.0, cleanup=True), name='gears1Track')
+    gears2MTrack = Track(
+        (0.1, ParticleInterval(singleGear, battle, worldRelative=0, duration=0.4, cleanup=True)),
+        (0.5, ParticleInterval(smallGearExplosion, battle, worldRelative=0, duration=0.5, cleanup=True)),
+        (0.9, ParticleInterval(bigGearExplosion, battle, worldRelative=0, duration=2.0, cleanup=True)), name='gears2MTrack'
+    )
+
+    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack, Wait(4.5))
 
 
 def getSplicedLerpAnimsTrack(object, animName, origDuration, newDuration, startTime = 0, fps = 30):
@@ -608,7 +710,8 @@ def __createSlideshowMultiTrack(lure, npcs = []):
                 if revived != 0:
                     suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
                 elif died != 0:
-                    suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
+                    if not (trapProp.getName() == 'tnt' and suit.maxHP <= 42):
+                        suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
                 tracks.append(suitTrack)
                 tracks.append(lerpSuit(suit, suitDelay + 1.7, 0.7, reachPos, battle, trapProp))
         else:

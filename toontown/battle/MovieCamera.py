@@ -271,6 +271,35 @@ def chooseSquirtCloseShot(squirts, suitSquirtsDict, openDuration, openName, atta
         notify.error('Bad number of suits: %s' % numSuits)
     track = apply(random.choice(shotChoices), [av, duration])
     return track
+	
+def chooseZapShot(zaps, attackDuration, enterDuration = 0.0, exitDuration = 0.0):
+    enterShot = chooseNPCEnterShot(zaps, enterDuration)
+    openShot = chooseZapOpenShot(zaps, attackDuration)
+    openDuration = openShot.getDuration()
+    openName = openShot.getName()
+    closeShot = chooseZapCloseShot(zaps, openDuration, openName, attackDuration)
+    exitShot = chooseNPCExitShot(zaps, exitDuration)
+    track = Sequence(enterShot, openShot, closeShot, exitShot)
+    return track
+
+
+def chooseZapOpenShot(zaps, attackDuration):
+    numLures = len(zaps)
+    av = None
+    duration = 3.0
+    shotChoices = [avatarBehindShot, allGroupLowShot]
+    track = apply(random.choice(shotChoices), [av, duration])
+    return track
+
+
+def chooseZapCloseShot(zaps, openDuration, openName, attackDuration):
+    av = None
+    duration = attackDuration - openDuration
+    hasTrainTrackTrap = False
+    battle = zaps[0]['battle']
+    shotChoices = [avatarBehindShot]
+    track = apply(random.choice(shotChoices), [av, duration])
+    return track
 
 
 def chooseDropShot(drops, suitDropsDict, attackDuration, enterDuration = 0.0, exitDuration = 0.0):

@@ -183,12 +183,13 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.districtId, self.getGameDoId(), 2)
         
         self.notify.info('Claiming ownership of channel ID: %d...' % self.districtId)
-        self.claimOwnership(self.districtId)
+        self.setAI(self.districtId, self.ourChannel)
 
         self.districtStats = ToontownDistrictStatsAI(self)
         self.districtStats.settoontownDistrictId(self.districtId)
         self.districtStats.generateWithRequiredAndId(
             self.allocateChannel(), self.getGameDoId(), 3)
+        
         self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
 
         self.notify.info('Creating managers...')
@@ -199,17 +200,11 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         if self.config.GetBool('want-cog-headquarters', True):
             self.notify.info('Creating Cog headquarters...')
-            self.createCogHeadquarters()
+            #self.createCogHeadquarters()
 
         self.notify.info('Making district available...')
         self.distributedDistrict.b_setAvailable(1)
         self.notify.info('Done.')
-
-    def claimOwnership(self, channelId):
-        datagram = PyDatagram()
-        datagram.addServerHeader(channelId, self.ourChannel, STATESERVER_OBJECT_SET_AI)
-        datagram.addChannel(self.ourChannel)
-        self.send(datagram)
 
     def lookupDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)

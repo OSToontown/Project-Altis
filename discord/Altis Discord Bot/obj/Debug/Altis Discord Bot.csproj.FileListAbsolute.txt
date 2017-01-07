@@ -1,0 +1,23 @@
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Altis Discord Bot.exe.config
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Altis Discord Bot.exe
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Altis Discord Bot.pdb
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Discord.Net.Commands.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Discord.Net.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Discord.Net.Modules.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Newtonsoft.Json.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Nito.AsyncEx.Concurrent.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Nito.AsyncEx.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Nito.AsyncEx.Enlightenment.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\RestSharp.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\WebSocket4Net.dll
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Newtonsoft.Json.xml
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Nito.AsyncEx.xml
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Nito.AsyncEx.Concurrent.xml
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\Nito.AsyncEx.Enlightenment.xml
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\bin\Debug\RestSharp.xml
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\obj\Debug\Altis Discord Bot.csprojResolveAssemblyReference.cache
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\obj\Debug\Altis Discord Bot.exe
+c:\users\dubito\documents\visual studio 2015\Projects\Altis Discord Bot\Altis Discord Bot\obj\Debug\Altis Discord Bot.pdb
+E:\Altis\Source\discord\Altis Discord Bot\bin\Debug\Altis Discord Bot.exe.config
+E:\Altis\Source\discord\Altis Discord Bot\obj\Debug\Altis Discord Bot.exe
+E:\Altis\Source\discord\Altis Discord Bot\obj\Debug\Altis Discord Bot.pdb

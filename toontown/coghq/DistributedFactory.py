@@ -15,6 +15,8 @@ from toontown.coghq import FactoryCameraViews
 from direct.controls.ControlManager import CollisionHandlerRayStart
 from otp.ai.MagicWordGlobal import *
 from toontown.nametag.NametagGlobals import *
+from toontown.chat.ChatGlobals import CFThought, CFTimeout
+
 if __dev__:
     from otp.level import EditorGlobals
 

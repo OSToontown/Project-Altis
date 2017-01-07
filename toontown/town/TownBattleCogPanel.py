@@ -88,9 +88,6 @@ class TownBattleCogPanel(DirectFrame):
             self.healthText['text'] = TTLocalizer.DisguisePageCogLevel % str(hp)
 
     def updateHealthBar(self):
-        self.hp = self.cog.getHP()
-        self.maxHp = self.cog.getMaxHP()
-        self.hpText['text'] = str(self.hp) + '/' + str(self.maxHp)
         condition = self.cog.healthCondition
         if condition == 4:
             self.blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task.pause(0.1))
@@ -102,6 +99,9 @@ class TownBattleCogPanel(DirectFrame):
             
             if not self.glow.isEmpty():
                 self.glow.setColor(self.healthGlowColors[condition], 1)
+        self.hp = self.cog.getHP()
+        self.maxHp = self.cog.getMaxHP()
+        self.hpText['text'] = str(self.hp) + '/' + str(self.maxHp)
 
     def show(self):
         if settings.get('show-cog-levels', True):
