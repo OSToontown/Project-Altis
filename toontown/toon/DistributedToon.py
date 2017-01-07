@@ -949,12 +949,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 self.takeOffSuit()
         else:
             parts = self.getCogParts()
-<<<<<<< HEAD
             self.notify.debug("Applying Suit!")
             if CogDisguiseGlobals.isPaidSuitComplete(self, parts, index):
-=======
-            if CogDisguiseGlobals.isSuitComplete(parts, index):
->>>>>>> 09048c4c487bcfba55ee38fd20bd67741d32a008
                 cogIndex = self.cogTypes[index] + SuitDNA.suitsPerDept * index
                 cog = SuitDNA.suitHeadTypes[cogIndex]
                 self.notify.info(cog)
