@@ -1181,8 +1181,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setCogTypes(self, types):
         if not types:
-            self.notify.warning('cogTypes set to bad value: %s. Resetting to [0,0,0,0]' % types)
+            self.notify.warning('cogTypes set to bad value: %s. Resetting to [0,0,0,0,0]' % types)
             self.cogTypes = [0,
+             0,
              0,
              0,
              0]
@@ -1201,8 +1202,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setCogLevels(self, levels):
         if not levels:
-            self.notify.warning('cogLevels set to bad value: %s. Resetting to [0,0,0,0]' % levels)
+            self.notify.warning('cogLevels set to bad value: %s. Resetting to [0,0,0,0,0]' % levels)
             self.cogLevels = [0,
+             0,
              0,
              0,
              0]
