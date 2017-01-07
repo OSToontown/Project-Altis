@@ -2,7 +2,7 @@
 model-path ../resources
 
 # Server:
-server-version tta-sv-1.0.0
+server-version TTPA-Alpha-1.2.0
 min-access-level 600
 accountdb-type developer
 shard-low-pop 50
