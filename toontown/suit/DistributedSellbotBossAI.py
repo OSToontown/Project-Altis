@@ -10,6 +10,7 @@ from toontown.battle import BattleExperienceAI
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
+from toontown.building import SuitBuildingGlobals
 from otp.ai.MagicWordGlobal import *
 
 class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
@@ -195,9 +196,9 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def generateSuits(self, battleNumber):
         if battleNumber == 1:
-            return self.invokeSuitPlanner(9, 0)
+            return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP, 0)
         else:
-            return self.invokeSuitPlanner(10, 1)
+            return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS, 1)
 
     def removeToon(self, avId):
         toon = simbase.air.doId2do.get(avId)
