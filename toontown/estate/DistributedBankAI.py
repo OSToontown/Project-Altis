@@ -1,58 +1,76 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemAI
-from direct.distributed import ClockDelta
-from toontown.estate.BankGlobals import *
+from direct.distributed.ClockDelta import *
+import BankGlobals
 
 class DistributedBankAI(DistributedFurnitureItemAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedBankAI")
 
-    def __init__(self, air, furnitureMgr, catalogItem, ownerId):
-        DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, catalogItem)
-        self.ownerId = ownerId
-        self.busy = 0
+    def __init__(self, air, furnitureMgr, item):
+        DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, item)
+        self.avId = None
+        self.movie = BankGlobals.BANK_MOVIE_CLEAR
 
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
-
-        if not self.busy:
-            if avId == self.ownerId:
-                self.sendBankMovie(avId)
+        if not self.avId:
+            if not self.furnitureMgr.ownerId:
+                self.b_setMovie(BankGlobals.BANK_MOVIE_NO_OWNER, avId, globalClockDelta.getRealNetworkTime())
+                return
+            elif self.furnitureMgr.ownerId != avId:
+                self.b_setMovie(BankGlobals.BANK_MOVIE_NOT_OWNER, avId, globalClockDelta.getRealNetworkTime())
+                return
             else:
-                self.sendNotOwnerMovie(avId)
-
-            self.acceptOnce(self.air.getAvatarExitEvent(avId),
-                            self.__handleUnexpectedExit)
+                self.avId = avId
+                self.b_setMovie(BankGlobals.BANK_MOVIE_GUI, avId, globalClockDelta.getRealNetworkTime())
+                return
+        else:
+            if avId == self.avId:
+                self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to use bank while already using it!')
+            self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
 
     def freeAvatar(self):
-        self.sendExitMovie()
-        self.sendClearMovie()
+        pass
 
-    def setMovie(self, mode, avId):
-        self.sendUpdate('setMovie', args=[mode,
-            avId, ClockDelta.globalClockDelta.getRealNetworkTime()])
+    def setMovie(self, mode, avId, time):
+        self.movie = mode
+        if self.movie != BankGlobals.BANK_MOVIE_CLEAR:
+            taskMgr.doMethodLater(2.0, self.clearMovie, 'clear-movie-%d' % self.getDoId())
 
-    def sendBankMovie(self, avId):
-        self.setMovie(BANK_MOVIE_GUI, avId)
-        self.busy = avId
+    def clearMovie(self, task):
+        self.b_setMovie(BankGlobals.BANK_MOVIE_CLEAR, 0, globalClockDelta.getRealNetworkTime())
 
-    def sendNotOwnerMovie(self, avId):
-        self.setMovie(BANK_MOVIE_NOT_OWNER, avId)
+    def b_setMovie(self, mode, avId, time):
+        self.setMovie(mode, avId, time)
+        self.d_setMovie(mode, avId, time)
 
-    def sendExitMovie(self):
-        self.setMovie(BANK_MOVIE_WITHDRAW, self.busy)
-
-    def sendClearMovie(self):
-        self.setMovie(BANK_MOVIE_CLEAR, self.busy)
-        self.busy = 0
+    def d_setMovie(self, mode, avId, time):
+        self.sendUpdate('setMovie', [mode, avId, time])
 
     def transferMoney(self, amount):
-        av = self.air.doId2do.get(self.busy)
-        if not av:
+        avId = self.air.getAvatarIdFromSender()
+        if avId != self.avId:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to transfer money while not using a bank!')
             return
+        av = self.air.doId2do.get(avId)
+        if not av:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to transfer money while not on the AI!')
+            return
+        if amount == 0: # No transfer needed.
+            self.b_setMovie(BankGlobals.BANK_MOVIE_NO_OP, avId, globalClockDelta.getRealNetworkTime())
+        elif amount > 0:
+            self.b_setMovie(BankGlobals.BANK_MOVIE_DEPOSIT, avId, globalClockDelta.getRealNetworkTime())
+            if av.money < amount:
+                self.air.writeServerEvent('suspicious', avId=avId, issue='Toon tried to deposit more money than they have!')
+            else:
+                av.b_setMoney(av.money - amount)
+                av.b_setBankMoney(av.bankMoney + amount)
+        else:
+            self.b_setMovie(BankGlobals.BANK_MOVIE_WITHDRAW, avId, globalClockDelta.getRealNetworkTime())
+            if av.bankMoney + amount < 0:
+                self.air.writeServerEvent('suspicious', avId=avId, issue='Toon tried to withdraw more money than they have!')
+            else:
+                av.b_setMoney(av.money - amount)
+                av.b_setBankMoney(av.bankMoney + amount)
 
-        av.b_setBankMoney(min(av.getBankMoney() + amount, av.getMaxBankMoney()))
-        av.b_setMoney(max(av.getMoney() - amount, 0))
-        self.freeAvatar()
-
-    def __handleUnexpectedExit(self):
-        self.busy = 0
+        self.avId = None

@@ -6,3 +6,4 @@ class DistributedBankMgrAI(DistributedObjectAI):
 
     def transferMoney(self, todo0):
         pass
+

@@ -9,6 +9,7 @@ from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
 from toontown.toonbase import ToontownGlobals
 from DistributedFurnitureItemAI import DistributedFurnitureItemAI
 from DistributedPhoneAI import DistributedPhoneAI
+from DistributedBankAI import DistributedBankAI
 from DistributedClosetAI import DistributedClosetAI
 from DistributedTrunkAI import DistributedTrunkAI
 from otp.ai.MagicWordGlobal import *
@@ -129,10 +130,10 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
                 elif item.furnitureType - 500 > 10:
                     item.furnitureType -= 10
                 do = DistributedClosetAI(self.air, self, item)
-            elif item.getFlags() & FLBank:
-                continue # We dont want banks in the estates.
             elif item.getFlags() & FLPhone:
                 do = DistributedPhoneAI(self.air, self, item)
+            elif item.getFlags() & FLBank:
+                do = DistributedBankAI(self.air, self, item)
             else:
                 do = DistributedFurnitureItemAI(self.air, self, item)
             if self.isGenerated():
@@ -303,10 +304,10 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             elif item.furnitureType - 500 > 10:
                 item.furnitureType -= 10
             do = DistributedClosetAI(self.air, self, item)
-        elif item.getFlags() & FLBank:
-            pass # We don't want banks in the estates
         elif item.getFlags() & FLPhone:
             do = DistributedPhoneAI(self.air, self, item)
+        elif item.getFlags() & FLBank:
+            do = DistributedBankAI(self.air, self, item)
         else:
             do = DistributedFurnitureItemAI(self.air, self, item)
 

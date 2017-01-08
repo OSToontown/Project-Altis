@@ -1,15 +1,17 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
-from toontown.estate import DistributedFurnitureItem
+import DistributedFurnitureItem
 from toontown.toonbase import TTLocalizer
-from toontown.estate import BankGUI
-from toontown.estate.BankGlobals import *
+import BankGUI
+from BankGlobals import *
 from toontown.toontowngui import TTDialog
 from toontown.catalog.CatalogFurnitureItem import FurnitureTypes
 from toontown.catalog.CatalogFurnitureItem import FTScale
@@ -65,6 +67,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         self.__removeToonJar()
         self.ignoreAll()
         DistributedFurnitureItem.DistributedFurnitureItem.disable(self)
+        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -91,6 +94,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             self.bankDialog.cleanup()
             self.bankDialog = None
         self.__handleBankDone(0)
+        return
 
     def __handleBankDone(self, transactionAmount):
         self.notify.debug('__handleBankDone(transactionAmount=%s' % (transactionAmount,))
@@ -100,6 +104,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         if self.bankGui is not None:
             self.bankGui.destroy()
             self.bankGui = None
+        return
 
     def freeAvatar(self):
         self.notify.debug('freeAvatar()')
@@ -109,11 +114,12 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
                 base.cr.playGame.getPlace().setState('walk')
             self.hasLocalAvatar = 0
         self.accept(self.bankSphereEnterEvent, self.__handleEnterSphere)
+        return
 
     def showBankGui(self):
         if self.bankGui:
             self.bankGui.destroy()
-        self.bankGui = BankGUI.BankGUI(self.bankGuiDoneEvent)
+        self.bankGui = BankGUI.BankGui(self.bankGuiDoneEvent)
         self.accept(self.bankGuiDoneEvent, self.__handleBankDone)
 
     def setMovie(self, mode, avId, timestamp):
@@ -161,6 +167,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             self.bankDialog.cleanup()
             self.bankDialog = None
         self.freeAvatar()
+        return
 
     def __attachToonJar(self, toon):
         self.__removeToonJar()
@@ -191,6 +198,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         track.append(Func(base.cr.doId2do[avId].pingpong, 'bank', fromFrame=48, toFrame=92))
         track.start()
         self.hasJarOut = 1
+        return
 
     def __putAwayToonJar(self, avId):
         self.notify.debug('__putAwayToonJar(avId=%s)' % (avId,))
@@ -212,3 +220,4 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
             track.append(Func(self.freeAvatar))
         track.start()
         self.bankTrack = track
+        return

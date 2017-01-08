@@ -128,7 +128,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.fishingTrophies = []
         self.trackArray = []
         self.emoteAccess = [0] * 26
-        self.maxBankMoney = ToontownGlobals.MaxBankMoney
+        self.maxBankMoney = ToontownGlobals.DefaultMaxBankMoney
         self.gardenSpecials = []
         self.houseId = 0
         self.posIndex = 0
@@ -2377,7 +2377,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         overflowMoney = money - self.maxMoney
         if overflowMoney > 0:
             bankMoney = self.bankMoney + overflowMoney
-            self.air.bankManager.setMoney(self.doId, bankMoney)
+            self.b_setBankMoney(bankMoney)
 
     def takeMoney(self, deltaMoney, bUseBank = True):
         totalMoney = self.money
@@ -2387,7 +2387,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.warning('Not enough money! AvId: %s Has:%s Charged:%s' % (self.doId, totalMoney, deltaMoney))
             return False
         if bUseBank and deltaMoney > self.money:
-            self.air.bankManager.setMoney(self.doId, self.bankMoney - (deltaMoney - self.money))
+            self.b_setBankMoney(self.bankMoney - (deltaMoney - self.money))
             self.b_setMoney(0)
         else:
             self.b_setMoney(self.money - deltaMoney)
@@ -2418,9 +2418,22 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getTotalMoney(self):
         return self.money + self.bankMoney
+		
+    def b_setMaxBankMoney(self, maxMoney):
+        self.d_setMaxBankMoney(maxMoney)
+        self.setMaxBankMoney(maxMoney)
+
+    def d_setMaxBankMoney(self, maxMoney):
+        self.sendUpdate('setMaxBankMoney', [maxMoney])
+
+    def setMaxBankMoney(self, maxMoney):
+        self.maxBankMoney = maxMoney
+
+    def getMaxBankMoney(self):
+        return self.maxBankMoney
 
     def b_setBankMoney(self, money):
-        bankMoney = min(money, ToontownGlobals.MaxBankMoney)
+        bankMoney = min(money, self.maxBankMoney)
         self.setBankMoney(bankMoney)
         self.d_setBankMoney(bankMoney)
 
@@ -4469,16 +4482,13 @@ def maxToon(missingTrack=None):
     invoker.b_setHoodsVisited(hoods)
     invoker.b_setTeleportAccess(hoods)
 
-    # Max their quest carry limit:
-    invoker.b_setQuestCarryLimit(4)
-
-    # Complete their quests:
+    # End game settings:
     invoker.b_setQuests([])
+    invoker.b_setQuestCarryLimit(4)
     invoker.b_setRewardHistory(Quests.ELDER_TIER, [])
-
-    # Max their money:
-    invoker.b_setMoney(invoker.getMaxMoney())
-    invoker.b_setBankMoney(10000)
+    invoker.b_setMaxMoney(250)
+    invoker.b_setMoney(toon.getMaxMoney())
+    invoker.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
     # Finally, unlock all of their pet phrases:
     if simbase.wantPets:
