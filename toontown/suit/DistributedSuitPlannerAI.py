@@ -18,11 +18,11 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
+ALLOWED_FO_TRACKS = ['s', 'l']
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = min(1.0, max(0.0, config.GetFloat('cogdo-ratio', 0.5)))
+    CogdoRatio = 0.6
     SuitHoodInfo = [[2100, #Silly Street
       5,
       15,
@@ -582,12 +582,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
 
         if simbase.air.wantCogdominiums:
             if not hasattr(self.__class__, 'CogdoPopAdjusted'):
-                self.__class__.CogdoPopAdjusted = True
+                self.__class__.CogdoPopAdjusted = False
                 for index in xrange(len(self.SuitHoodInfo)):
                     hoodInfo = self.SuitHoodInfo[index]
                     hoodInfo[self.SUIT_HOOD_INFO_BMIN] = int(0.5 + self.CogdoPopFactor * hoodInfo[
                         self.SUIT_HOOD_INFO_BMIN])
-                    
+
                     hoodInfo[self.SUIT_HOOD_INFO_BMAX] = int(0.5 + self.CogdoPopFactor * hoodInfo[
                         self.SUIT_HOOD_INFO_BMAX])
         
@@ -786,6 +786,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         blockNumber = None
         if self.notify.getDebug():
             self.notify.debug('Choosing origin from %d+%d possibles.' % (len(streetPoints), len(blockNumbers)))
+        if cogdoTakeover is None:
+            cogdoTakeOver = random.random() < self.CogdoRatio
         while startPoint == None and len(blockNumbers) > 0:
             bn = random.choice(blockNumbers)
             blockNumbers.remove(bn)
@@ -922,6 +924,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 if not NPCToons.isZoneProtected(intZoneId):
                     if blockNumber in self.buildingFrontDoors:
                         possibles.append((blockNumber, self.buildingFrontDoors[blockNumber]))
+            if cogdoTakeover is None:
+                if suit.dna.dept in ALLOWED_COGDO_TYPES:
+                    cogdoTakeover = random.random() < self.CogdoRatio
+
         elif self.buildingMgr:
             for blockNumber in self.buildingMgr.getSuitBlocks():
                 track = self.buildingMgr.getBuildingTrack(blockNumber)
@@ -1106,11 +1112,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             return
         building.suitTakeOver(suitTrack, difficulty, buildingHeight)
 
-    def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight):
+    def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight, dept):
         if self.pendingBuildingHeights.count(buildingHeight) > 0:
             self.pendingBuildingHeights.remove(buildingHeight)
+
         building = self.buildingMgr.getBuilding(blockNumber)
-        building.cogdoTakeOver(difficulty, buildingHeight)
+        building.cogdoTakeOver(difficulty, buildingHeight, dept)
 
     def recycleBuilding(self):
         bmin = SuitBuildingGlobals.buildingMinMax[self.zoneId][0]
