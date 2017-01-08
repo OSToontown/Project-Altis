@@ -91,7 +91,7 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 suitTrack.append(Func(setPosFromOther, breakEffect, suit, Point3(0, 0.0, suit.getHeight() - 1.0)))
 #                suitTrack.append(Parallel(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit), __getPartTrack(breakEffect, 0.0, 1.0, [breakEffect, suit, 0], softStop=-0.5)))
                 suitTrack.append(Sequence(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit)))
-                if totalDamage >= hp:
+                if totalDamage >= suit.getHP():
                     suitTrack.append(headExplodeTrack(suit, battle))
             else:
                 suitTrack.append(showDamage)
