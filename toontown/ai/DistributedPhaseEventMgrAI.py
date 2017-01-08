@@ -17,7 +17,7 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
     def getDates(self):
         return self.dates
         
-   def setNumPhases(self, phaseAmount):
+    def setNumPhases(self, phaseAmount):
         if phaseAmount != int(phaseAmount):
             return
         
@@ -35,6 +35,9 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
         
         self.setNumPhases(phaseAmount)
         self.d_setNumPhases(phaseAmount)
+        
+    def getNumPhases(self):
+        return self.numPhases
         
     def setCurPhase(self, phase):
         if phase != int(phase):
@@ -62,8 +65,8 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
         if bool not in [True, False, 0, 1]:
             return
          
-         if bool == 0:
-             bool = False
+        if bool == 0:
+            bool = False
         
         self.isRunning = bool
 
@@ -71,8 +74,8 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
         if bool not in [True, False, 0, 1]:
             return
          
-         if bool == 0:
-             bool = False
+        if bool == 0:
+            bool = False
         
         self.sendUpdate("setIsRunning", [bool])
         
@@ -80,8 +83,8 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
         if bool not in [True, False, 0, 1]:
             return
          
-         if bool == 0:
-             bool = False
+        if bool == 0:
+            bool = False
         
         self.setIsRunning(bool)
         self.d_setIsRunning(bool)
