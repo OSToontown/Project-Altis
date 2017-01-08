@@ -20,7 +20,8 @@ from toontown.toon import ToonHead
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
 class DistributedToonHallInterior(DistributedToonInterior):
-
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedToonHallInterior")
+    
     def __init__(self, cr):
         DistributedToonInterior.__init__(self, cr)
         self.sillyFSM = ClassicFSM.ClassicFSM('SillyOMeter', [State.State('Setup', self.enterSetup, self.exitSetup, ['Phase0',
@@ -119,18 +120,24 @@ class DistributedToonHallInterior(DistributedToonInterior):
     def getPhaseToRun(self):
         result = -1
         enoughInfoToRun = False
-        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
+        '''if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
+            if hasattr(base.cr, 'sillyMeterMgr') and not base.cr.sillyMeterMgr.isDisabled():
                 enoughInfoToRun = True
-            elif hasattr(base.cr, 'SillyMeterMgr'):
-                self.notify.debug('isDisabled = %s' % base.cr.SillyMeterMgr.isDisabled())
+            elif hasattr(base.cr, 'sillyMeterMgr'):
+                self.notify.debug('isDisabled = %s' % base.cr.sillyMeterMgr.isDisabled())
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
         else:
-            self.notify.debug('holiday is not running')
+            self.notify.debug('holiday is not running')'''
+        if hasattr(base.cr, 'sillyMeterMgr') and not base.cr.sillyMeterMgr.isDisabled():
+            enoughInfoToRun = True
+        elif hasattr(base.cr, 'sillyMeterMgr'):
+            self.notify.debug('isDisabled = %s' % base.cr.sillyMeterMgr.isDisabled())
+        else:
+            self.notify.debug('base.cr does not have SillyMeterMgr')
         self.notify.debug('enoughInfoToRun = %s' % enoughInfoToRun)
-        if enoughInfoToRun and base.cr.SillyMeterMgr.getIsRunning():
-            result = base.cr.SillyMeterMgr.getCurPhase()
+        if enoughInfoToRun and base.cr.sillyMeterMgr.getIsRunning():
+            result = base.cr.sillyMeterMgr.getCurPhase()
         return result
 
     def calculatePhaseDuration(self):

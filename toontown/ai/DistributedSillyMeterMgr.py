@@ -9,18 +9,18 @@ class DistributedSillyMeterMgr(DistributedPhaseEventMgr.DistributedPhaseEventMgr
 
     def __init__(self, cr):
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.__init__(self, cr)
-        cr.SillyMeterMgr = self
+        cr.sillyMeterMgr = self
 
     def announceGenerate(self):
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.announceGenerate(self)
         messenger.send('SillyMeterIsRunning', [self.isRunning])
 
     def delete(self):
-        self.notify.debug('deleting SillyMetermgr')
+        self.notify.debug('deleting SillyMeterMgr')
         messenger.send('SillyMeterIsRunning', [False])
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.delete(self)
-        if hasattr(self.cr, 'SillyMeterMgr'):
-            del self.cr.SillyMeterMgr
+        if hasattr(self.cr, 'sillyMeterMgr'):
+            del self.cr.sillyMeterMgr
 
     def setCurPhase(self, newPhase):
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.setCurPhase(self, newPhase)
