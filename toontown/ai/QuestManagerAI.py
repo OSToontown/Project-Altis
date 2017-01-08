@@ -55,21 +55,9 @@ class QuestManagerAI:
             if isinstance(questClass, Quests.DeliverGagQuest):
                 # Check if it's the required NPC.
                 if npc.npcId == toNpcId:
-                    # Add progress.
-                    questList = []
-                    progress = questClass.removeGags(av)
-
-                    for i in xrange(0, len(avQuests), 5):
-                        questDesc = avQuests[i:i + 5]
-                        if questDesc[QuestIdIndex] == questId:
-                            questDesc[QuestProgressIndex] += progress
-                            if questDesc[QuestProgressIndex] >= questClass.getNumGags():
-                                completeStatus = Quests.COMPLETE
-                        questList.append(questDesc)
-                    av.b_setQuests(questList)
-
-                    if completeStatus != Quests.COMPLETE:
-                        continue
+                    track, level = questClass.getGagType()
+                    av.inventory.setItem(track, level, av.inventory.numItem(track, level) - questClass.getNumGags())
+                    av.b_setInventory(av.inventory.makeNetString())
 
             # If they've completed a quest.
             if completeStatus == Quests.COMPLETE:

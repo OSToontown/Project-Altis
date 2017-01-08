@@ -1,6 +1,8 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-from toontown.quest import Quests
+from panda3d.core import *
+from panda3d.direct import *
+import Quests
+import random
 from toontown.toon import NPCToons
 from toontown.toon import ToonHead
 from toontown.toon import ToonDNA
@@ -11,12 +13,11 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import string, types
 from toontown.toon import LaffMeter
-from toontown.toonbase.ToontownBattleGlobals import AvPropsNew
+from toontown.toonbase.ToontownBattleGlobals import AvPropsNew, Tracks
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPLocalizer
-
 IMAGE_SCALE_LARGE = 0.2
 IMAGE_SCALE_SMALL = 0.15
 POSTER_WIDTH = 0.7

@@ -4619,6 +4619,8 @@ KartShtikerDefault = 'Default %s'
 KartShtikerNo = 'No %s Accessory'
 QuestChoiceGuiCancel = lCancel
 TrackChoiceGuiChoose = 'Choose'
+TrackChoiceGuiRandom = "I'm feeling lucky"
+TrackChoiceGuiAreYouSure = 'Are you sure?'
 TrackChoiceGuiCancel = lCancel
 TrackChoiceGuiHEAL = 'Toonup lets you heal other Toons in battle.'
 TrackChoiceGuiTRAP = 'Traps are powerful gags that must be used with Lure.'
@@ -8219,25 +8221,25 @@ TipDict = {TIP_NONE: ('',),
              'Collect Cogbucks by defeating Cashbot Cogs in battle.',
              'Collect Jury Notices by defeating Lawbot Cogs in battle.',
              'Collect Stock Options by defeating Bossbot Cogs in battle.',
-             'Collect Gears by defeating Boardbot Cogs in battle.',
-             'You get more Merits, Cogbucks, Jury Notices, or Stock Options from higher level Cogs.',
+             'Collect ??? by defeating ??? in battle.',
+             'You get more Merits, Cogbucks, Jury Notices, Stock Options, or Gears from higher level Cogs.',
              'When you collect enough Cog Merits to earn a promotion, go see the Sellbot V.P.!',
              'When you collect enough Cogbucks to earn a promotion, go see the Cashbot C.F.O.!',
              'When you collect enough Jury Notices to earn a promotion, go see the Lawbot Chief Justice!',
              'When you collect enough Stock Options to earn a promotion, go see the Bossbot C.E.O.!',
-             'When you collect enough Gears to earn a promotion, go see the Boardbot ???!',
+             'When you collect enough ??? to earn a promotion, go see the ???!',
              'You can talk like a Cog when you are wearing your Cog Disguise.',
              'Up to eight Toons can join together to fight the Sellbot V.P.',
              'Up to eight Toons can join together to fight the Cashbot C.F.O.',
              'Up to eight Toons can join together to fight the Lawbot Chief Justice.',
              'Up to eight Toons can join together to fight the Bossbot C.E.O.',
-             'Up to eight Toons can join together to fight the Boardbot ???.',
+             'Up to eight Toons can join together to fight the ???.',
              'Inside Cog Headquarters follow stairs leading up to find your way.',
              'Each time you battle through a Sellbot HQ factory, you will gain one part of your Sellbot Cog Disguise.',
              'Each time you battle through a Cashbot HQ Mint, you will gain one part of your Cashbot Cog Disguise.',
              'Each time you battle through a Lawbot HQ District Attorney\'s Office, you will gain one part of your Lawbot Cog Disguise.',
              'Each time you battle through a Bossbot HQ Cog Golf Course, you will gain one part of your Bossbot Cog Disguise.',
-             'Each time you battle through a Boardbot HQ "CLASSIFIED INFORMATION", you will gain one part of your Boardbot Cog Disguise.',
+             'Each time you battle through a "CLASSIFIED INFORMATION", you will gain one part of your ???.',
              'You can check the progress of your Cog Disguise in your Shticker Book.',
              'You can check your promotion progress on your Disguise Page in your Shticker Book.',
              'Make sure you have full gags and a full Laff Meter before going to Cog Headquarters.',
@@ -8246,7 +8248,7 @@ TipDict = {TIP_NONE: ('',),
              'You must defeat the ' + Supervisor + ' to recover a Cashbot Cog Disguise part.',
              'You must defeat the ' + Clerk + ' to recover a Lawbot Cog Disguise part.',
              'You must defeat the ' + President + ' to recover a Bossbot Cog Disguise part.',
-             'You must defeat the "This is above your paygrade, toon." to recover a Boardbot Cog Disguise part.',
+             'You must defeat the "This is above your paygrade, toon." to recover a ???.',
              'Cashbots manufacture and distribute their currency, Cogbucks, in three Mints - Coin, Dollar and Bullion.',
              'Wait until the C.F.O. is dizzy to throw a safe, or he will use it as a helmet! Hit the helmet with another safe to knock it off.',
              "It pays to be puzzled: the virtual Cogs in Lawbot HQ won't reward you with Jury Notices."),
