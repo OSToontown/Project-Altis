@@ -38,7 +38,6 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             self.sounds.append(loader.loadSfx(s))
 
         DistributedCrusherEntity.DistributedCrusherEntity.__init__(self, cr)
-        return
 
     def generateInit(self):
         self.notify.debug('generateInit')
@@ -65,7 +64,6 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             del self.smokeTrack
             self.smokeTrack = None
         DistributedCrusherEntity.DistributedCrusherEntity.disable(self)
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -162,7 +160,6 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             self.smoke = loader.loadModel('phase_4/models/props/test_clouds')
             self.smoke.setColor(0.8, 0.7, 0.5, 1)
             self.smoke.setBillboardPointEye()
-        return
 
     def stashCrushSurface(self, isStunned):
         self.notify.debug('stashCrushSurface(%s)' % isStunned)
@@ -192,7 +189,6 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                 self.model.removeNode()
             del self.model
             self.model = None
-        return
 
     def sendStompToon(self):
         messenger.send(self.crushMsg)
@@ -302,7 +298,6 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             self.ival.setT(globalClock.getFrameTime() - self.level.startTime + self.period * self.phaseShift)
         else:
             self.ival.start(startTime)
-        return
 
     def stopStomper(self):
         if self.ival:
@@ -311,7 +306,6 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             self.smokeTrack.finish()
             del self.smokeTrack
             self.smokeTrack = None
-        return
 
     def setMovie(self, mode, timestamp, crushedList):
         self.notify.debug('setMovie %d' % mode)
