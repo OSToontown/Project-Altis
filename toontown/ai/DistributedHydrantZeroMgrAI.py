@@ -4,3 +4,5 @@ from toontown.ai.DistributedPhaseEventMgrAI import DistributedPhaseEventMgrAI
 class DistributedHydrantZeroMgrAI(DistributedPhaseEventMgrAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedHydrantZeroMgrAI")
 
+    def __init__(self, air):
+        DistributedPhaseEventMgrAI.__init__(self, air)
