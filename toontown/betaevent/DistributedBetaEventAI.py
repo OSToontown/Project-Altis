@@ -44,6 +44,12 @@ class DistributedBetaEventAI(DistributedEventAI):
     def exitCogInvade(self):
         pass
     
+    def enterCogTalk(self):
+        pass
+        
+    def exitCogTalk(self):
+        pass
+    
     def enterCogTakeover(self):
         pass
     

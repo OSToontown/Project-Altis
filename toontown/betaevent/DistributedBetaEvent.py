@@ -27,20 +27,20 @@ class DistributedBetaEvent(DistributedEvent):
         # The cog version of Looney Labs - After it gets taken over
         self.cogLabs = None
 
-        # Create surlee
-        self.surlee = Toon.Toon()
-        self.surlee.setName('Doctor Surlee')
-        self.surlee.setPickable(0)
-        self.surlee.setPlayerType(NametagGlobals.CCNonPlayer)
+        # Create prepostera
+        self.prepostera = Toon.Toon()
+        self.prepostera.setName('Professor Prepostera')
+        self.prepostera.setPickable(0)
+        self.prepostera.setPlayerType(NametagGlobals.CCNonPlayer)
         dna = ToonDNA.ToonDNA()
-        dna.newToonFromProperties('pls', 'ls', 'l', 'm', 9, 0, 9, 9, 98, 27, 86, 27, 38, 27)
-        self.surlee.setDNA(dna)
-        self.surlee.animFSM.request('neutral')
-        self.surlee.reparentTo(render)
-        self.surlee.setPosHpr(4, -3, -68.367, 0, 0, 0)
-        self.surlee.blinkEyes()
-        self.surlee.head = self.surlee.find('**/__Actor_head')
-        self.surlee.initializeBodyCollisions('toon')
+        dna.newToonFromProperties('hss', 'ms','m', 'm', 20, 0, 20, 20, 97, 27, 86, 27, 37, 27)
+        self.prepostera.setDNA(dna)
+        self.prepostera.loop('scientistEmcee')
+        self.prepostera.reparentTo(render)
+        self.prepostera.setPosHpr(4, -3, -68.367, 0, 0, 0)
+        self.prepostera.blinkEyes()
+        self.prepostera.head = self.prepostera.find('**/__Actor_head')
+        self.prepostera.initializeBodyCollisions('toon')
         
         self.headHoncho1 = DistributedSuitBase.DistributedSuitBase(self.cr)
         headHoncho1suitDNA = SuitDNA.SuitDNA()
@@ -50,8 +50,32 @@ class DistributedBetaEvent(DistributedEvent):
         self.headHoncho1.setPickable(0)
         self.headHoncho1.setPosHpr(0, 0, 0, 0, 0, 0)
         self.headHoncho1.reparentTo(render)
+        self.headHoncho1.doId = 0
         self.headHoncho1.hide()
-        #self.headHoncho1.initializeBodyCollisions('toon')
+        self.headHoncho1.initializeBodyCollisions('toon')
+        
+        middlemanDNA = SuitDNA.SuitDNA()
+        middlemanDNA.newSuit('mdm')
+        
+        self.middleman1 = DistributedSuitBase.DistributedSuitBase(self.cr)
+        self.middleman1.setDNA(middlemanDNA)
+        self.middleman1.setDisplayName('Middleman')
+        self.middleman1.setPickable(0)
+        self.middleman1.setPosHpr(0, 0, 0, 0, 0, 0)
+        self.middleman1.reparentTo(render)
+        self.middleman1.doId = 1
+        self.middleman1.hide()
+        self.middleman1.initializeBodyCollisions('toon')
+        
+        self.middleman2 = DistributedSuitBase.DistributedSuitBase(self.cr)
+        self.middleman2.setDNA(middlemanDNA)
+        self.middleman2.setDisplayName('Middleman')
+        self.middleman2.setPickable(0)
+        self.middleman2.setPosHpr(0, 0, 0, 0, 0, 0)
+        self.middleman2.reparentTo(render)
+        self.middleman2.doId = 2
+        self.middleman2.hide()
+        self.middleman2.initializeBodyCollisions('toon')
         
         base.musicManager.stopAllSounds()
         self.toonMusic = loader.loadMusic('phase_14/audio/bgm/ttiHalcyon.mp3') # Placeholder
@@ -65,7 +89,7 @@ class DistributedBetaEvent(DistributedEvent):
 
     def delete(self):
         DistributedEvent.delete(self)
-        self.surlee.delete()
+        self.prepostera.delete()
             
     def enterPreEvent(self, timestamp):
         # If for some reason the cog lab is loaded, unload
@@ -95,13 +119,13 @@ class DistributedBetaEvent(DistributedEvent):
             self.loadToonLab()
         
         Sequence(
-                    Func(self.surlee.setChatAbsolute, 'Greetings Toons of the world!', CFSpeech|CFTimeout),
+                    Func(self.prepostera.setChatAbsolute, 'Greetings Toons of the world!', CFSpeech|CFTimeout),
                     Wait(3),
-                    Func(self.surlee.setChatAbsolute, 'Today, we are proud to announce...', CFSpeech|CFTimeout),
+                    Func(self.prepostera.setChatAbsolute, 'Today, we are proud to announce...', CFSpeech|CFTimeout),
                     Wait(3),
-                    Func(self.surlee.setChatAbsolute, 'The renovation and public opening of...', CFSpeech|CFTimeout),
+                    Func(self.prepostera.setChatAbsolute, 'The renovation and public opening of...', CFSpeech|CFTimeout),
                     Wait(4),
-                    Func(self.surlee.setChatAbsolute, 'Looney Labs!', CFSpeech|CFTimeout),
+                    Func(self.prepostera.setChatAbsolute, 'Looney Labs!', CFSpeech|CFTimeout),
                     Wait(2),
                  ).start()
         
@@ -124,9 +148,8 @@ class DistributedBetaEvent(DistributedEvent):
     def enterCogInvade(self, timestamp):
         self.headHoncho1.setPosHpr(0, 0, 0, 0, 0, 0)
         self.headHoncho1.show()
-        self.headHoncho1.beginSupaFlyMove(Vec3(12, -4, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False).start()
         Sequence(
-                    Wait(8),
+                    self.headHoncho1.beginSupaFlyMove(Vec3(12, -4, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
                     Func(self.headHoncho1.loop, 'walk'),
                     self.headHoncho1.hprInterval(2, VBase3(90, 0, 0)),
                     Func(self.headHoncho1.loop, 'neutral'),
@@ -139,6 +162,28 @@ class DistributedBetaEvent(DistributedEvent):
                  ).start()
         
     def exitCogInvade(self):
+        pass
+    
+    def enterCogTalk(self, timestamp):
+        self.middleman1.show()
+        self.middleman2.show()
+        Sequence(
+                 Func(self.headHoncho1.setChatAbsolute, 'I hear you are opening Looney Labs...', CFSpeech|CFTimeout),
+                 Wait(4),
+                 Parallel(
+                          self.middleman1.beginSupaFlyMove(Vec3(-8, -4, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
+                          self.middleman2.beginSupaFlyMove(Vec3(4, -12, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False)
+                          ),
+                 Func(self.middleman2.loop, 'neutral'),
+                 Parallel(
+                          Sequence(
+                                Func(self.middleman1.loop, 'walk'),
+                                self.middleman1.hprInterval(2, VBase3(-90, 0, 0)),
+                                Func(self.middleman1.loop, 'neutral')),
+                          Func(self.headHoncho1.setChatAbsolute, "Well let's see about that", CFSpeech|CFTimeout))
+                 ).start()
+                 
+    def exitCogTalk(self):
         pass
     
     def enterCogTakeover(self, timestamp):
