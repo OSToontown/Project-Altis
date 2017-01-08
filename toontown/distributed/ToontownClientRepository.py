@@ -405,7 +405,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
         dclassName = pad.args[0]
         dclass = self.dclassesByName[dclassName]
-        #pad.avatar.updateAllRequiredFields(dclass, fields)
+        pad.avatar.updateAllRequiredFields(dclass, fields)
 
         # This is a much saner way to load avatar details, and is also
         # dynamic. This means we aren't restricted in what we pass.

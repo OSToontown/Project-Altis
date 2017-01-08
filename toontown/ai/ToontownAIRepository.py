@@ -111,6 +111,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.cogPageManager = CogPageManagerAI.CogPageManagerAI()
         self.bankManager = BankManagerAI.BankManagerAI(self)
         self.sillyMeterMgr = DistributedSillyMeterMgrAI.DistributedSillyMeterMgrAI(self)
+        self.sillyMeterMgr.generateWithRequired(2)
         self.holidayManager = HolidayManagerAI(self)
         
         if self.wantFishing:

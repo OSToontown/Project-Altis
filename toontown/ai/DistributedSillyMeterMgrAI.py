@@ -8,7 +8,6 @@ class DistributedSillyMeterMgrAI(DistributedPhaseEventMgrAI):
     
     def __init__(self, air):
         DistributedPhaseEventMgrAI.__init__(self, air)
-        
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def setSillyMeterPhase(phase):
@@ -21,11 +20,10 @@ def setSillyMeterPhase(phase):
         return("Phase is too low! (-1 to 15) can be used!")
         
     if phase == -1:
-        simbase.air.sillyMeterMgr.setCurPhase(phase)
-        simbase.air.sillyMeterMgr.setIsRunning(False)
+        simbase.air.sillyMeterMgr.b_setCurPhase(phase)
+        simbase.air.sillyMeterMgr.b_setIsRunning(False)
         return("Turned Off The Silly Meter!")
     
-    simbase.air.sillyMeterMgr.setCurPhase(phase)
-    simbase.air.sillyMeterMgr.setIsRunning(True)
+    simbase.air.sillyMeterMgr.b_setCurPhase(phase)
+    simbase.air.sillyMeterMgr.b_setIsRunning(True)
     return "Set Silly Meters Phase!"
-
