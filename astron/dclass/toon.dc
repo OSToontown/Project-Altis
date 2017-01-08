@@ -806,6 +806,8 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
+from toontown.betaevent import DistributedEvent/AI
+from toontown.betaevent import DistributedBetaEvent/AI
 
 struct GiftItem {
   blob Item;
@@ -3890,4 +3892,12 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 };
 
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
+};
+
+dclass DistributedEvent : DistributedObject {
+  start() broadcast ram;
+  setState(string, int32) broadcast ram;
+};
+
+dclass DistributedBetaEvent : DistributedEvent {
 };

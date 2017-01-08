@@ -6,9 +6,8 @@ from direct.interval.IntervalGlobal import *
 from toontown.toon import Toon, ToonDNA
 from direct.actor.Actor import Actor
 from otp.avatar import Avatar
-from otp.nametag.NametagConstants import *
-from otp.nametag.NametagGroup import *
-from otp.nametag.NametagGlobals import *
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGroup import *
 from toontown.suit import DistributedSuitBase, SuitDNA
 from toontown.toon import NPCToons
 from toontown.betaevent import BetaEventGlobals as BEGlobals
@@ -32,7 +31,7 @@ class DistributedBetaEvent(DistributedEvent):
         self.surlee = Toon.Toon()
         self.surlee.setName('Doctor Surlee')
         self.surlee.setPickable(0)
-        self.surlee.setPlayerType(CCNonPlayer)
+        self.surlee.setPlayerType(NametagGlobals.CCNonPlayer)
         dna = ToonDNA.ToonDNA()
         dna.newToonFromProperties('pls', 'ls', 'l', 'm', 9, 0, 9, 9, 98, 27, 86, 27, 38, 27)
         self.surlee.setDNA(dna)

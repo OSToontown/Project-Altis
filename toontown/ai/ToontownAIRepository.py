@@ -41,6 +41,7 @@ from toontown.hood import OZHoodAI
 from toontown.hood import SellbotHQAI
 from toontown.hood import TTHoodAI
 from toontown.hood import ZoneUtil
+from toontown.hood import BoardbotHQAI
 from toontown.pets.PetManagerAI import PetManagerAI
 from toontown.safezone.SafeZoneManagerAI import SafeZoneManagerAI
 from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
@@ -180,6 +181,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.config.GetBool('want-bossbot-headquarters', True):
             self.countryClubMgr = CountryClubManagerAI.CountryClubManagerAI(self)
             self.cogHeadquarters.append(BossbotHQAI.BossbotHQAI(self))
+        if self.config.GetBool('want-bdhq', True):
+            self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
 
     def handleConnected(self):
         self.districtId = self.allocateChannel()

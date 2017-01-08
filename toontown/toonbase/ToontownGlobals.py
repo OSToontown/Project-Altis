@@ -220,6 +220,7 @@ LawbotStageIntA = 13300
 LawbotStageIntB = 13400
 LawbotStageIntC = 13500
 LawbotStageIntD = 13600
+BoardbotHQ = 19000
 Tutorial = 15000
 MyEstate = 16000
 GolfZone = 17000
@@ -262,7 +263,8 @@ def dept2cogHQ(dept):
     dept2hq = {'c': BossbotHQ,
      'l': LawbotHQ,
      'm': CashbotHQ,
-     's': SellbotHQ}
+     's': SellbotHQ,
+     'g': BoardbotHQ}
     return dept2hq[dept]
 
 
@@ -331,6 +333,7 @@ Hoods = (DonaldsDock,
  SellbotHQ,
  CashbotHQ,
  LawbotHQ,
+ BoardbotHQ,
  GolfZone)
 HoodsForTeleportAll = (DonaldsDock,
  ToontownCentral,
@@ -344,6 +347,7 @@ HoodsForTeleportAll = (DonaldsDock,
  SellbotHQ,
  CashbotHQ,
  LawbotHQ,
+ BoardbotHQ,
  GolfZone)
 BingoCardNames = {'normal': 0,
 'corners': 1,
@@ -432,6 +436,7 @@ phaseMap = {Tutorial: 4,
  SellbotHQ: 9,
  CashbotHQ: 10,
  LawbotHQ: 11,
+ BoardbotHQ: 14,
  GolfZone: 6,
  PartyHood: 13}
 streetPhaseMap = {ToontownCentral: 5,
@@ -447,6 +452,7 @@ streetPhaseMap = {ToontownCentral: 5,
  SellbotHQ: 9,
  CashbotHQ: 10,
  LawbotHQ: 11,
+ BoardbotHQ: 14,
  PartyHood: 13}
 dnaMap = {Tutorial: 'toontown_central',
  ToontownCentral: 'toontown_central',
@@ -462,6 +468,7 @@ dnaMap = {Tutorial: 'toontown_central',
  SellbotHQ: 'cog_hq_sellbot',
  CashbotHQ: 'cog_hq_cashbot',
  LawbotHQ: 'cog_hq_lawbot',
+ BoardbotHQ: 'cog_hq_boardbot',
  GolfZone: 'golf_zone'}
 hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  ToontownCentral: TTLocalizer.ToontownCentral,
@@ -476,6 +483,7 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  SellbotHQ: TTLocalizer.SellbotHQ,
  CashbotHQ: TTLocalizer.CashbotHQ,
  LawbotHQ: TTLocalizer.LawbotHQ,
+ BoardbotHQ: TTLocalizer.BoardbotHQ,
  Tutorial: TTLocalizer.Tutorial,
  MyEstate: TTLocalizer.MyEstate,
  GolfZone: TTLocalizer.GolfZone,
@@ -520,6 +528,7 @@ hoodCountMap = {MyEstate: 2,
  SellbotHQ: 43,
  CashbotHQ: 2,
  LawbotHQ: 2,
+ BoardbotHQ: 2,
  GolfZone: 2,
  PartyHood: 2}
 TrophyStarLevels = (10,

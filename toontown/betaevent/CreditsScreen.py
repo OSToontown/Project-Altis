@@ -8,7 +8,7 @@ from direct.interval.IntervalGlobal import *
 from toontown.toon import Toon, ToonDNA
 from direct.actor.Actor import Actor
 from direct.gui.DirectGui import *
-from CreditsLines import *
+from toontown.betaevent.CreditsLines import *
 
 class CreditsScreen:
     '''
