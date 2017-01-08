@@ -248,7 +248,24 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
 
     def getPetDetails(self, petId):
-        pass
+        senderId = self.air.getAvatarIdFromSender()
+        def handlePet(dclass, fields):
+            if dclass != self.air.dclassesByName['DistributedPetAI']:
+                return
+            dna = [fields.get(x, [0])[0] for x in ("setHead", "setEars", "setNose", "setTail", "setBodyTexture", "setColor",
+                                                 "setColorScale", "setEyeColor", "setGender")]
+            moods = [fields.get(x, [0])[0] for x in ("setBoredom", "setRestlessness", "setPlayfulness", "setLoneliness",
+                                                   "setSadness", "setAffection", "setHunger", "setConfusion", "setExcitement",
+                                                   "setFatigue", "setAnger", "setSurprise")]
+            traits = [fields.get(x, [0])[0] for x in ("setForgetfulness", "setBoredomThreshold", "setRestlessnessThreshold",
+                                                    "setPlayfulnessThreshold", "setLonelinessThreshold", "setSadnessThreshold",
+                                                    "setFatigueThreshold", "setHungerThreshold", "setConfusionThreshold",
+                                                    "setExcitementThreshold", "setAngerThreshold", "setSurpriseThreshold",
+                                                    "setAffectionThreshold")]
+            self.sendUpdateToAvatarId(senderId, 'petDetails', [petId, fields.get("setOwnerId", [0])[0], fields.get("setPetName", ["???"])[0],
+                                                               fields.get("setTraitSeed", [0])[0], fields.get("setSafeZone", [0])[0],
+                                                               traits, moods, dna, fields.get("setLastSeenTimestamp", [0])[0]])
+        self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
 
     def toonOnline(self, doId, friendsList):
         self.onlineToons.append(doId)
