@@ -24,6 +24,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
     CogdoRatio = min(1.0, max(0.0, config.GetFloat('cogdo-ratio', 0.5)))
     MAX_SUIT_TYPES = 6
+    MAX_SUIT_TYPES_HQ = 6
+    HQ_SKELE_CHANCE = 0.15
     POP_UPKEEP_DELAY = 10
     POP_ADJUST_DELAY = 300
     PATH_COLLISION_BUFFER = 5
@@ -246,6 +248,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             cogdoTakeover=None, minPathLen=None, maxPathLen=None,
             buildingHeight=None, suitLevel=None, suitType=None, suitTrack=None,
             suitName=None, skelecog=None, revives=None, waiter=None):
+        self.skeleChance = 0
         startPoint = None
         blockNumber = None
         if self.notify.getDebug():
@@ -327,6 +330,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.zoneChange(newSuit, None, newSuit.zoneId)
         if skelecog:
             newSuit.setSkelecog(skelecog)
+        if self.skeleChance == 1:
+            newSuit.setSkelecog(1)
         newSuit.generateWithRequired(newSuit.zoneId)
         if revives is not None:
             newSuit.b_setSkeleRevives(revives)
@@ -953,8 +958,16 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         if level is None:
             level = random.choice(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL])
         if type is None:
-            typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
-            type = random.choice(typeChoices)
+            if ZoneUtil.isCogHQZone(self.zoneId):
+                typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
+                type = random.choice(typeChoices)
+                if random.random() < self.HQ_SKELE_CHANCE:
+                    self.skeleChance = 1
+            else:
+                typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
+                type = random.choice(typeChoices)
+        if level > 12:
+            pass 
         else:
             level = min(max(level, type), type + 4)
         if track is None:
