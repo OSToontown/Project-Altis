@@ -11,40 +11,75 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
         self.curPhase = 0
         self.isRunning = False
 
-    def setNumPhases(self, numPhases):
-        self.numPhases = numPhases
-
-    def getNumPhases(self):
-        return self.numPhases
-
     def setDates(self, dates):
         self.dates = dates
 
     def getDates(self):
         return self.dates
+        
+   def setNumPhases(self, phaseAmount):
+        if phaseAmount != int(phaseAmount):
+            return
+        
+        self.numPhases = phaseAmount
 
-    def setCurPhase(self, curPhase):
-        self.curPhase = curPhase
+    def d_setNumPhases(self, phaseAmount):
+        if phaseAmount != int(phaseAmount):
+            return
+        
+        self.sendUpdate('setNumPhases', [phaseAmount])
+        
+    def b_setNumPhases(self, phaseAmount):
+        if phaseAmount != int(phaseAmount):
+            return
+        
+        self.setNumPhases(phaseAmount)
+        self.d_setNumPhases(phaseAmount)
+        
+    def setCurPhase(self, phase):
+        if phase != int(phase):
+            return
+        
+        self.curPhase = phase
 
-    def d_setCurPhase(self, curPhase):
-        self.sendUpdate('setCurPhase', [curPhase])
+    def d_setCurPhase(self, phase):
+        if phase != int(phase):
+            return
+        
+        self.sendUpdate('setCurPhase', [phase])
+        
+    def b_setCurPhase(self, phase):
+        if phase != int(phase):
+            return
+        
+        self.setCurPhase(phase)
+        self.d_setCurPhase(phase)
+        
+    def setIsRunning(self, bool):
+        if bool not in [True, False, 0, 1]:
+            return
+         
+         if bool == 0:
+             bool = False
+        
+        self.isRunning = bool
 
-    def b_setCurPhase(self, curPhase):
-        self.setCurPhase(curPhase)
-        self.d_setCurPhase(curPhase)
+    def d_setIsRunning(self, bool):
+        if bool not in [True, False, 0, 1]:
+            return
+         
+         if bool == 0:
+             bool = False
+        
+        self.sendUpdate("setIsRunning", [bool])
+        
+    def b_setIsRunning(self, bool):
+        if bool not in [True, False, 0, 1]:
+            return
+         
+         if bool == 0:
+             bool = False
+        
+        self.setIsRunning(bool)
+        self.d_setIsRunning(bool)
 
-    def getCurPhase(self):
-        return self.curPhase
-
-    def setIsRunning(self, isRunning):
-        self.isRunning = isRunning
-
-    def d_setIsRunning(self, isRunning):
-        self.sendUpdate('setIsRunning', [isRunning])
-
-    def b_setIsRunning(self, isRunning):
-        self.setIsRunning(isRunning)
-        self.d_setIsRunning(isRunning)
-
-    def getIsRunning(self):
-        return self.isRunning
