@@ -49,7 +49,6 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.lastPlayingAnimPhase = 0
         self.buildingsMakingMeSad = set()
         GenericAnimatedProp.GenericAnimatedProp.__init__(self, node)
-        return
 
     def delete(self):
         self.exit()
@@ -58,7 +57,6 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.battleCheerInterval = None
         self.sadInterval = None
         self.victoryInterval = None
-        return
 
     def getCellIndex(self):
         return self.cellIndex
@@ -107,6 +105,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             animStr = self.path + '/' + self.ZoneToSadAnims[self.hoodId]
             animKey = 'sad'
             animDict[animKey] = animStr
+        
         self.trashcan.loadAnims(animDict)
         self.trashcan.pose('anim', 0)
         self.node = self.trashcan
@@ -114,7 +113,6 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.battleCheerInterval = self.createBattleCheerInterval()
         self.victoryInterval = self.createVictoryInterval()
         self.sadInterval = self.createSadInterval()
-        return
 
     def createIdleInterval(self):
         result = Sequence()
@@ -297,7 +295,6 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         else:
             self.curIval = Wait(10)
             self.notify.debug('false self.okToStartNextAnim=%s' % self.okToStartNextAnim)
-        return
 
     def createIdleAnimAndSoundInterval(self, whichIdleAnim, startingTime = 0):
         animIval = self.node.actorInterval('idle%d' % whichIdleAnim, startTime=startingTime)
@@ -391,7 +388,6 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.notify.debugStateCall(self)
         self.curIval.pause()
         self.curIval = None
-        return
 
     def calcWhichIdleAnim(self, animName):
         result = 0
@@ -443,7 +439,6 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         if self.curIval:
             self.curIval.finish()
             self.curIval = None
-        return
 
     def enterSad(self):
         self.notify.debugStateCall(self)
@@ -456,7 +451,6 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         if self.curIval:
             self.curIval.finish()
             self.curIval = None
-        return
 
     def getSettleName(self, whichIdleAnim):
         result = None
@@ -505,4 +499,3 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             self.curIval.finish()
         clearPythonIvals(self.curIval)
         self.curIval = None
-        return

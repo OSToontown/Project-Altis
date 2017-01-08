@@ -1,5 +1,7 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from toontown.toonbase import ToontownGlobals
+from otp.ai.MagicWordGlobal import *
 
 class NewsManagerAI(DistributedObjectAI):
     notify = directNotify.newCategory('NewsManagerAI')
@@ -53,7 +55,7 @@ class NewsManagerAI(DistributedObjectAI):
         self.sendUpdate('setInvasionStatus', args=[msgType, cogType, numRemaining, skeleton])
 
     def setHolidayIdList(self, holidays):
-        self.sendUpdate('setHolidayIdList', holidays)
+        self.sendUpdate('setHolidayIdList', [holidays])
 
     def holidayNotify(self):
         pass
@@ -88,5 +90,10 @@ class NewsManagerAI(DistributedObjectAI):
     def getMultipleStartHolidays(self):
         return []
 
-    def sendSystemMessage(self, todo0, todo1):
-        pass
+    def sendSystemMessage(self, message, style):
+        self.sendUpdate('sendSystemMessage', [message, style])
+
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def startHoliday(holidayId):
+    simbase.air.newsManager.setHolidayIdList([holidayId])
+    return 'Successfully set holiday to %d.' % (holidayId)
