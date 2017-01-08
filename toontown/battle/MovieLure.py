@@ -12,6 +12,7 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattleParticles
 from toontown.battle import BattleProps
 from toontown.battle import MovieNPCSOS
+import random
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieLures')
 
 def safeWrtReparentTo(nodePath, parent):
@@ -327,7 +328,10 @@ def __createSuitDamageTrack(battle, suit, hp, lure, trapProp):
         animTrack = Sequence(ActorInterval(trapProp, 'banana', startTime=3.1), Wait(1.1), LerpScaleInterval(trapProp, 1, Point3(0.01, 0.01, 0.01)))
         suitTrack = ActorInterval(suit, 'slip-backward')
         damageTrack = Sequence(Wait(0.5), Func(suit.showHpText, -hp, openEnded=0), Func(suit.updateHealthBar, hp))
-        soundTrack = Sequence(SoundInterval(globalBattleSoundCache.getSound('AA_pie_throw_only.ogg'), duration=0.55, node=suit), SoundInterval(globalBattleSoundCache.getSound('Toon_bodyfall_synergy.ogg'), node=suit))
+        if random.random() <= 0.01:
+            soundTrack = Sequence(Parallel(SoundInterval(globalBattleSoundCache.getSound('AA_pie_throw_only.ogg'), node=suit), Func(base.playSfx, globalBattleSoundCache.getSound('AA_WHATAREYOUDOING.ogg'))), SoundInterval(globalBattleSoundCache.getSound('Toon_bodyfall_synergy.ogg'), node=suit))
+        else:
+            soundTrack = Sequence(SoundInterval(globalBattleSoundCache.getSound('AA_WHATAREYOUDOING.ogg'), node=suit), SoundInterval(globalBattleSoundCache.getSound('Toon_bodyfall_synergy.ogg'), node=suit))
         result.append(Parallel(moveTrack, animTrack, suitTrack, damageTrack, soundTrack))
     elif trapName == 'rake' or trapName == 'rake-react':
         hpr = trapProp.getHpr(parent)
