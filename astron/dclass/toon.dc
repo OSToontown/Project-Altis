@@ -1128,6 +1128,9 @@ dclass DistributedToon : DistributedPlayer {
   flagAv(uint32, uint16, string []) airecv ownsend;
   setAnimalSound(uint8 index) ram broadcast ownrecv;
   setBuffs(uint32[] = []) required ownrecv db;
+  magicTeleportRequest(uint32 requesterId) ownrecv;
+  magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
+  magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
 };
 
 dclass DistributedCCharBase : DistributedObject {

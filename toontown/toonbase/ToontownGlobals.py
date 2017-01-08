@@ -171,6 +171,7 @@ PolarPlace = 3300
 AltoAvenue = 4100
 BaritoneBoulevard = 4200
 TenorTerrace = 4300
+SopranoStreet = 4400
 ElmStreet = 5100
 MapleStreet = 5200
 OakStreet = 5300
@@ -180,11 +181,23 @@ ToonHall = 2513
 HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
- MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace),
+ MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
+
+# Colors for Loading Screens / Title Text
+DEFAULTCOLOR = (1.0, 0.0, 0.0, 1.0)
+TTCOLOR = (1.0, 0.5, 0.4, 1.0)
+DDCOLOR = (0.8, 0.6, 0.5, 1.0)
+BRCOLOR = (0.3, 0.6, 1.0, 1.0)
+MMCOLOR = (1.0, 0.5, 0.5, 1.0)
+DGCOLOR = (0.8, 0.6, 1.0, 1.0)
+DLCOLOR = (1.0, 0.9, 0.5, 1.0)
+OZCOLOR = (1.0, 0.5, 0.4, 1.0)
+GSCOLOR = (1.0, 0.5, 0.4, 1.0)
+
 BossbotHQ = 10000
 BossbotLobby = 10100
 BossbotCountryClubIntA = 10500
