@@ -20,5 +20,5 @@ class ChatAgentAI(DistributedObjectGlobalAI):
             return
 
         # broadcast chat message update
-        av.b_setTalk(sender, sender, av.getName(), message, modifications, 
+        av.b_setTalk(sender, av.DISLid, av.getName(), message, modifications, 
             CFSpeech | CFQuicktalker | CFTimeout)
