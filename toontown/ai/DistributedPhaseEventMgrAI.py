@@ -55,6 +55,9 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
         self.setCurPhase(phase)
         self.d_setCurPhase(phase)
         
+    def getCurPhase(self):
+        return self.curPhase
+ 
     def setIsRunning(self, bool):
         if bool not in [True, False, 0, 1]:
             return
@@ -82,4 +85,7 @@ class DistributedPhaseEventMgrAI(DistributedObjectAI):
         
         self.setIsRunning(bool)
         self.d_setIsRunning(bool)
+ 
+    def getIsRunning(self):
+        return self.isRunning 
 
