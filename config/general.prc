@@ -6,8 +6,6 @@ cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #t
 default-directnotify-level info
 
-notify-level-DistributedToonHallInterior debug
-
 # Audio:
 audio-library-name p3fmod_audio
 
