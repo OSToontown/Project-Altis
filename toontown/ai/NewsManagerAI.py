@@ -7,6 +7,7 @@ class NewsManagerAI(DistributedObjectAI):
     notify = directNotify.newCategory('NewsManagerAI')
     
     def __init__(self, air):
+        DistributedObjectAI.__init__(self, air)
         self.air = air
         self.holidayList = []
 
