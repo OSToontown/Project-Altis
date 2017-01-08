@@ -100,15 +100,15 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         result = -1
         enoughInfoToRun = False
         if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(simbase.air, 'SillyMeterMgr'):
+            if hasattr(simbase.air, 'sillyMeterMgr'):
                 enoughInfoToRun = True
             else:
                 self.notify.debug('simbase.air does not have SillyMeterMgr')
         else:
             self.notify.debug('holiday is not running')
         self.notify.debug('enoughInfoToRun = %s' % enoughInfoToRun)
-        if enoughInfoToRun and simbase.air.SillyMeterMgr.getIsRunning():
-            result = simbase.air.SillyMeterMgr.getCurPhase()
+        if enoughInfoToRun and simbase.air.sillyMeterMgr.getIsRunning():
+            result = simbase.air.sillyMeterMgr.getCurPhase()
         return result
 
     def enterNeutral(self):
