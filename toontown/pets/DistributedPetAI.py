@@ -23,7 +23,6 @@ import time
 import string
 import copy
 from direct.showbase.PythonUtil import StackTrace
-
 from PetMoverAI import PetMoverAI
 
 class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLookerAI.PetLookerAI, PetBase.PetBase):
@@ -76,7 +75,6 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.unstickFSM.enterInitialState()
         if __dev__:
             self.pscMoveResc = PStatCollector('App:Show code:petMove:Reschedule')
-        return
 
     def setInactive(self):
         self.active = 0
@@ -132,15 +130,6 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
     def announceZoneChange(self, newZoneId, oldZoneId):
         DistributedPetAI.notify.debug('%s.announceZoneChange: %s->%s' % (self.doId, oldZoneId, newZoneId))
         broadcastZones = list2dict([newZoneId, oldZoneId])
-        self.estateOwnerId = simbase.air.estateManager.getOwnerFromZone(newZoneId)
-        if self.estateOwnerId:
-            if __dev__:
-                pass
-            self.inEstate = 1
-            self.estateZones = simbase.air.estateManager.getEstateZones(self.estateOwnerId)
-        else:
-            self.inEstate = 0
-            self.estateZones = []
         PetObserve.send(broadcastZones.keys(), PetObserve.PetActionObserve(PetObserve.Actions.CHANGE_ZONE, self.doId, (oldZoneId, newZoneId)))
 
     def getOwnerId(self):
@@ -528,7 +517,6 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.accept(self.mood.getMoodChangeEvent(), self.handleMoodChange)
         self.mood.start()
         self.brain.start()
-        return
 
     def _isPet(self):
         return 1

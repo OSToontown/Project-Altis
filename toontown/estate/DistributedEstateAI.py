@@ -1,8 +1,8 @@
+import time
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from toontown.estate import HouseGlobals
-import time
 from toontown.fishing.DistributedFishingPondAI import DistributedFishingPondAI
 from toontown.fishing.DistributedFishingTargetAI import DistributedFishingTargetAI
 from toontown.fishing.DistributedPondBingoManagerAI import DistributedPondBingoManagerAI
@@ -10,6 +10,7 @@ from toontown.fishing import FishingTargetGlobals
 from toontown.safezone.DistributedFishingSpotAI import DistributedFishingSpotAI
 from toontown.safezone.SZTreasurePlannerAI import SZTreasurePlannerAI
 from toontown.safezone import TreasureGlobals
+from toontown.pets.DistributedPetAI import DistributedPetAI
 
 class DistributedEstateAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedEstateAI")
@@ -30,6 +31,7 @@ class DistributedEstateAI(DistributedObjectAI):
         self.spots = []
         
         self.targets = []
+        self.pets = []
 
         self.owner = None
         
@@ -45,7 +47,6 @@ class DistributedEstateAI(DistributedObjectAI):
             target.setPondDoId(self.pond.getDoId())
             target.generateWithRequired(self.zoneId)
             self.targets.append(target)
-
 
         spot = DistributedFishingSpotAI(self.air)
         spot.setPondDoId(self.pond.getDoId())
@@ -73,6 +74,8 @@ class DistributedEstateAI(DistributedObjectAI):
 
         self.createTreasurePlanner()
 
+    def announceGenerate(self):
+        DistributedObjectAI.announceGenerate(self)
 
     def destroy(self):
         for house in self.houses:
@@ -83,8 +86,12 @@ class DistributedEstateAI(DistributedObjectAI):
             self.pond.requestDelete()
             for spot in self.spots:
                 spot.requestDelete()
+            
             for target in self.targets:
                 target.requestDelete()
+           
+            for pet in self.pets:
+                pet.requestDelete()
 
         if self.treasurePlanner:
             self.treasurePlanner.stop()
@@ -121,9 +128,71 @@ class DistributedEstateAI(DistributedObjectAI):
         self.treasurePlanner = SZTreasurePlannerAI(self.zoneId, treasureType, healAmount, spawnPoints, spawnRate, maxTreasures)
         self.treasurePlanner.start()
 
+    def initPets(self, owner):
+
+        def _queryAccount(dclass, fields):
+            avatarList = fields['ACCOUNT_AV_SET']
+
+            def _queryToon(dclass, fields):
+                petId, = fields['setPetId']
+
+                if not petId:
+                    return
+
+                def _queryPet(dclass, fields):
+                    ownerId, = fields['setOwnerId']
+                    petName, = fields['setPetName']
+                    traitSeed, = fields['setTraitSeed']
+                    safeZone, = fields['setSafeZone']
+                    head, = fields['setHead']
+                    ears, = fields['setEars']
+                    nose, = fields['setNose']
+                    tail, = fields['setTail']
+                    bodyTexture, = fields['setBodyTexture']
+                    color, = fields['setColor']
+                    colorScale, = fields['setColorScale']
+                    eyeColor, = fields['setEyeColor']
+                    gender, = fields['setGender']
+                    lastSeenTimestamp, = fields['setLastSeenTimestamp']
+                    trickAptitudes, = fields['setTrickAptitudes']
+
+                    pet = DistributedPetAI(self.air)
+                    pet.setOwnerId(ownerId)
+                    pet.setPetName(petName)
+                    pet.setTraitSeed(traitSeed)
+                    pet.setSafeZone(safeZone)
+                    pet.setHead(head)
+                    pet.setEars(ears)
+                    pet.setNose(nose)
+                    pet.setTail(tail)
+                    pet.setBodyTexture(bodyTexture)
+                    pet.setColor(color)
+                    pet.setColorScale(colorScale)
+                    pet.setEyeColor(eyeColor)
+                    pet.setGender(gender)
+                    pet.setLastSeenTimestamp(lastSeenTimestamp)
+                    pet.setTrickAptitudes(trickAptitudes)
+                    pet.generateWithRequired(self.zoneId)
+
+                    # store the pet do's for use later...
+                    self.pets.append(pet)
+
+                self.air.dbInterface.queryObject(self.air.dbId, petId,
+                    callback=_queryPet)
+            
+            for avId in avatarList:
+                if not avId:
+                    continue
+
+                self.air.dbInterface.queryObject(self.air.dbId, avId,
+                    callback=_queryToon)
+
+        self.air.dbInterface.queryObject(self.air.dbId, owner.DISLid,
+            callback=_queryAccount)
+
     def requestServerTime(self):
-        avId = self.air.getAvatarIdFromSender()
-        self.sendUpdateToAvatarId(avId, 'setServerTime', [time.time() % HouseGlobals.DAY_NIGHT_PERIOD])
+        self.sendUpdateToAvatarId(self.air.getAvatarIdFromSender(), 'setServerTime', [
+            time.time() % HouseGlobals.DAY_NIGHT_PERIOD])
 
     def setServerTime(self, todo0):
         pass

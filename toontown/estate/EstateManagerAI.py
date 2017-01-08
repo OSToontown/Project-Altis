@@ -277,6 +277,7 @@ class EstateManagerAI(DistributedObjectAI):
                     # Yep, there it is!
                     avId = estate.owner.doId
                     zoneId = estate.zoneId
+                    estate.initPets(toon)
                     self._mapToEstate(toon, estate)
                     self._unloadEstate(toon) # In case they're doing estate->estate TP.
                     self.sendUpdateToAvatarId(senderId, 'setEstateZone', [avId, zoneId])
@@ -288,7 +289,10 @@ class EstateManagerAI(DistributedObjectAI):
         # The Toon definitely wants to go to his own estate...
 
         estate = getattr(toon, 'estate', None)
+
         if estate:
+            estate.initPets(toon)
+
             # They already have an estate loaded, so let's just return it:
             self._mapToEstate(toon, toon.estate)
             self.sendUpdateToAvatarId(senderId, 'setEstateZone', [senderId, estate.zoneId])
@@ -312,6 +316,8 @@ class EstateManagerAI(DistributedObjectAI):
             if success:
                 toon.estate = toon.loadEstateFSM.estate
                 toon.estate.owner = toon
+                toon.estate.initPets(toon)
+
                 self._mapToEstate(toon, toon.estate)
                 self.sendUpdateToAvatarId(senderId, 'setEstateZone', [senderId, zoneId])
             else:

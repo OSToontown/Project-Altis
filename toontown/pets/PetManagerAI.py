@@ -75,6 +75,7 @@ class PetCreator:
             self._handleCreate)
 
 class PetManagerAI:
+
     def __init__(self, air):
         self.air = air
 
