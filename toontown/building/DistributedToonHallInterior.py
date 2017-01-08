@@ -120,7 +120,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
     def getPhaseToRun(self):
         result = -1
         enoughInfoToRun = False
-        '''if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
+        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
             if hasattr(base.cr, 'sillyMeterMgr') and not base.cr.sillyMeterMgr.isDisabled():
                 enoughInfoToRun = True
             elif hasattr(base.cr, 'sillyMeterMgr'):
@@ -128,13 +128,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
         else:
-            self.notify.debug('holiday is not running')'''
-        if hasattr(base.cr, 'sillyMeterMgr') and not base.cr.sillyMeterMgr.isDisabled():
-            enoughInfoToRun = True
-        elif hasattr(base.cr, 'sillyMeterMgr'):
-            self.notify.debug('isDisabled = %s' % base.cr.sillyMeterMgr.isDisabled())
-        else:
-            self.notify.debug('base.cr does not have SillyMeterMgr')
+            self.notify.debug('holiday is not running')
         self.notify.debug('enoughInfoToRun = %s' % enoughInfoToRun)
         if enoughInfoToRun and base.cr.sillyMeterMgr.getIsRunning():
             result = base.cr.sillyMeterMgr.getCurPhase()
