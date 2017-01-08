@@ -62,7 +62,7 @@ from toontown.parties import ToontownTimeManager
 from toontown.toon import Toon, DistributedToon
 from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
-from toontown.ai import DistributedSillyMeterMgr
+from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
 
 # Import DMENU
@@ -128,6 +128,9 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.__queryAvatarMap = {}
         self.dateObject = DateObject.DateObject()
         self.hoodMgr = HoodMgr.HoodMgr(self)
+        self.hydrantZeroMgr = DistributedHydrantZeroMgr.DistributedHydrantZeroMgr(self)
+        self.mailboxZeroMgr = DistributedMailboxZeroMgr.DistributedMailboxZeroMgr(self)
+        self.trashcanZeroMgr = DistributedTrashcanZeroMgr.DistributedTrashcanZeroMgr(self)
         self.setZonesEmulated = 0
         self.old_setzone_interest_handle = None
         self.setZoneQueue = Queue()
