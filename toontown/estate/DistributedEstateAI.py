@@ -153,6 +153,8 @@ class DistributedEstateAI(DistributedObjectAI):
                     colorScale, = fields['setColorScale']
                     eyeColor, = fields['setEyeColor']
                     gender, = fields['setGender']
+                    lastSeenTimestamp, = fields['setLastSeenTimestamp']
+                    trickAptitudes, = fields['setTrickAptitudes']
 
                     pet = DistributedPetAI(self.air)
                     pet.setOwnerId(ownerId)
@@ -168,6 +170,8 @@ class DistributedEstateAI(DistributedObjectAI):
                     pet.setColorScale(colorScale)
                     pet.setEyeColor(eyeColor)
                     pet.setGender(gender)
+                    pet.setLastSeenTimestamp(lastSeenTimestamp)
+                    pet.setTrickAptitudes(trickAptitudes)
                     pet.generateWithRequired(self.zoneId)
 
                     # store the pet do's for use later...
