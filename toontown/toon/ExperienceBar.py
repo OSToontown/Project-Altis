@@ -26,7 +26,6 @@ class ExperienceBar(DirectFrame):
         self.__obscured = 0
         self.levelUpSfx = loader.loadSfx('phase_3.5/audio/sfx/AV_levelup.ogg')
         self.load()
-        return
 
     def load(self):
         if self.isToon:
@@ -40,7 +39,6 @@ class ExperienceBar(DirectFrame):
                 self.expBar['value'] = self.exp
                 self.levelLabel = OnscreenText(text = TTLocalizer.ExpBarLevel + str(self.level+1), pos = (0.0, -0.9), scale = 0.05, font=ToontownGlobals.getBuildingNametagFont(), fg = (1, 1, 1, 1))
                 self.levelLabel.hide()
-            return
 
     def destroy(self):
         if self.av:
@@ -82,15 +80,19 @@ class ExperienceBar(DirectFrame):
 
     def start(self):
         if self.isToon:
-            self.bgBar.show()
-            self.levelLabel.show()
+            if self.bgBar:
+                self.bgBar.show()
+            if self.levelLabel:
+                self.levelLabel.show()
             if self.av:
                 self.accept(self.av.uniqueName('toonExpChange'), self.updateBar)
 
     def stop(self):
         if self.isToon:
-            self.bgBar.hide()
-            self.levelLabel.hide()
+            if self.bgBar:
+                self.bgBar.hide()
+            if self.levelLabel:
+                self.levelLabel.hide()
             if self.av:
                 self.ignore(self.av.uniqueName('toonExpChange'))
 
@@ -100,9 +102,13 @@ class ExperienceBar(DirectFrame):
         self.av = av
 		
     def hide(self):
-        self.bgBar.hide()
-        self.levelLabel.hide()
+        if self.bgBar:
+            self.bgBar.hide()
+        if self.levelLabel:
+            self.levelLabel.hide()
 		
     def show(self):
-        self.bgBar.show()
-        self.levelLabel.show()
+        if self.bgBar:
+            self.bgBar.show()
+        if self.levelLabel:
+            self.levelLabel.show()
