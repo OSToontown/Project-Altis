@@ -9,6 +9,7 @@ from toontown.toon import Toon, ToonDNA
 from direct.actor.Actor import Actor
 from direct.gui.DirectGui import *
 from toontown.betaevent.CreditsLines import *
+from toontown.toonbase import ToontownGlobals
 
 class CreditsScreen:
     '''
@@ -30,6 +31,14 @@ class CreditsScreen:
         self.logo.reparentTo(aspect2d)
         self.logo.hide()
         self.logo.setColorScale(1, 1, 1, 0)
+        
+        def startScreen(*args):
+            self.screenObject = args[0]
+            self.screenObject.reparentTo(render)
+            self.screenObject.setPos(0, -100, -5)
+            self.screenObject.setHpr(180, -90, 0)
+
+        asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
 
     def startCredits(self):
         base.musicManager.stopAllSounds()
@@ -68,36 +77,30 @@ class CreditsScreen:
             
     def displayText(self, person):
         # Person is imported from CreditLines, which has a dict
-        # Each DICT has the name, and their role on the team, and the side to display
+        # Each DICT has the name and their role on the team
         
         # Open and split it out for use
-        name, role, side = person
+        name, role = person
         
-        self.showText(name, role, side)
+        self.showText(name, role)
         
-    def showText(self, name, role, side):
+    def showText(self, name, role):
         if not self.text:
-            self.text = OnscreenText(text = name, style=3, fg=(1, 1, 1, 1), align = TextNode.ACenter, scale = 0.08, wordwrap = 30, parent=aspect2d)
+            self.text = DirectLabel(text = name, text_style=3, relief = None, text_fg=(1, 1, 1, 1), text_align = TextNode.ACenter, text_scale = .8, text_wordwrap = 30, text_font = ToontownGlobals.getMinnieFont())
         else:
             self.text['text'] = name
         self.text.setColorScale(VBase4(1, 1, 1, 0))
         
         if not self.roleText:
-            self.roleText = OnscreenText(text = role, style=3, fg=(1, 1, 1, 1), align = TextNode.ACenter,  scale = 0.08, wordwrap = 30, pos = (0, -.6))
+            self.roleText = DirectLabel(text = role, text_style=3, relief = None, text_fg=(1, 1, 1, 1), text_align = TextNode.ACenter,  text_scale = .8, text_wordwrap = 30, text_font = ToontownGlobals.getMinnieFont())
         else:
             self.roleText['text'] = role
             
         self.roleText.setColorScale(VBase4(1, 1, 1, 0))
-        if side == 1: # left side
-            self.text.reparentTo(base.a2dRightCenter)
-            self.text.setPos(-.8, .1)
-            self.roleText.reparentTo(base.a2dRightCenter)
-            self.roleText.setPos(-.8, -.1)
-        elif side == 2: # right side
-            self.text.reparentTo(base.a2dLeftCenter) 
-            self.text.setPos(.8, .1)
-            self.roleText.reparentTo(base.a2dLeftCenter) 
-            self.roleText.setPos(.8, -.1)
+        self.text.reparentTo(self.screenObject)
+        self.text.setPos(self.screenObject.find("**/front_screen").getPos() + Point3(0.0, -1.5, 0.4))
+        self.roleText.reparentTo(self.screenObject)
+        self.roleText.setPos(self.screenObject.find("**/front_screen").getPos() + Point3(0.0, -1.5, -0.4))
         self.text.show()
         self.roleText.show()
         
