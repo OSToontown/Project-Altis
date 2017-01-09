@@ -4532,6 +4532,9 @@ def maxToon(missingTrack=None):
 
     # Max out their racing tickets:
     invoker.b_setTickets(99999)
+	
+    # Max out their toon level:
+    invoker.b_setToonLevel(69)
 
     # Give them teleport access everywhere (including Cog HQs):
     hoods = list(ToontownGlobals.HoodsForTeleportAll)
@@ -5270,9 +5273,14 @@ def disguise(command, suitIndex, value):
         return 'Unknow command: %s' % command
 		
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
-def setToonExp(exp):
+def toonExp(exp):
     spellbook.getTarget().b_setToonExp(exp)
     return "Set %s 's Experience to %s" % (spellbook.getTarget().getName(), exp)
+	
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def toonLevel(level):
+    spellbook.getTarget().b_setToonLevel(level-1)
+    return "Set %s 's Level to %s" % (spellbook.getTarget().getName(), level-1)
         
 @magicWord(category=CATEGORY_PROGRAMMER)
 def printDNA():
