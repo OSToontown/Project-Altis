@@ -13,6 +13,9 @@ from direct.interval.IntervalGlobal import *
 import string
 from toontown.quest import Quests
 from direct.task import Task
+from toontown.toontowngui import TTDialog
+from toontown.toontowngui import FeatureComingSoonDialog
+
 
 class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
     notify = directNotify.newCategory('DistributedPhone')
@@ -41,7 +44,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.intervalAvatar = None
         self.phoneInUse = 0
         self.origToonHpr = None
-        return
+        self.enableCatalog = False # We don't want this to be open to the public yet - set this to true for testing
 
     def announceGenerate(self):
         self.notify.debug('announceGenerate')
@@ -111,7 +114,6 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         return mount
 
     def setupCamera(self, mode):
-        pass
         camera.wrtReparentTo(render)
         if mode == PhoneGlobals.PHONE_MOVIE_PICKUP:
             quat = Quat()
@@ -152,6 +154,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
             self.freeAvatar()
         self.ignoreAll()
         DistributedFurnitureItem.DistributedFurnitureItem.disable(self)
+        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -160,7 +163,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
 
     def setInitialScale(self, sx, sy, sz):
         self.initialScale = (sx, sy, sz)
-        if not (self.usedInitialScale) and self.model:
+        if not self.usedInitialScale and self.model:
             self.setScale(*self.initialScale)
             self.usedInitialScale = 1
 
@@ -170,16 +173,19 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         if base.localAvatar.doId == self.lastAvId and globalClock.getFrameTime() <= self.lastTime + 0.5:
             self.notify.debug('Ignoring duplicate entry for avatar.')
             return
-        if self.hasLocalAvatar:
-            self.freeAvatar()
-        if config.GetBool('want-pets', 1):
-            base.localAvatar.lookupPetDNA()
-        self.notify.debug('Entering Phone Sphere....')
-        taskMgr.remove(self.uniqueName('ringDoLater'))
-        self.ignore(self.phoneSphereEnterEvent)
-        self.cr.playGame.getPlace().detectedPhoneCollision()
-        self.hasLocalAvatar = 1
-        self.sendUpdate('avatarEnter', [])
+        if not self.enableCatalog:
+            FeatureComingSoonDialog.FeatureComingSoonDialog()
+        else:
+            if self.hasLocalAvatar:
+                self.freeAvatar()
+            if config.GetBool('want-pets', 1):
+                base.localAvatar.lookupPetDNA()
+            self.notify.debug('Entering Phone Sphere....')
+            taskMgr.remove(self.uniqueName('ringDoLater'))
+            self.ignore(self.phoneSphereEnterEvent)
+            self.cr.playGame.getPlace().detectedPhoneCollision()
+            self.hasLocalAvatar = 1
+            self.sendUpdate('avatarEnter', [])
 
     def __handlePhoneDone(self):
         self.sendUpdate('avatarExit', [])
@@ -376,4 +382,3 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         ringIval = Parallel(Func(base.playSfx, self.ringSfx), shakeSeq, Func(phone.setR, 0))
         self.playInterval(ringIval, 0.0, None)
         return
-
