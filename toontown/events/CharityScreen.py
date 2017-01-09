@@ -29,6 +29,8 @@ class CharityScreen(DistributedObject):
     def start(self, zoneId):
         def startScreen(*args):
             self.screenObject = args[0]
+            if not self.screenObject:
+                return
             self.screenObject.reparentTo(render)
             if ZoneUtil.getHoodId(zoneId) == ToontownGlobals.MinniesMelodyland:
                 self.screenObject.reparentTo(self.cr.playGame.getPlace().loader.geom.find('**/center_icon'))
