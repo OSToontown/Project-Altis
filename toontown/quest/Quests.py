@@ -17008,7 +17008,7 @@ def getQuestExp(id):
             elif questTier >= DL_TIER and questTier < ELDER_TIER:
                 return 7500
             elif questTier == ELDER_TIER:
-                return 30000
+                return 15000
             else:
                 return 0
     else:
