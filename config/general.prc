@@ -145,6 +145,9 @@ want-charity-screen #t
 want-dev #f
 want-pstats 0
 
+# Holidays
+#active-holidays 116, 63, 64, 65, 66, 95
+
 # Temporary:
 want-old-fireworks #t
 
