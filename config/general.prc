@@ -128,6 +128,9 @@ show-total-population #f
 want-mat-all-tailors #t
 want-long-pattern-game #f
 
+# Events
+want-charity-screen #t
+
 # Developer options:
 want-dev #f
 want-pstats 0

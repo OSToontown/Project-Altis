@@ -49,6 +49,9 @@ from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
 
+# Charity Screen
+from toontown.events.CharityScreenAI import CharityScreenAI
+
 class ToontownAIRepository(ToontownInternalRepository):
 
     def __init__(self, baseChannel, stateServerChannel, districtName):
@@ -81,6 +84,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.doLiveUpdates = self.config.GetBool('want-live-updates', False)
         self.wantTrackClsends = self.config.GetBool('want-track-clsends', False)
         self.wantAchievements = self.config.GetBool('want-achievements', True)
+        self.wantCharityScreen = self.config.GetBool('want-charity-screen', False)
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
@@ -138,6 +142,11 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.partyManager.generateWithRequired(2)
             self.globalPartyMgr = self.generateGlobalObject(
                 OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
+                
+        if self.wantCharityScreen:
+            self.charityCounter = CharityScreenAI(self)
+            self.charityCounter.generateWithRequired(2)
+            self.charityCounter.start()
 
         self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 
             'TTCodeRedemptionMgr')
