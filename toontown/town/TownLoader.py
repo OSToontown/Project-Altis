@@ -38,7 +38,6 @@ class TownLoader(StateData.StateData):
         self.canonicalBranchZone = None
         self.placeDoneEvent = 'placeDone'
         self.townBattleDoneEvent = 'town-battle-done'
-        return
 
     def loadBattleAnims(self):
         Toon.loadBattleAnims()
@@ -122,7 +121,6 @@ class TownLoader(StateData.StateData):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def streetDone(self):
         self.requestStatus = self.place.doneStatus
@@ -132,7 +130,6 @@ class TownLoader(StateData.StateData):
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
-        return
 
     def enterToonInterior(self, requestStatus):
         self.acceptOnce(self.placeDoneEvent, self.handleToonInteriorDone)
@@ -147,7 +144,6 @@ class TownLoader(StateData.StateData):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def handleToonInteriorDone(self):
         status = self.place.doneStatus
@@ -156,7 +152,6 @@ class TownLoader(StateData.StateData):
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
-        return
 
     def enterQuietZone(self, requestStatus):
         self.quietZoneDoneEvent = uniqueName('quietZoneDone')
@@ -171,7 +166,6 @@ class TownLoader(StateData.StateData):
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData = None
-        return
 
     def handleQuietZoneDone(self):
         status = self.quietZoneStateData.getRequestStatus()

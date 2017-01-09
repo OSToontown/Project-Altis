@@ -35,7 +35,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self._leftQuietZoneSubframeCall = None
         self._setZoneCompleteLocalCallbacks = PriorityCallbacks()
         self._setZoneCompleteSubframeCall = None
-        return
 
     def load(self):
         StateData.StateData.load(self)
@@ -66,7 +65,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         if self.trialerFA:
             self.trialerFA.exit()
             del self.trialerFA
-        return
 
     def _getQZState(self):
         if hasattr(base, 'cr') and hasattr(base.cr, 'playGame'):
@@ -91,13 +89,11 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
             qzsd = self._getQZState()
             if qzsd:
                 qzsd.removeLeftQuietZoneCallback(token)
-        return
 
     def _doLeftQuietZoneCallbacks(self):
         self._leftQuietZoneLocalCallbacks()
         self._leftQuietZoneLocalCallbacks.clear()
         self._leftQuietZoneSubframeCall = None
-        return
 
     def addSetZoneCompleteCallback(self, callback, priority = None):
         qzsd = self._getQZState()
@@ -116,14 +112,12 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
             qzsd = self._getQZState()
             if qzsd:
                 qzsd.removeSetZoneCompleteCallback(token)
-        return
 
     def _doSetZoneCompleteLocalCallbacks(self):
         self._setZoneCompleteSubframeCall = None
         localCallbacks = self._setZoneCompleteLocalCallbacks
         self._setZoneCompleteLocalCallbacks()
         localCallbacks.clear()
-        return
 
     def setState(self, state):
         if hasattr(self, 'fsm'):
@@ -388,7 +382,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
          'zoneId': zoneId,
          'shardId': None,
          'avId': -1})
-        return
 
     def __handleBookCloseExit(self):
         base.localAvatar.b_setAnimState('TeleportOut', 1, self.__handleBookExitTeleport, [0])
@@ -412,7 +405,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
          'zoneId': -1,
          'shardId': None,
          'avId': -1})
-        return
 
     def startPartyNow(self, firstStart, hostId):
         if localAvatar.hasActiveBoardingGroup():
@@ -448,7 +440,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
                 hostId = base.localAvatar.doId
             base.cr.partyManager.sendAvatarToParty(hostId)
             return
-        return
 
     def handleBookClose(self):
         if hasattr(self, 'fsm'):
@@ -600,7 +591,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self.accept('tunnelOutMovieDone', self.__tunnelOutMovieDone)
         base.localAvatar.tunnelOut(tunnelOrigin)
         base.localAvatar.stopQuestMap()
-        return
 
     def __tunnelOutMovieDone(self):
         self.ignore('tunnelOutMovieDone')
@@ -626,7 +616,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         camera.wrtReparentTo(render)
         base.localAvatar.b_setAnimState('Died', 1, callback, [requestStatus])
         base.localAvatar.obscureMoveFurnitureButton(1)
-        return
 
     def __diedDone(self, requestStatus):
         self.doneStatus = requestStatus
@@ -674,7 +663,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self.doneStatus['ownerId'] = ownerId
         messenger.send(self.doneEvent)
         messenger.send('localToonLeft')
-        return
 
     def goHomeFailed(self, task):
         self.notify.debug('goHomeFailed')
@@ -698,7 +686,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         else:
             message = TTLocalizer.EstateTeleportFailed
         base.localAvatar.setSystemMessage(0, message)
-        return
 
     def enterTeleportIn(self, requestStatus):
         self._tiToken = self.addSetZoneCompleteCallback(Functor(self._placeTeleportInPostZoneComplete, requestStatus), 100)
@@ -733,7 +720,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         base.localAvatar.b_setAnimState('TeleportIn', 1, callback=self.teleportInDone)
         base.localAvatar.d_broadcastPositionNow()
         base.localAvatar.b_setParent(ToontownGlobals.SPRender)
-        return
 
     def teleportInDone(self):
         if hasattr(self, 'fsm'):
@@ -749,8 +735,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         base.localAvatar.stopUpdateSmartCamera()
         base.localAvatar.detachCamera()
         base.localAvatar.stopPosHprBroadcast()
-        return
-
+        
     def requestTeleport(self, hoodId, zoneId, shardId, avId):
         if avId > 0:
             teleportNotify.debug('requestTeleport%s' % ((hoodId,
@@ -921,7 +906,6 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData = None
-        return
 
     def handleQuietZoneDone(self):
         how = base.cr.handlerArgs['how']
