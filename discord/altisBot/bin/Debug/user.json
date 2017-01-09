@@ -3,13 +3,9 @@
 "content": "User Event",
 "icon_url": "http://vignette1.wikia.nocookie.net/toontownrewritten/images/e/e6/Toontown_Central_Toon_HQ.png/revision/latest?cb=20150501205220",
 "attachments": [{
-"author_name": "",
+"author_name": "#USER# #STATE#",
 "author_icon": "#USERICON#",
-"color": "#ff0000",
-"fields": [{
-"title": "#USER#",
-"value": "#STATE#"
-}],
+"color": "#COLOR#",
 "footer_icon": "http://vignette1.wikia.nocookie.net/toontownrewritten/images/e/e6/Toontown_Central_Toon_HQ.png/revision/latest?cb=20150501205220",
 "footer": "Project Altis"
 }]

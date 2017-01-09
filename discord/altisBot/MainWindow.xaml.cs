@@ -85,17 +85,17 @@ namespace discordCSBOT
 
             _bot.UserJoined += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "joined the server");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "joined the server", "#42f46b");
             };
 
             _bot.UserLeft += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "left the server");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "left the server", "#f4d142");
             };
 
             _bot.UserBanned += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "was banned from the server");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "was banned from the server", "#ff0000");
             };
         }
 
@@ -193,7 +193,7 @@ namespace discordCSBOT
             }
         }
 
-        public void SendWebhookUser(string user, string userIcon, string status)
+        public void SendWebhookUser(string user, string userIcon, string status, string color)
         {
             var webAddr = "https://ptb.discordapp.com/api/webhooks/267810661780684802/tNHyD69NuZJWHlXkxtgld8bZxeT3Qo_xXQzPA_s29es-gYiNlArWVX_Kqa3eQorBsP4Z/slack";
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
@@ -206,8 +206,11 @@ namespace discordCSBOT
                 using (StreamReader jsonReader = new StreamReader("user.json"))
                 {
                     string json = jsonReader.ReadToEnd();
-
-                    string newjson = json.Replace("#USER#", user).Replace("#USERICON#", userIcon).Replace("#STATE#", status);
+                    if (userIcon == "")
+                    {
+                        userIcon = "http://a5.mzstatic.com/us/r30/Purple71/v4/5c/ed/29/5ced295c-4f7c-1cf6-57db-e4e07e0194fc/CRV_AP_360x216.jpeg";
+                    }
+                    string newjson = json.Replace("#USER#", user).Replace("#USERICON#", userIcon).Replace("#STATE#", status).Replace("#COLOR#", color);
 
                     streamWriter.Write(newjson);
                     streamWriter.Flush();
