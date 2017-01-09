@@ -174,7 +174,6 @@ class Street(BattlePlace.BattlePlace):
         cleanupDialog('globalDialog')
         self.ignoreAll()
         BattlePlace.BattlePlace.unload(self)
-        return
 
     def enterElevatorIn(self, requestStatus):
         self._eiwbTask = taskMgr.add(Functor(self._elevInWaitBldgTask, requestStatus['bldgDoId']), uniqueName('elevInWaitBldg'))
@@ -212,7 +211,6 @@ class Street(BattlePlace.BattlePlace):
 
     def detectedElevatorCollision(self, distElevator):
         self.fsm.request('elevator', [distElevator])
-        return None
 
     def handleElevatorDone(self, doneStatus):
         self.notify.debug('handling elevator done event')
@@ -264,7 +262,6 @@ class Street(BattlePlace.BattlePlace):
         self.removeSetZoneCompleteCallback(self._ttfToken)
         self._ttfToken = None
         BattlePlace.BattlePlace.exitTeleportIn(self)
-        return
 
     def enterTeleportOut(self, requestStatus):
         if 'battle' in requestStatus:
@@ -289,7 +286,6 @@ class Street(BattlePlace.BattlePlace):
         else:
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent)
-        return
 
     def exitTeleportOut(self):
         BattlePlace.BattlePlace.exitTeleportOut(self)
@@ -375,8 +371,6 @@ class Street(BattlePlace.BattlePlace):
         for light in self.halloweenLights:
             light.setColorScaleOff(1)
 
-        return
-
     def replaceStreetSignTextures(self):
         if not hasattr(base.cr, 'playGame'):
             return
@@ -401,5 +395,3 @@ class Street(BattlePlace.BattlePlace):
                     sign.setTexture(signTexture, 1)
                 if inDreamland:
                     sign.setColorScale(0.525, 0.525, 0.525, 1)
-
-        return

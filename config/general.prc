@@ -128,6 +128,19 @@ show-total-population #f
 want-mat-all-tailors #t
 want-long-pattern-game #f
 
+# Animated Props
+zero-pause-mult 1.0
+
+# Interactive Props
+randomize-interactive-idles #t
+interactive-prop-random-idles #t
+interactive-prop-info #f
+props-buff-battles #t
+prop-idle-pause-time 0.0
+
+# Events
+want-charity-screen #t
+
 # Developer options:
 want-dev #f
 want-pstats 0
