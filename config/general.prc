@@ -134,7 +134,7 @@ zero-pause-mult 1.0
 # Interactive Props
 randomize-interactive-idles #t
 interactive-prop-random-idles #t
-interactive-prop-info #t
+interactive-prop-info #f
 props-buff-battles #t
 prop-idle-pause-time 0.0
 
