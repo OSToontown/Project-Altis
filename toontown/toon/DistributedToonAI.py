@@ -2398,6 +2398,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def addToonExp(self, deltaExp):
         self.toonExp = deltaExp + self.toonExp
 		
+    def getToonExp(self):
+        return self.toonExp
+		
     def b_setToonLevel(self, level):
         if level > ToontownGlobals.MaxToonLevel:
            pass
