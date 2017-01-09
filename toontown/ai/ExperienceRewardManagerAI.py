@@ -10,6 +10,7 @@ class ExperienceRewardManagerAI:
         self.air = air
 			
     def checkForLevelUpReward(self, av):
+        av.addMoney(av.getToonLevel() * self.getMoneyMult(av))
         if av.getToonLevel() in ToontownGlobals.ExperienceHPLevels:
             self.addLaff(av)
         #if av.getToonLevel() in ToontownGlobals.ExperienceGagLevels:
@@ -26,5 +27,8 @@ class ExperienceRewardManagerAI:
 	
     def addGagCapacity(self, av):
         av.b_setMaxCarry(av.getMaxCarry() + ToontownGlobals.ExpGagCarryReward)
+		
+    def getMoneyMult(self, av):
+        return 10 + int((av.getToonLevel()+1)/10)
         
         

@@ -99,6 +99,8 @@ class QuestPoster(DirectFrame):
          -0.1,
          0.12), borderWidth=(0.025, 0.025), scale=0.2, frameColor=(0.945, 0.875, 0.706, 1.0), barColor=(0.5, 0.7, 0.5, 1), text='0/0', text_scale=0.19, text_fg=(0.05, 0.14, 0.4, 1), text_align=TextNode.ACenter, text_pos=(0, -0.04), pos=(0, 0, -0.195))
         self.questProgress.hide()
+        self.expLabel = DirectLabel(parent=self.questFrame, relief=None, text='', text_font=ToontownGlobals.getBuildingNametagFont(), text_fg=(0.0, 1.0, 0.439, 1.0), text_shadow=(0, 0, 0, 1), pos=(0.25, 0, 0.125), hpr=(0,0,35), scale=0.035)
+        self.expLabel.hide()
         self.funQuest = DirectLabel(parent=self.questFrame, relief=None, text=TTLocalizer.QuestPosterFun, text_fg=(0.0, 0.439, 1.0, 1.0), text_shadow=(0, 0, 0, 1), pos=(-0.2825, 0, 0.2), scale=0.03)
         self.funQuest.setR(-30)
         self.funQuest.hide()
@@ -123,11 +125,27 @@ class QuestPoster(DirectFrame):
         sc.setZ(sc[2] + 0.07)
         self['image_scale'] = sc
         self.questFrame.setZ(0.03)
+        self.headline.setZ(0.23 + 0.03)
+        self.lPictureFrame.setZ(0.13 + 0.03)
+        self.rPictureFrame.setZ(0.13 + 0.03)
+        self.questInfo.setZ(-0.0625 + 0.03)
+        self.questProgress.setZ(-0.195 + 0.03)
+        self.auxText.setZ(0.12 + 0.03)
+        self.expLabel.setZ(0.125 + 0.03)
+        self.rewardText.setZ(-0.26 + 0.03)
         self.rewardText.show()
 
     def mouseExitPoster(self, event):
         self['image_scale'] = self.initImageScale
         self.questFrame.setZ(0)
+        self.headline.setZ(0.23)
+        self.lPictureFrame.setZ(0.13)
+        self.rPictureFrame.setZ(0.13)
+        self.questInfo.setZ(-0.0625)
+        self.questProgress.setZ(-0.195)
+        self.auxText.setZ(0.12)
+        self.expLabel.setZ(0.125)
+        self.rewardText.setZ(-0.26)
         self.rewardText.hide()
 
     def createNpcToonHead(self, toNpcId):
@@ -271,6 +289,7 @@ class QuestPoster(DirectFrame):
     def update(self, questDesc):
         questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
         quest = Quests.getQuest(questId)
+        questExp = Quests.getQuestExp(questId)
         if quest == None:
             self.notify.warning('Tried to display poster for unknown quest %s' % questId)
             return
@@ -286,6 +305,9 @@ class QuestPoster(DirectFrame):
             rewardString = ''
         self.rewardText['text'] = rewardString
         self.fitLabel(self.rewardText)
+        if questExp != None:
+           self.expLabel['text'] = TTLocalizer.QuestPosterExp + str(questExp)
+           self.expLabel.show()
         if Quests.isQuestJustForFun(questId, rewardId):
             self.funQuest.show()
         else:
