@@ -238,6 +238,7 @@ class QuestPoster(DirectFrame):
         self.funQuest.hide()
         self.lPictureFrame.hide()
         self.rPictureFrame.hide()
+        self.expLabel.hide()
         self.questProgress.hide()
         if hasattr(self, 'chooseButton'):
             self.chooseButton.destroy()
