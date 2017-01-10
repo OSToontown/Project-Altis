@@ -951,6 +951,8 @@ dclass DistributedToon : DistributedPlayer {
   toonUp(uint16) broadcast ownrecv;
   takeDamage(uint16) broadcast ownrecv;
   setBattleId(uint32 = 0) required broadcast ram;
+  setToonExp(int32 exp = 0) required broadcast ownrecv db;
+  setToonLevel(int32 level = 0) required broadcast ownrecv db;
   setExperience(blob = [0*16]) required broadcast db;
   setMaxCarry(uint8 = 20) required ownrecv db;
   setTrackAccess(uint16[] = [0,0,0,0,1,1,0,0]) required broadcast ownrecv db;
@@ -1129,6 +1131,7 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportRequest(uint32 requesterId) ownrecv;
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
+  notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
 };
 
 dclass DistributedCCharBase : DistributedObject {

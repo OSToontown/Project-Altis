@@ -5,6 +5,7 @@ import time
 import zlib
 from toontown.toon import DistributedToon
 from toontown.toon import LaffMeter
+from toontown.toon import ExperienceBar
 from toontown.toon import Toon
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
@@ -271,6 +272,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def disable(self):
         self.laffMeter.destroy()
         del self.laffMeter
+        self.expBar.destroy()
+        del self.expBar
         self.questMap.destroy()
         self.questMap = None
         if hasattr(self, 'purchaseButton'):
@@ -395,11 +398,16 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.laffMeter.setAvatar(self)
         self.laffMeter.setScale(0.075)
         self.laffMeter.reparentTo(base.a2dBottomLeft)
+        self.expBar = ExperienceBar.ExperienceBar(self.exp, self.level, self.style)
+        self.expBar.setAvatar(self)
+        self.expBar.setScale(0.075)
+        self.expBar.reparentTo(base.a2dBottomLeft)
         if self.style.getAnimal() == 'monkey':
             self.laffMeter.setPos(0.153, 0.0, 0.13)
         else:
             self.laffMeter.setPos(0.133, 0.0, 0.13)
         self.laffMeter.stop()
+        self.expBar.start()
         self.questMap = QuestMap.QuestMap(self)
         self.questMap.stop()
         if not base.cr.isPaid():

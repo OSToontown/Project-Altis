@@ -185,11 +185,16 @@ class QuestManagerAI:
             questDesc = avQuests[i:i + 5]
             questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
             questClass = Quests.getQuest(questId)
+            questExp = Quests.getQuestExp(questId)
 
             if questId == completeQuestId:
                 av.removeQuest(questId)
                 self.giveReward(av, questId, rewardId)
                 self.avatarConsiderProgressTier(av)
+                if questExp == None:
+                   continue
+                else:
+                    av.b_setToonExp(av.getToonExp() + questExp)
                 break
 
     def giveReward(self, av, questId, rewardId):

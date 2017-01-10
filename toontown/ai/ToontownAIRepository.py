@@ -9,6 +9,7 @@ from otp.friends.FriendManagerAI import FriendManagerAI
 from toontown.ai import CogPageManagerAI
 from toontown.ai import CogSuitManagerAI
 from toontown.ai import PromotionManagerAI
+from toontown.ai import ExperienceRewardManagerAI
 from toontown.ai.AchievementsManagerAI import AchievementsManagerAI
 from toontown.ai.FishManagerAI import  FishManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
@@ -113,6 +114,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trophyMgr.generateWithRequired(2)
         self.cogSuitMgr = CogSuitManagerAI.CogSuitManagerAI(self)
         self.promotionMgr = PromotionManagerAI.PromotionManagerAI(self)
+        self.experienceMgr = ExperienceRewardManagerAI.ExperienceRewardManagerAI(self)
         self.cogPageManager = CogPageManagerAI.CogPageManagerAI()
         self.sillyMeterMgr = DistributedSillyMeterMgrAI.DistributedSillyMeterMgrAI(self)
         self.sillyMeterMgr.generateWithRequired(2)

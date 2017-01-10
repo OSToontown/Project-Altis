@@ -784,7 +784,7 @@ class SpecialOptionsTabPage(DirectFrame):
         #    base.localAvatar.setSystemMessage(0, 'New Battle GUI is toggled for activation, log back in to see effects.')
         #self.settingsChanged = 1
         #self.__setNewGuiButton()
-
+		
     def __setNewGuiButton(self):
         if settings['newGui'] == True:
             self.newGui_Label['text'] = 'Using the New Battle GUI.'
