@@ -74,10 +74,12 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def cleanup(self):
         if self.isDeleted():
             return
+        
         self.fsm.requestFinalState()
         if hasattr(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
+        
         if hasattr(self, 'door'):
             self.door.requestDelete()
             del self.door
@@ -85,9 +87,11 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             del self.insideDoor
             self.knockKnock.requestDelete()
             del self.knockKnock
+        
         if hasattr(self, 'elevator'):
             self.elevator.requestDelete()
             del self.elevator
+        
         self.requestDelete()
 
     def delete(self):
@@ -137,8 +141,6 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         if not self.isToonBlock():
             return None
 
-        print 'cogdoTakeOver', 1
-        
         self.updateSavedBy(None)
         (minFloors, maxFloors) = self._getMinMaxFloors(difficulty)
         if buildingHeight == None:
@@ -148,8 +150,6 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             if numFloors < minFloors or numFloors > maxFloors:
                 numFloors = random.randint(minFloors, maxFloors)
 
-        print 'cogdoTakeOver', 2
-            
         self.track = track
         self.realTrack = track
         self.difficulty = difficulty
