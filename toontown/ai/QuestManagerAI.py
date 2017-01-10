@@ -431,7 +431,7 @@ class QuestManagerAI:
 
         av.b_setQuests(questList)
 		
-    def toonKilledCogdo(self, toon, track, difficulty, zoneId, activeToons):
+    def toonKilledCogdo(self, av, track, difficulty, zoneId, activeToons):
         # Get the avatars current quests.
         avQuests = av.getQuests()
         questList = []
