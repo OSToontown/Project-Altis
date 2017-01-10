@@ -90,7 +90,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
             if not self.scientistFSM.getCurrentState() == self.scientistFSM.getStateNamed(gotoPhase):
                 self.scientistFSM.request(gotoPhase)
         except:
-            self.notify.info("Let's try again!")
+            self.notify.debug("Let's try again!")
             self.enterNeutral()
           
 
