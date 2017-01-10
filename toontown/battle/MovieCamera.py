@@ -1,5 +1,5 @@
 import random
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from BattleBase import *
 from BattleProps import *
@@ -271,7 +271,7 @@ def chooseSquirtCloseShot(squirts, suitSquirtsDict, openDuration, openName, atta
         notify.error('Bad number of suits: %s' % numSuits)
     track = apply(random.choice(shotChoices), [av, duration])
     return track
-	
+
 def chooseZapShot(zaps, attackDuration, enterDuration = 0.0, exitDuration = 0.0):
     enterShot = chooseNPCEnterShot(zaps, enterDuration)
     openShot = chooseZapOpenShot(zaps, attackDuration)
@@ -368,10 +368,36 @@ def chooseNPCExitShot(exits, exitsDuration):
 
 
 def chooseSuitShot(attack, attackDuration):
+    duration = attackDuration
+    if duration < 0:
+        duration = 1e-06
+    diedTrack = None
     groupStatus = attack['group']
     target = attack['target']
     if groupStatus == ATK_TGT_SINGLE:
         toon = target['toon']
+        died = attack['target']['died']
+        if died != 0:
+            pbpText = attack['playByPlayText']
+            diedText = toon.getName() + ' was defeated!'
+            diedTextList = [diedText]
+            diedTrack = pbpText.getToonsDiedInterval(diedTextList, duration)
+    elif groupStatus == ATK_TGT_GROUP:
+        deadToons = []
+        targetDicts = attack['target']
+        for targetDict in targetDicts:
+            died = targetDict['died']
+            if died != 0:
+                deadToons.append(targetDict['toon'])
+
+        if len(deadToons) > 0:
+            pbpText = attack['playByPlayText']
+            diedTextList = []
+            for toon in deadToons:
+                pbpText = attack['playByPlayText']
+                diedTextList.append(toon.getName() + ' was defeated!')
+
+            diedTrack = pbpText.getToonsDiedInterval(diedTextList, duration)            
     suit = attack['suit']
     name = attack['id']
     battle = attack['battle']
@@ -399,6 +425,8 @@ def chooseSuitShot(attack, attackDuration):
         camTrack.append(defaultCamera(openShotDuration=2.9))
     elif name == CHOMP:
         camTrack.append(defaultCamera(openShotDuration=2.8))
+    elif name == CIGAR_SMOKE:
+        camTrack.append(defaultCamera(openShotDuration=3.0))
     elif name == CLIPON_TIE:
         camTrack.append(defaultCamera(openShotDuration=3.3))
     elif name == CRUNCH:
@@ -486,7 +514,7 @@ def chooseSuitShot(attack, attackDuration):
     elif name == SHAKE:
         shakeIntensity = 1.75
         camTrack.append(suitCameraShakeShot(suit, attackDuration, shakeIntensity))
-    elif name == SHRED:
+    elif name == SHRED or name == SONG_AND_DANCE:
         camTrack.append(defaultCamera(openShotDuration=4.1))
     elif name == SPIN:
         camTrack.append(defaultCamera(openShotDuration=1.7))
@@ -505,14 +533,22 @@ def chooseSuitShot(attack, attackDuration):
         camTrack.append(defaultCamera(openShotDuration=1.2))
     elif name == WRITE_OFF:
         camTrack.append(defaultCamera())
+    elif name == OVERDRAFT:
+        camTrack.append(defaultCamera())
+    elif name == THROW_BOOK:
+        camTrack.append(defaultCamera(openShotDuration=2.9))
     else:
         notify.warning('unknown attack id in chooseSuitShot: %d using default cam' % name)
         camTrack.append(defaultCamera())
     pbpText = attack['playByPlayText']
     displayName = TTLocalizer.SuitAttackNames[attack['name']]
     pbpTrack = pbpText.getShowInterval(displayName, 3.5)
-    return Parallel(camTrack, pbpTrack)
-
+    track = Parallel(camTrack, pbpTrack)
+    if diedTrack == None:
+        return track
+    pbpTrackDied = Sequence(pbpTrack, diedTrack)
+    mtrack = Parallel(track, pbpTrackDied)
+    return mtrack  
 
 def chooseSuitCloseShot(attack, openDuration, openName, attackDuration):
     av = None
@@ -567,20 +603,15 @@ def makeShot(x, y, z, h, p, r, duration, other = None, name = 'makeShot'):
 
 
 def focusShot(x, y, z, duration, target, other = None, splitFocusPoint = None, name = 'focusShot'):
-    track = Sequence() # XDDDD
-
-
-    if splitFocusPoint:
-        rotate = focusCameraBetweenPoints(target, splitFocusPoint)
-        camera.lookAt(rotate)    
-        targetQuat = Quat()
-        targetQuat.setHpr(camera.getHpr())
-        track.append(camera.posQuatInterval(0.6, Point3(x, y, z), targetQuat, other=other, blendType='easeInOut'))
+    track = Sequence()
+    if other:
+        track.append(Func(camera.setPos, other, Point3(x, y, z)))
     else:
-        camera.lookAt(target)    
-        targetQuat = Quat()
-        targetQuat.setHpr(camera.getHpr())
-        track.append(camera.posQuatInterval(0.6, Point3(x, y, z), targetQuat, other=other, blendType='easeInOut'))
+        track.append(Func(camera.setPos, Point3(x, y, z)))
+    if splitFocusPoint:
+        track.append(Func(focusCameraBetweenPoints, target, splitFocusPoint))
+    else:
+        track.append(Func(camera.lookAt, target))
     track.append(Wait(duration))
     return track
 
@@ -590,7 +621,7 @@ def moveShot(x, y, z, h, p, r, duration, other = None, name = 'moveShot'):
 
 
 def focusMoveShot(x, y, z, duration, target, other = None, name = 'focusMoveShot'):
-    camera.posInterval(1.0, Point3(x, y, z)).start()
+    camera.setPos(Point3(x, y, z))
     camera.lookAt(target)
     hpr = camera.getHpr()
     return motionShot(x, y, z, hpr[0], hpr[1], hpr[2], duration, other, name)
@@ -630,14 +661,14 @@ def chooseRewardShot(av, duration, allowGroupShot = 1):
 
 def heldShot(x, y, z, h, p, r, duration, name = 'heldShot'):
     track = Sequence(name=name)
-    track.append(camera.posHprInterval(0.6, Point3(x, y, z), Point3(h, p, r), blendType = 'easeInOut'))
+    track.append(Func(camera.setPosHpr, x, y, z, h, p, r))
     track.append(Wait(duration))
     return track
 
 
 def heldRelativeShot(other, x, y, z, h, p, r, duration, name = 'heldRelativeShot'):
     track = Sequence(name=name)
-    track.append(camera.posHprInterval(0.6, Point3(x, y, z), Point3(h, p, r), other=other, blendType = 'easeInOut'))
+    track.append(Func(camera.setPosHpr, other, x, y, z, h, p, r))
     track.append(Wait(duration))
     return track
 
@@ -649,7 +680,6 @@ def motionShot(x, y, z, h, p, r, duration, other = None, name = 'motionShot'):
     else:
         posTrack = LerpPosInterval(camera, duration, pos=Point3(x, y, z))
         hprTrack = LerpHprInterval(camera, duration, hpr=Point3(h, p, r))
-    
     return Parallel(posTrack, hprTrack)
 
 
@@ -724,11 +754,8 @@ def suitCameraShakeShot(avatar, duration, shakeIntensity, quake = 0):
     if random.random() > 0.5:
         x = -x
     z = 7 + random.random() * 3
-    targetPos=camera.setPos(x, -5, z)
-    camera.lookAt(Point3(0, 0, 0))    
-    targetQuat = Quat()
-    targetQuat.setHpr(camera.getHpr())
-    track.append(camera.posQuatInterval(0.6, Point3(targetPos), targetQuat, blendType='easeInOut'))
+    track.append(Func(camera.setPos, x, -5, z))
+    track.append(Func(camera.lookAt, Point3(0, 0, 0)))
     track.append(Wait(shakeDelay))
     track.append(shakeCameraTrack(shakeIntensity))
     track.append(Wait(postShakeDelay))
@@ -820,10 +847,7 @@ def focusCameraBetweenPoints(point1, point2):
         z = point2[2] + (point1[2] - point2[2]) * 0.5
     else:
         z = point1[2] + (point2[2] - point1[2]) * 0.5
-    camera.lookAt(Point3(x, y, z))    
-    targetQuat = Quat()
-    targetQuat.setHpr(camera.getHpr())
-    return (Point3(x, y, z))
+    camera.lookAt(Point3(x, y, z))
 
 
 def randomCamera(suit, toon, battle, attackDuration, openShotDuration):
@@ -924,7 +948,6 @@ def randomOverShoulderShot(suit, toon, battle, duration, focus):
         x = -x
     return focusShot(x, y, z, duration, toonCentralPoint, splitFocusPoint=suitCentralPoint)
 
-
 def randomCameraSelection(suit, attack, attackDuration, openShotDuration):
     shotChoices = [avatarCloseUpThrowShot,
      avatarCloseUpThreeQuarterLeftShot,
@@ -937,7 +960,6 @@ def randomCameraSelection(suit, attack, attackDuration, openShotDuration):
     openShot = apply(random.choice(shotChoices), [suit, openShotDuration])
     closeShot = chooseSuitCloseShot(attack, closeShotDuration, openShot.getName(), attackDuration)
     return Sequence(openShot, closeShot)
-
 
 def randomToonGroupShot(toons, suit, duration, battle):
     sum = 0
