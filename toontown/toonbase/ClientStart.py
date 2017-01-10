@@ -137,11 +137,13 @@ Let's have these here so you can tell if dev or debug mode is enabled or not
 easily.
 '''
 if __dev__:
-    serverVersion = serverVersion + "-dev"
+    serverVersionText = serverVersion + "-dev"
 elif __debug__:
-    serverVersion = serverVersion + "-debug"
+    serverVersionText = serverVersion + "-debug"
+else:
+    serverVersionText = serverVersion
     
-version = OnscreenText(serverVersion, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 0, 1), align=TextNode.ALeft)
+version = OnscreenText(serverVersionText, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 0, 1), align=TextNode.ALeft)
 version.setPos(0.03,0.03)
 version.reparentTo(base.a2dBottomLeft)
 from toontown.suit import Suit
