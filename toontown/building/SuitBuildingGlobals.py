@@ -20,6 +20,8 @@ TO_SUIT_BLDG_TIME = 8
 
 SUIT_PLANNER_VP = 9
 SUIT_PLANNER_VP_SKELECOGS = 10
+SUIT_PLANNER_NERFED_VP = 15
+SUIT_PLANNER_NERFED_VP_SKELECOGS = 16
 SUIT_PLANNER_CFO = 11
 SUIT_PLANNER_CFO_SKELECOGS = 12
 SUIT_PLANNER_CJ = 13
@@ -42,7 +44,7 @@ SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
  ((1, 1), (5, 16), (16, 16), (300, 300), (1, 1, 1, 1, 1)), # CJ Round 1 Cogs
  ((1, 1), (5, 18), (18, 18), (290, 290), (1, 1, 1, 1, 1)), # CEO Round 1 Cogs
  ((1, 1), (1, 5), (5, 5), (33, 33), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 1
- ((1, 1), (4, 5), (5, 5), (50, 50), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 2
+ ((1, 1), (4, 7), (5, 5), (50, 50), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 2
  ((1, 1), (11, 12), (12, 12), (206, 206), (1, 1, 1, 1, 1), (1,))) # CEO Diner Cogs (Only uses level range and revives flag, cogs are decided based on tables served)
 
 buildingMinMax = {

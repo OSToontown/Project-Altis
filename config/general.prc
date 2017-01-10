@@ -149,7 +149,7 @@ want-dev #f
 want-pstats 0
 
 # Holidays
-#active-holidays 116, 63, 64, 65, 66, 128
+active-holidays 116, 63, 64, 65, 66, 128
 
 # Temporary:
 want-old-fireworks #t
