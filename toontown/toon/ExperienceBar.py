@@ -36,7 +36,7 @@ class ExperienceBar(DirectFrame):
                 pass
             else:
                 self.color = self.style.getHeadColor()
-                self.bgBar = DirectFrame(parent = base.a2dBottomLeft, relief=None, geom=self.barGeom, pos=(.5, 0, .3), geom_scale=(0.3,0.25,0.1), geom_color=self.color)
+                self.bgBar = DirectFrame(parent = base.a2dBottomLeft, relief=None, geom=self.barGeom, pos=(.6, 0, .3), geom_scale=(0.3,0.25,0.1), geom_color=self.color)
                 self.expBar = DirectWaitBar(parent=self.bgBar, guiId='expBar', pos=(0.0, 0, 0), relief=DGG.SUNKEN, frameSize=(-2.0, 2.0, -0.1, 0.1), borderWidth=(0.01, 0.01), scale=0.25, range=self.maxExp, sortOrder=50, frameColor=(0.5, 0.5, 0.5, 0.5), barColor=(0.0, 1.0, 0.0, 0.5), text=str(self.exp)+'/'+str(self.maxExp), text_scale=0.2, text_fg=(1, 1, 1, 1), text_align=TextNode.ACenter, text_pos=(0, -0.05))
                 self.expBar['value'] = self.exp
                 self.levelLabel = OnscreenText(parent = self.bgBar, text = TTLocalizer.ExpBarLevel + str(self.level+1), pos = (0.0, 0.05), scale = 0.05, font=ToontownGlobals.getBuildingNametagFont(), fg = (1, 1, 1, 1))
