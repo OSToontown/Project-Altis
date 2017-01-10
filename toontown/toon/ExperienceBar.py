@@ -1,5 +1,5 @@
 from panda3d.core import Vec4
-from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectWaitBar, DGG, DirectLabel
+from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectWaitBar, DGG, DirectLabel, DirectButton
 from direct.gui.OnscreenText import OnscreenText
 from direct.interval.LerpInterval import *
 from toontown.toonbase import ToontownIntervals
@@ -24,6 +24,7 @@ class ExperienceBar(DirectFrame):
         self.maxExp = ToonExperience.ToonExperience().getLevelMaxExp(self.level)
         self.expBar = None
         self.__obscured = 0
+        self.visToggle = None
         self.levelUpSfx = loader.loadSfx('phase_3.5/audio/sfx/AV_levelup.ogg')
         self.load()
 
@@ -39,6 +40,10 @@ class ExperienceBar(DirectFrame):
                 self.expBar['value'] = self.exp
                 self.levelLabel = OnscreenText(text = TTLocalizer.ExpBarLevel + str(self.level+1), pos = (0.0, -0.9), scale = 0.05, font=ToontownGlobals.getBuildingNametagFont(), fg = (1, 1, 1, 1))
                 self.levelLabel.hide()
+                if settings['toggleBarButton']:
+                    gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
+                    arrowImage = (gui.find('**/tt_t_gui_mat_shuffleArrowUp'), gui.find('**/tt_t_gui_mat_shuffleArrowDown'), gui.find('**/tt_t_gui_mat_shuffleArrowUp'), gui.find('**/tt_t_gui_mat_shuffleArrowDisabled'))
+                    self.visToggle = DirectButton(relief=None, geom=arrowImage, hpr=(0,0,-90), pos=(0, 0, -0.80), scale=(0.5,0.5,0.5), command=self.toggleVis)
 
     def destroy(self):
         if self.av:
@@ -46,6 +51,9 @@ class ExperienceBar(DirectFrame):
         del self.av
         del self.exp
         del self.maxExp
+        if self.visToggle:
+           self.visToggle.destroy()
+           del self.visToggle
         if self.bgBar:
            self.bgBar.destroy()
            del self.bgBar
@@ -84,6 +92,8 @@ class ExperienceBar(DirectFrame):
                 self.bgBar.show()
             if self.levelLabel:
                 self.levelLabel.show()
+            if self.visToggle:
+                self.visToggle.show()
             if self.av:
                 self.accept(self.av.uniqueName('toonExpChange'), self.updateBar)
 
@@ -93,6 +103,8 @@ class ExperienceBar(DirectFrame):
                 self.bgBar.hide()
             if self.levelLabel:
                 self.levelLabel.hide()
+            if self.visToggle:
+                self.visToggle.hide()
             if self.av:
                 self.ignore(self.av.uniqueName('toonExpChange'))
 
@@ -101,14 +113,26 @@ class ExperienceBar(DirectFrame):
             self.ignore(self.av.uniqueName('toonExpChange'))
         self.av = av
 		
+    def toggleVis(self):
+        if self.__obscured:
+            self.show()
+        else:
+            self.hide()
+		
     def hide(self):
         if self.bgBar:
             self.bgBar.hide()
         if self.levelLabel:
             self.levelLabel.hide()
+        self.visToggle.setPos(0,0,-0.95)
+        self.visToggle.setHpr(0,0,90)
+        self.__obscured = 1
 		
     def show(self):
         if self.bgBar:
             self.bgBar.show()
         if self.levelLabel:
             self.levelLabel.show()
+        self.visToggle.setPos(0,0,-0.8)
+        self.visToggle.setHpr(0,0,-90)
+        self.__obscured = 0

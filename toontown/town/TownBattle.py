@@ -163,6 +163,7 @@ class TownBattle(StateData.StateData):
         self.parentFSMState.removeChild(self.fsm)
         del self.parentFSMState
         base.localAvatar.inventory.setBattleCreditMultiplier(1)
+        base.localAvatar.expBar.show()
 
     def load(self):
         if self.isLoaded:
@@ -476,6 +477,7 @@ class TownBattle(StateData.StateData):
             canHeal, canTrap, canLure = self.checkHealTrapLure()
             base.localAvatar.inventory.setBattleCreditMultiplier(self.creditMultiplier)
             base.localAvatar.inventory.setActivateMode('battle', heal=canHeal, trap=canTrap, lure=canLure, bldg=self.bldg, creditLevel=self.creditLevel, tutorialFlag=self.tutorialFlag)
+            base.localAvatar.expBar.hide()
 
     def enterChooseCog(self):
         self.cog = 0

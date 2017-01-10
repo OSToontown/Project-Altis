@@ -728,6 +728,15 @@ class SpecialOptionsTabPage(DirectFrame):
         self.WASD_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight), command=self.__doToggleWASD)
         self.keymapDialogButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='Change Keybinds', text_scale=(0.03, 0.05, 1), text_pos=button_textpos, pos=(buttonbase_xcoord + 0.0, 0.0, buttonbase_ycoord), command=self.__openKeyRemapDialog) 
         self.keymapDialogButton.setScale(1.55, 1.0, 1.0)
+        self.expHide_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.5))
+        self.expHide_toggleButton = DirectButton(parent=self, relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.5),
+                                              command=self.__doToggleExpObscureButton)
         self.newGui_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
                                       text_scale=options_text_scale, text_wordwrap=16,
                                       pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.1))
@@ -754,6 +763,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.settingsChanged = 0
         self.__setWASDButton()
         self.__setNewGuiButton()
+        self.__setToggleExpObscureButton()
         self.__doFovLevel()
 
     def exit(self):
@@ -784,6 +794,23 @@ class SpecialOptionsTabPage(DirectFrame):
         #    base.localAvatar.setSystemMessage(0, 'New Battle GUI is toggled for activation, log back in to see effects.')
         #self.settingsChanged = 1
         #self.__setNewGuiButton()
+		
+    def __setToggleExpObscureButton(self):
+        if settings['toggleBarButton'] == True:
+            self.expHide_Label['text'] = 'Showing EXP bar toggle button.'
+            self.expHide_toggleButton['text'] = 'Toggle'
+        else:
+            self.expHide_Label['text'] = 'Hiding EXP bar toggle button.'
+            self.expHide_toggleButton['text'] = 'Toggle'
+			
+    def __doToggleExpObscureButton(self):
+        if settings['toggleBarButton'] == True:
+            settings['toggleBarButton'] = False
+            base.localAvatar.setSystemMessage(0, 'EXP Bar toggle button has been disabled, log back in to see effects.')
+        else:
+            settings['toggleBarButton'] = True
+            base.localAvatar.setSystemMessage(0, 'EXP Bar toggle button has been enabled, log back in to see effects.')
+        self.__setToggleExpObscureButton()
 
     def __setNewGuiButton(self):
         if settings['newGui'] == True:
