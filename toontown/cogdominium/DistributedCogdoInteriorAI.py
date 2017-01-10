@@ -455,9 +455,10 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                         self.giveCogSummonReward(toon, preferredDept, preferredSummonType)
                 else:
                     self.notify.warning('%s unable to reward %s: unknown reward for track %s' % (self.doId, v, self.FOType))
-        self.exterior.fsm.request('waitForVictorsFromCogdo', [
+        self.exterior.bldg.fsm.request('waitForVictorsFromCogdo', [
             victors,
             savedBy])
+        
         self.d_setState('Reward')
 
     def giveCogSummonReward(self, toon, prefDeptIndex, prefSummonType):
