@@ -3205,9 +3205,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if streetId not in self.air.suitPlanners:
             self.notify.warning('Street %d is not known.' % streetId)
             return ['badlocation', difficulty, 0]
+        
         building = self.findClosestDoor()
         if building is None:
             return ['badlocation', difficulty, 0]
+        
         building.cogdoTakeOver(difficulty, buildingHeight)
         return ['success', difficulty, building.doId]
 
@@ -5221,4 +5223,10 @@ def printDNA():
     target = spellbook.getTarget()
     return str(target.dna.__str__())
 
-    
+@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
+def summonCogdo(difficulty, buildingHeight):
+    return spellbook.getTarget().doCogdoTakeOver(difficulty, buildingHeight)
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def summonBuilding(suitIndex):
+    return spellbook.getTarget().doBuildingTakeover(suitIndex)
