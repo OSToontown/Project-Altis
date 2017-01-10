@@ -8,7 +8,7 @@ import collections
 collections.namedtuple = lambda *x: tuple
 
 #Disable both dev and debug before anything else.
-#This is to make sure the distrubution client doesn'tell
+#This is to make sure the distrubution client doesn't
 #get any special perms or anything of the sort.
 __dev__ = False
 __debug__ = False
