@@ -17,9 +17,9 @@ class DistributedCogHQDoorAI(DistributedDoorAI.DistributedDoorAI):
         self.destinationZone = destinationZone
 
     def requestEnter(self):
-        avatarID = self.air.getAvatarIdFromSender()
+        avatarId = self.air.getavatarIdFromSender()
         dept = ToontownGlobals.cogHQZoneId2deptIndex(self.destinationZone)
-        av = self.air.doId2do.get(avatarID)
+        av = self.air.doId2do.get(avatarId)
         if av:
             if self.doorType == DoorTypes.EXT_COGHQ and self.isLockedDoor():
                 parts = av.getCogParts()
@@ -29,23 +29,27 @@ class DistributedCogHQDoorAI(DistributedDoorAI.DistributedDoorAI):
                     allowed = 0
             else:
                 allowed = 1
+            
             if not allowed:
-                self.sendReject(avatarID, self.isLockedDoor())
-            else:
-                self.enqueueAvatarIdEnter(avatarID)
-                self.sendUpdateToAvatarId(avatarID, 'setOtherZoneIdAndDoId', [self.destinationZone, self.otherDoor.getDoId()])
+                self.sendReject(avatarId, self.isLockedDoor())
+                return
+
+            self.enqueueavatarIdEnter(avatarId)
+            self.sendUpdateToavatarId(avatarId, 'setOtherZoneIdAndDoId', [self.destinationZone, self.otherDoor.getDoId()])
 
     def requestExit(self):
-        avatarID = self.air.getAvatarIdFromSender()
-        if avatarID in self.avatarsWhoAreEntering:
-            del self.avatarsWhoAreEntering[avatarID]
-        if avatarID not in self.avatarsWhoAreExiting:
+        avatarId = self.air.getavatarIdFromSender()
+        
+        if avatarId in self.avatarsWhoAreEntering:
+            del self.avatarsWhoAreEntering[avatarId]
+        
+        if avatarId not in self.avatarsWhoAreExiting:
             dept = ToontownGlobals.cogHQZoneId2deptIndex(self.destinationZone)
-            self.avatarsWhoAreExiting[avatarID] = 1
-            self.sendUpdate('avatarExit', [avatarID])
+            self.avatarsWhoAreExiting[avatarId] = 1
+            self.sendUpdate('avatarExit', [avatarId])
             self.openDoor(self.exitDoorFSM)
             if self.lockedDoor:
-                av = self.air.doId2do[avatarID]
+                av = self.air.doId2do[avatarId]
                 if self.doorType == DoorTypes.EXT_COGHQ:
                     av.b_setCogIndex(-1)
                 else:
