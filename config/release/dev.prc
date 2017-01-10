@@ -33,3 +33,6 @@ want-resistance-dance #t
 show-population #f
 force-skip-tutorial #t
 want-instant-parties #t
+
+# Weather
+weather-cycle-duration 100
