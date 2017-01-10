@@ -130,10 +130,12 @@ class Clickable(PandaNode, DirectObject):
             self.setClickState(PGButton.SReady)
 
     def __handleMouseDown(self, region, button):
-        self.setClickState(PGButton.SDepressed)
+        if button == 'mouse1':
+            self.setClickState(PGButton.SDepressed)
 
     def __handleMouseUp(self, region, button):
-        if self.__hovering:
-            self.setClickState(PGButton.SRollover)
-        else:
-            self.setClickState(PGButton.SReady)
+        if button == 'mouse1':
+            if self.__hovering:
+                self.setClickState(PGButton.SRollover)
+            else:
+                self.setClickState(PGButton.SReady)

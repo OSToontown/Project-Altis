@@ -4546,7 +4546,7 @@ def maxToon(missingTrack=None):
     invoker.b_setQuestCarryLimit(4)
     invoker.b_setRewardHistory(Quests.ELDER_TIER, [])
     invoker.b_setMaxMoney(250)
-    invoker.b_setMoney(toon.getMaxMoney())
+    invoker.b_setMoney(invoker.getMaxMoney())
     invoker.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
     # Finally, unlock all of their pet phrases:
@@ -5289,5 +5289,5 @@ def printDNA():
     '''
     target = spellbook.getTarget()
     return str(target.dna.__str__())
-    
 
+    

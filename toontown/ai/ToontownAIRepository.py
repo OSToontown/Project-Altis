@@ -67,6 +67,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.dnaDataMap = {}
         self.suitPlanners = {}
         self.buildingManagers = {}
+        self.sillyMeterMgr = None
         self.factoryMgr = None
         self.mintMgr = None
         self.lawOfficeMgr = None

@@ -19,6 +19,8 @@ class NewsManagerAI(DistributedObjectAI):
     def __handleAvatarEntered(self, avatar):
         if self.air.suitInvasionManager.getInvading():
             self.air.suitInvasionManager.notifyInvasionBulletin(avatar.getDoId())
+        
+        self.resendHolidayList()
 
     def setPopulation(self, todo0):
         pass
