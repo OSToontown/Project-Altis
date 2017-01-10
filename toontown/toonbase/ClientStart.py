@@ -48,8 +48,6 @@ if 'fieldofview' not in settings:
     settings['fieldofview'] = 52
 if 'show-cog-levels' not in settings:
     settings['show-cog-levels'] = True
-if 'toggleBarButton' not in settings:
-    settings['toggleBarButton'] = True
 settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
