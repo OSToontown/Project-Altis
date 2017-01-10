@@ -288,9 +288,10 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def exitChooseAvatar(self):
         self.handler = None
-        self.avChoice.exit()
-        self.avChoice.unload()
-        self.avChoice = None
+        if self.avChoice:
+            self.avChoice.exit()
+            self.avChoice.unload()
+            self.avChoice = None
         self.ignore(self.avChoiceDoneEvent)
 
     def goToPickAName(self, avList, index):
