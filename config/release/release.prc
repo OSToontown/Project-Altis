@@ -1,0 +1,22 @@
+# Server:
+server-version TTPA-Alpha-1.2.0
+min-access-level 600
+shard-low-pop 50
+shard-mid-pop 100
+
+# Core features:
+want-pets #t
+want-parties #f
+want-cogdominiums #t
+want-achievements #f
+
+# Chat:
+want-whitelist #f
+
+# Cashbot boss:
+want-resistance-toonup #t
+want-resistance-restock #t
+want-resistance-dance #t
+
+# Developer options:
+want-dev #f
