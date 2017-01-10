@@ -1,9 +1,11 @@
-from toontown.toon import DistributedNPCToonBaseAI
-from toontown.toonbase import TTLocalizer, ToontownGlobals
 from direct.fsm import ClassicFSM, State
 from direct.task.Task import Task
+from direct.directnotify import DirectNotifyGlobal
+from toontown.toon import DistributedNPCToonBaseAI
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 
 class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedNPCScientistAI")
 
     def __init__(self, air, npcId, questCallback = None, hq = 0):
         DistributedNPCToonBaseAI.DistributedNPCToonBaseAI.__init__(self, air, npcId, questCallback)
@@ -88,7 +90,9 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
             if not self.scientistFSM.getCurrentState() == self.scientistFSM.getStateNamed(gotoPhase):
                 self.scientistFSM.request(gotoPhase)
         except:
-            self.notify.warning('Illegal phase transition requested')
+            self.notify.info("Let's try again!")
+            self.enterNeutral()
+          
 
     def startIfNeeded(self):
         if hasattr(simbase.air, 'holidayManager') and simbase.air.holidayManager:
@@ -231,6 +235,16 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
 
     def exitOff(self):
         pass
+        
+    def setChat(self, topic, partPos, partId, progress, flags):
+        pass
+        
+    def d_setChat(self, topic, partPos, partId, progress, flags):
+        self.sendUpdate('setChat', [topic, partPos, partId, progress, flags])
+        
+    def b_setChat(self, topic, partPos, partId, progress, flags):
+        self.setChat(topic, partPos, partId, progress, flags)
+        self.d_setChat(topic, partPos, partId, progress, flags)
 
     def delete(self):
         self.scientistFSM.requestFinalState()

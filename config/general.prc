@@ -6,6 +6,9 @@ cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #t
 default-directnotify-level info
 
+notify-level-DistributedNPCScientistAI info
+
+
 # Audio:
 audio-library-name p3fmod_audio
 
@@ -146,7 +149,7 @@ want-dev #f
 want-pstats 0
 
 # Holidays
-#active-holidays 116, 63, 64, 65, 66, 95
+#active-holidays 116, 63, 64, 65, 66, 128
 
 # Temporary:
 want-old-fireworks #t

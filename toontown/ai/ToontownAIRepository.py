@@ -12,6 +12,7 @@ from toontown.ai import PromotionManagerAI
 from toontown.ai.AchievementsManagerAI import AchievementsManagerAI
 from toontown.ai.FishManagerAI import  FishManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
+from toontown.ai.DialogueManagerAI import DialogueManagerAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
 from toontown.ai.QuestManagerAI import QuestManagerAI
 from toontown.ai import DistributedSillyMeterMgrAI, DistributedHydrantZeroMgrAI, DistributedMailboxZeroMgrAI, DistributedTrashcanZeroMgrAI
@@ -113,7 +114,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.cogSuitMgr = CogSuitManagerAI.CogSuitManagerAI(self)
         self.promotionMgr = PromotionManagerAI.PromotionManagerAI(self)
         self.cogPageManager = CogPageManagerAI.CogPageManagerAI()
-        self.holidayManager = HolidayManagerAI(self)
         self.sillyMeterMgr = DistributedSillyMeterMgrAI.DistributedSillyMeterMgrAI(self)
         self.sillyMeterMgr.generateWithRequired(2)
         self.hydrantZeroMgr = DistributedHydrantZeroMgrAI.DistributedHydrantZeroMgrAI(self)
@@ -122,6 +122,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.mailboxZeroMgr.generateWithRequired(2)
         self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
         self.trashcanZeroMgr.generateWithRequired(2)
+        self.dialogueManager = DialogueManagerAI(self)
+        self.holidayManager = HolidayManagerAI(self)
         
         if self.wantFishing:
             self.fishManager = FishManagerAI(self)
