@@ -19,12 +19,12 @@ from toontown.toon import NPCToons
 import random, math
 
 NUM_FLOORS_DICT = {
-                   's': 1,
-                   'l': 2,
-                   'm':1,
-                   'c': 1,
-                   'g': 1
-                   }
+   's': 1,
+   'l': 2,
+   'm': 1,
+   'c': 1,
+   'g': 1
+}
 
 BATTLE_INTRO_DURATION = 10
 BARREL_INTRO_DURATION = 12
@@ -38,14 +38,14 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         DistributedObjectAI.__init__(self, air)
         FSM.FSM.__init__(self, 'CogdoInteriorAIFSM')
         self.game = None
-        self.toons = filter(None, exterior.elevator.seats[:])
+        self.toons = filter(None, exterior.seats[:])
         self.responses = {}
         self.bldgDoId = exterior.doId
-        self.numFloors = NUM_FLOORS_DICT[exterior.track]
-        self.sosNPC = self.__generateSOS(exterior.difficulty)
+        self.numFloors = NUM_FLOORS_DICT[exterior.bldg.track]
+        self.sosNPC = self.__generateSOS(exterior.bldg.difficulty)
         self.shopOwnerNpcId = 0
         self.toonLevels = 0
-        self.extZoneId, self.zoneId = exterior.getExteriorAndInteriorZoneId()
+        self.extZoneId, self.zoneId = exterior.bldg.getExteriorAndInteriorZoneId()
         npcIdList = NPCToons.zone2NpcDict.get(self.zoneId, [])
         if len(npcIdList) == 0:
             self.notify.info('No NPC in taken cogdo at %s' % self.zoneId)
@@ -53,16 +53,17 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
             if len(npcIdList) > 1:
                 self.notify.warning('Multiple NPCs in taken cogdo at %s' % self.zoneId)
             self.shopOwnerNpcId = npcIdList[0]
+        
         self.gameDone = 0
         self.bossBattleDone = 0
         self.curFloor = 0
         self.topFloor = 2
         self.timer = Timer.Timer()
         self.exterior = exterior
-        self.planner = self.exterior.planner
+        self.planner = self.exterior.bldg.planner
         self.savedByMap = { }
         self.battle = None
-        self.FOType = exterior.track
+        self.FOType = exterior.bldg.track
         self.gameFloor = 1
         self.battleFloor = 2
         self.barrelFloor = -1
@@ -70,6 +71,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
             self.battleFloor = 3
             self.barrelFloor = 2
             self.topFloor += 1
+        
         self.toonSkillPtsGained = { }
         self.toonExp = { }
         self.toonOrigQuests = { }
@@ -98,6 +100,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         minStars = max(0, maxStars - 1)
         while not (minStars <= getStars(v) <= maxStars):
             v = g()
+        
         self.notify.info('selected SOS %s (stars = %s)' % (v, getStars(v)))
         return v
 
@@ -199,7 +202,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
     def __handleUnexpectedExit(self, avId):
         self.removeToon(avId)
         if len(self.toons) == 0:
-            self.exterior.deleteSuitInterior()
+            self.exterior.bldg.deleteSuitInterior()
             if self.battle:
                 self.battle.requestDelete()
                 self.battle = None
@@ -314,7 +317,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
 
     def __handleGameOver(self):
         self.game.requestDelete()
-        self.exterior.deleteSuitInterior()
+        self.exterior.bldg.deleteSuitInterior()
 
     def createBattle(self):
         isBoss = self.curFloor == self.topFloor

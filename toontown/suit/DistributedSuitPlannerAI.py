@@ -1112,6 +1112,14 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             return
         building.suitTakeOver(suitTrack, difficulty, buildingHeight)
 
+    def getCogdoBuildingHeight(self, suitType):
+        if suitType == 's':
+            buildingHeight = 2
+        else:
+            buildingHeight = 3
+
+        return buildingHeight
+
     def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight, dept):
         if self.pendingBuildingHeights.count(buildingHeight) > 0:
             self.pendingBuildingHeights.remove(buildingHeight)
@@ -1148,8 +1156,13 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 if suitName is not None:
                     suitType = SuitDNA.getSuitType(suitName)
                     suitTrack = SuitDNA.getSuitDept(suitName)
+                
                 (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(None, suitType, suitTrack)
-                building.suitTakeOver(suitTrack, suitLevel, None)
+
+                if random.random() < self.CogdoRatio:
+                    building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
+                else:
+                    building.suitTakeOver(suitTrack, suitLevel, None)
 
         # Save the building manager's state:
         self.buildingMgr.save()

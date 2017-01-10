@@ -21,6 +21,7 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         CogdoMazeSplattable.__init__(self, self.suit, '%s-%i' % (Globals.SuitCollisionName, self.serialNum), 1.5)
         if 'scale' in data:
             self.suit.setScale(data['scale'])
+        
         self.suit.nametag3d.stash()
         self.suit.nametag.destroy()
         self.hp = data['hp']
@@ -81,6 +82,7 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
                 self.request(nextState)
 
             ival.append(Func(done))
+        
         return ival
 
     def hitByGag(self):
@@ -137,13 +139,13 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
 class CogdoMazeSlowMinionSuit(CogdoMazeSuit):
 
     def __init__(self, serialNum, maze, randomNumGen, difficulty, startTile = None):
-        slowSuit = base.cr.newsManager.getInvadingSuit()
+        slowSuit = base.cr.newsManager.getInvading()
         if not slowSuit:
             slowSuit = 'gh'
+        
         CogdoMazeSuit.__init__(self, serialNum, maze, randomNumGen, difficulty, startTile, slowSuit, Globals.SuitTypes.SlowMinion)
-        self.defaultTransitions = {'Off': ['Normal'],
-         'Normal': ['Attack', 'Off'],
-         'Attack': ['Normal']}
+        self.defaultTransitions = {'Off': ['Normal'], 'Normal': ['Attack', 'Off'],
+            'Attack': ['Normal']}
 
     def gameStart(self, gameStartTime):
         CogdoMazeSuit.gameStart(self, gameStartTime)
@@ -164,7 +166,6 @@ class CogdoMazeSlowMinionSuit(CogdoMazeSuit):
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitAttack(self):
         self._attackIval.pause()
@@ -174,9 +175,10 @@ class CogdoMazeSlowMinionSuit(CogdoMazeSuit):
 class CogdoMazeFastMinionSuit(CogdoMazeSuit):
 
     def __init__(self, serialNum, maze, randomNumGen, difficulty, startTile = None):
-        fastSuit = base.cr.newsManager.getInvadingSuit()
+        fastSuit = base.cr.newsManager.getInvading()
         if not fastSuit:
             fastSuit = 'tf'
+        
         CogdoMazeSuit.__init__(self, serialNum, maze, randomNumGen, difficulty, startTile, fastSuit, Globals.SuitTypes.FastMinion)
 
 
@@ -187,9 +189,10 @@ class CogdoMazeBossSuit(CogdoMazeSuit):
     ShakeEventName = 'CogdoMazeSuitShake'
 
     def __init__(self, serialNum, maze, randomNumGen, difficulty, startTile = None):
-        self.bossSuit = base.cr.newsManager.getInvadingSuit()
+        self.bossSuit = base.cr.newsManager.getInvading()
         if not self.bossSuit:
             self.bossSuit = 'ms'
+        
         CogdoMazeSuit.__init__(self, serialNum, maze, randomNumGen, difficulty, startTile, self.bossSuit, Globals.SuitTypes.Boss, walkAnimName='stomp')
         self.dropTimer = 0
         self._walkSpeed = float(self.maze.cellWidth) / self.cellWalkDuration * 0.5
@@ -222,6 +225,7 @@ class CogdoMazeBossSuit(CogdoMazeSuit):
             self.__startBlinkTask()
         elif self.hp == 1:
             self.__stopBlinkTask()
+        
         CogdoMazeSuit.hitByGag(self)
 
     def gameStart(self, gameStartTime):
@@ -233,6 +237,7 @@ class CogdoMazeBossSuit(CogdoMazeSuit):
             self.suit.loop(self._walkAnimName)
         else:
             self.suit.loop(self._walkAnimName, fromFrame=43, toFrame=81)
+        
         self.suit.setPlayRate(self._walkSpeed * Globals.BossCogStompAnimationPlayrateFactor, self._walkAnimName)
         self.__startShakeTask()
 
@@ -264,6 +269,7 @@ class CogdoMazeBossSuit(CogdoMazeSuit):
             self._stompSfxIval.start()
             messenger.send(self.ShakeEventName, [self, Globals.BossShakeStrength])
             self.bossShakeLastTime = task.time
+        
         return task.cont
 
     def __startBlinkTask(self):
@@ -274,6 +280,8 @@ class CogdoMazeBossSuit(CogdoMazeSuit):
         taskMgr.remove(CogdoMazeBossSuit.BlinkTaskName)
 
     def __blink(self, task):
-        blink = Sequence(LerpColorScaleInterval(self.suit, Globals.BlinkSpeed, VBase4(1.0, 1.0, 1.0, 1.0)), LerpColorScaleInterval(self.suit, Globals.BlinkSpeed, Globals.BlinkColor))
+        blink = Sequence(LerpColorScaleInterval(self.suit, Globals.BlinkSpeed, VBase4(1.0, 1.0, 1.0, 1.0)), LerpColorScaleInterval(self.suit, Globals.BlinkSpeed, 
+            Globals.BlinkColor))
+        
         blink.start()
         return Task.again

@@ -136,6 +136,8 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.notify.info('%s type Cogdo takeover at zone %s' % (track, self.zoneId))
         if not self.isToonBlock():
             return None
+
+        print 'cogdoTakeOver', 1
         
         self.updateSavedBy(None)
         (minFloors, maxFloors) = self._getMinMaxFloors(difficulty)
@@ -145,6 +147,8 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             numFloors = buildingHeight + 1
             if numFloors < minFloors or numFloors > maxFloors:
                 numFloors = random.randint(minFloors, maxFloors)
+
+        print 'cogdoTakeOver', 2
             
         self.track = track
         self.realTrack = track
@@ -552,13 +556,14 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def createCogdoInterior(self):
         self.interior = self._createCogdoInterior()
         (dummy, interiorZoneId) = self.getExteriorAndInteriorZoneId()
-        self.interior.fsm.request('WaitForAllToonsInside')
         self.interior.generateWithRequired(interiorZoneId)
+        self.interior.request('WaitForAllToonsInside')
 
     def deleteSuitInterior(self):
         if hasattr(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
+        
         if hasattr(self, 'elevator'):
             self.elevator.d_setFloor(-1)
             self.elevator.open()

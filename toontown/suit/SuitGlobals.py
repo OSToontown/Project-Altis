@@ -44,7 +44,7 @@ suitProperties = {
       'mb': (5.3 / cSize, SuitDNA.moneyPolyColor, ['moneybags'], '', 6.97),
       'ls': (6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['loanshark'], '', 8.58),
       'rb': (7.0 / aSize, SuitDNA.moneyPolyColor, ['yesman'], 'robber-baron.jpg', 8.95),
-      
+
       # Sellbots
       'cc': (3.5 / cSize, VBase4(0.55, 0.65, 1.0, 1.0), ['coldcaller'], '', 4.63),
       'tm': (3.75 / bSize, SuitDNA.salesPolyColor, ['telemarketer'], 'telemarketer.jpg', 5.24),
@@ -54,7 +54,7 @@ suitProperties = {
       'tf': (5.25 / aSize, SuitDNA.salesPolyColor, ['twoface'], '', 6.95),
       'm': (5.75 / aSize, SuitDNA.salesPolyColor, ['twoface'], 'mingler.jpg', 7.61),
       'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman'], '', 8.95),
-      
+
       # Boardbots
       'ca': (4.0 / cSize, SuitDNA.boardPolyColor, ['conartist', 'beret1'], '', 4.88),
       'cn': (3.75 / bSize, VBase4(0.95, 0.95, 1.0, 1.0), ['downsizer', 'group', 'group1'], '', 5.24),
@@ -64,5 +64,4 @@ suitProperties = {
       'mg': (6.5 / aSize, SuitDNA.boardPolyColor, ['legaleagle'], 'magnate.jpg', 7.26),
       'bfh': (7.8 / cSize, VBase4(1, .3, .3, 1.0), ['bigfish'], '', 10.0),
       'hho': (7.0 / aSize, SuitDNA.boardPolyColor, ['headhoncho'], 'head-honcho.jpg', 8.23),
-      
 }
