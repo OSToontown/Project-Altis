@@ -144,7 +144,9 @@ want-charity-screen #t
 
 # Developer options:
 want-dev #f
-want-pstats 0
+want-pstats #f
+want-directtools #f
+want-tk #f
 
 # Holidays
 #active-holidays 116, 63, 64, 65, 66, 128
