@@ -4493,9 +4493,13 @@ def maxToon(missingTrack=None):
     experience = Experience.Experience(invoker.getExperience(), invoker)
     for i, track in enumerate(invoker.getTrackAccess()):
         if track:
-            experience.experience[i] = (
-                Experience.MaxSkill - Experience.UberSkill)
+            experience.experience[i] = (Experience.MaxSkill)
     invoker.b_setExperience(experience.makeNetString())
+    
+    # Restock their inventory:
+    inventory = invoker.inventory
+    inventory.NPCMaxOutInv(targetTrack=-1, maxLevelIndex=6)
+    invoker.b_setInventory(inventory.makeNetString())
 
     # Max out their Laff:
     invoker.b_setMaxHp(ToontownGlobals.MaxHpLimit)
