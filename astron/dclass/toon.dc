@@ -592,6 +592,7 @@ from toontown.building import DistributedPetshopInterior/AI
 from toontown.building import DistributedKartShopInterior/AI
 from toontown.building import DistributedDoor/AI
 from toontown.building import DistributedAnimDoor/AI
+from toontown.building import DistributedLightSwitch/AI
 from toontown.estate import DistributedHouseDoor/AI
 from toontown.coghq import DistributedCogHQDoor/AI
 from toontown.coghq import DistributedSellbotHQDoor/AI
@@ -2296,6 +2297,12 @@ dclass DistributedDoor : DistributedObject {
 };
 
 dclass DistributedAnimDoor : DistributedDoor {
+};
+
+dclass DistributedLightSwitch : DistributedObject {
+  setInteriorDoId(uint32) required broadcast ram;
+  toggleLight() clsend airecv;
+  setLightState(bool) broadcast;
 };
 
 dclass DistributedHouseDoor : DistributedDoor {
