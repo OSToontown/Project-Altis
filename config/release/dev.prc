@@ -17,7 +17,7 @@ dc-file astron/dclass/toon.dc
 
 # Core features:
 want-pets #t
-want-parties #f
+want-parties #t
 want-cogdominiums #t
 want-achievements #f
 
