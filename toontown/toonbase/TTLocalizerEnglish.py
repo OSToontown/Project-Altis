@@ -1598,6 +1598,7 @@ ChatGarblerDuck = ['quack', 'quackity', 'quacky']
 ChatGarblerMonkey = ['ooh', 'ooo', 'ahh']
 ChatGarblerBear = ['growl', 'grrr']
 ChatGarblerPig = ['oink', 'oik', 'snort']
+ChatGarblerDeer = ['eee', 'yee', 'eee']
 ChatGarblerDefault = ['blah']
 Bossbot = 'Bossbot'
 Lawbot = 'Lawbot'
@@ -5298,7 +5299,45 @@ NumToColor = ['White',
  'Lavender',
  'Pink',
  'Plum',
- 'Black']
+ 'Black',
+ 'Rose Pink',
+ 'Ice Blue',
+ 'Mint Green',
+ 'Emerald',
+ 'Teal',
+ 'Apricot',
+ 'Amber',
+ 'Crimson',
+ 'Dark Green',
+ 'Steel Blue',
+ 'ToonFest Blue',
+ 'Mountain Green',
+ 'Icy Blue',
+ 'Desert Sand',
+ 'Mint',
+ 'Charcoal',
+ 'Hot Pink',
+ 'Honey Mustard',
+ 'Gray',
+ 'Neon Orange',
+ 'Sapphire',
+ 'Crimson',
+ 'Emerald',
+ 'Bronze',
+ 'African Violet',
+ 'Magenta',
+ 'Medium Purple',
+ 'Ivory',
+ 'Thistle',
+ 'Spring Green',
+ 'Goldenrod',
+ 'Cadium Yellow',
+ 'Peach Puff',
+ 'Toony Teal',
+ 'Salmon',
+ 'Banana Yellow',
+ 'Dim Gray',
+ 'Gold']
 AnimalToSpecies = {'dog': 'Dog',
  'cat': 'Cat',
  'mouse': 'Mouse',
@@ -5307,7 +5346,8 @@ AnimalToSpecies = {'dog': 'Dog',
  'duck': 'Duck',
  'monkey': 'Monkey',
  'bear': 'Bear',
- 'pig': 'Pig'}
+ 'pig': 'Pig',
+ 'deer': 'Deer'}
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
