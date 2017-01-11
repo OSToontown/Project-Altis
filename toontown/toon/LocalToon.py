@@ -380,6 +380,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.book.addPage(self.fishPage, pageName=TTLocalizer.FishPageTitle)
         self.clubsPage = ClubsPage.ClubsPage()
         self.clubsPage.setAvatar(self)
+        self.clubsPage.load()
         self.book.addPage(self.clubsPage, pageName = TTLocalizer.ClubsPageTitle)
         if base.wantAchievements:
             self.achievementsPage = AchievementsPage.AchievementsPage()

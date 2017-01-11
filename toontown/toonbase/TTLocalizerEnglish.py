@@ -9639,7 +9639,8 @@ Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
 ClubsPageTitle = "Toon Clubs"
 ClubsJoinWithCode = "Join with Club Code"
 ClubsCode = "Club Code"
-ClubsSubmitCode = "Submit Code"
+ClubsEnterCode = "Enter Club Code"
+ClubsSubmitCode = "Submit"
 ClubsNotFound = 'You are not in a toon club, join or create a new one!'
 
 def getBuffString(buffId, buffTime):

@@ -9,29 +9,32 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from direct.gui.OnscreenText import OnscreenText
 from toontown.toontowngui import TTDialog
+from toontown.shtiker.OptionsPageGUI import *
 
 class ClubsPage(ShtikerPage.ShtikerPage):
 
     def __init__(self):
         ShtikerPage.ShtikerPage.__init__(self)
+        self.inputUi = CodeInputUI()
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
-        self.title = DirectLabel(parent=self, relief=None, text=TTLocalizer.ClubsPageTitle, text_scale=0.1, pos=(0, 0, 0.65))
+        self.title = OptionLabel(parent=self, relief=None, text=TTLocalizer.ClubsPageTitle, text_scale=0.1, pos=(0, 0, 0.65))
         self.buttonModel = 'phase_3/models/gui/quit_button.bam'
 
         self.noClubFound = OnscreenText(parent=self, text=TTLocalizer.ClubsNotFound, pos=(0, 0, 0), 
-            scale=0.1, fg=(1, 0, 0, 1))
+            scale=0.06, fg=(1, 0, 0, 1))
         
-        self.joinWithCodeButton = DirectButton(parent = self, relief = None, text=TTLocalizer.ClubsJoinWithCode,
-                                               image_scale=(0.7, 1, 1), text_scale=0.052, text_pos=(0, -0.02),
-                                               image=(self.buttonModel.find('**/QuitBtn_UP'), self.buttonModel.find('**/QuitBtn_DN'), self.buttonModel.find('**/QuitBtn_RLVR')),
-                                               command = CodeInputUI())
+        self.joinWithCodeButton = OptionButton(parent = self, relief = None, text=TTLocalizer.ClubsJoinWithCode, command = self.showCodeInput)
 
     def unload(self):
         ShtikerPage.ShtikerPage.unload(self)
+        if self.title:
+            self.title.removeNode()
+            self.noClubFound.removeNode()
+            self.joinWithCodeButton.removeNode()
+            self.inputUi.unload()
 
     def enter(self):
         base.cr.toonClubManager.requestStatus(self._toonClubStatusResp)
@@ -46,6 +49,9 @@ class ClubsPage(ShtikerPage.ShtikerPage):
 
     def getAvatar(self):
         return self.avatar
+    
+    def showCodeInput(self):
+        self.inputUi.load()
 
     def _toonClubStatusResp(self, clubFound, clubDoId):
         if clubFound:
@@ -57,23 +63,32 @@ class ClubsPage(ShtikerPage.ShtikerPage):
 class CodeInputUI:
 
     def __init__(self):
+        self.dialog = None
+        self.codeInput = None
+        
+    def load(self):
         self.dialog = TTDialog.TTGlobalDialog(
             dialogName='ControlRemap', doneEvent='joinWithCode', style=TTDialog.TwoChoice,
-            text=TTLocalizer.ClubsJoinWithCode, text_wordwrap=24,
-            text_pos=(0, 0, -0.8), suppressKeys = True, suppressMouse = True
-        )
+                text=TTLocalizer.ClubsJoinWithCode, text_wordwrap=24, okButtonText = TTLocalizer.ClubsSubmitCode,
+                text_pos=(0, 0, 0.5), suppressKeys = True, suppressMouse = True
+            )
         scale = self.dialog.component('image0').getScale()
         scale.setX(((scale[0] * 2.5) / base.getAspectRatio()) * 1.2)
-        scale.setZ(scale[2] * 2.5)
-
+        scale.setZ(scale[2] * 2)
+        nameBalloon = loader.loadModel('phase_3/models/props/chatbox_input')
         self.dialog.component('image0').setScale(scale)
-        self.codeInput = DirectEntry(parent = self.dialog, initialText = TTLocalizer.ClubsCode, numLines = 1, focus = 1, width = 30)
-        self.buttonModel = 'phase_3/models/gui/quit_button.bam'
-        self.submitButton = DirectButton(parent = self.dialog, relief = None, text=TTLocalizer.ClubsSubmitCode,
-                                               image_scale=(0.7, 1, 1), text_scale=0.052, text_pos=(0, -0.02),
-                                               image=(self.buttonModel.find('**/QuitBtn_UP'), self.buttonModel.find('**/QuitBtn_DN'), self.buttonModel.find('**/QuitBtn_RLVR')),
-                                               command = self.unload()) # TODO: Replace with function to submit the code and attempt to join club
-
+        self.codeInputLabel = OptionLabel(parent = self.dialog, text=TTLocalizer.ClubsCode, text_align = TextNode.ACenter, pos=(0.0, 0.0, 0.2))
+        self.codeInput = DirectEntry(parent = self.dialog, relief=None, image = nameBalloon, image1_color = (0.8, 0.8, 0.8, 1.0), scale = 0.064, pos = (-.3, 0, 0), numLines = 1, focus = 1, cursorKeys = 1, width = 9.1)
+        self.codeInput.setScale(0.07)
+        
+        self.dialog.accept('joinWithCode', self.submitCode)
+        
+    def submitCode(self):
+        code = self.codeInput.get()
+        if self.dialog.doneStatus == "ok":
+            print("Submitting code: " + code)
+        self.unload()    
+    
     def unload(self):
         if self.dialog:
             self.dialog.cleanup()
