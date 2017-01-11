@@ -5,16 +5,32 @@ import anydbm
 
 class ClubQueryFSM(FSM):
 
-    def __init__(self, clubManager):
+    def __init__(self, clubManager, avId, clubId):
         self.clubManager = clubManager
+        self.avId = avId
+        self.clubId = clubId
 
-    def enterQuertyClub(self, clubId):
-        self.air.dbInterface.queryObject(self.air.dbId, clubId, callback=self.__queryClubCallback)
+    def enterQuertyClub(self,):
+        self.air.dbInterface.queryObject(self.air.dbId, self.clubId, callback=\
+            self.__queryClubCallback)
 
     def exitQueryClub(self):
         pass
 
     def __queryClubCallback(dclass, fields):
+        members, = fields['setMembers']
+
+        if self.avId not in members:
+            self.clubManager.d_requestStatusResponse(self.avId, False, 0)
+            self.request('Cleanup')
+            return
+
+        self.clubManager.d_requestStatusResponse(self.avId, True, self.clubId)
+
+    def enterCleanup(self):
+        del self.clubManager.avatar2fsm[self.avId]
+
+    def exitCleanup(self):
         pass
 
 class DistributedToonClubManagerAI(DistributedObjectGlobalAI, FSM):
@@ -47,8 +63,8 @@ class DistributedToonClubManagerAI(DistributedObjectGlobalAI, FSM):
             self.d_requestStatusResponse(avId, False, 0)
             return
 
-        self.avatar2fsm[avId] = ClubQueryFSM(self)
-        self.avatar2fsm[avId].request('QueryClub', clubId)
+        self.avatar2fsm[avId] = ClubQueryFSM(self, avId, clubId)
+        self.avatar2fsm[avId].request('QueryClub')
 
     def d_requestStatusResponse(self, avId, clubFound, clubDoId):
         self.sendUpdateToAvatarId(avId, 'requestStatusResponse', [clubFound, clubDoId])
