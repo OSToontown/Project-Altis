@@ -1,11 +1,11 @@
-from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
+from direct.distributed.DistributedObject import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 
-class DistributedToonClub(DistributedObjectGlobal):
+class DistributedToonClub(DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedToonClub')
     
     def __init__(self, cr):
-        DistributedObjectGlobal.__init__(self, cr)
+        DistributedObject.__init__(self, cr)
 
         self.ownerDoId = 0
         self.members = []

@@ -3906,11 +3906,13 @@ struct Member {
   uint32 doId;
 }
 
-dclass DistributedToonClub : DistributedObjectGlobal {
+dclass DistributedToonClub : DistributedObject {
   requestStatus() clsend;
+
   setOwner(uint32) broadcast required ram;
   setStatus(bool) broadcast required ram;
   setMembers(Member []) broadcast required ram;
+
   addMember(uint32) clsend;
   removeMember(uint32) clsend;
 };
