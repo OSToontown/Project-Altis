@@ -90,6 +90,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.toons = {}
         if self.http.getVerifySsl() != HTTPClient.VSNoVerify:
             self.http.setVerifySsl(HTTPClient.VSNoDateCheck)
+        
         self.__forbidCheesyEffects = 0
         self.friendManager = None
         self.speedchatRelay = None
@@ -115,6 +116,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if config.GetBool('want-code-redemption', 1):
             self.codeRedemptionManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
 
+        self.toonClubManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOON_CLUB_MANAGER, 'DistributedToonClubManager')
         self.streetSign = None
         self.furnitureManager = None
         self.objectManager = None
@@ -166,6 +168,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                 except Exception, e:
                                     print e
         self.DMENU_SCREEN = None
+    
     def congratulations(self, avatarChoice):
         self.acceptedScreen = loader.loadModel('phase_3/models/gui/toon_council')
         self.acceptedScreen.setScale(0.667)

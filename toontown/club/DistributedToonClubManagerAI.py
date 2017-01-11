@@ -12,15 +12,17 @@ class ClubQueryFSM(FSM):
 
     def enterQuertyClub(self,):
         self.air.dbInterface.queryObject(self.air.dbId, self.clubId, callback=\
-            self.__queryClubCallback)
+            self.__queryClub)
 
     def exitQueryClub(self):
         pass
 
-    def __queryClubCallback(dclass, fields):
+    def __queryClub(dclass, fields):
         members, = fields['setMembers']
 
         if self.avId not in members:
+            # found a toon that tried to request a club's stats,
+            # that they were not in!
             self.clubManager.d_requestStatusResponse(self.avId, False, 0)
             self.request('Cleanup')
             return
@@ -38,7 +40,7 @@ class DistributedToonClubManagerAI(DistributedObjectGlobalAI, FSM):
     
     def __init__(self, cr):
         DistributedObjectGlobalAI.__init__(self, cr)
-        FSM.__init__(self, 'DistributedToonClubManagerAI')
+        FSM.__init__(self, self.__class__.__name__)
 
         self.avatar2fsm = {}
 
@@ -46,7 +48,7 @@ class DistributedToonClubManagerAI(DistributedObjectGlobalAI, FSM):
         DistributedObjectGlobalAI.generate(self)
 
         filename = simbase.config.GetString('toon-club-bridge-filename',
-            'toon-clubs')
+            'toon-clubs.db')
         
         self.dbm = anydbm.open(filename, 'c')
 
@@ -55,6 +57,7 @@ class DistributedToonClubManagerAI(DistributedObjectGlobalAI, FSM):
         av = self.air.doId2do[avId]
 
         if not av:
+            # got an invalid avatar!
             return
 
         clubId = av.getClubId()

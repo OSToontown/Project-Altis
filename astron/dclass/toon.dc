@@ -807,7 +807,7 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
-from toontown.club import DistributedToonClubManager/AI
+from toontown.club.DistributedToonClubManager/AI import DistributedToonClubManager/AI
 from toontown.club import DistributedToonClub/AI
 
 struct GiftItem {
