@@ -2359,7 +2359,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getMaxMoney(self):
         return self.maxMoney
-		
+        
     def b_setUber(self, uber):
         self.d_setUber(uber)
         self.setUber(uber)
@@ -2369,10 +2369,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setUber(self, uber):
         self.uber = uber
-		
+        
     def getUber(self):
         return self.uber
-		
+        
     def b_setToonExp(self, exp):
         while True:
             for level in xrange(len(ToonExperience.ToonExperience().ExpPerLevel)):
@@ -2391,16 +2391,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setToonExp(self, exp):
         self.sendUpdate('setToonExp', [exp])
-		
+        
     def setToonExp(self, exp):
         self.toonExp = exp
-		
+        
     def addToonExp(self, deltaExp):
         self.toonExp = deltaExp + self.toonExp
-		
+        
     def getToonExp(self):
         return self.toonExp
-		
+        
     def b_setToonLevel(self, level):
         if level > ToontownGlobals.MaxToonLevel:
            pass
@@ -2419,10 +2419,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setToonLevel(self, level):
         self.sendUpdate('setToonLevel', [level])
-		
+        
     def setToonLevel(self, level):
         self.toonLevel = level
-		
+        
     def getToonLevel(self):
         return self.toonLevel
 
@@ -2474,7 +2474,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getTotalMoney(self):
         return self.money + self.bankMoney
-		
+        
     def b_setMaxBankMoney(self, maxMoney):
         self.d_setMaxBankMoney(maxMoney)
         self.setMaxBankMoney(maxMoney)
@@ -4538,7 +4538,7 @@ def maxToon(missingTrack=None):
 
     # Max out their racing tickets:
     invoker.b_setTickets(99999)
-	
+    
     # Max out their toon level:
     invoker.b_setToonLevel(69)
 
@@ -4939,7 +4939,7 @@ def dna(part, value):
     if part in ('head', 'species'):
         speciesNames = (
             'dog', 'cat', 'horse', 'mouse', 'rabbit', 'duck', 'monkey', 'bear',
-            'pig'
+            'pig', 'deer'
         )
         if value in speciesNames:
             speciesIndex = speciesNames.index(value)
@@ -5277,12 +5277,12 @@ def disguise(command, suitIndex, value):
         return 'Merits set.'
     else:
         return 'Unknow command: %s' % command
-		
+        
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def toonExp(exp):
     spellbook.getTarget().b_setToonExp(exp)
     return "Set %s 's Experience to %s" % (spellbook.getTarget().getName(), exp)
-	
+    
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def toonLevel(level):
     spellbook.getTarget().b_setToonLevel(level-1)
