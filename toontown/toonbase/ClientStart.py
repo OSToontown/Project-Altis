@@ -130,7 +130,7 @@ def openInjector_wx():
     
     app = wx.App(redirect = False)
         
-    frame = wx.Frame(None, title = "TTN Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
+    frame = wx.Frame(None, title = "TTPA Dev Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
     panel = wx.Panel(frame)
     button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
     global textbox
