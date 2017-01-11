@@ -30785,7 +30785,7 @@ WHITELIST = [
     'smirking',
     'smirky',
     'smirkster',
-    'smirksters'
+    'smirksters',
     'smooky',
     'smooking',
     'smookster',
