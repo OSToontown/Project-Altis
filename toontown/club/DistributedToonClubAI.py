@@ -4,15 +4,14 @@ from direct.directnotify import DirectNotifyGlobal
 class DistributedToonClubAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedToonClubAI')
     
-    def __init__(self, air):
+    def __init__(self, air, clubManager):
         DistributedObjectAI.__init__(self, air)
 
+        self.clubManager = clubManager
         self.ownerDoId = 0
+        self.status = False # is publically joinable or not
         self.members = []
-        self.status = False
-
-    def requestStatus(self):
-        avId = self.air.getAvatarIdFromSender()
+        self.inviteCode = ''
 
     def setOwner(self, ownerDoId):
         self.ownerDoId = ownerDoId
@@ -29,8 +28,14 @@ class DistributedToonClubAI(DistributedObjectAI):
     def setMembers(self, members):
         self.members = members
 
-    def getMemebers(self):
+    def getMembers(self):
         return self.members
+
+    def setInviteCode(self, inviteCode):
+        self.inviteCode = inviteCode
+
+    def getInviteCode(self):
+        return self.inviteCode
 
     def addMember(self, avId):
         pass

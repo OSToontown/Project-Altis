@@ -154,9 +154,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.bPetTutorialDone = False
         self.bFishBingoTutorialDone = False
         self.bFishBingoMarkTutorialDone = False
+        self.clubId = 0
         self.accessories = []
         if base.wantKarts:
             self.kartDNA = [-1] * getNumFields()
+        
         self.flowerCollection = None
         self.shovel = 0
         self.shovelSkill = 0
@@ -244,6 +246,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cr.toons[self.doId] = self
         if base.cr.trophyManager != None:
             base.cr.trophyManager.d_requestTrophyScore()
+        
         self.startBlink()
         self.startSmooth()
         self.accept('clientCleanup', self._handleClientCleanup)
@@ -271,6 +274,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 dna.setTemporary(random.choice(heads), black, black, black)
             else:
                 dna.restoreTemporary(self.style)
+        
         oldHat = self.getHat()
         oldGlasses = self.getGlasses()
         oldBackpack = self.getBackpack()
@@ -315,13 +319,16 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setInventory(self, inventoryNetString):
         if not self.inventory:
             self.inventory = InventoryNewOLD.InventoryNewOLD(self, inventoryNetString)
+        
         self.inventory.updateInvString(inventoryNetString)
 		
     def notifyExpReward(self, level, type):
         if type == 0:
             self.setSystemMessage(0, TTLocalizer.ExpHPReward % (level+1), WTSystem)
+        
         if type == 1:
             self.setSystemMessage(0, TTLocalizer.ExpGagReward % (level+1), WTSystem)
+        
         if type == 2:
             self.setSystemMessage(0, TTLocalizer.ExpMoneyReward % (level+1), WTSystem)
 
@@ -1828,6 +1835,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
         def __petDetailsLoaded(self, pet):
             self.petDNA = pet.style
+
+    def setClubId(self, clubId):
+        self.clubId = clubId
+
+    def getClubId(self):
+        return self.clubId
 
     def trickOrTreatTargetMet(self, beanAmount):
         if self.effect:

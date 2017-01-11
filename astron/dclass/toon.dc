@@ -807,6 +807,7 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
+from toontown.club import DistributedToonClubManager/AI
 from toontown.club import DistributedToonClub/AI
 
 struct GiftItem {
@@ -1089,6 +1090,7 @@ dclass DistributedToon : DistributedPlayer {
   setKartAccessoriesOwned(int8 [16] = [-1*16]) required broadcast ownrecv db;
   setCurrentKart(uint32) broadcast ownrecv ram;
   squish(uint8) ownsend airecv;
+  setClubId(uint32) required broadcast ownrecv db;
   announceBingo() broadcast ownrecv;
   trickOrTreatTargetMet(uint32) ownrecv;
   trickOrTreatMilestoneMet() ownrecv;
@@ -3906,13 +3908,16 @@ struct Member {
   uint32 doId;
 }
 
+dclass DistributedToonClubManager : DistributedObjectGlobal {
+  requestStatus() clsend airecv;
+  requestStatusResponse(bool, uint32);
+};
+
 dclass DistributedToonClub : DistributedObject {
-  requestStatus() clsend;
-
-  setOwner(uint32) broadcast required ram;
-  setStatus(bool) broadcast required ram;
-  setMembers(Member []) broadcast required ram;
-
-  addMember(uint32) clsend;
-  removeMember(uint32) clsend;
+  setOwner(uint32) required broadcast db;
+  setStatus(bool) required broadcast db;
+  setMembers(Member []) required broadcast db;
+  setInviteCode(string) required broadcast db;
+  addMember(uint32) clsend airecv;
+  removeMember(uint32) clsend airecv;
 };

@@ -8,11 +8,9 @@ class DistributedToonClub(DistributedObject):
         DistributedObject.__init__(self, cr)
 
         self.ownerDoId = 0
+        self.status = False # is publically joinable or not
         self.members = []
-        self.status = False
-
-    def requestStatus(self):
-        self.sendUpdate('requestStatus', [])
+        self.inviteCode = ''
 
     def setOwner(self, ownerDoId):
         self.ownerDoId = ownerDoId
@@ -31,6 +29,12 @@ class DistributedToonClub(DistributedObject):
 
     def getMembers(self):
         return self.members
+
+    def setInviteCode(self, inviteCode):
+        self.inviteCode = inviteCode
+
+    def getInviteCode(self):
+        return self.inviteCode
 
     def addMember(self, avId):
         self.sendUpdate('addMember', [avId])
