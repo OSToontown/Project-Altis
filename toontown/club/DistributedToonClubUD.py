@@ -7,19 +7,33 @@ class DistributedToonClubUD(DistributedObjectGlobalUD):
     def __init__(self, air):
         DistributedObjectGlobalUD.__init__(self, air)
 
+        self.ownerDoId = 0
         self.members = []
+        self.status = False
 
-    def requestStats(self):
-        pass
+    def requestStatus(self):
+        avId = self.air.getAvatarIdFromSender()
 
-    def addMember(self, avId):
-        pass
+    def setOwner(self, ownerDoId):
+        self.ownerDoId = ownerDoId
 
-    def removeMember(self, avId):
-        pass
+    def getOwner(self):
+        return self.ownerDoId
+
+    def setStatus(self, status):
+        self.status = status
+
+    def getStatus(self):
+        return self.status
 
     def setMembers(self, members):
         self.members = members
 
     def getMemebers(self):
         return self.members
+
+    def addMember(self, avId):
+        pass
+
+    def removeMember(self, avId):
+        pass
