@@ -5,9 +5,7 @@ icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #t
 default-directnotify-level info
-
 notify-level-DistributedNPCScientistAI info
-
 
 # Audio:
 audio-library-name p3fmod_audio
@@ -45,7 +43,7 @@ backups-extension .json
 
 # Server:
 server-timezone EST/EDT/-5
-server-port 7199
+server-port 7198
 account-bridge-filename astron/databases/account-bridge.db
 
 # Performance:

@@ -379,7 +379,7 @@ class ToonBase(OTPBase.OTPBase):
             self.acceptOnce('launcherAllPhasesComplete', self.cleanupDownloadWatcher)
         gameServer = os.environ.get('TTA_GAMESERVER', 'localhost')
         # Get the base port.
-        serverPort = base.config.GetInt('server-port', 7199)
+        serverPort = base.config.GetInt('server-port', 7198)
 
         # Get the number of client-agents.
         clientagents = base.config.GetInt('client-agents', 1) - 1

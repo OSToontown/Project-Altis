@@ -2,7 +2,7 @@ daemon:
     name: Astron Cluster
 
 general:
-    eventlogger: 127.0.0.1:7198
+    eventlogger: 127.0.0.1:7199
     dc_files:
         - ../dclass/toon.dc
 
@@ -56,7 +56,7 @@ uberdogs:
 
 roles:
     - type: clientagent
-      bind: 0.0.0.0:7199
+      bind: 0.0.0.0:7198
       version: "TTPA-Alpha-1.2.0"
       client:
        relocate: true
@@ -84,5 +84,5 @@ roles:
           max: 399999999
 
     - type: eventlogger
-      bind: 127.0.0.1:7198
+      bind: 127.0.0.1:7199
       output: ../logs/events-%y%m%d_%H%M%S.log
