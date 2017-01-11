@@ -11,6 +11,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from toontown.toontowngui import TTDialog
 from toontown.shtiker.OptionsPageGUI import *
+from toontown.quest.QuestBookPoster import TEXT_WORDWRAP
 
 class ClubsPage(ShtikerPage.ShtikerPage):
 
@@ -20,13 +21,13 @@ class ClubsPage(ShtikerPage.ShtikerPage):
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
-        self.title = OptionLabel(parent=self, relief=None, text=TTLocalizer.ClubsPageTitle, text_scale=0.1, pos=(0, 0, 0.65))
+        self.title = OptionLabel(parent=self, relief=None, text_align = TextNode.ACenter, text=TTLocalizer.ClubsPageTitle, text_scale=0.1, pos=(0, 0, 0.65))
         self.buttonModel = 'phase_3/models/gui/quit_button.bam'
 
         self.noClubFound = OnscreenText(parent=self, text=TTLocalizer.ClubsNotFound, pos=(0, 0, 0), 
             scale=0.06, fg=(1, 0, 0, 1))
         
-        self.joinWithCodeButton = OptionButton(parent = self, relief = None, text=TTLocalizer.ClubsJoinWithCode, command = self.showCodeInput)
+        self.joinWithCodeButton = OptionButton(parent = self, relief = None, text=TTLocalizer.ClubsJoinWithCode, text_wordwrap = 6, text_scale = 0.048, text_pos = (0, 0.01), command = self.showCodeInput)
 
     def unload(self):
         ShtikerPage.ShtikerPage.unload(self)
