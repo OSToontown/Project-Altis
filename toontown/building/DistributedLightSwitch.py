@@ -3,7 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 from panda3d.core import *
 
 class DistributedLightSwitch(DistributedObject):
-    otify = DirectNotifyGlobal.directNotify.newCategory('DistributedLightSwitch')
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLightSwitch')
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
