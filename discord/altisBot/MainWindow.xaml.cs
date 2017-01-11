@@ -85,17 +85,17 @@ namespace discordCSBOT
 
             _bot.UserJoined += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "joined the server", "#42f46b");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"joined the server", "#42f46b");
             };
 
             _bot.UserLeft += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "left the server", "#f4d142");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"left the server", "#f4d142");
             };
 
             _bot.UserBanned += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, "was banned from the server", "#ff0000");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was banned from the server", "#ff0000");
             };
         }
 
@@ -224,6 +224,12 @@ namespace discordCSBOT
             {
                 var result = streamReader.ReadToEnd();
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            User banuser = _bot.GetServer(261646233913917443).GetUser(268168864401981441);
+            _bot.GetServer(261646233913917443).Ban(banuser);
         }
     }
 }

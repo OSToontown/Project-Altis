@@ -8,12 +8,12 @@ import types, math, random
 BASE_RESERVE = 10
 
 MAX_RESERVES = {
-                's': BASE_RESERVE * .9,
-                'm': BASE_RESERVE * 1.1,
-                'l': BASE_RESERVE * 1.25,
-                'c': BASE_RESERVE * 1.5,
-                'g': BASE_RESERVE,
-               }
+    's': BASE_RESERVE * .9,
+    'm': BASE_RESERVE * 1.1,
+    'l': BASE_RESERVE * 1.25,
+    'c': BASE_RESERVE * 1.5,
+    'g': BASE_RESERVE,
+}
 
 def filterReviveChance(track, revive):
     if revive >= 0:
@@ -137,11 +137,12 @@ class SuitPlannerCogdoInteriorAI:
         return lvlList
 
     def __setupSuitInfo(self, suit, bldgTrack, suitLevel, suitType):
-        suitName, skeleton = simbase.air.suitInvasionManager.getInvadingCog()
+        suitName, skeleton, flags = simbase.air.suitInvasionManager.getInvadingCog()
         if suitName and self.respectInvasions:
             suitType = SuitDNA.getSuitType(suitName)
             bldgTrack = SuitDNA.getSuitDept(suitName)
             suitLevel = min(max(suitLevel, suitType), suitType + 4)
+        
         dna = SuitDNA.SuitDNA()
         dna.newSuitRandom(suitType, bldgTrack)
         suit.dna = dna

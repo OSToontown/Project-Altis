@@ -2,6 +2,7 @@ import random
 import time
 import re
 from toontown.toon import Experience
+from toontown.toon import ToonExperience
 from toontown.toon import InventoryBase
 from toontown.toon import ModuleListAI
 from toontown.toon import ToonDNA
@@ -99,6 +100,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.fishCollection = None
         self.fishTank = None
         self.experience = None
+        self.toonExp = 0
+        self.toonLevel = 0
         self.petId = None
         self.quests = []
         self.achievements = []
@@ -2369,6 +2372,59 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 		
     def getUber(self):
         return self.uber
+		
+    def b_setToonExp(self, exp):
+        while True:
+            for level in xrange(len(ToonExperience.ToonExperience().ExpPerLevel)):
+                if exp >= ToonExperience.ToonExperience().getLevelMaxExp(self.toonLevel) and level > self.toonLevel:
+                    exp -= ToonExperience.ToonExperience().getLevelMaxExp(self.toonLevel)
+                    self.b_setToonLevel(self.toonLevel+1)
+                elif level <= self.toonLevel:
+                     continue
+                else:
+                    break
+            break
+        if self.getToonLevel() == ToontownGlobals.MaxToonLevel:
+           exp = 0
+        self.setToonExp(exp)
+        self.d_setToonExp(exp)
+
+    def d_setToonExp(self, exp):
+        self.sendUpdate('setToonExp', [exp])
+		
+    def setToonExp(self, exp):
+        self.toonExp = exp
+		
+    def addToonExp(self, deltaExp):
+        self.toonExp = deltaExp + self.toonExp
+		
+    def getToonExp(self):
+        return self.toonExp
+		
+    def b_setToonLevel(self, level):
+        if level > ToontownGlobals.MaxToonLevel:
+           pass
+        else:
+            if level == ToontownGlobals.MaxToonLevel:
+                self.b_setToonExp(0)
+            self.setToonLevel(level)
+            self.d_setToonLevel(level)
+            simbase.air.experienceMgr.checkForLevelUpReward(self)
+            if level in ToontownGlobals.ExperienceHPLevels:
+                self.sendUpdate('notifyExpReward', [level, 0])
+            #if level in ToontownGlobals.ExperienceGagLevels: Leftovers, might take some reworking to get these working
+                #self.sendUpdate('notifyExpReward', [level, 1])
+            #if level in ToontownGlobals.ExperienceMoneyLevels:
+                #self.sendUpdate('notifyExpReward', [level, 2])
+
+    def d_setToonLevel(self, level):
+        self.sendUpdate('setToonLevel', [level])
+		
+    def setToonLevel(self, level):
+        self.toonLevel = level
+		
+    def getToonLevel(self):
+        return self.toonLevel
 
     def addMoney(self, deltaMoney):
         money = deltaMoney + self.money
@@ -3205,9 +3261,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if streetId not in self.air.suitPlanners:
             self.notify.warning('Street %d is not known.' % streetId)
             return ['badlocation', difficulty, 0]
+        
         building = self.findClosestDoor()
         if building is None:
             return ['badlocation', difficulty, 0]
+        
         building.cogdoTakeOver(difficulty, buildingHeight)
         return ['success', difficulty, building.doId]
 
@@ -4476,6 +4534,9 @@ def maxToon(missingTrack=None):
 
     # Max out their racing tickets:
     invoker.b_setTickets(99999)
+	
+    # Max out their toon level:
+    invoker.b_setToonLevel(69)
 
     # Give them teleport access everywhere (including Cog HQs):
     hoods = list(ToontownGlobals.HoodsForTeleportAll)
@@ -4487,7 +4548,7 @@ def maxToon(missingTrack=None):
     invoker.b_setQuestCarryLimit(4)
     invoker.b_setRewardHistory(Quests.ELDER_TIER, [])
     invoker.b_setMaxMoney(250)
-    invoker.b_setMoney(toon.getMaxMoney())
+    invoker.b_setMoney(invoker.getMaxMoney())
     invoker.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
     # Finally, unlock all of their pet phrases:
@@ -5212,6 +5273,16 @@ def disguise(command, suitIndex, value):
         return 'Merits set.'
     else:
         return 'Unknow command: %s' % command
+		
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def toonExp(exp):
+    spellbook.getTarget().b_setToonExp(exp)
+    return "Set %s 's Experience to %s" % (spellbook.getTarget().getName(), exp)
+	
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def toonLevel(level):
+    spellbook.getTarget().b_setToonLevel(level-1)
+    return "Set %s 's Level to %s" % (spellbook.getTarget().getName(), level-1)
         
 @magicWord(category=CATEGORY_PROGRAMMER)
 def printDNA():
@@ -5220,5 +5291,11 @@ def printDNA():
     '''
     target = spellbook.getTarget()
     return str(target.dna.__str__())
-    
 
+@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
+def summonCogdo(difficulty, buildingHeight):
+    return spellbook.getTarget().doCogdoTakeOver(difficulty, buildingHeight)
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def summonBuilding(suitIndex):
+    return spellbook.getTarget().doBuildingTakeover(suitIndex)

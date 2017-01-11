@@ -603,6 +603,10 @@ class Avatar(Actor, ShadowCaster):
     def initializeNametag3d(self):
         self.deleteNametag3d()
         nametagNode = self.nametag.getNametag3d()
+        if not nametagNode:
+            self.notify.warning('Failed to initialize nametag on avatar %s!' % id(self))
+            return
+
         self.nametagNodePath = self.nametag3d.attachNewNode(nametagNode)
         iconNodePath = self.nametag.getIcon()
         for cJoint in self.getNametagJoints():

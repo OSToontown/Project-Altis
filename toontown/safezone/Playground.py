@@ -197,7 +197,7 @@ class Playground(Place.Place):
         self.npcfaDoneEvent = 'npcfaDoneEvent'
         self.dialog = None
         self.deathAckBox = None
-        return
+        self.screen = None
 
     def enter(self, requestStatus):
         self.fsm.enterInitialState()
@@ -266,6 +266,12 @@ class Playground(Place.Place):
         if how == 'teleportIn':
             how = 'deathAck'
         self.fsm.request(how, [requestStatus])
+        if base.config.GetBool('want-charity-screen', False):
+            from toontown.events.CharityScreen import CharityScreen
+            if self.zoneId in ([ToontownGlobals.ToontownCentral, ToontownGlobals.DonaldsDock, ToontownGlobals.DaisyGardens, ToontownGlobals.MinniesMelodyland, ToontownGlobals.TheBrrrgh, ToontownGlobals.DonaldsDreamland]):
+                self.screen = CharityScreen(base.cr)
+                self.screen.start(self.zoneId)
+
 
     def exit(self):
         self.ignoreAll()
@@ -274,6 +280,9 @@ class Playground(Place.Place):
         del self._telemLimiter
         for node in self.tunnelOriginList:
             node.removeNode()
+            
+        if self.screen:
+            self.screen.delete()
 
         del self.tunnelOriginList
         self.loader.geom.reparentTo(hidden)
@@ -307,7 +316,6 @@ class Playground(Place.Place):
         TTDialog.cleanupDialog('globalDialog')
         self.ignoreAll()
         Place.Place.unload(self)
-        return
 
     def showTreasurePoints(self, points):
         self.hideDebugPointText()
@@ -498,19 +506,16 @@ class Playground(Place.Place):
             self.deathAckBox.cleanup()
             self.deathAckBox = None
         Place.Place.enterWalk(self, teleportIn)
-        return
 
     def enterDeathAck(self, requestStatus):
         self.deathAckBox = None
         self.fsm.request('teleportIn', [requestStatus])
-        return
 
     def exitDeathAck(self):
         if self.deathAckBox:
             self.ignore('deathAck')
             self.deathAckBox.cleanup()
             self.deathAckBox = None
-        return
 
     def enterTeleportIn(self, requestStatus):
         imgScale = 0.25
@@ -581,7 +586,6 @@ class Playground(Place.Place):
         base.localAvatar.detachNode()
         base.localAvatar.setPosHpr(render, x, y, z, h, p, r)
         Place.Place.enterTeleportIn(self, requestStatus)
-        return
 
     def __cleanupDialog(self, value):
         if self.dialog:
@@ -589,7 +593,6 @@ class Playground(Place.Place):
             self.dialog = None
         if hasattr(self, 'fsm'):
             self.fsm.request('walk', [1])
-        return
 
     def __handleDeathAck(self, requestStatus):
         if self.deathAckBox:
@@ -597,7 +600,6 @@ class Playground(Place.Place):
             self.deathAckBox.cleanup()
             self.deathAckBox = None
         self.fsm.request('walk', [1])
-        return
 
     def enterPopup(self, teleportIn = 0):
         if base.localAvatar.hp < 1:
@@ -640,7 +642,6 @@ class Playground(Place.Place):
             teleportDebug(requestStatus, 'different hood/zone')
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent)
-        return
 
     def exitTeleportOut(self):
         Place.Place.exitTeleportOut(self)

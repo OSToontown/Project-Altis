@@ -552,8 +552,16 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             if attackCode == ToontownGlobals.BossCogElectricFence and (currState == 'RollToBattleTwo' or currState == 'BattleThree'):
                 if bpy < 0 and abs(bpx / bpy) > 0.5:
                     if bpx < 0:
+                        if self.attackCode == ToontownGlobals.BossCogAreaAttack:
+                            return
+                        if self.attackCode == ToontownGlobals.BossCogDizzyNow:
+                            return
                         self.b_setAttackCode(ToontownGlobals.BossCogSwatRight)
                     else:
+                        if self.attackCode == ToontownGlobals.BossCogAreaAttack:
+                            return
+                        if self.attackCode == ToontownGlobals.BossCogDizzyNow:
+                            return
                         self.b_setAttackCode(ToontownGlobals.BossCogSwatLeft)
 
     def d_showZapToon(self, avId, x, y, z, h, p, r, attackCode, timestamp):

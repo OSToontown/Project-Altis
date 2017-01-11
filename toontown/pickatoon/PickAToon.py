@@ -66,7 +66,7 @@ class PickAToon:
         self.doneEvent = doneEvent
         self.jumpIn = None
         if base.showDisclaimer:
-            FeatureComingSoonDialog.FeatureComingSoonDialog(text="\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! There may be many bugs and crashes! If you encounter any, PLEASE report them to the developers!\nThanks, and enjoy Project Altis!")
+            FeatureComingSoonDialog.FeatureComingSoonDialog(text='\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! There may be many bugs and crashes! If you encounter any, PLEASE report them to the developers!\nThanks, and enjoy Project Altis!')
         
         #self.optionsMgr = PickAToonOptions.PickAToonOptions()
         self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
@@ -111,12 +111,12 @@ class PickAToon:
         self.quitButton.setPos(0.25, 0, 0.075)
         
         # Options Button
-        self.optionsButton = DirectButton(image=(quitHover, quitHover, quitHover), relief=None, text="Options", text_font=ToontownGlobals.getSignFont(), text_fg=(0.977, 0.816, 0.133, 1), text_pos=TTLocalizer.ACquitButtonPos, text_scale=TTLocalizer.ACquitButton, image_scale=1, image1_scale=1.05, image2_scale=1.05, scale=1.05, pos=(1.08, 0, -0.907), command=self.openOptions)
+        self.optionsButton = DirectButton(image=(quitHover, quitHover, quitHover), relief=None, text='Options', text_font=ToontownGlobals.getSignFont(), text_fg=(0.977, 0.816, 0.133, 1), text_pos=TTLocalizer.ACquitButtonPos, text_scale=TTLocalizer.ACquitButton, image_scale=1, image1_scale=1.05, image2_scale=1.05, scale=1.05, pos=(1.08, 0, -0.907), command=self.openOptions)
         self.optionsButton.reparentTo(base.a2dBottomRight)
         self.optionsButton.setPos(-0.25, 0, 0.075)
         
         # Shard Selector Button
-        self.shardsButton = DirectButton(image=(quitHover, quitHover, quitHover), relief=None, text="Districts", text_font=ToontownGlobals.getSignFont(), text_fg=(0.977, 0.816, 0.133, 1), text_pos=TTLocalizer.ACquitButtonPos, text_scale=0.08, image_scale=1, image1_scale=1.05, image2_scale=1.05, scale=1.05, pos=(1.08, 0, -0.907), command=self.openShardPicker)
+        self.shardsButton = DirectButton(image=(quitHover, quitHover, quitHover), relief=None, text='Districts', text_font=ToontownGlobals.getSignFont(), text_fg=(0.977, 0.816, 0.133, 1), text_pos=TTLocalizer.ACquitButtonPos, text_scale=0.08, image_scale=1, image1_scale=1.05, image2_scale=1.05, scale=1.05, pos=(1.08, 0, -0.907), command=self.openShardPicker)
         self.shardsButton.reparentTo(base.a2dBottomLeft)
         self.shardsButton.setPos(0.25, 0, 0.2)
         
@@ -179,14 +179,14 @@ class PickAToon:
             self.jumpIn.finish()
         if self.haveToon:
             self.showToon()
-            taskMgr.add(self.turnHead, "turnHead")
+            taskMgr.add(self.turnHead, 'turnHead')
             camZ = self.toon.getHeight()
             base.camera.setPos(-60, 0, 8 + camZ)
             self.deleteButton.show()
         else:
             self.toon.hide()
             base.camera.setPos(-60, 0, 11)
-            taskMgr.remove("turnHead")
+            taskMgr.remove('turnHead')
             self.deleteButton.hide()
         
         self.checkPlayButton()
@@ -227,7 +227,7 @@ class PickAToon:
     def playGame(self):
         if self.jumpIn:
             self.jumpIn.finish()
-        doneStatus = {"mode": "chose", "choice": self.selectedToon}
+        doneStatus = {'mode': 'chose', 'choice': self.selectedToon}
         #Sequence (
         #          Func(self.toon.animFSM.request, 'PATTeleportOut'),
         #          Wait(4),
@@ -235,7 +235,7 @@ class PickAToon:
         messenger.send(self.doneEvent, [doneStatus])
 
     def makeToon(self):
-        doneStatus = {"mode": "create", "choice": self.selectedToon}
+        doneStatus = {'mode': 'create', 'choice': self.selectedToon}
         messenger.send(self.doneEvent, [doneStatus])
                 
     def setupButtons(self, av = None, position = 0):
@@ -254,7 +254,7 @@ class PickAToon:
         self.buttonList.append(button)
 
     def unload(self):
-        taskMgr.remove("turnHead")
+        taskMgr.remove('turnHead')
         cleanupDialog('globalDialog')
         self.patNode.removeNode()
         del self.patNode
@@ -303,8 +303,8 @@ class PickAToon:
 
     def openOptions(self):
         self.optionsMgr.showOptions()
-        self.optionsButton["text"] = "Back"
-        self.optionsButton["command"] = self.hideOptions
+        self.optionsButton['text'] = 'Back'
+        self.optionsButton['command'] = self.hideOptions
         self.shardsButton.hide()
         self.patNode2d.hide()
         self.patNode.hide()
@@ -313,8 +313,8 @@ class PickAToon:
 
     def hideOptions(self):
         self.optionsMgr.hideOptions()
-        self.optionsButton["text"] = "Options"
-        self.optionsButton["command"] = self.openOptions
+        self.optionsButton['text'] = 'Options'
+        self.optionsButton['command'] = self.openOptions
         self.shardsButton.show()
         self.patNode2d.show()
         self.patNode.show()
@@ -323,10 +323,10 @@ class PickAToon:
             
     def openShardPicker(self):
         self.shardPicker.showPicker()
-        self.shardsButton["text"] = "Back"
-        self.shardsButton["command"] = self.hideShardPicker
+        self.shardsButton['text'] = 'Back'
+        self.shardsButton['command'] = self.hideShardPicker
 
     def hideShardPicker(self):
         self.shardPicker.hidePicker()
-        self.shardsButton["text"] = "Districts"
-        self.shardsButton["command"] = self.openShardPicker
+        self.shardsButton['text'] = 'Districts'
+        self.shardsButton['command'] = self.openShardPicker

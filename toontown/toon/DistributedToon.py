@@ -143,6 +143,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.posIndex = 0
         self.houseId = 0
         self.money = 0
+        self.exp = 0
+        self.level = 0
         self.bankMoney = 0
         self.maxMoney = 0
         self.maxBankMoney = 0
@@ -314,6 +316,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if not self.inventory:
             self.inventory = InventoryNewOLD.InventoryNewOLD(self, inventoryNetString)
         self.inventory.updateInvString(inventoryNetString)
+		
+    def notifyExpReward(self, level, type):
+        if type == 0:
+            self.setSystemMessage(0, TTLocalizer.ExpHPReward % (level+1), WTSystem)
+        if type == 1:
+            self.setSystemMessage(0, TTLocalizer.ExpGagReward % (level+1), WTSystem)
+        if type == 2:
+            self.setSystemMessage(0, TTLocalizer.ExpMoneyReward % (level+1), WTSystem)
 
     def setLastHood(self, lastHood):
         self.lastHood = lastHood
@@ -1355,6 +1365,22 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getMoney(self):
         return self.money
+		
+    def setToonExp(self, exp):
+        if exp != self.exp:
+            self.exp = exp
+            messenger.send(self.uniqueName('toonExpChange'), [self.exp, self.level])
+			
+    def getToonExp(self):
+        return self.exp
+		
+    def setToonLevel(self, level):
+        if level != self.level:
+            self.level = level
+            self.setDisplayName(self.getName())
+			
+    def getToonLevel(self):
+        return self.level
 
     def setMaxBankMoney(self, maxMoney):
         self.maxBankMoney = maxMoney

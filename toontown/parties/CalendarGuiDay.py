@@ -528,34 +528,36 @@ class MiniInviteVisual(DirectFrame):
         DirectFrame.__init__(self, parent, pos=(0.1, 0, -0.018))
         self.checkedHeight = True
         self.partyInfo = partyInfo
-        self.parent = parent
+        self._parent = parent
         self.inviteBackgrounds = loader.loadModel('phase_4/models/parties/partyStickerbook')
         backgrounds = ['calendar_popup_birthday',
-         'calendar_popup_fun',
-         'calendar_popup_cupcake',
-         'tt_t_gui_sbk_calendar_popup_racing',
-         'tt_t_gui_sbk_calendar_popup_valentine1',
-         'tt_t_gui_sbk_calendar_popup_victoryParty',
-         'tt_t_gui_sbk_calendar_popup_winter1']
+            'calendar_popup_fun',
+            'calendar_popup_cupcake',
+            'tt_t_gui_sbk_calendar_popup_racing',
+            'tt_t_gui_sbk_calendar_popup_valentine1',
+            'tt_t_gui_sbk_calendar_popup_victoryParty',
+            'tt_t_gui_sbk_calendar_popup_winter1']
+        
         self.background = DirectFrame(parent=self, relief=None, geom=self.inviteBackgrounds.find('**/%s' % backgrounds[self.partyInfo.inviteTheme]), scale=(0.7, 1.0, 0.23), pos=(0.0, 0.0, -0.1))
         self.whosePartyLabel = DirectLabel(parent=self, relief=None, pos=(0.07, 0.0, -0.04), text=' ', text_scale=0.04, text_wordwrap=8, textMayChange=True)
         self.whenTextLabel = DirectLabel(parent=self, relief=None, text=' ', pos=(0.07, 0.0, -0.13), text_scale=0.04, textMayChange=True)
         self.partyStatusLabel = DirectLabel(parent=self, relief=None, text=' ', pos=(0.07, 0.0, -0.175), text_scale=0.04, textMayChange=True)
-        return
 
     def show(self):
-        self.reparentTo(self.parent)
+        self.reparentTo(self._parent)
         self.setPos(0.1, 0, -0.018)
-        newParent = self.parent.getParent().getParent()
+        newParent = self._parent.getParent().getParent()
         self.wrtReparentTo(newParent)
         if self.whosePartyLabel['text'] == ' ':
             host = base.cr.identifyAvatar(self.partyInfo.hostId)
             if host:
                 name = host.getName()
                 self.whosePartyLabel['text'] = name
+        
         if self.whenTextLabel['text'] == ' ':
             time = myStrftime(self.partyInfo.startTime)
             self.whenTextLabel['text'] = time
+        
         if self.partyStatusLabel['text'] == ' ':
             if self.partyInfo.status == PartyGlobals.PartyStatus.Cancelled:
                 self.partyStatusLabel['text'] = TTLocalizer.CalendarPartyCancelled
@@ -567,12 +569,13 @@ class MiniInviteVisual(DirectFrame):
                 self.partyStatusLabel['text'] = TTLocalizer.CalendarPartyNeverStarted
             else:
                 self.partyStatusLabel['text'] = TTLocalizer.CalendarPartyGetReady
+        
         DirectFrame.show(self)
 
     def destroy(self):
         del self.checkedHeight
         del self.partyInfo
-        del self.parent
+        del self._parent
         del self.background
         del self.whosePartyLabel
         del self.whenTextLabel

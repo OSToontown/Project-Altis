@@ -164,12 +164,14 @@ class ToonAvatarDetailPanel(DirectFrame):
                 self.gotoAvatarButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=1.1, text=TTLocalizer.AvatarShowPlayer, text_scale=0.07, text_pos=(0.0, -0.02), textMayChange=0, pos=(0.44, 0, 0.41), command=self.__showAvatar)
                 text = TTLocalizer.AvatarDetailPanelOnlinePlayer % {'district': shardName,
                  'location': hoodName,
-                 'player': self.playerInfo.playerName}
+                 'player': self.playerInfo.playerName,
+                 'level': (av.toonLevel + 1)}
             else:
                 text = TTLocalizer.AvatarDetailPanelOnline % {'district': shardName,
-                 'location': hoodName}
+                 'location': hoodName,
+                 'level': (av.toonLevel + 1)}
         else:
-            text = TTLocalizer.AvatarDetailPanelOffline
+            text = TTLocalizer.AvatarDetailPanelOffline % str(av.toonLevel + 1)
         
         self.dataText['text'] = text
         self.__updateTrackInfo()

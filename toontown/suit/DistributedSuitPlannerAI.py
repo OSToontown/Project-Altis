@@ -56,11 +56,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (10,
-       60,
-       10,
-       10,
-       10),
+      (30,
+       40,
+       5,
+       5,
+       20),
       (1, 2, 3),
       []],
      [2300, #Punchline Place
@@ -76,9 +76,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (10,
-       10,
-       30,
+      (5,
+       5,
+       40,
        40,
        10),
       (1, 2, 3),
@@ -101,7 +101,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        0,
        10),
-      (2, 3, 4),
+      (2, 3, 4, 5),
       []],
      [1200, #Seaweed Street
       1,
@@ -117,14 +117,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        60,
        80),
       (0,
-       0,
-       90,
        10,
+       60,
+       30,
        0),
-      (2,
-       3,
-       4,
-       5),
+      (3, 4, 5),
       []],
      [1300, #Lighthouse Lane
       1,
@@ -139,8 +136,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (40,
-       10,
+      (10,
+       40,
        10,
        10,
        30),
@@ -227,7 +224,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        50,
        50,
        0),
-      (2, 3, 4),
+      (3, 4, 5),
       []],
      [4200, #Baritone Boulevard
       1,
@@ -288,12 +285,16 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (10,
-       10,
-       10,
-       60,
+      (5,
+       5,
+       40,
+       40,
        10),
-      (2, 3, 4),
+      (2,
+	   3,
+	   4,
+	   5,
+	   6),
       []],
      [5200, #Maple Street
       1,
@@ -308,15 +309,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (10,
-       60,
+      (30,
+       30,
        0,
-       20,
-       10),
-      (3,
-       4,
-       5,
-       6),
+       10,
+       30),
+      (4, 5, 6),
       []],
      [5300, #Oak Street
       1,
@@ -337,10 +335,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        5,
        80,
        5),
-      (3,
-       4,
+      (4,
        5,
-       6),
+       6,
+	   7),
       []],
      [5400, #Rose Valley
       1,
@@ -384,10 +382,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        20,
        20,
        20),
-      (6,
-       7,
+      (7,
        8,
-       9),
+       9,
+       10),
       []],
      [9200, #Pajama Place
       1,
@@ -1112,6 +1110,14 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             return
         building.suitTakeOver(suitTrack, difficulty, buildingHeight)
 
+    def getCogdoBuildingHeight(self, suitType):
+        if suitType == 's':
+            buildingHeight = 2
+        else:
+            buildingHeight = 3
+
+        return buildingHeight
+
     def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight, dept):
         if self.pendingBuildingHeights.count(buildingHeight) > 0:
             self.pendingBuildingHeights.remove(buildingHeight)
@@ -1148,8 +1154,13 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 if suitName is not None:
                     suitType = SuitDNA.getSuitType(suitName)
                     suitTrack = SuitDNA.getSuitDept(suitName)
+                
                 (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(None, suitType, suitTrack)
-                building.suitTakeOver(suitTrack, suitLevel, None)
+
+                if random.random() < self.CogdoRatio:
+                    building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
+                else:
+                    building.suitTakeOver(suitTrack, suitLevel, None)
 
         # Save the building manager's state:
         self.buildingMgr.save()
@@ -1210,7 +1221,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             1: 0,
             2: 0,
             3: 0,
-            4: 0
+            4: 0,
+            5: 0
         }
         for sp in self.air.suitPlanners.values():
             sp.countNumBuildingsPerHeight(numPerHeight)
@@ -1219,6 +1231,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             numPerHeight[2] += sp.pendingBuildingHeights.count(2)
             numPerHeight[3] += sp.pendingBuildingHeights.count(3)
             numPerHeight[4] += sp.pendingBuildingHeights.count(4)
+            numPerHeight[5] += sp.pendingBuildingHeights.count(5)
         while numToAssign > 0:
             smallestCount = None
             smallestTracks = []
@@ -1283,6 +1296,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     totalWeightPerHeight[2] -= weight * heights[2]
                     totalWeightPerHeight[3] -= weight * heights[3]
                     totalWeightPerHeight[4] -= weight * heights[4]
+                    totalWeightPerHeight[5] -= weight * heights[5]
                     if totalWeightPerTrack[buildingTrackIndex] <= 0:
                         buildingTrack = None
                     if totalWeightPerHeight[buildingHeight] <= 0:

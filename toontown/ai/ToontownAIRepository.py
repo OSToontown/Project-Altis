@@ -9,9 +9,11 @@ from otp.friends.FriendManagerAI import FriendManagerAI
 from toontown.ai import CogPageManagerAI
 from toontown.ai import CogSuitManagerAI
 from toontown.ai import PromotionManagerAI
+from toontown.ai import ExperienceRewardManagerAI
 from toontown.ai.AchievementsManagerAI import AchievementsManagerAI
 from toontown.ai.FishManagerAI import  FishManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
+from toontown.ai.DialogueManagerAI import DialogueManagerAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
 from toontown.ai.QuestManagerAI import QuestManagerAI
 from toontown.ai import DistributedSillyMeterMgrAI, DistributedHydrantZeroMgrAI, DistributedMailboxZeroMgrAI, DistributedTrashcanZeroMgrAI
@@ -50,6 +52,9 @@ from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
 
+# Charity Screen
+from toontown.events.CharityScreenAI import CharityScreenAI
+
 class ToontownAIRepository(ToontownInternalRepository):
 
     def __init__(self, baseChannel, stateServerChannel, districtName):
@@ -64,6 +69,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.dnaDataMap = {}
         self.suitPlanners = {}
         self.buildingManagers = {}
+        self.sillyMeterMgr = None
         self.factoryMgr = None
         self.mintMgr = None
         self.lawOfficeMgr = None
@@ -82,6 +88,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.doLiveUpdates = self.config.GetBool('want-live-updates', False)
         self.wantTrackClsends = self.config.GetBool('want-track-clsends', False)
         self.wantAchievements = self.config.GetBool('want-achievements', True)
+        self.wantCharityScreen = self.config.GetBool('want-charity-screen', False)
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
@@ -108,8 +115,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trophyMgr.generateWithRequired(2)
         self.cogSuitMgr = CogSuitManagerAI.CogSuitManagerAI(self)
         self.promotionMgr = PromotionManagerAI.PromotionManagerAI(self)
+        self.experienceMgr = ExperienceRewardManagerAI.ExperienceRewardManagerAI(self)
         self.cogPageManager = CogPageManagerAI.CogPageManagerAI()
-        self.holidayManager = HolidayManagerAI(self)
         self.sillyMeterMgr = DistributedSillyMeterMgrAI.DistributedSillyMeterMgrAI(self)
         self.sillyMeterMgr.generateWithRequired(2)
         self.hydrantZeroMgr = DistributedHydrantZeroMgrAI.DistributedHydrantZeroMgrAI(self)
@@ -118,6 +125,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.mailboxZeroMgr.generateWithRequired(2)
         self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
         self.trashcanZeroMgr.generateWithRequired(2)
+        self.dialogueManager = DialogueManagerAI(self)
+        self.holidayManager = HolidayManagerAI(self)
         
         if self.wantFishing:
             self.fishManager = FishManagerAI(self)
@@ -139,6 +148,11 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.partyManager.generateWithRequired(2)
             self.globalPartyMgr = self.generateGlobalObject(
                 OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
+                
+        if self.wantCharityScreen:
+            self.charityCounter = CharityScreenAI(self)
+            self.charityCounter.generateWithRequired(2)
+            self.charityCounter.start()
 
         self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 
             'TTCodeRedemptionMgr')

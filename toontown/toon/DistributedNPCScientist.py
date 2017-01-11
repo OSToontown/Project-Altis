@@ -1,8 +1,10 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toon import DistributedNPCToonBase
 
 class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedNPCScientist")
 
     def __init__(self, cr):
         DistributedNPCToonBase.DistributedNPCToonBase.__init__(self, cr)
@@ -35,6 +37,7 @@ class DistributedNPCScientist(DistributedNPCToonBase.DistributedNPCToonBase):
         self.nametag3d.setBin('fixed', 0)
 
     def setChat(self, topic, partPos, partId, progress, flags):
+        self.notify.debug("Setting Dialouge Chat!")
         msg = TTLocalizer.toontownDialogues[topic][partPos, partId][progress]
         self.setChatMuted(msg, flags)
 

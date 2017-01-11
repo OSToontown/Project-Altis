@@ -49,11 +49,13 @@ class DMenuScreen(DirectObject):
         self.isSeqPlaying = False # .isPlaying() doesnt want to work
         if DMENU_GAME == 'Toontown':
             base.cr.avChoice = None
-        fadeSequence = Sequence(
-            Func(base.transitions.fadeOut, .001),
-            Wait(.5),
-            Func(base.transitions.fadeIn, .5),
-            base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
+            
+            fadeSequence = Sequence(
+                Func(base.transitions.fadeOut, .001),
+                Wait(.5),
+                Func(base.transitions.fadeIn, .5),
+                base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
+        
         if DMENU_GAME == 'Toontown':
             self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
             self.background.reparentTo(render)
@@ -61,12 +63,13 @@ class DMenuScreen(DirectObject):
             ropes = loader.loadModel('phase_4/models/modules/tt_m_ara_int_ropes')
             ropes.reparentTo(self.background)
             self.sillyMeter = Actor.Actor('phase_4/models/props/tt_a_ara_ttc_sillyMeter_default', {'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
-             'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
-             'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
-             'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
-             'phaseFour': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFour',
-             'phaseFourToFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFourToFive',
-             'phaseFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFive'})
+                'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
+                'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
+                'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
+                'phaseFour': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFour',
+                'phaseFourToFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFourToFive',
+                'phaseFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFive'})
+            
             self.sillyMeter.reparentTo(self.background)
             self.sillyMeter.makeSubpart('arrow', ['uvj_progressBar*', 'def_springA'])
             self.sillyMeter.makeSubpart('meter', ['def_pivot'], ['uvj_progressBar*', 'def_springA'])
@@ -149,15 +152,14 @@ class DMenuScreen(DirectObject):
             self.ray = CollisionRay()
             self.bananaRayNode.addSolid(self.ray)
             self.bananaClicker.addCollider(self.bananaRayNP, self.collHandlerQueue)
-            self.accept("mouse1", self.slipAndSlideOnThisBananaPeelHaHaHa)
-           
+            self.accept('mouse1', self.slipAndSlideOnThisBananaPeelHaHaHa)
             
             for frame in render.findAllMatches('*/doorFrame*'):
                 frame.removeNode()
+            
             self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
             SkyUtil.startCloudSky(self)
             base.camera.setPosHpr(MAIN_POS, MAIN_HPR)
-
 
         self.logo = OnscreenImage(image = GameLogo, scale = (.5, .5, .25))
         self.logo.reparentTo(aspect2d)
@@ -205,6 +207,7 @@ class DMenuScreen(DirectObject):
                         Func(self.dimm.loop, 'scientistGame'),
                         Func(setPlayingStatus, False)
                     )
+                    
                     if not self.isSeqPlaying:
                         self.seq.start()
 
@@ -283,7 +286,7 @@ class DMenuScreen(DirectObject):
 
     def openOptions(self):
         self.optionsMgr.showOptions()
-        self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = "Back", text_fg = (0, 0, 0, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.hideOptions)
+        self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = 'Back', text_fg = (0, 0, 0, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.hideOptions)
         self.closeOptionsButton.reparentTo(base.a2dTopLeft)
         self.closeOptionsButton.setPos(0.5, 0, -0.07)
         Parallel(
@@ -351,10 +354,10 @@ class DMenuScreen(DirectObject):
         self.hbButton.hide()
         self.hbHideButton.show()
         
-        self.patNode2d = aspect2d.find("**/patNode2d")
+        self.patNode2d = aspect2d.find('**/patNode2d')
         self.patNode2d.posInterval(.5, Point3(.5, 0, 0), blendType = 'easeInOut').start()
         
-        self.patNode = render.find("**/patNode")
+        self.patNode = render.find('**/patNode')
         self.patNode.posInterval(.5, Point3(0, -3, 0), blendType = 'easeInOut').start()
         
     def hideHamburgerMenu(self):

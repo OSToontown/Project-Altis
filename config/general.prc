@@ -6,6 +6,9 @@ cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #t
 default-directnotify-level info
 
+notify-level-DistributedNPCScientistAI info
+
+
 # Audio:
 audio-library-name p3fmod_audio
 
@@ -128,9 +131,25 @@ show-total-population #f
 want-mat-all-tailors #t
 want-long-pattern-game #f
 
+# Animated Props
+zero-pause-mult 1.0
+
+# Interactive Props
+randomize-interactive-idles #t
+interactive-prop-random-idles #t
+interactive-prop-info #f
+props-buff-battles #t
+prop-idle-pause-time 0.0
+
+# Events
+want-charity-screen #t
+
 # Developer options:
 want-dev #f
 want-pstats 0
+
+# Holidays
+#active-holidays 116, 63, 64, 65, 66, 128
 
 # Temporary:
 want-old-fireworks #t

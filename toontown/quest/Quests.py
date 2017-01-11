@@ -53,6 +53,7 @@ QuestDictToNpcIndex = 4
 QuestDictRewardIndex = 5
 QuestDictNextQuestIndex = 6
 QuestDictDialogIndex = 7
+QuestDictExperienceIndex = 8
 VeryEasy = 100
 Easy = 75
 Medium = 50
@@ -16982,6 +16983,34 @@ def getQuest(id):
         questDesc = questEntry[QuestDictDescIndex]
         questClass = questDesc[0]
         return questClass(id, questDesc[1:])
+    else:
+        return None
+    return None
+	
+def getQuestExp(id):
+    questEntry = QuestDict.get(id)
+    if questEntry:
+        try:
+            questExp = questEntry[QuestDictExperienceIndex]
+            return questExp
+        except:
+            questTier = questEntry[QuestDictTierIndex]
+            if questTier >= TT_TIER and questTier < DD_TIER:
+                return 80
+            elif questTier >= DD_TIER and questTier < DG_TIER:
+                return 200
+            elif questTier == DG_TIER and questTier < MM_TIER:
+                return 500
+            elif questTier == MM_TIER and questTier < BR_TIER:
+                return 1000
+            elif questTier >= BR_TIER and questTier < DL_TIER:
+                return 3000
+            elif questTier >= DL_TIER and questTier < ELDER_TIER:
+                return 7500
+            elif questTier == ELDER_TIER:
+                return 15000
+            else:
+                return 0
     else:
         return None
     return None
