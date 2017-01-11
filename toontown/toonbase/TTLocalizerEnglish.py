@@ -9635,6 +9635,12 @@ RemapPopup = 'Press the key you wish to remap this control to.'
 Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
             'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
 
+# Clubs
+ClubsPageTitle = "Toon Clubs"
+ClubsJoinWithCode = "Join with Club Code"
+ClubsCode = "Club Code"
+ClubsSubmitCode = "Submit Code"
+
 def getBuffString(buffId, buffTime):
     if buffTime < 60:
         return buffIdStrings[buffId][0] % (buffTime, 'minutes')
