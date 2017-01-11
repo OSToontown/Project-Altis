@@ -76,8 +76,8 @@ class ShardPage(ShtikerPage.ShtikerPage):
         self.lowPop = config.GetInt('shard-low-pop', 150)
         self.midPop = config.GetInt('shard-mid-pop', 300)
         self.highPop = -1
-        self.showPop = config.GetBool('show-population', 0)
-        self.showTotalPop = config.GetBool('show-total-population', 0)
+        self.showPop = True
+        self.showTotalPop = True
         self.noTeleport = config.GetBool('shard-page-disable', 0)
 
     def load(self):
