@@ -18,25 +18,26 @@ VICTORY_SEQUENCE_TIME = VICTORY_RUN_TIME + TO_TOON_BLDG_TIME
 CLEAR_OUT_TOON_BLDG_TIME = 4
 TO_SUIT_BLDG_TIME = 8
 
-SUIT_PLANNER_VP = 9
-SUIT_PLANNER_VP_SKELECOGS = 10
-SUIT_PLANNER_NERFED_VP = 15
-SUIT_PLANNER_NERFED_VP_SKELECOGS = 16
-SUIT_PLANNER_CFO = 11
-SUIT_PLANNER_CFO_SKELECOGS = 12
-SUIT_PLANNER_CJ = 13
-SUIT_PLANNER_CEO = 14
-SUIT_PLANNER_CEO_DINERS = 17
+SUIT_PLANNER_VP = 10
+SUIT_PLANNER_VP_SKELECOGS = 11
+SUIT_PLANNER_NERFED_VP = 16
+SUIT_PLANNER_NERFED_VP_SKELECOGS = 17
+SUIT_PLANNER_CFO = 12
+SUIT_PLANNER_CFO_SKELECOGS = 13
+SUIT_PLANNER_CJ = 14
+SUIT_PLANNER_CEO = 15
+SUIT_PLANNER_CEO_DINERS = 18
 
 SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
- ((1, 2), (2, 4), (5, 5), (8, 10), (1, 1.2)), # Buildings
- ((1, 3), (3, 5), (6, 6), (8, 10), (1, 1.3, 1.6)), # Buildings
- ((2, 3), (4, 6), (7, 7), (8, 10), (1, 1.4, 1.8)), # Buildings
- ((2, 4), (5, 7), (8, 8), (8, 10), (1, 1.6, 1.8, 2)), # Buildings
- ((3, 4), (6, 8), (9, 9), (10, 12), (1, 1.6, 2, 2.4)), # Buildings
- ((3, 5), (7, 9),(10, 10), (10, 14), (1, 1.6, 1.8, 2.2, 2.4)), # Buildings
- ((4, 5), (8, 10), (11, 11), (12, 16), (1, 1.8, 2.4, 3, 3.2)), # Buildings
- ((5, 6), (9, 11), (12, 12), (14, 20), (1.4, 1.8, 2.6, 3.4, 4, 5)), # Buildings
+ ((1, 2), (2, 4), (5, 5), (10, 11), (1, 1.2)), # Buildings
+ ((1, 3), (3, 5), (6, 6), (12, 13), (1, 1.3, 1.6)), # Buildings
+ ((2, 3), (4, 6), (7, 7), (14, 15), (1, 1.4, 1.8)), # Buildings
+ ((2, 4), (5, 7), (8, 8), (16, 17), (1, 1.6, 1.8, 2)), # Buildings
+ ((3, 4), (6, 8), (9, 9), (17, 18), (1, 1.6, 2, 2.4)), # Buildings
+ ((3, 5), (7, 9),(10, 10), (18, 19), (1, 1.6, 1.8, 2.2, 2.4)), # Buildings
+ ((4, 5), (8, 10), (11, 11), (18, 19), (1, 1.8, 2.4, 3, 3.2)), # Buildings
+ ((5, 6), (9, 11), (12, 12), (20, 22), (1.4, 1.8, 2.6, 3.4, 4, 4.8)), # Buildings
+ ((6, 6), (8, 13), (14, 14), (22, 26), (1.8, 2.6, 3.4, 4, 4.8, 5.6)), # Buildings
  ((1, 1), (5, 13), (13, 13), (100, 100), (1, 1, 1, 1, 1)), # VP Round 1
  ((1, 1), (8, 13), (13, 13), (150, 150), (1, 1, 1, 1, 1)), # VP Round 2
  ((1, 1), (5, 14), (14, 14), (150, 150), (1, 1, 1, 1, 1)), # CFO Round 1 Cogs
