@@ -7,6 +7,7 @@ from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem
 from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem
 from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
 from toontown.estate.DNAFurnitureReaderAI import DNAFurnitureReaderAI
+from toontown.building.DistributedLightSwitchAI import DistributedLightSwitchAI
 from toontown.dna.DNAParser import *
 from toontown.estate import HouseGlobals
 import random
@@ -55,6 +56,10 @@ class DistributedHouseInteriorAI(DistributedObjectAI):
         DistributedObjectAI.announceGenerate(self)
 
         self.furnitureManager.generateWithRequired(self.zoneId)
+
+        # create the interior light lightSwitch
+        self.lightSwitch = DistributedLightSwitchAI(self.air, self.getDoId())
+        self.lightSwitch.generateWithRequired(self.zoneId)
 
     def delete(self):
         DistributedObjectAI.delete(self)
