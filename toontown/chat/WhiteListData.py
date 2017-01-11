@@ -13,7 +13,6 @@ WHITELIST = [
     '#blamesmirky',
     '#blametubby',
     '#blamedan',
-    '#blamesmirky',
     '#blameremote',
     '$',
     '$1',
