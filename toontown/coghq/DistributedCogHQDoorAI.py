@@ -17,7 +17,7 @@ class DistributedCogHQDoorAI(DistributedDoorAI.DistributedDoorAI):
         self.destinationZone = destinationZone
 
     def requestEnter(self):
-        avatarId = self.air.getavatarIdFromSender()
+        avatarId = self.air.getAvatarIdFromSender()
         dept = ToontownGlobals.cogHQZoneId2deptIndex(self.destinationZone)
         av = self.air.doId2do.get(avatarId)
         if av:
@@ -34,11 +34,11 @@ class DistributedCogHQDoorAI(DistributedDoorAI.DistributedDoorAI):
                 self.sendReject(avatarId, self.isLockedDoor())
                 return
 
-            self.enqueueavatarIdEnter(avatarId)
-            self.sendUpdateToavatarId(avatarId, 'setOtherZoneIdAndDoId', [self.destinationZone, self.otherDoor.getDoId()])
+            self.enqueueAvatarIdEnter(avatarId)
+            self.sendUpdateToAvatarId(avatarId, 'setOtherZoneIdAndDoId', [self.destinationZone, self.otherDoor.getDoId()])
 
     def requestExit(self):
-        avatarId = self.air.getavatarIdFromSender()
+        avatarId = self.air.getAvatarIdFromSender()
         
         if avatarId in self.avatarsWhoAreEntering:
             del self.avatarsWhoAreEntering[avatarId]

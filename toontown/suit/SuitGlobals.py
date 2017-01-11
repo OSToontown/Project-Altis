@@ -53,7 +53,7 @@ suitProperties = {
       'ms': (4.75 / bSize, SuitDNA.salesPolyColor, ['movershaker'], '', 6.7),
       'tf': (5.25 / aSize, SuitDNA.salesPolyColor, ['twoface'], '', 6.95),
       'm': (5.75 / aSize, SuitDNA.salesPolyColor, ['twoface'], 'mingler.jpg', 7.61),
-      'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman'], '', 8.95),
+      'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman', 'shades'], '', 8.95),
 
       # Boardbots
       'ca': (4.0 / cSize, SuitDNA.boardPolyColor, ['conartist', 'beret1'], '', 4.88),
