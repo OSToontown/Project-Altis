@@ -39,6 +39,12 @@ def __globals(*args, **kw):
 
 __builtin__.globals = __globals
 
+# replace the "locals" builtin method to prevent local modification
+def __locals(*args, **kw):
+    raise SystemExit
+
+__builtin__.locals = __locals
+
 # TODO: append resources, and load config from stream string.
 
 # Finally, start the game:
