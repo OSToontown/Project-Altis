@@ -115,6 +115,7 @@ want-bossbot-headquarters #t
 # Cashbot boss:
 want-resistance-toonup #f
 want-resistance-restock #f
+want-resistance-dance #f
 
 # Cog buildings:
 want-cogbuildings #t
