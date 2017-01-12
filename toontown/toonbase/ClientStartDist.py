@@ -1,6 +1,11 @@
 # This is a temp patch.
 # It should really be done by the runtime (e.g. altis.exe):
 import sys
+import __builtin__
+
+# Replace some modules that do exec:
+import collections
+collections.namedtuple = lambda *x: tuple
 
 # patches all code injection
 def tracefunc(frame, event, arg, indent=[0]):
@@ -11,13 +16,8 @@ def tracefunc(frame, event, arg, indent=[0]):
 
 sys.settrace(tracefunc)
 
-import __builtin__
 
 sys.path = ['.']
-
-# Replace some modules that do exec:
-import collections
-collections.namedtuple = lambda *x: tuple
 
 #Disable both dev before anything else.
 #This is to make sure the distrubution client doesn't
