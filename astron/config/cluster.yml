@@ -2,7 +2,7 @@ daemon:
     name: Astron Cluster
 
 general:
-    eventlogger: 127.0.0.1:7199
+    eventlogger: 127.0.0.1:7198
     dc_files:
         - ../dclass/toon.dc
 
