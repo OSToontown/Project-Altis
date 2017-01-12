@@ -9,11 +9,10 @@ sys.path = ['.']
 import collections
 collections.namedtuple = lambda *x: tuple
 
-#Disable both dev and debug before anything else.
+#Disable both dev before anything else.
 #This is to make sure the distrubution client doesn't
 #get any special perms or anything of the sort.
 __builtin__.__dev__ = False
-__builtin__.__debug__ = False
 
 # TODO: append resources, and load config from stream string.
 
