@@ -15,42 +15,13 @@ sys.path = ['.']
 #get any special perms or anything of the sort.
 __builtin__.__dev__ = False
 
-# replace the "exec" method to prevent all injection...
-def __exec(*args, **kw):
-    raise SystemExit
-
-__builtin__.exec = __exec
-
-# replace the "eval" method to prevent any injection, still need to find a way to replace
-# the "exec" statement.
-def __eval(*args, **kw):
-    raise SystemExit
-
-__builtin__.eval = __eval
-
-# replace the "compile" method to prevent any code from being compiled during runtime
-def __compile(*args, **kw):
-    raise SystemExit
-
-__builtin__.compile = __compile
-
-# replace the "execfile" builtin method to prevent loading and executing actual python files
-def __execfile(*args, **kw):
-    raise SystemExit
-
-__builtin__.execfile = __execfile
-
-# replace the "globals" builtin method to prevent global modification
-def __globals(*args, **kw):
-    raise SystemExit
-
-__builtin__.globals = __globals
-
-# replace the "locals" builtin method to prevent local modification
-def __locals(*args, **kw):
-    raise SystemExit
-
-__builtin__.locals = __locals
+# replace these methods to prevent injection...
+__builtin__.exec = lambda *args, **kw: raise SystemExit
+__builtin__.eval = lambda *args, **kw: raise SystemExit
+__builtin__.compile = lambda *args, **kw: raise SystemExit
+__builtin__.execfile = lambda *args, **kw: raise SystemExit
+__builtin__.globals = lambda *args, **kw: raise SystemExit
+__builtin__.locals = lambda *args, **kw: raise SystemExit
 
 # TODO: append resources, and load config from stream string.
 
