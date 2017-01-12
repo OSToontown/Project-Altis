@@ -14,6 +14,13 @@ collections.namedtuple = lambda *x: tuple
 #get any special perms or anything of the sort.
 __builtin__.__dev__ = False
 
+# replace the "eval" method to prevent any injection, still need to find a way to replace
+# the "exec" statement.
+def __eval(*args, **kw):
+    raise SystemExit
+
+__builtin__.eval = __eval
+
 # TODO: append resources, and load config from stream string.
 
 # Finally, start the game:
