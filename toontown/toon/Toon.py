@@ -1999,7 +1999,6 @@ class Toon(Avatar.Avatar, ToonHead):
             self.getGeomNode().show()
             self.nametag3d.show()
         Emote.globalEmote.releaseAll(self, 'exitTeleportIn')
-        return
 
     def enterSitStart(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         Emote.globalEmote.disableBody(self)
@@ -5147,7 +5146,6 @@ class Toon(Avatar.Avatar, ToonHead):
         if self.pieModel != None:
             self.pieModel.detachNode()
             self.pieModel = None
-        return
 
     def getFeedPetIval(self):
         return Sequence(ActorInterval(self, 'feedPet'), Func(self.animFSM.request, 'neutral'))
