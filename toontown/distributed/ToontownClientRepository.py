@@ -411,7 +411,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         #Leave uncommented.
         pad.avatar.updateAllRequiredFields(dclass, fields)
 
-         '''This is a much saner way to load avatar details, and is also
+        '''This is a much saner way to load avatar details, and is also
         dynamic. This means we aren't restricted in what we pass.
         Due to Python's random ordering of dictionaries, we have to pass
         a list containing a list of the field and value. For example:
