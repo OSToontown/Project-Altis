@@ -10,7 +10,7 @@ set /P ttaUsername="Username: "
 rem Export the environment variables:
 set ttaPassword=password
 set TTA_PLAYCOOKIE=%ttaUsername%
-set TTA_GAMESERVER=gs1.projectaltis.com
+set TTA_GAMESERVER=149.56.29.153
 
 echo ===============================
 echo Starting Toontown Project Altis...
