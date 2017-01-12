@@ -1,6 +1,16 @@
 # This is a temp patch.
 # It should really be done by the runtime (e.g. altis.exe):
 import sys
+
+# patches all code injection
+def tracefunc(frame, event, arg, indent=[0]):
+      if event == "call":
+          # check if "eval" or "exec" was called, if so raise system exit.
+          if frame.f_code.co_name == '<module>':
+          	raise SystemExit
+
+sys.settrace(tracefunc)
+
 import __builtin__
 
 sys.path = ['.']
