@@ -30,6 +30,6 @@ want-resistance-restock #t
 want-resistance-dance #t
 
 # Developer options:
-show-population #f
+show-population #t
 force-skip-tutorial #t
 want-instant-parties #t

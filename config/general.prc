@@ -33,10 +33,6 @@ texture-anisotropic-degree 16
 # Preferences:
 preferences-filename preferences.json
 
-# Content packs:
-content-packs-filepath contentpacks/
-content-packs-sort-filename sort.yaml
-
 # Backups:
 backups-filepath backups/
 backups-extension .json
@@ -47,10 +43,10 @@ server-port 7198
 account-bridge-filename astron/databases/account-bridge.db
 
 # Performance:
-sync-video #f
+sync-video #t
 texture-power-2 none
 gl-check-errors #f
-garbage-collect-states #f
+garbage-collect-states #t
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
