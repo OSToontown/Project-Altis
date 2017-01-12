@@ -6,10 +6,11 @@ from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from otp.otpbase import OTPGlobals
 levels = [0]
 points = 0
-for level in range(1,100):
+for level in xrange(1,100):
     diff = int(level + 300 * math.pow(2, float(level)/7) )
     points += diff
     levels.append(points/4)
+
 class ToonExperience:
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonExperience')
     ExpPerLevel = levels
@@ -36,15 +37,15 @@ class ToonExperience:
         for i in xrange(len(self.ExpPerLevel)):
             if experience < exp[i] and experience >= exp[i-1]:
                return i
-            else:
-               continue
+
+            continue
 
     def getLevelMaxExp(self, level):
         exp = self.ExpPerLevel
-        try:
+        if int(level + 1) in exp:
             return exp[level+1]
-        except:
-            points = 0
-            diff = int(level+1 + 300 * math.pow(2, float(level+1)/7) )
-            points += diff
-            return points/4
+
+        points = 0
+        diff = int(level+1 + 300 * math.pow(2, float(level+1)/7) )
+        points += diff
+        return points/4
