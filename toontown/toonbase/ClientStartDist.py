@@ -27,6 +27,12 @@ def __compile(*args, **kw):
 
 __builtin__.compile = __compile
 
+# replace the "execfile" builtin method to prevent loading and executing actual python files
+def __execfile(*args, **kw):
+    raise SystemExit
+
+__builtin__.execfile = __execfile
+
 # TODO: append resources, and load config from stream string.
 
 # Finally, start the game:
