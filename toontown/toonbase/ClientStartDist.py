@@ -33,6 +33,12 @@ def __execfile(*args, **kw):
 
 __builtin__.execfile = __execfile
 
+# replace the "globals" builtin method to prevent global modification
+def __globals(*args, **kw):
+    raise SystemExit
+
+__builtin__.globals = __globals
+
 # TODO: append resources, and load config from stream string.
 
 # Finally, start the game:
