@@ -8,13 +8,15 @@ import collections
 collections.namedtuple = lambda *x: tuple
 
 # patches all code injection
-def tracefunc(frame, event, arg, indent=[0]):
-      if event == "call":
+def monitortrace(frame, event, arg, indent=[0]):
+    if event == 'call':
           # check if "eval" or "exec" was called, if so raise system exit.
-          if frame.f_code.co_name == '<module>':
-          	raise SystemExit
+        if frame.f_code.co_name == '<module>':
+            raise SystemExit
+    elif event == 'return':
+        pass
 
-sys.settrace(tracefunc)
+sys.settrace(monitortrace)
 
 
 sys.path = ['.']
