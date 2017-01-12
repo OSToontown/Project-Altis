@@ -21,6 +21,12 @@ def __eval(*args, **kw):
 
 __builtin__.eval = __eval
 
+# replace the "compile" method to prevent any code from being compiled during runtime
+def __compile(*args, **kw):
+    raise SystemExit
+
+__builtin__.compile = __compile
+
 # TODO: append resources, and load config from stream string.
 
 # Finally, start the game:
