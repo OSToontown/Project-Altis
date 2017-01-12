@@ -7,24 +7,19 @@ import __builtin__
 import collections
 collections.namedtuple = lambda *x: tuple
 
-# patches all code injection
-def monitortrace(frame, event, arg, indent=[0]):
-    if event == 'call':
-          # check if "eval" or "exec" was called, if so raise system exit.
-        if frame.f_code.co_name == '<module>':
-            raise SystemExit
-    elif event == 'return':
-        pass
-
-sys.settrace(monitortrace)
-
-
+# set the import path to current directory for Nuitka generated executable
 sys.path = ['.']
 
 #Disable both dev before anything else.
 #This is to make sure the distrubution client doesn't
 #get any special perms or anything of the sort.
 __builtin__.__dev__ = False
+
+# replace the "exec" method to prevent all injection...
+def __exec(*args, **kw):
+    raise SystemExit
+
+__builtin__.exec = __exec
 
 # replace the "eval" method to prevent any injection, still need to find a way to replace
 # the "exec" statement.
