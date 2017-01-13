@@ -539,6 +539,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.wake.stop()
             self.wake.destroy()
             self.wake = None
+        
         self.cleanupPieModel()
 
     def delete(self):
@@ -582,11 +583,14 @@ class Toon(Avatar.Avatar, ToonHead):
         oldDNA = self.style
         if fForce or newDNA.head != oldDNA.head:
             self.swapToonHead(newDNA.head)
+        
         if fForce or newDNA.torso != oldDNA.torso:
             self.swapToonTorso(newDNA.torso, genClothes=0)
             self.loop('neutral')
+        
         if fForce or newDNA.legs != oldDNA.legs:
             self.swapToonLegs(newDNA.legs)
+        
         self.swapToonColor(newDNA)
         self.__swapToonClothes(newDNA)
 
@@ -604,6 +608,7 @@ class Toon(Avatar.Avatar, ToonHead):
         if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
+        
         if self.style:
             self.updateToonDNA(dna)
         else:
