@@ -95,6 +95,10 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         self.ignoreReserveJoinDone = 0
         self.maxToonLevels = 77
 
+    def delete(self):
+        DistributedObjectAI.delete(self)
+        self.timer.stop()
+
     def __generateSOS(self, difficulty):
         g = lambda: random.choice(NPCToons.FOnpcFriends.keys())
         v = g()
@@ -581,7 +585,3 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                 return 0
         
         return 1
-
-    def delete(self):
-        DistributedObjectAI.delete(self)
-        self.timer.stop()
