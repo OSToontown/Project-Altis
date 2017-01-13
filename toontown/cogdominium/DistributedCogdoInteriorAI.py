@@ -280,7 +280,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
             return None
         numOfEmptySeats = seats.count(None)
         if numOfEmptySeats == 4:
-            self.exterior.deleteSuitInterior()
+            self.exterior.bldg.deleteSuitInterior()
             return
         elif not 0 <= numOfEmptySeats <= 3:
             self.notify.error('Bad number of empty seats: %s' % numOfEmptySeats)
@@ -349,14 +349,14 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                 self.removeToon(toon)
         self.d_setToons()
         if len(self.toons) == 0:
-            self.exterior.deleteSuitInterior()
+            self.exterior.bldg.deleteSuitInterior()
         elif self.curFloor == self.topFloor:
             self.battle.resume(self.curFloor, topFloor = 1)
         else:
             self.battle.resume(self.curFloor, topFloor = 0)
 
     def __doDeleteInterior(self, task):
-        self.exterior.deleteSuitInterior()
+        self.exterior.bldg.deleteSuitInterior()
         return task.done
 
     def exitBattleDone(self):
