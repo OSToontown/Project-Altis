@@ -39,7 +39,7 @@ class DNASignBaseline(DNANode.DNANode):
     def setColor(self, color):
         self.color = color
 
-    def traverse(self, nodePath, dnaStorage, type=None):
+    def traverse(self, nodePath, dnaStorage, editor=False):
         root = NodePath('signroot')
         head_root = NodePath('root')
         wantDecalTest = base.config.GetBool('want-sign-decal-test', False)
@@ -112,3 +112,6 @@ class DNASignBaseline(DNANode.DNANode):
         self.traverseChildren(_np, dnaStorage)
 
         _np.flattenStrong()
+        
+        if editor:
+           return _np
