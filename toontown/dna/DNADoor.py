@@ -14,6 +14,18 @@ class DNADoor(DNAGroup.DNAGroup):
         self.code = ''
         self.color = LVector4f(1)
         
+    def setCode(self, code):
+        self.code = code
+        
+    def getCode(self):
+        return self.code
+        
+    def setColor(self, color):
+        self.color = color
+        
+    def getColor(self):
+        return self.color
+        
     def getClassType(self):
         return self.__name__
 

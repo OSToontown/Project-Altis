@@ -742,7 +742,7 @@ class LevelStyleManager:
         """
         Create a style sample using the DNA info in the style
         """
-        bldg = DNAFlatBuilding()
+        bldg = DNAFlatBuilding.DNAFlatBuilding('DNAFlatBuildingSample')
         self.setDNAFlatBuildingStyle(bldg, bldgStyle, width = 10.0,
                                      name = 'building_style_sample')
         return bldg.traverse(hidden, DNASTORE, 1)
@@ -810,7 +810,7 @@ class LevelStyleManager:
                 windows.add(awning)
         # Add a door if necessary
         if style['door_texture']:
-            door = DNAFlatDoor()
+            door = DNAFlatDoor('DNAFlatDoorSample')
             # Set the door's attributes
             door.setCode(style['door_texture'])
             door.setColor(style['door_color'])
@@ -826,7 +826,10 @@ class LevelStyleManager:
         if style['cornice_texture']:
             cornice = DNACornice('ANiceCornice')
             # Set the cornice's attributes
-            cornice.setCode(style['cornice_texture'])
+            if style['cornice_texture'] != 'None':
+                cornice.setCode(style['cornice_texture'])
+            else:
+                cornice.setCode('cornice_stone_ur')
             cornice.setColor(style['cornice_color'])
             # Add cornice to wall
             wall.add(cornice)
@@ -1468,6 +1471,7 @@ class DNAWallStyle:
         self.door_awning_color = Vec4(1.0)
         self.cornice_texture = None
         self.cornice_color = Vec4(1.0)
+        self.cornice_code = 'wall_style_0'
         # Then copy the specifics for the wall if input
         if wall:
             self.copy(wall)
@@ -1536,5 +1540,6 @@ class DNAWallStyle:
             'Door Awning Texture: %s\n' % self.door_awning_texture +
             'Door Awning Color: %s\n' % self.door_awning_color +
             'Cornice Texture: %s\n' % self.cornice_texture +
-            'Cornice Color: %s\n' % self.cornice_color
+            'Cornice Color: %s\n' % self.cornice_color +
+            'Cornice Code: %s\n' % self.cornice_code
             )

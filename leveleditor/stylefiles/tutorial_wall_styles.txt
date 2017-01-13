@@ -5,6 +5,7 @@ window_texture: window_sm_pointed_ur
 window_color: Vec4(0.396, 0.611, 0.666, 1.0)
 cornice_texture: cornice_stone_ur
 cornice_color: Vec4(1.0, 1.0, 0.592, 1.0)
+cornice_code: TUT_wall_style_1
 endWallStyle
 
 wallStyle
@@ -14,6 +15,7 @@ window_texture: window_sm_pointed_ur
 window_color: Vec4(0.142751, 0.527559, 0.295847, 1.0)
 cornice_texture: cornice_stone_ur
 cornice_color: Vec4(1.0, 1.0, 0.592157, 1.0)
+cornice_code: TUT_wall_style_2
 endWallStyle
 
 wallStyle
@@ -23,6 +25,7 @@ window_texture: window_porthole_ur
 window_color: Vec4(0.306315, 0.627451, 0.370542, 1.0)
 cornice_texture: None
 cornice_color: Vec4(1.0, 1.0, 1.0, 1.0)
+cornice_code: TUT_wall_style_3
 endWallStyle
 
 wallStyle
@@ -32,6 +35,7 @@ window_texture: window_porthole_ur
 window_color: Vec4(0.0972673, 0.590551, 0.393701, 1.0)
 cornice_texture: None
 cornice_color: Vec4(1.0, 1.0, 1.0, 1.0)
+cornice_code: TUT_wall_style_4
 endWallStyle
 
 wallStyle
@@ -41,6 +45,7 @@ window_texture: window_md_curved_ur
 window_color: Vec4(1.0, 0.87451, 0.376471, 1.0)
 cornice_texture: None
 cornice_color: Vec4(1.0, 1.0, 1.0, 1.0)
+cornice_code: TUT_wall_style_5
 endWallStyle
 
 wallStyle
@@ -50,6 +55,7 @@ window_texture: window_porthole_ur
 window_color: Vec4(0.31706, 0.535433, 0.361155, 1.0)
 cornice_texture: None
 cornice_color: Vec4(1.0, 1.0, 1.0, 1.0)
+cornice_code: TUT_wall_style_6
 endWallStyle
 
 wallStyle
@@ -59,6 +65,7 @@ window_texture: window_porthole_ur
 window_color: Vec4(0.31706, 0.535433, 0.361155, 1.0)
 cornice_texture: cornice_brick_ur
 cornice_color: Vec4(0.31706, 0.535433, 0.361155, 1.0)
+cornice_code: TUT_wall_style_7
 endWallStyle
 
 wallStyle
@@ -68,6 +75,7 @@ window_texture: window_sm_curved_ur
 window_color: Vec4(0.996078, 0.996078, 0.486275, 1.0)
 cornice_texture: None
 cornice_color: Vec4(1.0, 1.0, 1.0, 1.0)
+cornice_code: TUT_wall_style_8
 endWallStyle
 
 wallStyle
@@ -77,6 +85,7 @@ window_texture: window_sm_curved_ur
 window_color: Vec4(1.0, 0.87451, 0.376471, 1.0)
 cornice_texture: cornice_marble_ur
 cornice_color: Vec4(1.0, 0.74902, 0.376471, 1.0)
+cornice_code: TUT_wall_style_9
 endWallStyle
 
 wallStyle
@@ -86,6 +95,7 @@ window_texture: window_sm_pointed_ur
 window_color: Vec4(0.88189, 0.439216, 0.145252, 1.0)
 cornice_texture: None
 cornice_color: Vec4(1.0, 1.0, 1.0, 1.0)
+cornice_code: TUT_wall_style_10
 endWallStyle
 
 wallStyle
@@ -95,6 +105,7 @@ window_texture: window_sm_pointed_ur
 window_color: Vec4(0.110236, 0.669291, 0.333333, 1.0)
 cornice_texture: cornice_stone_ur
 cornice_color: Vec4(0.944882, 0.711441, 0.559518, 1.0)
+cornice_code: TUT_wall_style_11
 endWallStyle
 
 wallStyle
@@ -104,4 +115,5 @@ window_texture: window_sm_round_ur
 window_color: Vec4(1.0, 0.270588, 0.270588, 1.0)
 cornice_texture: None
 cornice_color: Vec4(1.0, 1.0, 1.0, 1.0)
+cornice_code: TUT_wall_style_12
 endWallStyle

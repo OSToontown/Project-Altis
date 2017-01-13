@@ -39,6 +39,9 @@ class DNACornice(DNAGroup.DNAGroup):
         parentZScale = np.getScale().getZ()
         scaleRatio = parentXScale / parentZScale
         
+        if not self.code or self.code == 'None':
+            raise DNAError.DNAError('DNACornice code not defined!')
+        
         node = store.findNode(self.code)
         if node.isEmpty():
             raise DNAError.DNAError('DNACornice code %d not found in DNAStorage' % self.code)
