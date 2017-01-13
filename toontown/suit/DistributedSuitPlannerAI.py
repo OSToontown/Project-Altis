@@ -18,7 +18,7 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-ALLOWED_FO_TRACKS = ['s', 'l']
+ALLOWED_COGDO_TYPES = ['s', 'l']
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
@@ -1158,7 +1158,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(None, suitType, suitTrack)
 
                 if random.random() < self.CogdoRatio:
-                    building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
+                    building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType), suitTrack)
                 else:
                     building.suitTakeOver(suitTrack, suitLevel, None)
 
