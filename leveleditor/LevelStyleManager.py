@@ -771,7 +771,7 @@ class LevelStyleManager:
             except IndexError:
                 wallHeight = 10.0
             # Create wall accordingly
-            wall = DNAWall()
+            wall = DNAWall('DNAWall')
             self.setDNAWallStyle(wall, wallStyle, wallHeight,
                                  width = width)
             # Add it to building DNA
@@ -789,7 +789,7 @@ class LevelStyleManager:
         wall.setHeight(height)
         # Add windows if necessary
         if style['window_texture']:
-            windows = DNAWindows()
+            windows = DNAWindows('WindowBoi')
             windowCount = style['window_count']
             if width:
                 if (width < 15.0):
@@ -824,7 +824,7 @@ class LevelStyleManager:
                 door.add(awning)
         # And a cornice if necessary
         if style['cornice_texture']:
-            cornice = DNACornice()
+            cornice = DNACornice('ANiceCornice')
             # Set the cornice's attributes
             cornice.setCode(style['cornice_texture'])
             cornice.setColor(style['cornice_color'])

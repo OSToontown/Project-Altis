@@ -20,8 +20,14 @@ class DNACornice(DNAGroup.DNAGroup):
     def getCode(self):
         return self.code
         
+    def setCode(self, code):
+        self.code = code
+        
     def getColor(self):
         return self.color
+        
+    def setColor(self, color):
+        self.color = color
 
     def makeFromDGI(self, dgi, store):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
