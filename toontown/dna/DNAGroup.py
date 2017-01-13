@@ -18,6 +18,9 @@ class DNAGroup(object):
         
     def getName(self):
         return self.name
+        
+    def setName(self, name):
+        self.name = name
 
     def add(self, child):
         self.children += [child]

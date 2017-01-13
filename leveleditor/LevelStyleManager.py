@@ -537,7 +537,7 @@ class LevelStyleManager:
         """
         Create a style sample using the DNA info in the style
         """
-        bldg = DNAFlatBuilding()
+        bldg = DNAFlatBuilding.DNAFlatBuilding('DNAFlatBuildingSample')
         bldgStyle = DNAFlatBuildingStyle(styleList = [(wallStyle, 10.0)])
         self.setDNAFlatBuildingStyle(bldg, bldgStyle, width = 12.0,
                                      name = 'wall_style_sample')

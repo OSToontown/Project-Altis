@@ -33,6 +33,9 @@ class DNANode(DNAGroup.DNAGroup):
     
     def setScale(self, scale):
         self.scale = scale
+        
+    def setName(self, name):
+        DNAGroup.DNAGroup.setName(self, name)
 
     def makeFromDGI(self, dgi, store):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
