@@ -35,7 +35,6 @@ class FireCogPanel(StateData.StateData):
         self.backButton = DirectButton(parent=self.frame, relief=None, image=(gui.find('**/PckMn_BackBtn'), gui.find('**/PckMn_BackBtn_Dn'), gui.find('**/PckMn_BackBtn_Rlvr')), pos=(-0.647, 0, 0.006), scale=1.05, text=TTLocalizer.TownBattleChooseAvatarBack, text_scale=0.05, text_pos=(0.01, -0.012), text_fg=Vec4(0, 0, 0.8, 1), command=self.__handleBack)
         gui.removeNode()
         self.loaded = 1
-        return
 
     def unload(self):
         if self.loaded:
@@ -123,4 +122,3 @@ class FireCogPanel(StateData.StateData):
             self.avatarButtons[3].setX(-0.6)
         else:
             self.notify.error('Invalid number of avatars: %s' % numAvatars)
-        return None

@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
+from toontown.battle.BattleBase import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownBattleGlobals
 from direct.distributed import DistributedNode
@@ -9,19 +9,18 @@ from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
-import Movie
-import MovieUtil
+from toontown.battle import Movie
+from toontown.battle import MovieUtil
 from toontown.suit import Suit
 from direct.actor import Actor
-import BattleProps
+from toontown.battle import BattleProps
 from direct.particles import ParticleEffect
-import BattleParticles
+from toontown.battle import BattleParticles
 from toontown.hood import ZoneUtil
 from toontown.distributed import DelayDelete
 from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.nametag import NametagGlobals
-
 
 class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBase')
