@@ -12,11 +12,11 @@ from toontown.battle import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattleParticles
 from toontown.toonbase import ToontownGlobals
-from toontown.battle import RewardPanel
 notify = DirectNotifyGlobal.directNotify.newCategory('Fanfare')
 
 def makePanel(toon, showToonName):
     panel = DirectFrame(relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_scale=(1.75, 1, 0.75), pos=(0, 0, 0.587))
+    from toontown.battle import RewardPanel
     panel.initialiseoptions(RewardPanel)
     panel.setTransparency(1)
     panel.hide()
