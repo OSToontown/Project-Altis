@@ -13,6 +13,9 @@ class DNADoor(DNAGroup.DNAGroup):
         DNAGroup.DNAGroup.__init__(self, name)
         self.code = ''
         self.color = LVector4f(1)
+        
+    def getClassType(self):
+        return self.__name__
 
     @staticmethod
     def setupDoor(doorNodePath, parentNode, doorOrigin, dnaStore, block, color):

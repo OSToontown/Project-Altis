@@ -13,6 +13,9 @@ class DNAGroup(object):
         self.parent = None
         self.visGroup = None
         
+    def getClassType(self):
+        return self.__name__
+        
     def getName(self):
         return self.name
 

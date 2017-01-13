@@ -13,6 +13,9 @@ class DNAProp(DNANode.DNANode):
         self.code = ''
         self.color = LVector4f(1)
         
+    def getClassType(self):
+        return self.__name__
+        
     def getCode(self):
         return self.code
         

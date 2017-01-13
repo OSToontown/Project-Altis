@@ -13,14 +13,26 @@ class DNANode(DNAGroup.DNAGroup):
         self.hpr = LVector3f()
         self.scale = LVector3f(1, 1, 1)
         
+    def getClassType(self):
+        return self.__name__
+        
     def getPos(self):
         return self.pos
         
+    def setPos(self, pos):
+        self.pos = pos
+        
     def getHpr(self):
         return self.hpr
+    
+    def setHpr(self, hpr):
+        self.hpr = hpr
         
     def getScale(self):
         return self.scale
+    
+    def setScale(self, scale):
+        self.scale = scale
 
     def makeFromDGI(self, dgi, store):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
