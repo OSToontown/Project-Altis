@@ -62,7 +62,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         self.topFloor = 2
         self.timer = Timer.Timer()
         self.exterior = exterior
-        self.bldg = self.bldg
+        self.bldg = self.exterior.bldg
         self.planner = self.bldg.planner
         self.savedByMap = { }
         self.battle = None
