@@ -1,3 +1,4 @@
+import random
 from otp.ai.AIBase import *
 from direct.distributed.ClockDelta import *
 from BattleBase import *
@@ -5,7 +6,7 @@ from BattleCalculatorAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
 from SuitBattleGlobals import *
 from pandac.PandaModules import *
-import BattleExperienceAI
+from toontown.battle import BattleExperienceAI
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -15,7 +16,6 @@ from toontown.ai import DatabaseObject
 from toontown.toon import DistributedToonAI
 from toontown.toon import InventoryBase
 from toontown.toonbase import ToontownGlobals
-import random
 from toontown.toon import NPCToons
 from otp.ai.MagicWordGlobal import *
 

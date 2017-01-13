@@ -1,18 +1,18 @@
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
-from BattleSounds import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleProps import *
+from toontown.battle.BattleSounds import *
 from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
 from direct.particles.ParticleEffect import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-import MovieUtil
-import MovieCamera
+from toontown.battle import MovieUtil
+from toontown.battle import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
-import BattleParticles
+from toontown.battle import BattleParticles
 from toontown.toonbase import ToontownGlobals
-import RewardPanel
+from toontown.battle import RewardPanel
 notify = DirectNotifyGlobal.directNotify.newCategory('Fanfare')
 
 def makePanel(toon, showToonName):
@@ -27,7 +27,6 @@ def makePanel(toon, showToonName):
 
 def makeMessageBox(panel, message, messagePos, messageScale, wordwrap = 100):
     panel.itemFrame = DirectFrame(parent=panel, relief=None, text=message, text_pos=messagePos, text_scale=messageScale, text_wordwrap=wordwrap)
-    return
 
 
 def makeImageBox(frame, image, imagePos, imageScale):

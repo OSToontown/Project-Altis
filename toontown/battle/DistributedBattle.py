@@ -1,17 +1,15 @@
+import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-import random
-
-from BattleBase import *
-import DistributedBattleBase
-import SuitBattleGlobals
+from toontown.battle.BattleBase import *
+from toontown.batle import DistributedBattleBase
+from toontown.battle import SuitBattleGlobals
 from otp.avatar import Emote
 from toontown.chat.ChatGlobals import *
 from toontown.distributed import DelayDelete
 from toontown.nametag import NametagGlobals
 from toontown.toonbase import ToontownBattleGlobals
-
 
 class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattle')

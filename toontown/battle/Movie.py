@@ -4,26 +4,26 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase import DirectObject
 import random
 
-from BattleBase import *
-import BattleExperience
-import BattleParticles
-import MovieDrop
-import MovieFire
-import MovieHeal
-import MovieLure
-import MovieNPCSOS
-import MoviePetSOS
-import MovieSOS
-import MovieSound
-import MovieSquirt
-import MovieSuitAttacks
-import MovieThrow
-import MovieToonVictory
-import MovieTrap
-import MovieZap
-import MovieUtil
-import PlayByPlayText
-import RewardPanel
+from toontown.battle.BattleBase import *
+from toontown.battle BattleExperience
+from toontown.battle BattleParticles
+from toontown.battle MovieDrop
+from toontown.battle MovieFire
+from toontown.battle MovieHeal
+from toontown.battle MovieLure
+from toontown.battle MovieNPCSOS
+from toontown.battle MoviePetSOS
+from toontown.battle MovieSOS
+from toontown.battle MovieSound
+from toontown.battle MovieSquirt
+from toontown.battle MovieSuitAttacks
+from toontown.battle MovieThrow
+from toontown.battle MovieToonVictory
+from toontown.battle MovieTrap
+from toontown.battle MovieZap
+from toontown.battle MovieUtil
+from toontown.battle PlayByPlayText
+from toontown.battle RewardPanel
 from SuitBattleGlobals import *
 from toontown.chat.ChatGlobals import *
 from toontown.distributed import DelayDelete
