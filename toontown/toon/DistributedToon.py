@@ -244,6 +244,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cr.toons[self.doId] = self
         if base.cr.trophyManager != None:
             base.cr.trophyManager.d_requestTrophyScore()
+        
         self.startBlink()
         self.startSmooth()
         self.accept('clientCleanup', self._handleClientCleanup)
