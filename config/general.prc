@@ -46,7 +46,7 @@ account-bridge-filename astron/databases/account-bridge.db
 sync-video #t
 texture-power-2 none
 gl-check-errors #f
-garbage-collect-states #t
+garbage-collect-states #f
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
