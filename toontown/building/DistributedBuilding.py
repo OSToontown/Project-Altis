@@ -336,7 +336,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.suitDoorOrigin = newNP.find('**/*_door_origin')
         self.elevatorNodePath.reparentTo(self.suitDoorOrigin)
         self.normalizeElevator()
-        return
 
     def loadAnimToSuitSfx(self):
         if base.config.GetBool('want-qa-regression', 0):
@@ -372,7 +371,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.transitionTrack:
             DelayDelete.cleanupDelayDeletes(self.transitionTrack)
             self.transitionTrack = None
-        return
 
     def animToSuit(self, timeStamp):
         self.stopTransition()
@@ -425,7 +423,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
         self.transitionTrack.start(timeStamp)
-        return
 
     def setupSuitBuilding(self, nodePath):
         if nodePath.isEmpty():
@@ -438,6 +435,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         # if the suit node path is not in the dna store, dont setup
         # the building specified
         if not suitNP:
+            self.notify.warning("Suit NP could not be found for building!")
             return
 
         zoneId = dnaStore.getZoneFromBlockNumber(self.block)
@@ -561,9 +559,9 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP = loader.loadModel('phase_5/models/cogdominium/field_office_sign')
         backgroundNP.reparentTo(signOrigin)
         backgroundNP.setPosHprScale(0.0, 0.0, -1.2 + textHeight * 0.8 / zScale, 0.0, 0.0, 0.0, 20.0, 8.0, 8.0 * zScale)
-        backgroundNP.node().setEffect(DecalEffect.make())
+        #backgroundNP.node().setEffect(DecalEffect.make())
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
-        signTextNodePath.setPosHprScale(0.0, 0.0, -0.13 + textHeight * 0.1 / zScale, 0.0, 0.0, 0.0, 0.1 * 8.0 / 20.0, 0.1, 0.1 / zScale)
+        signTextNodePath.setPosHprScale(0.0, -0.001, -0.13 + textHeight * 0.1 / zScale, 0.0, 0.0, 0.0, 0.1 * 8.0 / 20.0, 0.1, 0.1 / zScale)
         signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
         frontNP = suitBuildingNP.find('**/*_front/+GeomNode;+s')
         backgroundNP.wrtReparentTo(frontNP)
@@ -928,24 +926,17 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         exteriorZoneId = base.cr.playGame.hood.dnaStore.getZoneFromBlockNumber(self.block)
         visZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.zoneId)
         return visZoneId
-
+        
     def getInteractiveProp(self):
-        result = None
         if self.interactiveProp:
-            result = self.interactiveProp
-        else:
-            visZoneId = self.getVisZoneId()
-            if base.cr.playGame.hood:
-                loader = base.cr.playGame.hood.loader
-                if hasattr(loader, 'getInteractiveProp'):
-                    self.interactiveProp = loader.getInteractiveProp(visZoneId)
-                    result = self.interactiveProp
-                    self.notify.debug('self.interactiveProp = %s' % self.interactiveProp)
-                else:
-                    self.notify.warning('no loader.getInteractiveProp self.interactiveProp is None')
-            else:
-                self.notify.warning('no hood self.interactiveProp is None')
-        return result
+            return self.interactiveProp
+        elif base.cr.playGame.hood:
+            loader = base.cr.playGame.hood.loader
+            if hasattr(loader, 'getInteractiveProp'):
+                self.interactiveProp = base.cr.playGame.hood.loader.getInteractiveProp(self.getVisZoneId())
+                return self.interactiveProp
+        self.notify.warning("Loader has no attribute 'getInteractiveProp' or no interactiveProp could be found.")
+        return
 
     def makePropSad(self):
         self.notify.debug('makePropSad')

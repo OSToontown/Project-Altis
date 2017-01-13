@@ -144,7 +144,7 @@ want-directtools #f
 want-tk #f
 
 # Holidays
-#active-holidays 116, 63, 64, 65, 66, 128
+active-holidays 116, 63, 64, 65, 66, 128
 
 # Temporary:
 want-old-fireworks #t
