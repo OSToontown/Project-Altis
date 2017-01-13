@@ -3,7 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 from toontown.battle.BattleBase import *
-from toontown.batle import DistributedBattleBase
+from toontown.battle import DistributedBattleBase
 from toontown.battle import SuitBattleGlobals
 from otp.avatar import Emote
 from toontown.chat.ChatGlobals import *

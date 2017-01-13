@@ -1,30 +1,29 @@
 import copy
+import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.showbase import DirectObject
-import random
-
 from toontown.battle.BattleBase import *
-from toontown.battle BattleExperience
-from toontown.battle BattleParticles
-from toontown.battle MovieDrop
-from toontown.battle MovieFire
-from toontown.battle MovieHeal
-from toontown.battle MovieLure
-from toontown.battle MovieNPCSOS
-from toontown.battle MoviePetSOS
-from toontown.battle MovieSOS
-from toontown.battle MovieSound
-from toontown.battle MovieSquirt
-from toontown.battle MovieSuitAttacks
-from toontown.battle MovieThrow
-from toontown.battle MovieToonVictory
-from toontown.battle MovieTrap
-from toontown.battle MovieZap
-from toontown.battle MovieUtil
-from toontown.battle PlayByPlayText
-from toontown.battle RewardPanel
-from SuitBattleGlobals import *
+from toontown.battle import BattleExperience
+from toontown.battle import BattleParticles
+from toontown.battle import MovieDrop
+from toontown.battle import MovieFire
+from toontown.battle import MovieHeal
+from toontown.battle import MovieLure
+from toontown.battle import MovieNPCSOS
+from toontown.battle import MoviePetSOS
+from toontown.battle import MovieSOS
+from toontown.battle import MovieSound
+from toontown.battle import MovieSquirt
+from toontown.battle import MovieSuitAttacks
+from toontown.battle import MovieThrow
+from toontown.battle import MovieToonVictory
+from toontown.battle import MovieTrap
+from toontown.battle import MovieZap
+from toontown.battle import MovieUtil
+from toontown.battle import PlayByPlayText
+from toontown.battle import RewardPanel
+from toontown.battle.SuitBattleGlobals import *
 from toontown.chat.ChatGlobals import *
 from toontown.distributed import DelayDelete
 from toontown.toon import NPCToons
@@ -34,7 +33,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from toontown.toontowngui import TTDialog
 from toontown.nametag import NametagGlobals
-
 
 camPos = Point3(14, 0, 10)
 camHpr = Vec3(89, -30, 0)

@@ -1,3 +1,4 @@
+import random
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleBase import *
 from toontown.battle.BattleProps import *
@@ -11,7 +12,6 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattleParticles
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
-from toontown.battle import random
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieZap')
 hitSoundFiles = ('AA_tesla.ogg', 'AA_carpet.ogg', 'AA_balloon.ogg', 'AA_tesla.ogg', 'AA_tesla.ogg', 'AA_tesla.ogg', 'AA_lightning.ogg')
