@@ -17,6 +17,7 @@ class DistributedLightSwitch(DistributedObject):
         toonInterior = base.cr.doId2do[self.getInteriorDoId()]
         self.lightSwitch = toonInterior.interior.find('**/light_switch')
         self.lightSwitch.find('**/button').setColor(LVector4f(0, 1, 0, 1))
+        self.lightSwitch.find('**/button').setPos(0, -.1, 0)
         self.picker = CollisionTraverser()
         self.pq = CollisionHandlerQueue()
         self.pickerNode = CollisionNode('mouseRay')
@@ -55,12 +56,17 @@ class DistributedLightSwitch(DistributedObject):
             self.picker.traverse(render)
             
             if self.pq.getNumEntries():
-                self.sendUpdate('toggleLight', [])
-
+                self.pq.sortEntries()
+                pickedObj = self.pq.getEntry(0).getIntoNodePath()
+                if pickedObj in ([self.lightSwitch.find('**/button'), self.lightSwitch.find('**/collision_floor')]):
+                    self.sendUpdate('toggleLight', [])
+                    
     def setLightState(self, lightState):
         if not lightState:
             self.lightSwitch.find('**/button').setColor(LVector4f(1, 0, 0, 1))
             render.setColorScale(LVector4f(0.2, 0.2, 0.2, 1))
+            self.lightSwitch.find('**/button').setPos(0, 0, 0)
         else:
             self.lightSwitch.find('**/button').setColor(LVector4f(0, 1, 0, 1))
             render.setColorScale(LVector4f(1, 1, 1, 1))
+            self.lightSwitch.find('**/button').setPos(0, -.1, 0)

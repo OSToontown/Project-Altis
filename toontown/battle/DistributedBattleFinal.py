@@ -4,17 +4,15 @@ from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 import random
-
 from BattleBase import *
-import DistributedBattleBase
-import MovieUtil
-import SuitBattleGlobals
+from toontown.battle import DistributedBattleBase
+from toontown.battle import MovieUtil
+from toontown.battle import SuitBattleGlobals
 from toontown.distributed import DelayDelete
 from toontown.nametag import NametagGlobals
 from toontown.suit import Suit
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
 
 class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleFinal')
@@ -34,7 +32,6 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         waitForJoinState.addTransition('ReservesJoining')
         playMovieState = self.fsm.getStateNamed('PlayMovie')
         playMovieState.addTransition('ReservesJoining')
-        return
 
     def generate(self):
         DistributedBattleBase.DistributedBattleBase.generate(self)
@@ -44,7 +41,6 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         base.cr.relatedObjectMgr.abortRequest(self.bossCogRequest)
         self.bossCogRequest = None
         self.bossCog = None
-        return
 
     def delete(self):
         DistributedBattleBase.DistributedBattleBase.delete(self)
@@ -65,7 +61,6 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         currStateName = self.localToonFsm.getCurrentState().getName()
         if currStateName == 'NoLocalToon' and self.bossCog.hasLocalToon():
             self.enableCollision()
-        return
 
     def setBattleNumber(self, battleNumber):
         self.battleNumber = battleNumber
@@ -127,7 +122,6 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         track = Sequence(openDoor, suitTrack, closeDoor, done, name=name)
         track.start(ts)
         self.storeInterval(track, name)
-        return
 
     def __playReward(self, ts, callback):
         toonTracks = Parallel()
@@ -148,10 +142,9 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         self.disableCollision()
         self.delayDeleteMembers()
         self.__playReward(ts, self.__handleFloorRewardDone)
-        return None
 
     def __handleFloorRewardDone(self):
-        return None
+        pass
 
     def exitReward(self):
         self.notify.debug('exitReward()')
@@ -167,7 +160,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         self.fsm.requestFinalState()
 
     def exitResume(self):
-        return None
+        pass
 
     def enterReservesJoining(self, ts = 0):
         self.delayDeleteMembers()
@@ -186,15 +179,12 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
             self.enableCollision()
         else:
             self.disableCollision()
-        return
 
     def exitNoLocalToon(self):
         self.disableCollision()
-        return None
 
     def enterWaitForServer(self):
         self.notify.debug('enterWaitForServer()')
-        return None
 
     def exitWaitForServer(self):
-        return None
+        pass

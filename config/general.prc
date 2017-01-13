@@ -46,7 +46,7 @@ account-bridge-filename astron/databases/account-bridge.db
 sync-video #t
 texture-power-2 none
 gl-check-errors #f
-garbage-collect-states #t
+garbage-collect-states #f
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
@@ -115,7 +115,6 @@ want-bossbot-headquarters #t
 # Cashbot boss:
 want-resistance-toonup #f
 want-resistance-restock #f
-want-resistance-dance #f
 
 # Cog buildings:
 want-cogbuildings #t
@@ -145,7 +144,7 @@ want-directtools #f
 want-tk #f
 
 # Holidays
-#active-holidays 116, 63, 64, 65, 66, 128
+active-holidays 64, 65, 66 #128, 116, 63
 
 # Temporary:
 want-old-fireworks #t

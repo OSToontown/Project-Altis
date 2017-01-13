@@ -1,10 +1,10 @@
 import random
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleProps import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
+from toontown.battle.SuitBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import MovieUtil
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieCamera')
