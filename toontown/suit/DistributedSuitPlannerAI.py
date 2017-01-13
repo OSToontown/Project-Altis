@@ -22,7 +22,7 @@ ALLOWED_COGDO_TYPES = ['s', 'l']
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = 0.6
+    CogdoRatio = 0.2
     SuitHoodInfo = [[2100, #Silly Street
       5,
       15,
@@ -1158,7 +1158,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(None, suitType, suitTrack)
 
                 if random.random() < self.CogdoRatio:
-                    building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType), suitTrack)
+                    if suitTrack in ALLOWED_COGDO_TYPES:
+                        building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType), suitTrack)
+                    else:
+                        building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
                 else:
                     building.suitTakeOver(suitTrack, suitLevel, None)
 
