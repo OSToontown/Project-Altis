@@ -16,7 +16,6 @@ class StartShop(StateData.StateData):
         self.index = -1
         self.gagOneIndex = None
         self.gagTwoIndex = None
-        return
 
     def enter(self, toon, shopsVisited = []):
         base.disableMouse()
