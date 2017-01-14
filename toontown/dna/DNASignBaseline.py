@@ -1,12 +1,30 @@
+import math
 from panda3d.core import BamFile, NodePath, TextNode, DecalEffect
 from toontown.dna import DNANode, DNAUtil, DNAError
-import math
 
 class DNASignBaseline(DNANode.DNANode):
     COMPONENT_CODE = 6
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)
+
+    def __del__(self):
+        DNANode.DNANode.__del__(self)
+
+        if not hasattr(self, 'text'):
+            return
+
+        del self.text
+        del self.code
+        del self.color
+        del self.flags
+        del self.indent
+        del self.kern
+        del self.wiggle
+        del self.stumble
+        del self.stomp
+        del self.width
+        del self.height
 
     def makeFromDGI(self, dgi, store):
         DNANode.DNANode.makeFromDGI(self, dgi, store)

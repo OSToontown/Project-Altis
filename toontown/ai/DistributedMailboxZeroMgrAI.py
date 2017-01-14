@@ -9,6 +9,6 @@ class DistributedMailboxZeroMgrAI(DistributedPhaseEventMgrAI):
         DistributedPhaseEventMgrAI.__init__(self, air)
 
 @magicWord(category=CATEGORY_PROGRAMMER)
-def setMailboxMgrIsRunning():
+def setMailboxMgrOnline():
     simbase.air.mailboxZeroMgr.b_setIsRunning(True)
     return "Mailbox Mgr is now running!"

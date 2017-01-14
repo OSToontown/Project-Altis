@@ -144,6 +144,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         if not self.fsm or avatar != self.avatar:
             self.notify.warning('Ignoring unexpected request for avatar %s' % avatar.doId)
             return
+        
         if gotData:
             self.fsm.request('data')
         else:
@@ -164,13 +165,15 @@ class ToonAvatarDetailPanel(DirectFrame):
                 self.gotoAvatarButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=1.1, text=TTLocalizer.AvatarShowPlayer, text_scale=0.07, text_pos=(0.0, -0.02), textMayChange=0, pos=(0.44, 0, 0.41), command=self.__showAvatar)
                 text = TTLocalizer.AvatarDetailPanelOnlinePlayer % {'district': shardName,
                  'location': hoodName,
-                 'player': self.playerInfo.playerName}
+                 'player': self.playerInfo.playerName,
+                 'level': (av.level + 1)}
             else:
                 text = TTLocalizer.AvatarDetailPanelOnline % {'district': shardName,
-                 'location': hoodName}
+                 'location': hoodName,
+                 'level': (av.level + 1)}
         else:
-            text = TTLocalizer.AvatarDetailPanelOffline
-        
+            text = TTLocalizer.AvatarDetailPanelOffline % str(av.level + 1)
+
         self.dataText['text'] = text
         self.__updateTrackInfo()
         self.__updateTrophyInfo()
@@ -182,6 +185,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         handle = base.cr.identifyFriend(self.avId)
         if not handle and hasManager:
             handle = base.cr.playerFriendsManager.getAvHandleFromId(self.avId)
+        
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send('clickedNametagPlayer', [handle, self.playerId, 1])

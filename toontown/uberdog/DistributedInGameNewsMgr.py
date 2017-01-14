@@ -1,6 +1,4 @@
-import socket
-import datetime
-import os
+import socket, datetime, os
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.toonbase import ToontownGlobals

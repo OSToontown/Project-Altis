@@ -85,21 +85,17 @@ namespace discordCSBOT
 
             _bot.UserJoined += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"joined the server ({e.User.Id})", "#42f46b");
-                if (e.User.Name.Contains("xmas"))
-                {
-                    _bot.GetServer(261646233913917443).Ban(e.User);
-                }
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"joined the server", "#42f46b");
             };
 
             _bot.UserLeft += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"left the server ({e.User.Id})", "#f4d142");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"left the server", "#f4d142");
             };
 
             _bot.UserBanned += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was banned from the server ({e.User.Id})", "#ff0000");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was banned from the server", "#ff0000");
             };
         }
 

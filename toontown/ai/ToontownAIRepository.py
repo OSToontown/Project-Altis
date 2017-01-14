@@ -9,9 +9,11 @@ from otp.friends.FriendManagerAI import FriendManagerAI
 from toontown.ai import CogPageManagerAI
 from toontown.ai import CogSuitManagerAI
 from toontown.ai import PromotionManagerAI
+from toontown.ai import ExperienceRewardManagerAI
 from toontown.ai.AchievementsManagerAI import AchievementsManagerAI
 from toontown.ai.FishManagerAI import  FishManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
+from toontown.ai.DialogueManagerAI import DialogueManagerAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
 from toontown.ai.QuestManagerAI import QuestManagerAI
 from toontown.ai import DistributedSillyMeterMgrAI, DistributedHydrantZeroMgrAI, DistributedMailboxZeroMgrAI, DistributedTrashcanZeroMgrAI
@@ -48,8 +50,6 @@ from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
-
-# Charity Screen
 from toontown.events.CharityScreenAI import CharityScreenAI
 
 class ToontownAIRepository(ToontownInternalRepository):
@@ -113,8 +113,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trophyMgr.generateWithRequired(2)
         self.cogSuitMgr = CogSuitManagerAI.CogSuitManagerAI(self)
         self.promotionMgr = PromotionManagerAI.PromotionManagerAI(self)
+        self.experienceMgr = ExperienceRewardManagerAI.ExperienceRewardManagerAI(self)
         self.cogPageManager = CogPageManagerAI.CogPageManagerAI()
-        self.holidayManager = HolidayManagerAI(self)
         self.sillyMeterMgr = DistributedSillyMeterMgrAI.DistributedSillyMeterMgrAI(self)
         self.sillyMeterMgr.generateWithRequired(2)
         self.hydrantZeroMgr = DistributedHydrantZeroMgrAI.DistributedHydrantZeroMgrAI(self)
@@ -123,6 +123,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.mailboxZeroMgr.generateWithRequired(2)
         self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
         self.trashcanZeroMgr.generateWithRequired(2)
+        self.dialogueManager = DialogueManagerAI(self)
+        self.holidayManager = HolidayManagerAI(self)
         
         if self.wantFishing:
             self.fishManager = FishManagerAI(self)
@@ -150,11 +152,8 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.charityCounter.generateWithRequired(2)
             self.charityCounter.start()
 
-        self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 
-            'TTCodeRedemptionMgr')
-
-        self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER, 
-            'ChatAgent')
+        self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
+        self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
 
     def createSafeZones(self):
         NPCToons.generateZone2NpcDict()
@@ -205,8 +204,8 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.districtStats = ToontownDistrictStatsAI(self)
         self.districtStats.settoontownDistrictId(self.districtId)
-        self.districtStats.generateWithRequiredAndId(
-            self.allocateChannel(), self.getGameDoId(), 3)
+        self.districtStats.generateWithRequiredAndId(self.allocateChannel(), 
+            self.getGameDoId(), 3)
         
         self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
 

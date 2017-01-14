@@ -56,7 +56,7 @@ uberdogs:
 
 roles:
     - type: clientagent
-      bind: 0.0.0.0:7199
+      bind: 0.0.0.0:7198
       version: "TTPA-Alpha-1.2.0"
       client:
        relocate: true
@@ -74,8 +74,8 @@ roles:
         min: 100000000
         max: 399999999
       backend:
-        type: yaml
-        foldername: ../databases/astrondb
+        type: mongodb
+        server: mongodb://127.0.0.1/astrondb
 
     - type: dbss
       database: 4003
@@ -84,5 +84,5 @@ roles:
           max: 399999999
 
     - type: eventlogger
-      bind: 127.0.0.1:7198
+      bind: 127.0.0.1:7199
       output: ../logs/events-%y%m%d_%H%M%S.log

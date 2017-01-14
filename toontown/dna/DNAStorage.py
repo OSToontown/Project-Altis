@@ -39,6 +39,7 @@ class DNAStorage(object):
         self.resetNodes()
         self.resetPlaceNodes()
         self.resetSuitPoints()
+        self.resetSuitEdges()
         self.resetTextures()
         self.resetCatalogCodes()
         ModelPool.garbageCollect()
@@ -69,6 +70,9 @@ class DNAStorage(object):
         return self.getDNAVisGroupAI(index).getName()
 
     def resetDNAVisGroups(self):
+        for group in self.visGroups:
+            del group
+
         self.visGroups = []
 
     def resetDNAVisGroupsAI(self):
@@ -99,6 +103,7 @@ class DNAStorage(object):
     def storeCatalogCode(self, category, code):
         if not self.catalogCodes.has_key(category):
             self.catalogCodes[category] = []
+        
         self.catalogCodes[category].append(code)
 
     def getNumCatalogCodes(self, category):
@@ -226,7 +231,15 @@ class DNAStorage(object):
         self.blockNumbers = []
         self.blockZones = {}
         self.blockArticles = {}
+
+        for door in self.blockDoors:
+            del door
+
         self.blockDoors = {}
+
+        for titles in self.blockTitles:
+            del titles
+
         self.blockTitles = {}
         self.blockBuildingTypes = {}
 
@@ -248,10 +261,11 @@ class DNAStorage(object):
         endPoint = self.getSuitPointWithIndex(endIndex)
 
         if not startPoint or not endPoint:
-            print "DNAStorage: Attempted to add edge with unknown startPoint(%s) and/or endPoint(%s)" %(startIndex, endIndex)
+            print "DNAStorage: Attempted to add edge with unknown startPoint(%s) and/or endPoint(%s)" % (startIndex, endIndex)
 
         if not self.suitEdges.has_key(startIndex):
             self.suitEdges[startIndex] = []
+        
         self.suitEdges[startIndex].append(DNASuitEdge.DNASuitEdge(startPoint, endPoint, zoneId))
 
     def getSuitEdge(self, startIndex, endIndex):
@@ -275,7 +289,14 @@ class DNAStorage(object):
         return len(self.suitPoints)
 
     def resetSuitPoints(self):
+        for suitPoint in self.suitPoints:
+            del suitPoint
+
         self.suitPoints = []
+
+    def resetSuitEdges(self):
+        for suitEdge in self.suitEdges.items():
+            del suitEdge
 
     def findDNAGroup(self, node):
         return self.DNAGroups[node]
@@ -286,6 +307,9 @@ class DNAStorage(object):
                 del self.DNAGroups[node]
 
     def resetDNAGroups(self):
+        for group in self.DNAGroups.items():
+            del group
+
         self.DNAGroups = {}
 
     def getSuitPath(self, startPoint, endPoint, minPathLen, maxPathLen):

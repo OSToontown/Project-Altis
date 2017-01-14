@@ -21,6 +21,7 @@ class DistributedSillyMeterMgrAI(DistributedPhaseEventMgrAI):
           
         self.b_setCurPhase(phase)
         self.b_setIsRunning(True)
+        messenger.send('SillyMeterPhase', [phase])
          
      
 
@@ -37,8 +38,10 @@ def setSillyMeterPhase(phase):
     if phase == -1:
         simbase.air.sillyMeterMgr.b_setCurPhase(phase)
         simbase.air.sillyMeterMgr.b_setIsRunning(False)
+        messenger.send('SillyMeterPhase', [phase])
         return("Turned Off The Silly Meter!")
     
     simbase.air.sillyMeterMgr.b_setCurPhase(phase)
     simbase.air.sillyMeterMgr.b_setIsRunning(True)
+    messenger.send('SillyMeterPhase', [phase])
     return "Set Silly Meters Phase!"

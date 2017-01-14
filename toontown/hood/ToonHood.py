@@ -218,6 +218,7 @@ class ToonHood(Hood):
     def startSpookySky(self):
         if hasattr(self, 'sky') and self.sky:
             self.stopSky()
+        
         self.sky = loader.loadModel(self.spookySkyFile)
         self.sky.setTag('sky', 'Halloween')
         self.sky.setScale(1.0)

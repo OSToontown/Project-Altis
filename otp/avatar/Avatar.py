@@ -344,9 +344,9 @@ class Avatar(Actor, ShadowCaster):
             sfxIndex = 5
         else:
             notify.error('unrecognized dialogue type: ', type)
+        
         if sfxIndex != None and sfxIndex < len(dialogueArray) and dialogueArray[sfxIndex] != None:
             base.playSfx(dialogueArray[sfxIndex], node=self)
-        return
 
     def getDialogueSfx(self, type, length):
         retval = None
@@ -603,6 +603,10 @@ class Avatar(Actor, ShadowCaster):
     def initializeNametag3d(self):
         self.deleteNametag3d()
         nametagNode = self.nametag.getNametag3d()
+        if not nametagNode:
+            self.notify.warning('Failed to initialize nametag on avatar %s!' % id(self))
+            return
+
         self.nametagNodePath = self.nametag3d.attachNewNode(nametagNode)
         iconNodePath = self.nametag.getIcon()
         for cJoint in self.getNametagJoints():
@@ -641,8 +645,8 @@ class Avatar(Actor, ShadowCaster):
         if hasattr(self, 'collNodePath'):
             self.collNodePath.removeNode()
             del self.collNodePath
+        
         self.collTube = None
-        return
 
     def addActive(self):
         if base.wantNametags:

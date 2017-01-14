@@ -11,6 +11,10 @@ class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
         DNAAnimProp.DNAAnimProp.__init__(self, name)
         self.cellId = -1
 
+    def __del__(self):
+        DNAAnimProp.DNAAnimProp.__del__(self)
+        del self.cellId
+
     def makeFromDGI(self, dgi, store):
         DNAAnimProp.DNAAnimProp.makeFromDGI(self, dgi, store)
         self.cellId = dgi.getInt16()

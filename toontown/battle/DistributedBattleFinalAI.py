@@ -1,9 +1,9 @@
 from otp.ai.AIBase import *
-from BattleBase import *
-from BattleCalculatorAI import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleCalculatorAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
-import DistributedBattleBaseAI
+from toontown.battle.SuitBattleGlobals import *
+from toontown.battle import DistributedBattleBaseAI
 from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import State
@@ -108,15 +108,13 @@ class DistributedBattleFinalAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         self.b_setState('WaitForJoin')
 
     def exitReservesJoining(self, ts = 0):
-        return None
+        pass
 
     def enterReward(self):
         self.timer.startCallback(FLOOR_REWARD_TIMEOUT + 5, self.serverRewardDone)
-        return None
 
     def exitReward(self):
         self.timer.stop()
-        return None
 
     def enterResume(self):
         self.joinableFsm.request('Unjoinable')

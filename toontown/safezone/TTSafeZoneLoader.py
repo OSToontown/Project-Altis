@@ -25,6 +25,16 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
                 libraryDoorGeom = libraryDoor.find('**/+GeomNode')
                 libraryDoorGeom.setEffect(DecalEffect.make())
                 libraryDoor.setY(0.0930333)
+        bank = self.geom.find('**/*toon_landmark_TT_bank_DNARoot')
+        if not bank.isEmpty():
+            bankDoorOrigin = bank.find('**/*door_origin')
+            doorTrigger = bank.find('**/door_trigger*')
+            bankDoor = bank.find('**/door_double_round_ur')
+            doorTrigger.setY(doorTrigger.getY() - 1.5)
+            offsetFix = 0.51
+            doorTrigger.setZ(doorTrigger.getZ() + offsetFix)
+            bankDoorOrigin.setZ(bankDoorOrigin.getZ() + offsetFix)
+            bankDoor.setZ(bankDoor.getZ() + offsetFix)
 
     def unload(self):
         SafeZoneLoader.SafeZoneLoader.unload(self)

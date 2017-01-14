@@ -17,20 +17,19 @@ dc-file astron/dclass/toon.dc
 
 # Core features:
 want-pets #t
-want-parties #f
+want-parties #t
 want-cogdominiums #t
 want-achievements #f
 
 # Chat:
-want-whitelist #f
+want-whitelist #t
 
 # Cashbot boss:
 want-resistance-toonup #t
 want-resistance-restock #t
-want-resistance-dance #t
 
 # Developer options:
-show-population #f
+show-population #t
 force-skip-tutorial #t
 want-instant-parties #t
 

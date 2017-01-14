@@ -22,8 +22,6 @@ class CogdoBarrelRoomRewardPanel(DirectFrame):
             rewardLine['laff'] = DirectLabel(parent=rewardLine['frame'], relief=None, text='', text_scale=0.05, text_align=TextNode.ARight, pos=(0.4, 0, 0), text_pos=(0, -0.02))
             self.rewardLines.append(rewardLine)
 
-        return
-
     def setRewards(self):
         RewardLineIndex = 0
         for doId in base.cr.doId2do:
@@ -35,4 +33,5 @@ class CogdoBarrelRoomRewardPanel(DirectFrame):
                     self.rewardLines[RewardLineIndex]['frame'].setProp('relief', DGG.RIDGE)
                     self.rewardLines[RewardLineIndex]['frame'].setProp('borderWidth', (0.01, 0.01))
                     self.rewardLines[RewardLineIndex]['frame'].setProp('frameColor', (1, 1, 1, 0.5))
+                
                 RewardLineIndex += 1

@@ -168,7 +168,6 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.winInterval = Sequence(Func(self._guiMgr.setMessage, ''), Wait(4.0), Func(self.game.distGame.d_sendRequestAction, Globals.AI.GameActions.WinStateFinished, 0), name='%s.winInterval' % self.__class__.__name__)
         self.goSadSequence = Sequence(Wait(2.5), Func(base.transitions.irisOut, 1.5), name='%s.goSadSequence' % self.__class__.__name__)
         self.introGuiSeq = Sequence(Wait(0.5), Parallel(Func(self._guiMgr.setTemporaryMessage, TTLocalizer.CogdoFlyingGameMinimapIntro, duration=5.0), Sequence(Wait(1.0), Func(self._guiMgr.presentProgressGui))), Wait(5.0), Func(self._guiMgr.setMessage, TTLocalizer.CogdoFlyingGamePickUpAPropeller), name='%s.introGuiSeq' % self.__class__.__name__)
-        return
 
     def goSad(self):
         self.goSadSequence.start()
@@ -223,8 +222,8 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
     def isLegalEagleInterestRequestSent(self, index):
         if index in self.legalEagleInterestRequest:
             return True
-        else:
-            return False
+
+        return False
 
     def setLegalEagleInterestRequest(self, index):
         if index not in self.legalEagleInterestRequest:
@@ -264,7 +263,6 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
     def __handleHeadCollisionExitCeiling(self, collEntry):
         self.isHeadInCeiling = False
         self.surfacePoint = None
-        return
 
     def landOnPlatform(self, collEntry):
         surfacePoint = collEntry.getSurfacePoint(render)
@@ -280,7 +278,6 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.toon.setPos(render, surfacePoint)
         self.toon.setHpr(0, 0, 0)
         self.request('Running')
-        return
 
     def __handleRayCollisionEnterFloor(self, collEntry):
         fromNodePath = collEntry.getFromNodePath()
@@ -358,7 +355,6 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         taskMgr.remove('delayedLandOnFuelPlatform')
         taskMgr.remove('delayedLandOnWinPlatform')
         self.ignoreAll()
-        return
 
     def unload(self):
         self.toon.showName()
@@ -411,7 +407,6 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.orthoWalk.destroy()
         del self.orthoWalk
         self.destroySfx()
-        return
 
     def setCheckpointPlatform(self, platform):
         self.checkpointPlatform = platform
@@ -434,9 +429,9 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.toon.setHpr(render, 0, 0, 0)
         if resetFuel:
             self.resetFuel()
+        
         self.isHeadInCeiling = False
         self.isToonOnFloor = True
-        return
 
     def activateFlyingBroadcast(self):
         self.timeSinceLastPosBroadcast = 0.0
@@ -457,6 +452,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         if self.timeSinceLastPosBroadcast >= self.broadcastPeriod:
             self.timeSinceLastPosBroadcast = 0.0
             self.toon.cnode.broadcastPosHprFull()
+        
         return Task.cont
 
     def died(self, timestamp):
@@ -601,8 +597,8 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
     def allowFuelDeath(self):
         if Globals.Gameplay.DoesToonDieWithFuel:
             return True
-        else:
-            return not self.isFuelLeft()
+
+        return not self.isFuelLeft()
 
     def updateToonPos(self, dt):
         toonWorldY = self.toon.getY(render)
@@ -701,8 +697,8 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
     def isFlying(self):
         if self.state in ['FreeFly', 'FlyingUp']:
             return True
-        else:
-            return False
+
+        return False
 
     def pressedControlWhileRunning(self):
         if self.isFuelLeft() and self.state == 'Running':
@@ -745,6 +741,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitInactive(self):
@@ -763,6 +760,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitSpawn(self):
@@ -780,6 +778,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitFreeFly(self):
@@ -797,6 +796,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitFlyingUp(self):
@@ -814,6 +814,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitHitWhileFlying(self):
@@ -833,6 +834,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitInWhirlwind(self):
@@ -852,6 +854,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitHitWhileRunning(self):
@@ -876,6 +879,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitRunning(self):
@@ -903,6 +907,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+       
         return None
 
     def exitOutOfTime(self):
@@ -923,6 +928,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitDeath(self):
@@ -943,6 +949,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitWaitingForWin(self):
@@ -961,6 +968,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
             return None
         else:
             return self.defaultFilter(request, args)
+        
         return None
 
     def exitWin(self):

@@ -18,6 +18,7 @@ CFOElevatorFov = 43.0
 CJElevatorFov = 59.0
 CEOElevatorFov = 59.0
 CBElevatorFov = 42.0
+CogdoFov = 45.0
 WantPromotion = 0
 PendingPromotion = 1
 CeilingBitmask = BitMask32(256)
@@ -103,16 +104,25 @@ FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
 CEVirtual = 14
-MaxHpLimit = 137
+MaxHpLimit = 149
+ExpLaffBoost = 1
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
 MaxCogSuitLevel = 50 - 1
+MaxToonLevel = 70 - 1
 CogSuitHPLevels = (15 - 1,
  20 - 1,
  30 - 1,
  40 - 1,
  50 - 1)
+ExperienceHPLevels = (10 - 1,
+20 - 1,
+30 - 1,
+40 - 1,
+50 - 1,
+60 - 1,
+70 - 1)
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog
@@ -663,6 +673,24 @@ BossCogDamageLevels = {BossCogElectricFence: 1,
  BossCogGolfAreaAttack: 15,
  BossCogGearDirectedAttack: 15,
  BossCogOvertimeAttack: 10}
+BossCogNerfedDamageLevels = {BossCogElectricFence: 1,
+ BossCogSwatLeft: 2,
+ BossCogSwatRight: 2,
+ BossCogAreaAttack: 5,
+ BossCogFrontAttack: 3,
+ BossCogRecoverDizzyAttack: 3,
+ BossCogDirectedAttack: 3,
+ BossCogStrafeAttack: 2,
+ BossCogGoonZap: 2,
+ BossCogSlowDirectedAttack: 5,
+ BossCogGavelStomp: 10,
+ BossCogGavelHandle: 2,
+ BossCogLawyerAttack: 2,
+ BossCogMoveAttack: 8,
+ BossCogGolfAttack: 8,
+ BossCogGolfAreaAttack: 8,
+ BossCogGearDirectedAttack: 8,
+ BossCogOvertimeAttack: 10}
 BossCogBattleAPosHpr = (0,
  -25,
  0,
@@ -1003,6 +1031,21 @@ SPOOKY_PROPS = 119
 SPOOKY_COSTUMES = 120
 WACKY_WINTER_DECORATIONS = 121
 WACKY_WINTER_CAROLING = 122
+SILLY_METER_GENERAL_PHASE_ZERO = 123
+SILLY_METER_GENERAL_PHASE_ONE = 124
+SILLY_METER_GENERAL_PHASE_TWO = 125
+SILLY_METER_GENERAL_PHASE_THREE = 126
+SILLY_METER_GENERAL_PHASE_FOUR = 127
+SILLY_METER_GENERAL_PHASE_FIVE = 128
+SILLY_METER_GENERAL_PHASE_SIX = 129
+SILLY_METER_GENERAL_PHASE_SEVEN = 130
+SILLY_METER_GENERAL_PHASE_EIGHT = 131
+SILLY_METER_GENERAL_PHASE_NINE = 132
+SILLY_METER_GENERAL_PHASE_TEN = 133
+SILLY_METER_GENERAL_PHASE_ELEVEN = 134
+SILLY_METER_GENERAL_PHASE_TWELVE = 135
+SILLY_METER_GENERAL_PHASE_THRITEEN = 136
+SILLY_METER_GENERAL_PHASE_FOURTEEN = 137
 TOT_REWARD_JELLYBEAN_AMOUNT = 100
 TOT_REWARD_END_OFFSET_AMOUNT = 0
 LawbotBossMaxDamage = 2700

@@ -393,8 +393,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.ttaFriendsManager.d_getPetDetails(avId)
         else:
             self.ttaFriendsManager.d_getAvatarDetails(avId)
-
-        return
         
     def n_handleGetAvatarDetailsResp(self, avId, fields):
         self.notify.info('Query reponse for avId %d' % avId)
@@ -409,14 +407,14 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
         dclassName = pad.args[0]
         dclass = self.dclassesByName[dclassName]
-        pad.avatar.updateAllRequiredFields(dclass, fields)
+        #pad.avatar.updateAllRequiredFields(dclass, fields)
 
-        # This is a much saner way to load avatar details, and is also
-        # dynamic. This means we aren't restricted in what we pass.
-        # Due to Python's random ordering of dictionaries, we have to pass
-        # a list containing a list of the field and value. For example:
-        # To set the hp and maxHp of an avatar, my fields list would be
-        # fields = [['setHp', 15], ['setMaxHp', 15]]
+        '''This is a much saner way to load avatar details, and is also
+        dynamic. This means we aren't restricted in what we pass.
+        Due to Python's random ordering of dictionaries, we have to pass
+        a list containing a list of the field and value. For example:
+        To set the hp and maxHp of an avatar, my fields list would be
+        fields = [['setHp', 15], ['setMaxHp', 15]]'''
 
         for currentField in fields:
             getattr(pad.avatar, currentField[0])(currentField[1])
@@ -580,11 +578,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             doId = di2.getUint32()
             if self._doIdIsOnCurrentShard(doId):
                 return
+        
         self.handleMessageType(msgType, di)
 
     def _logFailedDisable(self, doId, ownerView):
         if doId not in self.doId2do and doId in self._deletedSubShardDoIds:
             return
+        
         OTPClientRepository.OTPClientRepository._logFailedDisable(self, doId, ownerView)
 
     def exitCloseShard(self):

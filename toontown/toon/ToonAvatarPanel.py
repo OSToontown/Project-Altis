@@ -15,6 +15,7 @@ from toontown.toon import ToonAvatarDetailPanel
 from toontown.toon import AvatarPanelBase
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPGlobals
+from toontown.town.TownBattleToonPanel import TownBattleToonPanel
 
 class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonAvatarPanel')
@@ -24,6 +25,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
         if base.cr.doId2do.get(avatar.getDoId()):
             avatar = base.cr.doId2do.get(avatar.getDoId())
+        
         AvatarPanelBase.AvatarPanelBase.__init__(self, avatar, FriendsListPanel=FriendsListPanel)
 
         self.notify.debug('Opening toon panel, avId=%d' % self.avId)
@@ -42,6 +44,8 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
         self.laffMeter = None
         wantsLaffMeter = hasattr(avatar, 'hp')
+
+        self.toonBattlePanels = [TownBattleToonPanel(x) for x in xrange(4)]
 
         if not hasattr(avatar, 'style'):
             self.notify.warning("Avatar has no 'style'. Abort initialization.")
@@ -81,7 +85,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
         self.healthText.hide()
 
-
         self.nameLabel = DirectLabel(
             parent=self.frame,
             pos=(0.0125, 0, 0.4),
@@ -94,7 +97,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             text_wordwrap=7.5,
             text_shadow=(1, 1, 1, 1))
 
-
         self.closeButton = DirectButton(
             parent=self.frame,
             image=(
@@ -105,7 +107,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             relief=None,
             pos=(0.157644, 0, -0.379167),
             command=self.__handleClose)
-
 
         self.friendButton = DirectButton(
             parent=self.frame,
@@ -128,11 +129,8 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             text_align=TextNode.ALeft,
             command=self.__handleFriend)
 
-
-
         if base.cr.playerFriendsManager.askTransientFriend(self.avId) and self.avId not in base.cr.doId2do:
             self.friendButton['state'] = DGG.DISABLED
-
 
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
             self.friendButton['state'] = DGG.DISABLED
@@ -206,11 +204,8 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             text_align=TextNode.ALeft,
             command=self.__handleSecrets)
 
-
-
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
             self.secretsButton['state'] = DGG.DISABLED
-
 
         from toontown.coghq import CogHQBossBattle
         if isinstance(base.cr.playGame.getPlace(), CogHQBossBattle.CogHQBossBattle) and \
@@ -262,7 +257,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                 text_align=TextNode.ALeft,
                 command=self.handleReport)
 
-
         if not base.localAvatar.isTeleportAllowed():
             self.goToButton['state'] = DGG.DISABLED
 
@@ -302,12 +296,45 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.accept(self.avGenerateName, self.__handleGenerateAvatar)
         if self.avHpChangeName:
             self.accept(self.avHpChangeName, self.__updateHp)
+        
         self.accept('updateLaffMeter', self.__updateLaffMeter)
 
         self.accept('updateGroupStatus', self.__checkGroupStatus)
 
         self.frame.show()
         messenger.send('avPanelDone')
+
+        self.__addToonBattlePanels(self.avId)
+
+    def __addToonBattlePanels(self, avId):
+        if avId not in base.cr.doId2do.keys():
+            return
+
+        toon = base.cr.doId2do.get(avId)
+
+        if not toon:
+            return
+
+        battleId = toon.battleId
+
+        if battleId not in base.cr.doId2do.keys():
+            return
+
+        battle = base.cr.doId2do.get(battleId)
+
+        for toon in battle.toons:
+            if toon.getDoId() not in base.cr.doId2do.keys():
+                continue
+
+            index = battle.toons.index(toon)
+            toonBattlePanel = self.toonBattlePanels[index]
+            toonBattlePanel.setLaffMeter(toon)
+            toonBattlePanel.show()
+
+    def __removeToonBattlePanels(self):
+        for panel in self.toonBattlePanels:
+            panel.hide()
+            panel.cleanup()
 
     def disableAll(self):
         self.detailButton['state'] = DGG.DISABLED
@@ -364,9 +391,10 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.ignoreAll()
         if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
+
+        self.__removeToonBattlePanels()
         base.setCellsActive([base.rightCells[0]], 1)
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
-        return
 
     def __handleGoto(self):
         if base.localAvatar.isTeleportAllowed():
@@ -390,7 +418,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
     def __handleWhisper(self):
         base.localAvatar.chatMgr.whisperTo(self.avName, self.avId, None)
-        return
 
     def __handleSecrets(self):
         base.localAvatar.chatMgr.noWhisper()
@@ -414,7 +441,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                 self.laffMeter.stop()
                 self.laffMeter.destroy()
                 self.laffMeter = None
-        return
 
     def __handleGenerateAvatar(self, avatar):
         newAvatar = base.cr.doId2do.get(self.avatar.doId)
@@ -429,7 +455,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.__updateHp(avatar.hp, avatar.maxHp)
         self.laffMeter.show()
         self.healthText.show()
-        return
 
     def __makeLaffMeter(self, avatar):
         self.laffMeter = LaffMeter.LaffMeter(avatar.style, avatar.hp, avatar.maxHp)
@@ -441,29 +466,30 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         if self.laffMeter != None and hp != None and maxHp != None:
             self.laffMeter.adjustFace(hp, maxHp)
             self.healthText['text'] = '%d / %d' % (hp, maxHp)
-        return
 
     def __handleClose(self):
         self.cleanup()
         AvatarPanelBase.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        return
 
     def getAvId(self):
         if hasattr(self, 'avatar'):
             if self.avatar:
                 return self.avatar.doId
+        
         return None
 
     def getPlayerId(self):
         if hasattr(self, 'playerId'):
             return self.playerId
+        
         return None
 
     def isHidden(self):
         if not hasattr(self, 'frame') or not self.frame:
             return 1
+        
         return self.frame.isHidden()
 
     def getType(self):
@@ -489,7 +515,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             if self.groupButton:
                 self.groupButton['state'] = DGG.DISABLED
             localAvatar.boardingParty.requestKick(self.avId)
-        return
 
     def __checkGroupStatus(self):
         self.groupFrame.hide()
@@ -529,7 +554,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                     if base.config.GetBool('want-boarding-groups', 1):
                         base.setCellsActive([base.rightCells[0]], 0)
                         self.groupFrame.show()
-        return
 
     def handleReadInfo(self, task = None):
         self.boardingInfoButton['state'] = DGG.DISABLED
@@ -543,7 +567,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.boardingInfoText.destroy()
             del self.boardingInfoText
         self.boardingInfoText = None
-        return
 
     def __makePetGui(self, avatar):
         petGui = loader.loadModel('phase_3.5/models/gui/PetControlPannel')
@@ -556,7 +579,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.petButton['state'] = DGG.DISABLED
             self.petButton.hide()
         petGui.removeNode()
-        return
 
     def __makeBoardingGui(self):
         self.confirmKickOutDialog = None
@@ -584,4 +606,3 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         groupInviteGui.removeNode()
         groupAvatarBgGui.removeNode()
         helpGui.removeNode()
-        return

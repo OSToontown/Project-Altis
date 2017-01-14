@@ -207,6 +207,10 @@ ACogCFO = ACog + ' C.F.O.'
 TheFish = 'the Fish'
 AFish = 'a fish'
 Level = 'Level'
+ExpBarLevel = 'Level '
+ExpGagReward = 'Congratulations on reaching level %s! You can now carry 2 additional gags.'
+ExpHPReward = 'Congratulations on reaching level %s! You have gained 1 laff point.'
+ExpMoneyReward = 'Congratulations on reaching level %s! You can now carry 500 additional jellybeans'
 QuestsCompleteString = 'Complete'
 QuestsNotChosenString = 'Not chosen'
 Period = '.'
@@ -1594,6 +1598,7 @@ ChatGarblerDuck = ['quack', 'quackity', 'quacky']
 ChatGarblerMonkey = ['ooh', 'ooo', 'ahh']
 ChatGarblerBear = ['growl', 'grrr']
 ChatGarblerPig = ['oink', 'oik', 'snort']
+ChatGarblerDeer = ['eee', 'yee', 'eee']
 ChatGarblerDefault = ['blah']
 Bossbot = 'Bossbot'
 Lawbot = 'Lawbot'
@@ -1629,9 +1634,9 @@ AvatarDetailPanelFailedLookup = 'Unable to get details for %s.'
 AvatarDetailPanelPlayer = 'Player: %(player)s\nWorld: %(world)s'
 AvatarDetailPanelPlayerShort = '%(player)s\nWorld: %(world)s\nLocation: %(location)s'
 AvatarDetailPanelRealLife = 'Offline'
-AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s'
-AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s'
-AvatarDetailPanelOffline = 'District: offline\nLocation: offline'
+AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel: %(level)s'
+AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s\nLevel %(level)s'
+AvatarDetailPanelOffline = 'District: offline\nLocation: offline\nLevel %s'
 AvatarShowPlayer = 'Show Player'
 OfflineLocation = 'Offline'
 PlayerToonName = 'Toon: %(toonname)s'
@@ -4506,6 +4511,7 @@ QuestPosterAuxReturnTo = 'Return to:'
 QuestPosterLocationIn = ' in '
 QuestPosterLocationOn = ' in '
 QuestPosterFun = 'Just for fun!'
+QuestPosterExp = 'Experience: '
 QuestPosterFishing = 'GO FISHING'
 QuestPosterComplete = 'COMPLETE'
 QuestPosterConfirmDelete = 'Are you sure you want to delete this ToonTask?'
@@ -5178,6 +5184,12 @@ ColorShopAll = 'Single Color'
 ClothesShopShorts = 'Shorts'
 ClothesShopShirt = 'Shirts'
 ClothesShopBottoms = 'Bottoms'
+ClothesShopShirtsStyle = 'Shirts Style'
+ClothesShopShirtsColor = 'Shirts Color'
+ClothesShopShortsStyle = 'Shorts Style'
+ClothesShopShortsColor = 'Shorts Color'
+ClothesShopBottomsStyle = 'Bottoms Style'
+ClothesShopBottomsColor = 'Bottoms Color'
 PromptTutorial = "Congratulations!!\nYou are Toontown's newest citizen!\n\nWould you like to continue to the Toontorial or teleport directly to Toontown Central?"
 MakeAToonSkipTutorial = 'Skip Toontorial'
 MakeAToonEnterTutorial = 'Enter Toontorial'
@@ -5293,7 +5305,45 @@ NumToColor = ['White',
  'Lavender',
  'Pink',
  'Plum',
- 'Black']
+ 'Black',
+ 'Rose Pink',
+ 'Ice Blue',
+ 'Mint Green',
+ 'Emerald',
+ 'Teal',
+ 'Apricot',
+ 'Amber',
+ 'Crimson',
+ 'Dark Green',
+ 'Steel Blue',
+ 'ToonFest Blue',
+ 'Mountain Green',
+ 'Icy Blue',
+ 'Desert Sand',
+ 'Mint',
+ 'Charcoal',
+ 'Hot Pink',
+ 'Honey Mustard',
+ 'Gray',
+ 'Neon Orange',
+ 'Sapphire',
+ 'Crimson',
+ 'Emerald',
+ 'Bronze',
+ 'African Violet',
+ 'Magenta',
+ 'Medium Purple',
+ 'Ivory',
+ 'Thistle',
+ 'Spring Green',
+ 'Goldenrod',
+ 'Cadium Yellow',
+ 'Peach Puff',
+ 'Toony Teal',
+ 'Salmon',
+ 'Banana Yellow',
+ 'Dim Gray',
+ 'Gold']
 AnimalToSpecies = {'dog': 'Dog',
  'cat': 'Cat',
  'mouse': 'Mouse',
@@ -5302,7 +5352,8 @@ AnimalToSpecies = {'dog': 'Dog',
  'duck': 'Duck',
  'monkey': 'Monkey',
  'bear': 'Bear',
- 'pig': 'Pig'}
+ 'pig': 'Pig',
+ 'deer': 'Deer'}
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
@@ -7370,7 +7421,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  9134: lHQOfficerF,
  9135: lHQOfficerF,
  9136: 'Taylor',
- 9201: 'Bernie',
+ 9201: 'Bernie Sandals',
  9202: 'Orville',
  9203: 'Nat',
  9204: 'Claire de Loon',
@@ -9539,6 +9590,8 @@ HolidayNamesInCalendar = {1: ('Summer Fireworks', 'Celebrate Summer with a firew
 UnknownHoliday = 'Unknown Holiday %d'
 HolidayFormat = '%b %d '
 HourFormat = '12'
+CogdoBarrelRoomTitle = 'Grab-O-Barrel'
+CogdoBarrelIntroMovieDialogue = 'Grab as many barrels as you possibly can before the time runs out, and the COGS arrive!'
 CogdoMemoGuiTitle = 'Memos:'
 CogdoMemoNames = 'Barrel-Destruction Memos'
 CogdoStomperName = 'Stomp-O-Matic'
@@ -9565,6 +9618,8 @@ CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for
 CogdoFlyingIntroMovieDialogue = (("You won't ruffle our feathers, Toons! We're destroying barrels of your Laff, and you cannot stop us!", "A flock of Toons! We're crushing barrels of your Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName, "You can't egg us on, Toons! We're powering our offices with your Laff, and you're powerless to stop us!"), ('This is the Toon Resistance! A little bird told me you can use propellers to fly around, grab Barrel Destruction Memos, and keep Laff from being destroyed! Good luck, Toons!', 'Attention Toons! Wing it with a propeller and collect Barrel Destruction Memos to keep our Laff from being stomped! Toon Resistance out!', 'Toon Resistance here! Cause a flap by finding propellers, flying to the Barrel Destruction Memos, and keeping our Laff from being smashed! Have fun!'), ("Squawk! I'm a Silver Sprocket Award winner, I don't need this!", 'Do your best, Toons! You will find us to be quite talon-ted!', "We'll teach you to obey the pecking order, Toons!"))
 CogdoFlyingGameWaiting = 'Waiting for other Toons%s'
 CogdoFlyingGameFuelLabel = 'Fuel'
+CogdoFlyingGameInvasionTargeting = 'A %s invasion has noticed you!'
+CogdoFlyingGameInvasionAttacking = 'Incoming %s invasion!'
 CogdoFlyingGameLegalEagleTargeting = 'A Legal Eagle has noticed you!'
 CogdoFlyingGameLegalEagleAttacking = 'Incoming Eagle!'
 CogdoFlyingGamePickUpAPropeller = 'You need a propeller to fly!'

@@ -27,6 +27,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
         self.recoverRate = 0
         self.recoverStartTime = 0
+        self.nerfed = ToontownGlobals.SELLBOT_NERF_HOLIDAY in simbase.air.holidayManager.currentHolidays
 
     def delete(self):
         return DistributedBossCogAI.DistributedBossCogAI.delete(self)
@@ -59,6 +60,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             return
         if self.attackCode != ToontownGlobals.BossCogDizzyNow:
             return
+        if self.attackCode == ToontownGlobals.BossCogAreaAttack:
+            return
         bossDamage = min(self.getBossDamage() + bossDamage, self.bossMaxDamage)
         self.b_setBossDamage(bossDamage, 0, 0)
         if self.bossDamage >= self.bossMaxDamage:
@@ -72,6 +75,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             return
         currState = self.getCurrentOrNextState()
         if currState != 'BattleThree':
+            return
+        if self.attackCode == ToontownGlobals.BossCogAreaAttack:
             return
         self.b_setAttackCode(ToontownGlobals.BossCogDizzyNow)
         self.b_setBossDamage(self.getBossDamage(), 0, 0)
@@ -195,10 +200,16 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.initializeBattles(1, ToontownGlobals.SellbotBossBattleOnePosHpr)
 
     def generateSuits(self, battleNumber):
-        if battleNumber == 1:
-            return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP, 0)
+        if self.nerfed:
+            if battleNumber == 1:
+                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_NERFED_VP, 0)
+            else:
+                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_NERFED_VP_SKELECOGS, 1)
         else:
-            return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS, 1)
+            if battleNumber == 1:
+                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP, 0)
+            else:
+                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS, 1)
 
     def removeToon(self, avId):
         toon = simbase.air.doId2do.get(avId)
@@ -319,6 +330,41 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.stopStrafes()
         taskName = self.uniqueName('CagedToonSaySomething')
         taskMgr.remove(taskName)
+        
+    def zapToon(self, x, y, z, h, p, r, bpx, bpy, attackCode, timestamp):
+        avId = self.air.getAvatarIdFromSender()
+        if not self.validate(avId, avId in self.involvedToons, 'zapToon from unknown avatar'):
+            return
+        if attackCode == ToontownGlobals.BossCogLawyerAttack and self.dna.dept != 'l':
+            self.notify.warning('got lawyer attack but not in CJ boss battle')
+            return
+        toon = simbase.air.doId2do.get(avId)
+        if toon:
+            self.d_showZapToon(avId, x, y, z, h, p, r, attackCode, timestamp)
+            if self.nerfed:
+                damage = ToontownGlobals.BossCogNerfedDamageLevels.get(attackCode)
+            else:
+                damage = ToontownGlobals.BossCogDamageLevels.get(attackCode)
+            if damage == None:
+                self.notify.warning('No damage listed for attack code %s' % attackCode)
+                damage = 5
+            damage *= self.getDamageMultiplier()
+            self.damageToon(toon, damage)
+            currState = self.getCurrentOrNextState()
+            if attackCode == ToontownGlobals.BossCogElectricFence and (currState == 'RollToBattleTwo' or currState == 'BattleThree'):
+                if bpy < 0 and abs(bpx / bpy) > 0.5:
+                    if bpx < 0:
+                        if self.attackCode == ToontownGlobals.BossCogAreaAttack:
+                            return
+                        if self.attackCode == ToontownGlobals.BossCogDizzyNow:
+                            return
+                        self.b_setAttackCode(ToontownGlobals.BossCogSwatRight)
+                    else:
+                        if self.attackCode == ToontownGlobals.BossCogAreaAttack:
+                            return
+                        if self.attackCode == ToontownGlobals.BossCogDizzyNow:
+                            return
+                        self.b_setAttackCode(ToontownGlobals.BossCogSwatLeft)
 
     def enterNearVictory(self):
         self.resetBattles()
@@ -339,7 +385,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
          'isVirtual': 0,
          'activeToons': self.involvedToons[:]})
         self.barrier = self.beginBarrier('Victory', self.involvedToons, 10, self.__doneVictory)
-        return
 
     def __doneVictory(self, avIds):
         self.d_setBattleExperience()

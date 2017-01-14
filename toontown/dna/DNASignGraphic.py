@@ -14,6 +14,11 @@ class DNASignGraphic(DNAProp.DNAProp):
         self.width = 0
         self.height = 0
 
+    def __del__(self):
+        DNAProp.DNAProp.__del__(self)
+        del self.width
+        del self.height
+
     def makeFromDGI(self, dgi, store):
         DNAProp.DNAProp.makeFromDGI(self, dgi, store)
         self.width = dgi.getInt16() / 100.0

@@ -46,7 +46,9 @@ class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.L
         self.fsm = None
 
     def setLockState(self, stateIndex):
-        if self.stateIndex != stateIndex:
+        if not hasattr(self, 'stateIndex'):
+            return
+        if getattr(self, 'stateIndex') != stateIndex:
             state = self.states.get(stateIndex)
             if state is not None:
                 self.fsm.request(state)
@@ -138,12 +140,15 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
     def takedown(self):
         if __dev__:
             self.shutdownWantDoors()
+        
         self.ignoreAll()
         if self.track is not None:
             self.track.finish()
+        
         self.track = None
         if self.innerDoorsTrack is not None:
             self.innerDoorsTrack.finish()
+        
         self.innerDoorsTrack = None
         for i in self.locks:
             i.takedown()
@@ -216,7 +221,6 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
         else:
             self.initialState = stateIndex
             self.initialStateTimestamp = timeStamp
-        return
 
     def getName(self):
         return 'switch-%s' % str(self.entId)
@@ -224,6 +228,7 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
     def getNodePath(self):
         if hasattr(self, 'doorNode'):
             return self.doorNode
+        
         return None
 
     def setupDoor(self):
@@ -360,10 +365,10 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
         if self.innerDoorsTrack is not None:
             self.innerDoorsTrack.pause()
             self.innerDoorsTrack = None
+        
         if track is not None:
             track.start(0.0)
             self.innerDoorsTrack = track
-        return
 
     def openInnerDoors(self):
         if not self.level.complexVis() or self.isOuterDoorOpen and (not self.isVisBlocker or self.isVisReady):
@@ -371,14 +376,21 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
             slideSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_sliding.ogg')
             finalSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_final.ogg')
             moveDistance = 8.0
-            self.setInnerDoorsTrack(Sequence(Func(self.leftInnerCollision.unstash), Func(self.rightInnerCollision.unstash), Parallel(SoundInterval(slideSfx, node=self.node, duration=duration * 0.4, volume=0.8), LerpPosInterval(nodePath=self.doorLeft, duration=duration * 0.4, pos=Vec3(-moveDistance, 0.0, 0.0), blendType='easeOut'), LerpPosInterval(nodePath=self.doorRight, duration=duration * 0.4, pos=Vec3(moveDistance, 0.0, 0.0), blendType='easeOut'), Sequence(Wait(duration * 0.375), SoundInterval(finalSfx, node=self.node, duration=1.0, volume=0.8))), Func(self.doorLeft.stash), Func(self.doorRight.stash)))
+            self.setInnerDoorsTrack(Sequence(Func(self.leftInnerCollision.unstash), Func(self.rightInnerCollision.unstash), 
+                Parallel(SoundInterval(slideSfx, node=self.node, duration=duration * 0.4, volume=0.8), LerpPosInterval(nodePath=self.doorLeft, 
+                    duration=duration * 0.4, pos=Vec3(-moveDistance, 0.0, 0.0), blendType='easeOut'), LerpPosInterval(nodePath=self.doorRight, 
+                    duration=duration * 0.4, pos=Vec3(moveDistance, 0.0, 0.0), blendType='easeOut'), Sequence(Wait(duration * 0.375), SoundInterval(finalSfx, 
+                        node=self.node, duration=1.0, volume=0.8))), Func(self.doorLeft.stash), Func(self.doorRight.stash)))
 
     def closeInnerDoors(self):
         duration = self.duration
         slideSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_sliding.ogg')
         finalSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_final.ogg')
         moveDistance = 8.0
-        self.setInnerDoorsTrack(Sequence(Func(self.doorLeft.unstash), Func(self.doorRight.unstash), Parallel(SoundInterval(slideSfx, node=self.node, duration=duration * 0.4, volume=0.8), LerpPosInterval(nodePath=self.doorLeft, duration=duration * 0.4, pos=Vec3(0.0), blendType='easeIn'), LerpPosInterval(nodePath=self.doorRight, duration=duration * 0.4, pos=Vec3(0.0), blendType='easeIn'), Sequence(Wait(duration * 0.375), SoundInterval(finalSfx, node=self.node, duration=1.0, volume=0.8))), Func(self.leftInnerCollision.stash), Func(self.rightInnerCollision.stash)))
+        self.setInnerDoorsTrack(Sequence(Func(self.doorLeft.unstash), Func(self.doorRight.unstash), Parallel(SoundInterval(slideSfx, node=self.node, 
+            duration=duration * 0.4, volume=0.8), LerpPosInterval(nodePath=self.doorLeft, duration=duration * 0.4, pos=Vec3(0.0), blendType='easeIn'), 
+        LerpPosInterval(nodePath=self.doorRight, duration=duration * 0.4, pos=Vec3(0.0), blendType='easeIn'), Sequence(Wait(duration * 0.375), SoundInterval(finalSfx, 
+            node=self.node, duration=1.0, volume=0.8))), Func(self.leftInnerCollision.stash), Func(self.rightInnerCollision.stash)))
 
     def setisOuterDoorOpen(self, isOpen):
         self.isOuterDoorOpen = isOpen
@@ -391,11 +403,16 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
                 self.requestUnblockVis()
         else:
             self.okToUnblockVis()
+        
         duration = self.duration
         slideSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_sliding.ogg')
         finalSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_final.ogg')
         moveDistance = 8.0
-        self.setTrack(Sequence(Wait(duration * 0.1), Parallel(SoundInterval(slideSfx, node=self.node, duration=duration * 0.4, volume=0.8), LerpPosInterval(nodePath=self.doorTop, duration=duration * 0.4, pos=Vec3(0.0, 0.0, moveDistance), blendType='easeOut'), LerpPosInterval(nodePath=self.doorBottom, duration=duration * 0.4, pos=Vec3(0.0, 0.0, -moveDistance), blendType='easeOut'), Sequence(Wait(duration * 0.375), SoundInterval(finalSfx, node=self.node, duration=1.0, volume=0.8))), Func(self.doorTop.stash), Func(self.doorBottom.stash), Func(self.setisOuterDoorOpen, 1), Func(self.openInnerDoors)))
+        self.setTrack(Sequence(Wait(duration * 0.1), Parallel(SoundInterval(slideSfx, node=self.node, duration=duration * 0.4, volume=0.8), 
+            LerpPosInterval(nodePath=self.doorTop, duration=duration * 0.4, pos=Vec3(0.0, 0.0, moveDistance), blendType='easeOut'), 
+            LerpPosInterval(nodePath=self.doorBottom, duration=duration * 0.4, pos=Vec3(0.0, 0.0, -moveDistance), blendType='easeOut'), 
+            Sequence(Wait(duration * 0.375), SoundInterval(finalSfx, node=self.node, duration=1.0, volume=0.8))), Func(self.doorTop.stash), 
+                Func(self.doorBottom.stash), Func(self.setisOuterDoorOpen, 1), Func(self.openInnerDoors)))
 
     def enterState2(self):
         FourState.FourState.enterState2(self)
@@ -452,6 +469,7 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
         self.doorRight.setPos(Vec3(0.0))
 
     if __dev__:
+
         def initWantDoors(self):
             self.accept('wantDoorsChanged', self.onWantDoorsChanged)
             self.onWantDoorsChanged()

@@ -5,6 +5,8 @@ from direct.interval.FunctionInterval import Wait
 from direct.interval.IntervalGlobal import Func
 from direct.interval.MetaInterval import Sequence, Parallel
 from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals
+from toontown.battle import SuitBattleGlobals
 from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
 from toontown.cogdominium.CogdoFlyingLocalPlayer import CogdoFlyingLocalPlayer
 from toontown.cogdominium.CogdoGameAudioManager import CogdoGameAudioManager
@@ -30,13 +32,14 @@ class CogdoFlyingGame(DirectObject):
         self.isGameComplete = False
         self.localPlayer = None
         self._hints = {'targettedByEagle': False,
-         'invulnerable': False}
+            'invulnerable': False}
+        
         self.invSuit = False
 
     def _initLegalEagles(self):
         nestIndex = 1
         nests = self.level.root.findAllMatches('**/%s;+s' % Globals.Level.LegalEagleNestName)
-        self.invSuit = base.cr.newsManager.getInvadingSuit()
+        self.invSuit = base.cr.newsManager.getInvading()
         if not self.invSuit:
             self.invSuit = 'le'
         for nest in nests:
@@ -59,8 +62,6 @@ class CogdoFlyingGame(DirectObject):
                 player.enable()
                 self._addPlayer(player)
                 self.guiMgr.addToonToProgressMeter(toon)
-
-        return
 
     def placeEntranceElevator(self, elevator):
         loc = self.level.startPlatform._model.find('**/door_loc')
@@ -246,37 +247,34 @@ class CogdoFlyingGame(DirectObject):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.died(elapsedTime)
-        return
 
     def toonSpawn(self, toonId, elapsedTime):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.spawn(elapsedTime)
-        return
 
     def toonResetBlades(self, toonId):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.resetBlades()
-        return
 
     def toonSetBlades(self, toonId, fuelState):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.setBlades(fuelState)
-        return
 
     def toonBladeLost(self, toonId):
         player = self.toonId2Player[toonId]
         if player is not None:
             player.bladeLost()
-        return
 
     def handleLocalToonEnterGatherable(self, gatherable):
         if gatherable.wasPickedUp():
             return
+        
         if gatherable.isPowerUp() and gatherable.wasPickedUpByToon(self.localPlayer.toon):
             return
+        
         if gatherable.type in [Globals.Level.GatherableTypes.LaffPowerup, Globals.Level.GatherableTypes.InvulPowerup]:
             self.distGame.d_sendRequestPickup(gatherable.serialNum, gatherable.type)
         elif gatherable.type == Globals.Level.GatherableTypes.Memo:
@@ -299,7 +297,6 @@ class CogdoFlyingGame(DirectObject):
                 taskMgr.doMethodLater(30, lambda task: self.debuffPowerup(toonId, gatherable.type, elapsedTime), 'gatherable-timeout')
         else:
             self.notify.warning('Trying to pickup gatherable nonetype:%s' % pickupNum)
-        return
 
     def debuffPowerup(self, toonId, pickupType, elapsedTime):
         self.notify.debugCall()
@@ -322,11 +319,14 @@ class CogdoFlyingGame(DirectObject):
     def handleLocalToonEnterObstacle(self, obstacle, collEntry):
         if self.localPlayer.isInvulnerable():
             return
+        
         if obstacle.type == Globals.Level.ObstacleTypes.Whirlwind:
             self.localPlayer.handleEnterWhirlwind(obstacle)
             self.distGame.d_sendRequestAction(Globals.AI.GameActions.HitWhirlwind, 0)
+        
         if obstacle.type == Globals.Level.ObstacleTypes.Fan:
             self.localPlayer.handleEnterFan(obstacle)
+        
         if obstacle.type == Globals.Level.ObstacleTypes.Minion:
             if not self.localPlayer.isEnemyHitting():
                 collPos = collEntry.getSurfacePoint(render)

@@ -3,7 +3,7 @@ from toontown.battle.BattleBase import *
 from toontown.battle.BattleProps import *
 from toontown.suit.SuitBase import *
 from toontown.toon.ToonDNA import *
-from BattleSounds import *
+from toontown.battle.BattleSounds import *
 from toontown.battle import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import MovieUtil

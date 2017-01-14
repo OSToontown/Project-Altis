@@ -1,3 +1,5 @@
+import string
+import types
 from direct.actor import Actor
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import FSM
@@ -6,9 +8,6 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor
 from direct.task.Task import Task
 from pandac.PandaModules import *
-import string
-import types
-
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
 from otp.avatar import Avatar
@@ -17,7 +16,6 @@ from toontown.battle import BattleProps
 from toontown.nametag import NametagGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 GenericModel = 'phase_9/models/char/bossCog'
 ModelDict = {'s': 'phase_9/models/char/sellbotBoss',
@@ -55,7 +53,6 @@ class BossCog(Avatar.Avatar):
         self.healthCondition = 0
         self.animDoneEvent = 'BossCogAnimDone'
         self.animIvalName = 'BossCogAnimIval'
-        return
 
     def delete(self):
         Avatar.Avatar.delete(self)
@@ -67,7 +64,6 @@ class BossCog(Avatar.Avatar):
             self.doorB.request('Off')
             self.doorA = None
             self.doorB = None
-        return
 
     def setDNAString(self, dnaString):
         self.dna = SuitDNA.SuitDNA()
@@ -191,6 +187,7 @@ class BossCog(Avatar.Avatar):
             condition = 4
         else:
             condition = 5
+        
         if self.healthCondition != condition:
             if condition == 4:
                 blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task(self.__blinkGray), Task.pause(0.1))
@@ -204,13 +201,13 @@ class BossCog(Avatar.Avatar):
                 self.healthBar.setColor(self.healthColors[condition], 1)
                 self.healthBarGlow.setColor(self.healthGlowColors[condition], 1)
             self.healthCondition = condition
-        return
 
     def __blinkRed(self, task):
         self.healthBar.setColor(self.healthColors[3], 1)
         self.healthBarGlow.setColor(self.healthGlowColors[3], 1)
         if self.healthCondition == 5:
             self.healthBar.setScale(1.17)
+        
         return Task.done
 
     def __blinkGray(self, task):
@@ -218,16 +215,18 @@ class BossCog(Avatar.Avatar):
         self.healthBarGlow.setColor(self.healthGlowColors[4], 1)
         if self.healthCondition == 5:
             self.healthBar.setScale(1.0)
+        
         return Task.done
 
     def removeHealthBar(self):
         if self.healthBar:
             self.healthBar.removeNode()
             self.healthBar = None
+        
         if self.healthCondition == 4 or self.healthCondition == 5:
             taskMgr.remove(self.uniqueName('blink-task'))
+        
         self.healthCondition = 0
-        return
 
     def reverseHead(self):
         self.neck.setHpr(self.neckReversedHpr)
@@ -290,6 +289,7 @@ class BossCog(Avatar.Avatar):
         def filterOpening(self, request, args):
             if request == 'close':
                 return 'Closing'
+            
             return self.defaultFilter(request, args)
 
         def enterOpening(self):
@@ -302,11 +302,11 @@ class BossCog(Avatar.Avatar):
         def exitOpening(self):
             self.ival.pause()
             self.ival = None
-            return
 
         def filterOpened(self, request, args):
             if request == 'close':
                 return 'Closing'
+           
             return self.defaultFilter(request, args)
 
         def enterOpened(self):
@@ -316,6 +316,7 @@ class BossCog(Avatar.Avatar):
         def filterClosing(self, request, args):
             if request == 'open':
                 return 'Opening'
+            
             return self.defaultFilter(request, args)
 
         def enterClosing(self):
@@ -328,11 +329,11 @@ class BossCog(Avatar.Avatar):
         def exitClosing(self):
             self.ival.pause()
             self.ival = None
-            return
 
         def filterClosed(self, request, args):
             if request == 'open':
                 return 'Opening'
+            
             return self.defaultFilter(request, args)
 
         def enterClosed(self):
@@ -354,22 +355,29 @@ class BossCog(Avatar.Avatar):
     def doAnimate(self, anim = None, now = 0, queueNeutral = 1, raised = None, forward = None, happy = None):
         if now:
             self.stopAnimate()
+        
         if not self.twoFaced:
             happy = 1
+        
         if raised == None:
             raised = self.raised
+        
         if forward == None:
             forward = self.forward
+        
         if happy == None:
             happy = self.happy
+        
         if now:
             self.raised = raised
             self.forward = forward
             self.happy = happy
+        
         if self.currentAnimIval == None:
             self.accept(self.animDoneEvent, self.__getNextAnim)
         else:
             queueNeutral = 0
+        
         ival, changed = self.__getAnimIval(anim, raised, forward, happy)
         if changed or queueNeutral:
             self.queuedAnimIvals.append((ival,
@@ -378,7 +386,6 @@ class BossCog(Avatar.Avatar):
              self.happy))
             if self.currentAnimIval == None:
                 self.__getNextAnim()
-        return
 
     def stopAnimate(self):
         self.ignore(self.animDoneEvent)
@@ -387,10 +394,10 @@ class BossCog(Avatar.Avatar):
             self.currentAnimIval.setDoneEvent('')
             self.currentAnimIval.finish()
             self.currentAnimIval = None
+        
         self.raised = self.nowRaised
         self.forward = self.nowForward
         self.happy = self.nowHappy
-        return
 
     def __getNextAnim(self):
         if self.queuedAnimIvals:
@@ -404,12 +411,12 @@ class BossCog(Avatar.Avatar):
         if self.currentAnimIval:
             self.currentAnimIval.setDoneEvent('')
             self.currentAnimIval.finish()
+        
         self.currentAnimIval = ival
         self.currentAnimIval.start()
         self.nowRaised = raised
         self.nowForward = forward
         self.nowHappy = happy
-        return
 
     def __getAnimIval(self, anim, raised, forward, happy):
         ival, changed = self.__doGetAnimIval(anim, raised, forward, happy)
@@ -438,6 +445,7 @@ class BossCog(Avatar.Avatar):
             ival = Sequence(ival, ActorInterval(self, animName))
             startsHappy = 1
             endsHappy = 1
+        
         startNeckHpr = self.neckForwardHpr
         endNeckHpr = self.neckForwardHpr
         if self.happy != startsHappy:
@@ -455,16 +463,19 @@ class BossCog(Avatar.Avatar):
             else:
                 ival = Sequence(ival, Func(self.reverseBody), downIval, Func(self.forwardBody))
             ival = Parallel(SoundInterval(self.downSfx, node=self), ival)
+        
         self.raised = raised
         self.forward = forward
         self.happy = happy
         if anim != None:
             ival = Sequence(ival, self.getAnim(anim))
+        
         return (ival, 1)
 
     def setDizzy(self, dizzy):
         if dizzy and not self.dizzy:
             base.playSfx(self.dizzyAlert)
+        
         self.dizzy = dizzy
         if dizzy:
             self.stars.reparentTo(self.neck)
@@ -478,6 +489,7 @@ class BossCog(Avatar.Avatar):
             ival = Sequence(Func(self.reverseHead), ActorInterval(self, animName, **kw), Func(self.forwardHead))
         else:
             ival = ActorInterval(self, animName, **kw)
+        
         return ival
 
     def getAnim(self, anim):
@@ -543,4 +555,5 @@ class BossCog(Avatar.Avatar):
             ival = ActorInterval(self, anim)
         else:
             ival = anim
+        
         return ival
