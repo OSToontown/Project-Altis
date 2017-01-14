@@ -5203,6 +5203,7 @@ ShapeYourToonTitle = 'Choose  Your  Type'
 PaintYourToonTitle = 'Choose  Your  Color'
 PickClothesTitle = 'Choose  Your  Clothes'
 PickStatusTitle = 'Choose  Your  Statuses'
+PickStartTitle = 'Choose  Your  Starting  Playground'
 NameToonTitle = 'Choose  Your  Name'
 UberTitles = ['Normal', '15 Laff', '25 Laff', '34 Laff']
 UberInfos = ['Your average run of the mill toon, they have no laff or gag limits! Great for players who want to play traditionally.',

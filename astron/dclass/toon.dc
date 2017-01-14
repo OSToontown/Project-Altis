@@ -3759,7 +3759,7 @@ dclass ClientServicesManager : DistributedObjectGlobal {
   requestAvatars() clsend;
   setAvatars(PotentialToon[]);
 
-  createAvatar(blob dna, uint8 index, uint8 uber) clsend;
+  createAvatar(blob dna, uint8 index, uint8 uber, uint16[], uint8 pg) clsend;
   createAvatarResp(uint32 avId);
 
   setNameTyped(uint32 avId, string name) clsend;

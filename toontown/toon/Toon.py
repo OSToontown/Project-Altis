@@ -461,6 +461,9 @@ class Toon(Avatar.Avatar, ToonHead):
         self.cogHead = 0
         self.cogLevels = [] 
         self.uberType = 0
+        self.startingPg = 0
+        self.choiceAlpha = 2
+        self.choiceBeta = 3
         self.defaultColorScale = None
         self.jar = None
         self.setBlend(frameBlend = True)
