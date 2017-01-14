@@ -36,7 +36,6 @@ class TownBattleAttackPanel(StateData.StateData):
         self.accept('inventory-pass', self.__handlePass)
         self.accept('inventory-fire', self.__handleFire)
         self.accept('hide-attack-panel', self.__handleHide)
-        return
 
     def exit(self):
         StateData.StateData.exit(self)

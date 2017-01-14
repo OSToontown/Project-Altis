@@ -53,7 +53,6 @@ class TownBattleToonPanel(DirectFrame):
         self.notify.debug('setLaffMeter: new avatar %s' % avatar.doId)
         if self.avatar == avatar:
             messenger.send(self.avatar.uniqueName('hpChange'), [avatar.hp, avatar.maxHp, 1])
-            return None
         else:
             if self.avatar:
                 self.cleanupLaffMeter()
@@ -67,8 +66,6 @@ class TownBattleToonPanel(DirectFrame):
             self.setHealthText(avatar.hp, avatar.maxHp)
             self.hpChangeEvent = self.avatar.uniqueName('hpChange')
             self.accept(self.hpChangeEvent, self.setHealthText)
-        
-        return None
 
     def setHealthText(self, hp, maxHp, quietly = 0):
         self.healthText['text'] = TTLocalizer.TownBattleHealthText % {'hitPoints': hp,

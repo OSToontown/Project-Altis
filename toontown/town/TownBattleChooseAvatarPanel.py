@@ -40,7 +40,6 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
 
         self.backButton = DirectButton(parent=self.frame, relief=None, image=(gui.find('**/PckMn_BackBtn'), gui.find('**/PckMn_BackBtn_Dn'), gui.find('**/PckMn_BackBtn_Rlvr')), pos=(-0.647, 0, 0.006), scale=1.05, text=TTLocalizer.TownBattleChooseAvatarBack, text_scale=0.05, text_pos=(0.01, -0.012), text_fg=Vec4(0, 0, 0.8, 1), command=self.__handleBack)
         gui.removeNode()
-        return
 
     def unload(self):
         self.frame.destroy()
@@ -83,7 +82,6 @@ class TownBattleChooseAvatarPanel(StateData.StateData):
             if track == BattleBase.TRAP:
                 invalidTargets += trappedIndices
         self.__placeButtons(numAvatars, invalidTargets, None)
-        return
 
     def adjustToons(self, numToons, localNum):
         self.__placeButtons(numToons, [], localNum)
