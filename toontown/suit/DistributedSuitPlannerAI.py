@@ -18,8 +18,6 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-from otp.ai.MagicWordGlobal import *
-ALLOWED_COGDO_TYPES = ['s', 'l']
 
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
@@ -569,6 +567,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     ]
     TOTAL_SUIT_BUILDING_PCT = 18 * CogdoPopFactor
     BUILDING_HEIGHT_DISTRIBUTION = [14, 18, 25, 23, 20]
+    ALLOWED_COGDO_TYPES = ['s', 'l']
     defaultSuitName = simbase.config.GetString('suit-type', 'random')
     if defaultSuitName == 'random':
         defaultSuitName = None
@@ -925,7 +924,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     if blockNumber in self.buildingFrontDoors:
                         possibles.append((blockNumber, self.buildingFrontDoors[blockNumber]))
             if cogdoTakeover is None:
-                if suit.dna.dept in ALLOWED_COGDO_TYPES:
+                if suit.dna.dept in self.ALLOWED_COGDO_TYPES:
                     cogdoTakeover = random.random() < self.CogdoRatio
 
         elif self.buildingMgr:
@@ -1160,7 +1159,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(None, suitType, suitTrack)
 
                 if random.random() < self.CogdoRatio:
-                    if suitTrack in ALLOWED_COGDO_TYPES:
+                    if suitTrack in self.ALLOWED_COGDO_TYPES:
                         building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType), suitTrack)
                     else:
                         building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
@@ -1533,12 +1532,3 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             track = SuitDNA.suitDepts[SuitBattleGlobals.pickFromFreqList(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_TRACK])]
         self.notify.debug('pickLevelTypeAndTrack: %s %s %s' % (level, type, track))
         return (level, type, track)
-        
-@magicWord(category=CATEGORY_MODERATOR, types=[str, int, int])
-def summonCog(name, level, specialSuit = 0):
-    av = spellbook.getInvoker()
-    zoneId = av.getLocation()[1]
-    sp = simbase.air.suitPlanners.get(zoneId - (zoneId % 100))
-    pointmap = sp.streetPointList
-    sp.createNewSuit([], pointmap, suitName=name, suitLevel=level, specialSuit=specialSuit)
-    return "Spawned %s in current zone." % name

@@ -737,7 +737,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
                 smoother.setPos(*lp)
                 smoother.setTimestamp(local)
                 smoother.markPosition()
-
         else:
             self.crane.setY(y)
             self.arm.setH(h)

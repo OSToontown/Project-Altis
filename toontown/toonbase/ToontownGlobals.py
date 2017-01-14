@@ -18,6 +18,7 @@ CFOElevatorFov = 43.0
 CJElevatorFov = 59.0
 CEOElevatorFov = 59.0
 CBElevatorFov = 42.0
+CogdoFov = 45.0
 WantPromotion = 0
 PendingPromotion = 1
 CeilingBitmask = BitMask32(256)

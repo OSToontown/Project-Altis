@@ -32,7 +32,6 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         self.touchedBossSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_sandbag.ogg')
         self.touchedBossSoundInterval = SoundInterval(self.touchedBossSfx, duration=0.8)
         self.lerpInterval = None
-        return
 
     def disable(self):
         self.cleanup()
@@ -44,6 +43,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
             return
         else:
             self.cleanedUp = 1
+        
         self.demand('Off')
         self.detachNode()
         self.toMagnetSoundInterval.finish()
@@ -55,7 +55,6 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         del self.hitBossSoundInterval
         del self.touchedBossSoundInterval
         self.craneGame = None
-        return
 
     def setupPhysics(self, name):
         an = ActorNode('%s-%s' % (name, self.doId))
@@ -152,6 +151,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         if abs(v[0]) < 0.0001 and abs(v[1]) < 0.0001:
             self.d_requestFree()
             self.demand('Free')
+        
         return Task.cont
 
     def prepareGrab(self):
@@ -210,7 +210,6 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         if self.lerpInterval:
             self.lerpInterval.finish()
             self.lerpInterval = None
-        return
 
     def exitOff(self):
         self.reparentTo(render)
@@ -237,6 +236,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
             else:
                 self.crane.dropObject(self)
                 self.prepareRelease()
+        
         self.avId = avId
         self.craneId = craneId
         self.crane = self.cr.doId2do.get(craneId)
@@ -264,6 +264,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         if self.newState != 'SlidingFloor' and self.newState != 'Dropped':
             self.deactivatePhysics()
             self.stopPosHprBroadcast()
+        
         del self.crane
         self.showShadows()
 
@@ -278,6 +279,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
             self.handler.setDynamicFrictionCoef(0)
         else:
             self.startSmooth()
+        
         self.hideShadows()
 
     def exitDropped(self):
@@ -287,6 +289,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
                 self.stopPosHprBroadcast()
         else:
             self.stopSmooth()
+        
         del self.crane
         self.showShadows()
 
@@ -304,8 +307,8 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
                 taskMgr.add(self.__watchDrift, self.watchDriftName)
         else:
             self.startSmooth()
+        
         self.hitFloorSoundInterval.start()
-        return
 
     def exitSlidingFloor(self):
         if self.avId == base.localAvatar.doId:

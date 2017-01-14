@@ -22,6 +22,7 @@ from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
+from toontown.cogdominium.CogdoBarrelRoomMovies import CogdoBarrelRoomIntro
 
 SUITE_DICT = {'s': 'tt_m_ara_crg_penthouse_sell',
  'l': 'tt_m_ara_crg_penthouse_law',

@@ -2777,6 +2777,12 @@ def zone(zoneId):
 @magicWord(category=CATEGORY_PROGRAMMER)
 def enableGC():
     gc.enable()
+    return 'Enabled garbage collection'
+
+@magicWord(category=CATEGORY_PROGRAMMER)
+def disableGC():
+    gc.disable()
+    return 'Disabled garbage collection'
     
 @magicWord(category=CATEGORY_CREATIVE)
 def soprano():

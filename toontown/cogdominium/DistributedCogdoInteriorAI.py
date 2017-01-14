@@ -12,6 +12,7 @@ from toontown.toonbase.ToontownBattleGlobals import *
 from toontown.cogdominium import DistCogdoMazeGameAI, CogdoMazeGameGlobals, DistributedCogdoElevatorIntAI
 from toontown.cogdominium import DistCogdoFlyingGameAI, DistributedCogdoBarrelAI
 from toontown.cogdominium import DistCogdoCraneGameAI
+from toontown.cogdominium import DistCogdoBoardroomGameAI
 from DistributedCogdoBattleBldgAI import DistributedCogdoBattleBldgAI
 from toontown.cogdominium.SuitPlannerCogdoInteriorAI import SuitPlannerCogdoInteriorAI
 from toontown.cogdominium import CogdoBarrelRoomConsts
@@ -180,8 +181,9 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         elif self.FOType == "l":
             self.game = DistCogdoFlyingGameAI.DistCogdoFlyingGameAI(self.air)
         elif self.FOType == "m":
-            self.game = DistCogdoCraneGameAI.DistCogdoCraneGameAI(self.air)
-        
+            self.game = DistCogdoCraneGameAI.DistCogdoCraneGameAI(self.air, self.zoneId, 0, 
+                self.toons)
+
         self.sendUpdate("setSOSNpcId", [self.sosNPC])
         self.sendUpdate("setFOType", [ord(self.FOType)])
 
@@ -282,8 +284,8 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
     def barrelRewardDone(self):
         if not self.air:
             return
-        barrelPlanner = SuitPlannerCogdoInteriorAI(self.exterior._cogdoLayout, max(0, self.exterior.difficulty - 5),
-                                                   self.FOType, self.exterior.getExteriorAndInteriorZoneId()[1])
+        barrelPlanner = SuitPlannerCogdoInteriorAI(self.bldg._cogdoLayout, max(0, self.bldg.difficulty - 5),
+                                                   self.FOType, self.bldg.getExteriorAndInteriorZoneId()[1])
         
         barrelPlanner.myPrint()
         suitHandles = barrelPlanner.genFloorSuits(0)
