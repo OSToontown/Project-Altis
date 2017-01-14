@@ -18,11 +18,11 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-ALLOWED_COGDO_TYPES = ['s', 'l']
+ALLOWED_COGDO_TYPES = ['s', 'l', 'm']
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = 0.2
+    CogdoRatio = 0.99
     SuitHoodInfo = [[2100, #Silly Street
       5,
       15,
