@@ -1634,8 +1634,8 @@ AvatarDetailPanelFailedLookup = 'Unable to get details for %s.'
 AvatarDetailPanelPlayer = 'Player: %(player)s\nWorld: %(world)s'
 AvatarDetailPanelPlayerShort = '%(player)s\nWorld: %(world)s\nLocation: %(location)s'
 AvatarDetailPanelRealLife = 'Offline'
-AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel %(level)'
-AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s\nLevel %(level)'
+AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel: %(level)s'
+AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s\nLevel %(level)s'
 AvatarDetailPanelOffline = 'District: offline\nLocation: offline\nLevel %s'
 AvatarShowPlayer = 'Show Player'
 OfflineLocation = 'Offline'
@@ -7421,7 +7421,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  9134: lHQOfficerF,
  9135: lHQOfficerF,
  9136: 'Taylor',
- 9201: 'Bernie',
+ 9201: 'Bernie Sandals',
  9202: 'Orville',
  9203: 'Nat',
  9204: 'Claire de Loon',

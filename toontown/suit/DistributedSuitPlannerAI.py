@@ -18,7 +18,9 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-ALLOWED_COGDO_TYPES = ['s', 'l', 'm']
+from otp.ai.MagicWordGlobal import *
+ALLOWED_COGDO_TYPES = ['s', 'l']
+
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
@@ -1531,3 +1533,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             track = SuitDNA.suitDepts[SuitBattleGlobals.pickFromFreqList(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_TRACK])]
         self.notify.debug('pickLevelTypeAndTrack: %s %s %s' % (level, type, track))
         return (level, type, track)
+        
+@magicWord(category=CATEGORY_MODERATOR, types=[str, int, int])
+def summonCog(name, level, specialSuit = 0):
+    av = spellbook.getInvoker()
+    zoneId = av.getLocation()[1]
+    sp = simbase.air.suitPlanners.get(zoneId - (zoneId % 100))
+    pointmap = sp.streetPointList
+    sp.createNewSuit([], pointmap, suitName=name, suitLevel=level, specialSuit=specialSuit)
+    return "Spawned %s in current zone." % name

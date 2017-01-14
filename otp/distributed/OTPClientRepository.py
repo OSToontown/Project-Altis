@@ -50,6 +50,7 @@ class OTPClientRepository(ClientRepositoryBase):
      'PendingApproval',
      'Approved',
      'Rejected'])
+    
     whiteListChatEnabled = 1 # TODO: Have server set this on localAvatar on login.
 
     def __init__(self, serverVersion, launcher = None, playGame = None):
@@ -442,6 +443,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def startLeakDetector(self):
         if hasattr(self, 'leakDetector'):
             return False
+        
         firstCheckDelay = config.GetFloat('leak-detector-first-check-delay', 2 * 60.0)
         self.leakDetector = ContainerLeakDetector('client container leak detector', firstCheckDelay=firstCheckDelay)
         self.objectTypesLeakDetector = LeakDetectors.ObjectTypesLeakDetector()
@@ -1466,18 +1468,13 @@ class OTPClientRepository(ClientRepositoryBase):
     def handlePlayGame(self, msgType, di):
         if self.notify.getDebug():
             self.notify.debug('handle play game got message type: ' + `msgType`)
-        if self.__recordObjectMessage(msgType, di):
-            return
+
         if msgType == CLIENT_ENTER_OBJECT_REQUIRED:
             self.handleGenerateWithRequired(di)
         elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER:
             self.handleGenerateWithRequired(di, other=True)
         elif msgType == CLIENT_OBJECT_SET_FIELD:
-            # TODO: Properly fix this:
-            try:
-                self.handleUpdateField(di)
-            except:
-                pass
+            self.handleUpdateField(di)
         elif msgType == CLIENT_OBJECT_LEAVING:
             self.handleDelete(di)
         else:
@@ -1486,9 +1483,10 @@ class OTPClientRepository(ClientRepositoryBase):
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterSwitchShards(self, shardId, hoodId, zoneId, avId):
         self._switchShardParams = [shardId,
-         hoodId,
-         zoneId,
-         avId]
+            hoodId,
+            zoneId,
+            avId]
+        
         localAvatar.setLeftDistrict()
         self.removeShardInterest(self._handleOldShardGone)
 
@@ -1735,8 +1733,6 @@ class OTPClientRepository(ClientRepositoryBase):
         return Task.done
 
     def handleMessageType(self, msgType, di):
-        if self.__recordObjectMessage(msgType, di):
-            return
         if msgType == CLIENT_EJECT:
             self.handleGoGetLost(di)
         elif msgType == CLIENT_HEARTBEAT:
@@ -1763,6 +1759,7 @@ class OTPClientRepository(ClientRepositoryBase):
                 currentLoginStateName = currentLoginState.getName()
             else:
                 currentLoginStateName = 'None'
+            
             currentGameState = self.gameFSM.getCurrentState()
             if currentGameState:
                 currentGameStateName = currentGameState.getName()
@@ -1852,14 +1849,17 @@ class OTPClientRepository(ClientRepositoryBase):
         if self.notify.getDebug():
             print 'ClientRepository received datagram:'
             di.getDatagram().dumpHex(ostream)
+        
         msgType = self.getMsgType()
         if msgType == 65535:
             self.lostConnection()
             return
+        
         if self.handler == None:
             self.handleMessageType(msgType, di)
         else:
             self.handler(msgType, di)
+        
         self.considerHeartbeat()
 
     def askAvatarKnown(self, avId):
@@ -1901,6 +1901,7 @@ class OTPClientRepository(ClientRepositoryBase):
             self.send(datagram)
             self.notify.info('Sent disconnect message to server')
             self.disconnect()
+        
         self.stopHeartbeat()
 
     def _isPlayerDclass(self, dclass):
@@ -1913,6 +1914,7 @@ class OTPClientRepository(ClientRepositoryBase):
         if self._isPlayerDclass(dclass):
             if not self._isValidPlayerLocation(parentId, zoneId):
                 return True
+        
         return False
 
     def handleGenerateWithRequired(self, di, other=False):
@@ -1979,22 +1981,6 @@ class OTPClientRepository(ClientRepositoryBase):
                 self.handler(msgType, di)
 
         del self.__pendingMessages[handle]
-
-    def __recordObjectMessage(self, msgType, di):
-        if msgType not in (CLIENT_OBJECT_SET_FIELD, CLIENT_OBJECT_LEAVING,
-                           CLIENT_OBJECT_LOCATION):
-            return False
-
-        di2 = DatagramIterator(di.getDatagram(), di.getCurrentIndex())
-        doId = di2.getUint32()
-
-        if doId not in self.__doId2pendingInterest:
-            return False
-
-        pending = self.__pendingMessages.setdefault(self.__doId2pendingInterest[doId], [])
-        pending.append(Datagram(di.getDatagram()))
-
-        return True
 
     def __doGenerate(self, doId, parentId, zoneId, classId, di, other):
         dclass = self.dclassesByNumber[classId]
@@ -2068,11 +2054,11 @@ class OTPClientRepository(ClientRepositoryBase):
         self.considerFlush()
 
     def isLocalId(self, id):
-        try:
+        if hasattr(self, 'localAvatar'):
             return localAvatar.doId == id
-        except:
-            self.notify.debug('In isLocalId(), localAvatar not created yet')
-            return False
+        
+        self.notify.debug('In isLocalId(), localAvatar not created yet')
+        return False
 
     ITAG_PERM = 'perm'
     ITAG_AVATAR = 'avatar'
