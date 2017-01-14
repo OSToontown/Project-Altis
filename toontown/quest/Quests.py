@@ -16999,9 +16999,9 @@ def getQuestExp(id):
                 return 80
             elif questTier >= DD_TIER and questTier < DG_TIER:
                 return 200
-            elif questTier == DG_TIER and questTier < MM_TIER:
+            elif questTier >= DG_TIER and questTier < MM_TIER:
                 return 500
-            elif questTier == MM_TIER and questTier < BR_TIER:
+            elif questTier >= MM_TIER and questTier < BR_TIER:
                 return 1000
             elif questTier >= BR_TIER and questTier < DL_TIER:
                 return 3000
