@@ -1015,7 +1015,7 @@ class NameShop(StateData.StateData):
             base.cr.skipTutorialRequest = self.requestingSkipTutorial
 
     def __isFirstTime(self):
-        if not self.makeAToon.nameList or self.makeAToon.warp:
+        if not self.makeAToon.nameList or self.makeAToon.warp or self.toon.startingPg > 0:
             self.__createAvatar()
         else:
             self.promptTutorial()
