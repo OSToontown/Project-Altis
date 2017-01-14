@@ -15,10 +15,14 @@ class DNAGroup(object):
 
     def __del__(self):
         del self.name
+
+        for child in self.children:
+            del child
+
         del self.children
         del self.parent
         del self.visGroup
-        
+
     def getName(self):
         return self.name
 

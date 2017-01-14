@@ -15,6 +15,15 @@ class DNAVisGroup(DNAGroup.DNAGroup):
         self.suitEdges = []
         self.battleCells = []
 
+    def __del__(self):
+        DNAGroup.DNAGroup.__del__(self)
+
+        for suitEdge in self.suitEdges:
+            del suitEdge
+
+        for battleCell in self.battleCells:
+            del battleCell
+
     def getVisGroup(self):
         return self
 
