@@ -575,6 +575,8 @@ class Toon(Avatar.Avatar, ToonHead):
         self.soundTeleport = None
         self.motion.delete()
         self.motion = None
+        Avatar.Avatar.cleanup(self)
+        ToonHead.cleanup(self)
         Avatar.Avatar.delete(self)
         ToonHead.delete(self)
 
@@ -1330,6 +1332,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def removeJar(self):
         if self.jar:
+            self.jar.remove()
             self.jar.removeNode()
             self.jar = None
 
@@ -1684,6 +1687,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.track.finish()
             DelayDelete.cleanupDelayDeletes(self.track)
             self.track = None
+        
         self.hideBooks()
         self.startLookAround()
         Emote.globalEmote.releaseAll(self, 'exitOpenBook')
@@ -1735,6 +1739,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.track.finish()
             DelayDelete.cleanupDelayDeletes(self.track)
             self.track = None
+        
         Emote.globalEmote.releaseAll(self, 'exitCloseBook')
         
     def getSoundTeleport(self):
@@ -1834,11 +1839,15 @@ class Toon(Avatar.Avatar, ToonHead):
         geomNode = self.getGeomNode()
         if geomNode and not geomNode.isEmpty():
             self.getGeomNode().clearClipPlane()
+       
         if self.nametag3d and not self.nametag3d.isEmpty():
             self.nametag3d.clearClipPlane()
+        
         if self.holeClipPath:
+            self.holeClipPath.cleanup()
             self.holeClipPath.removeNode()
             self.holeClipPath = None
+        
         Emote.globalEmote.releaseAll(self, 'exitTeleportOut')
         if self and not self.isEmpty():
             self.show()
@@ -5216,7 +5225,6 @@ class Toon(Avatar.Avatar, ToonHead):
         node = self.getGeomNode().getChild(0)
         node.setScale(self.origScale)
         Emote.globalEmote.releaseAll(self)
-        return
 
     def enterCogThiefRunning(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.playingAnim = None
@@ -5227,13 +5235,11 @@ class Toon(Avatar.Avatar, ToonHead):
          ('run', -1.0))
         self.setSpeed(self.forwardSpeed, self.rotateSpeed)
         self.setActiveShadow(1)
-        return
 
     def exitCogThiefRunning(self):
         self.standWalkRunReverse = None
         self.stop()
         self.motion.exit()
-        return
 
     def enterScientistJealous(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.loop('scientistJealous')

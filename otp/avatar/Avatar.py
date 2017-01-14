@@ -344,9 +344,9 @@ class Avatar(Actor, ShadowCaster):
             sfxIndex = 5
         else:
             notify.error('unrecognized dialogue type: ', type)
+        
         if sfxIndex != None and sfxIndex < len(dialogueArray) and dialogueArray[sfxIndex] != None:
             base.playSfx(dialogueArray[sfxIndex], node=self)
-        return
 
     def getDialogueSfx(self, type, length):
         retval = None
@@ -645,8 +645,8 @@ class Avatar(Actor, ShadowCaster):
         if hasattr(self, 'collNodePath'):
             self.collNodePath.removeNode()
             del self.collNodePath
+        
         self.collTube = None
-        return
 
     def addActive(self):
         if base.wantNametags:

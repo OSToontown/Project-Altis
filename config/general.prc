@@ -1,11 +1,14 @@
 # Window settings:
-window-title Project Altis
-win-origin -1 -1
+window-title Project Altis [ALPHA]
+win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #t
+
+# Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
+want-pstats #f
 
 # Audio:
 audio-library-name p3fmod_audio
@@ -26,6 +29,9 @@ smooth-enable-smoothing 1
 smooth-lag 0.4
 smooth-max-future 0.4
 smooth-min-suggest-resync 15
+
+average-frame-rate-interval 60.0
+clock-frame-rate 60.0
 
 # Textures:
 texture-anisotropic-degree 16
