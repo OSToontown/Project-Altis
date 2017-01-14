@@ -4,6 +4,7 @@ import hashlib
 import hmac
 import json
 import time
+import random
 import urllib2
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
@@ -14,6 +15,7 @@ from otp.ai.MagicWordGlobal import *
 from otp.distributed import OtpDoGlobals
 from toontown.makeatoon.NameGenerator import NameGenerator
 from toontown.toon.ToonDNA import ToonDNA
+from toontown.toon.Experience import Experience
 from toontown.toonbase import TTLocalizer
 
 # Import from PyCrypto only if we are using a database that requires it. This
@@ -448,7 +450,7 @@ class LoginAccountFSM(OperationFSM):
 class CreateAvatarFSM(OperationFSM):
     notify = directNotify.newCategory('CreateAvatarFSM')
 
-    def enterStart(self, dna, index, uber):
+    def enterStart(self, dna, index, uber, tracks, pg):
         # Basic sanity-checking:
         if index >= 6:
             self.demand('Kill', 'Invalid index specified!')
@@ -461,6 +463,14 @@ class CreateAvatarFSM(OperationFSM):
         self.index = index
         self.dna = dna
         self.uber = uber
+        self.pg = pg
+        self.trackAccess = [0,0,0,0,1,1,0,0]
+        if pg ==1:
+           self.trackAccess[tracks[0]] = 1
+        elif pg ==2:
+            for track in tracks:
+                self.trackAccess[track] = 1
+        
 
         # Okay, we're good to go, let's query their account.
         self.demand('RetrieveAccount')
@@ -495,6 +505,7 @@ class CreateAvatarFSM(OperationFSM):
         colorString = TTLocalizer.NumToColor[dna.headColor]
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
+		
         toonFields = {
             'setName': (name,),
             'WishNameState': ('OPEN',),
@@ -503,6 +514,58 @@ class CreateAvatarFSM(OperationFSM):
             'setDISLid': (self.target,),
             'setUber': (self.uber,)
         }
+		
+        if self.pg > 0:
+            if self.pg == 1:
+                maxMoney = 50
+                maxCarry = 25
+                startingHood = 1000
+                prevZones = [2000]
+                questLimit = 3
+                questTier = 4
+                if self.uber == 1:
+                    hp = 15
+                else:
+                    hp = 25
+                experience = [400, 600]
+                
+            elif self.pg == 2: 
+                maxMoney = 60
+                maxCarry = 30
+                startingHood = 5000
+                prevZones = [1000, 2000]
+                questLimit = 3
+                questTier = 7
+                if self.uber == 1:
+                    hp = 15
+                elif self.uber == 2:
+                    hp = 25
+                else:
+                    hp = 34
+                experience = [600, 1600]
+			
+            exp = Experience()
+            
+            for i, t in enumerate(self.trackAccess):
+                if t:
+                    chosenExp = random.randint(experience[0], experience[1])
+                    exp.setExp(i, chosenExp)
+
+            toonFields['setExperience'] = (exp.makeNetString(),)
+			
+            toonFields['setMaxMoney'] = (maxMoney,)
+            toonFields['setMaxCarry'] = (maxCarry,)
+            toonFields['setTrackAccess'] = (self.trackAccess,)
+            toonFields['setDefaultZone'] = (startingHood,)
+            toonFields['setHoodsVisited'] = (prevZones + [startingHood],)
+            toonFields['setZonesVisited'] = (prevZones + [startingHood],)
+            toonFields['setTeleportAccess'] = (prevZones,)
+            toonFields['setQuestCarryLimit'] = (questLimit,)
+            toonFields['setRewardHistory'] = (questTier, [])
+            toonFields['setHp'] = (hp,)
+            toonFields['setMaxHp'] = (hp,)
+            toonFields['setTutorialAck'] = (1,)
+				
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['DistributedToonUD'],
@@ -1104,8 +1167,8 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))
         self.runAccountFSM(GetAvatarsFSM)
 
-    def createAvatar(self, dna, index, uber):
-        self.runAccountFSM(CreateAvatarFSM, dna, index, uber)
+    def createAvatar(self, dna, index, uber, tracks, pg):
+        self.runAccountFSM(CreateAvatarFSM, dna, index, uber, tracks, pg)
 
     def deleteAvatar(self, avId):
         self.runAccountFSM(DeleteAvatarFSM, avId)

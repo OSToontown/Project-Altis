@@ -958,7 +958,9 @@ class NameShop(StateData.StateData):
         self.newDNA = style.makeNetString()
         self.requestingSkipTutorial = skipTutorial
         if not self.avExists or self.avExists and self.avId == 'deleteMe':
-            base.cr.csm.sendCreateAvatar(style, '', self.index, self.toon.uberType)
+            trackChoices = [self.toon.choiceAlpha, self.toon.choiceBeta]
+            startingPg = self.toon.startingPg
+            base.cr.csm.sendCreateAvatar(style, '', self.index, self.toon.uberType, trackChoices, startingPg)
             self.accept('nameShopCreateAvatarDone', self.handleCreateAvatarResponse)
         else:
             self.checkNameTyped()
@@ -1013,7 +1015,7 @@ class NameShop(StateData.StateData):
             base.cr.skipTutorialRequest = self.requestingSkipTutorial
 
     def __isFirstTime(self):
-        if not self.makeAToon.nameList or self.makeAToon.warp:
+        if not self.makeAToon.nameList or self.makeAToon.warp or self.toon.startingPg > 0:
             self.__createAvatar()
         else:
             self.promptTutorial()

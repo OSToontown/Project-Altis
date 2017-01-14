@@ -14,7 +14,6 @@ class StatusShop(StateData.StateData):
         StateData.StateData.__init__(self, doneEvent)
         self.toon = None
         self.index = 0
-        return
 
     def enter(self, toon, shopsVisited = []):
         base.disableMouse()
