@@ -49,6 +49,9 @@ class DistributedWeatherCycleAI(DistributedObjectAI):
     def getState(self):
         return self.fsm.getCurrentState()
 
+    def getStateName(self):
+        return self.getState()._State__name
+
     def setDuration(self, duration):
         self.duration = duration
 

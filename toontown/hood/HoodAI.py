@@ -66,7 +66,8 @@ class HoodAI:
         if simbase.config.GetBool('want-suit-planners', True):
             self.createSuitPlanners()
 
-        self.createWeatherCycle()
+        if simbase.config.GetBool('want-weather', True):
+            self.createWeatherCycle()
 
     def shutdown(self):
         if self.treasurePlanner:
