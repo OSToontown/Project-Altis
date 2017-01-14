@@ -808,7 +808,9 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
-from toontown.club import DistributedToonClub/AI
+from toontown.weather import DistributedWeatherCycle/AI
+from toontown.weather import DistributedWeatherStorm/A
+from toontown.club import DistributedToonClub/A
 
 struct GiftItem {
   blob Item;
@@ -3906,9 +3908,20 @@ dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
 
 dclass CharityScreen : DistributedObject {
-   start() broadcast ram;
+   start() broadcast;
    setCount(uint16) broadcast ram;
 };
+
+dclass DistributedWeatherCycle : DistributedObject {
+  setState(string) broadcast ram;
+  setDuration(int32) required broadcast ram;
+};
+
+dclass DistributedWeatherStorm : DistributedObject {
+  start() broadcast;
+  stop() broadcast;
+  setStormType(int8) broadcast ram;
+  setDuration(int32) broadcast ram;
 
 struct Member {
   uint32 doId;
@@ -3916,9 +3929,7 @@ struct Member {
 
 dclass DistributedToonClub : DistributedObjectGlobal {
   requestStats() clsend;
-  
   addMember(uint32) clsend;
   removeMember(uint32);
-
   setMembers(Member []);
 };

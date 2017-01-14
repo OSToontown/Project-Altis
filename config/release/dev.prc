@@ -32,3 +32,6 @@ want-resistance-restock #t
 show-population #t
 force-skip-tutorial #t
 want-instant-parties #t
+
+# Weather
+weather-cycle-duration 100
