@@ -407,9 +407,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
         dclassName = pad.args[0]
         dclass = self.dclassesByName[dclassName]
-        #Because the below doesn't cause the avatar panel issue;
-        #Leave uncommented.
-        pad.avatar.updateAllRequiredFields(dclass, fields)
+        #pad.avatar.updateAllRequiredFields(dclass, fields)
 
         '''This is a much saner way to load avatar details, and is also
         dynamic. This means we aren't restricted in what we pass.
@@ -580,11 +578,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             doId = di2.getUint32()
             if self._doIdIsOnCurrentShard(doId):
                 return
+        
         self.handleMessageType(msgType, di)
 
     def _logFailedDisable(self, doId, ownerView):
         if doId not in self.doId2do and doId in self._deletedSubShardDoIds:
             return
+        
         OTPClientRepository.OTPClientRepository._logFailedDisable(self, doId, ownerView)
 
     def exitCloseShard(self):
