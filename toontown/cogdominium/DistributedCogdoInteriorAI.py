@@ -11,6 +11,7 @@ from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToontownBattleGlobals import *
 from toontown.cogdominium import DistCogdoMazeGameAI, CogdoMazeGameGlobals, DistributedCogdoElevatorIntAI
 from toontown.cogdominium import DistCogdoFlyingGameAI, DistributedCogdoBarrelAI
+from toontown.cogdominium import DistCogdoCraneGameAI
 from DistributedCogdoBattleBldgAI import DistributedCogdoBattleBldgAI
 from toontown.cogdominium.SuitPlannerCogdoInteriorAI import SuitPlannerCogdoInteriorAI
 from toontown.cogdominium import CogdoBarrelRoomConsts
@@ -179,8 +180,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         elif self.FOType == "l":
             self.game = DistCogdoFlyingGameAI.DistCogdoFlyingGameAI(self.air)
         elif self.FOType == "m":
-            self.game = DistCogdoMazeGameAI.DistCogdoMazeGameAI(self.air)
-            self.game.setNumSuits(CogdoMazeGameGlobals.NumSuits)
+            self.game = DistCogdoCraneGameAI.DistCogdoCraneGameAI(self.air)
         
         self.sendUpdate("setSOSNpcId", [self.sosNPC])
         self.sendUpdate("setFOType", [ord(self.FOType)])
