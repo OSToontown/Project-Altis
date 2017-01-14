@@ -33,7 +33,7 @@ Rod2JellybeanDict = {0: 10,
  4: 150}
 HealAmount = 1
 JellybeanFishingHolidayScoreMultiplier = 2
-MAX_RARITY = 10
+MAX_RARITY = 8
 GlobalRarityDialBase = 4.3
 FishingAngleMax = 50.0
 OVERALL_VALUE_SCALE = 15
