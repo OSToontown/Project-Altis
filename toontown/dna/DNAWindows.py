@@ -16,6 +16,12 @@ class DNAWindows(DNAGroup.DNAGroup):
         self.color = LVector4f(1, 1, 1, 1)
         self.windowCount = 0
 
+    def __del__(self):
+        DNAGroup.DNAGroup.__del__(self)
+        del self.code
+        del self.color
+        del self.windowCount
+
     def setCode(self, code):
         self.code = code
 

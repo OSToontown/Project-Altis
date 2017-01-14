@@ -43,7 +43,7 @@ server-port 7198
 account-bridge-filename astron/databases/account-bridge.db
 
 # Performance:
-sync-video #t
+sync-video #f
 texture-power-2 none
 gl-check-errors #f
 garbage-collect-states #f

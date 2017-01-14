@@ -12,6 +12,12 @@ class DNAGroup(object):
         self.children = []
         self.parent = None
         self.visGroup = None
+
+    def __del__(self):
+        del self.name
+        del self.children
+        del self.parent
+        del self.visGroup
         
     def getName(self):
         return self.name
