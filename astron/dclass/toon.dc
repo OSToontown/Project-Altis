@@ -3908,7 +3908,7 @@ dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
 
 dclass CharityScreen : DistributedObject {
-   start() broadcast ram;
+   start() broadcast;
    setCount(uint16) broadcast ram;
 };
 
