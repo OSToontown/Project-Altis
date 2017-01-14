@@ -1332,7 +1332,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def removeJar(self):
         if self.jar:
-            self.jar.remove()
             self.jar.removeNode()
             self.jar = None
 
@@ -1831,11 +1830,13 @@ class Toon(Avatar.Avatar, ToonHead):
         name = self.name
         if hasattr(self, 'doId'):
             name += '-' + str(self.doId)
+       
         self.notify.debug('exitTeleportOut %s' % name)
         if self.track != None:
             self.ignore(self.track.getName())
             self.track.finish()
             self.track = None
+        
         geomNode = self.getGeomNode()
         if geomNode and not geomNode.isEmpty():
             self.getGeomNode().clearClipPlane()
@@ -1844,7 +1845,6 @@ class Toon(Avatar.Avatar, ToonHead):
             self.nametag3d.clearClipPlane()
         
         if self.holeClipPath:
-            self.holeClipPath.cleanup()
             self.holeClipPath.removeNode()
             self.holeClipPath = None
         
