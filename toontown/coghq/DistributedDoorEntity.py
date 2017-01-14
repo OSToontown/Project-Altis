@@ -46,7 +46,9 @@ class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.L
         self.fsm = None
 
     def setLockState(self, stateIndex):
-        if self.stateIndex != stateIndex:
+        if not hasattr(self, 'stateIndex'):
+            return
+        if getattr(self, 'stateIndex') != stateIndex:
             state = self.states.get(stateIndex)
             if state is not None:
                 self.fsm.request(state)
