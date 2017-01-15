@@ -19,7 +19,7 @@ __builtin__.__dev__ = False
 #    raise SystemExit
 
 # replace these methods to prevent injection...
-#__builtin__.exec = lambda *args, **kw: raise SystemExit
+#__builtin__.exec = __runfunc
 #__builtin__.eval = __runfunc
 #__builtin__.compile = __runfunc
 #__builtin__.execfile = __runfunc
@@ -41,7 +41,7 @@ for line in io.readlines():
         continue
 
     # load the prc file value
-    loadPrcFileData('', '%s' % (line.split()))
+    loadPrcFileData('', line)
 
 # Finally, start the game:
 import toontown.toonbase.ClientStart
