@@ -14,6 +14,7 @@ import random
 from toontown.suit import DistributedBossCog
 from toontown.suit import SuitDNA
 from toontown.battle import BattleBase
+from toontown.battle import BattleParticles
 from toontown.battle import MovieToonVictory
 from toontown.battle import RewardPanel
 from toontown.battle import SuitBattleGlobals
@@ -47,6 +48,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.dooberRequest = None
         self.bossDamage = 0
         self.attackCode = None
+        self.rain = None
         self.attackAvId = 0
         self.recoverRate = 0
         self.recoverStartTime = 0
@@ -68,6 +70,24 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.localToonPromoted = True
         self.resetMaxDamage()
 
+    def startRain(self):
+        if not settings.get('want-particle-effects', True):
+            pass
+        else:
+            self.rain = BattleParticles.loadParticleFile('raindisk.ptf')
+            self.rain.setPos(0, 0, 20)
+            self.rainRender = render.attachNewNode('rainRender')
+            self.rainRender.setDepthWrite(0)
+            self.rainRender.setBin('fixed', 1)
+            self.rain.start(camera, self.rainRender)
+            self.rainSound = base.loader.loadSfx('phase_12/audio/sfx/CHQ_rain_ambient.ogg')
+            base.playSfx(self.rainSound, looping=1, volume=0.25)
+
+    def stopRain(self):
+        if self.rain:
+            self.rain.cleanup()
+            self.rainSound.stop()
+ 
     def announceGenerate(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
@@ -146,6 +166,9 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             toonMopath.finish()
             toonMopath.destroy()
             self.toonMopathInterval.remove(toonMopath)
+            
+        if self.rain:
+           self.stopRain()
 
         if OneBossCog == self:
             OneBossCog = None
@@ -348,6 +371,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 ActorInterval(self, 'turn2Fb'))),
             (34, Sequence(
                 Func(self.clearChat),
+                Func(self.startRain),
                 self.loseCogSuits(self.toonsA, self.battleANode, (0, 18, 5, -180, 0, 0)),
                 self.loseCogSuits(self.toonsB, self.battleBNode, (0, 18, 5, -180, 0, 0)))),
             (37, Sequence(
