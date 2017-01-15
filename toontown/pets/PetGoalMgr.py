@@ -19,7 +19,6 @@ class PetGoalMgr(DirectObject.DirectObject):
             self.pscSetup = PStatCollector('App:Show code:petThink:UpdatePriorities:Setup')
             self.pscFindPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:FindPrimary')
             self.pscSetPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:SetPrimary')
-        return
 
     def destroy(self):
         if __dev__:

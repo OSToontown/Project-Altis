@@ -1,4 +1,4 @@
-import ShtikerPage
+from toontown.shtiker import ShtikerPage
 from direct.gui.DirectGui import *
 from panda3d.core import *
 from panda3d.direct import *
@@ -23,7 +23,6 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         ShtikerPage.ShtikerPage.__init__(self)
         self.activeTab = 0
         self.progressTitle = None
-        return
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)

@@ -3,7 +3,7 @@ from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-from MakeAToonGlobals import *
+from toontown.makeatoon.MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer
 from toontown.makeatoon import ShuffleButton
 import random

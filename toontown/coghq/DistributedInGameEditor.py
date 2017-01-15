@@ -7,12 +7,13 @@ from otp.level import Level
 from otp.level import LevelConstants
 from otp.level import Entity
 from otp.level import EditMgr
-from SpecImports import *
-from InGameEditorElements import *
+from toontown.coghq.SpecImports import *
+from toontown.coghq.InGameEditorElements import *
 from toontown.cogdominium import CogdoEntityCreator
 import string
 
 class InGameEditorEntityBase(InGameEditorElement):
+
     def __init__(self):
         InGameEditorElement.__init__(self)
 

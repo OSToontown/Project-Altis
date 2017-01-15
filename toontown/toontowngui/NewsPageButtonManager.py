@@ -17,7 +17,6 @@ class NewsPageButtonManager(FSM.FSM):
         self.clearGoingToNewsInfo()
         self.__blinkIval = None
         self.load()
-        return
 
     def load(self):
         btnGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_ign_newsBtnGui')

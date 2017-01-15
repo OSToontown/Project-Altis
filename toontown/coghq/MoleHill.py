@@ -20,7 +20,6 @@ class MoleHill(NodePath):
         self.popupNum = 0
         self.hillType = None
         self.isUp = 0
-        return
 
     def loadModel(self):
         self.hill = loader.loadModel('phase_12/models/bossbotHQ/mole_hole')

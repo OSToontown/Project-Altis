@@ -1,6 +1,6 @@
 import math
 import random
-import ToontownControlManager
+from otp.avatar import ToontownControlManager
 from direct.controls import ControlManager
 from direct.controls.GhostWalker import GhostWalker
 from direct.controls.GravityWalker import GravityWalker

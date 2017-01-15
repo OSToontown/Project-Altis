@@ -22,8 +22,6 @@ class DistributedSillyMeterMgrAI(DistributedPhaseEventMgrAI):
         self.b_setCurPhase(phase)
         self.b_setIsRunning(True)
         messenger.send('SillyMeterPhase', [phase])
-         
-     
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def setSillyMeterPhase(phase):

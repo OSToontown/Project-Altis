@@ -37,7 +37,6 @@ class FriendNotifier(ToonHeadDialog.ToonHeadDialog):
         ToonHeadDialog.ToonHeadDialog.__init__(self, self.avDNA)
         self.initialiseoptions(FriendNotifier)
         self.show()
-        return
 
     def cleanup(self):
         ToonHeadDialog.ToonHeadDialog.cleanup(self)
@@ -47,7 +46,6 @@ class FriendNotifier(ToonHeadDialog.ToonHeadDialog):
             pass
         self.context = None
         self.cleanup()
-        return
 
     def __handleOhWell(self, value):
         self.cleanup()
@@ -56,4 +54,3 @@ class FriendNotifier(ToonHeadDialog.ToonHeadDialog):
         if context == None or context == self.context:
             self.context = None
             self.cleanup()
-        return

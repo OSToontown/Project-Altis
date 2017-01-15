@@ -22,7 +22,6 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         self._startDelay = base.config.GetFloat('party-team-activity-start-delay', startDelay)
         self._willBalanceTeams = balanceTeams
         self._currentStatus = ''
-        return
 
     def load(self):
         DistributedPartyActivity.load(self)
@@ -70,7 +69,6 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
             base.cr.playGame.getPlace().fsm.request('activity')
             self.localToonJoining()
             self.sendUpdate('toonJoinRequest', [team])
-        return
 
     def d_toonExitRequest(self):
         toonId = base.localAvatar.doId
@@ -81,7 +79,6 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
                 self.sendUpdate('toonExitRequest', [team])
         else:
             self.notify.warning('Not sending exitRequest as localToon has no team.')
-        return
 
     def joinRequestDenied(self, reason):
         DistributedPartyActivity.joinRequestDenied(self, reason)

@@ -1,5 +1,5 @@
 from otp.speedchat.SCMenu import SCMenu
-from TTSCToontaskTerminal import TTSCToontaskTerminal
+from toontown.speedchat.TTSCToontaskTerminal import TTSCToontaskTerminal
 from otp.speedchat.SCStaticTextTerminal import SCStaticTextTerminal
 from toontown.quest import Quests
 

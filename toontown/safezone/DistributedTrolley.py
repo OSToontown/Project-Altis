@@ -151,7 +151,6 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         del self.numBackWheels
         del self.backWheelInit
         del self.backWheelRef
-        return
 
     def delete(self):
         del self.trolleyAwaySfx

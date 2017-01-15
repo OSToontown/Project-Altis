@@ -26,7 +26,6 @@ class KeyCodes(DirectObject):
         self._keyDown = None
         self._keysPressed = 0
         self.listenForPatterns(patterns)
-        return
 
     def destroy(self):
         self.disable()
@@ -104,7 +103,6 @@ class KeyCodes(DirectObject):
             self.__checkForPattern()
         else:
             messenger.send(KeyCodes.KEY_DOWN_EVENT, [-1, -1])
-        return
 
     def __handleKeyUp(self, key):
         arg = -1
@@ -115,7 +113,6 @@ class KeyCodes(DirectObject):
         if self._keysPressed == 0:
             self._keyDown = None
         messenger.send(KeyCodes.KEY_UP_EVENT, [arg])
-        return
 
     def __updateElapsedTime(self):
         if self._keyCodeTime != 0.0 and globalClock.getFrameTime() - self._keyCodeTime >= self._timeout:

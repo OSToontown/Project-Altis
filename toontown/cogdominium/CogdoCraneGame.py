@@ -1,5 +1,5 @@
-import CogdoCraneGameConsts as Globals
-from CogdoGameAudioManager import CogdoGameAudioManager
+from toontown.cogdominium import CogdoCraneGameConsts as Globals
+from toontown.cogdominium.CogdoGameAudioManager import CogdoGameAudioManager
 
 class CogdoCraneGame(DirectObject):
     notify = directNotify.newCategory('CogdoCraneGame')

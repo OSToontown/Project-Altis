@@ -4,7 +4,7 @@ from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 import random
-from BattleBase import *
+from toontown.battle.BattleBase import *
 from toontown.battle import DistributedBattleBase
 from toontown.battle import MovieUtil
 from toontown.battle import SuitBattleGlobals

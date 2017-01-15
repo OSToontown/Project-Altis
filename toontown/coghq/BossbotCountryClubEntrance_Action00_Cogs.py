@@ -1,4 +1,4 @@
-from SpecImports import *
+from toontown.coghq.SpecImports import *
 import random
 CogParent1 = 110600
 Battle1CellId = 0

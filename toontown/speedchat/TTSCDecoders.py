@@ -1,2 +1,2 @@
-from TTSCToontaskTerminal import decodeTTSCToontaskMsg
-from TTSCResistanceTerminal import decodeTTSCResistanceMsg
+from toontown.speedchat.TTSCToontaskTerminal import decodeTTSCToontaskMsg
+from toontown.speedchat.TTSCResistanceTerminal import decodeTTSCResistanceMsg

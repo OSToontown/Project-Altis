@@ -14,7 +14,6 @@ class BingoCardBase:
         self.cellList = []
         self.gameType = None
         self.gameState = 1 << self.cardSize / 2
-        return
 
     def destroy(self):
         del self.cellList
