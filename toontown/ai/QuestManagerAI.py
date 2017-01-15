@@ -195,6 +195,7 @@ class QuestManagerAI:
                    continue
                 else:
                     av.b_setToonExp(av.getToonExp() + questExp)
+                
                 break
 
     def giveReward(self, av, questId, rewardId):
@@ -427,6 +428,7 @@ class QuestManagerAI:
                             if questClass.doesBuildingCount(av, activeToons):
                                 if floors >= questClass.getNumFloors():
                                     questDesc[QuestProgressIndex] += 1
+            
             questList.append(questDesc)
 
         av.b_setQuests(questList)
