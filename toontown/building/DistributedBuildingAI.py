@@ -120,7 +120,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         return SuitBuildingGlobals.SuitBuildingInfo[difficulty][0]
 
     def suitTakeOver(self, suitTrack, difficulty, buildingHeight):
-        self.notify.info('%s type Suit takeover at zone %s' % (suitTrack, self.zoneId))
+        self.notify.debug('%s type Suit takeover at zone %s' % (suitTrack, self.zoneId))
         if not self.isToonBlock():
             return
         self.updateSavedBy(None)
@@ -139,7 +139,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.fsm.request('clearOutToonInterior')
 
     def cogdoTakeOver(self, difficulty, buildingHeight, track = 's'):
-        self.notify.info('%s type Cogdo takeover at zone %s' % (track, self.zoneId))
+        self.notify.debug('%s type Cogdo takeover at zone %s' % (track, self.zoneId))
         if not self.isToonBlock():
             return None
 
