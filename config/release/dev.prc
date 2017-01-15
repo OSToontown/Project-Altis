@@ -30,6 +30,7 @@ want-resistance-restock #t
 
 # Developer options:
 show-population #t
+show-total-population #t
 force-skip-tutorial #t
 want-instant-parties #t
 
