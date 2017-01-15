@@ -18,7 +18,7 @@ namespace discordCSBOT
                 .Description("Help on how to use 2 factor authentication")
                 .Do(async msg =>
                 {
-                    await msg.Channel.SendMessage("https://www.youtube.com/watch?v=vkLo5glHpzw");
+                    await msg.Channel.SendMessage("https://www.youtube.com/watch?v=kWD0i1zyo50");
                 });
         }
     }
