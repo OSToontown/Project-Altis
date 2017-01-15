@@ -45,6 +45,9 @@ class DNAStorage(object):
         ModelPool.garbageCollect()
         TexturePool.garbageCollect()
         
+    def getClassType(self):
+        return self.__name__
+        
     def resetBattleCells(self):
         pass
 

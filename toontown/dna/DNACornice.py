@@ -19,11 +19,20 @@ class DNACornice(DNAGroup.DNAGroup):
         del self.code
         del self.color
         
+    def getClassType(self):
+        return self.__name__
+        
     def getCode(self):
         return self.code
         
+    def setCode(self, code):
+        self.code = code
+        
     def getColor(self):
         return self.color
+        
+    def setColor(self, color):
+        self.color = color
 
     def makeFromDGI(self, dgi, store):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
@@ -34,6 +43,9 @@ class DNACornice(DNAGroup.DNAGroup):
         parentXScale = np.getParent().getScale().getX()
         parentZScale = np.getScale().getZ()
         scaleRatio = parentXScale / parentZScale
+        
+        if not self.code or self.code == 'None':
+            raise DNAError.DNAError('DNACornice code not defined!')
         
         node = store.findNode(self.code)
         if node.isEmpty():

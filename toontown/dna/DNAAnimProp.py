@@ -16,6 +16,9 @@ class DNAAnimProp(DNAProp.DNAProp):
         DNAProp.DNAProp.__del__(self)
         del self.animName
         
+    def getClassType(self):
+        return self.__name__
+        
     def getAnimName(self):
         return self.animName
 

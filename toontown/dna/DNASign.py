@@ -7,6 +7,9 @@ class DNASign(DNAProp.DNAProp):
 
     def __init__(self, name):
         DNAProp.DNAProp.__init__(self, name)
+        
+    def getClassType(self):
+        return self.__name__
 
     def traverse(self, nodePath, dnaStorage):
         decalNode = nodePath.find("**/sign_decal")

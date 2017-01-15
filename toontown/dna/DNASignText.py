@@ -13,3 +13,9 @@ class DNASignText(DNANode.DNANode):
     def __del__(self):
         DNANode.DNANode.__del__(self)
         del self.letters
+        
+    def setLetters(self, letters):
+        self.letters = letters
+        
+    def getClassType(self):
+        return self.__name__

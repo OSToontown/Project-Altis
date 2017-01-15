@@ -22,6 +22,12 @@ class DNAFlatBuilding(DNANode.DNANode):
 
     def getWidth(self):
         return self.width
+        
+    def setWidth(self, width):
+        self.width = width
+        
+    def setName(self, name):
+        DNANode.DNANode.setName(self, name)
 
     def makeFromDGI(self, dgi, store):
         DNANode.DNANode.makeFromDGI(self, dgi, store)
@@ -67,7 +73,7 @@ class DNAFlatBuilding(DNANode.DNANode):
     def setupCogdoFlatBuilding(self, np, store):
         self.setupFlat(np, store, 'c', 'cogdo_wall')
 
-    def traverse(self, np, store):
+    def traverse(self, np, store, editor = False):
         DNAFlatBuilding.currentWallHeight = 0
         node = np.attachNewNode(self.name)
         internalNode = node.attachNewNode(self.getName() + '-internal')
@@ -122,3 +128,6 @@ class DNAFlatBuilding(DNANode.DNANode):
             holderChild0.setEffect(DecalEffect.make())
             wallHolder.removeNode()
             wallDecal.removeNode()
+            
+            if editor:
+                return node
