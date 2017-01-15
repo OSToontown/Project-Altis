@@ -97,6 +97,11 @@ namespace discordCSBOT
             {
                 SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was banned from the server", "#ff0000");
             };
+
+            _bot.UserUnbanned += (s, e) =>
+            {
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was unbannedbanned from the server", "#ff0000");
+            };
         }
 
         private void updateChannelList()
