@@ -41,16 +41,6 @@ from toontown.uberdog import TTSpeedchatRelay
 from toontown.login import DateObject
 from toontown.login import AvatarChooser
 from toontown.makeatoon import MakeAToon
-
-# import global objects, so nuitka will include them into the final build!
-from toontown.uberdog.ClientServicesManager import ClientServicesManager
-from otp.friends.AvatarFriendsManager import AvatarFriendsManager
-from toontown.friends.TTPlayerFriendsManager import TTPlayerFriendsManager
-from toontown.friends.TTAFriendsManager import TTAFriendsManager
-from toontown.uberdog.TTSpeedchatRelay import TTSpeedchatRelay
-from toontown.uberdog.DistributedDeliveryManager import DistributedDeliveryManager
-from toontown.coderedemption.TTCodeRedemptionMgr import TTCodeRedemptionMgr
-
 from toontown.pets import DistributedPet, PetDetail, PetHandle
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
@@ -64,8 +54,6 @@ from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
-
-# Import DMENU
 from toontown.dmenu import DMenuScreen
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
