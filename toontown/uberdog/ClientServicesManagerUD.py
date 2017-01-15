@@ -527,7 +527,7 @@ class CreateAvatarFSM(OperationFSM):
                     hp = 15
                 else:
                     hp = 25
-                experience = [400, 600]
+                experience = [600, 800]
                 
             elif self.pg == 2: 
                 maxMoney = 60
@@ -542,7 +542,7 @@ class CreateAvatarFSM(OperationFSM):
                     hp = 25
                 else:
                     hp = 34
-                experience = [600, 1600]
+                experience = [1000, 2400]
 			
             exp = Experience()
             
