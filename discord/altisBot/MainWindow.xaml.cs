@@ -100,7 +100,7 @@ namespace discordCSBOT
 
             _bot.UserUnbanned += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was unbannedbanned from the server", "#ff0000");
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was unbanned from the server", "#c25725");
             };
         }
 
