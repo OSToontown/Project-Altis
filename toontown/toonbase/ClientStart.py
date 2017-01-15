@@ -12,7 +12,7 @@ from direct.extensions_native import VBase4_extensions
 from direct.extensions_native import NodePath_extensions
 from panda3d.core import loadPrcFile
 
-if __debug__:
+if True: #__debug__:
     loadPrcFile('config/general.prc')
     loadPrcFile('config/release/dev.prc')
 
