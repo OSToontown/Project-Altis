@@ -123,6 +123,8 @@ want-cogbuildings #t
 show-total-population #f
 want-mat-all-tailors #t
 want-long-pattern-game #f
+show-population #t
+show-total-population #t
 
 # Animated Props
 zero-pause-mult 1.0
