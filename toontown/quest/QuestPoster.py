@@ -1,7 +1,7 @@
 from direct.gui.DirectGui import *
 from panda3d.core import *
 from panda3d.direct import *
-import Quests
+from toontown.quest import Quests
 import random
 from toontown.toon import NPCToons
 from toontown.toon import ToonHead

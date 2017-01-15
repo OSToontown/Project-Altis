@@ -1,5 +1,4 @@
 
-
 class AttribDesc:
 
     def __init__(self, name, default, datatype = 'string', params = {}):

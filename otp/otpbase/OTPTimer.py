@@ -13,6 +13,7 @@ class OTPTimer(DirectFrame):
             image = self.getImage()
         else:
             image = None
+        
         DirectFrame.__init__(self, state=DGG.DISABLED, relief=None, scale=0.45, image=image, image_pos=(0, 0, 0), text='0', text_fg=(0, 0, 0, 1), text_font=OTPGlobals.getInterfaceFont(), text_pos=(-0.01, -0.15), text_scale=0.35)
         self.initialiseoptions(OTPTimer)
         self.timerId = OTPTimer.TimerId
@@ -31,6 +32,7 @@ class OTPTimer(DirectFrame):
             model = loader.loadModel('phase_3.5/models/gui/clock_gui')
             OTPTimer.ClockImage = model.find('**/alarm_clock')
             model.removeNode()
+        
         return OTPTimer.ClockImage
 
     def posInTopRightCorner(self):

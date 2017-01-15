@@ -29,7 +29,6 @@ class FishSellGUI(DirectFrame):
         self.rewardDoubledJellybeanLabel = DirectLabel(text='', text_fg=(1.0, 0.125, 0.125, 1.0), relief=None, pos=(0.45, 0, -0.48), scale=0.07)
         buttons.removeNode()
         self.__updateFishValue()
-        return
 
     def destroy(self):
         DirectFrame.destroy(self)

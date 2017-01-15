@@ -29,7 +29,6 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         self.mailboxSphereEvent = None
         self.mailboxSphereEnterEvent = None
         self.mailboxGuiDoneEvent = 'mailboxGuiDone'
-        return
 
     def announceGenerate(self):
         DistributedMailbox.notify.debug('announceGenerate')
@@ -121,7 +120,6 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                     p = FlagPitchFull
                 self.flagIval = self.flag.hprInterval(0.5, VBase3(0, p, 0), blendType='easeInOut')
                 self.flagIval.start()
-        return
 
     def __handleEnterSphere(self, collEntry):
         DistributedMailbox.notify.debug('Entering Mailbox Sphere....')
@@ -140,14 +138,12 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             self.mailboxDialog.cleanup()
             self.mailboxDialog = None
         self.__handleMailboxDone()
-        return
 
     def __handleMailboxDone(self):
         DistributedMailbox.notify.debug('Mailbox Done')
         self.sendUpdate('avatarExit', [])
         self.ignore(self.mailboxGuiDoneEvent)
         self.mailboxGui = None
-        return
 
     def freeAvatar(self):
         DistributedMailbox.notify.debug('freeAvatar')

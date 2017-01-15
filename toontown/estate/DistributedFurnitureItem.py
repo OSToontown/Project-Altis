@@ -21,7 +21,6 @@ class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, Distri
         self.__adjustStarted = 0
         self.furnitureMgr = None
         self.transmitRelativeTo = None
-        return
 
     def generate(self):
         DistributedHouseItem.DistributedHouseItem.generate(self)

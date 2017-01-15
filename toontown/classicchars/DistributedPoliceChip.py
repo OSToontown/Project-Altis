@@ -6,7 +6,7 @@ from direct.fsm import State
 from toontown.classicchars import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-import DistributedChip
+from toontown.classicchars import DistributedChip
 
 class DistributedPoliceChip(DistributedChip.DistributedChip):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPoliceChip')

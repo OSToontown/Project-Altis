@@ -16,7 +16,6 @@ class TwoDBlock(DistributedObject.DistributedObject):
         self.isMovingBlock = False
         self.index = index
         self.createNewBlock(model, blockAttribs)
-        return
 
     def destroy(self):
         if self.moveIval:
@@ -70,7 +69,6 @@ class TwoDBlock(DistributedObject.DistributedObject):
             self.moveIval.pause()
             del self.moveIval
         self.moveIval = None
-        return
 
     def start(self, elapsedTime):
         if self.moveIval:

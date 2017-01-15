@@ -29,7 +29,6 @@ class ToonHeadDialog(TTDialog.TTDialog):
         self.postInitialiseFuncList.append(self.replaceHead)
         self.reparentTo(base.a2dTopRight)
         self.setPos(-0.85, 0, -0.25)
-        return
 
     def replaceHead(self):
         head = self.stateNodePath[0].find('**/head')

@@ -17,7 +17,6 @@ class MazeBase:
         self.maze.setPos(0, 0, 0)
         self.maze.reparentTo(parent)
         self.maze.stash()
-        return
 
     def destroy(self):
         self.maze.removeNode()

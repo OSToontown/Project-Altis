@@ -26,7 +26,6 @@ class MinigameAvatarScorePanel(DirectFrame):
             self.laffMeter = None
         self.nameText = DirectLabel(self, relief=None, text=avName, text_scale=TTLocalizer.MASPnameText, text_pos=(0.0, 0.06), text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
         self.show()
-        return
 
     def cleanup(self):
         if self.laffMeter:

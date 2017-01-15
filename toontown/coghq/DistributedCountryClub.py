@@ -26,7 +26,6 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         self.titleColor = (1, 1, 1, 1)
         self.titleText = OnscreenText.OnscreenText('', fg=self.titleColor, shadow=(0, 0, 0, 1), font=ToontownGlobals.getSignFont(), pos=(0, -0.5), scale=0.1, drawOrder=0, mayChange=1)
         self.titleSequence = None
-        return
 
     def generate(self):
         self.notify.debug('generate: %s' % self.doId)
@@ -46,7 +45,6 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         self.factoryViews = FactoryCameraViews.FactoryCameraViews(self)
         base.localAvatar.chatMgr.chatInputSpeedChat.addFactoryMenu()
         self.__setupHighSky()
-        return
 
     def startSky(self):
         self.sky = loader.loadModel('phase_12/models/bossbotHQ/BossTestSkyBox')
@@ -155,7 +153,6 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
             zoneList.extend(room.zoneIds)
 
         base.cr.sendSetZoneMsg(self.zoneId, zoneList)
-        return
 
     def listenForFloorEvents(self, room):
         roomNum = room.getRoomNum()
@@ -220,7 +217,6 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         if av is None:
             return
         base.localAvatar.setSystemMessage(avId, TTLocalizer.CountryClubBossConfrontedMsg % av.getName())
-        return
 
     def warpToRoom(self, roomId):
         for i in xrange(len(self.rooms)):
@@ -261,7 +257,6 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
@@ -320,7 +315,6 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
             self.titleSequence = None
             self.titleSequence = Sequence(Func(self.showTitleText), Wait(3.1), LerpColorScaleInterval(self.titleText, duration=0.5, colorScale=Vec4(1, 1, 1, 0.0)), Func(self.hideTitleText))
             self.titleSequence.start()
-        return
 
     def showTitleText(self):
         if self.titleText:

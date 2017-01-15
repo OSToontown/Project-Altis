@@ -30,7 +30,6 @@ class BingoCardCell(DirectButton, FSM.FSM):
         self.fish = fish
         self.cellId = cellId
         self.request('Off')
-        return
 
     def destroy(self):
         DirectButton.destroy(self)
@@ -82,7 +81,6 @@ class BingoCardCell(DirectButton, FSM.FSM):
     def enterOff(self):
         self['state'] = DGG.DISABLED
         self['command'] = None
-        return
 
     def filterOff(self, request, args):
         if request == 'On':

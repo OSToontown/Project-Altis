@@ -1,4 +1,4 @@
-from SpecImports import *
+from toontown.coghq.SpecImports import *
 import random
 from toontown.toonbase import ToontownGlobals
 CogParent = 10000

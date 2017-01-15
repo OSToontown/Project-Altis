@@ -1,5 +1,4 @@
 
-
 class DecorBase:
 
     def __init__(self, decorId, x, y, h):

@@ -22,7 +22,7 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TTGui import btnDn, btnRlvr, btnUp
 from toontown.toontowngui.TTDialog import *
-import PickAToonOptions
+from toontown.pickatoon import PickAToonOptions
 from toontown.pickatoon import ShardPicker
 from toontown.toontowngui import FeatureComingSoonDialog
 

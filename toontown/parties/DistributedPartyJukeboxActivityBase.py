@@ -22,7 +22,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         self.currentSongData = None
         self.localQueuedSongInfo = None
         self.localQueuedSongListItem = None
-        return
 
     def generateInit(self):
         self.gui = JukeboxGui(self.phaseToMusicData)
@@ -50,7 +49,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         self.jukebox.delete()
         self.jukebox = None
         self.ignoreAll()
-        return
 
     def getCollisionName(self):
         return self.uniqueName('jukeboxCollision')
@@ -91,7 +89,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         self.accept(JukeboxGui.ADD_SONG_CLICK_EVENT, self.__handleQueueSong)
         if self.isUserHost():
             self.accept(JukeboxGui.MOVE_TO_TOP_CLICK_EVENT, self.__handleMoveSongToTop)
-        return
 
     def __localToonWillExitTask(self, task):
         self.localToonExiting()
@@ -103,7 +100,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         if self.currentSongData is not None:
             self.gui.setSongCurrentlyPlaying(self.currentSongData[0], self.currentSongData[1])
         self.d_queuedSongsRequest()
-        return
 
     def __deactivateGui(self):
         self.ignore(JukeboxGui.CLOSE_EVENT)

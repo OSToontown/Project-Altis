@@ -6,7 +6,7 @@ from direct.showbase import AppRunnerGlobal
 from direct.directnotify import DirectNotifyGlobal
 from panda3d.core import *
 from panda3d.direct import *
-import PetNamesEnglish
+from toontown.pets import PetNamesEnglish
 from StringIO import StringIO
 
 class PetNameGenerator:

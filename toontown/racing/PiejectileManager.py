@@ -24,4 +24,3 @@ class PiejectileManager(DirectObject):
         self.piejectileList.remove(piejectile)
         piejectile.delete()
         piejectile = None
-        return
