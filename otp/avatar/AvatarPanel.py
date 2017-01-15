@@ -10,18 +10,21 @@ class AvatarPanel(DirectObject.DirectObject):
     def __init__(self, avatar, FriendsListPanel = None):
         if AvatarPanel.currentAvatarPanel:
             AvatarPanel.currentAvatarPanel.cleanup()
+        
         AvatarPanel.currentAvatarPanel = self
         self.friendsListShown = False
         self.FriendsListPanel = FriendsListPanel
         if FriendsListPanel:
             self.friendsListShown = FriendsListPanel.isFriendsListShown()
             FriendsListPanel.hideFriendsList()
+        
         if avatar:
             self.avatar = avatar
             self.avName = avatar.getName()
         else:
             self.avatar = None
             self.avName = 'Player'
+        
         if hasattr(avatar, 'uniqueName'):
             self.avId = avatar.doId
             self.avDisableName = avatar.uniqueName('disable')
@@ -34,6 +37,7 @@ class AvatarPanel(DirectObject.DirectObject):
             self.avGenerateName = None
             self.avHpChangeName = None
             self.avId = None
+        
         if self.avDisableName:
             self.accept(self.avDisableName, self.__handleDisableAvatar)
 

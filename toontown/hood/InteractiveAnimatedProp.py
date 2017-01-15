@@ -17,8 +17,6 @@ def clearPythonIvals(ival):
             clearPythonIvals(oneIval)
 
         ival.pythonIvals = []
-    return
-
 
 class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     ZoneToIdles = {}

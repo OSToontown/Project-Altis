@@ -25,7 +25,6 @@ class DistributedBoat(DistributedObject.DistributedObject):
          State.State('DockedWest', self.enterDockedWest, self.exitDockedWest, ['SailingEast', 'SailingWest', 'DockedEast']),
          State.State('SailingEast', self.enterSailingEast, self.exitSailingEast, ['DockedEast', 'DockedWest', 'SailingWest'])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)

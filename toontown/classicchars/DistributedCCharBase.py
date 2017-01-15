@@ -6,7 +6,6 @@ from direct.fsm import ClassicFSM
 from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-
 from toontown.classicchars import CCharChatter
 from toontown.classicchars import CCharPaths
 from otp.avatar import Avatar
@@ -16,7 +15,6 @@ from toontown.chat.ChatGlobals import *
 from toontown.effects import DustCloud
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.TTLocalizer import Donald, DonaldDock, WesternPluto, Pluto
-
 
 class DistributedCCharBase(DistributedChar.DistributedChar):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCCharBase')
@@ -89,9 +87,9 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
     def delete(self):
         try:
             self.DistributedCCharBase_deleted
+            return
         except:
             self.DistributedCCharBase_deleted = 1
-            return
         
         self.setParent(NodePath('Temp'))
         self.__deleteCollisions()
@@ -103,6 +101,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
             self.setPos(CCharPaths.getNodePos(CCharPaths.startNode, CCharPaths.getPaths(self.getName(), self.getCCLocation())))
         else:
             self.setPos(CCharPaths.getNodePos(CCharPaths.startNode, CCharPaths.getPaths(diffPath, self.getCCLocation())))
+        
         self.setHpr(0, 0, 0)
         self.setParent(ToontownGlobals.SPRender)
         self.startBlink()
@@ -157,11 +156,13 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
             destHpr.setX(destHpr[0] - 360)
         elif destHpr[0] - curHpr[0] < -180.0:
             destHpr.setX(destHpr[0] + 360)
+        
         turnSpeed = 180.0
         time = abs(destHpr[0] - curHpr[0]) / turnSpeed
         turnTracks = Parallel()
         if time > 0.2:
             turnTracks.append(Sequence(Func(self.loop, 'walk'), Wait(time), Func(self.loop, 'neutral')))
+        
         turnTracks.append(LerpHprInterval(self, time, destHpr, name='lerp' + self.getName() + 'Hpr'))
         return turnTracks
 

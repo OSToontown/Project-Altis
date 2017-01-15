@@ -8,7 +8,6 @@ from toontown.building import PetshopBuildingAI
 from toontown.hood import ZoneUtil
 # from toontown.building import DistributedAnimBuildingAI
 
-
 class DistributedBuildingMgrAI:
     notify = directNotify.newCategory('DistributedBuildingMgrAI')
 

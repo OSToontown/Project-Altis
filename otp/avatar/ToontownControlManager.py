@@ -3,7 +3,6 @@ from direct.showbase.InputStateGlobal import inputState
 
 # This is the new class for Toontown's ControlManager
 
-
 class ToontownControlManager(ControlManager.ControlManager):
     # Instead of checking config.prc, get wantWASD from ToonBase
     wantWASD = base.wantCustomControls

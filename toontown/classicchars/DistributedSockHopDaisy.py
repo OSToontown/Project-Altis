@@ -1,6 +1,6 @@
 from direct.showbase.ShowBaseGlobal import *
 from toontown.classicchars import DistributedCCharBase
-import DistributedDaisy
+from toontown.classicchars import DistributedDaisy
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State

@@ -90,6 +90,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
         self.cogSuitMessageSent = False
+        self.weatherCycleDuration = self.config.GetInt('weather-cycle-duration', 100)
 
     def createManagers(self):
         self.timeManager = TimeManagerAI(self)

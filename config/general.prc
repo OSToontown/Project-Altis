@@ -1,11 +1,14 @@
 # Window settings:
-window-title Project Altis
-win-origin -1 -1
+window-title Project Altis [ALPHA]
+win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #t
+
+# Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
+want-pstats #f
 
 # Audio:
 audio-library-name p3fmod_audio
@@ -27,6 +30,9 @@ smooth-lag 0.4
 smooth-max-future 0.4
 smooth-min-suggest-resync 15
 
+average-frame-rate-interval 60.0
+clock-frame-rate 60.0
+
 # Textures:
 texture-anisotropic-degree 16
 
@@ -43,7 +49,7 @@ server-port 7198
 account-bridge-filename astron/databases/account-bridge.db
 
 # Performance:
-sync-video #t
+sync-video #f
 texture-power-2 none
 gl-check-errors #f
 garbage-collect-states #f
@@ -73,6 +79,9 @@ want-donalds-dreamland #t
 want-goofy-speedway #t
 want-outdoor-zone #t
 want-golf-zone #t
+
+# Weather system
+want-weather #t
 
 # Options Page
 change-display-settings #t

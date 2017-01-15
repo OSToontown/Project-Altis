@@ -12,6 +12,7 @@ from toontown.building import SuitBuildingGlobals
 from toontown.building import SuitPlannerInteriorAI
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
+from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.task.Task import Task
 from otp.ai.AIBaseGlobal import *
@@ -23,6 +24,7 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownGlobals import ToonHall
 
 class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBuildingAI')
     
     def __init__(self, air, blockNumber, zoneId, trophyMgr):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
@@ -261,7 +263,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             self.toonTakeOver()
 
     def setVictorExited(self, avId):
-        print 'victor %d exited unexpectedly for bldg %d' % (avId, self.doId)
+        self.notify.warning('Victor %d exited unexpectedly for bldg %d' % (avId, self.doId))
         self.recordVictorResponse(avId)
         if self.allVictorsResponded():
             self.toonTakeOver()
@@ -346,6 +348,10 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
                     cogdoNumFloors = 3
                 else:
                     cogdoNumFloors = 2
+                
+                if self.track not in ['l', 's', 'm', 'g', 'c']:
+                    self.notify.warning('Invalid track %s for cog building/cog dominium!' % (str(self.track)))
+                    continue
                 
                 self.air.questManager.toonKilledCogdo(toon, self.track, self.difficulty, self.zoneId, activeToons)
                 self.air.questManager.toonKilledBuilding(toon, self.track, self.difficulty, cogdoNumFloors, self.zoneId, activeToons)

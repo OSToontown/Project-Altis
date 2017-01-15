@@ -3256,7 +3256,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          self.zoneId))
         return ['success', suitIndex, building.doId]
 
-    def doCogdoTakeOver(self, difficulty, buildingHeight):
+    def doCogdoTakeOver(self, difficulty, buildingHeight, track='s'):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
         if streetId not in self.air.suitPlanners:
             self.notify.warning('Street %d is not known.' % streetId)
@@ -4289,7 +4289,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                             response = simbase.config.GetString('toon-pos-hack-response', 'nothing')
                             av.handleHacking(response, 'collision and position hacking', [otherAv])
                         del DistributedToonAI.flagCounts[avPairKey]
-        return
 
     def handleHacking(self, response, comment, coconspirators = []):
         if response == 'quietzone':
@@ -5296,9 +5295,9 @@ def printDNA():
     target = spellbook.getTarget()
     return str(target.dna.__str__())
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
-def summonCogdo(difficulty, buildingHeight):
-    return spellbook.getTarget().doCogdoTakeOver(difficulty, buildingHeight)
+@magicWord(category=CATEGORY_MODERATOR, types=[int, int, str])
+def summonCogdo(difficulty, buildingHeight, track='s'):
+    return spellbook.getTarget().doCogdoTakeOver(difficulty, buildingHeight, track)
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def summonBuilding(suitIndex):

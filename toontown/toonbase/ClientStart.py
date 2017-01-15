@@ -12,7 +12,7 @@ from direct.extensions_native import VBase4_extensions
 from direct.extensions_native import NodePath_extensions
 from panda3d.core import loadPrcFile
 
-if __debug__:
+if True: #__debug__:
     loadPrcFile('config/general.prc')
     loadPrcFile('config/release/dev.prc')
 
@@ -118,7 +118,6 @@ from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 
-
 #For Devs only. (The below)
 '''from direct.stdpy import threading, thread
 def __inject_wx(_):
@@ -145,7 +144,6 @@ def openInjector_wx():
     threading.Thread(target = app.MainLoop).start()
 
 openInjector_wx()'''
-
 
 if base.musicManagerIsValid:
     music = base.loader.loadMusic('phase_3/audio/bgm/tt_theme.ogg')

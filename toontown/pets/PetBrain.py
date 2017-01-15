@@ -30,7 +30,6 @@ class PetBrain(DirectObject.DirectObject):
             self.pscPrior = PStatCollector('App:Show code:petThink:UpdatePriorities')
             self.pscAware = PStatCollector('App:Show code:petThink:ShuffleAwareness')
             self.pscResc = PStatCollector('App:Show code:petThink:Reschedule')
-        return
 
     def destroy(self):
         taskMgr.remove(self.getTeleportTaskName())

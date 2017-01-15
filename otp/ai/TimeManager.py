@@ -14,7 +14,6 @@ from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from toontown.chat.ChatGlobals import *
 
-
 class TimeManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TimeManager')
     neverDisable = 1

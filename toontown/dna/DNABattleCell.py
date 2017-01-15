@@ -11,6 +11,11 @@ class DNABattleCell(object):
         self.height = height
         self.pos = pos
 
+    def __del__(self):
+        del self.width
+        del self.height
+        del self.pos
+
     def getWidth(self):
         return self.width
         

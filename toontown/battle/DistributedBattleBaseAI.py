@@ -1,10 +1,10 @@
 import random
 from otp.ai.AIBase import *
 from direct.distributed.ClockDelta import *
-from BattleBase import *
-from BattleCalculatorAI import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleCalculatorAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
+from toontown.battle.SuitBattleGlobals import *
 from pandac.PandaModules import *
 from toontown.battle import BattleExperienceAI
 from direct.distributed import DistributedObjectAI

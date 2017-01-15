@@ -537,6 +537,8 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  56: ['Watch', 'Watches', 'a '],
  57: ['Record', 'Records', 'a '],
  58: ['Power Generator', 'Power Generators', 'a '],
+ 59: ['Sellbot Suit Piece', 'Sellbot Suit Pieces', 'a '],
+ 60: ['Package Receipt', 'Package Receipts', 'a '],
  110: ['TIP Clothing Ticket', 'Clothing Tickets', 'a '],
  1000: ['Clothing Ticket', 'Clothing Tickets', 'a '],
  2001: ['Inner Tube', 'Inner Tubes', 'an '],
@@ -728,7 +730,7 @@ QuestDialogDict = {160: {GREETING: '',
  1053: {QUEST: "Thank you for the Bottled Cans.\x07Now, as one final request, I would like 5 Glasses of Water for myself, mainly since I can't drink the water that needs to be delivered...",
         LEAVING: '',
         COMPLETE: "Whew! I thought for a second that I was going to parch!\x07Here is your reward..."},
- 1054: {QUEST: 'We here at the Toon HQ are researching the new cog department, Boardbots.\x07Our first target is the Con Artist.\x07We suspect that their berets contain many secrets.\x07Please recover a Beret from the Con Artists and report back to any HQ Officer.'},
+ 1054: {QUEST: 'The Toon Headquarters are conducting a research on the new cog department, Boardbots.\x07The first target is the Con Artist.\x07We suspect that their berets contain many secrets.\x07Please recover a Beret from the Con Artists and report back to any HQ Officer.'},
  1055: {QUEST: "Now we'll need to look into the Top Hats owned by the Connoisseurs.\x07Please recover one of those as well.",
         GREETING: 'Excellent work!',
         LEAVING: 'Cheerio!',
@@ -1137,13 +1139,18 @@ QuestDialogDict = {160: {GREETING: '',
  4225: {GREETING: '',
         QUEST: '_toNpcName_ is conducting research on Sellbot Headquarters._where_',
         LEAVING: ''},
- 4226: {QUEST: 'Yes, I believe the Sellbots are constructing something highly dangerous.\x07I\'ll need a memo from one of each cog, starting with a Cold Caller.'},
- 4227: {QUEST: 'Let\'s see what it says.\x07\"Security is dire, we need more goons!\"\x07Well that isn\'t helpful.\x07Try getting a memo from a Telemarketer.'}, 
- 4228: {QUEST: "\"Dear Mingler,\"\x07\"I have never been able to tell you my true feelings for you. I have always loved you and I hope we can go on a date someday.\"\x07\"Signed, Telemarketer.\"\x07Well, a love letter doesn't do us any good.\x07Try getting a memo from a Name Dropper."}, 
- 4229: {QUEST: "\"Attention All Cold Callers,\"\x07\"I have spoken to Mr. Hollywood during my lunch break. He was able to fill out your request for more security goons and they should be ported over promptly.\"\x07\"Signed, Name Dropper.\"\x07Now, try getting something from a Glad Hander."}, 
- 4230: {QUEST: "\"Dear Mr. Hollywood,\"\x07\"You are my role model. I love you.\"\x07\"Signed, Glad Hander.\"\x07Well, more fan mail doesn't help. Maybe a Mover & Shaker will have some helpful information?"}, 
- 4231: {QUEST: "\"What do you call a fish with no eyes?\"\x07\"FSH.\"\x07THIS ISN'T A MEMO, THIS IS A JOKE!\x07I think this has to do with the Jokes being taken in Field Offices.\x07Maybe a Two-Face contains a Memo with serious information.",
-        COMPLETE: "\"Dear Vice President,\"\x07\"The shipment of goons has been destroyed by the Toons. Most of our deliveries have been stopped by them somehow. We have no leads of how they are doing it.\"\x07\"Signed, Two-Face.\"\x07Well, that's that. The toons have came through again.\x07Here is your reward..."},
+ 4226: {QUEST: 'Hmm...\x07Oh, hello there, _avName_.\x07I am conducting some research on the Sellbots that work in the factory.\x07To complete my research, I\'ll need some suit pieces from them in the Factory, about ten of them.',
+		COMPLETE: 'Hmm...\x07Oh, thank you so much for getting these for me.\x07I\'ll be done with my research within this week!\x07You deserve your reward...',
+		LEAVING: '',
+		GREETING: ''},
+ 4227: {QUEST: '_toNpcName_ has a special investigation he\'s looking into, and he needs your assistance._where_'}, 
+ 4228: {QUEST: "Thank you for your cooperation.\x07I have heard some rumors about a package that has been ordered by the Sellbots.\x07This is no ordinary package, however.\x07It contains a dangerous weapon that can be used against us toons!\x07I need you to get a Package Receipt from one of those Sellbots.\x07With that receipt, we can be the ones to recover it and successfully destroy it."}, 
+ 4229: {QUEST: "Now, let's see that receipt...\x07Oh no! It seems the package was already delivered!\x07There's no time to waste! Go get it from the Cogs in the Factory before it's too late!",
+		LEAVING: '',
+		COMPLETE: "Alright, let's see what's inside...\x07Oh...\x07False alarm, was just a new security camera...\x07Sorry for wasting your time. Let me make it up to you!"},
+ 4230: {QUEST: "Sometimes, travel agents need a vacation themselves.\x07Unfortunately for _toNpcName_, the Cashbots just won't let 'em go out for vacation._where_"}, 
+ 4231: {QUEST: "I need to get out of here!\x07Work has been driving me nuts and the Cashbots on this street are so picky and won't let me leave!\x07I need you to defeat some around here so I can make a run for it.",
+        COMPLETE: "Great!\x07Now I can get started on packing!\x07Here is your reward..."},
  4232: {QUEST: "_toNpcName_ feels like this town is \"Out of Pitch.\"_where_"},
  4233: {GREETING: 'Hello, hello, helloooo!',
         QUEST: "This town just doesn't seem the same! The Cogs are throwing it out of pitch!\x07Take out some Level Four cogs or higher on this street, maybe that'll help it!",
@@ -1634,8 +1641,8 @@ AvatarDetailPanelFailedLookup = 'Unable to get details for %s.'
 AvatarDetailPanelPlayer = 'Player: %(player)s\nWorld: %(world)s'
 AvatarDetailPanelPlayerShort = '%(player)s\nWorld: %(world)s\nLocation: %(location)s'
 AvatarDetailPanelRealLife = 'Offline'
-AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel %(level)'
-AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s\nLevel %(level)'
+AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel: %(level)s'
+AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s\nLevel %(level)s'
 AvatarDetailPanelOffline = 'District: offline\nLocation: offline\nLevel %s'
 AvatarShowPlayer = 'Show Player'
 OfflineLocation = 'Offline'
@@ -5203,6 +5210,7 @@ ShapeYourToonTitle = 'Choose  Your  Type'
 PaintYourToonTitle = 'Choose  Your  Color'
 PickClothesTitle = 'Choose  Your  Clothes'
 PickStatusTitle = 'Choose  Your  Statuses'
+PickStartTitle = 'Choose  Your  Starting  Playground'
 NameToonTitle = 'Choose  Your  Name'
 UberTitles = ['Normal', '15 Laff', '25 Laff', '34 Laff']
 UberInfos = ['Your average run of the mill toon, they have no laff or gag limits! Great for players who want to play traditionally.',
@@ -7421,7 +7429,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  9134: lHQOfficerF,
  9135: lHQOfficerF,
  9136: 'Taylor',
- 9201: 'Bernie',
+ 9201: 'Bernie Sandals',
  9202: 'Orville',
  9203: 'Nat',
  9204: 'Claire de Loon',
@@ -9590,6 +9598,8 @@ HolidayNamesInCalendar = {1: ('Summer Fireworks', 'Celebrate Summer with a firew
 UnknownHoliday = 'Unknown Holiday %d'
 HolidayFormat = '%b %d '
 HourFormat = '12'
+CogdoBarrelRoomTitle = 'Grab-O-Barrel'
+CogdoBarrelIntroMovieDialogue = 'Grab as many barrels as you possibly can before the time runs out, and the COGS arrive!'
 CogdoMemoGuiTitle = 'Memos:'
 CogdoMemoNames = 'Barrel-Destruction Memos'
 CogdoStomperName = 'Stomp-O-Matic'
@@ -9616,6 +9626,8 @@ CogdoFlyingGameInstructions = "Fly through the Legal Eagles' lair. Watch out for
 CogdoFlyingIntroMovieDialogue = (("You won't ruffle our feathers, Toons! We're destroying barrels of your Laff, and you cannot stop us!", "A flock of Toons! We're crushing barrels of your Laff in our %s, and there's nothing you can do about it!" % CogdoStomperName, "You can't egg us on, Toons! We're powering our offices with your Laff, and you're powerless to stop us!"), ('This is the Toon Resistance! A little bird told me you can use propellers to fly around, grab Barrel Destruction Memos, and keep Laff from being destroyed! Good luck, Toons!', 'Attention Toons! Wing it with a propeller and collect Barrel Destruction Memos to keep our Laff from being stomped! Toon Resistance out!', 'Toon Resistance here! Cause a flap by finding propellers, flying to the Barrel Destruction Memos, and keeping our Laff from being smashed! Have fun!'), ("Squawk! I'm a Silver Sprocket Award winner, I don't need this!", 'Do your best, Toons! You will find us to be quite talon-ted!', "We'll teach you to obey the pecking order, Toons!"))
 CogdoFlyingGameWaiting = 'Waiting for other Toons%s'
 CogdoFlyingGameFuelLabel = 'Fuel'
+CogdoFlyingGameInvasionTargeting = 'A %s invasion has noticed you!'
+CogdoFlyingGameInvasionAttacking = 'Incoming %s invasion!'
 CogdoFlyingGameLegalEagleTargeting = 'A Legal Eagle has noticed you!'
 CogdoFlyingGameLegalEagleAttacking = 'Incoming Eagle!'
 CogdoFlyingGamePickUpAPropeller = 'You need a propeller to fly!'

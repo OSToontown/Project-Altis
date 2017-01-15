@@ -1,4 +1,4 @@
-from SpecImports import *
+from toontown.coghq.SpecImports import *
 from toontown.toonbase import ToontownGlobals
 import random
 a = random.choice([0, 1, 2, 3, 4])

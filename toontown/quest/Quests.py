@@ -55,6 +55,7 @@ QuestDictNextQuestIndex = 6
 QuestDictDialogIndex = 7
 QuestDictExperienceIndex = 8
 VeryEasy = 100
+ModeratelyEasy = 80
 Easy = 75
 Medium = 50
 Hard = 25
@@ -67,7 +68,7 @@ BR_TIER = 11
 DL_TIER = 14
 FINAL_TIER = 18
 ELDER_TIER = 19
-LOOPING_FINAL_TIER = ELDER_TIER
+LOOPING_FINAL_TIER = 19
 VISIT_QUEST_ID = 1000
 TROLLEY_QUEST_ID = 110
 FIRST_COG_QUEST_ID = 145
@@ -3460,7 +3461,7 @@ QuestDict = {
          2),
         2119,
         ToonHQ,
-        101,
+        102,
         NA,
         TTLocalizer.QuestDialogDict[1091]),
  1100: (TT_TIER + 2,
@@ -4989,7 +4990,7 @@ QuestDict = {
 		1100,
 		5,
 		2003,
-		Medium,
+		Easy,
 		'f'),
 		1104,
 		Same,
@@ -5002,7 +5003,7 @@ QuestDict = {
 		ToontownGlobals.DonaldsDock,
 		5,
 		2004,
-		Medium,
+		Easy,
 		'cn'),
 		Same,
 		Same,
@@ -7578,45 +7579,42 @@ QuestDict = {
 		Start,
 		(VisitQuest,),
 		Any,
-		4228,
+		4322,
 		NA,
 		4226,
 		TTLocalizer.QuestDialogDict[4225]),
  4226: (MM_TIER,
 		Start,
 		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'cc'),
-		4228,
+		 ToontownGlobals.SellbotFactoryInt,
+		 10,
+		 59,
+		 ModeratelyEasy,
+		 's',
+		 'track'),
+		4322,
 		Same,
+		101,
 		NA,
-		4227,
 		TTLocalizer.QuestDialogDict[4226]),
  4227: (MM_TIER,
-		Cont,
-		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'tm'),
-		 Same,
-		 Same,
-		 NA,
-		 4228,
-		 TTLocalizer.QuestDialogDict[4227]),
+		Start,
+		(VisitQuest,),
+		Any,
+		4212,
+		NA,
+		4228,
+		TTLocalizer.QuestDialogDict[4227]),
  4228: (MM_TIER,
-		Cont,
+		Start,
 		(RecoverItemQuest,
 		 ToontownGlobals.SellbotHQ,
 		 1,
-		 5016,
+		 60,
 		 Medium,
-		 'nd'),
-		 Same,
+		 's',
+		 'track'),
+		 4212,
 		 Same,
 		 NA,
 		 4229,
@@ -7624,40 +7622,34 @@ QuestDict = {
  4229: (MM_TIER,
 		Cont,
 		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
+		 ToontownGlobals.SellbotFactoryInt,
 		 1,
-		 5016,
+		 13,
 		 Medium,
-		 'gh'),
+		 's',
+		 'track'),
 		 Same,
 		 Same,
+		 100,
 		 NA,
-		 4230,
 		 TTLocalizer.QuestDialogDict[4229]),
  4230: (MM_TIER,
-		Cont,
-		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'ms'),
-		 Same,
-		 Same,
-		 NA,
-		 4231,
-		 TTLocalizer.QuestDialogDict[4230]),
+		Start,
+		(VisitQuest,),
+		Any,
+		4211,
+		NA,
+		4231,
+		TTLocalizer.QuestDialogDict[4230]),
  4231: (MM_TIER,
-		Cont,
-		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'tf'),
+		Start,
+		(CogTrackQuest,
+		 4200,
+		 15,
+		 'm'),
+		 4211,
 		 Same,
-		 Same,
-		 104,
+		 102,
 		 NA,
 		 TTLocalizer.QuestDialogDict[4231]),
  4232: (MM_TIER,
@@ -16999,16 +16991,16 @@ def getQuestExp(id):
                 return 80
             elif questTier >= DD_TIER and questTier < DG_TIER:
                 return 200
-            elif questTier == DG_TIER and questTier < MM_TIER:
+            elif questTier >= DG_TIER and questTier < MM_TIER:
+                return 300
+            elif questTier >= MM_TIER and questTier < BR_TIER:
                 return 500
-            elif questTier == MM_TIER and questTier < BR_TIER:
-                return 1000
             elif questTier >= BR_TIER and questTier < DL_TIER:
-                return 3000
+                return 800
             elif questTier >= DL_TIER and questTier < ELDER_TIER:
-                return 7500
+                return 1500
             elif questTier == ELDER_TIER:
-                return 15000
+                return 5000
             else:
                 return 0
     else:
@@ -18225,7 +18217,7 @@ RequiredRewardTrackDict = {TT_TIER: (500,
                200,
                802,
                803,
-               101,
+               102,
                804,
                805,
                102,
@@ -18296,7 +18288,9 @@ RequiredRewardTrackDict = {TT_TIER: (500,
                302),
  DG_TIER + 2: (900,),
  MM_TIER: (303,
-           104,
+           100,
+           101,
+           102,
            203,
            101,
            101,

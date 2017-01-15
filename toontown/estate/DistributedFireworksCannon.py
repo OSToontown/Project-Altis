@@ -16,7 +16,6 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
         DistributedFireworkShow.DistributedFireworkShow.__init__(self, cr)
         self.fireworksGui = None
         self.load()
-        return
 
     def generateInit(self):
         DistributedFireworkShow.DistributedFireworkShow.generateInit(self)

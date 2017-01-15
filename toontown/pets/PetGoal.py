@@ -19,7 +19,6 @@ class PetGoal(FSM.FSM):
         PetGoal.SerialNum += 1
         self.fsm = ClassicFSM.ClassicFSM('PetGoalFSM', [State.State('off', self.enterOff, self.exitOff, ['background']), State.State('background', self.enterBackground, self.exitBackground, ['foreground']), State.State('foreground', self.enterForeground, self.exitForeground, ['background'])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def destroy(self):
         if hasattr(self, 'fsm'):

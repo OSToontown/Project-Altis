@@ -461,6 +461,9 @@ class Toon(Avatar.Avatar, ToonHead):
         self.cogHead = 0
         self.cogLevels = [] 
         self.uberType = 0
+        self.startingPg = 0
+        self.choiceAlpha = 2
+        self.choiceBeta = 3
         self.defaultColorScale = None
         self.jar = None
         self.setBlend(frameBlend = True)
@@ -539,6 +542,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.wake.stop()
             self.wake.destroy()
             self.wake = None
+        
         self.cleanupPieModel()
 
     def delete(self):
@@ -574,6 +578,8 @@ class Toon(Avatar.Avatar, ToonHead):
         self.soundTeleport = None
         self.motion.delete()
         self.motion = None
+        Avatar.Avatar.cleanup(self)
+        ToonHead.cleanup(self)
         Avatar.Avatar.delete(self)
         ToonHead.delete(self)
 
@@ -582,11 +588,14 @@ class Toon(Avatar.Avatar, ToonHead):
         oldDNA = self.style
         if fForce or newDNA.head != oldDNA.head:
             self.swapToonHead(newDNA.head)
+        
         if fForce or newDNA.torso != oldDNA.torso:
             self.swapToonTorso(newDNA.torso, genClothes=0)
             self.loop('neutral')
+        
         if fForce or newDNA.legs != oldDNA.legs:
             self.swapToonLegs(newDNA.legs)
+        
         self.swapToonColor(newDNA)
         self.__swapToonClothes(newDNA)
 
@@ -604,6 +613,7 @@ class Toon(Avatar.Avatar, ToonHead):
         if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
+        
         if self.style:
             self.updateToonDNA(dna)
         else:
@@ -1679,6 +1689,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.track.finish()
             DelayDelete.cleanupDelayDeletes(self.track)
             self.track = None
+        
         self.hideBooks()
         self.startLookAround()
         Emote.globalEmote.releaseAll(self, 'exitOpenBook')
@@ -1730,6 +1741,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.track.finish()
             DelayDelete.cleanupDelayDeletes(self.track)
             self.track = None
+        
         Emote.globalEmote.releaseAll(self, 'exitCloseBook')
         
     def getSoundTeleport(self):
@@ -1821,19 +1833,24 @@ class Toon(Avatar.Avatar, ToonHead):
         name = self.name
         if hasattr(self, 'doId'):
             name += '-' + str(self.doId)
+       
         self.notify.debug('exitTeleportOut %s' % name)
         if self.track != None:
             self.ignore(self.track.getName())
             self.track.finish()
             self.track = None
+        
         geomNode = self.getGeomNode()
         if geomNode and not geomNode.isEmpty():
             self.getGeomNode().clearClipPlane()
+       
         if self.nametag3d and not self.nametag3d.isEmpty():
             self.nametag3d.clearClipPlane()
+        
         if self.holeClipPath:
             self.holeClipPath.removeNode()
             self.holeClipPath = None
+        
         Emote.globalEmote.releaseAll(self, 'exitTeleportOut')
         if self and not self.isEmpty():
             self.show()
@@ -5211,7 +5228,6 @@ class Toon(Avatar.Avatar, ToonHead):
         node = self.getGeomNode().getChild(0)
         node.setScale(self.origScale)
         Emote.globalEmote.releaseAll(self)
-        return
 
     def enterCogThiefRunning(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.playingAnim = None
@@ -5222,13 +5238,11 @@ class Toon(Avatar.Avatar, ToonHead):
          ('run', -1.0))
         self.setSpeed(self.forwardSpeed, self.rotateSpeed)
         self.setActiveShadow(1)
-        return
 
     def exitCogThiefRunning(self):
         self.standWalkRunReverse = None
         self.stop()
         self.motion.exit()
-        return
 
     def enterScientistJealous(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.loop('scientistJealous')

@@ -24,7 +24,6 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
         self.toMagnetSoundInterval = Parallel(SoundInterval(self.flyToMagnetSfx, duration=ToontownGlobals.CashbotBossToMagnetTime, node=self), Sequence(Wait(ToontownGlobals.CashbotBossToMagnetTime - 0.02), SoundInterval(self.hitMagnetSfx, duration=1.0, node=self)))
         self.hitFloorSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_bigweight_miss.ogg')
         self.hitFloorSoundInterval = SoundInterval(self.hitFloorSfx, node=self)
-        return
 
     def announceGenerate(self):
         DistCogdoCraneObject.announceGenerate(self)
@@ -52,8 +51,8 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
     def getMinImpact(self):
         if self.craneGame.heldObject:
             return ToontownGlobals.CashbotBossSafeKnockImpact
-        else:
-            return ToontownGlobals.CashbotBossSafeNewImpact
+
+        return ToontownGlobals.CashbotBossSafeNewImpact
 
     def resetToInitialPosition(self):
         posHpr = GameConsts.MoneyBagPosHprs[self.index]

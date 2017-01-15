@@ -28,7 +28,6 @@ class RaceGag(DirectObject.DirectObject):
         self.accept('imIn-' + self.name, self.hitGag)
         self.pickupSound = base.loader.loadSfx('phase_6/audio/sfx/KART_getGag.ogg')
         self.fadeout = None
-        return
 
     def delete(self):
         if self.fadeout:
@@ -40,7 +39,6 @@ class RaceGag(DirectObject.DirectObject):
         self.geom = None
         del self.parent
         self.ignore('imIn-' + self.name)
-        return
 
     def getType(self):
         return self.type

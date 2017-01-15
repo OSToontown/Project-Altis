@@ -841,7 +841,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                 156,
                 200, #12
                 210,
-                250, #14
+                240, #14
                 272,
                 306,
                 342,
@@ -2267,7 +2267,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                 156,
                 200, #12
                 210, 
-                250, #14
+                240, #14
                 272, 
                 306,
                 342,
@@ -4049,7 +4049,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                 156,
                 200, #12
                 210,
-                250, #14
+                240, #14
                 272,
                 306,
                 342,
@@ -5752,7 +5752,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                 156,
                 200, #200
                 210,
-                250, #14
+                240, #14
                 272,
                 306,
                 342,
@@ -7125,7 +7125,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                 156,
                 200, #12
                 210,
-                250, #14
+                240, #14
                 272,
                 306,
                 342,

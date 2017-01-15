@@ -21,4 +21,3 @@ class TTSCSingingTerminal(SCTerminal):
         args = {'rolloverSound': None,
          'clickSound': None}
         SCTerminal.finalize(self, args)
-        return

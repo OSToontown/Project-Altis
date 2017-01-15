@@ -19,7 +19,6 @@ class PetChase(Impulse.Impulse):
         self.lookAtNode.hide()
         self.vel = None
         self.rotVel = None
-        return
 
     def setTarget(self, target):
         self.target = target

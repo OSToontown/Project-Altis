@@ -23,13 +23,11 @@ class FlyingGag(NodePath, ShadowCaster):
             self.setActiveShadow()
             self.dropShadow.setPos(0, 0, 2)
             self.dropShadow.setScale(3)
-        return
 
     def delete(self):
         ShadowCaster.delete(self)
         NodePath.remove(self)
         self.gag = None
-        return
 
     def getGeomNode(self):
         return self.gag

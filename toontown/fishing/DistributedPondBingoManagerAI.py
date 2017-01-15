@@ -12,8 +12,8 @@ from otp.ai.MagicWordGlobal import *
 from direct.task import Task
 from direct.distributed.ClockDelta import *
 import random
-RequestCard = {}
 
+RequestCard = {}
 
 class DistributedPondBingoManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPondBingoManagerAI")

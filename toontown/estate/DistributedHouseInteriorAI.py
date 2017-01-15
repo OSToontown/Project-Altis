@@ -65,6 +65,7 @@ class DistributedHouseInteriorAI(DistributedObjectAI):
         DistributedObjectAI.delete(self)
 
         self.furnitureManager.delete()
+        self.lightSwitch.requestDelete()
 
     def initialize(self):
         # Get DNA file appropriate to this house...

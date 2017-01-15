@@ -27,7 +27,6 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
         self._toonDialogueSfx = None
         self.toonHead = None
         self.frame = None
-        return
 
     def displayLine(self, text):
         self.notify.debug('displayLine')
@@ -105,7 +104,6 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
 
         self._ival = Sequence(Func(start), Func(self.displayLine, dialogue), Func(showShopOwner), ParallelEndTogether(camera.posInterval(self.cameraMoveDuration, Point3(8, 0, 13), blendType='easeInOut'), camera.hprInterval(0.5, self._camHelperNode.getHpr(), blendType='easeInOut')), Wait(self.introDuration), Func(end))
         self._startUpdateTask()
-        return
 
     def _setCamTarget(self, targetNP, distance, offset = Point3(0, 0, 0), angle = Point3(0, 0, 0)):
         camera.wrtReparentTo(render)
@@ -127,6 +125,7 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
         if hasattr(self, '_camHelperNode') and self._camHelperNode:
             self._camHelperNode.removeNode()
             del self._camHelperNode
+        
         self.frame.destroy()
         del self.frame
         self.bg.removeNode()
@@ -139,4 +138,3 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
         self.toonHead.delete()
         del self.toonHead
         CogdoGameMovie.unload(self)
-        return

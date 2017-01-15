@@ -16,7 +16,7 @@ class HolidayManagerAI():
             for holiday in holidays.split(","):
                 holiday = int(holiday)
                 self.currentHolidays.append(holiday)
-            simbase.air.newsManager.setHolidayIdList(self.currentHolidays)
+            simbase.air.newsManager.b_setHolidayIdList(self.currentHolidays)
             
         self.notify.debug(str(self.currentHolidays))
         if self.isSillyMeterHolidayRunning():

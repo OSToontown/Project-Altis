@@ -6,7 +6,7 @@ from toontown.cogdominium.DistCogdoGame import DistCogdoGame
 from toontown.cogdominium.CogdoLevelGameBase import CogdoLevelGameBase
 from toontown.cogdominium.CogdoEntityCreator import CogdoEntityCreator
 
-class DistCogdoLevelGame(CogdoLevelGameBase, DistCogdoGame, DistributedLevel):
+class DistCogdoLevelGame(DistributedLevel, DistCogdoGame, CogdoLevelGameBase):
     notify = directNotify.newCategory('DistCogdoLevelGame')
 
     def __init__(self, cr):
@@ -35,6 +35,7 @@ class DistCogdoLevelGame(CogdoLevelGameBase, DistCogdoGame, DistributedLevel):
         if __dev__:
             typeReg = self.getEntityTypeReg()
             spec.setEntityTypeReg(typeReg)
+        
         DistributedLevel.initializeLevel(self, spec)
 
     def privGotSpec(self, levelSpec):
@@ -42,6 +43,7 @@ class DistCogdoLevelGame(CogdoLevelGameBase, DistCogdoGame, DistributedLevel):
             if not levelSpec.hasEntityTypeReg():
                 typeReg = self.getEntityTypeReg()
                 levelSpec.setEntityTypeReg(typeReg)
+        
         DistributedLevel.privGotSpec(self, levelSpec)
 
     def initVisibility(self):
@@ -55,11 +57,12 @@ class DistCogdoLevelGame(CogdoLevelGameBase, DistCogdoGame, DistributedLevel):
     def disable(self):
         if __dev__:
             self.stopHandleEdits()
-        DistCogdoGame.disable(self)
+        
         DistributedLevel.disable(self)
+        DistCogdoGame.disable(self)
 
     def delete(self):
-        DistCogdoGame.delete(self)
         DistributedLevel.delete(self)
+        DistCogdoGame.delete(self)
         if __dev__:
             bboard.removeIfEqual(EditorGlobals.EditTargetPostName, self)

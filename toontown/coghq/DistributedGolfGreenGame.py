@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
-from StomperGlobals import *
+from toontown.coghq.StomperGlobals import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp
 import math
@@ -19,7 +19,7 @@ from toontown.golf import BuildGeometry
 from direct.gui.DirectGui import *
 import random
 from direct.showbase import RandomNumGen
-import GameSprite3D
+from toontown.coghq import GameSprite3D
 from math import pi
 import math
 import random

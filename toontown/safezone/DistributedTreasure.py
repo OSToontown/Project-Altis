@@ -22,7 +22,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         self.zOffset = 0.0
         self.billboard = 0
         self.treasureType = None
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -35,7 +34,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.treasureFlyTrack = None
         DistributedObject.DistributedObject.delete(self)
         self.nodePath.removeNode()
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)

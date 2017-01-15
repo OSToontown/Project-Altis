@@ -7,9 +7,9 @@ from panda3d.core import TransparencyAttrib, Point3, VBase3, Vec4
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, LerpFunctionInterval, ActorInterval
 from direct.showbase.DirectObject import DirectObject
 from toontown.pickatoon import PickAToonOptions, PickAToon
-from DMenuGlobals import *
-from DMenuLocalizer import *
-from DMenuResources import *
+from toontown.dmenu.DMenuGlobals import *
+from toontown.dmenu.DMenuLocalizer import *
+from toontown.dmenu.DMenuResources import *
 from direct.actor import Actor
 from direct.showbase import Audio3DManager
 import random

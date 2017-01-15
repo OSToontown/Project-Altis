@@ -30,7 +30,6 @@ class PetCollider(Impulse.Impulse):
         self.cHandler.addAgainPattern(self._getCollisionEvent())
         self.collTrav.addCollider(self.cLineNodePath, self.cHandler)
         self.accept(self._getCollisionEvent(), self.handleCollision)
-        return
 
     def _setMover(self, mover):
         Impulse.Impulse._setMover(self, mover)

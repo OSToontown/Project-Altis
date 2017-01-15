@@ -20,7 +20,6 @@ class TwoDStomperMgr(DirectObject):
             self.stompers.remove(stomper)
 
         self.stompers = None
-        return
 
     def load(self):
         if len(self.stomperList):
@@ -38,7 +37,6 @@ class TwoDStomperMgr(DirectObject):
         newStomper = TwoDStomper.TwoDStomper(self, stomperId, attrib, model)
         newStomper.model.reparentTo(self.stompersNP)
         self.stompers.append(newStomper)
-        return
 
     def enterPlay(self, elapsedTime):
         for stomper in self.stompers:

@@ -808,6 +808,8 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
+from toontown.weather import DistributedWeatherCycle/AI
+from toontown.weather import DistributedWeatherStorm/A
 from toontown.club import DistributedToonClub/AI
 
 struct GiftItem {
@@ -2158,7 +2160,8 @@ dclass DistCogdoGame : DistributedObject {
   setGameFinish(int16) broadcast;
 };
 
-dclass DistCogdoLevelGame : DistCogdoGame, DistributedLevel {
+dclass DistCogdoLevelGame : DistributedLevel, DistCogdoGame {
+
 };
 
 dclass DistCogdoMazeGame : DistCogdoGame {
@@ -3758,7 +3761,7 @@ dclass ClientServicesManager : DistributedObjectGlobal {
   requestAvatars() clsend;
   setAvatars(PotentialToon[]);
 
-  createAvatar(blob dna, uint8 index, uint8 uber) clsend;
+  createAvatar(blob dna, uint8 index, uint8 uber, uint16[], uint8 pg) clsend;
   createAvatarResp(uint32 avId);
 
   setNameTyped(uint32 avId, string name) clsend;
@@ -3905,8 +3908,20 @@ dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
 
 dclass CharityScreen : DistributedObject {
-   start() broadcast ram;
+   start() broadcast;
    setCount(uint16) broadcast ram;
+};
+
+dclass DistributedWeatherCycle : DistributedObject {
+  setState(string) broadcast ram;
+  setDuration(int32) required broadcast ram;
+};
+
+dclass DistributedWeatherStorm : DistributedObject {
+  start() broadcast;
+  stop() broadcast;
+  setStormType(int8) broadcast ram;
+  setDuration(int32) broadcast ram;
 };
 
 struct Member {

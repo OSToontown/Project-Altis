@@ -11,6 +11,10 @@ class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
     def __init__(self, name):
         DNALandmarkBuilding.DNALandmarkBuilding.__init__(self, name)
         self.animName = ''
+
+    def __del__(self):
+        DNALandmarkBuilding.DNALandmarkBuilding.__del__(self)
+        del self.animName
         
     def getAnimName(self):
         return self.animName

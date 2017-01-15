@@ -18,7 +18,6 @@ class DroppedGag(NodePath, ShadowCaster.ShadowCaster):
         ShadowCaster.ShadowCaster.delete(self)
         NodePath.removeNode(self)
         self.gag = None
-        return
 
     def getGeomNode(self):
         return self.gag
