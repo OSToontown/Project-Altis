@@ -8,7 +8,7 @@ import collections
 collections.namedtuple = lambda *x: list
 
 # set the import path to current directory for Nuitka generated executable
-#sys.path = ['.']
+sys.path = ['.']
 
 # Disable both dev before anything else.
 # This is to make sure the distrubution client doesn't

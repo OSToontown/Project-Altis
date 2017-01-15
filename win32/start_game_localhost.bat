@@ -21,7 +21,7 @@ echo ===============================
 
 :goto
 
-%PPYTHON_PATH% -m toontown.toonbase.ClientStartDist
+%PPYTHON_PATH% -m toontown.toonbase.ClientStart
 pause
 
 goto :goto
