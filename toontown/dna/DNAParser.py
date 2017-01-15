@@ -38,7 +38,7 @@ def loadDNABulk(dnaStorage, file):
     dnaLoader.loadDNAFile(dnaStorage, file)
     dnaLoader.destroy()
 
-def loadDNAFile(dnaStorage, file, CSDefault=None, number=None):
+def loadDNAFile(dnaStorage, file):
     print 'Reading DNA file...', file
     dnaLoader = DNALoader.DNALoader()
     node = dnaLoader.loadDNAFile(dnaStorage, file)

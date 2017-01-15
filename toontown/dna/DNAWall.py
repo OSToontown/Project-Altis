@@ -27,21 +27,12 @@ class DNAWall(DNANode.DNANode):
         
     def getCode(self):
         return self.code
-    
-    def setCode(self, code):
-        self.code = code
         
     def getHeight(self):
         return self.height
         
-    def setHeight(self, height):
-        self.height = height
-        
     def getColor(self):
         return self.color
-        
-    def setColor(self, color):
-        self.color = color
 
     def makeFromDGI(self, dgi, store):
         DNANode.DNANode.makeFromDGI(self, dgi, store)

@@ -18,30 +18,15 @@ class DNANode(DNAGroup.DNAGroup):
         del self.pos
         del self.hpr
         del self.scale
-        
-    def getClassType(self):
-        return self.__name__
-        
+
     def getPos(self):
         return self.pos
         
-    def setPos(self, pos):
-        self.pos = pos
-        
     def getHpr(self):
         return self.hpr
-    
-    def setHpr(self, hpr):
-        self.hpr = hpr
         
     def getScale(self):
         return self.scale
-    
-    def setScale(self, scale):
-        self.scale = scale
-        
-    def setName(self, name):
-        DNAGroup.DNAGroup.setName(self, name)
 
     def makeFromDGI(self, dgi, store):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)

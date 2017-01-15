@@ -22,15 +22,9 @@ class DNAGroup(object):
         del self.children
         del self.parent
         del self.visGroup
-        
-    def getClassType(self):
-        return self.__name__
-        
+
     def getName(self):
         return self.name
-        
-    def setName(self, name):
-        self.name = name
 
     def add(self, child):
         self.children += [child]

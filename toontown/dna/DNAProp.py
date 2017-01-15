@@ -18,9 +18,6 @@ class DNAProp(DNANode.DNANode):
         del self.code
         del self.color
         
-    def getClassType(self):
-        return self.__name__
-        
     def getCode(self):
         return self.code
         

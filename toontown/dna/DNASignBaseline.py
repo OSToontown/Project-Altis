@@ -7,17 +7,6 @@ class DNASignBaseline(DNANode.DNANode):
 
     def __init__(self, name):
         DNANode.DNANode.__init__(self, name)
-        self.text = ''
-        self.code = ''
-        self.color = None
-        self.flags = None
-        self.indent = ''
-        self.kerm = None
-        self.wiggle = ''
-        self.stumble = ''
-        self.stomp = None
-        self.width = 1
-        self.height = 1
 
     def __del__(self):
         DNANode.DNANode.__del__(self)
@@ -50,14 +39,8 @@ class DNASignBaseline(DNANode.DNANode):
         self.stomp = dgi.getFloat32()
         self.width = dgi.getFloat32()
         self.height = dgi.getFloat32()
-        
-    def setScale(self, scale):
-        DNANode.DNANode.setScale(self, scale)
-        
-    def setColor(self, color):
-        self.color = color
 
-    def traverse(self, nodePath, dnaStorage, editor=False):
+    def traverse(self, nodePath, dnaStorage):
         root = NodePath('signroot')
         head_root = NodePath('root')
         wantDecalTest = base.config.GetBool('want-sign-decal-test', False)
@@ -130,6 +113,3 @@ class DNASignBaseline(DNANode.DNANode):
         self.traverseChildren(_np, dnaStorage)
 
         _np.flattenStrong()
-        
-        if editor:
-           return _np
