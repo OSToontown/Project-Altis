@@ -11543,7 +11543,7 @@ NPCToonDict = {20000: (-1,
         0,
         NPC_REGULAR),
 # Prince Frizzy SOS
-# 5 Stars, Sound SOS, Bikehorn 400 damage. "The sound of one last District.".
+# 5 Stars, Sound SOS, Opera 900 damage. "The sound of one last District.".
 91917: (-1,
         lnames[91917],
         ('css',
@@ -11653,7 +11653,7 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  1323: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
  2308: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
  4119: (ToontownBattleGlobals.SOUND_TRACK, 5, 80, 5),
- 91917: (ToontownBattleGlobals.SOUND_TRACK, 0,  400, 5),
+ 91917: (ToontownBattleGlobals.SOUND_TRACK, 6, 900, 5),
  4219: (ToontownBattleGlobals.SOUND_TRACK, 5, 50, 4),
  4115: (ToontownBattleGlobals.SOUND_TRACK, 5, 40, 3),
  1116: (ToontownBattleGlobals.DROP_TRACK, 5, 170, 5),
