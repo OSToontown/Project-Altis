@@ -33,7 +33,7 @@ class DistributedWeatherCycleAI(DistributedObjectAI):
         taskMgr.remove('update-time')
 
     def update(self, task):
-        self.b_setState(self.getState()._State__transitions[0])
+        self.b_setState(self.fsm.getCurrentState()._State__transitions[0])
         return task.again
 
     def setState(self, state):
@@ -47,10 +47,7 @@ class DistributedWeatherCycleAI(DistributedObjectAI):
         self.d_setState(state)
 
     def getState(self):
-        return self.fsm.getCurrentState()
-
-    def getStateName(self):
-        return self.getState()._State__name
+        return self.fsm.getCurrentState()._State__name
 
     def setDuration(self, duration):
         self.duration = duration
