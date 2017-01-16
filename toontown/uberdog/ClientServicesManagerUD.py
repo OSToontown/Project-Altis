@@ -6,6 +6,7 @@ import json
 import time
 import random
 import urllib2
+import httplib
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
@@ -20,7 +21,7 @@ from toontown.toonbase import TTLocalizer
 
 # Import from PyCrypto only if we are using a database that requires it. This
 # allows local hosted and developer builds of the game to run without it:
-accountDBType = simbase.config.GetString('accountdb-type', 'developer')
+accountDBType = simbase.config.GetString('accountdb-type', 'local')
 if accountDBType == 'remote':
     from Crypto.Cipher import AES
 
@@ -29,14 +30,12 @@ if accountDBType == 'remote':
 minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
 accountServerEndpoint = simbase.config.GetString(
-    'account-server-endpoint', 'https://toontowninfinite.com/api/')
+    'account-server-endpoint', 'https://projectaltis.com/api/')
 accountServerSecret = simbase.config.GetString(
     'account-server-secret', '6163636f756e7473')
 
-
 http = HTTPClient()
 http.setVerifySsl(0)
-
 
 def executeHttpRequest(url, **extras):
     timestamp = str(int(time.time()))
@@ -138,27 +137,47 @@ class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
     def lookup(self, username, callback):
-        # Let's check if this user's ID is in your account database bridge:
-        if str(username) not in self.dbm:
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
+        
+        try:
+            response = json.loads(httpReq.getresponse().read())
+        except:
+            callback({'success': False,
+                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
+            return
 
+        if response['status'] != 'true':
+             return
+        else:
+            cookie = response['additional']
+
+        if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
+            callback({'success': False,
+                      'reason': 'Invalid Cookie Specified!'})
+            return
+
+        # Let's check if this user's ID is in your account database bridge:
+        if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
             response = {
                 'success': True,
-                'userId': username,
+                'userId': cookie,
                 'accountId': 0,
-                'accessLevel': max((700 if not self.dbm else 100), minAccessLevel)
+                'accessLevel': 100
             }
+            
             callback(response)
             return response
 
         else:
-
             # We have an account already, let's return what we've got:
             response = {
                 'success': True,
-                'userId': username,
-                'accountId': int(self.dbm[str(username)])
+                'userId': cookie,
+                'accountId': int(self.dbm[str(cookie)])
             }
+            
             callback(response)
             return response
 
