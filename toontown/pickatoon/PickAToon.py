@@ -153,7 +153,21 @@ class PickAToon:
             for pos in xrange(0, 6):
                 if pos not in buttonIndex:
                     button = self.setupButtons(position=pos)
-            
+            if self.Seq:
+                self.Seq.finish()
+                del self.Seq
+                self.loadingCircle.removeNode()
+                del self.loadingCircle
+        self.loadingCircle = OnscreenImage(image = 'phase_3/maps/dmenu/loading_circle.png')
+        self.loadingCircle.show()
+        base.graphicsEngine.renderFrame()
+        self.loadingCircle.setScale(0.1)
+        self.loadingCircle.setTransparency(TransparencyAttrib.MAlpha)
+        self.loadingCircle.reparentTo(aspect2d)
+        self.Seq = Sequence(
+            Func(self.loadingCircle.setHpr, VBase3(0, 0, 0)),
+            self.loadingCircle.hprInterval(1, VBase3(0, 0, 360)))
+        self.Seq.loop()
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui', callback = spawnToonButtons)
 
         # Delete Toon button

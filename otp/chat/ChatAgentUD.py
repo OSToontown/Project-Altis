@@ -13,14 +13,20 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         DistributedObjectGlobalUD.announceGenerate(self)
 
         self.whiteList = TTWhiteList()
+        self.chatMode2prefix = {
+            1: "[MOD] ",
+            2: "[ADMIN] ",
+            3: "[SYSADMIN] "
+        }
 
-    def chatMessage(self, message):
+    def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
         if sender == 0:
             self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
                                          'Account sent chat without an avatar', message)
             return
 
+        cleanMessage, modifications = message, []
         modifications = []
         words = message.split(' ')
         offset = 0
@@ -30,12 +36,15 @@ class ChatAgentUD(DistributedObjectGlobalUD):
                 modifications.append((offset, offset+len(word)-1))
             offset += len(word) + 1
 
-        cleanMessage = message
-        for modStart, modStop in modifications:
-            cleanMessage = cleanMessage[:modStart] + '*'*(modStop-modStart+1) + cleanMessage[modStop+1:]
+        self.air.writeServerEvent('chat-said', avId=sender, chatMode=chatMode, msg=message, cleanMsg=cleanMessage)
 
-        self.air.writeServerEvent('chat-said', sender, message, cleanMessage)
+        if chatMode != 0:
+            if message.startswith('.'):
 
+                cleanMessage = '.' + self.chatMode2prefix.get(chatMode, "") + message[1:]
+            else:
+                cleanMessage = self.chatMode2prefix.get(chatMode, "") + message
+            modifications = []
         # send chat message update to ai
         self.sendUpdate('chatMessageResponse', [sender, cleanMessage, 
-            modifications])
+            modifications, chatMode])
