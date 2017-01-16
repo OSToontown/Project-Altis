@@ -8,12 +8,13 @@ import collections
 collections.namedtuple = lambda *x: list
 
 # set the import path to current directory for Nuitka generated executable
-#sys.path = ['.']
+sys.path = ['.']
 
-# Disable both dev before anything else.
+# Disable both dev,debug before anything else.
 # This is to make sure the distrubution client doesn't
 # get any special perms or anything of the sort.
 __builtin__.__dev__ = False
+__builtin__.__debug__ = True
 
 #def __runfunc(*args, **kw):
 #    raise SystemExit

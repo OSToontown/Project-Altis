@@ -1,0 +1,4 @@
+built/
+*.pdb
+*.pyc
+*.pyo

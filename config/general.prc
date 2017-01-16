@@ -3,7 +3,7 @@ window-title Project Altis [ALPHA]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
-show-frame-rate-meter #t
+show-frame-rate-meter #f
 
 # Debug
 default-directnotify-level info
