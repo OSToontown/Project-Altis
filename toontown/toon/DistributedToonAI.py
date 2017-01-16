@@ -3256,7 +3256,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          self.zoneId))
         return ['success', suitIndex, building.doId]
 
-    def doCogdoTakeOver(self, difficulty, buildingHeight, track='s'):
+    def doCogdoTakeOver(self, difficulty, buildingHeight, track):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
         if streetId not in self.air.suitPlanners:
             self.notify.warning('Street %d is not known.' % streetId)
@@ -5296,7 +5296,7 @@ def printDNA():
     return str(target.dna.__str__())
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int, int, str])
-def summonCogdo(difficulty, buildingHeight, track='s'):
+def summonCogdo(difficulty, buildingHeight, track):
     return spellbook.getTarget().doCogdoTakeOver(difficulty, buildingHeight, track)
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
