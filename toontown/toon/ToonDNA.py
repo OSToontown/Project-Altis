@@ -2690,38 +2690,28 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         headColor = dgi.getUint8()
         if topTex >= len(Shirts):
             return False
-        print "topTex is fine"
         if topTexColor >= len(ClothesColors):
             return False
-        print "topTexColor is fine"
         if sleeveTex >= len(Sleeves):
             return False
-        print "sleeveTex is fine"
         if sleeveTexColor >= len(ClothesColors):
             return False
-        print "sleeveTexColor is fine"
         if gender == 'm':
             if botTex >= len(BoyShorts):
                 return False
         else:
             if botTex >= len(GirlBottoms):
                 return False
-        print "botTex is fine"
         if botTexColor >= len(ClothesColors):
             return False
-        print "botTexColor is fine"
         if armColor >= len(allColorsList):
             return False
-        print "armColor is fine"
         if gloveColor != 0:
             return False
-        print "gloveColor is fine"
         if legColor >= len(allColorsList):
             return False
-        print "legColor is fine"
         if headColor >= len(allColorsList):
             return False
-        print "headColor is fine"
         return True
 
     def makeFromNetString(self, string):
