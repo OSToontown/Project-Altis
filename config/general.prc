@@ -81,7 +81,7 @@ want-outdoor-zone #t
 want-golf-zone #t
 
 # Weather system
-want-weather #t
+want-weather #f
 
 # Options Page
 change-display-settings #t
