@@ -157,6 +157,25 @@ class LocalAccountDB(AccountDB):
                       'reason': 'Invalid Cookie Specified!'})
             return
 
+        sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
+        sanityChecks.request('GET', '/api/sanitycheck?t=%s' % (username))
+        
+        try:
+            response = json.loads(sanityChecks.getresponse().read())
+        except:
+            callback({'success': False,
+                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
+            return
+        
+        if sanityChecks["isbanned"] == "true":
+            callback({'success': False,
+                      'reason': 'Your account is banned from Project Altis!'})
+            return
+
+        if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
+            callback({'success': False,
+                      'reason': 'Invalid Cookie Specified!'})
+            return
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -176,7 +195,7 @@ class LocalAccountDB(AccountDB):
                 'success': True,
                 'userId': cookie,
                 'accountId': int(self.dbm[str(cookie)])
-                'accessLevel': int(response['accesslevel'])
+                'accessLevel': int(sanityChecks['accesslevel'])
             }
             
             callback(response)
