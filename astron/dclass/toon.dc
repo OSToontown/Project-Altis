@@ -3913,7 +3913,7 @@ dclass CharityScreen : DistributedObject {
 };
 
 dclass DistributedWeatherCycle : DistributedObject {
-  setState(string) broadcast ram;
+  setState(string) required broadcast ram;
   setDuration(int32) required broadcast ram;
 };
 
@@ -3930,9 +3930,7 @@ struct Member {
 
 dclass DistributedToonClub : DistributedObjectGlobal {
   requestStats() clsend;
-  
   addMember(uint32) clsend;
   removeMember(uint32);
-
   setMembers(Member []);
 };

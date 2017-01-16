@@ -14,6 +14,7 @@ class ToontownTimer(OTPTimer):
             model.removeNode()
         
         return ToontownTimer.ClockImage
-
+		
     def posAboveMapButton(self):
-        self.setPos((0, 0, 0.0975))
+        self.reparentTo(base.a2dBottomRight)
+        self.setPos(-0.173, 0, 0.65)
