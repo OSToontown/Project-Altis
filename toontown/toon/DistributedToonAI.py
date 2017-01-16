@@ -5295,9 +5295,29 @@ def printDNA():
     target = spellbook.getTarget()
     return str(target.dna.__str__())
 
+<<<<<<< HEAD
 @magicWord(category=CATEGORY_MODERATOR, types=[int, int, str])
 def summonCogdo(difficulty, buildingHeight, track):
     return spellbook.getTarget().doCogdoTakeOver(difficulty, buildingHeight, track)
+=======
+@magicWord(category=CATEGORY_MODERATOR, types=[str, int])
+def summonCogdo(track, difficulty=0):
+    """ Spawns a Field Office with the given type and difficulty """
+    tracks = ['s', 'l']
+    if track not in tracks:
+        return 'Invalid Field Office type! Supported types are "s" and "l"'
+
+    av = spellbook.getInvoker()
+    try:
+        building = av.findClosestDoor()
+    except KeyError:
+        return 'You\'re not on a street!'
+    if building == None:
+        return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
+
+    building.cogdoTakeOver(difficulty, 2, track)
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
+>>>>>>> 366a86f8e8c7be9d4246f522cebaa5fede2b46aa
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def summonBuilding(suitIndex):
