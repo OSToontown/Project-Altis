@@ -51,6 +51,12 @@ class TTALauncher(LauncherBase):
     def getGameServer(self):
         return self.getValue('TTA_GAMESERVER')
 
+    def getUsername(self):
+        return self.getValue('TTA_USERNAME')
+
+    def getPassword(self):
+        return self.getValue('TTA_PASSWORD')
+
     def setPandaErrorCode(self, code):
         pass
 

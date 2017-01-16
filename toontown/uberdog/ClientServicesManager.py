@@ -1,6 +1,8 @@
+import hmac
+import httplib
+import json
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
-import hmac
 from pandac.PandaModules import *
 from otp.distributed.PotentialAvatar import PotentialAvatar
 from otp.otpbase import OTPGlobals
@@ -10,19 +12,33 @@ from toontown.chat.WhisperPopup import WhisperPopup
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')
 
+    def __init__(self, air):
+        DistributedObjectGlobal.__init__(self, air)
+
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
+        
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), base.launcher.getPassword()))
 
-        self.systemMessageSfx = None
+        try:
+            response = json.loads(httpReq.getresponse().read())
+        except:
+            self.notify.error('Failed to decode json login API response!')
+            return
 
-        token = self.cr.playToken or 'dev'
+        if response['status'] != 'true':
+            # looks like we got a hacker!
+            raise SystemExit
+        else:
+            # the request was successful, set the login cookie and login.
+            cookie = response['additional']
 
         key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
         digest_maker = hmac.new(key)
-        digest_maker.update(token)
-        clientKey = digest_maker.hexdigest()
+        digest_maker.update(cookie)
 
-        self.sendUpdate('login', [token, clientKey])
+        self.sendUpdate('login', [cookie, digest_maker.hexdigest()])
 
     def acceptLogin(self, timestamp):
         messenger.send(self.doneEvent, [{'mode': 'success', 'timestamp': timestamp}])
@@ -82,7 +98,5 @@ class ClientServicesManager(DistributedObjectGlobal):
         whisper = WhisperPopup(message, OTPGlobals.getInterfaceFont(), WTSystem)
         whisper.manage(base.marginManager)
 
-        if self.systemMessageSfx is None:
-            self.systemMessageSfx = base.loader.loadSfx('phase_3/audio/sfx/clock03.ogg')
-
-        base.playSfx(self.systemMessageSfx)
+        # play the system message sound effect
+        base.playSfx(base.loader.loadSfx('phase_3/audio/sfx/clock03.ogg'))

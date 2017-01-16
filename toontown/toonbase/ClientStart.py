@@ -118,9 +118,6 @@ from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 
-# import dclass files, so nuitka will compile them into the build. -_-
-from toontown.distributed.DistributedClassImports import *
-
 #For Devs only. (The below)
 '''from direct.stdpy import threading, thread
 def __inject_wx(_):

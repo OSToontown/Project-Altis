@@ -7,9 +7,12 @@ set /P PPYTHON_PATH=<PPYTHON_PATH
 rem Get the user input:
 set /P ttaUsername="Username: "
 
+rem Get the user input:
+set /P ttaPassword="Password: "
+
 rem Export the environment variables:
-set ttaPassword=password
-set TTA_PLAYCOOKIE=%ttaUsername%
+set TTA_USERNAME=%ttaUsername%
+set TTA_PASSWORD=%ttaPassword%
 set TTA_GAMESERVER=127.0.0.1
 
 echo ===============================

@@ -1145,9 +1145,8 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
         digest_maker.update(cookie)
-        serverKey = digest_maker.hexdigest()
         
-        if not hmac.compare_digest(serverKey, authKey):
+        if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
             # recieved a bad authentication key from the client, drop there connection!
             self.killConnection(sender, 'Failed to login, recieved a bad login token %s' % (cookie))
             return
