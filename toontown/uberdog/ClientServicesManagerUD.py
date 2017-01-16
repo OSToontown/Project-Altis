@@ -141,14 +141,18 @@ class LocalAccountDB(AccountDB):
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
         
         try:
-            response = json.loads(httpReq.getresponse().read())
+            XXX = httpReq.getresponse().read()
+            response = json.loads(XXX)
         except:
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
 
         if response['status'] != 'true':
-             return
+            
+            callback({'success': False,
+                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
+            return
         else:
             cookie = response['additional']
 
@@ -158,16 +162,19 @@ class LocalAccountDB(AccountDB):
             return
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
-        sanityChecks.request('GET', '/api/sanitycheck?t=%s' % (cookie))
+        sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
         
         try:
-            response = json.loads(sanityChecks.getresponse().read())
+            XYZ = sanityChecks.getresponse().read()
+            print(str(XYZ))
+            response = json.loads(XYZ)
         except:
+            print("KILL ME")
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
         
-        if sanityChecks["isbanned"] == "true":
+        if response["isbanned"] == "true":
             callback({'success': False,
                       'reason': 'Your account is banned from Project Altis!'})
             return
@@ -194,8 +201,8 @@ class LocalAccountDB(AccountDB):
             response = {
                 'success': True,
                 'userId': cookie,
-                'accountId': int(self.dbm[str(cookie)])
-                'accessLevel': int(sanityChecks['accesslevel'])
+                'accountId': int(self.dbm[str(cookie)]),
+                'accessLevel': int(response['powerlevel'])
             }
             
             callback(response)
