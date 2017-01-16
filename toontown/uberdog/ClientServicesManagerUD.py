@@ -158,7 +158,7 @@ class LocalAccountDB(AccountDB):
             return
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
-        sanityChecks.request('GET', '/api/sanitycheck?t=%s' % (username))
+        sanityChecks.request('GET', '/api/sanitycheck?t=%s' % (cookie))
         
         try:
             response = json.loads(sanityChecks.getresponse().read())
