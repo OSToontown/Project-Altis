@@ -1620,6 +1620,8 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                     toon.inventory.zeroInv(1)
                     deadToons.append(activeToon)
                 self.notify.debug('AFTER ROUND: toon: %d setHp: %d' % (toon.doId, toon.hp))
+                if toon.unlimitedGags:
+	                toon.doRestock(noUber=0, noPaid=0)
 
         for deadToon in deadToons:
             self.__removeToon(deadToon)
