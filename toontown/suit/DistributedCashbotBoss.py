@@ -953,7 +953,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             track.start()
         elif pageNumber == 3:
             self.d_applyReward()
-            #ResistanceChat.doEffect(self.rewardId, self.resistanceToon, self.involvedToons)
+            ResistanceChat.doEffect(self.rewardId, self.resistanceToon, self.involvedToons)
 
     def __epilogueChatDone(self, elapsed):
         self.resistanceToon.setChatAbsolute(TTLocalizer.CagedToonGoodbye, CFSpeech)
