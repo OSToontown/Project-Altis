@@ -4,7 +4,7 @@ from toontown.catalog.CatalogAccessoryItemGlobals import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import ToonDNA
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 

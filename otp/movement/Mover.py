@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from otp.movement.CMover import CMover
 from direct.directnotify import DirectNotifyGlobal
 from otp.movement.PyVec3 import PyVec3
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import __builtin__
 
 class Mover:

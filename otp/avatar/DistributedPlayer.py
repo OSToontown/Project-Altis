@@ -1,6 +1,6 @@
 import string
 import time
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task import Task
 from pandac.PandaModules import *
 from otp.ai.MagicWordGlobal import *

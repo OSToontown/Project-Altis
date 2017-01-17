@@ -6,7 +6,7 @@ from toontown.coghq import LawOfficeBase
 from toontown.coghq import LevelSuitPlannerAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import *
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task import Task
 from otp.level import DistributedLevelAI
 from otp.level import LevelSpec

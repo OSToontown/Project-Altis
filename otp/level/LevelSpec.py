@@ -2,7 +2,7 @@ import string
 import types
 from pandac import PandaModules as PM
 from direct.directnotify import DirectNotifyGlobal
-from direct.showbase.PythonUtil import list2dict, uniqueElements
+from toontown.toonbase.ToonPythonUtil import list2dict, uniqueElements
 from otp.level import LevelConstants
 if __dev__:
     import os

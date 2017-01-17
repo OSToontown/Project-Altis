@@ -9,7 +9,7 @@ __builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist=['*']).__
 from direct.extensions_native import HTTPChannel_extensions
 
 
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 
 import argparse
 

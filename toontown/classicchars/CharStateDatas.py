@@ -3,7 +3,7 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import StateData
 from direct.directnotify import DirectNotifyGlobal
-from direct.showbase.PythonUtil import *
+from toontown.toonbase.ToonPythonUtil import *
 from direct.task import Task
 from toontown.classicchars import CCharPaths
 from toontown.toonbase import ToontownGlobals

@@ -160,10 +160,10 @@ class PickAToon:
                 del self.loadingCircle
         self.loadingCircle = OnscreenImage(image = 'phase_3/maps/dmenu/loading_circle.png')
         self.loadingCircle.show()
-        base.graphicsEngine.renderFrame()
         self.loadingCircle.setScale(0.1)
         self.loadingCircle.setTransparency(TransparencyAttrib.MAlpha)
         self.loadingCircle.reparentTo(aspect2d)
+        base.graphicsEngine.renderFrame()
         self.Seq = Sequence(
             Func(self.loadingCircle.setHpr, VBase3(0, 0, 0)),
             self.loadingCircle.hprInterval(1, VBase3(0, 0, 360)))

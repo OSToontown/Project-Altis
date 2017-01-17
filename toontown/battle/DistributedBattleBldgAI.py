@@ -6,8 +6,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from direct.showbase import PythonUtil
-from direct.showbase.PythonUtil import addListsByValue
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from toontown.toonbase.ToonPythonUtil import addListsByValue
 from direct.task import Task
 from otp.ai.AIBase import *
 from toontown.toonbase.ToontownBattleGlobals import *
