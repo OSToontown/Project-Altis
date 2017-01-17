@@ -4790,7 +4790,7 @@ def gmIcon(accessLevel=None):
     invoker = spellbook.getInvoker()
     target = spellbook.getTarget()
     invokerAccess = spellbook.getInvokerAccess()
-    if not invokerAccess >= CATEGORY_ADMINISTRATOR.defaultAccess:
+    if invokerAccess < CATEGORY_PROGRAMMER.defaultAccess:
         if accessLevel is not None:
             return "You must be of a higher access level to override your GM icon."
         target = spellbook.getInvoker()
