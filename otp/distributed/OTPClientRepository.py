@@ -2051,10 +2051,10 @@ class OTPClientRepository(ClientRepositoryBase):
         self.considerFlush()
 
     def isLocalId(self, id):
-        if hasattr(self, 'localAvatar'):
-            return localAvatar.doId == id
+        if hasattr(base, 'localAvatar'):
+            return base.localAvatar.doId == id
         
-        self.notify.debug('In isLocalId(), localAvatar not created yet')
+        self.notify.warning('In isLocalId(), localAvatar not created yet')
         return False
 
     ITAG_PERM = 'perm'
