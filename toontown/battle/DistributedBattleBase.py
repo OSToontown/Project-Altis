@@ -674,7 +674,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         suit.battleTrapProp = None
         self.notify.debug('883 suit.battleTrapProp = None')
         suit.battleTrapIsFresh = 0
-        return
 
     def __removeToon(self, toon, unexpected = 0):
         self.notify.debug('__removeToon(%d)' % toon.doId)
@@ -709,7 +708,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             base.cr.playGame.getPlace().setState('walk')
         base.localAvatar.earnedExperience = None
         self.localToonFsm.request('NoLocalToon')
-        return
 
     def removeInactiveLocalToon(self, toon):
         self.notify.debug('removeInactiveLocalToon(%d)' % toon.doId)
@@ -836,7 +834,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
           'shardId': None,
           'avId': -1,
           'battle': 1}])
-        return
 
     def __makeToonJoin(self, toon, pendingToons, ts):
         self.notify.debug('__makeToonJoin(%d)' % toon.doId)
@@ -1179,7 +1176,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             self.movie.finish()
         else:
             self.movie.play(ts, self.__handleMovieDone)
-        return None
 
     def __handleMovieDone(self):
         self.notify.debug('__handleMovieDone()')
