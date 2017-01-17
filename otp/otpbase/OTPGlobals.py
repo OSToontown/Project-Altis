@@ -238,7 +238,6 @@ def setInterfaceFont(path):
     global InterfaceFont
     InterfaceFontPath = path
     InterfaceFont = None
-    return
 
 
 def getSignFont():
