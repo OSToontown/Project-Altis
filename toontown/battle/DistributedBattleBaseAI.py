@@ -1631,7 +1631,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.d_setMovie()
         self.d_setChosenToonAttacks()
         self.localMovieDone(needUpdate, deadToons, deadSuits, lastActiveSuitDied)
-        return
 
     def enterResume(self):
         for suit in self.suits:
