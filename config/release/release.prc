@@ -4,6 +4,9 @@ min-access-level 600
 shard-low-pop 50
 shard-mid-pop 100
 
+# DC File
+dc-file config/toon.dc
+
 # Core features:
 want-pets #t
 want-parties #f
