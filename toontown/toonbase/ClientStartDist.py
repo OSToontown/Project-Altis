@@ -14,7 +14,6 @@ sys.path = ['.']
 # This is to make sure the distrubution client doesn't
 # get any special perms or anything of the sort.
 __builtin__.__dev__ = False
-__builtin__.__debug__ = True
 
 #def __runfunc(*args, **kw):
 #    raise SystemExit
