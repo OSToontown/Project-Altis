@@ -55,8 +55,12 @@ class SourcePackager(NiraiPackager):
         return name[self.__manglebase:].strip('.')
 
     def generate_niraidata(self):
-        # we use a custom program to compile the dc and config...
-        pass
+        print 'Generating niraidata'
+
+        config = self.get_file_contents(self.BASEDIR + 'config/general.prc', True)
+        configRelease = self.get_file_contents(self.BASEDIR + 'config/release/release.prc', True)
+        niraidata = 'CONFIG = %r %r' % (config, configRelease)
+        self.add_module('niraidata', niraidata, compile=True)
 
     def process_modules(self):
         dg = PyDatagram()
