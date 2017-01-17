@@ -93,7 +93,7 @@ CATEGORY_ADMINISTRATOR = MagicWordCategory('Administrator', defaultAccess=450)
 CATEGORY_SYSTEM_ADMINISTRATOR = MagicWordCategory('System administrator', defaultAccess=500)
 
 
-MINIMUM_MAGICWORD_ACCESS = CATEGORY_COMMUNITY_MANAGER.defaultAccess
+MINIMUM_MAGICWORD_ACCESS = CATEGORY_VIP.defaultAccess
 
 
 class MagicWord:
