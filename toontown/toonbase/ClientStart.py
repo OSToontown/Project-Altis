@@ -209,6 +209,6 @@ if autoRun:
     except SystemExit:
         raise
     except:
-        from direct.showbase import PythonUtil
+        from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
         raise

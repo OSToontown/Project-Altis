@@ -5,7 +5,7 @@ from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.showbase.DirectObject import DirectObject
 from otp.login import LeaveToPayDialog
 

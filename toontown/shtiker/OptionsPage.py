@@ -1,6 +1,6 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.gui.DirectGui import *
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task import Task
 from panda3d.core import *
 from toontown.shtiker import DisplaySettingsDialog

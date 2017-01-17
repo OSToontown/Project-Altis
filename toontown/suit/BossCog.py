@@ -5,7 +5,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import FSM
 from direct.fsm import State
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import Functor
 from direct.task.Task import Task
 from pandac.PandaModules import *
 from toontown.suit import Suit

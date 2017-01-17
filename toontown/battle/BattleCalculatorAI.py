@@ -9,7 +9,7 @@ from toontown.battle import BattleExperienceAI
 from toontown.toon import NPCToons
 from toontown.pets import PetTricks, DistributedPetProxyAI
 from toontown.hood import ZoneUtil
-from direct.showbase.PythonUtil import lerp
+from toontown.toonbase.ToonPythonUtil import lerp
 
 class BattleCalculatorAI:
     AccuracyBonuses = [0, 20, 40, 60]

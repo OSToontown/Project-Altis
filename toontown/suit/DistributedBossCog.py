@@ -19,7 +19,7 @@ from toontown.effects import DustCloud
 from toontown.toonbase import TTLocalizer
 from toontown.friends import FriendsListManager
 from direct.controls.ControlManager import CollisionHandlerRayStart
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import random
 from toontown.nametag import NametagGlobals
 

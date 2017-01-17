@@ -5,7 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import Functor
 from direct.showutil import Rope
 from direct.task import Task
 import math

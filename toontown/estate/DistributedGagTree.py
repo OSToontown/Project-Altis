@@ -1,7 +1,7 @@
 from toontown.estate import DistributedPlantBase
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel

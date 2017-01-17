@@ -14,7 +14,7 @@ from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.task import Task
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-from direct.showbase.PythonUtil import Functor, ScratchPad
+from toontown.toonbase.ToonPythonUtil import Functor, ScratchPad
 from direct.showbase.InputStateGlobal import inputState
 from otp.avatar import Avatar
 from otp.avatar import DistributedAvatar

@@ -1,6 +1,6 @@
 import math
 import random
-from direct.showbase.PythonUtil import *
+from toontown.toonbase.ToonPythonUtil import *
 from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from pandac.PandaModules import *

@@ -4,7 +4,7 @@ from toontown.hood import GenericAnimatedProp
 from direct.actor import Actor
 from direct.interval.IntervalGlobal import Sequence, ActorInterval, Wait, Func, SoundInterval, Parallel
 from direct.fsm import FSM
-from direct.showbase.PythonUtil import weightedChoice
+from toontown.toonbase.ToonPythonUtil import weightedChoice
 from pandac.PandaModules import TextNode, Vec3
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil

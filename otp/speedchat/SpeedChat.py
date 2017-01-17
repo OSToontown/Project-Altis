@@ -1,4 +1,4 @@
-from direct.showbase.PythonUtil import boolEqual
+from toontown.toonbase.ToonPythonUtil import boolEqual
 from otp.speedchat.SpeedChatTypes import *
 from otp.speedchat.SCSettings import SCSettings
 from otp.speedchat.SCTerminal import SCWhisperModeChangeEvent

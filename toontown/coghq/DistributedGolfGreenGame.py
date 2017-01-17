@@ -3,7 +3,7 @@ from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
 from toontown.coghq.StomperGlobals import *
 from direct.distributed import ClockDelta
-from direct.showbase.PythonUtil import lerp
+from toontown.toonbase.ToonPythonUtil import lerp
 import math
 from otp.level import DistributedEntity
 from direct.directnotify import DirectNotifyGlobal

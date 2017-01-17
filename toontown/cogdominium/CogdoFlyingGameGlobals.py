@@ -1,4 +1,4 @@
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from pandac.PandaModules import VBase4, Vec3, Point3
 from toontown.cogdominium.CogdoUtil import VariableContainer, DevVariableContainer
 

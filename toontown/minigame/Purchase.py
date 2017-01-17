@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui import DirectGuiGlobals as DGG
-from direct.showbase.PythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import Functor
 from direct.task.Task import Task
 from toontown.minigame import MinigameGlobals
 from toontown.minigame.PurchaseBase import *

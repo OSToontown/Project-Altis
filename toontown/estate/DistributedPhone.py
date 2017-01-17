@@ -5,7 +5,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.estate import DistributedHouseInterior, DistributedFurnitureItem, PhoneGlobals
 from direct.actor import Actor
 from direct.distributed import ClockDelta
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.showutil import Rope
 from direct.directnotify.DirectNotifyGlobal import *
 from panda3d.core import *

@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-from direct.showbase.PythonUtil import clampScalar
+from toontown.toonbase.ToonPythonUtil import clampScalar
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal

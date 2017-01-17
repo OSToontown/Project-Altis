@@ -12,7 +12,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.filter.CommonFilters import CommonFilters
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
-from direct.showbase.PythonUtil import *
+from toontown.toonbase.ToonPythonUtil import *
 from direct.showbase.Transitions import Transitions
 from direct.task import *
 from pandac.PandaModules import *
