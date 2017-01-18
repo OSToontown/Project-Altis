@@ -85,7 +85,7 @@ want-weather #f
 
 # Options Page
 change-display-settings #t
-change-display-api #t
+change-display-api #f
 
 # Safe zone settings:
 want-treasure-planners #t
