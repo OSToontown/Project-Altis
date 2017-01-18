@@ -85,7 +85,7 @@ class MagicWordCategory:
 CATEGORY_UNKNOWN = MagicWordCategory('Unknown')
 CATEGORY_USER = MagicWordCategory('Default User', defaultAccess=100)
 CATEGORY_VIP = MagicWordCategory('VIP', defaultAccess=250)
-CATEGORY_MEDIA = MagicWordCategory('Streamer', defaultAccess=275)
+CATEGORY_MEDIA = MagicWordCategory('Media', defaultAccess=275)
 CATEGORY_COMMUNITY_MANAGER = MagicWordCategory('Community Manager', defaultAccess=300)
 CATEGORY_MODERATOR = MagicWordCategory('Moderator', defaultAccess=375)
 CATEGORY_CREATIVE = MagicWordCategory('Creative', defaultAccess=390)
