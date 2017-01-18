@@ -4804,9 +4804,6 @@ def gmIcon(accessLevel=None):
         target._gmDisabled = False
         if accessLevel is None:
             accessLevel = target.getAdminAccess()
-        if accessLevel != target.getGMType():
-            if not invokerAccess >= CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess:
-                accessLevel = target.getGMType()
         if accessLevel not in (0,
                                CATEGORY_COMMUNITY_MANAGER.defaultAccess,
                                CATEGORY_MODERATOR.defaultAccess,
