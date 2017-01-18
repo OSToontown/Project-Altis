@@ -744,7 +744,8 @@ class MakeAToon(StateData.StateData):
         self.spotlight.setPos(2, -1.95, 0.41)
         self.toon.setPos(Point3(1.5, -4, 0))
         self.toon.setH(120)
-        self.toonRotateSlider.hide()
+        if self.toonRotateSlider:
+            self.toonRotateSlider.hide()
         if self.progressing:
             waittime = self.leftTime
         else:

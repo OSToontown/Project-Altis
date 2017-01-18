@@ -181,7 +181,10 @@ class PickAToon:
                                          text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1),
                                          text_scale=0.15, text_pos=(0, -0.1), relief=None,
                                          scale=.5, command=self.__handleDelete, pos=(-.2, 0, .25))
+ 
+        self.changeName = DirectButton(relief = None, image = (quitHover, quitHover, quitHover), text = 'NAME THIS TOON', text_font=ToontownGlobals.getSignFont(), text_fg=(0.977, 0.816, 0.133, 1), text_pos=(0, -.016), text_scale = 0.045, image_scale=1, image1_scale=1.05, image2_scale=1.05, scale=1.4, pos=(0, 0, -0.75), command=self.__handleNameYourToon, parent=self.patNode2d)
 
+    
     def selectToon(self, slot):
         self.selectedToon = slot
         self.updateFunc()
@@ -198,6 +201,7 @@ class PickAToon:
             base.camera.setPos(-60, 0, 8 + camZ)
             self.deleteButton.show()
         else:
+            self.changeName.hide()
             self.toon.hide()
             base.camera.setPos(-60, 0, 11)
             taskMgr.remove('turnHead')
@@ -209,7 +213,12 @@ class PickAToon:
     def showToon(self):
         av = [x for x in self.avatarList if x.position == self.selectedToon][0]
         dna = av.dna
-        
+        if av.allowedName == 1:
+            self.toon.setName(av.name + '\n\1textShadow\1NAME REJECTED!\2')
+            self.changeName.show()
+        else:
+            self.toon.setName(av.name)
+            self.changeName.hide()
         self.toon.setDNAString(dna)
         #self.jumpIn = Sequence(
         #         Func(self.toon.animFSM.request, 'PATTeleportIn'),
@@ -217,7 +226,6 @@ class PickAToon:
         #         Func(self.toon.animFSM.request, 'neutral'))
         #self.jumpIn.start() # ALTIS: TODO: Add the states to Toon.py
         self.toon.animFSM.request('neutral')
-        self.toon.setName(av.name)
         self.toon.show()
 
     def turnHead(self, task):
@@ -309,6 +317,10 @@ class PickAToon:
                                    doneEvent='pat-del-diag-done')
         
         base.transitions.fadeScreen(.5)
+        
+    def __handleNameYourToon(self):
+        doneStatus = {"mode": "nameIt", "choice": self.selectedToon}
+        messenger.send(self.doneEvent, [doneStatus])
 
     def __handleQuit(self):
         cleanupDialog('globalDialog')
