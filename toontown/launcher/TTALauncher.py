@@ -26,7 +26,7 @@ class TTALauncher(LauncherBase):
     def __init__(self):
         self.http = HTTPClient()
 
-        self.logPrefix = 'toontown-advance-'
+        self.logPrefix = 'project-altis-'
 
         ltime = 1 and time.localtime()
         logSuffix = '%02d%02d%02d_%02d%02d%02d' % (ltime[0] - 2000,  ltime[1], ltime[2],
