@@ -6,7 +6,7 @@ from pandac.PandaModules import *
 from direct.fsm import FSM
 from direct.distributed import DistributedSmoothNode
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import clampScalar
+from toontown.toonbase.ToonPythonUtil import clampScalar
 from otp.otpbase import OTPGlobals
 from otp.avatar import ShadowCaster
 from toontown.racing import Kart
@@ -18,7 +18,7 @@ from toontown.effects.Sparks import Sparks
 from direct.interval.ProjectileInterval import *
 from toontown.battle.BattleProps import *
 import random
-from direct.showbase.PythonUtil import randFloat
+from toontown.toonbase.ToonPythonUtil import randFloat
 from direct.task.Task import Task
 from toontown.nametag import NametagGlobals
 import math

@@ -141,14 +141,18 @@ class LocalAccountDB(AccountDB):
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
         
         try:
-            response = json.loads(httpReq.getresponse().read())
+            XXX = httpReq.getresponse().read()
+            response = json.loads(XXX)
         except:
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
 
         if response['status'] != 'true':
-             return
+            
+            callback({'success': False,
+                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
+            return
         else:
             cookie = response['additional']
 
@@ -157,6 +161,28 @@ class LocalAccountDB(AccountDB):
                       'reason': 'Invalid Cookie Specified!'})
             return
 
+        sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
+        sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
+        
+        try:
+            XYZ = sanityChecks.getresponse().read()
+            print(str(XYZ))
+            response = json.loads(XYZ)
+        except:
+            print("KILL ME")
+            callback({'success': False,
+                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
+            return
+        
+        if response["isbanned"] == "true":
+            callback({'success': False,
+                      'reason': 'Your account is banned from Project Altis!'})
+            return
+
+        if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
+            callback({'success': False,
+                      'reason': 'Invalid Cookie Specified!'})
+            return
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -175,7 +201,8 @@ class LocalAccountDB(AccountDB):
             response = {
                 'success': True,
                 'userId': cookie,
-                'accountId': int(self.dbm[str(cookie)])
+                'accountId': int(self.dbm[str(cookie)]),
+                'accessLevel': int(response['powerlevel'])
             }
             
             callback(response)
@@ -426,13 +453,26 @@ class LoginAccountFSM(OperationFSM):
         datagram.addChannel(self.csm.GetAccountConnectionChannel(self.accountId))
         self.csm.air.send(datagram)
 
-        # Add this connection to extra channels which may be useful:
-        if self.accessLevel > 100:
-            datagram = PyDatagram()
-            datagram.addServerHeader(self.target, self.csm.air.ourChannel,
-                                     CLIENTAGENT_OPEN_CHANNEL)
-            datagram.addChannel(OtpDoGlobals.OTP_STAFF_CHANNEL)
-            self.csm.air.send(datagram)
+        # Subscribe to any "staff" channels that the account has access to.
+        access = self.account.get('ADMIN_ACCESS', 0)
+        if access >= 200:
+            # Subscribe to the moderator channel.
+            dg = PyDatagram()
+            dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
+            dg.addChannel(OtpDoGlobals.OTP_MOD_CHANNEL)
+            self.csm.air.send(dg)
+        if access >= 400:
+            # Subscribe to the administrator channel.
+            dg = PyDatagram()
+            dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
+            dg.addChannel(OtpDoGlobals.OTP_ADMIN_CHANNEL)
+            self.csm.air.send(dg)
+        if access >= 500:
+            # Subscribe to the system administrator channel.
+            dg = PyDatagram()
+            dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
+            dg.addChannel(OtpDoGlobals.OTP_SYSADMIN_CHANNEL)
+            self.csm.air.send(dg)
 
         # Now set their sender channel to represent their account affiliation:
         datagram = PyDatagram()

@@ -1,7 +1,7 @@
 from toontown.suit import SuitDNA
 import types
 from toontown.toonbase import TTLocalizer
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from otp.otpbase import OTPGlobals
 PartsPerSuit = (10,
  10,

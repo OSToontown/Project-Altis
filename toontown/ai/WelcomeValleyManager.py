@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 
 class WelcomeValleyManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('WelcomeValleyManager')

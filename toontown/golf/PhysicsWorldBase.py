@@ -5,7 +5,7 @@ from pandac.PandaModules import *
 from math import *
 import math
 from direct.fsm.FSM import FSM
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task import Task
 from direct.distributed.ClockDelta import *
 from toontown.golf import BuildGeometry

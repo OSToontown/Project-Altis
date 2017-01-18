@@ -7,7 +7,9 @@ from toontown.friends import ToontownFriendSecret
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
+from toontown.toon import DistributedToon
 
+FLPLOCAL = 0
 FLPPets = 1
 FLPOnline = 2
 FLPAll = 3
@@ -92,7 +94,7 @@ def unloadFriendsList():
 class FriendsListPanel(DirectFrame, StateData.StateData):
 
     def __init__(self):
-        self.leftmostPanel = FLPPets
+        self.leftmostPanel = FLPLOCAL
         self.rightmostPanel = FLPPlayers
         if base.cr.productName in ['DisneyOnline-UK',
          'DisneyOnline-AP',
@@ -342,6 +344,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
     def __updateScrollList(self):
         newFriends = []
         petFriends = []
+        localToons = []
         freeChatOneRef = []
         speedChatOneRef = []
         freeChatDouble = []
@@ -545,6 +548,11 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
                 if isinstance(obj, DistributedPet.DistributedPet):
                     friendPair = (objId, 0)
                     petFriends.append(friendPair)
+                    
+        if self.panelType == FLPLOCAL:
+            for objId, obj in base.cr.doId2do.items():
+                if isinstance(obj, DistributedToon.DistributedToon):
+                    localToons.append((objId, 0))
 
         if self.panelType == FLPEnemies:
             for ignored in base.localAvatar.ignoreList:
@@ -561,6 +569,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
         newFriends.sort(compareFriends)
         petFriends.sort(compareFriends)
+        localToons.sort(compareFriends)
         freeChatOneRef.sort(compareFriends)
         speedChatOneRef.sort(compareFriends)
         freeChatDouble.sort(compareFriends)
@@ -576,6 +585,13 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         for friendPair in petFriends:
             if friendPair not in self.friends:
                 friendButton = self.makeFriendButton(friendPair, ToontownGlobals.ColorNoChat, 0)
+                if friendButton:
+                    self.scrollList.addItem(friendButton, refresh=0)
+                    self.friends[friendPair] = friendButton
+                    
+        for friendPair in localToons:
+            if friendPair not in self.friends:
+                friendButton = self.makeFriendButton(friendPair)
                 if friendButton:
                     self.scrollList.addItem(friendButton, refresh=0)
                     self.friends[friendPair] = friendButton
@@ -625,6 +641,8 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             self.title['text'] = TTLocalizer.FriendsListPanelAllFriends
         elif self.panelType == FLPPets:
             self.title['text'] = TTLocalizer.FriendsListPanelPets
+        elif self.panelType == FLPLOCAL:
+            self.title['text'] = TTLocalizer.FriendsListPanelLocal
         elif self.panelType == FLPPlayers:
             self.title['text'] = TTLocalizer.FriendsListPanelPlayers
         elif self.panelType == FLPOnlinePlayers:

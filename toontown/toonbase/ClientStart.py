@@ -12,7 +12,7 @@ from direct.extensions_native import VBase4_extensions
 from direct.extensions_native import NodePath_extensions
 from panda3d.core import loadPrcFile
 
-if True: #__debug__:
+if __debug__:
     loadPrcFile('config/general.prc')
     loadPrcFile('config/release/dev.prc')
 
@@ -209,6 +209,6 @@ if autoRun:
     except SystemExit:
         raise
     except:
-        from direct.showbase import PythonUtil
+        from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
         raise

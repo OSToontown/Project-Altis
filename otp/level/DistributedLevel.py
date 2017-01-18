@@ -1,7 +1,7 @@
 import random
 from direct.distributed.ClockDelta import *
 from pandac.PandaModules import *
-from direct.showbase.PythonUtil import Functor, sameElements, list2dict, uniqueElements
+from toontown.toonbase.ToonPythonUtil import Functor, sameElements, list2dict, uniqueElements
 from direct.interval.IntervalGlobal import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.toonbase import ToontownGlobals

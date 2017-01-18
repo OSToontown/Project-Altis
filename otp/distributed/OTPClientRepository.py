@@ -18,7 +18,8 @@ from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import ivalMgr
 from direct.showbase import LeakDetectors
 from direct.showbase import MessengerLeakDetector
-from direct.showbase import PythonUtil, GarbageReport, BulletinBoardWatcher
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from direct.showbase import GarbageReport, BulletinBoardWatcher
 from direct.showbase.ContainerLeakDetector import ContainerLeakDetector
 from direct.showbase.GarbageReportScheduler import GarbageReportScheduler
 from direct.task import Task
@@ -2050,10 +2051,10 @@ class OTPClientRepository(ClientRepositoryBase):
         self.considerFlush()
 
     def isLocalId(self, id):
-        if hasattr(self, 'localAvatar'):
-            return localAvatar.doId == id
+        if hasattr(base, 'localAvatar'):
+            return base.localAvatar.doId == id
         
-        self.notify.debug('In isLocalId(), localAvatar not created yet')
+        self.notify.warning('In isLocalId(), localAvatar not created yet')
         return False
 
     ITAG_PERM = 'perm'

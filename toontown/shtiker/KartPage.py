@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task import Task
 from toontown.fishing.FishPhoto import DirectRegion
 from toontown.racing.KartDNA import *

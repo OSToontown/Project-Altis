@@ -140,6 +140,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.savedCheesyExpireTime = 0
         self.ghostMode = 0
         self.immortalMode = 0
+        self.unlimitedGags = 0
         self.numPies = 0
         self.pieType = 0
         self.uber = 0
@@ -2330,6 +2331,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setImmortalMode(self, flag):
         self.immortalMode = flag
+        
+    def setUnlimitedGags(self, flag):
+        self.unlimitedGags = flag
 
     def b_setSpeedChatStyleIndex(self, index):
         self.setSpeedChatStyleIndex(index)
@@ -4470,11 +4474,11 @@ def allSummons():
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str])
 def maxToon(missingTrack=None):
     """
-    Max the invoker's stats for end-level gameplay.
+    Max the target's stats for end-level gameplay.
     """
-    invoker = spellbook.getInvoker()
+    target = spellbook.getTarget() if spellbook.getInvokerAccess() >= 450 else spellbook.getInvoker()
 
-    # First, unlock the invoker's Gag tracks:
+    # First, unlock the target's Gag tracks:
     gagTracks = [1, 1, 1, 1, 1, 1, 1, 1]
     if missingTrack is not None:
         try:
@@ -4485,27 +4489,27 @@ def maxToon(missingTrack=None):
         if index in (4, 5):
             return 'You are required to have Throw and Squirt.'
         gagTracks[index] = 0
-    invoker.b_setTrackAccess(gagTracks)
-    invoker.b_setMaxCarry(110)
+    target.b_setTrackAccess(gagTracks)
+    target.b_setMaxCarry(110)
 
     # Next, max out their experience for the tracks they have:
-    experience = Experience.Experience(invoker.getExperience(), invoker)
-    for i, track in enumerate(invoker.getTrackAccess()):
+    experience = Experience.Experience(target.getExperience(), target)
+    for i, track in enumerate(target.getTrackAccess()):
         if track:
             experience.experience[i] = (Experience.MaxSkill)
-    invoker.b_setExperience(experience.makeNetString())
+    target.b_setExperience(experience.makeNetString())
     
     # Restock their inventory:
-    inventory = invoker.inventory
+    inventory = target.inventory
     inventory.NPCMaxOutInv(targetTrack=-1, maxLevelIndex=6)
-    invoker.b_setInventory(inventory.makeNetString())
+    target.b_setInventory(inventory.makeNetString())
 
     # Max out their Laff:
-    invoker.b_setMaxHp(ToontownGlobals.MaxHpLimit)
-    invoker.toonUp(invoker.getMaxHp() - invoker.hp)
+    target.b_setMaxHp(ToontownGlobals.MaxHpLimit)
+    target.toonUp(target.getMaxHp() - target.hp)
 
     # Unlock all of the emotes:
-    emotes = list(invoker.getEmoteAccess())
+    emotes = list(target.getEmoteAccess())
     for emoteId in OTPLocalizer.EmoteFuncDict.values():
         if emoteId >= len(emotes):
             continue
@@ -4514,51 +4518,53 @@ def maxToon(missingTrack=None):
         if emoteId in (17, 18, 19):
             continue
         emotes[emoteId] = 1
-    invoker.b_setEmoteAccess(emotes)
+    target.b_setEmoteAccess(emotes)
 
     # Max out cog suits (ORDER: Bossbot, Lawbot, Cashbot, Sellbot, Boardbots)
-    invoker.b_setCogParts([
+    target.b_setCogParts([
         CogDisguiseGlobals.PartsPerSuitBitmasks[0], # Bossbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[3], # Sellbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
     ])
-    invoker.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
-    invoker.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
+    target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
     deptCount = len(SuitDNA.suitDepts)
-    invoker.b_setCogCount(list(CogPageGlobals.COG_QUOTAS[1]) * deptCount)
+    target.b_setCogCount(list(CogPageGlobals.COG_QUOTAS[1]) * deptCount)
     cogStatus = [CogPageGlobals.COG_COMPLETE2] * SuitDNA.suitsPerDept
-    invoker.b_setCogStatus(cogStatus * deptCount)
-    invoker.b_setCogRadar([1, 1, 1, 1, 1])
-    invoker.b_setBuildingRadar([1, 1, 1, 1, 1])
+    target.b_setCogStatus(cogStatus * deptCount)
+    target.b_setCogRadar([1, 1, 1, 1, 1])
+    target.b_setBuildingRadar([1, 1, 1, 1, 1])
 
     # Max out their racing tickets:
-    invoker.b_setTickets(99999)
+    target.b_setTickets(99999)
     
     # Max out their toon level:
-    invoker.b_setToonLevel(69)
+    target.b_setToonLevel(69)
 
     # Give them teleport access everywhere (including Cog HQs):
     hoods = list(ToontownGlobals.HoodsForTeleportAll)
-    invoker.b_setHoodsVisited(hoods)
-    invoker.b_setTeleportAccess(hoods)
+    target.b_setHoodsVisited(hoods)
+    target.b_setTeleportAccess(hoods)
 
     # End game settings:
-    invoker.b_setQuests([])
-    invoker.b_setQuestCarryLimit(4)
-    invoker.b_setRewardHistory(Quests.ELDER_TIER, [])
-    invoker.b_setMaxMoney(250)
-    invoker.b_setMoney(invoker.getMaxMoney())
-    invoker.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
+    target.b_setQuests([])
+    target.b_setQuestCarryLimit(4)
+    target.b_setRewardHistory(Quests.ELDER_TIER, [])
+    target.b_setMaxMoney(250)
+    target.b_setMoney(target.getMaxMoney())
+    target.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
     # Finally, unlock all of their pet phrases:
     if simbase.wantPets:
-        invoker.b_setPetTrickPhrases(range(7))
-
-    return 'Maxed your Toon!'
+        target.b_setPetTrickPhrases(range(7))
+     
+    if target != spellbook.getInvoker():
+        return "Maxed Target's Toon!"
+    return "Maxed your Toon!"
 
 @magicWord(category=CATEGORY_PROGRAMMER)
 def unlocks():
@@ -4775,7 +4781,7 @@ def shoes(shoesIndex, shoesTex=0):
     invoker.b_setShoes(shoesIndex, shoesTex, 0)
     return "Set %s's shoes to %d, %d!" % (invoker.getName(), shoesIndex, shoesTex)
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[int])
+@magicWord(category=CATEGORY_MEDIA, types=[int])
 def gmIcon(accessLevel=None):
     """
     Toggles the target's GM icon. If an access level is provided, however, the
@@ -4784,7 +4790,7 @@ def gmIcon(accessLevel=None):
     invoker = spellbook.getInvoker()
     target = spellbook.getTarget()
     invokerAccess = spellbook.getInvokerAccess()
-    if invokerAccess != CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess:
+    if invokerAccess < CATEGORY_PROGRAMMER.defaultAccess:
         if accessLevel is not None:
             return "You must be of a higher access level to override your GM icon."
         target = spellbook.getInvoker()
@@ -4799,9 +4805,10 @@ def gmIcon(accessLevel=None):
         if accessLevel is None:
             accessLevel = target.getAdminAccess()
         if accessLevel != target.getGMType():
-            if invokerAccess != CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess:
+            if not invokerAccess >= CATEGORY_PROGRAMMER.defaultAccess:
                 accessLevel = target.getGMType()
         if accessLevel not in (0,
+                               CATEGORY_MEDIA.defaultAccess,
                                CATEGORY_COMMUNITY_MANAGER.defaultAccess,
                                CATEGORY_MODERATOR.defaultAccess,
                                CATEGORY_CREATIVE.defaultAccess,
@@ -5311,8 +5318,75 @@ def summonCogdo(track, difficulty=0):
         return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
 
     building.cogdoTakeOver(difficulty, 2, track)
-    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)    
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def summonBuilding(suitIndex):
     return spellbook.getTarget().doBuildingTakeover(suitIndex)
+    
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def pouch(amt):
+    """ Set the target's max gag limit. """
+    spellbook.getTarget().b_setMaxCarry(amt)
+    return "Set %s's pouch size to %d" % (spellbook.getTarget().getName(), amt)
+    
+@magicWord(category=CATEGORY_CREATIVE)
+def unlimitedGags():
+    """ Restock avatar's gags at the start of each round. """
+    av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
+    av.setUnlimitedGags(not av.unlimitedGags)
+    return 'Toggled unlimited gags %s for %s' % ('ON' if av.unlimitedGags else 'OFF', av.getName())
+
+@magicWord(category=CATEGORY_CREATIVE)
+def immortal():
+    """ Make target (if 400+) or self (if 399-) immortal. """
+    av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
+    av.setImmortalMode(not av.immortalMode)
+    return 'Toggled immortal mode %s for %s' % ('ON' if av.immortalMode else 'OFF', av.getName())
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def goto(avIdShort):
+    """ Teleport to the avId specified. """
+    avId = 100000000+avIdShort # To get target doId.
+    toon = simbase.air.doId2do.get(avId)
+    if not toon:
+        return "Unable to teleport to target, they are not currently on this district."
+    spellbook.getInvoker().magicWordTeleportRequests.append(avId)
+    toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()]) 
+
+@magicWord(category=CATEGORY_PROGRAMMER)
+def dump_doId2do():
+    """
+    Please note that this MW should NOT be used more than it needs to be on a live
+    cluster. This is very hacked together and is purely so we can get a dump of doId2do
+    to get an idea of where the huge memory usage is coming from.
+
+    This should be removed once we are complete.
+    """
+    import sys, operator, tempfile
+    objSizes = {}
+    for object in simbase.air.doId2do.itervalues():
+        # Iterate through each object in doId2do.
+        name = object.__class__.__name__
+        objCurrSizes = objSizes.get(name)
+        if not objCurrSizes:
+            # We haven't yet come across this class. Store first size value.
+            objSizes[name] = sys.getsizeof(object)
+        else:
+            # Increment the stored value by the size of the object we just
+            # iterated through.
+            objSizes[name] += sys.getsizeof(object)
+    # Sort the dict by the size of the objects.
+    # N.B.: This spits out a list of tuples, e.g: [('obj1', 1000), ('obj2', 1001)]
+    sorted_objSizes = sorted(objSizes.iteritems(), key=operator.itemgetter(1))
+    # Create a temporary file that we can store to. This returns a tuple of a file
+    # handler and an absolute file location. (handler, location)
+    temp_file = tempfile.mkstemp(prefix='doId2do-dump_', suffix='.txt', text=True)
+    # Screw the documents, the first value in temp_file is a useless pile of dog shit.
+    # I hax and do like this. <3
+    with open(temp_file[1], 'w+') as file:
+        # Write each class to the file, containing the name and the total size of
+        # all instances of that class.
+        for name, size in sorted_objSizes:
+            file.write('OBJ: %s | SIZE: %d\n' % (name, size))
+    return "Dumped doId2do sizes (grouped by class) to '%s'." % temp_file[1]

@@ -2,7 +2,7 @@ import math
 import random
 from pandac.PandaModules import Point3, CollisionSphere, CollisionNode
 from direct.showbase.DirectObject import DirectObject
-from direct.showbase.PythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import Functor
 from direct.showbase.RandomNumGen import RandomNumGen
 from direct.task.Task import Task
 from toontown.minigame.MazeSuit import MazeSuit

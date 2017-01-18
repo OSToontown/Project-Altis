@@ -1,6 +1,6 @@
 from panda3d.core import *
 from panda3d.direct import *
-from direct.showbase.PythonUtil import reduceAngle
+from toontown.toonbase.ToonPythonUtil import reduceAngle
 from otp.movement import Impulse
 from otp.otpbase import OTPGlobals
 

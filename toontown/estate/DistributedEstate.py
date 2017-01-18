@@ -17,7 +17,7 @@ from toontown.toonbase import TTLocalizer
 import random
 import cPickle
 import time
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.hood import Place
 from toontown.estate import Estate
 from toontown.estate import HouseGlobals

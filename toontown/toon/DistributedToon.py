@@ -8,7 +8,7 @@ from direct.distributed.ClockDelta import *
 from direct.distributed.MsgTypes import *
 from direct.fsm import ClassicFSM
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, SoundInterval
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task.Task import Task
 from pandac.PandaModules import *
 from otp.ai.MagicWordGlobal import *
@@ -2658,25 +2658,38 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setGMIcon(self, gmType=None):
         if hasattr(self, 'gmIcon') and self.gmIcon:
             return
-        
         if not gmType:
             gmType = self._gmType
+        iconInfo = [
+            (None, None),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*')
+        ]
         
-        icons = loader.loadModel('phase_3/models/props/gm_icons.bam')
-        searchString = '**/access_level_' + str(gmType)
-        self.gmIcon = icons.find(searchString)
+        #Now we need to caculate our index. 
+        if gmType in [275]:
+            index = 1
+        elif gmType in [300, 375, 390, 400]:
+            index = 2
+        elif gmType >= 450:
+            index = 3
+        else:
+            index = 2
+        
+        icon = loader.loadModel(iconInfo[index][0])
+        self.gmIcon = icon.find(iconInfo[index][1])
         np = NodePath(self.nametag.getIcon())
         if np.isEmpty():
             return
-        
         self.gmIcon.flattenStrong()
         self.gmIcon.reparentTo(np)
-        self.gmIcon.setScale(1.6)
-        self.gmIcon.setZ(2.05)
+        self.gmIcon.setScale(4)
+        self.gmIcon.setZ(-2.4)
         self.setTrophyScore(self.trophyScore)
         self.gmIconInterval = LerpHprInterval(self.gmIcon, 3.0, Point3(0, 0, 0), Point3(-360, 0, 0))
         self.gmIconInterval.loop()
-
+        
     def setGMPartyIcon(self):
         gmType = self._gmType
         iconInfo = ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', 'phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', 'phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', 'phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected')

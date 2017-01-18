@@ -9,7 +9,7 @@ from direct.fsm import StateData
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 
 class GolfKart(StateData.StateData):
 

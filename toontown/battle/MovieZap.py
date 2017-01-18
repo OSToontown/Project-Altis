@@ -23,7 +23,7 @@ sprayScales = [0.2,
  0.8,
  1.0,
  2.0]
-WaterSprayColor = Point4(1.0, 1.0, 0, 1.0)
+WaterSprayColor = Point4(0, 0, 0, 0)
 zapPos = Point3(0, 0, 0)
 zapHpr = Vec3(0, 0, 0)
 
@@ -212,7 +212,7 @@ def shortCircuitTrack(suit, battle):
         (0.9, ParticleInterval(bigGearExplosion, battle, worldRelative=0, duration=2.0, cleanup=True)), name='gears2MTrack'
     )
 
-    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack, Wait(4.5))
+    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack)
 
 
 def say(statement):

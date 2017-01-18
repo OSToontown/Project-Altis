@@ -47,119 +47,117 @@ class DMenuScreen(DirectObject):
         base.cr.DMENU_SCREEN = self
         self.seq = None
         self.isSeqPlaying = False # .isPlaying() doesnt want to work
-        if DMENU_GAME == 'Toontown':
-            base.cr.avChoice = None
-            
-            fadeSequence = Sequence(
-                Func(base.transitions.fadeOut, .001),
-                Wait(.5),
-                Func(base.transitions.fadeIn, .5),
-                base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
+        base.cr.avChoice = None
         
-        if DMENU_GAME == 'Toontown':
-            self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
-            self.background.reparentTo(render)
-            self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
-            ropes = loader.loadModel('phase_4/models/modules/tt_m_ara_int_ropes')
-            ropes.reparentTo(self.background)
-            self.sillyMeter = Actor.Actor('phase_4/models/props/tt_a_ara_ttc_sillyMeter_default', {'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
-                'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
-                'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
-                'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
-                'phaseFour': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFour',
-                'phaseFourToFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFourToFive',
-                'phaseFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFive'})
-            
-            self.sillyMeter.reparentTo(self.background)
-            self.sillyMeter.makeSubpart('arrow', ['uvj_progressBar*', 'def_springA'])
-            self.sillyMeter.makeSubpart('meter', ['def_pivot'], ['uvj_progressBar*', 'def_springA'])
-            self.audio3d = Audio3DManager.Audio3DManager(base.sfxManagerList[0], camera)
+        fadeSequence = Sequence(
+            Func(base.transitions.fadeOut, .001),
+            Wait(.5),
+            Func(base.transitions.fadeIn, .5),
+            base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
+               
+        self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
+        self.background.reparentTo(render)
+        self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
+        ropes = loader.loadModel('phase_4/models/modules/tt_m_ara_int_ropes')
+        ropes.reparentTo(self.background)
+        self.sillyMeter = Actor.Actor('phase_4/models/props/tt_a_ara_ttc_sillyMeter_default', {'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
+            'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
+            'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
+            'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
+            'phaseFour': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFour',
+            'phaseFourToFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFourToFive',
+            'phaseFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFive'})
+        
+        self.sillyMeter.reparentTo(self.background)
+        self.sillyMeter.makeSubpart('arrow', ['uvj_progressBar*', 'def_springA'])
+        self.sillyMeter.makeSubpart('meter', ['def_pivot'], ['uvj_progressBar*', 'def_springA'])
+        self.audio3d = Audio3DManager.Audio3DManager(base.sfxManagerList[0], camera)
 
-            self.phase3Sfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseThree.ogg')
-            self.phase3Sfx.setLoop(True)
-            self.arrowSfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.ogg')
-            self.arrowSfx.setLoop(False)
-            self.phase3Sfx.setVolume(0.2)
-            self.arrowSfx.setVolume(0.2)
-            
-            self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', constrainedLoop=0, startFrame=236, endFrame=247), Func(self.arrowSfx.play)), Parallel(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', duration=604800, constrainedLoop=1, startFrame=247, endFrame=276), Sequence(Func(self.phase3Sfx.play), Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
-            self.animSeq.start()
-            self.smPhase1 = self.sillyMeter.find('**/stage1')
-            self.smPhase1.show()
-            self.smPhase2 = self.sillyMeter.find('**/stage2')
-            self.smPhase2.hide()
-            self.smPhase3 = self.sillyMeter.find('**/stage3')
-            self.smPhase3.hide()
-            self.smPhase4 = self.sillyMeter.find('**/stage4')
-            self.smPhase4.hide()
-            
-            thermometerLocator = self.sillyMeter.findAllMatches('**/uvj_progressBar')[1]
-            thermometerMesh = self.sillyMeter.find('**/tube')
-            thermometerMesh.setTexProjector(thermometerMesh.findTextureStage('default'), thermometerLocator, self.sillyMeter)
+        self.phase3Sfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseThree.ogg')
+        self.phase3Sfx.setLoop(True)
+        self.arrowSfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.ogg')
+        self.arrowSfx.setLoop(False)
+        self.phase3Sfx.setVolume(0.2)
+        self.arrowSfx.setVolume(0.2)
+        
+        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', constrainedLoop=0, startFrame=236, endFrame=247), Func(self.arrowSfx.play)), Parallel(ActorInterval(self.sillyMeter, 'arrowTube', partName='arrow', duration=604800, constrainedLoop=1, startFrame=247, endFrame=276), Sequence(Func(self.phase3Sfx.play), Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
+        self.animSeq.start()
+        self.smPhase1 = self.sillyMeter.find('**/stage1')
+        self.smPhase1.show()
+        self.smPhase2 = self.sillyMeter.find('**/stage2')
+        self.smPhase2.hide()
+        self.smPhase3 = self.sillyMeter.find('**/stage3')
+        self.smPhase3.hide()
+        self.smPhase4 = self.sillyMeter.find('**/stage4')
+        self.smPhase4.hide()
+        
+        thermometerLocator = self.sillyMeter.findAllMatches('**/uvj_progressBar')[1]
+        thermometerMesh = self.sillyMeter.find('**/tube')
+        thermometerMesh.setTexProjector(thermometerMesh.findTextureStage('default'), thermometerLocator, self.sillyMeter)
 
-            self.sillyMeter.loop('phaseOne', partName='meter')
-            self.sillyMeter.setBlend(frameBlend = True)
-            
-            self.surlee = Toon.Toon()
-            self.surlee.setName('Doctor Surlee')
-            self.surlee.setPickable(0)
-            self.surlee.setPlayerType(CCNonPlayer)
-            dna = ToonDNA.ToonDNA()
-            dna.newToonFromProperties('pls', 'ls', 'l', 'm', 9, 0, 9, 9, 98, 27, 86, 27, 38, 27)
-            self.surlee.setDNA(dna)
-            self.surlee.loop('scientistGame')
-            self.surlee.reparentTo(self.background)
-            self.surlee.setPosHpr(13, 24, 0.025, -180, 0, 0)
-            
-            self.dimm = Toon.Toon()
-            self.dimm.setName('Doctor Dimm')
-            self.dimm.setPickable(0)
-            self.dimm.setPlayerType(CCNonPlayer)
-            dna = ToonDNA.ToonDNA()
-            dna.newToonFromProperties('fll', 'ss', 's', 'm', 15, 0, 15, 15, 99, 27, 86, 27, 39, 27)
-            self.dimm.setDNA(dna)
-            self.dimm.loop('scientistGame')
-            self.dimm.reparentTo(self.background)
-            self.dimm.setPosHpr(16, 24, 0.025, -180, 0, 0)
-            
-            surleeHand = self.surlee.find('**/def_joint_right_hold')
-            clipBoard = loader.loadModel('phase_4/models/props/tt_m_prp_acs_clipboard')
-            surleeHandNode = surleeHand.attachNewNode('ClipBoard')
-            clipBoard.instanceTo(surleeHandNode)
-            surleeHandNode.setH(180)
-            surleeHandNode.setScale(render, 1.0)
-            surleeHandNode.setPos(0, 0, 0.1)
-            
-            dimmHand = self.dimm.find('**/def_joint_right_hold')
-            sillyReader = loader.loadModel('phase_4/models/props/tt_m_prp_acs_sillyReader')
-            dimHandNode = dimmHand.attachNewNode('SillyReader')
-            sillyReader.instanceTo(dimHandNode)
-            dimHandNode.setH(180)
-            dimHandNode.setScale(render, 1.0)
-            dimHandNode.setPos(0, 0, 0.1)
-            
-            self.banana = self.background.find('**/gagBanana')
-            
-            self.bananaClicker = CollisionTraverser()
-            #self.bananaClicker.showCollisions(render)
-            self.collHandlerQueue = CollisionHandlerQueue()
-            
-            self.bananaRayNode = CollisionNode('bananaMouseRay')
-            self.bananaRayNP = base.camera.attachNewNode(self.bananaRayNode)
-            self.bananaRayNode.setIntoCollideMask(BitMask32.bit(0))
-            self.bananaRayNode.setFromCollideMask(BitMask32.bit(1))
-            self.banana.setCollideMask(BitMask32.bit(1))
-            self.ray = CollisionRay()
-            self.bananaRayNode.addSolid(self.ray)
-            self.bananaClicker.addCollider(self.bananaRayNP, self.collHandlerQueue)
-            self.accept('mouse1', self.slipAndSlideOnThisBananaPeelHaHaHa)
-            
-            for frame in render.findAllMatches('*/doorFrame*'):
-                frame.removeNode()
-            
-            self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
-            SkyUtil.startCloudSky(self)
-            base.camera.setPosHpr(MAIN_POS, MAIN_HPR)
+        self.sillyMeter.loop('phaseOne', partName='meter')
+        self.sillyMeter.setBlend(frameBlend = True)
+        
+        self.surlee = Toon.Toon()
+        self.surlee.setName('Doctor Surlee')
+        self.surlee.setPickable(0)
+        self.surlee.setPlayerType(CCNonPlayer)
+        dna = ToonDNA.ToonDNA()
+        dna.newToonFromProperties('pls', 'ls', 'l', 'm', 9, 0, 9, 9, 98, 27, 86, 27, 38, 27)
+        self.surlee.setDNA(dna)
+        self.surlee.loop('scientistGame')
+        self.surlee.reparentTo(self.background)
+        self.surlee.setPosHpr(13, 24, 0.025, -180, 0, 0)
+        
+        self.dimm = Toon.Toon()
+        self.dimm.setName('Doctor Dimm')
+        self.dimm.setPickable(0)
+        self.dimm.setPlayerType(CCNonPlayer)
+        dna = ToonDNA.ToonDNA()
+        dna.newToonFromProperties('fll', 'ss', 's', 'm', 15, 0, 15, 15, 99, 27, 86, 27, 39, 27)
+        self.dimm.setDNA(dna)
+        self.dimm.loop('scientistGame')
+        self.dimm.reparentTo(self.background)
+        self.dimm.setPosHpr(16, 24, 0.025, -180, 0, 0)
+        
+        surleeHand = self.surlee.find('**/def_joint_right_hold')
+        clipBoard = loader.loadModel('phase_4/models/props/tt_m_prp_acs_clipboard')
+        surleeHandNode = surleeHand.attachNewNode('ClipBoard')
+        clipBoard.instanceTo(surleeHandNode)
+        surleeHandNode.setH(180)
+        surleeHandNode.setScale(render, 1.0)
+        surleeHandNode.setPos(0, 0, 0.1)
+        
+        dimmHand = self.dimm.find('**/def_joint_right_hold')
+        sillyReader = loader.loadModel('phase_4/models/props/tt_m_prp_acs_sillyReader')
+        dimHandNode = dimmHand.attachNewNode('SillyReader')
+        sillyReader.instanceTo(dimHandNode)
+        dimHandNode.setH(180)
+        dimHandNode.setScale(render, 1.0)
+        dimHandNode.setPos(0, 0, 0.1)
+        
+        self.banana = self.background.find('**/gagBanana')
+        
+        self.bananaClicker = CollisionTraverser()
+        #self.bananaClicker.showCollisions(render)
+        self.collHandlerQueue = CollisionHandlerQueue()
+        
+        self.bananaRayNode = CollisionNode('bananaMouseRay')
+        self.bananaRayNP = base.camera.attachNewNode(self.bananaRayNode)
+        self.bananaRayNode.setIntoCollideMask(BitMask32.bit(0))
+        self.bananaRayNode.setFromCollideMask(BitMask32.bit(1))
+        self.banana.setCollideMask(BitMask32.bit(1))
+        self.ray = CollisionRay()
+        self.bananaRayNode.addSolid(self.ray)
+        self.bananaClicker.addCollider(self.bananaRayNP, self.collHandlerQueue)
+        self.accept('mouse1', self.slipAndSlideOnThisBananaPeelHaHaHa)
+        
+        for frame in render.findAllMatches('*/doorFrame*'):
+            frame.removeNode()
+        
+        self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
+        SkyUtil.startCloudSky(self)
+        base.camera.setPosHpr(MAIN_POS, MAIN_HPR)
 
         self.logo = OnscreenImage(image = GameLogo, scale = (.5, .5, .25))
         self.logo.reparentTo(aspect2d)
@@ -216,18 +214,21 @@ class DMenuScreen(DirectObject):
 
     def createButtons(self):
         buttonImage = GuiModel.find('**/QuitBtn_RLVR')
+        gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
+        shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')
 
-        self.PlayButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = PlayGame, text_scale = .1, scale = 0.95, command = self.playGame)
+        self.PlayButton = DirectButton(relief = None, text_style = 3, image=(shuffleUp, shuffleDown, shuffleUp), image_scale=(0.8, 0.7, 0.7), image1_scale=(0.83, 0.7, 0.7), image2_scale=(0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = PlayGame, text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.playGame)
         self.PlayButton.reparentTo(aspect2d)
         self.PlayButton.setPos(PlayBtnHidePos)
         self.PlayButton.show()
 
-        self.OptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = Options, text_scale = .1, scale = 0.95, command = self.openOptions)
+        self.OptionsButton = DirectButton(relief = None, text_style = 3, image=(shuffleUp, shuffleDown, shuffleUp), image_scale=(0.8, 0.7, 0.7), image1_scale=(0.83, 0.7, 0.7), image2_scale=(0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = Options, text_pos = (0, -0.02), text_scale = .08, scale = 0.95, command = self.openOptions)
         self.OptionsButton.reparentTo(aspect2d)
         self.OptionsButton.setPos(OptionsBtnHidePos)
         self.OptionsButton.show()
 
-        self.QuitButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = Quit, text_scale = .1, scale = 0.95, command = self.quitGame)
+        self.QuitButton = DirectButton(relief = None, text_style = 3, image=(shuffleUp, shuffleDown, shuffleUp), image_scale=(0.8, 0.7, 0.7), image1_scale=(0.83, 0.7, 0.7), image2_scale=(0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = Quit, text_pos = (0, -0.02), text_scale = .08, scale = 0.95, command = self.quitGame)
         self.QuitButton.reparentTo(aspect2d)
         self.QuitButton.setPos(QuitBtnHidePos)
         self.QuitButton.show()
@@ -290,9 +291,9 @@ class DMenuScreen(DirectObject):
         self.closeOptionsButton.reparentTo(base.a2dTopLeft)
         self.closeOptionsButton.setPos(0.5, 0, -0.07)
         Parallel(
-            self.PlayButton.posInterval(.5, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
-            self.OptionsButton.posInterval(.5, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
-            self.QuitButton.posInterval(.5, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
+            self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
+            self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
+            self.QuitButton.posInterval(.2, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
             self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
 
     def hideOptions(self):
@@ -323,9 +324,9 @@ class DMenuScreen(DirectObject):
 
     def doPlayButton(self):
         Parallel(
-            self.PlayButton.posInterval(1, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
-            self.OptionsButton.posInterval(1, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
-            self.QuitButton.posInterval(1, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
+            self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
+            self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
+            self.QuitButton.posInterval(.2, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
             self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
 
     def quitGame(self):
