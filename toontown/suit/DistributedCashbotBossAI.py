@@ -57,7 +57,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         return str(self.rewardId)
 
     def makeBattleOneBattles(self):
-        self.postBattleState = 'PrepareBattleThree'
+        self.postBattleState = 'PrepareBattleTwo'
         self.initializeBattles(1, ToontownGlobals.CashbotBossBattleOnePosHpr)
 
     def generateSuits(self, battleNumber):
@@ -419,17 +419,28 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
         self.__deleteBattleThreeObjects()
         
+    def makeBattleTwoBattles(self):
+        self.postBattleState = 'PrepareBattleThree'
+        self.initializeBattles(2, ToontownGlobals.CashbotBossBattleThreePosHpr)
+        
     def enterPrepareBattleTwo(self):
-        pass
+        self.barrier = self.beginBarrier('PrepareBattleTwo', self.involvedToons, 30, self.__donePrepareBattleTwo)
+        self.makeBattleTwoBattles()
+
+    def __donePrepareBattleTwo(self, avIds):
+        self.b_setState('BattleTwo')
 
     def exitPrepareBattleTwo(self):
-        pass
-    
+        self.ignoreBarrier(self.barrier)
+        
     def enterBattleTwo(self):
-        pass
-    
+        if self.battleA:
+            self.battleA.startBattle(self.toonsA, self.suitsA)
+        if self.battleB:
+            self.battleB.startBattle(self.toonsB, self.suitsB)
+
     def exitBattleTwo(self):
-        pass
+        self.resetBattles()
 
     def enterPrepareBattleThree(self):
         self.resetBattles()
