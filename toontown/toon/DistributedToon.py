@@ -2664,12 +2664,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             (None, None),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected', '**/whistleIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*')
         ]
-        index = (gmType / 100) - 1
+        
+        #Now we need to caculate our index. 
+        if gmType in [275]:
+            index = 1
+        elif gmType in [300, 375, 390, 400]:
+            index = 2
+        elif gmType >= 450:
+            index = 3
+        else:
+            index = 2
+        
         icon = loader.loadModel(iconInfo[index][0])
         self.gmIcon = icon.find(iconInfo[index][1])
         np = NodePath(self.nametag.getIcon())

@@ -85,12 +85,14 @@ class MagicWordCategory:
 CATEGORY_UNKNOWN = MagicWordCategory('Unknown')
 CATEGORY_USER = MagicWordCategory('Default User', defaultAccess=100)
 CATEGORY_VIP = MagicWordCategory('VIP', defaultAccess=250)
-CATEGORY_COMMUNITY_MANAGER = MagicWordCategory('Community manager', defaultAccess=300)
+CATEGORY_MEDIA = MagicWordCategory('Streamer', defaultAccess=275)
+CATEGORY_COMMUNITY_MANAGER = MagicWordCategory('Community Manager', defaultAccess=300)
 CATEGORY_MODERATOR = MagicWordCategory('Moderator', defaultAccess=375)
 CATEGORY_CREATIVE = MagicWordCategory('Creative', defaultAccess=390)
 CATEGORY_PROGRAMMER = MagicWordCategory('Programmer', defaultAccess=400)
 CATEGORY_ADMINISTRATOR = MagicWordCategory('Administrator', defaultAccess=450)
-CATEGORY_SYSTEM_ADMINISTRATOR = MagicWordCategory('System administrator', defaultAccess=500)
+CATEGORY_SYSTEM_ADMINISTRATOR = MagicWordCategory('System Administrator', defaultAccess=500)
+CATEGORY_OVERRIDE = MagicWordCategory('OVERRIDE', defaultAccess=900)
 
 
 MINIMUM_MAGICWORD_ACCESS = CATEGORY_VIP.defaultAccess
