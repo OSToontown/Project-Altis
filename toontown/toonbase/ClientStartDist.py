@@ -208,19 +208,19 @@ shard-mid-pop 100
 dc-file config/toon.dc
 
 #Resources
-vfs-mount resources/default/phase_3.mf /phase_3
-vfs-mount resources/default/phase_3.5.mf /phase_3.5
-vfs-mount resources/default/phase_4.mf /phase_4
-vfs-mount resources/default/phase_5.mf /phase_5
-vfs-mount resources/default/phase_5.5.mf /phase_5.5
-vfs-mount resources/default/phase_6.mf /phase_6
-vfs-mount resources/default/phase_7.mf /phase_7
-vfs-mount resources/default/phase_8.mf /phase_8
-vfs-mount resources/default/phase_9.mf /phase_9
-vfs-mount resources/default/phase_10.mf /phase_10
-vfs-mount resources/default/phase_11.mf /phase_11
-vfs-mount resources/default/phase_12.mf /phase_12
-vfs-mount resources/default/phase_13.mf /phase_13
+vfs-mount resources/default/phase_3 /phase_3
+vfs-mount resources/default/phase_3.5 /phase_3.5
+vfs-mount resources/default/phase_4 /phase_4
+vfs-mount resources/default/phase_5 /phase_5
+vfs-mount resources/default/phase_5.5 /phase_5.5
+vfs-mount resources/default/phase_6 /phase_6
+vfs-mount resources/default/phase_7 /phase_7
+vfs-mount resources/default/phase_8 /phase_8
+vfs-mount resources/default/phase_9 /phase_9
+vfs-mount resources/default/phase_10 /phase_10
+vfs-mount resources/default/phase_11 /phase_11
+vfs-mount resources/default/phase_12 /phase_12
+vfs-mount resources/default/phase_13 /phase_13
 model-path resources/default/
 
 # Core features:
