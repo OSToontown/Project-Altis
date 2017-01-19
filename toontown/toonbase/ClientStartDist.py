@@ -39,6 +39,7 @@ win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
+want-live #t
 
 # Debug
 default-directnotify-level info

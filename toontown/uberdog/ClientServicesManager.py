@@ -18,27 +18,37 @@ class ClientServicesManager(DistributedObjectGlobal):
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
         
-        httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('GET', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), base.launcher.getPassword()))
+        if base.config.GetBool('want-live', False):
+            httpReq = httplib.HTTPConnection('www.projectaltis.com')
+            httpReq.request('GET', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), base.launcher.getPassword()))
+        
+            try:
+                response = json.loads(httpReq.getresponse().read())
+            except:
+                self.notify.error('Failed to decode json login API response!')
+                return
 
-        try:
-            response = json.loads(httpReq.getresponse().read())
-        except:
-            self.notify.error('Failed to decode json login API response!')
-            return
+            if response['status'] != 'true':
+                # looks like we got a hacker!
+                raise SystemExit
+            else:
+                # the request was successful, set the login cookie and login.
+                cookie = response['additional']
 
-        if response['status'] != 'true':
-            # looks like we got a hacker!
-            raise SystemExit
+            key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
+            digest_maker = hmac.new(key)
+            digest_maker.update(cookie)
+            
+            self.sendUpdate('login', [cookie, digest_maker.hexdigest()])
         else:
-            # the request was successful, set the login cookie and login.
-            cookie = response['additional']
+            token = self.cr.playToken or 'dev'
+            
+            key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
+            digest_maker = hmac.new(key)
+            digest_maker.update(token)
+            clientKey = digest_maker.hexdigest()
 
-        key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
-        digest_maker = hmac.new(key)
-        digest_maker.update(cookie)
-
-        self.sendUpdate('login', [cookie, digest_maker.hexdigest()])
+            self.sendUpdate('login', [token, clientKey])
 
     def acceptLogin(self, timestamp):
         messenger.send(self.doneEvent, [{'mode': 'success', 'timestamp': timestamp}])
