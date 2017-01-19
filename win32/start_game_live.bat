@@ -13,7 +13,7 @@ set /P ttPassword="Password: "
 rem Export the environment variables:
 set TT_USERNAME=%ttUsername%
 set TT_PASSWORD=%ttPassword%
-set TT_GAMESERVER=149.56.29.153
+set TT_GAMESERVER=gs1.projectaltis.com
 
 echo ===============================
 echo Starting Toontown Project Altis...
