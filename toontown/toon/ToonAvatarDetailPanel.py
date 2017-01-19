@@ -197,7 +197,7 @@ class ToonAvatarDetailPanel(DirectFrame):
     def __updateTrackInfo(self):
         xOffset = -0.501814
         xSpacing = 0.1835
-        yOffset = 0.1
+        yOffset = 0.215
         ySpacing = -0.115
         inventory = self.avatar.inventory
         inventoryModels = loader.loadModel('phase_3.5/models/gui/inventory_gui')
