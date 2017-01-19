@@ -171,7 +171,6 @@ class DistributedTargetGame(DistributedMinigame):
          1]
         self.localTrack = None
         self.hitInfo = None
-        return
 
     def getTitle(self):
         return TTLocalizer.TargetGameTitle
@@ -237,7 +236,6 @@ class DistributedTargetGame(DistributedMinigame):
         self.cameraState = 'Low'
         self.updateTick = 0
         self.hitInfo = None
-        return
 
     def load(self):
         self.notify.debug('load')
@@ -381,7 +379,6 @@ class DistributedTargetGame(DistributedMinigame):
         self.flutterSound.setVolume(1.0)
         self.flutterSound.setPlayRate(1.0)
         self.flutterSound.setLoop(True)
-        return
 
     def addSound(self, name, soundName, path = None):
         if not hasattr(self, 'soundTable'):
@@ -666,9 +663,9 @@ class DistributedTargetGame(DistributedMinigame):
         self.__spawnUpdateLocalToonTask()
         if self.music:
             base.playMusic(self.music, looping=1, volume=0.8)
+        
         if None != self.sndAmbience:
             base.playSfx(self.sndAmbience, looping=1, volume=0.8)
-        return
 
     def reset(self):
         toon = base.localAvatar
@@ -1023,7 +1020,6 @@ class DistributedTargetGame(DistributedMinigame):
         camera.posHprInterval(5.0, newPos, newHpr, blendType='easeInOut').start()
         self.help.hide()
         self.localTrack.start()
-        return
 
     def exitScore(self):
         pass
@@ -1247,12 +1243,6 @@ class DistributedTargetGame(DistributedMinigame):
                 self.launchLaterial = TargetGameGlobals.MAX_LAT
             pos[0] = self.getToonPlace(self.localAvId)[0] - self.launchLaterial
         lift = (self.speedForward - self.speedStall) / self.speedStall * liftMult
-        onScreenDebug.removeAllWithPrefix(self.getDisplayPrefix())
-        onScreenDebug.add('%s Vel' % self.getDisplayPrefix(), self.zVel)
-        onScreenDebug.add('%s Lift' % self.getDisplayPrefix(), lift)
-        onScreenDebug.add('%s Gravity' % self.getDisplayPrefix(), self.gravity)
-        onScreenDebug.add('%s Pos' % self.getDisplayPrefix(), pos[2])
-        onScreenDebug.add('%s Drifty' % self.getDisplayPrefix(), self.driftY)
         if lift < 0:
             lift = 0
         upforce = lift * 10.0 - self.gravity
