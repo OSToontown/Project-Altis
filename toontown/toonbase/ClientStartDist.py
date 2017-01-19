@@ -39,7 +39,6 @@ win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
-want-live #t
 
 # Debug
 default-directnotify-level info
@@ -208,23 +207,10 @@ shard-mid-pop 100
 dc-file config/toon.dc
 
 #Resources
-vfs-mount resources/default/phase_3.mf /
-vfs-mount resources/default/phase_3.5.mf /
-vfs-mount resources/default/phase_4.mf /
-vfs-mount resources/default/phase_5.mf /
-vfs-mount resources/default/phase_5.5.mf /
-vfs-mount resources/default/phase_6.mf /
-vfs-mount resources/default/phase_7.mf /
-vfs-mount resources/default/phase_8.mf /
-vfs-mount resources/default/phase_9.mf /
-vfs-mount resources/default/phase_10.mf /
-vfs-mount resources/default/phase_11.mf /
-vfs-mount resources/default/phase_12.mf /
-vfs-mount resources/default/phase_13.mf /
 model-path /
-default-model-extension .bam
 
 # Core features:
+want-pets #t
 want-pets #t
 want-parties #f
 want-cogdominiums #t
@@ -243,17 +229,29 @@ want-dev #f"""
 del iv
 del key
 
-from panda3d.core import loadPrcFileData
+from panda3d.core import *
 import StringIO
 
 io = StringIO.StringIO(config)
+
+vfs = VirtualFileSystem.getGlobalPtr()
+import glob
+print("No Content Packs Detected!")
+print("Loading Default Pack...")
+for file in glob.glob('resources/default/*.mf'):
+    mf = Multifile()
+    mf.openReadWrite(Filename(file))
+    names = mf.getSubfileNames()
+    vfs.mount(mf, Filename('/'), 0)
+    print('Successfully Mounted:' + file[13:])
+print("Default Pack Loaded!")
 
 for line in io.readlines():
     # check if the current line is a comment...
     if line.startswith('#'):
         continue
 
-    print line
+    #print line
     # load the prc file value
     loadPrcFileData('', line)
 
