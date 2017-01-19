@@ -182,20 +182,20 @@ CRLostConnection = 'Your internet connection to the servers has been unexpectedl
 CRBootedReasons = {1: 'An unexpected problem has occurred.  Your connection has been lost, but you should be able to connect again and go right back into the game.',
  100: 'You have been disconnected because someone else just logged in using your account on another computer.',
  120: 'You have been disconnected because of a problem with your authorization to use keyboard chat.',
- 122: 'Couldn\'t decode the token. Please relaunch the game from the official launcher.',
+ 122: 'Something went wrong! Not to worry though, you should be able to just restart and hop straight back into Project Altis!',
  124: 'Your installed files are out of date.  Please launch the game from the official launcher so that it can install updates.  If you continue to get this error, contact support.',
  125: 'Your installed files appear to be invalid.  Please use the Play button on the official website to run.',
  126: 'You are not authorized to use administrator privileges.',
  127: 'A problem has occurred with your Toon.  Please contact Member Services via phone or email and reference Error Code 127.  Thank you.',
  151: 'You have been logged out by an administrator working on the servers.',
  152: "There has been a reported violation of our Terms of Use connected to '%(name)s'. For more details, please review the message sent to the e-mail address associated with '%(name)s'.",
- 153: 'The district you were playing on has been reset.  Everyone who was playing on that district has been disconnected.  However, you should be able to connect again and go right back into the game.',
- 154: 'Project Altis is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Project Altis website.',
+ 153: 'You have been disconnected from the district you were playing on, you should be able to restart the game and hop back in!',
+ 154: 'Project Altis is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Project Altis website or the Discord server.',
  288: 'Sorry, you have used up all of your available minutes this month.',
  349: 'Sorry, you have used up all of your available minutes this month.'}
 CRBootedReasonUnknownCode = 'An unexpected problem has occurred (error code %s).  Your connection has been lost, but you should be able to connect again and go right back into the game.'
 CRTryConnectAgain = '\n\nTry to connect again?'
-CRToontownUnavailable = 'The server appears to be temporarily unavailable, still trying...'
+CRToontownUnavailable = 'Attempting Database Connection...'
 CRToontownUnavailableCancel = lCancel
 CRNameCongratulations = 'CONGRATULATIONS!!'
 CRNameAccepted = 'Your name has been\napproved by the Toon Council.\n\nFrom this day forth\nyou will be named\n"%s"'
@@ -484,7 +484,7 @@ EmoteWhispers = ['%s waves.',
  '%s is confused.',
  '%s does a belly flop.',
  '%s bows to you.',
- '%s slips on a banana peel.',
+ '%s slips and slides on a banana peel.', # watch and learn, heres the deal...
  '%s gives the resistance salute.',
  '%s laughs.',
  "%s says '" + lYes + "'.",
