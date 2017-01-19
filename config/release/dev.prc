@@ -4,7 +4,7 @@ model-path ../resources
 # Server:
 server-version TTPA-Alpha-1.2.0
 min-access-level 600
-accountdb-type developer #This is DEV not Live
+accountdb-type local
 shard-low-pop 50
 shard-mid-pop 100
 
@@ -33,9 +33,6 @@ show-population #t
 show-total-population #t
 force-skip-tutorial #t
 want-instant-parties #t
-
-# Live Option
-want-live #f #By DEFAULT the game should not be live connecting on localhost. But you can enable it if you want.
 
 # Weather
 weather-cycle-duration 100

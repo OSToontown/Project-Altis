@@ -19,14 +19,8 @@ parser.add_argument('--max-channels', help='The number of channels the server ma
 parser.add_argument('--stateserver', help="The control channel of this UD's designated State Server.")
 parser.add_argument('--astron-ip', help="The IP address of the Astron Message Director to connect to.")
 parser.add_argument('--eventlogger-ip', help="The IP address of the Astron Event Logger to log to.")
-parser.add_argument('--want-live', help="Determines if Uberdog starts up in Live Mode or not. Used for CSM purposes.")
-parser.add_argument('config', nargs='*', default=['config/general.prc'], help="PRC file(s) to load.")
+parser.add_argument('config', nargs='*', default=['config/general.prc', 'config/release/dev.prc'], help="PRC file(s) to load.")
 args = parser.parse_args()
-
-if int(args.want_live) >= 1:
-   args.config.append('config/release/release.prc')
-else:
-   args.config.append('config/release/dev.prc')
 
 for prc in args.config:
     loadPrcFile(prc)
@@ -37,8 +31,8 @@ if args.max_channels: localconfig += 'air-channel-allocation %s\n' % args.max_ch
 if args.stateserver: localconfig += 'air-stateserver %s\n' % args.stateserver
 if args.astron_ip: localconfig += 'air-connect %s\n' % args.astron_ip
 if args.eventlogger_ip: localconfig += 'eventlog-host %s\n' % args.eventlogger_ip
-if args.want_live: localconfig += 'want-live %s\n' % args.want_live
 loadPrcFileData('Command-line', localconfig)
+
 
 from otp.ai.AIBaseGlobal import *
 

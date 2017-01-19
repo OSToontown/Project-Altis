@@ -1,10 +1,8 @@
 # Server:
 server-version TTPA-Alpha-1.2.0
-min-access-level 100
+min-access-level 600
 shard-low-pop 50
 shard-mid-pop 100
-want-live #t
-accountdb-type local #This IS live!
 
 # DC File
 dc-file config/toon.dc
