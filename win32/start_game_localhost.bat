@@ -11,15 +11,9 @@ rem Get the user input:
 set /P ttPassword="Password: "
 
 rem Export the environment variables:
-<<<<<<< HEAD
 set TT_PLAYCOOKIE=%ttUsername%
-set TT_USERNAME=%ttaUsername%
-set TT_PASSWORD=%ttaPassword%
-=======
-
 set TT_USERNAME=%ttUsername%
 set TT_PASSWORD=%ttPassword%
->>>>>>> origin/master
 set TT_GAMESERVER=127.0.0.1
 
 echo ===============================
