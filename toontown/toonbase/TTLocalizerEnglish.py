@@ -9646,6 +9646,7 @@ CogdoElevatorRewardLaff = 'Great job, Toons!\nYou get a Toon-Up from the jokes y
 CogdoExecutiveSuiteTitle = 'Executive Suite'
 CogdoExecutiveSuiteIntroMessage = "Oh no, they've got the shop keeper!\nDefeat the Cogs and free the captive."
 CogdoExecutiveSuiteToonThankYou = 'Thanks for the rescue!\nIf you need help in a fight, use this SOS card to call my friend %s.'
+CogdoLawbotExecutiveSuiteToonThankYou = "Thanks for the rescue!\nIt seems the Cogs didn't leave behind the key to the Sprocket Award case.\x07Instead, use these summons I found laying around. You can summon Cogs with them!"
 CogdoExecutiveSuiteToonBye = 'Bye!'
 SillySurgeTerms = {1: 'Amusing Ascent!',
  2: 'Silly Surge!',
