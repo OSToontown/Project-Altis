@@ -16,7 +16,6 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
         self.doLaterTask = None
         if zoneId is not None:
             self.generateWithRequired(zoneId)
-        return
 
     def setup(self):
         pass
@@ -32,7 +31,6 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
             self.doLaterTask = None
         del self.fsm
         DistributedEntityAI.DistributedEntityAI.delete(self)
-        return
 
     def getAvatarInteract(self):
         return self.avatarId
@@ -85,7 +83,6 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
                 self.avatarId = None
                 if self.isOn and self.secondsOn != -1.0 and self.secondsOn >= 0.0:
                     self.doLaterTask = taskMgr.doMethodLater(self.secondsOn, self.switchOffTask, self.uniqueName('switch-timer'))
-        return
 
     def enterOff(self):
         pass
@@ -107,7 +104,6 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
         if self.doLaterTask:
             self.doLaterTask.remove()
             self.doLaterTask = None
-        return
 
     if __dev__:
 

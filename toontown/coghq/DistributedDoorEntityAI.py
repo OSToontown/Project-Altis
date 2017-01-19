@@ -20,7 +20,6 @@ class Lock(DistributedDoorEntityBase.LockBase, DirectObject.DirectObject, FourSt
         self.unlockEvent = None
         self.setUnlockEvent(event)
         self.setIsUnlocked(isUnlocked)
-        return
 
     def getLockState(self):
         return self.stateIndex
@@ -69,7 +68,6 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
         self.setup()
         if zoneId is not None:
             self.generateWithRequired(zoneId)
-        return
 
     def generateWithRequired(self, zoneId):
         DistributedEntityAI.DistributedEntityAI.generateWithRequired(self, zoneId)
@@ -129,7 +127,6 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
         if hasattr(self, 'isOpen'):
             self.setIsOpen(self.isOpen)
             del self.isOpen
-        return
 
     def takedown(self):
         self.ignoreAll()
@@ -165,7 +162,6 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
             if secondsOpen < 0.0:
                 secondsOpen = None
             self.stateDurations[2] = secondsOpen
-        return
 
     def locking(self):
         if self.stateIndex == 1 or self.stateIndex == 2:

@@ -35,7 +35,6 @@ class DistributedFactoryElevatorExtAI(DistributedElevatorExtAI.DistributedElevat
         else:
             self.notify.warning('The elevator left, but was empty.')
         self.fsm.request('closed')
-        return
 
     def enterClosed(self):
         DistributedElevatorExtAI.DistributedElevatorExtAI.enterClosed(self)
