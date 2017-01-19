@@ -179,6 +179,11 @@ class LocalAccountDB(AccountDB):
                       'reason': 'Your account is banned from Project Altis!'})
             return
 
+        if response["statuscheck"] == "false":
+            callback({'success': False,
+                      'reason': 'Toontown Project Altis is closed until the 20th!'})
+            return
+
         if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
             callback({'success': False,
                       'reason': 'Invalid Cookie Specified!'})
