@@ -208,20 +208,20 @@ shard-mid-pop 100
 dc-file config/toon.dc
 
 #Resources
-vfs-mount resources/phase_3.mf /phase_3
-vfs-mount resources/phase_3.5.mf /phase_3.5
-vfs-mount resources/phase_4.mf /phase_4
-vfs-mount resources/phase_5.mf /phase_5
-vfs-mount resources/phase_5.5.mf /phase_5.5
-vfs-mount resources/phase_6.mf /phase_6
-vfs-mount resources/phase_7.mf /phase_7
-vfs-mount resources/phase_8.mf /phase_8
-vfs-mount resources/phase_9.mf /phase_9
-vfs-mount resources/phase_10.mf /phase_10
-vfs-mount resources/phase_11.mf /phase_11
-vfs-mount resources/phase_12.mf /phase_12
-vfs-mount resources/phase_13.mf /phase_13
-model-path resources
+vfs-mount resources/default/phase_3.mf /phase_3
+vfs-mount resources/default/phase_3.5.mf /phase_3.5
+vfs-mount resources/default/phase_4.mf /phase_4
+vfs-mount resources/default/phase_5.mf /phase_5
+vfs-mount resources/default/phase_5.5.mf /phase_5.5
+vfs-mount resources/default/phase_6.mf /phase_6
+vfs-mount resources/default/phase_7.mf /phase_7
+vfs-mount resources/default/phase_8.mf /phase_8
+vfs-mount resources/default/phase_9.mf /phase_9
+vfs-mount resources/default/phase_10.mf /phase_10
+vfs-mount resources/default/phase_11.mf /phase_11
+vfs-mount resources/default/phase_12.mf /phase_12
+vfs-mount resources/default/phase_13.mf /phase_13
+model-path resources/default/
 
 # Core features:
 want-pets #t
