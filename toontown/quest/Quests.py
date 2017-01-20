@@ -6224,7 +6224,7 @@ QuestDict = {
  3253: (DG_TIER + 1,
         Cont,
         (BuildingQuest,
-         5200,
+         ToontownGlobals.DaisyGardens,
          3,
          'l',
          1),
