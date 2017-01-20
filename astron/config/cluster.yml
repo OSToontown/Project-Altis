@@ -8,6 +8,7 @@ general:
 
 messagedirector:
     bind: 127.0.0.1:7199
+    threaded: true
 
 uberdogs:
     - class: CentralLogger
