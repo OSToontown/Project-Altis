@@ -10,8 +10,8 @@ class MarginManager(PandaNode):
         self.cells = set()
         self.visibles = set()
 
-    def addCell(self, x, y, a2dMarker):
-        cell = MarginCell()
+    def addCell(self, x, y, a2dMarker, id):
+        cell = MarginCell(id)
         cell.reparentTo(a2dMarker)
         cell.setPos(x, 0, y)
         cell.setScale(0.2)

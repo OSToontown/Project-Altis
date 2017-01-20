@@ -336,6 +336,7 @@ class ToonBase(OTPBase.OTPBase):
         rolloverSound = DirectGuiGlobals.getDefaultRolloverSound()
         if rolloverSound is not None:
             NametagGlobals.setRolloverSound(rolloverSound)
+        
         clickSound = DirectGuiGlobals.getDefaultClickSound()
         if clickSound is not None:
             NametagGlobals.setClickSound(clickSound)
@@ -343,21 +344,22 @@ class ToonBase(OTPBase.OTPBase):
         self.marginManager = MarginManager()
         self.margins = self.aspect2d.attachNewNode(
             self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
+        
         self.leftCells = [
-            self.marginManager.addCell(0.1, -0.6, self.a2dTopLeft),
-            self.marginManager.addCell(0.1, -1.0, self.a2dTopLeft),
-            self.marginManager.addCell(0.1, -1.4, self.a2dTopLeft)
+            self.marginManager.addCell(0.1, -0.6, self.a2dTopLeft, 1),
+            self.marginManager.addCell(0.1, -1.0, self.a2dTopLeft, 2),
+            self.marginManager.addCell(0.1, -1.4, self.a2dTopLeft, 3)
         ]
         self.bottomCells = [
-            self.marginManager.addCell(0.4, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(-0.4, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(-1.0, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(1.0, 0.1, self.a2dBottomCenter)
+            self.marginManager.addCell(0.4, 0.1, self.a2dBottomCenter, 4),
+            self.marginManager.addCell(-0.4, 0.1, self.a2dBottomCenter, 5),
+            self.marginManager.addCell(-1.0, 0.1, self.a2dBottomCenter, 6),
+            self.marginManager.addCell(1.0, 0.1, self.a2dBottomCenter, 7)
         ]
         self.rightCells = [
-            self.marginManager.addCell(-0.1, -0.6, self.a2dTopRight),
-            self.marginManager.addCell(-0.1, -1.0, self.a2dTopRight),
-            self.marginManager.addCell(-0.1, -1.4, self.a2dTopRight)
+            self.marginManager.addCell(-0.1, -0.6, self.a2dTopRight, 8),
+            self.marginManager.addCell(-0.1, -1.0, self.a2dTopRight, 9),
+            self.marginManager.addCell(-0.1, -1.4, self.a2dTopRight, 10)
         ]
 
     def setCellsActive(self, cells, active):
