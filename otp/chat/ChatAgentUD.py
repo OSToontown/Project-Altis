@@ -21,14 +21,14 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
     def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
-        if sender == 0:
+        if not sender:
             self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
                                          'Account sent chat without an avatar', message)
             return
 
         cleanMessage, modifications = message, []
         modifications = []
-        words = message.split(' ')
+        words = message.split()
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
         for word in words:
@@ -45,6 +45,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
             else:
                 cleanMessage = self.chatMode2prefix.get(chatMode, "") + message
             modifications = []
+        
         # send chat message update to ai
         self.sendUpdate('chatMessageResponse', [sender, cleanMessage, 
             modifications, chatMode])
