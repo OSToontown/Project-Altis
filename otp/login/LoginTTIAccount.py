@@ -11,10 +11,7 @@ class LoginTTIAccount(LoginBase.LoginBase):
         LoginBase.LoginBase.__init__(self, cr)
 
     def supportsRelogin(self):
-        if __debug__:
-            return 1
-        
-        return 0
+        return 1
 
     def authorize(self, username, password):
         return 0 # No error!

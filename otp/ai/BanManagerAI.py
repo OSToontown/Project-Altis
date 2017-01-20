@@ -133,15 +133,27 @@ def kick(reason='No reason specified'):
     return "Kicked %s from the game server!" % target.getName()
 
 
-@magicWord(category=CATEGORY_MODERATOR, types=[str, int])
-def ban(reason, duration):
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
+def ban(reason):
     """
-    Ban the target from the game server.
+    Kick the target from the game server.
     """
     target = spellbook.getTarget()
     if target == spellbook.getInvoker():
         return "You can't ban yourself!"
-    if reason not in ('hacking', 'language', 'other'):
-        return "'%s' is not a valid reason." % reason
-    simbase.air.banManager.ban(target.doId, duration, reason)
-    return "Banned %s from the game server!" % target.getName()
+    datagram = PyDatagram()
+    datagram.addServerHeader(
+        target.GetPuppetConnectionChannel(target.doId),
+        simbase.air.ourChannel, CLIENTAGENT_EJECT)
+    datagram.addUint16(155)
+    datagram.addString('You were banned by a moderator for the following reason: %s' % reason)
+    simbase.air.send(datagram)
+    return "Kicked and Banned %s from the game server!" % target.getName()
+    
+    def banUser(token):
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', '/api/ban/{key}/%s' %token)
+        httpReq.getresponse().read()
+
+
+    #threading.Thread(target=taskMgr.add, args=(self.banUser, token)).start() Uncomment once u get the token grabbing setup
