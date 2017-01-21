@@ -2096,7 +2096,11 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  30507: "I hope that gets fixed soon.",
  30508: "Looks like I crashed!",
  30509: "Have you reported that bug?",
- 30510: "You should report that on the bug tracker on the website."}
+ 30510: "You should report that on the bug tracker on the website.",
+ 30511: "Let's use zap!",
+ 30512: "Looks like a bug!",
+ 30513: "That bug needs to be fixed!",
+ 30514: 'I think you should choose Zap.'}
 SpeedChatStaticTextPirates = {50001: 'Aye',
  50002: 'Nay',
  50003: 'Yes',
