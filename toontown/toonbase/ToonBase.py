@@ -203,6 +203,8 @@ class ToonBase(OTPBase.OTPBase):
         self.lodMaxRange = 750
         self.lodMinRange = 5
         self.lodDelayFactor = 0.4
+        
+        self.meterMode = settings.get('health-meter-mode', 2)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
