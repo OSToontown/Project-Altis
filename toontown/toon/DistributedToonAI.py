@@ -3213,7 +3213,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.air.writeServerEvent('cogSummoned', self.doId, '%s|%s|%s' % (type, suitIndex, self.zoneId))
                 self.removeCogSummonsEarned(suitIndex, type)
             self.sendUpdate('cogSummonsResponse', returnCode)
-        return
 
     def doSummonSingleCog(self, suitIndex):
         if suitIndex >= len(SuitDNA.suitHeadTypes):
@@ -3273,15 +3272,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         building.cogdoTakeOver(difficulty, buildingHeight)
         return ['success', difficulty, building.doId]
 
-    def doCogInvasion(self, suitDeptIndex, suitTypeIndex):
+    def doCogInvasion(self, suitIndex):
         if self.air.suitInvasionManager.getInvading():
             return ['busy', 0, 0]
-
-        suitName = SuitDNA.getSuitName(suitDeptIndex, suitTypeIndex)
-        suitIndex = SuitDNA.suitHeadTypes.index(suitName)
+            
+        if suitIndex >= len(SuitDNA.suitHeadTypes):
+            self.notify.warning('Bad suit index: %s' % suitIndex)
+            return ['badIndex', suitIndex, 0]
+  
+        suitName = SuitDNA.suitHeadTypes[suitIndex]
+        track = SuitDNA.getSuitDept(suitName)
+        type = SuitDNA.getSuitType(suitName)
 
         if self.air.suitInvasionManager.startInvasion(
-                suitDeptIndex=suitDeptIndex, suitTypeIndex=suitTypeIndex):
+                suitDeptIndex=track, suitTypeIndex=type):
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
@@ -5217,6 +5221,16 @@ def suit(command, suitName):
         if returnCode[0] == 'success':
             return 'Successfully spawned a Cog building with: ' + suitFullName
         return "Couldn't spawn a Cog building with: " + suitFullName
+    elif command == 'invasion':
+        returnCode = invoker.doCogInvasion(SuitDNA.suitHeadTypes.index(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully started Cog Invasion for: ' + suitFullName
+        return "Couldn't start Cog Invasion for: " + suitFullName
+    elif command == 'invasionend':
+        returnCode = 'Ending Invasion..'
+        simbase.air.suitInvasionManager.cleanupTasks()
+        simbase.air.suitInvasionManager.cleanupInvasion()
+        return returnCode
     else:
         return 'Invalid command.'
 
