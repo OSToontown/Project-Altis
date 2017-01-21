@@ -1,5 +1,6 @@
 import hmac
 import httplib
+import urllib
 import json
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
@@ -17,12 +18,19 @@ class ClientServicesManager(DistributedObjectGlobal):
 
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
-        
-        httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('POST', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), base.launcher.getPassword()))
 
+        params = urllib.urlencode({'u': base.launcher.getUsername(), 'p': base.launcher.getPassword()})
+        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "application/json"}
+
+        conn = httplib.HTTPConnection('www.projectaltis.com')
+        conn.request("POST", "/api/login", params, headers)
+        response = conn.getresponse()
+        print(str(response.reason))
+        conn.close()
+        
         try:
-            response = json.loads(httpReq.getresponse().read())
+            data = response.read()
+            response = json.loads(data)
         except:
             self.notify.error('Failed to decode json login API response!')
             return
