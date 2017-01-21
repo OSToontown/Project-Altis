@@ -4721,7 +4721,7 @@ def maxFishTank(maxFishTank):
     target.b_setMaxFishTank(maxFishTank)
     return "Set %s's max fish tank value to %d!" % (target.getName(), maxFishTank)
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str])
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
 def name(name=''):
     """
     Modify the target's name.
