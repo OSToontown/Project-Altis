@@ -3077,10 +3077,13 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[1049]),
  1053: (TT_TIER + 2,
         Cont,
-        (DeliverGagQuest,
-         5,
-         ToontownBattleGlobals.SQUIRT_TRACK,
-         1),
+        (RecoverItemQuest,
+         ToontownGlobals.ToontownCentral,
+         1,
+         21,
+		 'dt',
+		 Easy,
+		 Any),
         Same,
         Same,
         700,
@@ -3744,10 +3747,12 @@ QuestDict = {
 		TTLocalizer.QuestDialogDict[1305]),
  1306: (DD_TIER,
 		Cont,
-		(DeliverGagQuest,
-		1,
-		ToontownBattleGlobals.SQUIRT_TRACK,
-		2),
+		(RecoverItemQuest,
+		 1100,
+		 1,
+		 61,
+		 Medium,
+		 'p'),
 		Same,
 		Same,
 		NA,
@@ -3755,10 +3760,12 @@ QuestDict = {
 		TTLocalizer.QuestDialogDict[1306]),
  1307: (DD_TIER,
 		Cont,
-		(DeliverGagQuest,
-		1,
-		ToontownBattleGlobals.THROW_TRACK,
-		2),
+		(RecoverItemQuest,
+		 1100,
+		 1,
+		 61,
+		 Medium,
+		 'ym'),
 		Same,
 		Same,
 		NA,
@@ -4648,10 +4655,10 @@ QuestDict = {
         DefaultDialog),
  2159: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         2,
-         ToontownBattleGlobals.THROW_TRACK,
-         1),
+        (CogQuest,
+         Anywhere,
+         10,
+         Any),
         Any,
         Any,
         Any,
@@ -4659,10 +4666,10 @@ QuestDict = {
         DefaultDialog),
  2160: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         1,
-         ToontownBattleGlobals.SQUIRT_TRACK,
-         1),
+        (CogQuest,
+         Anywhere,
+         11,
+         Any),
         Any,
         Any,
         Any,
@@ -4670,10 +4677,10 @@ QuestDict = {
         DefaultDialog),
  2161: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         1,
-         ToontownBattleGlobals.SQUIRT_TRACK,
-         2),
+        (CogQuest,
+         Anywhere,
+         12,
+         Any),
         Any,
         Any,
         Any,
@@ -4681,10 +4688,10 @@ QuestDict = {
         DefaultDialog),
  2162: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         2,
-         ToontownBattleGlobals.THROW_TRACK,
-         2),
+        (CogQuest,
+         Anywhere,
+         13,
+         Any),
         Any,
         Any,
         Any,
@@ -7743,10 +7750,10 @@ QuestDict = {
        TTLocalizer.QuestDialogDict[902]),
  4903: (DG_TIER + 2,
         Start,
-        (DeliverGagQuest,
-         1,
-         ToontownBattleGlobals.THROW_TRACK,
-         4),
+        (CogTrackQuest,
+         ToontownGlobals.SellbotHQ,
+         15,
+         's'),
         5313,
         Same,
         NA,
@@ -18707,13 +18714,30 @@ def avatarWorkingOnRequiredRewards(av):
 
 
 def avatarHasAllRequiredRewards(av, tier):
+    # Get the reward history.
     rewardHistory = list(av.getRewardHistory()[1])
+
+    # Delete quests we're working on from the reward History.
+    avQuests = av.getQuests()
+
+    # Iterate through the current quests.
+    for i in xrange(0, len(avQuests), 5):
+        questDesc = avQuests[i:i + 5]
+        questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
+        transformedRewardId = transformReward(rewardId, av)
+
+        if rewardId in rewardHistory:
+            rewardHistory.remove(rewardId)
+
+        if transformedRewardId in rewardHistory:
+            rewardHistory.remove(transformedRewardId)
+
     rewardList = getRewardsInTier(tier)
     notify.debug('checking avatarHasAllRequiredRewards: history: %s, tier: %s' % (rewardHistory, rewardList))
     for rewardId in rewardList:
         if rewardId == 900:
             found = 0
-            for actualRewardId in (901, 902, 903, 904, 905, 906, 907, 908):
+            for actualRewardId in (901, 902, 903, 904, 905, 906, 907):
                 if actualRewardId in rewardHistory:
                     found = 1
                     rewardHistory.remove(actualRewardId)
@@ -18729,17 +18753,6 @@ def avatarHasAllRequiredRewards(av, tier):
             actualRewardId = transformReward(rewardId, av)
             if actualRewardId in rewardHistory:
                 rewardHistory.remove(actualRewardId)
-            elif getRewardClass(rewardId) == CogSuitPartReward:
-                deptStr = RewardDict.get(rewardId)[1]
-                cogPart = RewardDict.get(rewardId)[2]
-                dept = ToontownGlobals.cogDept2index[deptStr]
-                if av.hasCogPart(cogPart, dept):
-                    if notify.getDebug():
-                        notify.debug('avatarHasAllRequiredRewards: rewardId: %s counts, avatar has cog part: %s dept: %s' % (actualRewardId, cogPart, dept))
-                else:
-                    if notify.getDebug():
-                        notify.debug('avatarHasAllRequiredRewards: CogSuitPartReward: %s not found' % actualRewardId)
-                    return 0
             else:
                 if notify.getDebug():
                     notify.debug('avatarHasAllRequiredRewards: rewardId %s not found' % actualRewardId)
