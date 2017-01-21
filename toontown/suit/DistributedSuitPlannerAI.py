@@ -522,40 +522,13 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     SUIT_HOOD_INFO_LVL = 9
     SUIT_HOOD_INFO_HEIGHTS = 10
     MAX_SUIT_TYPES = 6
-    MAX_SUIT_TYPES_HQ = 6
-    HQ_SKELE_CHANCE = 0.15
-    POP_UPKEEP_DELAY = 10
-    POP_ADJUST_DELAY = 300
-    PATH_COLLISION_BUFFER = 5
-    TOTAL_MAX_SUITS = 50
-    MIN_PATH_LEN = 40
-    MAX_PATH_LEN = 300
-    MIN_TAKEOVER_PATH_LEN = 2
-    SUITS_ENTER_BUILDINGS = 1
-    SUIT_BUILDING_NUM_SUITS = 1.5
-    SUIT_BUILDING_TIMEOUT = [None,
-     None,
-     None,
-     None,
-     None,
-     None,
-     72,
-     60,
-     48,
-     36,
-     24,
-     12,
-     6,
-     3,
-     1,
-     0.5]
     MAX_SUIT_TYPES = 6
     MAX_SUIT_TYPES_HQ = 6
     HQ_SKELE_CHANCE = 0.15
     POP_UPKEEP_DELAY = 10
-    POP_ADJUST_DELAY = 300
+    POP_ADJUST_DELAY = 200
     PATH_COLLISION_BUFFER = 5
-    TOTAL_MAX_SUITS = 50
+    TOTAL_MAX_SUITS = 120
     MIN_PATH_LEN = 40
     MAX_PATH_LEN = 300
     MIN_TAKEOVER_PATH_LEN = 2
@@ -1024,11 +997,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         return count
 
     def __waitForNextUpkeep(self):
-        t = random.random() * 2.0 + self.POP_UPKEEP_DELAY
+        t = 15
         taskMgr.doMethodLater(t, self.upkeepSuitPopulation, self.taskName('sptUpkeepPopulation'))
 
     def __waitForNextAdjust(self):
-        t = random.random() * 10.0 + self.POP_ADJUST_DELAY
+        t = 15
         taskMgr.doMethodLater(t, self.adjustSuitPopulation, self.taskName('sptAdjustPopulation'))
 
     def upkeepSuitPopulation(self, task):
