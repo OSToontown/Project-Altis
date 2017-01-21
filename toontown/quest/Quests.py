@@ -16847,6 +16847,67 @@ def filterQuests(entireQuestPool, currentNpc, av):
     if notify.getDebug():
         notify.debug('filterQuests: finalQuestPool: %s' % finalQuestPool)
     return finalQuestPool
+    
+def chooseTrackChoiceQuest(tier, av, fixed = 0):
+
+    def fixAndCallAgain():
+        if not fixed and av.fixTrackAccess():
+            notify.info('av %s trackAccess fixed: %s' % (av.getDoId(), trackAccess))
+            return chooseTrackChoiceQuest(tier, av, fixed=1)
+        else:
+            return None
+        return None
+
+    bestQuest = None
+    trackAccess = av.getTrackAccess()
+    if tier == DG_TIER:
+        if trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 1:
+            bestQuest = 4002
+        elif trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 1:
+            bestQuest = 4001
+        else:
+            notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+            return fixAndCallAgain()
+    elif tier == BR_TIER:
+        if trackAccess[ToontownBattleGlobals.TRAP_TRACK] == 1:
+            if trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 1:
+                if trackAccess[ToontownBattleGlobals.DROP_TRACK] == 1:
+                    bestQuest = 5004
+                elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 1:
+                    bestQuest = 5003
+                else:
+                    notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+                    return fixAndCallAgain()
+            elif trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 1:
+                if trackAccess[ToontownBattleGlobals.DROP_TRACK] == 1:
+                    bestQuest = 5002
+                elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 1:
+                    bestQuest = 5001
+                else:
+                    notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+                    return fixAndCallAgain()
+        elif trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 0:
+            bestQuest = 5005
+        elif trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 0:
+            bestQuest = 5006
+        elif trackAccess[ToontownBattleGlobals.DROP_TRACK] == 0:
+            bestQuest = 5007
+        elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 0:
+            bestQuest = 5008
+        else:
+            notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+            return fixAndCallAgain()
+    else:
+        if notify.getDebug():
+            notify.debug('questPool for reward 400 had no dynamic choice, tier: %s' % tier)
+        bestQuest = seededRandomChoice(Tier2Reward2QuestsDict[tier][400])
+    if notify.getDebug():
+        notify.debug('chooseTrackChoiceQuest: avId: %s trackAccess: %s tier: %s bestQuest: %s' % (av.getDoId(),
+         trackAccess,
+         tier,
+         bestQuest))
+    return bestQuest
+
 
 def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
     questsMatchingReward = Tier2Reward2QuestsDict[tier].get(rewardId, [])

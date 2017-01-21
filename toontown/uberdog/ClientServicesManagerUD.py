@@ -173,16 +173,18 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
-        
-        if response["isbanned"] == "true":
-            callback({'success': False,
-                      'reason': 'Your account is banned from Project Altis!'})
-            return
-
-        if response["statuscheck"] == "false":
-            callback({'success': False,
-                      'reason': 'Toontown Project Altis is closed until the 20th!'})
-            return
+        try:
+            if response["isbanned"] == "true":
+                callback({'success': False,
+                          'reason': 'Your account is banned from Project Altis!'})
+                return
+        except: 
+            pass
+                
+        #if response["statuscheck"] == "false":
+        #    callback({'success': False,
+        #              'reason': 'Toontown Project Altis is closed until the 20th!'})
+        #    return
 
         if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
             callback({'success': False,
@@ -202,13 +204,22 @@ class LocalAccountDB(AccountDB):
             return response
 
         else:
-            # We have an account already, let's return what we've got:
-            response = {
-                'success': True,
-                'userId': cookie,
-                'accountId': int(self.dbm[str(cookie)]),
-                'accessLevel': int(response['powerlevel'])
-            }
+            try:
+                # We have an account already, let's return what we've got:
+                response = {
+                    'success': True,
+                    'userId': cookie,
+                    'accountId': int(self.dbm[str(cookie)]),
+                    'accessLevel': int(response['powerlevel'])
+                }
+            except:
+                # We have an account already, let's return what we've got:
+                response = {
+                    'success': True,
+                    'userId': cookie,
+                    'accountId': int(self.dbm[str(cookie)]),
+                    'accessLevel': int(150)
+                }
             
             callback(response)
             return response
@@ -1174,7 +1185,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             self.notify.warning('Tried to kill connection %d for duplicate FSM, but none exists!' % connId)
             return
 
-        self.killConnection(connId, 'An operation is already underway: ' + fsm.name)
+        self.killConnection(connId, 'An operation is already underway')
 
     def killAccount(self, accountId, reason):
         self.killConnection(self.GetAccountConnectionChannel(accountId), reason)
@@ -1186,7 +1197,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             self.notify.warning('Tried to kill account %d for duplicate FSM, but none exists!' % accountId)
             return
 
-        self.killAccount(accountId, 'An operation is already underway: ' + fsm.name)
+        self.killAccount(accountId, 'An operation is already underway')
 
     def runAccountFSM(self, fsmtype, *args):
         sender = self.air.getAccountIdFromSender()
