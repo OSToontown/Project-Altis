@@ -1,6 +1,6 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
-from direct.gui.DirectGui import *
+from toontown.pgui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *

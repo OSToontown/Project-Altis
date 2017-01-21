@@ -13,6 +13,11 @@ class DNACornice(DNAGroup.DNAGroup):
         DNAGroup.DNAGroup.__init__(self, name)
         self.code = ''
         self.color = LVector4f(1)
+
+    def __del__(self):
+        DNAGroup.DNAGroup.__del__(self)
+        del self.code
+        del self.color
         
     def getCode(self):
         return self.code

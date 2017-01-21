@@ -19,7 +19,7 @@ from toontown.effects import DustCloud
 from toontown.toonbase import TTLocalizer
 from toontown.friends import FriendsListManager
 from direct.controls.ControlManager import CollisionHandlerRayStart
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import random
 from toontown.nametag import NametagGlobals
 
@@ -108,6 +108,14 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.bubbleR = self.axle.attachNewNode(bubbleRNode)
         self.bubbleR.setTag('attackCode', str(ToontownGlobals.BossCogSwatRight))
         self.bubbleR.stash()
+        bubbleB = CollisionSphere(0, 25, 0, 12)
+        bubbleB.setTangible(0)
+        bubbleBNode = CollisionNode('BossZap')
+        bubbleBNode.setCollideMask(ToontownGlobals.WallBitmask)
+        bubbleBNode.addSolid(bubbleB)
+        self.bubbleB = self.rotateNode.attachNewNode(bubbleBNode)
+        self.bubbleB.setTag('attackCode', str(ToontownGlobals.BossCogFrontAttack))
+        self.bubbleB.stash()
         bubbleF = CollisionSphere(0, -25, 0, 12)
         bubbleF.setTangible(0)
         bubbleFNode = CollisionNode('BossZap')
@@ -116,6 +124,22 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.bubbleF = self.rotateNode.attachNewNode(bubbleFNode)
         self.bubbleF.setTag('attackCode', str(ToontownGlobals.BossCogFrontAttack))
         self.bubbleF.stash()
+        bubbleFL = CollisionSphere(-25, 0, 0, 12)
+        bubbleFL.setTangible(0)
+        bubbleFLNode = CollisionNode('BossZap')
+        bubbleFLNode.setCollideMask(ToontownGlobals.WallBitmask)
+        bubbleFLNode.addSolid(bubbleFL)
+        self.bubbleFL = self.rotateNode.attachNewNode(bubbleFLNode)
+        self.bubbleFL.setTag('attackCode', str(ToontownGlobals.BossCogFrontAttack))
+        self.bubbleFL.stash()
+        bubbleFR = CollisionSphere(25, 0, 0, 12)
+        bubbleFR.setTangible(0)
+        bubbleFRNode = CollisionNode('BossZap')
+        bubbleFRNode.setCollideMask(ToontownGlobals.WallBitmask)
+        bubbleFRNode.addSolid(bubbleFR)
+        self.bubbleFR = self.rotateNode.attachNewNode(bubbleFRNode)
+        self.bubbleFR.setTag('attackCode', str(ToontownGlobals.BossCogFrontAttack))
+        self.bubbleFR.stash()
 
     def disable(self):
         DistributedAvatar.DistributedAvatar.disable(self)

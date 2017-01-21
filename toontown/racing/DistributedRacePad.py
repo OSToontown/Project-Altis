@@ -36,7 +36,6 @@ class DistributedRacePad(DistributedKartPad, FSM):
         self.tunnelSign = None
         self.trackNameNode = None
         self.tunnelSignInterval = None
-        return
 
     def disable(self):
         self.notify.debug('Disable')
@@ -45,7 +44,6 @@ class DistributedRacePad(DistributedKartPad, FSM):
         if self.tunnelSignInterval:
             self.tunnelSignInterval = None
         DistributedKartPad.disable(self)
-        return
 
     def enableStartingBlocks(self):
         self.notify.debug('Enabling starting blocks')

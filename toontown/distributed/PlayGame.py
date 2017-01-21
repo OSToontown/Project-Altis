@@ -480,7 +480,6 @@ class PlayGame(StateData.StateData):
         if avId < 0:
             avId = base.localAvatar.getDoId()
         base.cr.partyManager.requestPartyZone(avId, zoneId, callback=self.goToParty)
-        return
 
     def goToParty(self, ownerId, partyId, zoneId):
         if ownerId == 0 or partyId == 0 or zoneId == 0:

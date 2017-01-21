@@ -9,7 +9,6 @@ from toontown.hood import ZoneUtil
 from toontown.suit import Suit
 from toontown.town import TownBattle
 
-
 class CogHQLoader(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQLoader')
 
@@ -25,7 +24,6 @@ class CogHQLoader(StateData.StateData):
          State.State('cogHQBossBattle', self.enterCogHQBossBattle, self.exitCogHQBossBattle, ['quietZone']),
          State.State('quietZone', self.enterQuietZone, self.exitQuietZone, ['cogHQExterior', 'cogHQLobby', 'cogHQBossBattle']),
          State.State('final', None, None, ['start'])], 'start', 'final')
-        return
 
     def load(self, zoneId):
         self.parentFSMState.addChild(self.fsm)
@@ -77,7 +75,6 @@ class CogHQLoader(StateData.StateData):
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData = None
-        return
 
     def handleQuietZoneDone(self):
         status = self.quietZoneStateData.getRequestStatus()
@@ -96,7 +93,6 @@ class CogHQLoader(StateData.StateData):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def placeDone(self):
         self.requestStatus = self.place.doneStatus
@@ -127,7 +123,6 @@ class CogHQLoader(StateData.StateData):
         self.hood.hideTitleText()
         self.exitPlace()
         self.placeClass = None
-        return
 
     def enterCogHQLobby(self, requestStatus):
         self.placeClass = CogHQLobby.CogHQLobby
@@ -139,7 +134,6 @@ class CogHQLoader(StateData.StateData):
         self.hood.hideTitleText()
         self.exitPlace()
         self.placeClass = None
-        return
 
     def enterCogHQBossBattle(self, requestStatus):
         self.placeClass = self.getBossPlaceClass()
@@ -148,4 +142,3 @@ class CogHQLoader(StateData.StateData):
     def exitCogHQBossBattle(self):
         self.exitPlace()
         self.placeClass = None
-        return

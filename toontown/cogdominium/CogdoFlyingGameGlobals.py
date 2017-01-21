@@ -1,4 +1,4 @@
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from pandac.PandaModules import VBase4, Vec3, Point3
 from toontown.cogdominium.CogdoUtil import VariableContainer, DevVariableContainer
 
@@ -237,8 +237,8 @@ Level.DifficultyOrder = {2000: (1, 1, 1, 2, 1),
  9000: (2, 3, 2, 3, 2, 3, 2)}
 Dev.WantTempLevel = True
 Dev.DevQuadsOrder = (1, 2, 3, 4, 5, 6, 7, 8)
-Level.AddSparkleToPowerups = True
-Level.AddParticlesToStreamers = True
+Level.AddSparkleToPowerups = False
+Level.AddParticlesToStreamers = False
 Level.IgnoreLaffPowerups = False
 Level.SpawnLaffPowerupsInNests = True
 Level.LaffPowerupNestOffset = Point3(0.0, 2.0, 3.0)

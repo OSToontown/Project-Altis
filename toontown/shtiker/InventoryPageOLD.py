@@ -13,7 +13,6 @@ class InventoryPageOLD(ShtikerPage.ShtikerPage):
         self.currentTrackInfo = None
         self.onscreen = 0
         self.lastInventoryTime = globalClock.getRealTime()
-        return
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
@@ -28,7 +27,6 @@ class InventoryPageOLD(ShtikerPage.ShtikerPage):
         jarGui = loader.loadModel('phase_3.5/models/gui/jar_gui')
         self.moneyDisplay = DirectLabel(parent=self, relief=None, pos=(0.55, 0, -0.5), scale=0.8, text=str(base.localAvatar.getMoney()), text_scale=0.18, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), image=jarGui.find('**/Jar'), text_font=ToontownGlobals.getSignFont())
         jarGui.removeNode()
-        return
 
     def unload(self):
         del self.title

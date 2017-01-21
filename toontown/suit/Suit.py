@@ -307,8 +307,8 @@ def loadDialog(level):
         for file in SuitDialogFiles:
             SuitDialogArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
 
-        SuitDialogArray.append(SuitDialogArray[2])
-        SuitDialogArray.append(SuitDialogArray[2])
+        SuitDialogArray.append(SuitDialogArray[0])
+        SuitDialogArray.append(SuitDialogArray[1])
 
 
 def loadSkelDialog():
@@ -416,15 +416,19 @@ class Suit(Avatar.Avatar):
         if self.leftHand:
             self.leftHand.removeNode()
             self.leftHand = None
+        
         if self.rightHand:
             self.rightHand.removeNode()
             self.rightHand = None
+        
         if self.shadowJoint:
             self.shadowJoint.removeNode()
             self.shadowJoint = None
+        
         if self.nametagJoint:
             self.nametagJoint.removeNode()
             self.nametagJoint = None
+        
         for part in self.headParts:
             part.removeNode()
 
@@ -659,6 +663,7 @@ class Suit(Avatar.Avatar):
             self.corpMedallion = icons.find('**/MoneyIcon').copyTo(chestNull)
         elif dept == 'g':
             self.corpMedallion = icons.find('**/BoardIcon').copyTo(chestNull)
+        
         self.corpMedallion.setPosHprScale(0.02, 0.05, 0.04, 180.0, 0.0, 0.0, 0.51, 0.51, 0.51)
         self.corpMedallion.setColor(self.medallionColors[dept])
         icons.removeNode()
@@ -724,23 +729,28 @@ class Suit(Avatar.Avatar):
         self.healthBarGlow.setColor(self.healthGlowColors[3], 1)
         if self.healthCondition == 5:
             self.healthBar.setScale(1.17)
+        
         return Task.done
 
     def __blinkGray(self, task):
         if not self.healthBar:
             return
+        
         self.healthBar.setColor(self.healthColors[4], 1)
         self.healthBarGlow.setColor(self.healthGlowColors[4], 1)
         if self.healthCondition == 5:
             self.healthBar.setScale(1.0)
+        
         return Task.done
 
     def removeHealthBar(self):
         if self.healthBar:
             self.healthBar.removeNode()
             self.healthBar = None
+        
         if self.healthCondition == 4 or self.healthCondition == 5:
             taskMgr.remove(self.uniqueName('blink-task'))
+        
         self.healthCondition = 0
 
     def getLoseActor(self, headless=False):
@@ -781,6 +791,7 @@ class Suit(Avatar.Avatar):
         if self.loseActor != None:
             self.notify.debug('cleanupLoseActor() - got one')
             self.loseActor.cleanup()
+        
         self.loseActor = None
 
     def getZapActor(self):
@@ -808,6 +819,7 @@ class Suit(Avatar.Avatar):
         if self.zapActor != None:
             self.notify.debug('cleanupLoseActor() - got one')
             self.zapActor.cleanup()
+        
         self.zapActor = None
 
     def makeSkeleton(self):

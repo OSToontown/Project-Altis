@@ -15,7 +15,6 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
     def __init__(self, cr):
         self.countdownTrack = None
         DistributedSwitch.DistributedSwitch.__init__(self, cr)
-        return
 
     def setSecondsOn(self, secondsOn):
         self.secondsOn = secondsOn
@@ -27,7 +26,6 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
             if track is not None:
                 track.start(0.0)
                 self.countdownTrack = track
-        return
 
     def setupSwitch(self):
         model = loader.loadModel('phase_9/models/cogHQ/CogDoor_Button')

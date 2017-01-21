@@ -1,11 +1,12 @@
+import random
 from otp.ai.AIBase import *
 from direct.distributed.ClockDelta import *
-from BattleBase import *
-from BattleCalculatorAI import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleCalculatorAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
+from toontown.battle.SuitBattleGlobals import *
 from pandac.PandaModules import *
-import BattleExperienceAI
+from toontown.battle import BattleExperienceAI
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -15,7 +16,6 @@ from toontown.ai import DatabaseObject
 from toontown.toon import DistributedToonAI
 from toontown.toon import InventoryBase
 from toontown.toonbase import ToontownGlobals
-import random
 from toontown.toon import NPCToons
 from otp.ai.MagicWordGlobal import *
 
@@ -94,7 +94,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.fsm.enterInitialState()
         self.startTime = globalClock.getRealTime()
         self.adjustingTimer = Timer()
-        return
 
     def clearAttacks(self):
         self.toonAttacks = {}
@@ -478,7 +477,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.d_setMembers()
         self.needAdjust = 1
         self.__requestAdjust()
-        return
 
     def suitRequestJoin(self, suit):
         self.notify.debug('suitRequestJoin(%d)' % suit.getDoId())
@@ -717,14 +715,13 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
             db.storeObject(toon, ['setInventory', 'setHp'])
             self.notify.info('killing mem leak from temporary DistributedToonAI %d' % toonId)
             toon.deleteDummy()
-        return
 
     def getToon(self, toonId):
         if toonId in self.air.doId2do:
             return self.air.doId2do[toonId]
         else:
             self.notify.warning('getToon() - toon: %d not in repository!' % toonId)
-        return None
+        return 
 
     def toonRequestRun(self):
         toonId = self.air.getAvatarIdFromSender()
@@ -1084,7 +1081,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.notify.debug('toon: %d chose an attack' % toonId)
         if self.__allActiveToonsResponded():
             self.__requestMovie()
-        return
 
     def requestPetProxy(self, av):
         toonId = self.air.getAvatarIdFromSender()
@@ -1123,7 +1119,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                         self.notify.warning('error generating petProxy: %s' % petId)
 
                 self.getPetProxyObject(petId, handleGetPetProxy)
-        return
 
     def suitCanJoin(self):
         return len(self.suits) < self.maxSuits and self.isJoinable()
@@ -1221,10 +1216,9 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
             self.runableFsm.request('Runable')
             self.resetResponses()
             self.__requestAdjust()
-        return None
 
     def exitWaitForJoin(self):
-        return None
+        pass
 
     def enterWaitForInput(self):
         self.notify.debug('enterWaitForInput()')
@@ -1241,12 +1235,9 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 if toon is not None:
                     toon.doRestock(0)
 
-        return
-
     def exitWaitForInput(self):
         self.npcAttacks = {}
         self.timer.stop()
-        return None
 
     def __serverTimedOut(self):
         self.notify.debug('wait for input timed out on server')
@@ -1257,10 +1248,9 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.notify.debug('enterMakeMovie()')
         self.runableFsm.request('Unrunable')
         self.resetResponses()
-        return None
 
     def exitMakeMovie(self):
-        return None
+        pass
 
     def enterPlayMovie(self):
         self.notify.debug('enterPlayMovie()')
@@ -1287,7 +1277,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
     def exitPlayMovie(self):
         self.timer.stop()
-        return None
 
     def __movieDone(self):
         self.notify.debug('__movieDone() - movie is finished')
@@ -1620,6 +1609,8 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                     toon.inventory.zeroInv(1)
                     deadToons.append(activeToon)
                 self.notify.debug('AFTER ROUND: toon: %d setHp: %d' % (toon.doId, toon.hp))
+                if toon.unlimitedGags:
+	                toon.doRestock(noUber=0, noPaid=0)
 
         for deadToon in deadToons:
             self.__removeToon(deadToon)
@@ -1629,7 +1620,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.d_setMovie()
         self.d_setChosenToonAttacks()
         self.localMovieDone(needUpdate, deadToons, deadSuits, lastActiveSuitDied)
-        return
 
     def enterResume(self):
         for suit in self.suits:
@@ -1683,34 +1673,30 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
     def enterJoinable(self):
         self.notify.debug('enterJoinable()')
-        return None
 
     def exitJoinable(self):
-        return None
+        pass
 
     def enterUnjoinable(self):
         self.notify.debug('enterUnjoinable()')
-        return None
 
     def exitUnjoinable(self):
-        return None
+        pass
 
     def isRunable(self):
         return self.runableFsm.getCurrentState().getName() == 'Runable'
 
     def enterRunable(self):
         self.notify.debug('enterRunable()')
-        return None
 
     def exitRunable(self):
-        return None
+        pass
 
     def enterUnrunable(self):
         self.notify.debug('enterUnrunable()')
-        return None
 
     def exitUnrunable(self):
-        return None
+        pass
 
     def __estimateAdjustTime(self):
         self.needAdjust = 0
@@ -1733,7 +1719,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.timer.stop()
         self.__resetAdjustingResponses()
         self.adjustingTimer.startCallback(self.__estimateAdjustTime() + SERVER_BUFFER_TIME, self.__serverAdjustingDone)
-        return None
 
     def __serverAdjustingDone(self):
         if self.needAdjust == 1:
@@ -1751,7 +1736,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         elif currStateName == 'WaitForJoin':
             self.b_setState('WaitForInput')
         self.adjustingTimer.stop()
-        return None
 
     def __addTrainTrapForNewSuits(self):
         hasTrainTrap = False
@@ -1767,8 +1751,6 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                     curSuit.battleTrap = UBER_GAG_LEVEL_INDEX
                     self.battleCalc.addTrainTrapForJoiningSuit(curSuit.doId)
                     self.notify.debug('setting traintrack trap for joining suit %d oldTrap=%s' % (curSuit.doId, oldBattleTrap))
-
-        return
 
     def __adjustDone(self):
         for s in self.adjustingSuits:
@@ -1801,10 +1783,9 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         if self.movieRequested == 1:
             if len(self.activeToons) > 0 and self.__allActiveToonsResponded():
                 self.__requestMovie()
-        return None
 
     def exitNotAdjusting(self):
-        return None
+        pass
 
     def getPetProxyObject(self, petId, callback):
         doneEvent = 'readPet-%s' % self._getNextSerialNum()

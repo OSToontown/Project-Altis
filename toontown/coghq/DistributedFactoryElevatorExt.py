@@ -49,7 +49,6 @@ class DistributedFactoryElevatorExt(DistributedElevatorExt.DistributedElevatorEx
     def setBldgDoId(self, bldgDoId):
         self.bldg = None
         self.setupElevator()
-        return
 
     def getZoneId(self):
         return 0

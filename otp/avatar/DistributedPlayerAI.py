@@ -166,7 +166,6 @@ def system(message):
     """
     Broadcast a <message> to the game server.
     """
-    message = 'ADMIN: ' + message
     dclass = simbase.air.dclassesByName['ClientServicesManager']
     dg = dclass.aiFormatUpdate('systemMessage',
                                OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER,

@@ -11,6 +11,7 @@ class DLHood(ToonHood):
     SAFEZONELOADER_CLASS = DLSafeZoneLoader
     STORAGE_DNA = 'phase_8/dna/storage_DL.pdna'
     SKY_FILE = 'phase_8/models/props/DL_sky'
+    SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
     TITLE_COLOR = (1.0, 0.9, 0.5, 1.0)
 
     HOLIDAY_DNA = {

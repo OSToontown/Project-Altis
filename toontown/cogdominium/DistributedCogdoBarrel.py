@@ -1,3 +1,4 @@
+import random
 from panda3d.core import *
 from panda3d.direct import *
 from direct.directnotify import DirectNotifyGlobal
@@ -5,7 +6,6 @@ from direct.distributed import DistributedObject
 from toontown.toonbase import ToontownGlobals, ToontownIntervals
 from toontown.cogdominium import CogdoBarrelRoomConsts
 from toontown.cogdominium import CogdoBarrelRoom
-import random
 
 class DistributedCogdoBarrel(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCogdoBarrel')
@@ -22,7 +22,6 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
         self.availableTex = None
         self.usedTex = None
         self.brLaff = 0
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -37,6 +36,7 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
         cogdoBarrelsNode = render.find('@@CogdoBarrels')
         if not cogdoBarrelsNode or cogdoBarrelsNode.isEmpty():
             cogdoBarrelsNode = render.attachNewNode('CogdoBarrels')
+        
         self.model.reparentTo(cogdoBarrelsNode)
         self.availableTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_notUsed.jpg')
         self.usedTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_Used.jpg')
@@ -73,8 +73,8 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
             self.model.removeNode()
             del self.model
             self.model = None
+        
         self.ignore(self.uniqueName('enterbarrelSphere'))
-        return
 
     def setIndex(self, index):
         self.index = index

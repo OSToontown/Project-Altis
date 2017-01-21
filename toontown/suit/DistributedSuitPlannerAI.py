@@ -18,11 +18,11 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-ALLOWED_FO_TRACKS = ['s', 'l']
+
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = 0.6
+    CogdoRatio = 0.99
     SuitHoodInfo = [[2100, #Silly Street
       5,
       15,
@@ -309,11 +309,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (30,
-       30,
+      (40,
+       40,
        0,
-       10,
-       30),
+       0,
+       20),
       (4, 5, 6),
       []],
      [5300, #Oak Street
@@ -567,6 +567,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     ]
     TOTAL_SUIT_BUILDING_PCT = 18 * CogdoPopFactor
     BUILDING_HEIGHT_DISTRIBUTION = [14, 18, 25, 23, 20]
+    ALLOWED_COGDO_TYPES = ['s', 'l']
     defaultSuitName = simbase.config.GetString('suit-type', 'random')
     if defaultSuitName == 'random':
         defaultSuitName = None
@@ -923,7 +924,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     if blockNumber in self.buildingFrontDoors:
                         possibles.append((blockNumber, self.buildingFrontDoors[blockNumber]))
             if cogdoTakeover is None:
-                if suit.dna.dept in ALLOWED_COGDO_TYPES:
+                if suit.dna.dept in self.ALLOWED_COGDO_TYPES:
                     cogdoTakeover = random.random() < self.CogdoRatio
 
         elif self.buildingMgr:
@@ -1158,7 +1159,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(None, suitType, suitTrack)
 
                 if random.random() < self.CogdoRatio:
-                    building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
+                    if suitTrack in self.ALLOWED_COGDO_TYPES:
+                        building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType), suitTrack)
+                    else:
+                        building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
                 else:
                     building.suitTakeOver(suitTrack, suitLevel, None)
 

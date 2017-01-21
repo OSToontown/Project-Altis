@@ -1,6 +1,6 @@
 import TTLocalizer
 from otp.otpbase.OTPGlobals import *
-from direct.showbase.PythonUtil import Enum, invertDict
+from toontown.toonbase.ToonPythonUtil import Enum, invertDict
 from pandac.PandaModules import BitMask32, Vec4
 MapHotkeyOn = 'alt'
 MapHotkeyOff = 'alt-up'
@@ -18,6 +18,7 @@ CFOElevatorFov = 43.0
 CJElevatorFov = 59.0
 CEOElevatorFov = 59.0
 CBElevatorFov = 42.0
+CogdoFov = 45.0
 WantPromotion = 0
 PendingPromotion = 1
 CeilingBitmask = BitMask32(256)

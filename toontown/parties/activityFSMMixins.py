@@ -1,4 +1,4 @@
-from BaseActivityFSM import BaseActivityFSM
+from toontown.parties.BaseActivityFSM import BaseActivityFSM
 
 class IdleMixin:
 

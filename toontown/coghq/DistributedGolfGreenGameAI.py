@@ -50,7 +50,6 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         self.startTime = None
         self.totalTime = 1180.0
         self.DamageOnFailure = 20.0
-        return
 
     def announceGenerate(self):
         BattleBlockerAI.BattleBlockerAI.announceGenerate(self)
@@ -76,7 +75,6 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         self.boardData = []
         self.attackPatterns = []
         self.processPreData()
-        return
 
     def processPreData(self):
         for board in self.preData:
@@ -102,8 +100,6 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
 
             self.attackPatterns.append(attackPattern)
 
-        return
-
     def startTimer(self):
         self.startTime = globalClockDelta.getFrameNetworkTime()
         taskMgr.doMethodLater(self.totalTime, self.__handleTimeOut, self.taskName('GolfGreenGameTimeout'))
@@ -126,7 +122,6 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
             timePassed = globalClockDelta.localElapsedTime(self.startTime)
             timeLeft = self.totalTime - timePassed
             return timeLeft
-        return
 
     def choosePattern(self):
         dataSize = len(self.boardData)
@@ -181,7 +176,6 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
                 self.everJoinedToons.append(senderId)
             self.sendUpdate('acceptJoin', [self.totalTime, self.startTime, self.joinedToons])
             self.sendScoreData()
-        return
 
     def requestBoard(self, boardVerify):
         senderId = self.air.getAvatarIdFromSender()
@@ -209,7 +203,6 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         else:
             self.boardList[boardIndex][0].append(senderId)
             self.sendUpdateToAvatarId(senderId, 'startBoard', [self.boardData[self.boardList[boardIndex][1]], self.attackPatterns[self.boardList[boardIndex][2]]])
-        return
 
     def addGag(self, avId):
         av = simbase.air.doId2do.get(avId)

@@ -1,8 +1,10 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.task.TaskManagerGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.distributed.ToontownMsgTypes import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui import OnscreenText
@@ -25,6 +27,7 @@ from toontown.toon import NPCToons
 from direct.task import Task
 from toontown.makeatoon.TTPickANamePattern import TTPickANamePattern
 from pandac.PandaModules import TextEncoder
+from toontown.toontowngui import FeatureComingSoonDialog
 MAX_NAME_WIDTH = TTLocalizer.NSmaxNameWidth
 ServerDialogTimeout = 3.0
 
@@ -33,6 +36,7 @@ class NameShop(StateData.StateData):
 
     def __init__(self, makeAToon, doneEvent, avList, index, isPaid):
         StateData.StateData.__init__(self, doneEvent)
+        self.wantTypeAName = False
         self.makeAToon = makeAToon
         self.isPaid = isPaid
         self.avList = avList
@@ -751,23 +755,27 @@ class NameShop(StateData.StateData):
         self.nameEntry['focus'] = 1
 
     def __typeAName(self):
-        if base.cr.productName in ['JP',
-         'DE',
-         'BR',
-         'FR']:
-            if base.restrictTrialers:
-                if not base.cr.isPaid():
-                    dialog = TeaserPanel.TeaserPanel(pageName='typeAName')
-                    return
-        if self.fsm.getCurrentState().getName() == 'TypeAName':
-            self.typeANameButton['text'] = TTLocalizer.TypeANameButton
-            self.typeANameButton.wrtReparentTo(self.namePanel, sort=2)
-            self.fsm.request('PickAName')
+        if not self.wantTypeAName:
+            FeatureComingSoonDialog.FeatureComingSoonDialog(text="That feature is \1textShadow\1coming soon\2! Sorry about that!")
+        
         else:
-            self.typeANameButton['text'] = TTLocalizer.PickANameButton
-            self.typeANameButton.wrtReparentTo(aspect2d, sort=2)
-            self.typeANameButton.show()
-            self.fsm.request('TypeAName')
+            if base.cr.productName in ['JP',
+             'DE',
+             'BR',
+             'FR']:
+                if base.restrictTrialers:
+                    if not base.cr.isPaid():
+                        dialog = TeaserPanel.TeaserPanel(pageName='typeAName')
+                        return
+            if self.fsm.getCurrentState().getName() == 'TypeAName':
+                self.typeANameButton['text'] = TTLocalizer.TypeANameButton
+                self.typeANameButton.wrtReparentTo(self.namePanel, sort=2)
+                self.fsm.request('PickAName')
+            else:
+                self.typeANameButton['text'] = TTLocalizer.PickANameButton
+                self.typeANameButton.wrtReparentTo(aspect2d, sort=2)
+                self.typeANameButton.show()
+                self.fsm.request('TypeAName')
 
     def __typedAName(self, *args):
         self.notify.debug('__typedAName')
@@ -958,7 +966,9 @@ class NameShop(StateData.StateData):
         self.newDNA = style.makeNetString()
         self.requestingSkipTutorial = skipTutorial
         if not self.avExists or self.avExists and self.avId == 'deleteMe':
-            base.cr.csm.sendCreateAvatar(style, '', self.index, self.toon.uberType)
+            trackChoices = [self.toon.choiceAlpha, self.toon.choiceBeta]
+            startingPg = self.toon.startingPg
+            base.cr.csm.sendCreateAvatar(style, '', self.index, self.toon.uberType, trackChoices, startingPg)
             self.accept('nameShopCreateAvatarDone', self.handleCreateAvatarResponse)
         else:
             self.checkNameTyped()
@@ -1007,13 +1017,10 @@ class NameShop(StateData.StateData):
         self.notify.debug('ParentPos = %.2f %.2f %.2f' % (parentPos[0], parentPos[1], parentPos[2]))
 
     def storeSkipTutorialRequest(self):
-        if base.forceSkipTutorial:
-            base.cr.skipTutorialRequest = True
-        else:
-            base.cr.skipTutorialRequest = self.requestingSkipTutorial
+        base.cr.skipTutorialRequest = True
 
     def __isFirstTime(self):
-        if not self.makeAToon.nameList or self.makeAToon.warp:
+        if not self.makeAToon.nameList or self.makeAToon.warp or self.toon.startingPg > 0:
             self.__createAvatar()
         else:
             self.promptTutorial()

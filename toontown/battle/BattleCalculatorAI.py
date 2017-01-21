@@ -9,7 +9,7 @@ from toontown.battle import BattleExperienceAI
 from toontown.toon import NPCToons
 from toontown.pets import PetTricks, DistributedPetProxyAI
 from toontown.hood import ZoneUtil
-from direct.showbase.PythonUtil import lerp
+from toontown.toonbase.ToonPythonUtil import lerp
 
 class BattleCalculatorAI:
     AccuracyBonuses = [0, 20, 40, 60]
@@ -497,15 +497,14 @@ class BattleCalculatorAI:
                 elif atkTrack == FIRE:
                     suit = self.battle.findSuit(targetId)
                     if suit:
-                        costToFire = 1 + self.fireDifficulty
+                        costToFire = 1
                         abilityToFire = toon.getPinkSlips()
                         numLeft = abilityToFire - costToFire
                         if numLeft < 0:
                             numLeft = 0
                         toon.b_setPinkSlips(numLeft)
-                        self.fireDifficulty += 1
                         if costToFire > abilityToFire:
-                            simbase.air.writeServerEvent('suspicious', toonId, 'Toon attempting to fire a %s cost cog with %s pinkslips' % (costToFire, abilityToFire))
+                            simbase.air.writeServerEvent('suspicious', avId=toonId, issue='Toon attempting to fire a %s cost cog with %s pinkslips' % (costToFire, abilityToFire))
                             print 'Not enough PinkSlips to fire cog - print a warning here'
                         else:
                             suit.skeleRevives = 0
@@ -774,7 +773,7 @@ class BattleCalculatorAI:
             return
         tgts = self.__createToonTargetList(toonId)
         for currTgt in tgts:
-            tgtPos = self.battle.suits.index(currTgt)
+            tgtPos = self.battle.activeSuits.index(currTgt)
             attackerId = self.toonAtkOrder[attackIndex]
             attack = self.battle.toonAttacks[attackerId]
             track = self.__getActualTrack(attack)
@@ -1080,7 +1079,7 @@ class BattleCalculatorAI:
     def __unlureAtk(self, attackIndex, toon = 1):
         attack = self.battle.toonAttacks[attackIndex]
         track = self.__getActualTrack(attack)
-        if toon and (track == THROW or track == SQUIRT or track == SOUND):
+        if toon and (track == THROW or track == SQUIRT or track == SOUND or track == ZAP):
             if self.notify.getDebug():
                 self.notify.debug('attack is an unlure')
             return 1

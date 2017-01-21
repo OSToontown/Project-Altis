@@ -144,6 +144,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         if not self.fsm or avatar != self.avatar:
             self.notify.warning('Ignoring unexpected request for avatar %s' % avatar.doId)
             return
+        
         if gotData:
             self.fsm.request('data')
         else:
@@ -165,14 +166,14 @@ class ToonAvatarDetailPanel(DirectFrame):
                 text = TTLocalizer.AvatarDetailPanelOnlinePlayer % {'district': shardName,
                  'location': hoodName,
                  'player': self.playerInfo.playerName,
-                 'level': (av.toonLevel + 1)}
+                 'level': (av.level + 1)}
             else:
                 text = TTLocalizer.AvatarDetailPanelOnline % {'district': shardName,
                  'location': hoodName,
-                 'level': (av.toonLevel + 1)}
+                 'level': (av.level + 1)}
         else:
-            text = TTLocalizer.AvatarDetailPanelOffline % str(av.toonLevel + 1)
-        
+            text = TTLocalizer.AvatarDetailPanelOffline % str(av.level + 1)
+
         self.dataText['text'] = text
         self.__updateTrackInfo()
         self.__updateTrophyInfo()
@@ -184,6 +185,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         handle = base.cr.identifyFriend(self.avId)
         if not handle and hasManager:
             handle = base.cr.playerFriendsManager.getAvHandleFromId(self.avId)
+        
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send('clickedNametagPlayer', [handle, self.playerId, 1])
@@ -195,7 +197,7 @@ class ToonAvatarDetailPanel(DirectFrame):
     def __updateTrackInfo(self):
         xOffset = -0.501814
         xSpacing = 0.1835
-        yOffset = 0.1
+        yOffset = 0.215
         ySpacing = -0.115
         inventory = self.avatar.inventory
         inventoryModels = loader.loadModel('phase_3.5/models/gui/inventory_gui')

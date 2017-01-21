@@ -1,17 +1,18 @@
+import random
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
-from BattleSounds import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleProps import *
+from toontown.battle.BattleSounds import *
 from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
-import MovieUtil
-import MovieNPCSOS
-import MovieCamera
+from toontown.battle import MovieUtil
+from toontown.battle import MovieNPCSOS
+from toontown.battle import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
-import BattleParticles
+from toontown.battle import BattleParticles
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
-import random
+
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieZap')
 hitSoundFiles = ('AA_tesla.ogg', 'AA_carpet.ogg', 'AA_balloon.ogg', 'AA_tesla.ogg', 'AA_tesla.ogg', 'AA_tesla.ogg', 'AA_lightning.ogg')
 missSoundFiles = ('AA_tesla_miss.ogg', 'AA_carpet.ogg', 'AA_balloon_miss.ogg', 'AA_tesla_miss.ogg', 'AA_tesla_miss.ogg', 'AA_tesla_miss.ogg', 'AA_lightning_miss.ogg')
@@ -22,7 +23,7 @@ sprayScales = [0.2,
  0.8,
  1.0,
  2.0]
-WaterSprayColor = Point4(1.0, 1.0, 0, 1.0)
+WaterSprayColor = Point4(0, 0, 0, 0)
 zapPos = Point3(0, 0, 0)
 zapHpr = Vec3(0, 0, 0)
 
@@ -211,7 +212,7 @@ def shortCircuitTrack(suit, battle):
         (0.9, ParticleInterval(bigGearExplosion, battle, worldRelative=0, duration=2.0, cleanup=True)), name='gears2MTrack'
     )
 
-    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack, Wait(4.5))
+    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack)
 
 
 def say(statement):

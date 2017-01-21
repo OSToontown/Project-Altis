@@ -1,10 +1,10 @@
 import random
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleProps import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
+from toontown.battle.SuitBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import MovieUtil
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieCamera')
@@ -120,13 +120,15 @@ def chooseLureCloseShot(lures, openDuration, openName, attackDuration):
             hasTrainTrackTrap = True
 
     if hasTrainTrackTrap:
-        shotChoices = [avatarBehindHighRightShot]
+        shotChoices = [avatarTrainShot]
         av = lures[0]['toon']
     else:
         shotChoices = [allGroupLowShot]
     track = apply(random.choice(shotChoices), [av, duration])
     return track
 
+def avatarTrainShot(avatar, duration):
+    return heldRelativeShot(avatar, 0, -7, 1 + avatar.getHeight(), 0, 0, 0, duration, 'avatarTrainShot')
 
 def chooseSoundShot(sounds, targets, attackDuration, enterDuration = 0.0, exitDuration = 0.0):
     enterShot = chooseNPCEnterShot(sounds, enterDuration)

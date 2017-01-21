@@ -18,6 +18,16 @@ class DNAStreet(DNANode.DNANode):
         self.streetColor = LVector4f(1, 1, 1, 1)
         self.sideWalkColor = LVector4f(1, 1, 1, 1)
         self.curbColor = LVector4f(1, 1, 1, 1)
+
+    def __del__(self):
+        DNANode.DNANode.__del__(self)
+        del self.code
+        del self.streetTexture
+        del self.sideWalkTexture
+        del self.curbTexture
+        del self.streetColor
+        del self.sideWalkColor
+        del self.curbColor
         
     def getCode(self):
         return self.code
@@ -86,6 +96,6 @@ class DNAStreet(DNANode.DNANode):
         
         tex = store.findTexture(texture)
         if not tex:
-            raise DNAError.DNAError("DNAStreet texture not found %s" %texture)
+            raise DNAError.DNAError("DNAStreet texture not found %s" % (texture))
         
         return tex

@@ -7,7 +7,6 @@ ReportRudeBehavior = 'rude-behavior'
 ReportBadName = 'bad-name'
 ReportHacking = 'hacking'
 
-
 class CentralLogger(DistributedObjectGlobal):
     PlayersReportedThisSession = {}
 

@@ -2,7 +2,7 @@ from panda3d.core import *
 from panda3d.direct import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
-from direct.showbase.PythonUtil import randFloat, lerp
+from toontown.toonbase.ToonPythonUtil import randFloat, lerp
 from toontown.pets import PetConstants
 import random
 
@@ -19,7 +19,6 @@ class PetGoalMgr(DirectObject.DirectObject):
             self.pscSetup = PStatCollector('App:Show code:petThink:UpdatePriorities:Setup')
             self.pscFindPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:FindPrimary')
             self.pscSetPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:SetPrimary')
-        return
 
     def destroy(self):
         if __dev__:

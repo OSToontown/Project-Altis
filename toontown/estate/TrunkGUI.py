@@ -1,4 +1,4 @@
-from direct.showbase.PythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import Functor
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.distributed import ClockDelta

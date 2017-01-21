@@ -7,13 +7,12 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
 from direct.showbase import GarbageReport
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.showbase.DirectObject import *
 from direct.task import Task
 from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from toontown.chat.ChatGlobals import *
-
 
 class TimeManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TimeManager')

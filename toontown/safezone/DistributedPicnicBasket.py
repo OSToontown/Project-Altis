@@ -12,7 +12,7 @@ from direct.fsm import State
 from toontown.distributed import DelayDelete
 from toontown.toonbase.ToontownTimer import ToontownTimer
 from direct.task.Task import Task
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.toon import ToonDNA
 from direct.showbase import RandomNumGen
 from toontown.battle.BattleSounds import *
@@ -31,15 +31,15 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.fsm = ClassicFSM.ClassicFSM('DistributedTrolley', [State.State('off', self.enterOff, self.exitOff, ['waitEmpty', 'waitCountdown']), State.State('waitEmpty', self.enterWaitEmpty, self.exitWaitEmpty, ['waitCountdown']), State.State('waitCountdown', self.enterWaitCountdown, self.exitWaitCountdown, ['waitEmpty'])], 'off', 'off')
         self.fsm.enterInitialState()
         self.__toonTracks = {}
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
         self.loader = self.cr.playGame.hood.loader
         self.foodLoader = ['phase_6/models/golf/picnic_sandwich.bam',
-         'phase_6/models/golf/picnic_apple.bam',
-         'phase_6/models/golf/picnic_cupcake.bam',
-         'phase_6/models/golf/picnic_chocolate_cake.bam']
+            'phase_6/models/golf/picnic_apple.bam',
+            'phase_6/models/golf/picnic_cupcake.bam',
+            'phase_6/models/golf/picnic_chocolate_cake.bam']
+        
         self.fullSeat = []
         self.food = []
         for i in xrange(4):
@@ -47,7 +47,6 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             self.fullSeat.append(self.seatState.Empty)
 
         self.picnicItem = 0
-        return
 
     def announceGenerate(self):
         self.picnicTable = self.loader.geom.find('**/*picnic_table_' + str(self.tableNumber))
@@ -81,7 +80,6 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.clockNode.setPos(1.16, 0, -0.83)
         self.clockNode.setScale(0.3)
         self.clockNode.hide()
-        return
 
     def disable(self):
         DistributedObject.DistributedObject.disable(self)
@@ -94,7 +92,6 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.notify.debug('Deleted self loader ' + str(self.getDoId()))
         self.picnicTable.removeNode()
         self.picnicBasketTrack = None
-        return
 
     def delete(self):
         self.notify.debug('Golf kart getting deleted: %s' % self.getDoId())
@@ -105,6 +102,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.seed = seed
         if not self.random:
             self.random = RandomNumGen.RandomNumGen(seed)
+        
         self.fsm.request(state, [globalClockDelta.localElapsedTime(timestamp)])
 
     def handleEnterPicnicTableSphere(self, i, collEntry):
@@ -169,6 +167,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 if avId == base.localAvatar.getDoId():
                     if hasattr(self.loader.place, 'trolley'):
                         track.append(Func(self.loader.place.trolley.exitButton.show))
+                
                 track.delayDelete = DelayDelete.DelayDelete(toon, 'PicnicBasket.fillSlot')
                 self.storeToonTrack(avId, track)
                 track.start()
@@ -257,10 +256,10 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             self.picnicTableSphereNodes[i].setCollideMask(BitMask32(0))
 
     def enterOff(self):
-        return None
+        pass
 
     def exitOff(self):
-        return None
+        pass
 
     def enterWaitEmpty(self, ts):
         self.__enableCollisions()
@@ -417,6 +416,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                     duration=0.1),
                 Func(self.basket.wrtReparentTo, self.tablecloth),
                 Func(self.basket.setPos, 0, 0, 0)))
+        
         return basketTrack
 
     def generateBasketDisappearTrack(self):
@@ -458,6 +458,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 pos=pos,
                 duration=0.2),
             Func(self.basket.hide))
+        
         return basketTrack
 
     def generateFoodAppearTrack(self, seat):
@@ -504,6 +505,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                         scale=Point3(2.0, 2.0, 2.0),
                         duration=0.1),
                     Func(self.food[seat].wrtReparentTo, self.tablecloth)))
+            
             return foodTrack
         else:
             return Sequence()
@@ -547,6 +549,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 pos=pos,
                 duration=0.2),
             Func(self.food[seat].hide))
+        
         return foodTrack
 
     def destroy(self, node):
@@ -561,12 +564,12 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.clockNode.removeNode()
         del self.clockNode
         self.clockNode = None
-        return
 
     def setPicnicDone(self):
         if self.localToonOnBoard:
             if hasattr(self.loader.place, 'trolley'):
                 self.loader.place.trolley.fsm.request('final')
                 self.loader.place.trolley.fsm.request('start')
+            
             self.localToonOnBoard = 0
             messenger.send('picnicDone')

@@ -1,6 +1,6 @@
 import math
 import random
-import ToontownControlManager
+from otp.avatar import ToontownControlManager
 from direct.controls import ControlManager
 from direct.controls.GhostWalker import GhostWalker
 from direct.controls.GravityWalker import GravityWalker
@@ -12,7 +12,7 @@ from direct.distributed import DistributedSmoothNode
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.InputStateGlobal import inputState
-from direct.showbase.PythonUtil import *
+from toontown.toonbase.ToonPythonUtil import *
 from direct.task import Task
 from pandac.PandaModules import *
 from otp.avatar import DistributedAvatar

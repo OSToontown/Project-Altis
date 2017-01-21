@@ -2,7 +2,7 @@ from panda3d.core import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from MakeAToonGlobals import *
+from toontown.makeatoon.MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer, ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
@@ -14,7 +14,6 @@ class StatusShop(StateData.StateData):
         StateData.StateData.__init__(self, doneEvent)
         self.toon = None
         self.index = 0
-        return
 
     def enter(self, toon, shopsVisited = []):
         base.disableMouse()

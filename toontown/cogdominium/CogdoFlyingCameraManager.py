@@ -3,7 +3,7 @@ from pandac.PandaModules import NodePath, Vec3
 from pandac.PandaModules import CollisionTraverser, CollisionHandlerQueue
 from pandac.PandaModules import CollisionRay, CollisionNode
 from math import pi, sin, cos
-from direct.showbase.PythonUtil import bound as clamp
+from toontown.toonbase.ToonPythonUtil import bound as clamp
 from otp.otpbase import OTPGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
@@ -12,7 +12,6 @@ INVERSE_E = 1.0 / math.e
 
 def smooth(old, new):
     return old * 0.7 + new * 0.3
-
 
 class CogdoFlyingCameraManager:
 
@@ -27,6 +26,7 @@ class CogdoFlyingCameraManager:
     def enable(self):
         if self._enabled:
             return
+        
         self._toon.detachCamera()
         self._prevToonY = 0.0
         levelBounds = self._level.getBounds()
@@ -87,6 +87,7 @@ class CogdoFlyingCameraManager:
     def disable(self):
         if not self._enabled:
             return
+        
         self._destroyCollisions()
         self._camera.wrtReparentTo(render)
         self._cameraLookAtNP.removeNode()
@@ -172,16 +173,24 @@ class CogdoFlyingCameraManager:
                 np.setTransparency(True)
                 np.wrtReparentTo(self._transNP)
                 if np.getName().find('lightFixture') >= 0:
-                    np.find('**/*floor_mesh').hide()
+                    node = np.find('**/*floor_mesh')
+                    if not node.isEmpty():
+                        node.hide()
                 elif np.getName().find('platform') >= 0:
-                    np.find('**/*Floor').hide()
+                    node = np.find('**/*Floor')
+                    if not node.isEmpty():
+                        node.hide()
 
         for np, parent in self._betweenCamAndToon.items():
             np.wrtReparentTo(parent)
             np.setTransparency(False)
             if np.getName().find('lightFixture') >= 0:
-                np.find('**/*floor_mesh').show()
+                node = np.find('**/*floor_mesh')
+                if not node.isEmpty():
+                    node.show()
             elif np.getName().find('platform') >= 0:
-                np.find('**/*Floor').show()
+                node = np.find('**/*Floor')
+                if not node.isEmpty():
+                    node.show()
 
         self._betweenCamAndToon = nodesInBetween

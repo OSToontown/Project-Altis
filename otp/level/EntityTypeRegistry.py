@@ -5,7 +5,7 @@ from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.level import AttribDesc
 from otp.level import EntityTypeDesc
-from direct.showbase.PythonUtil import mostDerivedLast
+from toontown.toonbase.ToonPythonUtil import mostDerivedLast
 
 class EntityTypeRegistry:
     notify = DirectNotifyGlobal.directNotify.newCategory('EntityTypeRegistry')

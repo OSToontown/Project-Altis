@@ -195,6 +195,7 @@ class QuestManagerAI:
                    continue
                 else:
                     av.b_setToonExp(av.getToonExp() + questExp)
+                
                 break
 
     def giveReward(self, av, questId, rewardId):
@@ -427,11 +428,13 @@ class QuestManagerAI:
                             if questClass.doesBuildingCount(av, activeToons):
                                 if floors >= questClass.getNumFloors():
                                     questDesc[QuestProgressIndex] += 1
+            
             questList.append(questDesc)
 
         av.b_setQuests(questList)
 		
-    def toonKilledCogdo(self, av, track, difficulty, zoneId, activeToons):
+    def toonKilledCogdo(self, av, type, difficulty, zoneId, activeToons):
+        self.notify.debug("toonKilledCogdo(%s, '%s', %s, %d, %s)" % (str(av), type, str(difficulty), zoneId, str(activeToons)))
         # Get the avatars current quests.
         avQuests = av.getQuests()
         questList = []

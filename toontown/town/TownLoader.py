@@ -350,8 +350,6 @@ class TownLoader(StateData.StateData):
                     animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animatedBuildingObj)
 
-        return
-
     def deleteAnimatedProps(self):
         for zoneNode, animPropList in self.animPropDict.items():
             for animProp in animPropList:

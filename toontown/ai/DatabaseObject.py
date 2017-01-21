@@ -1,6 +1,6 @@
 import types
 from pandac.PandaModules import *
-from ToontownAIMsgTypes import *
+from toontown.ai.ToontownAIMsgTypes import *
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.toon import DistributedToonAI
 from direct.distributed.PyDatagram import PyDatagram
@@ -16,7 +16,6 @@ class DatabaseObject:
         self.values = {}
         self.gotDataHandler = None
         self.doneEvent = doneEvent
-        return
 
     def readToon(self, fields = None):
         toon = DistributedToonAI.DistributedToonAI(self.air)
@@ -67,7 +66,6 @@ class DatabaseObject:
                     self.notify.warning('Field %s not defined.' % field)
 
         self.setFields(values)
-        return
 
     def getFields(self, fields):
         context = self.air.dbObjContext
@@ -121,7 +119,6 @@ class DatabaseObject:
                 self.gotDataHandler = None
         if self.doneEvent != None:
             messenger.send(self.doneEvent, [self, retCode])
-        return
 
     def setFields(self, values):
         dg = PyDatagram()
@@ -168,8 +165,6 @@ class DatabaseObject:
                 packOk = dclass.packRequiredField(dg, do, field)
                 self.values[fieldName] = dg
 
-        return
-
     def createObject(self, objectType):
         values = {}
         for key, value in values.items():
@@ -202,7 +197,6 @@ class DatabaseObject:
             self.doId = di.getUint32()
         if self.doneEvent != None:
             messenger.send(self.doneEvent, [self, retCode])
-        return
 
     def deleteObject(self):
         self.notify.warning('deleting object %s' % self.doId)

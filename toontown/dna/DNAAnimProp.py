@@ -11,6 +11,10 @@ class DNAAnimProp(DNAProp.DNAProp):
     def __init__(self, name):
         DNAProp.DNAProp.__init__(self, name)
         self.animName = ''
+
+    def __del__(self):
+        DNAProp.DNAProp.__del__(self)
+        del self.animName
         
     def getAnimName(self):
         return self.animName

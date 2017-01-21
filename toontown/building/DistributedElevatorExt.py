@@ -81,11 +81,14 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         self.currentFloor = 0
         if hasattr(self, 'bldg'):
             if self.currentFloor >= 0:
-                if self.bldg.floorIndicator[self.currentFloor]:
-                    self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
+                if self.currentFloor in self.bldg.floorIndicator:
+                    if self.bldg.floorIndicator[self.currentFloor]:
+                        self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
+            
             if floorNumber >= 0:
                 if self.bldg.floorIndicator[floorNumber]:
                     self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
+            
             self.currentFloor = floorNumber
 
     def handleEnterSphere(self, collEntry):

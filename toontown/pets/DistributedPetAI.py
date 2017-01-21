@@ -1,8 +1,8 @@
 from panda3d.core import *
 from panda3d.direct import *
-from direct.showbase.PythonUtil import weightedChoice, randFloat, lerp
-from direct.showbase.PythonUtil import contains, list2dict
-from direct.showbase.PythonUtil import clampScalar
+from toontown.toonbase.ToonPythonUtil import weightedChoice, randFloat, lerp
+from toontown.toonbase.ToonPythonUtil import contains, list2dict
+from toontown.toonbase.ToonPythonUtil import clampScalar
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNodeAI
 from direct.distributed import DistributedSmoothNodeBase
@@ -22,8 +22,8 @@ import random
 import time
 import string
 import copy
-from direct.showbase.PythonUtil import StackTrace
-from PetMoverAI import PetMoverAI
+from toontown.toonbase.ToonPythonUtil import StackTrace
+from toontown.pets.PetMoverAI import PetMoverAI
 
 class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLookerAI.PetLookerAI, PetBase.PetBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPetAI')

@@ -2,7 +2,7 @@ from pandac.PandaModules import NodePath, Plane, Vec3, Point3
 from pandac.PandaModules import CollisionPlane, CollisionNode
 from direct.showbase.RandomNumGen import RandomNumGen
 from direct.showbase.DirectObject import DirectObject
-from direct.showbase.PythonUtil import bound as clamp
+from toontown.toonbase.ToonPythonUtil import bound as clamp
 from toontown.cogdominium import CogdoUtil
 from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
 from toontown.cogdominium.CogdoFlyingLevelQuadrant import CogdoFlyingLevelQuadrant
@@ -52,8 +52,7 @@ class CogdoFlyingLevel(DirectObject):
         self._frameModel.flattenStrong()
         self.gatherableFactory = CogdoFlyingGatherableFactory()
         self.obstacleFactory = CogdoFlyingObstacleFactory()
-        return
-
+    
     def getExit(self):
         return self._exit
 
@@ -152,7 +151,6 @@ class CogdoFlyingLevel(DirectObject):
                 self.quadrants[quadNum + 1].update(dt)
             if quadNum != self._currentQuadNum:
                 self._switchToQuadrant(quadNum)
-        return
 
     def _switchToQuadrant(self, quadNum):
         self.visibleQuadIndices = []
@@ -168,7 +166,7 @@ class CogdoFlyingLevel(DirectObject):
                     self.endPlatform.onstage()
 
         self._currentQuadNum = quadNum
-        for i in xrange(0, max(self._currentQuadNum - self.quadVisibiltyBehind, 0)) + range(min(self._currentQuadNum + self.quadVisibiltyAhead + 1, self._numQuads), self._numQuads):
+        for i in range(0, max(self._currentQuadNum - self.quadVisibiltyBehind, 0)) + range(min(self._currentQuadNum + self.quadVisibiltyAhead + 1, self._numQuads), self._numQuads):
             self.quadrants[i].offstage()
             if i == 0:
                 self.startPlatform.offstage()
@@ -195,7 +193,6 @@ class CogdoFlyingLevelFactory:
         self._rng = rng or RandomNumGen(1)
         self.isOrg = self._rng.randint(0, 1)
         self._level = None
-        return
 
     def loadAndBuildLevel(self, safezoneId):
         levelNode = NodePath('level')
@@ -215,6 +212,7 @@ class CogdoFlyingLevelFactory:
         frameModel.getChildren().reparentTo(levelNode)
         if not self.isOrg:
             levelNode.hide()
+       
         self._level = CogdoFlyingLevel(self._parent, levelNode, startPlatformModel, endPlatformModel, self.quadLengthUnits, self.quadVisibiltyAhead, self.quadVisibiltyBehind)
         if Globals.Dev.WantTempLevel:
             quads = Globals.Dev.DevQuadsOrder
@@ -239,11 +237,13 @@ class CogdoFlyingLevelFactory:
     def createLevel(self, safezoneId = 2000):
         if self._level is None:
             self.loadAndBuildLevel(safezoneId)
+        
         return self._level
 
     def createLevelFog(self):
         if self._level is None:
             self.loadAndBuildLevel()
+        
         if self.isOrg:
             return CogdoFlyingLevelFog(self._level, (0,0,0,1))
         else:

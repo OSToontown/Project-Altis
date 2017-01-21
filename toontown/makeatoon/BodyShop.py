@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from MakeAToonGlobals import *
+from toontown.makeatoon.MakeAToonGlobals import *
 import random
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
@@ -19,7 +19,6 @@ class BodyShop(StateData.StateData):
         self.legChoice = 0
         self.headChoice = 0
         self.speciesChoice = 0
-        return
 
     def enter(self, toon, shopsVisited = []):
         base.disableMouse()
@@ -372,6 +371,9 @@ class BodyShop(StateData.StateData):
             self.memberButton.show()
         elif species == 's':
             self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['pig']
+            self.memberButton.hide()
+        elif species == 'x':
+            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['deer']
             self.memberButton.hide()
         if base.cr.isPaid():
             self.memberButton.hide()

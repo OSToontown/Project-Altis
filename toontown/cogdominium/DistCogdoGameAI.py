@@ -56,6 +56,7 @@ class DistCogdoGameAI(DistributedObjectAI):
         for toon in toons:
             if self.requests.get(toon, 0) == 0:
                 return 0
+        
         return 1
 
     def handleStart(self):

@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-from RemoteValueSet import *
+from toontown.login.RemoteValueSet import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.login import TTAccount
 from otp.login import HTTPUtil

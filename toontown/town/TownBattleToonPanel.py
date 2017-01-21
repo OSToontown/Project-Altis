@@ -20,6 +20,7 @@ class TownBattleToonPanel(DirectFrame):
             gui = loader.loadModel('phase_3.5/models/gui/battle_gui_new')
         else:
             gui = loader.loadModel('phase_3.5/models/gui/battle_gui_old')
+        
         DirectFrame.__init__(self, relief=None, image=gui.find('**/ToonBtl_Status_BG'), image_color=Vec4(0.5, 0.9, 0.5, 0.7))
         self.setScale(0.8)
         self.initialiseoptions(TownBattleToonPanel)
@@ -47,13 +48,11 @@ class TownBattleToonPanel(DirectFrame):
         self.whichText = DirectLabel(parent=self, text='', pos=(0.1, 0, -0.08), text_scale=0.05)
         self.hide()
         gui.removeNode()
-        return
 
     def setLaffMeter(self, avatar):
         self.notify.debug('setLaffMeter: new avatar %s' % avatar.doId)
         if self.avatar == avatar:
             messenger.send(self.avatar.uniqueName('hpChange'), [avatar.hp, avatar.maxHp, 1])
-            return None
         else:
             if self.avatar:
                 self.cleanupLaffMeter()
@@ -67,7 +66,6 @@ class TownBattleToonPanel(DirectFrame):
             self.setHealthText(avatar.hp, avatar.maxHp)
             self.hpChangeEvent = self.avatar.uniqueName('hpChange')
             self.accept(self.hpChangeEvent, self.setHealthText)
-        return None
 
     def setHealthText(self, hp, maxHp, quietly = 0):
         self.healthText['text'] = TTLocalizer.TownBattleHealthText % {'hitPoints': hp,
@@ -146,7 +144,6 @@ class TownBattleToonPanel(DirectFrame):
                 self.whichText['text_scale'] = 0.045
         else:
             self.notify.error('Bad track value: %s' % track)
-        return
 
     def determineWhichText(self, numTargets, targetIndex, localNum, index):
         returnStr = ''
@@ -186,4 +183,3 @@ class TownBattleToonPanel(DirectFrame):
         if self.laffMeter:
             self.laffMeter.destroy()
             self.laffMeter = None
-        return
