@@ -8100,7 +8100,7 @@ QuestDict = {
         Same,
         3102,
         NA,
-        (5250, 5258),
+        5250,
         TTLocalizer.QuestDialogDict[5249]),
  5250: (BR_TIER,
         Cont,
