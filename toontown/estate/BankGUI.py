@@ -139,4 +139,4 @@ class BankGui(DirectFrame):
         self.__updateTransaction(0)
 
     def __bankMoneyChange(self, bankMoney):
-        self.__updateTransaction(0)
+        self.__updateTransaction(bankMoney)
