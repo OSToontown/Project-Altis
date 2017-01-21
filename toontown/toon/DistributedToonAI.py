@@ -5226,8 +5226,7 @@ def suit(command, suitName="hho"):
         return "Couldn't start Cog Invasion for: " + suitFullName
     elif command == 'invasionend':
         returnCode = 'Ending Invasion..'
-        simbase.air.suitInvasionManager.cleanupTasks()
-        simbase.air.suitInvasionManager.cleanupInvasion()
+        simbase.air.suitInvasionManager.stopInvasion()
         return returnCode
     else:
         return 'Invalid command.'
