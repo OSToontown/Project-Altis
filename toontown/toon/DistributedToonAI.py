@@ -5206,7 +5206,7 @@ def track(command, track, value=None):
     return 'Invalid command.'
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str])
-def suit(command, suitName):
+def suit(command, suitName="hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
     if suitName not in SuitDNA.suitHeadTypes:
