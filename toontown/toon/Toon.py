@@ -2260,7 +2260,11 @@ class Toon(Avatar.Avatar, ToonHead):
     def __doHeadScale(self, scale, lerpTime):
         if scale == None:
             scale = ToontownGlobals.toonHeadScales[self.style.getAnimal()]
+        
         track = Parallel()
+        if not self.headParts:
+            return track
+        
         for hi in xrange(self.headParts.getNumPaths()):
             head = self.headParts[hi]
             track.append(LerpScaleInterval(head, lerpTime, scale, blendType='easeInOut'))
