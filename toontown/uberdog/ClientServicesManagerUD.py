@@ -138,7 +138,7 @@ class LocalAccountDB(AccountDB):
 
     def lookup(self, username, callback):
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
+        httpReq.request('POST', '/api/validatetoken?t=%s' % (username))
         
         try:
             XXX = httpReq.getresponse().read()

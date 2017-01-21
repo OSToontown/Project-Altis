@@ -1890,7 +1890,6 @@ class RecoverItemQuest(LocationBasedQuest):
     def getObjectiveStrings(self):
         holder = self.getHolder()
         holderType = self.getHolderType()
-        holderName = None
         if holder == Any:
             holderName = TTLocalizer.TheCogs
         elif holder == AnyFish:
