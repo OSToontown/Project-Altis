@@ -25,12 +25,12 @@ class ClientServicesManager(DistributedObjectGlobal):
         conn = httplib.HTTPConnection('www.projectaltis.com')
         conn.request("POST", "/api/login", params, headers)
         response = conn.getresponse()
-        print(str(response.reason))
-        conn.close()
+        print(response.status, response.reason)
         
         try:
             data = response.read()
-            response = json.loads(data)
+            conn.close()
+            response = json.loads(str(data))
         except:
             self.notify.error('Failed to decode json login API response!')
             return
