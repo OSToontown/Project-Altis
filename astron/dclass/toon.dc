@@ -948,7 +948,7 @@ dclass DistributedToon : DistributedPlayer {
   setMoney(int16 = 0) required ownrecv db;
   setMaxBankMoney(int16 maxMoney = 15000) required broadcast ownrecv db;
   setMaxMoney(int16 maxMoney = 40) required broadcast ownrecv db;
-  setBankMoney(int16 money = 0) required ownrecv db;
+  setBankMoney(int32 = 0) required ownrecv;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
   setHp(int16 = 15) required broadcast ownrecv db;
   setUber(int16) required broadcast ownrecv db;
@@ -2629,8 +2629,8 @@ dclass DistributedFurnitureItem : DistributedSmoothNode {
 dclass DistributedBank : DistributedFurnitureItem {
   avatarEnter() airecv clsend;
   freeAvatar();
-  setMovie(uint8 mode, uint32 avId, int16 timestamp) broadcast ram;
-  transferMoney(int16 amount) airecv clsend;
+  setMovie(uint8, uint32, int16) broadcast ram;
+  transferMoney(int16) airecv clsend;
 };
 
 dclass DistributedCloset : DistributedFurnitureItem {
