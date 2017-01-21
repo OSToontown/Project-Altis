@@ -52,6 +52,7 @@ from toontown.speedchat import TTSCDecoders
 from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
+from toontown.toon.LaffMeter import LaffMeter
 
 if base.wantKarts:
     from toontown.racing.KartDNA import *
@@ -76,6 +77,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         DistributedPlayer.DistributedPlayer.__init__(self, cr)
         Toon.Toon.__init__(self)
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, cr)
+        self.overheadMeter = None
         self.bFake = bFake
         self.kart = None
         self._isGM = False
@@ -721,6 +723,37 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.inventory:
             self.inventory.updateGUI()
 
+    def setHp(self, hp):
+        DistributedPlayer.DistributedPlayer.setHp(self, hp)
+
+        self.__considerUpdateMeter()
+
+    def setHealthDisplay(self, mode):
+        self.__considerUpdateMeter()
+
+    def __considerUpdateMeter(self):
+        wantMeter = self.__shouldDisplayMeter()
+        if wantMeter and not self.overheadMeter:
+            self.overheadMeter = LaffMeter(self.style, self.hp, self.maxHp)
+            self.overheadMeter.setAvatar(self)
+            self.overheadMeter.setZ(5)
+            self.overheadMeter.setScale(1.5)
+            self.overheadMeter.reparentTo(NodePath(self.nametag.getNameIcon()))
+            #self.overheadMeter.hide(BitMask32.bit(1)) # Hide from 2D camera.
+            self.overheadMeter.start()
+        elif not wantMeter and self.overheadMeter:
+            self.overheadMeter.stop()
+            self.overheadMeter.destroy()
+            self.overheadMeter = None
+
+    def __shouldDisplayMeter(self):
+        if base.meterMode == 0:
+            return False
+        elif base.meterMode == 1:
+            return True
+        elif base.meterMode == 2:
+            return self.hp < self.maxHp
+            
     def died(self):
         messenger.send(self.uniqueName('died'))
         if self.isLocal():

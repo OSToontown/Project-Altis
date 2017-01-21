@@ -5,7 +5,7 @@ class DistributedNPCFlippyInToonHall(DistributedNPCToon):
 
     def __init__(self, cr):
         DistributedNPCToon.__init__(self, cr)
-        self.npcType = "President"
+        self.npcType = "Mayor"
         
     def getCollSphereRadius(self):
         return 4
@@ -13,7 +13,6 @@ class DistributedNPCFlippyInToonHall(DistributedNPCToon):
     def initPos(self):
         self.clearMat()
         self.setScale(1.25)
-        self.setHat(23, 0, 0)
 
     def handleCollisionSphereEnter(self, collEntry):
         if self.allowedToTalk():

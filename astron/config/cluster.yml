@@ -58,7 +58,7 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 0.0.0.0:7198
-      version: "TTPA-Alpha-1.2.0"
+      version: "TTPA-Alpha-1.2.1"
       client:
        relocate: true
        add_interest: enabled

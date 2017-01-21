@@ -114,7 +114,5 @@
             <Button x:Name="updateServers" Content="Refresh Channels" HorizontalAlignment="Right" Margin="0,57.04,10,0" VerticalAlignment="Top" Width="166" Click="updateChannelList" Background="#FF455A64" BorderBrush="Black" Foreground="White"/>
         </Grid>
         <ProgressBar x:Name="downloadBar" Height="38.667" Margin="0,0,0,76.682" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="356.667"/>
-        <TextBox x:Name="banid" HorizontalAlignment="Left" Height="43.053" Margin="28.389,40.544,0,0" TextWrapping="Wrap" Text="id" VerticalAlignment="Top" Width="141.878"/>
-        <Button Content="Ban" HorizontalAlignment="Left" Height="31.189" Margin="28.389,88.597,0,0" VerticalAlignment="Top" Width="141.878" Click="Button_Click"/>
     </Grid>
 </Window>

@@ -948,7 +948,7 @@ dclass DistributedToon : DistributedPlayer {
   setMoney(int16 = 0) required ownrecv db;
   setMaxBankMoney(int16 maxMoney = 15000) required broadcast ownrecv db;
   setMaxMoney(int16 maxMoney = 40) required broadcast ownrecv db;
-  setBankMoney(int32 = 0) required ownrecv;
+  setBankMoney(int32 = 0) required ownrecv db;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
   setHp(int16 = 15) required broadcast ownrecv db;
   setUber(int16) required broadcast ownrecv db;
