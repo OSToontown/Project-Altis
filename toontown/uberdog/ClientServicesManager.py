@@ -19,7 +19,7 @@ class ClientServicesManager(DistributedObjectGlobal):
         self.doneEvent = doneEvent
         
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('GET', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), base.launcher.getPassword()))
+        httpReq.request('POST', '/api/?u=%s&p=%s' % (base.launcher.getUsername(), base.launcher.getPassword()))
 
         try:
             response = json.loads(httpReq.getresponse().read())
