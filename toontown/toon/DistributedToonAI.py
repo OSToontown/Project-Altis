@@ -195,6 +195,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.teleportOverride = 0
         self._gmDisabled = False
         self.promotionStatus = [0, 0, 0, 0, 0]
+        self.magicWordTeleportRequests = []
         self.buffs = []
 
     def generate(self):
