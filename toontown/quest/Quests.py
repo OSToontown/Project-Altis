@@ -18707,13 +18707,30 @@ def avatarWorkingOnRequiredRewards(av):
 
 
 def avatarHasAllRequiredRewards(av, tier):
+    # Get the reward history.
     rewardHistory = list(av.getRewardHistory()[1])
+
+    # Delete quests we're working on from the reward History.
+    avQuests = av.getQuests()
+
+    # Iterate through the current quests.
+    for i in xrange(0, len(avQuests), 5):
+        questDesc = avQuests[i:i + 5]
+        questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
+        transformedRewardId = transformReward(rewardId, av)
+
+        if rewardId in rewardHistory:
+            rewardHistory.remove(rewardId)
+
+        if transformedRewardId in rewardHistory:
+            rewardHistory.remove(transformedRewardId)
+
     rewardList = getRewardsInTier(tier)
     notify.debug('checking avatarHasAllRequiredRewards: history: %s, tier: %s' % (rewardHistory, rewardList))
     for rewardId in rewardList:
         if rewardId == 900:
             found = 0
-            for actualRewardId in (901, 902, 903, 904, 905, 906, 907, 908):
+            for actualRewardId in (901, 902, 903, 904, 905, 906, 907):
                 if actualRewardId in rewardHistory:
                     found = 1
                     rewardHistory.remove(actualRewardId)
@@ -18729,17 +18746,6 @@ def avatarHasAllRequiredRewards(av, tier):
             actualRewardId = transformReward(rewardId, av)
             if actualRewardId in rewardHistory:
                 rewardHistory.remove(actualRewardId)
-            elif getRewardClass(rewardId) == CogSuitPartReward:
-                deptStr = RewardDict.get(rewardId)[1]
-                cogPart = RewardDict.get(rewardId)[2]
-                dept = ToontownGlobals.cogDept2index[deptStr]
-                if av.hasCogPart(cogPart, dept):
-                    if notify.getDebug():
-                        notify.debug('avatarHasAllRequiredRewards: rewardId: %s counts, avatar has cog part: %s dept: %s' % (actualRewardId, cogPart, dept))
-                else:
-                    if notify.getDebug():
-                        notify.debug('avatarHasAllRequiredRewards: CogSuitPartReward: %s not found' % actualRewardId)
-                    return 0
             else:
                 if notify.getDebug():
                     notify.debug('avatarHasAllRequiredRewards: rewardId %s not found' % actualRewardId)
