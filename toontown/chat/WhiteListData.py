@@ -33415,6 +33415,7 @@ WHITELIST = [
     'thinkers',
     "thinkin'",
     'thinking',
+    'thinkings',
     'thinks',
     'thinnamin',
     'third',
