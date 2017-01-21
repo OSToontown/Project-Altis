@@ -1890,6 +1890,7 @@ class RecoverItemQuest(LocationBasedQuest):
     def getObjectiveStrings(self):
         holder = self.getHolder()
         holderType = self.getHolderType()
+        holderName = None
         if holder == Any:
             holderName = TTLocalizer.TheCogs
         elif holder == AnyFish:
@@ -1911,6 +1912,9 @@ class RecoverItemQuest(LocationBasedQuest):
                 holderName = TTLocalizer.LawbotP
             elif holder == 'g':
                 holderName = TTLocalizer.BoardbotP
+        elif not holder:
+            print("WHY THE HELL IS THERE NO HOLDER BARKS")
+            return [itemName, "BARKS FRICKING FIX"]
         item = self.getItem()
         num = self.getNumItems()
         if num == 1:
