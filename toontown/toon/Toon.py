@@ -2289,6 +2289,9 @@ class Toon(Avatar.Avatar, ToonHead):
     def __doToonScale(self, scale, lerpTime):
         if scale == None:
             scale = 1
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to scale Toon!")
+            return
         node = self.getGeomNode().getChild(0)
         track = Sequence(Parallel(LerpHprInterval(node, lerpTime, Vec3(0.0, 0.0, 0.0), blendType='easeInOut'), LerpScaleInterval(node, lerpTime, scale, blendType='easeInOut')), Func(self.resetHeight))
         return track
