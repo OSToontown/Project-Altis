@@ -5,6 +5,7 @@ from toontown.toonbase import ToontownTimer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import TTLocalizer
+import random
 
 class TrackPoster(DirectFrame):
     normalTextColor = (0.3, 0.25, 0.2, 1)
@@ -40,7 +41,7 @@ class TrackPoster(DirectFrame):
             help = ''
         self.helpText = DirectFrame(parent=self.poster, relief=None, text=help, text_font=ToontownGlobals.getInterfaceFont(), text_fg=self.normalTextColor, text_scale=0.05, text_align=TextNode.ALeft, text_wordwrap=8.0, textMayChange=0, pos=(-0.05, 0, 0.14))
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
-        self.chooseButton = DirectButton(parent=self.poster, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text=TTLocalizer.TrackChoiceGuiChoose, text_scale=0.06, text_pos=(0, -0.02), command=callback, extraArgs=[trackId], pos=(0, 0, -0.45), scale=0.8)
+        self.chooseButton = DirectButton(parent=self.poster, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=(1.5, 1, 1), text=TTLocalizer.TrackChoiceGuiChoose, text_scale=0.06, text_pos=(0, -0.02), command=callback, extraArgs=[trackId], pos=(0, 0, -0.45), scale=0.8)
         guiButton.removeNode()
         return
 
@@ -57,9 +58,11 @@ class TrackChoiceGui(DirectFrame):
         self.initialiseoptions(TrackChoiceGui)
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
         self.cancelButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text=TTLocalizer.TrackChoiceGuiCancel, pos=(0.4, 0, -0.625), text_scale=0.06, text_pos=(0, -0.02), command=self.chooseTrack, extraArgs=[-1])
+        self.randomButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=(1.5, 1, 1), text=TTLocalizer.TrackChoiceGuiRandom, pos=(0.4, 0, 0.625), text_scale=0.06, text_pos=(0, -0.02), command=self.areYouSure, extraArgs=[-2])
         guiButton.removeNode()
         self.trackName = DirectLabel(parent=self, relief=None, pos=(0, 0, -0.55), text='', text_font=ToontownGlobals.getBuildingNametagFont(), text_scale=0.1, text_fg=(1,1,1,1))
         self.index = 0
+        self.choices = []
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.reparentTo(self)
         self.timer.setScale(0.35)
@@ -69,6 +72,7 @@ class TrackChoiceGui(DirectFrame):
         trackAccess = base.localAvatar.getTrackAccess()
         for trackId in xrange(ToontownBattleGlobals.NUM_GAG_TRACKS):
             if trackAccess[trackId] == 0:
+                self.choices.append(trackId)
                 tp = TrackPoster(trackId, self.chooseTrack)
                 tp.reparentTo(self)
                 self.trackChoicePosters.append(tp)
@@ -78,9 +82,17 @@ class TrackChoiceGui(DirectFrame):
             track.hide()
         self.setPage(self.index)
         return
+		
+    def areYouSure(self, trackId):
+        self.randomButton['image_color'] = (1,0,0,1)
+        self.randomButton['text'] = TTLocalizer.TrackChoiceGuiAreYouSure
+        self.randomButton['command'] = command=self.chooseTrack
+        self.randomButton['extraArgs'] = [trackId]
 
     def chooseTrack(self, trackId):
         self.timer.stop()
+        if trackId == -2:
+            trackId = random.choice(self.choices)
         messenger.send('chooseTrack', [trackId])
 		
     def setPage(self, direction):

@@ -121,9 +121,9 @@ class TutorialManagerAI(DistributedObjectAI):
 
         def handleTutorialSkipped(av):
             av.b_setTutorialAck(1)
-            av.b_setQuests([[110, 1, 1000, 100, 1]])
+            av.b_setQuests([])
             av.b_setQuestHistory([101])
-            av.b_setRewardHistory(1, [])
+            av.b_setRewardHistory(0, [100])
 
 
         # We must wait for the avatar to be generated:

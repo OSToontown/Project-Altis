@@ -21,7 +21,6 @@ from toontown.dna import DNAFlatDoor
 from toontown.dna import DNAStreet
 
 import zlib
-
 from panda3d.core import *
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.distributed.PyDatagram import PyDatagram
@@ -29,36 +28,39 @@ from direct.distributed.PyDatagram import PyDatagram
 COMPCODE_RETURN = 255
 
 compClassTable = {
-1: DNAGroup.DNAGroup,
-2: DNAVisGroup.DNAVisGroup,
-3: DNANode.DNANode,
-4: DNAProp.DNAProp,
-5: DNASign.DNASign,
-6: DNASignBaseline.DNASignBaseline,
-7: DNASignText.DNASignText,
-8: DNASignGraphic.DNASignGraphic,
-9: DNAFlatBuilding.DNAFlatBuilding,
-10: DNAWall.DNAWall,
-11: DNAWindows.DNAWindows,
-12: DNACornice.DNACornice,
-13: DNALandmarkBuilding.DNALandmarkBuilding,
-14: DNAAnimProp.DNAAnimProp,
-15: DNAInteractiveProp.DNAInteractiveProp,
-16: DNAAnimBuilding.DNAAnimBuilding,
-17: DNADoor.DNADoor,
-18: DNAFlatDoor.DNAFlatDoor,
-19: DNAStreet.DNAStreet
+    1: DNAGroup.DNAGroup,
+    2: DNAVisGroup.DNAVisGroup,
+    3: DNANode.DNANode,
+    4: DNAProp.DNAProp,
+    5: DNASign.DNASign,
+    6: DNASignBaseline.DNASignBaseline,
+    7: DNASignText.DNASignText,
+    8: DNASignGraphic.DNASignGraphic,
+    9: DNAFlatBuilding.DNAFlatBuilding,
+    10: DNAWall.DNAWall,
+    11: DNAWindows.DNAWindows,
+    12: DNACornice.DNACornice,
+    13: DNALandmarkBuilding.DNALandmarkBuilding,
+    14: DNAAnimProp.DNAAnimProp,
+    15: DNAInteractiveProp.DNAInteractiveProp,
+    16: DNAAnimBuilding.DNAAnimBuilding,
+    17: DNADoor.DNADoor,
+    18: DNAFlatDoor.DNAFlatDoor,
+    19: DNAStreet.DNAStreet
 }
 
 childlessComps = (
-11, # DNAWindows
-12, # DNACornice
-17, # DNADoor
-18, # DNAFlatDoor
-19 # DNAStreet
+    11, # DNAWindows
+    12, # DNACornice
+    17, # DNADoor
+    18, # DNAFlatDoor
+    19 # DNAStreet
 )
 
-class DNALoader:
+class DNALoader(object):
+    __slots__ = (
+        'curComp', 'curStore')
+
     def __init__(self):
         self.curComp = None
         self.curStore = None
@@ -161,6 +163,7 @@ class DNALoader:
     def handleCompData(self, dgi):
         while dgi.getRemainingSize():
             comp_code = dgi.getUint8()
+
             if comp_code == COMPCODE_RETURN:
                 self.verify(self.curComp != None)
                 p = self.curComp.getParent()
@@ -176,7 +179,7 @@ class DNALoader:
                     if comp_code in compClassTable.keys():
                         new_comp = compClassTable[comp_code]("unnamed_comp")
                     else:
-                        raise DNAError("Invalid comp code %s" %comp_code)
+                        raise DNAError.DNAError("Invalid comp code %s" % comp_code)
 
                 new_comp.makeFromDGI(dgi, self.curStore)
 
@@ -191,23 +194,27 @@ class DNALoader:
         if type(_file) == str and _file.endswith(".dna"):
             _file = _file.replace(".dna", ".pdna")
             #_file = _file.replace("../resources/", "")
-            _file = Filename('../resources/' + _file)
+        if __debug__:
+            _file = Filename("../resources/" + _file)
+        else:
+            _file = Filename("/" + _file)
 
-        '''vfs = VirtualFileSystem.getGlobalPtr()
+        vfs = VirtualFileSystem.getGlobalPtr()
         vfs.resolveFilename(_file, "")
         if not vfs.exists(_file):
             raise DNAError.DNAError("Unable to open dna")
-        dnaData = vfs.readFile(_file, True)'''
-        dnaFile = open('../resources/' + _file, 'rb')
-        dnaData = dnaFile.read()
+        dnaData = vfs.readFile(_file, True)
+
         self.curStore = store
         dg = PyDatagram(dnaData)
         dgi = PyDatagramIterator(dg)
         header = dgi.extractBytes(5)
         if header != 'PDNA\n':
             raise DNAError.DNAError('Invalid header: %s' % (header))
+
         compressed = dgi.getBool()
         dgi.skipBytes(1)
+
         if compressed:
             data = dgi.getRemainingBytes()
             data = zlib.decompress(data)

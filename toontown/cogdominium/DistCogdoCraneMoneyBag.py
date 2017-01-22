@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
@@ -50,8 +51,8 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
     def getMinImpact(self):
         if self.craneGame.heldObject:
             return ToontownGlobals.CashbotBossSafeKnockImpact
-        else:
-            return ToontownGlobals.CashbotBossSafeNewImpact
+
+        return ToontownGlobals.CashbotBossSafeNewImpact
 
     def resetToInitialPosition(self):
         posHpr = GameConsts.MoneyBagPosHprs[self.index]

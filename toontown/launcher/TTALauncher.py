@@ -26,7 +26,7 @@ class TTALauncher(LauncherBase):
     def __init__(self):
         self.http = HTTPClient()
 
-        self.logPrefix = 'toontown-advance-'
+        self.logPrefix = 'project-altis-'
 
         ltime = 1 and time.localtime()
         logSuffix = '%02d%02d%02d_%02d%02d%02d' % (ltime[0] - 2000,  ltime[1], ltime[2],
@@ -46,10 +46,16 @@ class TTALauncher(LauncherBase):
         sys.stderr = logErr
 
     def getPlayToken(self):
-        return self.getValue('TTA_PLAYCOOKIE')
+        return self.getValue('TT_PLAYCOOKIE')
 
     def getGameServer(self):
-        return self.getValue('TTA_GAMESERVER')
+        return self.getValue('TT_GAMESERVER')
+
+    def getUsername(self):
+        return self.getValue('TT_USERNAME')
+
+    def getPassword(self):
+        return self.getValue('TT_PASSWORD')
 
     def setPandaErrorCode(self, code):
         pass

@@ -1,0 +1,3 @@
+[submodule "deployment/nirai"]
+	path = deployment/nirai
+	url = git@github.com:nirai-compiler/src.git

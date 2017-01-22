@@ -18,11 +18,23 @@ class TownBattleCogPanel(DirectFrame):
     healthColors = (Vec4(0, 1, 0, 1),
      Vec4(1, 1, 0, 1),
      Vec4(1, 0.5, 0, 1),
-     Vec4(1, 0, 0, 1))
+     Vec4(1, 0, 0, 1),
+     Vec4(0.3, 0.3, 0.3, 1),
+     Vec4(0.3, 0.3, 0.3, 1),
+     Vec4(0.3, 0.3, 0.3, 1),
+     Vec4(0.3, 0.3, 0.3, 1),
+     Vec4(0.3, 0.3, 0.3, 1),
+     Vec4(0.3, 0.3, 0.3, 1))
     healthGlowColors = (Vec4(0.25, 1, 0.25, 0.5),
      Vec4(1, 1, 0.25, 0.5),
      Vec4(1, 0.5, 0.25, 0.5),
-     Vec4(1, 0.25, 0.25, 0.5))
+     Vec4(1, 0.25, 0.25, 0.5),
+     Vec4(0.3, 0.3, 0.3, 0),
+     Vec4(0.3, 0.3, 0.3, 0),
+     Vec4(0.3, 0.3, 0.3, 0),
+     Vec4(0.3, 0.3, 0.3, 0),
+     Vec4(0.3, 0.3, 0.3, 0),
+     Vec4(0.3, 0.3, 0.3, 0))
 
     def __init__(self, id):
         if settings['newGui'] == True:
@@ -36,6 +48,8 @@ class TownBattleCogPanel(DirectFrame):
         self.initialiseoptions(TownBattleCogPanel)
         self.hidden = False
         self.cog = None
+        self.isLoaded = 0
+        self.notify.info("Loading Cog Battle Panel!")
         self.healthText = DirectLabel(parent=self, text='', pos=(0, 0, -0.075), text_scale=0.05)
         healthGui = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
         button = healthGui.find('**/minnieCircle')
@@ -86,9 +100,6 @@ class TownBattleCogPanel(DirectFrame):
             self.healthText['text'] = TTLocalizer.DisguisePageCogLevel % str(hp)
 
     def updateHealthBar(self):
-        self.hp = self.cog.getHP()
-        self.maxHp = self.cog.getMaxHP()
-        self.hpText['text'] = str(self.hp) + '/' + str(self.maxHp)
         condition = self.cog.healthCondition
         if condition == 4:
             self.blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task.pause(0.1))
@@ -100,12 +111,18 @@ class TownBattleCogPanel(DirectFrame):
             
             if not self.glow.isEmpty():
                 self.glow.setColor(self.healthGlowColors[condition], 1)
+        self.hp = self.cog.getHP()
+        self.maxHp = self.cog.getMaxHP()
+        self.hpText['text'] = str(self.hp) + '/' + str(self.maxHp)
 
     def show(self):
         if settings.get('show-cog-levels', True):
             if self.cog:
                 self.updateHealthBar()
             self.hidden = False
+            self.healthNode.show()
+            self.button.show()
+            self.glow.show()
             DirectFrame.show(self)
         else:
             self.notify.debug('Tried to unhide Cog levels when settings have not been updated!')
@@ -132,7 +149,22 @@ class TownBattleCogPanel(DirectFrame):
             self.blinkTask = None
         
         self.hidden = True
+        self.healthNode.hide()
+        self.button.hide()
+        self.glow.hide()
         DirectFrame.hide(self)
+        
+    def unload(self):
+        if self.isLoaded == 0:
+            return
+        self.isLoaded = 0
+        self.exit()
+        del self.glow
+        del self.cog
+        del self.button
+        del self.blinkTask
+        del self.hpText
+        DirectFrame.destroy(self)
 
     def cleanup(self):
         self.ignoreAll()
@@ -142,8 +174,10 @@ class TownBattleCogPanel(DirectFrame):
         
         if self.blinkTask:
             taskMgr.remove(self.blinkTask)
+            self.blinkTask = None
         
         del self.blinkTask
+        self.healthNode.removeNode()
         self.button.removeNode()
         self.glow.removeNode()
         DirectFrame.destroy(self)

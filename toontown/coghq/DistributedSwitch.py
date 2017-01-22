@@ -18,7 +18,6 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
         self.fsm.enterInitialState()
         self.node = None
         self.triggerName = ''
-        return
 
     def setup(self):
         self.setupSwitch()
@@ -38,7 +37,6 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
     def generate(self):
         BasicEntities.DistributedNodePathEntity.generate(self)
         self.track = None
-        return
 
     def announceGenerate(self):
         BasicEntities.DistributedNodePathEntity.announceGenerate(self)
@@ -108,20 +106,17 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
         if self.track:
             self.track.finish()
         self.track = None
-        return
 
     def enterPlaying(self, ts):
         track = self.switchOnTrack()
         if track is not None:
             track.start(ts)
             self.track = track
-        return
 
     def exitPlaying(self):
         if self.track:
             self.track.finish()
         self.track = None
-        return
 
     if __dev__:
 

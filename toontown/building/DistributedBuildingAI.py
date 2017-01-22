@@ -12,6 +12,7 @@ from toontown.building import SuitBuildingGlobals
 from toontown.building import SuitPlannerInteriorAI
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
+from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.task.Task import Task
 from otp.ai.AIBaseGlobal import *
@@ -23,6 +24,7 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownGlobals import ToonHall
 
 class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBuildingAI')
     
     def __init__(self, air, blockNumber, zoneId, trophyMgr):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
@@ -74,10 +76,12 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def cleanup(self):
         if self.isDeleted():
             return
+        
         self.fsm.requestFinalState()
         if hasattr(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
+        
         if hasattr(self, 'door'):
             self.door.requestDelete()
             del self.door
@@ -85,9 +89,11 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             del self.insideDoor
             self.knockKnock.requestDelete()
             del self.knockKnock
+        
         if hasattr(self, 'elevator'):
             self.elevator.requestDelete()
             del self.elevator
+        
         self.requestDelete()
 
     def delete(self):
@@ -114,6 +120,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         return SuitBuildingGlobals.SuitBuildingInfo[difficulty][0]
 
     def suitTakeOver(self, suitTrack, difficulty, buildingHeight):
+        self.notify.debug('%s type Suit takeover at zone %s' % (suitTrack, self.zoneId))
         if not self.isToonBlock():
             return
         self.updateSavedBy(None)
@@ -131,18 +138,22 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.becameSuitTime = time.time()
         self.fsm.request('clearOutToonInterior')
 
-    def cogdoTakeOver(self, difficulty, buildingHeight):
+    def cogdoTakeOver(self, difficulty, buildingHeight, track = 's'):
+        self.notify.debug('%s type Cogdo takeover at zone %s' % (track, self.zoneId))
         if not self.isToonBlock():
-            return
+            return None
+
         self.updateSavedBy(None)
         (minFloors, maxFloors) = self._getMinMaxFloors(difficulty)
-        if buildingHeight is None:
+        if buildingHeight == None:
             numFloors = random.randint(minFloors, maxFloors)
         else:
             numFloors = buildingHeight + 1
-            if (numFloors < minFloors) or (numFloors > maxFloors):
+            if numFloors < minFloors or numFloors > maxFloors:
                 numFloors = random.randint(minFloors, maxFloors)
-        self.track = 'c'
+
+        self.track = track
+        self.realTrack = track
         self.difficulty = difficulty
         self.numFloors = numFloors
         self.becameSuitTime = time.time()
@@ -192,7 +203,11 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def isEstablishedSuitBlock(self):
         state = self.fsm.getCurrentState().getName()
         return state == 'suit'
-
+        
+    def isEstablishedCogdoBlock(self):
+        state = self.fsm.getCurrentState().getName()
+        return state == 'cogdo'
+        
     def isToonBlock(self):
         state = self.fsm.getCurrentState().getName()
         return state in ('toon', 'becomingToon', 'becomingToonFromCogdo')
@@ -248,7 +263,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             self.toonTakeOver()
 
     def setVictorExited(self, avId):
-        print 'victor %d exited unexpectedly for bldg %d' % (avId, self.doId)
+        self.notify.warning('Victor %d exited unexpectedly for bldg %d' % (avId, self.doId))
         self.recordVictorResponse(avId)
         if self.allVictorsResponded():
             self.toonTakeOver()
@@ -298,6 +313,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
                 continue
             event = self.air.getAvatarExitEvent(victor)
             self.accept(event, self.setVictorExited, extraArgs=[victor])
+        
         self.b_setVictorList(victorList)
         self.updateSavedBy(savedBy)
         self.victorResponses = [0, 0, 0, 0]
@@ -315,25 +331,49 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             toon = None
             if t:
                 toon = self.getToon(t)
-            if toon is not None:
+
+            if toon != None:
                 activeToons.append(toon)
+                continue
+
         for t in victorList:
             toon = None
             if t:
                 toon = self.getToon(t)
-                self.air.writeServerEvent('buildingDefeated', t, '%s|%s|%s|%s' % (self.track, self.numFloors, self.zoneId, victorList))
-            if toon is not None:
-                self.air.questManager.toonKilledCogdo(toon, self.difficulty, self.numFloors, self.zoneId, activeToons)
-        for i in xrange(0, 4):
+                self.air.writeServerEvent('building-defeated', avId=t, track=self.track, numFloors=self.numFloors, zoneId=self.zoneId, victorList='%s' % victorList)
+
+            if toon != None:
+                # Time to get the right number of floors
+                if self.track == 'l':
+                    cogdoNumFloors = 3
+                else:
+                    cogdoNumFloors = 2
+                
+                if self.track not in ['l', 's', 'm', 'g', 'c']:
+                    self.notify.warning('Invalid track %s for cog building/cog dominium!' % (str(self.track)))
+                    continue
+                
+                self.air.questManager.toonKilledCogdo(toon, self.track, self.difficulty, self.zoneId, activeToons)
+                self.air.questManager.toonKilledBuilding(toon, self.track, self.difficulty, cogdoNumFloors, self.zoneId, activeToons)
+                continue
+
+        victorList.extend([None, None, None, None])
+        for i in range(0, 4):
             victor = victorList[i]
-            if (victor is None) or (victor not in self.air.doId2do):
+            if victor == None or not self.air.doId2do.has_key(victor):
                 victorList[i] = 0
                 continue
             event = self.air.getAvatarExitEvent(victor)
-            self.accept(event, self.setVictorExited, extraArgs = [victor])
-        self.b_setVictorList(victorList)
+            self.accept(event, self.setVictorExited, extraArgs = [
+                victor])
+
+        self.b_setVictorList(victorList[:4])
         self.updateSavedBy(savedBy)
-        self.victorResponses = [0, 0, 0, 0]
+        self.victorResponses = [
+            0,
+            0,
+            0,
+            0]
         self.d_setState('waitForVictorsFromCogdo')
 
     def exitWaitForVictorsFromCogdo(self):
@@ -372,6 +412,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             self.interior = DistributedToonHallInteriorAI.DistributedToonHallInteriorAI(self.block, self.air, interiorZoneId, self)
         else:
             self.interior = DistributedToonInteriorAI.DistributedToonInteriorAI(self.block, self.air, interiorZoneId, self)
+        
         self.interior.generateWithRequired(interiorZoneId)
         door = self.createExteriorDoor()
         insideDoor = DistributedDoorAI.DistributedDoorAI(self.air, self.block, DoorTypes.INT_STANDARD)
@@ -466,7 +507,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         return Task.done
 
     def enterBecomingCogdo(self):
-        self.sendUpdate('setSuitData', [ord(self.track), self.difficulty, self.numFloors])
+        self.sendUpdate('setSuitData', [ord(self.realTrack), self.difficulty, self.numFloors])
         self.d_setState('becomingCogdo')
         name = self.taskName(str(self.block) + '_becomingCogdo-timer')
         taskMgr.doMethodLater(SuitBuildingGlobals.TO_SUIT_BLDG_TIME, self.becomingCogdoTask, name)
@@ -490,7 +531,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         return Task.done
 
     def enterCogdo(self):
-        self.sendUpdate('setSuitData', [ord(self.track), self.difficulty, self.numFloors])
+        self.sendUpdate('setSuitData', [ord(self.realTrack), self.difficulty, self.numFloors])
         (zoneId, interiorZoneId) = self.getExteriorAndInteriorZoneId()
         self._cogdoLayout = CogdoLayout(self.numFloors)
         self.planner = SuitPlannerCogdoInteriorAI(self._cogdoLayout, self.difficulty, self.track, interiorZoneId)
@@ -498,7 +539,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         (exteriorZoneId, interiorZoneId) = self.getExteriorAndInteriorZoneId()
         self.elevator = DistributedCogdoElevatorExtAI(self.air, self)
         self.elevator.generateWithRequired(exteriorZoneId)
-        self.air.writeServerEvent('building-cogdo', self.doId, '%s|%s|%s' % (self.zoneId, self.block, self.numFloors))
+        self.air.writeServerEvent('building-cogdo', buildingId=self.doId, zoneId=self.zoneId, block=self.block, numFloors=self.numFloors)
 
     def exitCogdo(self):
         del self.planner
@@ -518,19 +559,20 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def createSuitInterior(self):
         self.interior = self._createSuitInterior()
         (dummy, interiorZoneId) = self.getExteriorAndInteriorZoneId()
-        self.interior.fsm.request('WaitForAllToonsInside')
         self.interior.generateWithRequired(interiorZoneId)
+        self.interior.fsm.request('WaitForAllToonsInside')
 
     def createCogdoInterior(self):
         self.interior = self._createCogdoInterior()
         (dummy, interiorZoneId) = self.getExteriorAndInteriorZoneId()
-        self.interior.fsm.request('WaitForAllToonsInside')
         self.interior.generateWithRequired(interiorZoneId)
+        self.interior.request('WaitForAllToonsInside')
 
     def deleteSuitInterior(self):
         if hasattr(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
+        
         if hasattr(self, 'elevator'):
             self.elevator.d_setFloor(-1)
             self.elevator.open()

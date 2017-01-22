@@ -19,7 +19,6 @@ class CogdoMazeGuiManager:
             self._bossGui = CogdoMazeBossGui(bossCode)
         else:
             self._bossGui = None
-        
         self._memoGui = CogdoMemoGui(self.root)
         self._memoGui.posNextToLaffMeter()
         self._presentGuiIval = None
@@ -97,6 +96,7 @@ class CogdoMazeGuiManager:
             self._initTimer()
         self._timer.setTime(duration)
         self._timer.countdown(duration, timerExpiredCallback)
+        self._timer.show()
         self._presentTimerIval = ToontownIntervals.start(ToontownIntervals.getPresentGuiIval(self._timer, 'present_timer', startPos=(0, 0, 0.35)))
 
     def hideTimer(self):

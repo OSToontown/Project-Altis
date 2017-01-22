@@ -4,11 +4,10 @@ from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 import random
-
-from BattleBase import *
-import DistributedBattleBase
-import MovieUtil
-import SuitBattleGlobals
+from toontown.battle.BattleBase import *
+from toontown.battle import DistributedBattleBase
+from toontown.battle import MovieUtil
+from toontown.battle import SuitBattleGlobals
 from otp.avatar import Emote
 from toontown.chat.ChatGlobals import *
 from toontown.nametag import NametagGlobals
@@ -18,7 +17,6 @@ from toontown.suit import SuitDNA
 from toontown.toon import TTEmote
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-
 
 class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBldg')
@@ -133,7 +131,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         camTrack.append(Wait(delay))
         camPos = Point3(0, -6, 4)
         camHpr = Vec3(0, 0, 0)
-        camTrack.append(Func(camera.reparentTo, base.localAvatar))
+        camTrack.append(Func(camera.wrtReparentTo, base.localAvatar))
         camTrack.append(Func(setCamFov, settings['fieldofview']))
         camTrack.append(Func(camera.setPosHpr, camPos, camHpr))
         mtrack = Parallel(suitTrack, toonTrack, camTrack)
@@ -171,8 +169,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
 
         name = self.uniqueName('floorReward')
         track = Sequence(toonTracks, Func(callback), name=name)
-        camera.setPos(0, 0, 1)
-        camera.setHpr(180, 10, 0)
+        camera.posHprInterval(1, Point3(0, 0, 1), Point3(180, 10, 0), blendType = 'easeInOut').start()
         self.storeInterval(track, name)
         track.start(ts)
 

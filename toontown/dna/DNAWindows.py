@@ -16,6 +16,12 @@ class DNAWindows(DNAGroup.DNAGroup):
         self.color = LVector4f(1, 1, 1, 1)
         self.windowCount = 0
 
+    def __del__(self):
+        DNAGroup.DNAGroup.__del__(self)
+        del self.code
+        del self.color
+        del self.windowCount
+
     def setCode(self, code):
         self.code = code
 
@@ -51,6 +57,7 @@ class DNAWindows(DNAGroup.DNAGroup):
             window.setScale(NodePath(), scale)
             window.setHpr(hpr)
             window.setPos(x, 0, z)
+            window.setEffect(DecalEffect.make())
             window.setAttrib(DepthWriteAttrib.makeDefault(), 0)
 
         offset = lambda: random.random() % 0.0375

@@ -12,7 +12,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.filter.CommonFilters import CommonFilters
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
-from direct.showbase.PythonUtil import *
+from toontown.toonbase.ToonPythonUtil import *
 from direct.showbase.Transitions import Transitions
 from direct.task import *
 from pandac.PandaModules import *
@@ -158,6 +158,10 @@ class ToonBase(OTPBase.OTPBase):
         textShadow.setShadow(.01)
         textShadow.setTextColor(0.8, 0.4, 0.0, 1)
         tpMgr.setProperties('textShadow', textShadow)
+        orangeText = TextProperties()
+        orangeText.setTextColor(1.0, 0.65, 0.0, 1)
+        orangeText.setTextScale(1.2)
+        tpMgr.setProperties('orangeText', orangeText)
         del tpMgr
         self.lastScreenShotTime = globalClock.getRealTime()
         self.accept('InputState-forward', self.__walking)
@@ -203,6 +207,8 @@ class ToonBase(OTPBase.OTPBase):
         self.lodMaxRange = 750
         self.lodMinRange = 5
         self.lodDelayFactor = 0.4
+        
+        self.meterMode = settings.get('health-meter-mode', 2)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -336,6 +342,7 @@ class ToonBase(OTPBase.OTPBase):
         rolloverSound = DirectGuiGlobals.getDefaultRolloverSound()
         if rolloverSound is not None:
             NametagGlobals.setRolloverSound(rolloverSound)
+        
         clickSound = DirectGuiGlobals.getDefaultClickSound()
         if clickSound is not None:
             NametagGlobals.setClickSound(clickSound)
@@ -343,21 +350,22 @@ class ToonBase(OTPBase.OTPBase):
         self.marginManager = MarginManager()
         self.margins = self.aspect2d.attachNewNode(
             self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
+        
         self.leftCells = [
-            self.marginManager.addCell(0.1, -0.6, self.a2dTopLeft),
-            self.marginManager.addCell(0.1, -1.0, self.a2dTopLeft),
-            self.marginManager.addCell(0.1, -1.4, self.a2dTopLeft)
+            self.marginManager.addCell(0.1, -0.6, self.a2dTopLeft, 1),
+            self.marginManager.addCell(0.1, -1.0, self.a2dTopLeft, 2),
+            self.marginManager.addCell(0.1, -1.4, self.a2dTopLeft, 3)
         ]
         self.bottomCells = [
-            self.marginManager.addCell(0.4, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(-0.4, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(-1.0, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(1.0, 0.1, self.a2dBottomCenter)
+            self.marginManager.addCell(0.4, 0.1, self.a2dBottomCenter, 4),
+            self.marginManager.addCell(-0.4, 0.1, self.a2dBottomCenter, 5),
+            self.marginManager.addCell(-1.0, 0.1, self.a2dBottomCenter, 6),
+            self.marginManager.addCell(1.0, 0.1, self.a2dBottomCenter, 7)
         ]
         self.rightCells = [
-            self.marginManager.addCell(-0.1, -0.6, self.a2dTopRight),
-            self.marginManager.addCell(-0.1, -1.0, self.a2dTopRight),
-            self.marginManager.addCell(-0.1, -1.4, self.a2dTopRight)
+            self.marginManager.addCell(-0.1, -0.6, self.a2dTopRight, 8),
+            self.marginManager.addCell(-0.1, -1.0, self.a2dTopRight, 9),
+            self.marginManager.addCell(-0.1, -1.4, self.a2dTopRight, 10)
         ]
 
     def setCellsActive(self, cells, active):
@@ -377,9 +385,9 @@ class ToonBase(OTPBase.OTPBase):
             self.cleanupDownloadWatcher()
         else:
             self.acceptOnce('launcherAllPhasesComplete', self.cleanupDownloadWatcher)
-        gameServer = os.environ.get('TTA_GAMESERVER', 'localhost')
+        gameServer = os.environ.get('TT_GAMESERVER', 'localhost')
         # Get the base port.
-        serverPort = base.config.GetInt('server-port', 7199)
+        serverPort = base.config.GetInt('server-port', 7198)
 
         # Get the number of client-agents.
         clientagents = base.config.GetInt('client-agents', 1) - 1

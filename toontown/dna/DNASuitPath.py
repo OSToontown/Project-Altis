@@ -6,6 +6,9 @@ class DNASuitPath(object):
     def __init__(self):
         self.suitPoints = []
 
+    def __del__(self):
+        del self.suitPoints
+
     def getNumPoints(self):
         return len(self.suitPoints)
 

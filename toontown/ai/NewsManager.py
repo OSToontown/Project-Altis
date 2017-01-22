@@ -22,7 +22,6 @@ decorationHolidays = [ToontownGlobals.WINTER_DECORATIONS,
  ToontownGlobals.CRASHED_LEADERBOARD]
 promotionalSpeedChatHolidays = []
 
-
 class NewsManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('NewsManager')
     neverDisable = 1
@@ -722,5 +721,7 @@ class NewsManager(DistributedObject.DistributedObject):
             startingWeekDay = (startingWeekDay + 1) % 7
 
     def isHolidayRunning(self, holidayId):
-        result = holidayId in self.holidayIdList
-        return result
+        if holidayId in self.holidayIdList:
+            return True
+        else:
+            return False

@@ -6,7 +6,7 @@ from direct.fsm.FSM import FSM
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
 from direct.showbase import DirectObject
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from pandac.PandaModules import *
 from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4
 from otp.otpbase import OTPGlobals
@@ -28,6 +28,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
+from toontown.nametag import NametagGlobals
 
 class PartyPlanner(DirectFrame, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('PartyPlanner')
@@ -37,12 +38,13 @@ class PartyPlanner(DirectFrame, FSM):
         DirectFrame.__init__(self)
         self.doneEvent = doneEvent
         self.stateArray = ['Off',
-         'Welcome',
-         'PartyEditor', # 'Guests',  skip over the Guests state.
-         'Date',
-         'Time',
-         'Invitation',
-         'Farewell']
+            'Welcome',
+            'PartyEditor',
+            'Date',
+            'Time',
+            'Invitation',
+            'Farewell']
+        
         self.partyTime = base.cr.toontownTimeManager.getCurServerDateTime()
         self.partyNowTime = base.cr.toontownTimeManager.getCurServerDateTime()
         minutesToNextFifteen = 15 - self.partyTime.minute % 15
@@ -54,10 +56,12 @@ class PartyPlanner(DirectFrame, FSM):
         self.gui = loader.loadModel('phase_4/models/parties/partyPlannerGUI')
         self.partyDuration = timedelta(hours=PartyGlobals.DefaultPartyDuration)
         self.timeTypeToMaxValue = {'hour': 23,
-         'minute': 59}
+            'minute': 59}
+        
         self.timeTypeToChangeAmount = {'hour': (1, -1),
-         'minute': (15, -15),
-         'ampm': (1, -1)}
+            'minute': (15, -15),
+            'ampm': (1, -1)}
+        
         self.partyInfo = None
         self.asapMinuteRounding = base.config.GetInt('party-asap-minute-rounding', PartyGlobals.PartyPlannerAsapMinuteRounding)
         self.load()
@@ -113,6 +117,7 @@ class PartyPlanner(DirectFrame, FSM):
             self.nextButton['state'] = DirectGuiGlobals.DISABLED
             self.nextButton.hide()
             self.makePartyNowButton.show()
+        
         self.datePage.show()
 
     def exitDate(self):
@@ -135,6 +140,7 @@ class PartyPlanner(DirectFrame, FSM):
             baseTime += timedelta(minutes=self.asapMinuteRounding - remainder)
         else:
             baseTime += timedelta(minutes=self.asapMinuteRounding)
+        
         return baseTime
 
     def enterTime(self, *args):
@@ -162,6 +168,7 @@ class PartyPlanner(DirectFrame, FSM):
                 defaultInviteTheme = PartyGlobals.InviteTheme.Valentoons
         if self.partyInfo is not None:
             del self.partyInfo
+        
         activityList = self.partyEditor.partyEditorGrid.getActivitiesOnGrid()
         decorationList = self.partyEditor.partyEditorGrid.getDecorationsOnGrid()
         endTime = self.partyTime + self.partyDuration
@@ -182,6 +189,7 @@ class PartyPlanner(DirectFrame, FSM):
             self.nextThemeButton.unstash()
             self.prevThemeButton.unstash()
             self.setInviteTheme(defaultInviteTheme)
+        
         self.inviteVisual.updateInvitation(base.localAvatar.getName(), self.partyInfo)
         self.invitationPage.show()
 
@@ -262,14 +270,12 @@ class PartyPlanner(DirectFrame, FSM):
         self.invitationPage.hide()
         self.farewellPage = self._createFarewellPage()
         self.farewellPage.hide()
-        return
 
     def _createNavButtons(self):
         self.quitButton = DirectButton(parent=self.frame, relief=None, geom=(self.gui.find('**/cancelButton_up'), self.gui.find('**/cancelButton_down'), self.gui.find('**/cancelButton_rollover')), command=self.__acceptExit)
         self.nextButton = DirectButton(parent=self.frame, relief=None, geom=(self.gui.find('**/bottomNext_button/nextButton_up'), self.gui.find('**/bottomNext_button/nextButton_down'), self.gui.find('**/bottomNext_button/nextButton_rollover')), command=self.__nextItem, state=DirectGuiGlobals.DISABLED)
         self.prevButton = DirectButton(parent=self.frame, relief=None, geom=(self.gui.find('**/bottomPrevious_button/previousButton_up'), self.gui.find('**/bottomPrevious_button/previousButton_down'), self.gui.find('**/bottomPrevious_button/previousButton_rollover')), command=self.__prevItem, state=DirectGuiGlobals.DISABLED)
         self.currentItem = None
-        return
 
     def __createNametag(self, parent):
         if self.nametagGroup == None:
@@ -318,7 +324,6 @@ class PartyPlanner(DirectFrame, FSM):
             self.nametagGroup.setAvatar(NodePath())
             self.nametagGroup.destroy()
             self.nametagGroup = None
-        return
 
     def _createWelcomePage(self):
         self.nametagGroup = None
@@ -630,6 +635,7 @@ class PartyPlanner(DirectFrame, FSM):
         if hasattr(self, 'okWithGroundsGui'):
             self.okWithGroundsGui.cleanup()
             del self.okWithGroundsGui
+        
         if hasattr(self, 'frame') and not self.frame.isEmpty():
             messenger.send(self.doneEvent)
             self.hide()
@@ -638,6 +644,7 @@ class PartyPlanner(DirectFrame, FSM):
             self.friendList.destroy()
             self.calendarGuiMonth.destroy()
             self.frame.destroy()
+        
         self.partyPlannerHead.delete()
         self.partyPlannerHead.removeNode()
         self.clearNametag()
@@ -645,7 +652,6 @@ class PartyPlanner(DirectFrame, FSM):
         self.partyEditor = None
         self.destroy()
         del self
-        return
 
     def __handleComplete(self):
         self.inviteButton['state'] = DirectGuiGlobals.DISABLED
@@ -667,7 +673,7 @@ class PartyPlanner(DirectFrame, FSM):
         return invitees
 
     def processAddPartyResponse(self, hostId, errorCode):
-        PartyPlanner.notify.debug('processAddPartyResponse : hostId=%d errorCode=%s' % (hostId, PartyGlobals.AddPartyErrorCode.getString(errorCode)))
+        self.notify.debug('processAddPartyResponse : hostId=%d errorCode=%s' % (hostId, PartyGlobals.AddPartyErrorCode.getString(errorCode)))
         goingBackAllowed = False
         if errorCode == PartyGlobals.AddPartyErrorCode.AllOk:
             goingBackAllowed = False
@@ -686,11 +692,12 @@ class PartyPlanner(DirectFrame, FSM):
             goingBackAllowed = False
             self.confirmTitleLabel['text'] = TTLocalizer.PartyPlannerConfirmationErrorTitle
             confirmRecapText = TTLocalizer.PartyPlannerConfirmationTooManyText
+        
         self.nametagGroup.setChatText(confirmRecapText)
         self.request('Farewell', goingBackAllowed)
 
     def __acceptExit(self):
-        PartyPlanner.notify.debug('__acceptExit')
+        self.notify.debug('__acceptExit')
         if hasattr(self, 'frame'):
             self.hide()
             messenger.send(self.doneEvent)
@@ -699,12 +706,10 @@ class PartyPlanner(DirectFrame, FSM):
         messenger.send('wakeup')
         if self.state == 'PartyEditor' and self.okWithGroundsGui.doneStatus != 'ok':
             self.okWithGroundsGui.show()
-            return
         if self.state == 'PartyEditor' and self.noFriends:
             self.request('Date')
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
-            return
         if self.state == 'Guests':
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
@@ -714,9 +719,8 @@ class PartyPlanner(DirectFrame, FSM):
                 self.acceptOnce(self.okChooseFutureTimeEvent, self.okChooseFutureTime)
                 self.chooseFutureTimeDialog = TTDialog.TTGlobalDialog(dialogName=self.uniqueName('chooseFutureTimeDialog'), doneEvent=self.okChooseFutureTimeEvent, message=TTLocalizer.PartyPlannerChooseFutureTime, style=TTDialog.Acknowledge)
                 self.chooseFutureTimeDialog.show()
-                return
+        
         self.requestNext()
-        return
 
     def okChooseFutureTime(self):
         if hasattr(self, 'chooseFutureTimeDialog'):
@@ -729,15 +733,15 @@ class PartyPlanner(DirectFrame, FSM):
         messenger.send('wakeup')
         if self.state == 'Date' and self.noFriends:
             self.request('PartyEditor')
-            return
+        
         if self.state == 'Invitation' and self.selectedCalendarGuiDay is None:
             self.request('Guests')
-            return
+        
         self.requestPrev()
-        return
 
     def __moneyChange(self, newMoney):
         if hasattr(self, 'totalMoney'):
             self.totalMoney = base.localAvatar.getTotalMoney()
+        
         if hasattr(self, 'beanBank'):
             self.beanBank['text'] = str(int(self.totalMoney))

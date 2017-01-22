@@ -32,6 +32,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
                 si = '0%d' % i
             else:
                 si = '%d' % i
+            
             self.clockSounds.append(base.loader.loadSfx('phase_4/audio/sfx/clock%s.ogg' % si))
 
     def generate(self):
@@ -63,6 +64,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         if partyGate.isEmpty():
             self.notify.warning('Could not find partyGate_grp in loader.geom')
             return
+        
         gateFont = ToontownGlobals.getMinnieFont()
         leftSign = partyGate.find('**/signTextL_locatorBack')
         signScale = 0.35
@@ -70,7 +72,6 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         leftText = DirectLabel.DirectLabel(parent=leftSign, pos=(0, 0.0, 0.0), relief=None, text=TTLocalizer.PartyGateLeftSign, text_align=TextNode.ACenter, text_font=gateFont, text_wordwrap=wordWrap, text_fg=Vec4(0.7, 0.3, 0.3, 1.0), scale=signScale)
         rightSign = partyGate.find('**/signTextR_locatorFront')
         rightText = DirectLabel.DirectLabel(parent=rightSign, pos=(0, 0.0, 0.0), relief=None, text=TTLocalizer.PartyGateRightSign, text_align=TextNode.ACenter, text_font=gateFont, text_wordwrap=wordWrap, text_fg=Vec4(0.7, 0.3, 0.3, 1.0), scale=signScale)
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -78,6 +79,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
             playground = ToontownGlobals.dnaMap[self.zoneId]
         else:
             playground = ToontownGlobals.dnaMap[2000]
+        
         self.toontownTimeGui.hourLabel['text_fg'] = PartyGlobals.PlayGroundToPartyClockColors[playground]
         self.toontownTimeGui.colonLabel['text_fg'] = PartyGlobals.PlayGroundToPartyClockColors[playground]
         self.toontownTimeGui.minutesLabel['text_fg'] = PartyGlobals.PlayGroundToPartyClockColors[playground]
@@ -92,7 +94,6 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
             self.publicPartyGui.stash()
             self.publicPartyGui.destroy()
             self.publicPartyGui = None
-        return
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
@@ -118,7 +119,6 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         self.freeAvatar()
         self.messageGui.cleanup()
         self.messageGui = None
-        return
 
     def __handleAskDone(self):
         DistributedPartyGate.notify.debug('__handleAskDone')
@@ -128,8 +128,8 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         if doneStatus is None:
             self.freeAvatar()
             return
+        
         self.sendUpdate('partyChoiceRequest', [base.localAvatar.doId, doneStatus[0], doneStatus[1]])
-        return
 
     def partyRequestDenied(self, reason):
         DistributedPartyGate.notify.debug('partyRequestDenied( reason=%s )' % PartyGlobals.PartyGateDenialReasons.getString(reason))
@@ -144,19 +144,20 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         if partyInfoTuple[0] == 0:
             DistributedPartyGate.notify.debug('Public Party closed before toon could get to it.')
             return
-        shardId, zoneId, numberOfGuests, hostName, activityIds, lane = partyInfoTuple
-        #For some reason, the party gate is attempting to teleport to the host of a party rather than a random spot in the party.
-        #This temporarily fixes a hang on the loading screen
+        
+        (shardId, zoneId, numberOfGuests, hostName, activityIds, lane) = partyInfoTuple
+        # For some reason, the party gate is attempting to teleport to the host of a party rather than a random spot in the party.
+        # This temporarily fixes a hang on the loading screen
         if base.localAvatar.defaultShard != shardId:
             shardId = None
+        
         base.cr.playGame.getPlace().requestLeave({'loader': 'safeZoneLoader',
-         'where': 'party',
-         'how': 'teleportIn',
-         'hoodId': ToontownGlobals.PartyHood,
-         'zoneId': zoneId,
-         'shardId': None,
-         'avId': hostId})
-        return
+            'where': 'party',
+            'how': 'teleportIn',
+            'hoodId': ToontownGlobals.PartyHood,
+            'zoneId': zoneId,
+            'shardId': None,
+            'avId': hostId})
 
     def freeAvatar(self):
         base.localAvatar.posCamera(0, 0)

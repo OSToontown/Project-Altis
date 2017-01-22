@@ -11,6 +11,8 @@ from toontown.coghq import StageRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
 from toontown.nametag.NametagGlobals import *
+from toontown.chat.ChatGlobals import CFThought, CFTimeout
+
 if __dev__:
     from otp.level import EditorGlobals
 
@@ -32,7 +34,6 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel, StageRoomBase.Stag
         self.suitsInitialized = 0
         self.goonClipPlanes = {}
         self.stage = None
-        return
 
     def createEntityCreator(self):
         return FactoryEntityCreator.FactoryEntityCreator(level=self)
@@ -157,10 +158,8 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel, StageRoomBase.Stag
                 floorNum = '???'
             posStr = 'X: %.3f' % pos[0] + '\nY: %.3f' % pos[1] + '\nZ: %.3f' % pos[2] + '\nH: %.3f' % h + '\nstageId: %s' % self.stageId + '\nfloor: %s' % floorNum + '\nroomId: %s' % self.roomId + '\nroomName: %s' % roomName
             base.localAvatar.setChatAbsolute(posStr, CFThought | CFTimeout)
-            return
 
         self.accept('f2', printPos)
-        return
 
     def handleSOSPanel(self, panel):
         avIds = []

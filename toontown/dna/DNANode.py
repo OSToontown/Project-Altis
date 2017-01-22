@@ -12,7 +12,13 @@ class DNANode(DNAGroup.DNAGroup):
         self.pos = LVector3f()
         self.hpr = LVector3f()
         self.scale = LVector3f(1, 1, 1)
-        
+
+    def __del__(self):
+        DNAGroup.DNAGroup.__del__(self)
+        del self.pos
+        del self.hpr
+        del self.scale
+
     def getPos(self):
         return self.pos
         

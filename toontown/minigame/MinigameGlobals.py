@@ -1,4 +1,4 @@
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
 from random import choice

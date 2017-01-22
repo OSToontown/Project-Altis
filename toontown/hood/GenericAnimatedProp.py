@@ -49,15 +49,12 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.node.postFlatten()
         AnimatedProp.AnimatedProp.enter(self)
         doAnimLoop = True
-        try:
-            if type(self).__name__ == 'instance':
-                if self.__class__.__name__ == 'GenericAnimatedProp':
-                    if base.cr.newsManager.isHolidayRunning(ToontownGlobals.HYDRANTS_BUFF_BATTLES):
-                        doAnimLoop = True
-                    else:
-                        doAnimLoop = False
-        except:
-            pass
+        if type(self).__name__ == 'instance':
+            if self.__class__.__name__ == 'GenericAnimatedProp':
+                if base.cr.newsManager.isHolidayRunning(ToontownGlobals.HYDRANTS_BUFF_BATTLES):
+                    doAnimLoop = True
+                else:
+                    doAnimLoop = False
 
         if doAnimLoop:
             self.node.loop('anim')
@@ -75,48 +72,46 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.trashcan.reparentTo(node)
         self.trashcan.loadAnims({'anim': '%s/%s' % (self.path, anim)})
         self.trashcan.pose('anim', 0)
+        self.trashcan.setBlend(frameBlend = True)
         self.node = self.trashcan
 
     def calcHoodId(self, node):
         self.hoodId = ToontownGlobals.ToontownCentral
         fullString = str(node)
         splits = fullString.split('/')
-        try:
-            visId = int(splits[2])
+        
+        if len(splits) >= 5:
+            visId = int(splits[4])
             self.visId = visId
             self.hoodId = ZoneUtil.getCanonicalHoodId(visId)
             self.notify.debug('calcHoodId %d from %s' % (self.hoodId, fullString))
-        except Exception, generic:
-            if 'Editor' not in fullString:
-                self.notify.warning("calcHoodId couldn't parse %s using 0" % fullString)
+        else:
+            self.notify.warning("calcHoodId couldn't parse %s using 0" % fullString)
             self.hoodId = 0
             self.visId = 0
 
     def createSoundInterval(self, origAnimNameWithPath, maximumDuration):
         if not hasattr(base, 'localAvatar'):
             return Sequence()
-        sfxVolume = 1.0
-        cutoff = 45
+
         if not hasattr(self, 'soundPath'):
             self.soundPath = self.path.replace('/models/char', '/audio/sfx')
+
         origAnimName = origAnimNameWithPath.split('/')[-1]
-        theSound = self.origAnimNameToSound.get(origAnimName)
-        if not theSound:
-            soundfile = origAnimName.replace('tt_a_ara', 'tt_s_ara')
-            fullPath = self.soundPath + '/' + soundfile
-            if origAnimName in self.AnimsUsingWav:
-                theSound = loader.loadSfx(fullPath + '.ogg')
-            else:
-                theSound = loader.loadSfx(fullPath + '.ogg')
-            self.origAnimNameToSound[origAnimName] = theSound
-        if theSound:
-            soundDur = theSound.length()
-            if maximumDuration < soundDur:
-                if base.config.GetBool('interactive-prop-info', False):
-                    if self.visId == localAvatar.zoneId and origAnimName != 'tt_a_ara_dga_hydrant_idleIntoFight':
-                        self.notify.warning('anim %s had duration of %s while sound  has duration of %s' % (origAnimName, maximumDuration, soundDur))
-                soundDur = maximumDuration
-            result = SoundInterval(theSound, node=self.node, listenerNode=base.localAvatar, volume=sfxVolume, cutOff=cutoff, startTime=0, duration=soundDur)
+        sound = self.origAnimNameToSound.get(origAnimName)
+
+        if not sound:
+            sound = loader.loadSfx('%s/%s.ogg' % (self.soundPath, origAnimName.replace('tt_a_ara', 'tt_s_ara')))
+            self.origAnimNameToSound[origAnimName] = sound
+            
+
+        if sound:
+            soundDur = sound.length()
+            soundDur = maximumDuration
+            if not hasattr(self, 'soundNode'):
+                self.soundNode = render.attachNewNode('Sound Node')
+                self.soundNode.setPos(self.trashcan.getBounds().getCenter())
+                
+            return SoundInterval(sound, node=self.soundNode, listenerNode=base.localAvatar, volume=1.0, cutOff=45, startTime=0, duration=maximumDuration)
         else:
-            result = Sequence()
-        return result
+           return Sequence()

@@ -5,7 +5,8 @@ class DistributedNPCFlippyInToonHall(DistributedNPCToon):
 
     def __init__(self, cr):
         DistributedNPCToon.__init__(self, cr)
-
+        self.npcType = "Mayor"
+        
     def getCollSphereRadius(self):
         return 4
 

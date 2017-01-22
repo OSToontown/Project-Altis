@@ -1,6 +1,6 @@
 import string
 from direct.showbase.DirectObject import DirectObject
-from direct.showbase.PythonUtil import lineInfo
+from toontown.toonbase.ToonPythonUtil import lineInfo
 from direct.directnotify import DirectNotifyGlobal
 
 class Entity(DirectObject):

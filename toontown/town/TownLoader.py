@@ -25,15 +25,6 @@ from toontown.dna.DNAParser import DNABulkLoader
 class TownLoader(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownLoader')
 
-    zone2music = {
-        ToontownCentral : 'phase_9/audio/bgm/encntr_suit_ttc.ogg',
-        DonaldsDock : 'phase_9/audio/bgm/encntr_suit_dd.ogg',
-        DaisyGardens : 'phase_9/audio/bgm/encntr_suit_dg.ogg',
-        MinniesMelodyland : 'phase_9/audio/bgm/encntr_suit_mml.ogg',
-        TheBrrrgh : 'phase_9/audio/bgm/encntr_suit_tb.ogg',
-        DonaldsDreamland : 'phase_9/audio/bgm/encntr_suit_ddl.ogg'
-    }
-
     def __init__(self, hood, parentFSMState, doneEvent):
         StateData.StateData.__init__(self, doneEvent)
         self.hood = hood
@@ -47,7 +38,6 @@ class TownLoader(StateData.StateData):
         self.canonicalBranchZone = None
         self.placeDoneEvent = 'placeDone'
         self.townBattleDoneEvent = 'town-battle-done'
-        return
 
     def loadBattleAnims(self):
         Toon.loadBattleAnims()
@@ -63,7 +53,7 @@ class TownLoader(StateData.StateData):
         self.canonicalBranchZone = ZoneUtil.getCanonicalBranchZone(zoneId)
         self.music = base.loader.loadMusic(self.musicFile)
         self.activityMusic = base.loader.loadMusic(self.activityMusicFile)
-        self.battleMusic = base.loader.loadMusic(self.zone2music.get(ZoneUtil.getHoodId(zoneId), 'phase_9/audio/bgm/encntr_suit_ttc.ogg'))#'phase_3.5/audio/bgm/encntr_general_bg.ogg'))
+        self.battleMusic = base.loader.loadMusic('phase_3.5/audio/bgm/encntr_general_bg.ogg')
         self.townBattle = TownBattle.TownBattle(self.townBattleDoneEvent)
         self.townBattle.load()
 
@@ -131,7 +121,6 @@ class TownLoader(StateData.StateData):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def streetDone(self):
         self.requestStatus = self.place.doneStatus
@@ -141,7 +130,6 @@ class TownLoader(StateData.StateData):
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
-        return
 
     def enterToonInterior(self, requestStatus):
         self.acceptOnce(self.placeDoneEvent, self.handleToonInteriorDone)
@@ -156,7 +144,6 @@ class TownLoader(StateData.StateData):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def handleToonInteriorDone(self):
         status = self.place.doneStatus
@@ -165,7 +152,6 @@ class TownLoader(StateData.StateData):
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
-        return
 
     def enterQuietZone(self, requestStatus):
         self.quietZoneDoneEvent = uniqueName('quietZoneDone')
@@ -180,7 +166,6 @@ class TownLoader(StateData.StateData):
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData = None
-        return
 
     def handleQuietZoneDone(self):
         status = self.quietZoneStateData.getRequestStatus()
@@ -364,8 +349,6 @@ class TownLoader(StateData.StateData):
                 if animPropList is None:
                     animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animatedBuildingObj)
-
-        return
 
     def deleteAnimatedProps(self):
         for zoneNode, animPropList in self.animPropDict.items():

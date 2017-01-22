@@ -1,14 +1,18 @@
-from pandac.PandaModules import *
+import random
+from panda3d.core import *
+from panda3d.direct import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from toontown.toonbase import ToontownGlobals, ToontownIntervals
 from toontown.cogdominium import CogdoBarrelRoomConsts
+from toontown.cogdominium import CogdoBarrelRoom
 
 class DistributedCogdoBarrel(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCogdoBarrel')
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
+        self.barrelRoom = CogdoBarrelRoom.CogdoBarrelRoom()
         self.index = None
         self.state = None
         self.model = None
@@ -17,11 +21,12 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
         self.collNodePath = None
         self.availableTex = None
         self.usedTex = None
+        self.brLaff = 0
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
-        self.bumpSound = base.loader.loadSfx(CogdoBarrelRoomConsts.BarrelBumpSound)
-        self.grabSound = base.loader.loadSfx(CogdoBarrelRoomConsts.BarrelGrabSound)
+        self.bumpSound = base.loadSfx(CogdoBarrelRoomConsts.BarrelBumpSound)
+        self.grabSound = base.loadSfx(CogdoBarrelRoomConsts.BarrelGrabSound)
 
     def __setModel(self):
         self.model = loader.loadModel(CogdoBarrelRoomConsts.BarrelModel)
@@ -31,7 +36,7 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
         cogdoBarrelsNode = render.find('@@CogdoBarrels')
         if not cogdoBarrelsNode or cogdoBarrelsNode.isEmpty():
             cogdoBarrelsNode = render.attachNewNode('CogdoBarrels')
-            cogdoBarrelsNode.stash()
+        
         self.model.reparentTo(cogdoBarrelsNode)
         self.availableTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_notUsed.jpg')
         self.usedTex = loader.loadTexture('phase_5/maps/tt_t_ara_cbr_Barrel_Used.jpg')
@@ -68,8 +73,8 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
             self.model.removeNode()
             del self.model
             self.model = None
+        
         self.ignore(self.uniqueName('enterbarrelSphere'))
-        return
 
     def setIndex(self, index):
         self.index = index
@@ -102,19 +107,24 @@ class DistributedCogdoBarrel(DistributedObject.DistributedObject):
             self.ignore(self.uniqueName('enterbarrelSphere'))
 
     def handleEnterSphere(self, collEntry = None):
-        base.playSfx(self.bumpSound, volume=0.35, node=self.model, listener=camera)
+        base.playSfx(self.grabSound, volume=1, node=self.model, listener=camera)
         self.d_requestGrab()
 
     def d_requestGrab(self):
         self.sendUpdate('requestGrab', [])
 
     def setGrab(self, avId):
+        toonup = CogdoBarrelRoomConsts.ToonUp
         if avId == base.localAvatar.doId:
             ToontownIntervals.start(ToontownIntervals.getPulseIval(self.model, self.__pulseIvalName(), 1.15, duration=0.2))
             self.setState(CogdoBarrelRoomConsts.StateUsed)
+            self.brLaff = random.randint(toonup[0], toonup[1])
 
     def setReject(self):
         pass
+
+    def getBarrelLaff(self):
+        return self.brLaff
 
     def __pulseIvalName(self):
         return 'DistributedCogdoBarrelPulse%s' % self.doId

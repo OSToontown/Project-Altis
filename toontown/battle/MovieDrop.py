@@ -1,13 +1,14 @@
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
-from BattleSounds import *
-import MovieCamera
+from toontown.battle.BattleBase import *
+from toontown.battle.BattleProps import *
+from toontown.battle.BattleSounds import *
+from toontown.battle import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
-import MovieUtil
-import MovieNPCSOS
-from MovieUtil import calcAvgSuitPos
+from toontown.battle import MovieUtil
+from toontown.battle import MovieNPCSOS
+from toontown.battle.MovieUtil import calcAvgSuitPos
 from direct.showutil import Effects
+
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieDrop')
 hitSoundFiles = ('AA_drop_flowerpot.ogg', 'AA_drop_sandbag.ogg', 'AA_drop_anvil.ogg', 'AA_drop_bigweight.ogg', 'AA_drop_safe.ogg', 'AA_drop_piano.ogg', 'AA_drop_boat.ogg')
 missSoundFiles = ('AA_drop_flowerpot_miss.ogg', 'AA_drop_sandbag_miss.ogg', 'AA_drop_anvil_miss.ogg', 'AA_drop_bigweight_miss.ogg', 'AA_drop_safe_miss.ogg', 'AA_drop_piano_miss.ogg', 'AA_drop_boat_miss.ogg')
@@ -411,7 +412,8 @@ def __createSuitTrack(drop, delay, level, alreadyDodged, alreadyTeased, target, 
         suitTrack.append(suitGettingHit)
         bonusTrack = None
         if hpbonus > 0:
-            bonusTrack = Sequence(Wait(delay + tObjectAppears + 0.75), Func(suit.showHpText, -hpbonus, 1, openEnded=0))
+            bonusTrack = Sequence(Wait(delay + tObjectAppears + 0.75), Func(suit.showHpText, -hpbonus, 1, openEnded=0), Func(suit.updateHealthBar, hpbonus))
+            bonusTrack.append(updateHealthBar)
         if revived != 0:
             suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
         elif died != 0:

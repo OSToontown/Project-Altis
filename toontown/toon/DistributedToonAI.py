@@ -2,6 +2,7 @@ import random
 import time
 import re
 from toontown.toon import Experience
+from toontown.toon import ToonExperience
 from toontown.toon import InventoryBase
 from toontown.toon import ModuleListAI
 from toontown.toon import ToonDNA
@@ -99,11 +100,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.fishCollection = None
         self.fishTank = None
         self.experience = None
+        self.toonExp = 0
+        self.toonLevel = 0
         self.petId = None
         self.quests = []
         self.achievements = []
         self.cogs = []
         self.cogCounts = []
+        self.cogSummonsEarned = []
         self.NPCFriendsDict = {}
         self.clothesTopsList = []
         self.clothesBottomsList = []
@@ -115,20 +119,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.glasses = (0, 0, 0)
         self.backpack = (0, 0, 0)
         self.shoes = (0, 0, 0)
-        self.cogTypes = [0, 0, 0, 0]
-        self.cogLevel = [0, 0, 0, 0]
-        self.cogParts = [0, 0, 0, 0]
-        self.cogRadar = [0, 0, 0, 0]
+        self.cogTypes = [0, 0, 0, 0, 0]
+        self.cogLevel = [0, 0, 0, 0, 0]
+        self.cogParts = [0, 0, 0, 0, 0]
+        self.cogRadar = [0, 0, 0, 0, 0]
         self.cogIndex = -1
         self.disguisePageFlag = 0
         self.sosPageFlag = 0
-        self.buildingRadar = [0, 0, 0, 0]
+        self.buildingRadar = [0, 0, 0, 0, 0]
         self.fishingRod = 0
         self.fishingTrophies = []
         self.trackArray = []
         self.emoteAccess = [0] * 26
-        self.maxMoney = 10000
-        self.maxBankMoney = ToontownGlobals.MaxBankMoney
+        self.maxBankMoney = ToontownGlobals.DefaultMaxBankMoney
         self.gardenSpecials = []
         self.houseId = 0
         self.posIndex = 0
@@ -137,8 +140,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.savedCheesyExpireTime = 0
         self.ghostMode = 0
         self.immortalMode = 0
+        self.unlimitedGags = 0
         self.numPies = 0
         self.pieType = 0
+        self.uber = 0
         self._isGM = False
         self._gmType = None
         self.hpOwnedByBattle = 0
@@ -189,7 +194,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self._dbCheckDoLater = None
         self.teleportOverride = 0
         self._gmDisabled = False
-        self.promotionStatus = [0, 0, 0, 0]
+        self.promotionStatus = [0, 0, 0, 0, 0]
+        self.magicWordTeleportRequests = []
         self.buffs = []
 
     def generate(self):
@@ -1008,10 +1014,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.d_setHp(self.hp)
 
     def b_setMaxHp(self, maxHp):
-        if (maxHp > ToontownGlobals.MaxHpLimit):
-            self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to go over the HP limit.')
-            self.d_setMaxHp(ToontownGlobals.MaxHpLimit)
-            self.setMaxHp(ToontownGlobals.MaxHpLimit)
+        if maxHp > ToontownGlobals.MaxHpLimit:
+            self.air.writeServerEvent('suspicious', avId=self.doId, issue='Toon tried to go over ' + str(ToontownGlobals.MaxHpLimit) + ' laff.')
+        elif maxHp > 15 and self.uber == 1:
+            self.d_setMaxHp(15)
+            self.setMaxHp(15)
+        elif maxHp > 25 and self.uber == 2:
+            self.d_setMaxHp(25)
+            self.setMaxHp(25)
+        elif maxHp > 34 and self.uber == 3:
+            self.d_setMaxHp(34)
+            self.setMaxHp(34) #No need to track these, they are just keeping uber toons in check
         else:
             self.d_setMaxHp(maxHp)
             self.setMaxHp(maxHp)
@@ -1140,8 +1153,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setCogRadar(self, radar):
         if not radar:
-            self.notify.warning('cogRadar set to bad value: %s. Resetting to [0,0,0,0]' % radar)
+            self.notify.warning('cogRadar set to bad value: %s. Resetting to [0,0,0,0,0]' % radar)
             self.cogRadar = [0,
+             0,
              0,
              0,
              0]
@@ -1160,8 +1174,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setBuildingRadar(self, radar):
         if not radar:
-            self.notify.warning('buildingRadar set to bad value: %s. Resetting to [0,0,0,0]' % radar)
+            self.notify.warning('buildingRadar set to bad value: %s. Resetting to [0,0,0,0,0]' % radar)
             self.buildingRadar = [0,
+             0,
              0,
              0,
              0]
@@ -1180,8 +1195,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setCogTypes(self, types):
         if not types:
-            self.notify.warning('cogTypes set to bad value: %s. Resetting to [0,0,0,0]' % types)
+            self.notify.warning('cogTypes set to bad value: %s. Resetting to [0,0,0,0,0]' % types)
             self.cogTypes = [0,
+             0,
              0,
              0,
              0]
@@ -1200,8 +1216,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setCogLevels(self, levels):
         if not levels:
-            self.notify.warning('cogLevels set to bad value: %s. Resetting to [0,0,0,0]' % levels)
+            self.notify.warning('cogLevels set to bad value: %s. Resetting to [0,0,0,0,0]' % levels)
             self.cogLevels = [0,
+             0,
              0,
              0,
              0]
@@ -1214,38 +1231,31 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogLevels(self):
         return self.cogLevels
 
-    def incCogLevel(self, deptIndex):
-        cogLevel = self.cogLevels[deptIndex]
-        maxSuitType = SuitDNA.suitsPerDept - 1
-        maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-        maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
-        if (cogLevel == maxCogLevel) or (cogLevel == maxSuitLevel):
-            self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
-            self.d_setPromotionStatus(self.promotionStatus)
+    def incCogLevel(self, dept):
+        newLevel = self.cogLevels[dept] + 1
+        cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+        lastCog = self.cogTypes[dept] >= SuitDNA.suitsPerDept - 1
+        if not lastCog:
+            maxLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level'] + 4
         else:
-            self.cogLevels[deptIndex] += 1
+            maxLevel = ToontownGlobals.MaxCogSuitLevel
+        if newLevel > maxLevel:
+            if not lastCog:
+                self.cogTypes[dept] += 1
+                self.d_setCogTypes(self.cogTypes)
+                cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+                self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+                self.d_setCogLevels(self.cogLevels)
+        else:
+            self.cogLevels[dept] += 1
             self.d_setCogLevels(self.cogLevels)
-            self.cogMerits[deptIndex] = 0
-            self.d_setCogMerits(self.cogMerits)
-        self.air.writeServerEvent(
-            'cogSuit', self.doId,
-            '%s|%s|%s' % (deptIndex, self.cogTypes[deptIndex], self.cogLevels[deptIndex]))
-
-    def requestPromotion(self, dept):
-        if self.promotionStatus[dept] == ToontownGlobals.PendingPromotion:
-            self.cogTypes[dept] += 1
-            self.d_setCogTypes(self.cogTypes)
-            cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
-            self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
-            self.d_setCogLevels(self.cogLevels)
-            self.cogMerits[dept] = 0
-            self.d_setCogMerits(self.cogMerits)
-            maxHp = self.getMaxHp()
-            maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
-            self.b_setMaxHp(maxHp)
-            self.toonUp(maxHp)
-            self.promotionStatus[dept] = ToontownGlobals.WantPromotion
-            self.d_setPromotionStatus(self.promotionStatus)
+            if lastCog:
+                if self.cogLevels[dept] in ToontownGlobals.CogSuitHPLevels:
+                    maxHp = self.getMaxHp()
+                    maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
+                    self.b_setMaxHp(maxHp)
+                    self.toonUp(maxHp)
+        self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
 
     def getNumPromotions(self, dept):
         if dept not in SuitDNA.suitDepts:
@@ -1266,8 +1276,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setCogParts(self, parts):
         if not parts:
-            self.notify.warning('cogParts set to bad value: %s. Resetting to [0,0,0,0]' % parts)
+            self.notify.warning('cogParts set to bad value: %s. Resetting to [0,0,0,0,0]' % parts)
             self.cogParts = [0,
+             0,
              0,
              0,
              0]
@@ -1310,20 +1321,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setCogParts(parts)
 
     def loseCogParts(self, dept):
-        loseCount = random.randrange(CogDisguiseGlobals.MinPartLoss, CogDisguiseGlobals.MaxPartLoss + 1)
-        parts = self.getCogParts()
-        partBitmask = parts[dept]
-        partList = xrange(17)
-        while loseCount > 0 and partList:
-            losePart = random.choice(partList)
-            partList.remove(losePart)
-            losePartBit = 1 << losePart
-            if partBitmask & losePartBit:
-                partBitmask &= ~losePartBit
-                loseCount -= 1
-
-        parts[dept] = partBitmask
-        self.b_setCogParts(parts)
+        self.notify.warning('Tried to remove a cog part, skipping')
 
     def b_setCogMerits(self, merits):
         self.setCogMerits(merits)
@@ -1331,8 +1329,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setCogMerits(self, merits):
         if not merits:
-            self.notify.warning('cogMerits set to bad value: %s. Resetting to [0,0,0,0]' % merits)
+            self.notify.warning('cogMerits set to bad value: %s. Resetting to [0,0,0,0,0]' % merits)
             self.cogMerits = [0,
+             0,
              0,
              0,
              0]
@@ -1345,15 +1344,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogMerits(self):
         return self.cogMerits
 
-    def b_promote(self, deptIndex):
-        self.promote(deptIndex)
-        self.d_promote(deptIndex)
+    def b_promote(self, dept):
+        self.promote(dept)
+        self.d_promote(dept)
 
-    def promote(self, deptIndex):
-        self.incCogLevel(deptIndex)
+    def promote(self, dept):
+        if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
+            self.cogMerits[dept] = 0
+        self.incCogLevel(dept)
 
-    def d_promote(self, deptIndex):
+    def d_promote(self, dept):
         merits = self.getCogMerits()
+        if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
+            merits[dept] = 0
         self.d_setCogMerits(merits)
 
     def readyForPromotion(self, dept):
@@ -2316,6 +2319,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setImmortalMode(self, flag):
         self.immortalMode = flag
+        
+    def setUnlimitedGags(self, flag):
+        self.unlimitedGags = flag
 
     def b_setSpeedChatStyleIndex(self, index):
         self.setSpeedChatStyleIndex(index)
@@ -2330,8 +2336,87 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getSpeedChatStyleIndex(self):
         return self.speedChatStyleIndex
 
+    def b_setMaxMoney(self, maxMoney):
+        self.d_setMaxMoney(maxMoney)
+        self.setMaxMoney(maxMoney)
+        if self.getMoney() > maxMoney:
+            self.b_setBankMoney(self.bankMoney + (self.getMoney() - maxMoney))
+            self.b_setMoney(maxMoney)
+
+    def d_setMaxMoney(self, maxMoney):
+        self.sendUpdate('setMaxMoney', [maxMoney])
+
+    def setMaxMoney(self, maxMoney):
+        self.maxMoney = maxMoney
+
     def getMaxMoney(self):
-        return 10000
+        return self.maxMoney
+        
+    def b_setUber(self, uber):
+        self.d_setUber(uber)
+        self.setUber(uber)
+
+    def d_setUber(self, uber):
+        self.sendUpdate('setUber', [uber])
+
+    def setUber(self, uber):
+        self.uber = uber
+        
+    def getUber(self):
+        return self.uber
+        
+    def b_setToonExp(self, exp):
+        while True:
+            for level in xrange(len(ToonExperience.ToonExperience().ExpPerLevel)):
+                if exp >= ToonExperience.ToonExperience().getLevelMaxExp(self.toonLevel) and level > self.toonLevel:
+                    exp -= ToonExperience.ToonExperience().getLevelMaxExp(self.toonLevel)
+                    self.b_setToonLevel(self.toonLevel+1)
+                elif level <= self.toonLevel:
+                     continue
+                else:
+                    break
+            break
+        if self.getToonLevel() == ToontownGlobals.MaxToonLevel:
+           exp = 0
+        self.setToonExp(exp)
+        self.d_setToonExp(exp)
+
+    def d_setToonExp(self, exp):
+        self.sendUpdate('setToonExp', [exp])
+        
+    def setToonExp(self, exp):
+        self.toonExp = exp
+        
+    def addToonExp(self, deltaExp):
+        self.toonExp = deltaExp + self.toonExp
+        
+    def getToonExp(self):
+        return self.toonExp
+        
+    def b_setToonLevel(self, level):
+        if level > ToontownGlobals.MaxToonLevel:
+           pass
+        else:
+            if level == ToontownGlobals.MaxToonLevel:
+                self.b_setToonExp(0)
+            self.setToonLevel(level)
+            self.d_setToonLevel(level)
+            simbase.air.experienceMgr.checkForLevelUpReward(self)
+            if level in ToontownGlobals.ExperienceHPLevels:
+                self.sendUpdate('notifyExpReward', [level, 0])
+            #if level in ToontownGlobals.ExperienceGagLevels: Leftovers, might take some reworking to get these working
+                #self.sendUpdate('notifyExpReward', [level, 1])
+            #if level in ToontownGlobals.ExperienceMoneyLevels:
+                #self.sendUpdate('notifyExpReward', [level, 2])
+
+    def d_setToonLevel(self, level):
+        self.sendUpdate('setToonLevel', [level])
+        
+    def setToonLevel(self, level):
+        self.toonLevel = level
+        
+    def getToonLevel(self):
+        return self.toonLevel
 
     def addMoney(self, deltaMoney):
         money = deltaMoney + self.money
@@ -2340,7 +2425,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         overflowMoney = money - self.maxMoney
         if overflowMoney > 0:
             bankMoney = self.bankMoney + overflowMoney
-            self.air.bankManager.setMoney(self.doId, bankMoney)
+            self.b_setBankMoney(bankMoney)
 
     def takeMoney(self, deltaMoney, bUseBank = True):
         totalMoney = self.money
@@ -2350,7 +2435,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.warning('Not enough money! AvId: %s Has:%s Charged:%s' % (self.doId, totalMoney, deltaMoney))
             return False
         if bUseBank and deltaMoney > self.money:
-            self.air.bankManager.setMoney(self.doId, self.bankMoney - (deltaMoney - self.money))
+            self.b_setBankMoney(self.bankMoney - (deltaMoney - self.money))
             self.b_setMoney(0)
         else:
             self.b_setMoney(self.money - deltaMoney)
@@ -2381,9 +2466,22 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getTotalMoney(self):
         return self.money + self.bankMoney
+        
+    def b_setMaxBankMoney(self, maxMoney):
+        self.d_setMaxBankMoney(maxMoney)
+        self.setMaxBankMoney(maxMoney)
+
+    def d_setMaxBankMoney(self, maxMoney):
+        self.sendUpdate('setMaxBankMoney', [maxMoney])
+
+    def setMaxBankMoney(self, maxMoney):
+        self.maxBankMoney = maxMoney
+
+    def getMaxBankMoney(self):
+        return self.maxBankMoney
 
     def b_setBankMoney(self, money):
-        bankMoney = min(money, ToontownGlobals.MaxBankMoney)
+        bankMoney = min(money, self.maxBankMoney)
         self.setBankMoney(bankMoney)
         self.d_setBankMoney(bankMoney)
 
@@ -3095,15 +3193,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         elif type == 'building':
             returnCode = self.doBuildingTakeover(suitIndex)
         elif type == 'invasion':
-            suitDeptIndex = suitIndex / SuitDNA.suitsPerDept
-            suitTypeIndex = suitIndex % SuitDNA.suitsPerDept
-            returnCode = self.doCogInvasion(suitDeptIndex, suitTypeIndex)
+            returnCode = self.doCogInvasion(suitIndex)
         if returnCode:
             if returnCode[0] == 'success':
                 self.air.writeServerEvent('cogSummoned', self.doId, '%s|%s|%s' % (type, suitIndex, self.zoneId))
                 self.removeCogSummonsEarned(suitIndex, type)
             self.sendUpdate('cogSummonsResponse', returnCode)
-        return
 
     def doSummonSingleCog(self, suitIndex):
         if suitIndex >= len(SuitDNA.suitHeadTypes):
@@ -3150,26 +3245,32 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          self.zoneId))
         return ['success', suitIndex, building.doId]
 
-    def doCogdoTakeOver(self, difficulty, buildingHeight):
+    def doCogdoTakeOver(self, difficulty, buildingHeight, track):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
         if streetId not in self.air.suitPlanners:
             self.notify.warning('Street %d is not known.' % streetId)
             return ['badlocation', difficulty, 0]
+        
         building = self.findClosestDoor()
         if building is None:
             return ['badlocation', difficulty, 0]
+        
         building.cogdoTakeOver(difficulty, buildingHeight)
         return ['success', difficulty, building.doId]
 
-    def doCogInvasion(self, suitDeptIndex, suitTypeIndex):
+    def doCogInvasion(self, suitIndex):
         if self.air.suitInvasionManager.getInvading():
             return ['busy', 0, 0]
-
-        suitName = SuitDNA.getSuitName(suitDeptIndex, suitTypeIndex)
-        suitIndex = SuitDNA.suitHeadTypes.index(suitName)
+            
+        if suitIndex >= len(SuitDNA.suitHeadTypes):
+            self.notify.warning('Bad suit index: %s' % suitIndex)
+            return ['badIndex', suitIndex, 0]
+  
+        track = suitIndex / SuitDNA.suitsPerDept
+        type = suitIndex % SuitDNA.suitsPerDept
 
         if self.air.suitInvasionManager.startInvasion(
-                suitDeptIndex=suitDeptIndex, suitTypeIndex=suitTypeIndex):
+                suitDeptIndex=track, suitTypeIndex=type):
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
@@ -4181,7 +4282,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                             response = simbase.config.GetString('toon-pos-hack-response', 'nothing')
                             av.handleHacking(response, 'collision and position hacking', [otherAv])
                         del DistributedToonAI.flagCounts[avPairKey]
-        return
 
     def handleHacking(self, response, comment, coconspirators = []):
         if response == 'quietzone':
@@ -4288,6 +4388,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setBuffs(self, buffs):
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
+        
+    def magicTeleportResponse(self, requesterId, hoodId):
+        toon = self.air.doId2do.get(requesterId)
+        if toon:
+            toon.magicTeleportInitiate(self.getDoId(), hoodId, self.getLocation()[1])
+
+    def magicTeleportInitiate(self, targetId, hoodId, zoneId):
+        if targetId not in self.magicWordTeleportRequests:
+            return
+        self.magicWordTeleportRequests.remove(targetId)
+        self.sendUpdate('magicTeleportInitiate', [hoodId, zoneId])
 
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
@@ -4303,7 +4414,7 @@ def cheesyEffect(value, hood=0, expire=0):
         if value not in OTPGlobals.CEName2Id:
             return 'Invalid cheesy effect value: %s' % value
         value = OTPGlobals.CEName2Id[value]
-    elif not 0 <= value <= 15:
+    elif not 0 <= value <= 76:
         return 'Invalid cheesy effect value: %d' % value
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
@@ -4352,11 +4463,11 @@ def allSummons():
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str])
 def maxToon(missingTrack=None):
     """
-    Max the invoker's stats for end-level gameplay.
+    Max the target's stats for end-level gameplay.
     """
-    invoker = spellbook.getInvoker()
+    target = spellbook.getTarget() if spellbook.getInvokerAccess() >= 450 else spellbook.getInvoker()
 
-    # First, unlock the invoker's Gag tracks:
+    # First, unlock the target's Gag tracks:
     gagTracks = [1, 1, 1, 1, 1, 1, 1, 1]
     if missingTrack is not None:
         try:
@@ -4367,23 +4478,27 @@ def maxToon(missingTrack=None):
         if index in (4, 5):
             return 'You are required to have Throw and Squirt.'
         gagTracks[index] = 0
-    invoker.b_setTrackAccess(gagTracks)
-    invoker.b_setMaxCarry(110)
+    target.b_setTrackAccess(gagTracks)
+    target.b_setMaxCarry(110)
 
     # Next, max out their experience for the tracks they have:
-    experience = Experience.Experience(invoker.getExperience(), invoker)
-    for i, track in enumerate(invoker.getTrackAccess()):
+    experience = Experience.Experience(target.getExperience(), target)
+    for i, track in enumerate(target.getTrackAccess()):
         if track:
-            experience.experience[i] = (
-                Experience.MaxSkill - Experience.UberSkill)
-    invoker.b_setExperience(experience.makeNetString())
+            experience.experience[i] = (Experience.MaxSkill)
+    target.b_setExperience(experience.makeNetString())
+    
+    # Restock their inventory:
+    inventory = target.inventory
+    inventory.NPCMaxOutInv(targetTrack=-1, maxLevelIndex=6)
+    target.b_setInventory(inventory.makeNetString())
 
     # Max out their Laff:
-    invoker.b_setMaxHp(ToontownGlobals.MaxHpLimit)
-    invoker.toonUp(invoker.getMaxHp() - invoker.hp)
+    target.b_setMaxHp(ToontownGlobals.MaxHpLimit)
+    target.toonUp(target.getMaxHp() - target.hp)
 
     # Unlock all of the emotes:
-    emotes = list(invoker.getEmoteAccess())
+    emotes = list(target.getEmoteAccess())
     for emoteId in OTPLocalizer.EmoteFuncDict.values():
         if emoteId >= len(emotes):
             continue
@@ -4392,58 +4507,53 @@ def maxToon(missingTrack=None):
         if emoteId in (17, 18, 19):
             continue
         emotes[emoteId] = 1
-    invoker.b_setEmoteAccess(emotes)
+    target.b_setEmoteAccess(emotes)
 
-    # Max out their Cog suits:
-    suitDeptCount = len(SuitDNA.suitDepts)
-    cogParts = []
-    for i in xrange(suitDeptCount):
-        cogParts.append(CogDisguiseGlobals.PartsPerSuitBitmasks[i])
-    invoker.b_setCogParts(cogParts)
-    maxSuitType = SuitDNA.suitsPerDept - 1
-    invoker.b_setCogTypes([maxSuitType] * suitDeptCount)
-    maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-    invoker.b_setCogLevels([maxSuitLevel] * suitDeptCount)
-    cogMerits = []
-    for i in xrange(suitDeptCount):
-        suitIndex = (SuitDNA.suitsPerDept * (i+1)) - 1
-        suitMerits = CogDisguiseGlobals.MeritsPerLevel[suitIndex]
-        cogMerits.append(suitMerits[SuitDNA.levelsPerSuit - 1])
-    invoker.b_setCogMerits(cogMerits)
-    invoker.b_setPromotionStatus([1] * suitDeptCount)
+    # Max out cog suits (ORDER: Bossbot, Lawbot, Cashbot, Sellbot, Boardbots)
+    target.b_setCogParts([
+        CogDisguiseGlobals.PartsPerSuitBitmasks[0], # Bossbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[3], # Sellbot
+        CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
+    ])
+    target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
     deptCount = len(SuitDNA.suitDepts)
-    invoker.b_setCogCount(list(CogPageGlobals.COG_QUOTAS[1]) * deptCount)
+    target.b_setCogCount(list(CogPageGlobals.COG_QUOTAS[1]) * deptCount)
     cogStatus = [CogPageGlobals.COG_COMPLETE2] * SuitDNA.suitsPerDept
-    invoker.b_setCogStatus(cogStatus * deptCount)
-    invoker.b_setCogRadar([1, 1, 1, 1])
-    invoker.b_setBuildingRadar([1, 1, 1, 1])
+    target.b_setCogStatus(cogStatus * deptCount)
+    target.b_setCogRadar([1, 1, 1, 1, 1])
+    target.b_setBuildingRadar([1, 1, 1, 1, 1])
 
     # Max out their racing tickets:
-    invoker.b_setTickets(99999)
+    target.b_setTickets(99999)
+    
+    # Max out their toon level:
+    target.b_setToonLevel(69)
 
     # Give them teleport access everywhere (including Cog HQs):
     hoods = list(ToontownGlobals.HoodsForTeleportAll)
-    invoker.b_setHoodsVisited(hoods)
-    invoker.b_setTeleportAccess(hoods)
+    target.b_setHoodsVisited(hoods)
+    target.b_setTeleportAccess(hoods)
 
-    # Max their quest carry limit:
-    invoker.b_setQuestCarryLimit(4)
-
-    # Complete their quests:
-    invoker.b_setQuests([])
-    invoker.b_setRewardHistory(Quests.ELDER_TIER, [])
-
-    # Max their money:
-    invoker.b_setMoney(invoker.getMaxMoney())
-    invoker.b_setBankMoney(10000)
+    # End game settings:
+    target.b_setQuests([])
+    target.b_setQuestCarryLimit(4)
+    target.b_setRewardHistory(Quests.ELDER_TIER, [])
+    target.b_setMaxMoney(250)
+    target.b_setMoney(target.getMaxMoney())
+    target.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
     # Finally, unlock all of their pet phrases:
     if simbase.wantPets:
-        invoker.b_setPetTrickPhrases(range(7))
-
-    return 'Maxed your Toon!'
+        target.b_setPetTrickPhrases(range(7))
+     
+    if target != spellbook.getInvoker():
+        return "Maxed Target's Toon!"
+    return "Maxed your Toon!"
 
 @magicWord(category=CATEGORY_PROGRAMMER)
 def unlocks():
@@ -4524,7 +4634,7 @@ def money(money):
     Modifies the target's current money value.
     """
     target = spellbook.getTarget()
-    maxMoney = 10000
+    maxMoney = target.getMaxMoney()
     if not 0 <= money <= maxMoney:
         return 'Money value must be in xrange (0-%d).' % maxMoney
     target.b_setMoney(money)
@@ -4565,6 +4675,15 @@ def bank(command, value):
         return 'Invalid command!'
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def setMaxMoney(moneyVal):
+    """Set target's money and maxMoney values."""
+    if not 40 <= moneyVal <= 250:
+        return 'Money value must be between 40 and 250.'
+    spellbook.getTarget().b_setMaxMoney(moneyVal)
+    spellbook.getTarget().b_setMoney(moneyVal)
+    return 'maxMoney set to %s' % moneyVal
+
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def fishingRod(rod):
     """
     Modify the target's fishing rod value.
@@ -4586,7 +4705,7 @@ def maxFishTank(maxFishTank):
     target.b_setMaxFishTank(maxFishTank)
     return "Set %s's max fish tank value to %d!" % (target.getName(), maxFishTank)
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str])
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
 def name(name=''):
     """
     Modify the target's name.
@@ -4651,7 +4770,7 @@ def shoes(shoesIndex, shoesTex=0):
     invoker.b_setShoes(shoesIndex, shoesTex, 0)
     return "Set %s's shoes to %d, %d!" % (invoker.getName(), shoesIndex, shoesTex)
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[int])
+@magicWord(category=CATEGORY_MEDIA, types=[int])
 def gmIcon(accessLevel=None):
     """
     Toggles the target's GM icon. If an access level is provided, however, the
@@ -4660,7 +4779,7 @@ def gmIcon(accessLevel=None):
     invoker = spellbook.getInvoker()
     target = spellbook.getTarget()
     invokerAccess = spellbook.getInvokerAccess()
-    if invokerAccess != CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess:
+    if invokerAccess < CATEGORY_PROGRAMMER.defaultAccess:
         if accessLevel is not None:
             return "You must be of a higher access level to override your GM icon."
         target = spellbook.getInvoker()
@@ -4675,9 +4794,10 @@ def gmIcon(accessLevel=None):
         if accessLevel is None:
             accessLevel = target.getAdminAccess()
         if accessLevel != target.getGMType():
-            if invokerAccess != CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess:
+            if not invokerAccess >= CATEGORY_PROGRAMMER.defaultAccess:
                 accessLevel = target.getGMType()
         if accessLevel not in (0,
+                               CATEGORY_MEDIA.defaultAccess,
                                CATEGORY_COMMUNITY_MANAGER.defaultAccess,
                                CATEGORY_MODERATOR.defaultAccess,
                                CATEGORY_CREATIVE.defaultAccess,
@@ -4737,7 +4857,7 @@ def cogIndex(index):
     """
     Modifies the invoker's Cog index.
     """
-    if not -1 <= index <= 3:
+    if not -1 <= index <= 4:
         return 'Invalid Cog index.'
     invoker = spellbook.getInvoker()
     invoker.b_setCogIndex(index)
@@ -4795,7 +4915,7 @@ def inventory(a, b=None, c=None):
 @magicWord(category=CATEGORY_CREATIVE, types=[str, str])
 def dna(part, value):
     """Modify a DNA part on the invoker."""
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
 
     dna = ToonDNA.ToonDNA()
     dna.makeFromNetString(invoker.getDNAString())
@@ -4814,7 +4934,7 @@ def dna(part, value):
     if part in ('head', 'species'):
         speciesNames = (
             'dog', 'cat', 'horse', 'mouse', 'rabbit', 'duck', 'monkey', 'bear',
-            'pig'
+            'pig', 'deer'
         )
         if value in speciesNames:
             speciesIndex = speciesNames.index(value)
@@ -5070,7 +5190,7 @@ def track(command, track, value=None):
     return 'Invalid command.'
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str])
-def suit(command, suitName):
+def suit(command, suitName="hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
     if suitName not in SuitDNA.suitHeadTypes:
@@ -5086,6 +5206,15 @@ def suit(command, suitName):
         if returnCode[0] == 'success':
             return 'Successfully spawned a Cog building with: ' + suitFullName
         return "Couldn't spawn a Cog building with: " + suitFullName
+    elif command == 'invasion':
+        returnCode = invoker.doCogInvasion(SuitDNA.suitHeadTypes.index(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully started Cog Invasion for: ' + suitFullName
+        return "Couldn't start Cog Invasion for: " + suitFullName
+    elif command == 'invasionend':
+        returnCode = 'Ending Invasion..'
+        simbase.air.suitInvasionManager.stopInvasion()
+        return returnCode
     else:
         return 'Invalid command.'
 
@@ -5153,6 +5282,16 @@ def disguise(command, suitIndex, value):
     else:
         return 'Unknow command: %s' % command
         
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def toonExp(exp):
+    spellbook.getTarget().b_setToonExp(exp)
+    return "Set %s 's Experience to %s" % (spellbook.getTarget().getName(), exp)
+    
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def toonLevel(level):
+    spellbook.getTarget().b_setToonLevel(level-1)
+    return "Set %s 's Level to %s" % (spellbook.getTarget().getName(), level-1)
+        
 @magicWord(category=CATEGORY_PROGRAMMER)
 def printDNA():
     '''
@@ -5160,5 +5299,92 @@ def printDNA():
     '''
     target = spellbook.getTarget()
     return str(target.dna.__str__())
-    
 
+@magicWord(category=CATEGORY_MODERATOR, types=[str, int])
+def summonCogdo(track, difficulty=0):
+    """ Spawns a Field Office with the given type and difficulty """
+    tracks = ['s', 'l']
+    if track not in tracks:
+        return 'Invalid Field Office type! Supported types are "s" and "l"'
+
+    av = spellbook.getInvoker()
+    try:
+        building = av.findClosestDoor()
+    except KeyError:
+        return 'You\'re not on a street!'
+    if building == None:
+        return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
+
+    building.cogdoTakeOver(difficulty, 2, track)
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)    
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def summonBuilding(suitIndex):
+    return spellbook.getTarget().doBuildingTakeover(suitIndex)
+    
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def pouch(amt):
+    """ Set the target's max gag limit. """
+    spellbook.getTarget().b_setMaxCarry(amt)
+    return "Set %s's pouch size to %d" % (spellbook.getTarget().getName(), amt)
+    
+@magicWord(category=CATEGORY_CREATIVE)
+def unlimitedGags():
+    """ Restock avatar's gags at the start of each round. """
+    av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
+    av.setUnlimitedGags(not av.unlimitedGags)
+    return 'Toggled unlimited gags %s for %s' % ('ON' if av.unlimitedGags else 'OFF', av.getName())
+
+@magicWord(category=CATEGORY_CREATIVE)
+def immortal():
+    """ Make target (if 400+) or self (if 399-) immortal. """
+    av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
+    av.setImmortalMode(not av.immortalMode)
+    return 'Toggled immortal mode %s for %s' % ('ON' if av.immortalMode else 'OFF', av.getName())
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def goto(avIdShort):
+    """ Teleport to the avId specified. """
+    avId = 100000000+avIdShort # To get target doId.
+    toon = simbase.air.doId2do.get(avId)
+    if not toon:
+        return "Unable to teleport to target, they are not currently on this district."
+    spellbook.getInvoker().magicWordTeleportRequests.append(avId)
+    toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()]) 
+
+@magicWord(category=CATEGORY_PROGRAMMER)
+def dump_doId2do():
+    """
+    Please note that this MW should NOT be used more than it needs to be on a live
+    cluster. This is very hacked together and is purely so we can get a dump of doId2do
+    to get an idea of where the huge memory usage is coming from.
+
+    This should be removed once we are complete.
+    """
+    import sys, operator, tempfile
+    objSizes = {}
+    for object in simbase.air.doId2do.itervalues():
+        # Iterate through each object in doId2do.
+        name = object.__class__.__name__
+        objCurrSizes = objSizes.get(name)
+        if not objCurrSizes:
+            # We haven't yet come across this class. Store first size value.
+            objSizes[name] = sys.getsizeof(object)
+        else:
+            # Increment the stored value by the size of the object we just
+            # iterated through.
+            objSizes[name] += sys.getsizeof(object)
+    # Sort the dict by the size of the objects.
+    # N.B.: This spits out a list of tuples, e.g: [('obj1', 1000), ('obj2', 1001)]
+    sorted_objSizes = sorted(objSizes.iteritems(), key=operator.itemgetter(1))
+    # Create a temporary file that we can store to. This returns a tuple of a file
+    # handler and an absolute file location. (handler, location)
+    temp_file = tempfile.mkstemp(prefix='doId2do-dump_', suffix='.txt', text=True)
+    # Screw the documents, the first value in temp_file is a useless pile of dog shit.
+    # I hax and do like this. <3
+    with open(temp_file[1], 'w+') as file:
+        # Write each class to the file, containing the name and the total size of
+        # all instances of that class.
+        for name, size in sorted_objSizes:
+            file.write('OBJ: %s | SIZE: %d\n' % (name, size))
+    return "Dumped doId2do sizes (grouped by class) to '%s'." % temp_file[1]

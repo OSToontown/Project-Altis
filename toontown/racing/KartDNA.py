@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.toonbase import TTLocalizer
 from pandac.PandaModules import *
 from toontown.racing.KartShopGlobals import *

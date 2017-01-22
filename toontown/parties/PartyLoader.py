@@ -34,7 +34,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.cloudTrack = None
         self.sunMoonNode = None
         self.fsm.enterInitialState()
-        return
 
     def load(self):
         self.oldClear = base.win.getClearColor()

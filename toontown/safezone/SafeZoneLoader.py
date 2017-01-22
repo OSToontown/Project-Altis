@@ -35,7 +35,6 @@ class SafeZoneLoader(StateData.StateData):
         self.placeDoneEvent = 'placeDone'
         self.place = None
         self.playgroundClass = None
-        return
 
     def load(self):
         self.music = base.loader.loadMusic(self.musicFile)
@@ -64,10 +63,6 @@ class SafeZoneLoader(StateData.StateData):
         self.fsm.enterInitialState()
         messenger.send('enterSafeZone')
         self.setState(requestStatus['where'], requestStatus)
-        if not base.config.GetBool('want-parties', True):
-            partyGate = self.geom.find('**/prop_party_gate_DNARoot')
-            if not partyGate.isEmpty():
-                partyGate.removeNode()
 
     def exit(self):
         messenger.send('exitSafeZone')
@@ -139,7 +134,6 @@ class SafeZoneLoader(StateData.StateData):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def handlePlaygroundDone(self):
         status = self.place.doneStatus
@@ -151,7 +145,6 @@ class SafeZoneLoader(StateData.StateData):
             self.doneStatus = status
             teleportDebug(status, 'different hood')
             messenger.send(self.doneEvent)
-        return
 
     def enterToonInterior(self, requestStatus):
         self.acceptOnce(self.placeDoneEvent, self.handleToonInteriorDone)
@@ -166,7 +159,6 @@ class SafeZoneLoader(StateData.StateData):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def handleToonInteriorDone(self):
         status = self.place.doneStatus
@@ -175,7 +167,6 @@ class SafeZoneLoader(StateData.StateData):
         else:
             self.doneStatus = status
             messenger.send(self.doneEvent)
-        return
 
     def enterQuietZone(self, requestStatus):
         self.quietZoneDoneEvent = uniqueName('quietZoneDone')
@@ -190,7 +181,6 @@ class SafeZoneLoader(StateData.StateData):
         self.quietZoneStateData.exit()
         self.quietZoneStateData.unload()
         self.quietZoneStateData = None
-        return
 
     def handleQuietZoneDone(self):
         status = self.quietZoneStateData.getRequestStatus()
@@ -237,8 +227,6 @@ class SafeZoneLoader(StateData.StateData):
                 if animPropList is None:
                     animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(interactivePropObj)
-
-        return
 
     def deleteAnimatedProps(self):
         for zoneNode, animPropList in self.animPropDict.items():

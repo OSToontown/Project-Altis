@@ -1,4 +1,4 @@
-from direct.showbase.PythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import Functor
 from otp.level import LevelMgrBase
 
 class LevelMgr(LevelMgrBase.LevelMgrBase):

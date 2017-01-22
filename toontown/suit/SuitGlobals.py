@@ -31,7 +31,7 @@ suitProperties = {
       'dt': (4.25 / aSize, SuitDNA.legalPolyColor, ['twoface'], 'double-talker.jpg', 5.63),
       'ac': (4.35 / bSize, SuitDNA.legalPolyColor, ['ambulancechaser'], '', 6.39),
       'bs': (4.5 / aSize, SuitDNA.legalPolyColor, ['backstabber'], '', 6.71),
-      'sd': (5.65 / bSize, VBase4(0.5, 0.8, 0.75, 1.0), ['telemarketer'], 'spin-doctor.jpg', 7.9),
+      'sd': (5.65 / bSize, VBase4(0.5, 0.8, 0.75, 1.0), ['telemarketer', 'scopejp187187', 'bandjp187187'], '', 7.9),
       'le': (7.125 / aSize, VBase4(0.25, 0.25, 0.5, 1.0), ['legaleagle'], '', 8.27),
       'bw': (7.0 / aSize, SuitDNA.legalPolyColor, ['bigwig'], '', 8.69),
 
@@ -44,14 +44,24 @@ suitProperties = {
       'mb': (5.3 / cSize, SuitDNA.moneyPolyColor, ['moneybags'], '', 6.97),
       'ls': (6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['loanshark'], '', 8.58),
       'rb': (7.0 / aSize, SuitDNA.moneyPolyColor, ['yesman'], 'robber-baron.jpg', 8.95),
-      
+
       # Sellbots
       'cc': (3.5 / cSize, VBase4(0.55, 0.65, 1.0, 1.0), ['coldcaller'], '', 4.63),
-      'tm': (3.75 / bSize, SuitDNA.salesPolyColor, ['telemarketer'], '', 5.24),
+      'tm': (3.75 / bSize, SuitDNA.salesPolyColor, ['telemarketer'], 'telemarketer.jpg', 5.24),
       'nd': (4.35 / aSize, SuitDNA.salesPolyColor, ['numbercruncher'], 'name-dropper.jpg', 5.98),
       'gh': (4.75 / cSize, SuitDNA.salesPolyColor, ['gladhander'], '', 6.4),
       'ms': (4.75 / bSize, SuitDNA.salesPolyColor, ['movershaker'], '', 6.7),
       'tf': (5.25 / aSize, SuitDNA.salesPolyColor, ['twoface'], '', 6.95),
       'm': (5.75 / aSize, SuitDNA.salesPolyColor, ['twoface'], 'mingler.jpg', 7.61),
-      'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman'], '', 8.95),
+      'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman', 'shades'], '', 8.95),
+
+      # Boardbots
+      'ca': (4.0 / cSize, SuitDNA.boardPolyColor, ['conartist', 'beret1'], '', 4.88),
+      'cn': (3.75 / bSize, VBase4(0.95, 0.95, 1.0, 1.0), ['downsizer', 'group', 'group1'], '', 5.24),
+      'sw': (4.34 / aSize, SuitDNA.boardPolyColor, ['pennypincher'], 'swindler.jpg', 5.45),
+      'mdm': (5.0 / aSize, SuitDNA.boardPolyColor, ['middleman', 'downsizerHat'], '', 6.7),
+      'txm': (5.25 / aSize, VBase4(1, 1, .29, 1.0), ['toxicleader'], '', 7.2),
+      'mg': (6.5 / aSize, SuitDNA.boardPolyColor, ['legaleagle'], 'magnate.jpg', 7.26),
+      'bfh': (7.8 / cSize, VBase4(1, .3, .3, 1.0), ['bigfish'], '', 10.0),
+      'hho': (7.0 / aSize, SuitDNA.boardPolyColor, ['headhoncho'], 'head-honcho.jpg', 8.23),
 }

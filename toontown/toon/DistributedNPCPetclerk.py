@@ -63,6 +63,7 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
             place.fsm.request('walk')
 
     def handleCollisionSphereEnter(self, collEntry):
+        pass
         base.cr.playGame.getPlace().fsm.request('purchase')
         self.sendUpdate('avatarEnter', [])
 

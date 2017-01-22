@@ -11,6 +11,8 @@ from direct.fsm import State
 from toontown.battle import BattleBase
 from toontown.hood import ZoneUtil
 
+SKY_COLORS = [Vec4(1,1,1,1), Vec4(1,1,1,1), Vec4(0.8,0.8,0.8,1), Vec4(0.6,0.6,0.6,1), Vec4(0.4,0.4,0.4,1), Vec4(0.2,0.2,0.2,1)]
+
 class DistributedSuitInterior(DistributedObject.DistributedObject):
     id = 0
 
@@ -28,31 +30,15 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.numFloors = None
         self.elevatorName = self.__uniqueName('elevator')
         self.floorModel = None
+        self.skyModel = None
+        self.skyBoxLoop = None
         self.elevatorOutOpen = 0
-        self.BottomFloor_SuitPositions = [Point3(0, 15, 0),
-         Point3(10, 20, 0),
-         Point3(-7, 24, 0),
-         Point3(-10, 0, 0)]
-        self.BottomFloor_SuitHs = [75,
-         170,
-         -91,
-         -44]
-        self.Cubicle_SuitPositions = [Point3(0, 18, 0),
-         Point3(10, 12, 0),
-         Point3(-9, 11, 0),
-         Point3(-3, 13, 0)]
-        self.Cubicle_SuitHs = [170,
-         56,
-         -52,
-         10]
-        self.BossOffice_SuitPositions = [Point3(0, 15, 0),
-         Point3(10, 20, 0),
-         Point3(-10, 6, 0),
-         Point3(-17, 34, 11)]
-        self.BossOffice_SuitHs = [170,
-         120,
-         12,
-         38]
+        self.BottomFloor_SuitPositions = [Point3(0, 15, 0), Point3(10, 20, 0), Point3(-7, 24, 0), Point3(-10, 0, 0)]
+        self.BottomFloor_SuitHs = [75, 170, -91, -44]
+        self.Cubicle_SuitPositions = [Point3(0, 18, 0), Point3(10, 12, 0), Point3(-9, 11, 0), Point3(-3, 13, 0)]
+        self.Cubicle_SuitHs = [170, 56, -52, 10]
+        self.BossOffice_SuitPositions = [Point3(0, 15, 0), Point3(10, 20, 0), Point3(-10, 6, 0), Point3(-17, 34, 11)]
+        self.BossOffice_SuitHs = [170, 120, 12, 38]
         self.waitMusic = base.loader.loadMusic('phase_7/audio/bgm/encntr_toon_winning_indoor.ogg')
         self.elevatorMusic = base.loader.loadMusic('phase_7/audio/bgm/tt_elevator.ogg')
         self.fsm = ClassicFSM.ClassicFSM('DistributedSuitInterior', [State.State('WaitForAllToonsInside', self.enterWaitForAllToonsInside, self.exitWaitForAllToonsInside, ['Elevator']),
@@ -67,6 +53,15 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
     def __uniqueName(self, name):
         DistributedSuitInterior.id += 1
         return name + '%d' % DistributedSuitInterior.id
+		
+    def getSky(self):
+        if ZoneUtil.getHoodId(self.extZoneId) == ToontownGlobals.DonaldsDreamland:
+            skyModel = loader.loadModel('phase_8/models/props/DL_sky')
+        elif ZoneUtil.getHoodId(self.extZoneId) == ToontownGlobals.MinniesMelodyland:
+            skyModel = loader.loadModel('phase_6/models/props/MM_sky')
+        else:
+            skyModel = loader.loadModel('phase_3.5/models/props/BR_sky')
+        return skyModel
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -122,6 +117,11 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
             self.elevatorModelOut.removeNode()
         if self.floorModel != None:
             self.floorModel.removeNode()
+        if self.skyModel != None:
+            self.skyModel.removeNode()
+        if self.skyBoxLoop:
+            self.skyBoxLoop.finish()
+            self.skyBoxLoop = None
         self.leftDoorIn = None
         self.rightDoorIn = None
         self.leftDoorOut = None
@@ -249,21 +249,35 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         SuitPositions = []
         if self.floorModel:
             self.floorModel.removeNode()
+        if self.skyModel:
+            self.skyModel.removeNode()
         if self.currentFloor == 0:
             self.floorModel = loader.loadModel('phase_7/models/modules/suit_interior')
             SuitHs = self.BottomFloor_SuitHs
             SuitPositions = self.BottomFloor_SuitPositions
-        elif self.currentFloor == self.numFloors - 1:
+        elif self.currentFloor == self.numFloors - 1 and self.numFloors >= 5:
+            self.floorModel = loader.loadModel('phase_7/models/modules/suit_building_roof')
+            self.skyModel = self.getSky()
+            SuitHs = self.Cubicle_SuitHs
+            SuitPositions = self.Cubicle_SuitPositions
+        elif self.currentFloor == self.numFloors - 1 or (self.currentFloor == self.numFloors - 2 and self.numFloors >= 5):
             self.floorModel = loader.loadModel('phase_7/models/modules/boss_suit_office')
             SuitHs = self.BossOffice_SuitHs
             SuitPositions = self.BossOffice_SuitPositions
         else:
             self.floorModel = loader.loadModel('phase_7/models/modules/cubicle_room')
+            self.skyModel = self.getSky()
             SuitHs = self.Cubicle_SuitHs
             SuitPositions = self.Cubicle_SuitPositions
         self.floorModel.reparentTo(render)
         elevIn = self.floorModel.find('**/elevator-in')
         elevOut = self.floorModel.find('**/elevator-out')
+        if self.skyModel:
+            self.skyModel.reparentTo(render)
+            self.skyModel.setColor(SKY_COLORS[self.currentFloor - 1])
+            self.skyModel.setZ(-100)
+            self.skyBoxLoop = self.skyModel.hprInterval(300, Vec3(360, 0, 0))
+            self.skyBoxLoop.loop()
         for index in xrange(len(self.suits)):
             self.suits[index].setPos(SuitPositions[index])
             if len(self.suits) > 2:
@@ -338,7 +352,15 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
             suit.setH(180)
             suit.loop('neutral')
 
-        track = Sequence(Func(camera.wrtReparentTo, self.elevatorModelOut), Func(camera.setPos, Point3(0, -8, 2)), Func(camera.setHpr, Vec3(0, 10, 0)), Parallel(SoundInterval(self.openSfx), LerpPosInterval(self.leftDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], Point3(0, 0, 0), startPos=ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL), blendType='easeOut'), LerpPosInterval(self.rightDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], Point3(0, 0, 0), startPos=ElevatorUtils.getRightClosePoint(ELEVATOR_NORMAL), blendType='easeOut')), Wait(SUIT_HOLD_ELEVATOR_TIME), Func(camera.wrtReparentTo, render), Func(callback))
+        track = Sequence(
+            Func(camera.wrtReparentTo, self.elevatorModelOut), 
+            camera.posHprInterval(0.5, Point3(0, -8, 2), Vec3(0, 10, 0), blendType = 'easeInOut'),
+            Parallel(SoundInterval(self.openSfx), 
+            LerpPosInterval(self.leftDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], Point3(0, 0, 0), startPos=ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL), blendType='easeOut'), 
+            LerpPosInterval(self.rightDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], Point3(0, 0, 0), startPos=ElevatorUtils.getRightClosePoint(ELEVATOR_NORMAL), blendType='easeOut')), 
+            Wait(SUIT_HOLD_ELEVATOR_TIME), 
+            Func(camera.wrtReparentTo, render), 
+            Func(callback))
         track.start(ts)
         self.activeIntervals[name] = track
 

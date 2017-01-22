@@ -10,7 +10,7 @@ import MinigameCreatorAI
 from direct.task import Task
 import random
 import MinigameGlobals
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
 EXITED = 0

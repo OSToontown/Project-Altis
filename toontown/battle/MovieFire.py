@@ -9,7 +9,7 @@ from direct.directnotify import DirectNotifyGlobal
 import random
 from toontown.battle import MovieCamera
 from toontown.battle import MovieUtil
-from MovieUtil import calcAvgSuitPos
+from toontown.battle.MovieUtil import calcAvgSuitPos
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieThrow')
 hitSoundFiles = ('AA_tart_only.ogg', 'AA_slice_only.ogg', 'AA_slice_only.ogg', 'AA_slice_only.ogg', 'AA_slice_only.ogg', 'AA_wholepie_only.ogg', 'AA_wholepie_only.ogg')

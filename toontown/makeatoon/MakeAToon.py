@@ -11,6 +11,8 @@ import random
 from toontown.makeatoon import BodyShop
 from toontown.makeatoon import ColorShop
 from toontown.makeatoon import GenderShop
+from toontown.makeatoon import StatusShop
+from toontown.makeatoon import StartShop
 from MakeAToonGlobals import *
 from toontown.makeatoon import MakeClothesGUI
 from toontown.makeatoon import NameShop
@@ -25,6 +27,7 @@ from toontown.toon import ToonDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
+from decimal import Decimal
 
 
 class MakeAToon(StateData.StateData):
@@ -59,8 +62,10 @@ class MakeAToon(StateData.StateData):
          State.State('GenderShop', self.enterGenderShop, self.exitGenderShop, ['BodyShop']),
          State.State('BodyShop', self.enterBodyShop, self.exitBodyShop, ['GenderShop', 'ColorShop']),
          State.State('ColorShop', self.enterColorShop, self.exitColorShop, ['BodyShop', 'ClothesShop']),
-         State.State('ClothesShop', self.enterClothesShop, self.exitClothesShop, ['ColorShop', 'NameShop']),
-         State.State('NameShop', self.enterNameShop, self.exitNameShop, ['ClothesShop']),
+         State.State('ClothesShop', self.enterClothesShop, self.exitClothesShop, ['ColorShop', 'StatusShop']),
+         State.State('StatusShop', self.enterStatusShop, self.exitStatusShop, ['ClothesShop', 'StartShop']),
+         State.State('StartShop', self.enterStartShop, self.exitStartShop, ['StatusShop', 'NameShop']),
+         State.State('NameShop', self.enterNameShop, self.exitNameShop, ['StartShop']),
          State.State('Done', self.enterDone, self.exitDone, [])], 'Init', 'Done')
         self.parentFSM = parentFSM
         self.parentFSM.getStateNamed('createAvatar').addChild(self.fsm)
@@ -68,6 +73,8 @@ class MakeAToon(StateData.StateData):
         self.bs = BodyShop.BodyShop('BodyShop-done')
         self.cos = ColorShop.ColorShop('ColorShop-done')
         self.cls = MakeClothesGUI.MakeClothesGUI('ClothesShop-done')
+        self.ss = StatusShop.StatusShop('StatusShop-done')
+        self.sts = StartShop.StartShop('StartShop-done')
         self.ns = NameShop.NameShop(self, 'NameShop-done', avList, index, self.isPaid)
         self.shop = GENDERSHOP
         self.shopsVisited = []
@@ -75,7 +82,9 @@ class MakeAToon(StateData.StateData):
             self.shopsVisited = [GENDERSHOP,
              BODYSHOP,
              COLORSHOP,
-             CLOTHESSHOP]
+             CLOTHESSHOP,
+             STATUSSHOP,
+             STARTSHOP]
         self.music = None
         self.soundBack = None
         self.fsm.enterInitialState()
@@ -86,6 +95,9 @@ class MakeAToon(StateData.StateData):
         self.focusOutIval = None
         self.focusInIval = None
         self.toon = None
+        self.defaultH = 180
+        self.lastRot = self.defaultH
+        self.toonRotateSlider = None
 
     def getToon(self):
         return self.toon
@@ -209,28 +221,34 @@ class MakeAToon(StateData.StateData):
         self.roomDropActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.roomDropActor.loadAnims({'drop': 'phase_3/models/makeatoon/roomAnim_roomDrop'})
         self.roomDropActor.reparentTo(render)
+        self.roomDropActor.setBlend(frameBlend = True)
         self.dropJoint = self.roomDropActor.find('**/droppingJoint')
         self.roomSquishActor = Actor()
         self.roomSquishActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.roomSquishActor.loadAnims({'squish': 'phase_3/models/makeatoon/roomAnim_roomSquish'})
         self.roomSquishActor.reparentTo(render)
+        self.roomSquishActor.setBlend(frameBlend = True)
         self.squishJoint = self.roomSquishActor.find('**/scalingJoint')
         self.propSquishActor = Actor()
         self.propSquishActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.propSquishActor.loadAnims({'propSquish': 'phase_3/models/makeatoon/roomAnim_propSquish'})
         self.propSquishActor.reparentTo(render)
         self.propSquishActor.pose('propSquish', 0)
+        self.propSquishActor.setBlend(frameBlend = True)
         self.propJoint = self.propSquishActor.find('**/propJoint')
         self.spotlightActor = Actor()
         self.spotlightActor.loadModel('phase_3/models/makeatoon/roomAnim_model')
         self.spotlightActor.loadAnims({'spotlightShake': 'phase_3/models/makeatoon/roomAnim_spotlightShake'})
         self.spotlightActor.reparentTo(render)
+        self.spotlightActor.setBlend(frameBlend = True)
         self.spotlightJoint = self.spotlightActor.find('**/spotlightJoint')
         ee = DirectFrame(pos=(-1, 1, 1), frameSize=(-.01, 0.01, -.01, 0.01), frameColor=(0, 0, 0, 0.05), state='normal')
         ee.bind(DGG.B1PRESS, lambda x, ee = ee: self.toggleSlide())
         self.eee = ee
         self.room = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room')
         self.room.flattenMedium()
+        self.room2 = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room')
+        self.room2.flattenMedium()
         self.genderWalls = self.room.find('**/genderWalls')
         self.genderWalls.flattenStrong()
         self.genderProps = self.room.find('**/genderProps')
@@ -247,6 +265,14 @@ class MakeAToon(StateData.StateData):
         self.clothesWalls.flattenMedium()
         self.clothesProps = self.room.find('**/clothProps')
         self.clothesProps.flattenMedium()
+        self.statusWalls = self.room2.find('**/colorWalls')
+        self.statusWalls.setColor(0,0,0.8,1)
+        self.statusProps = self.room.find('**/genderProps')
+        self.startWalls = self.room2.find('**/clothWalls')
+        self.startWalls.setColor(0.5,0.9,0.9,1)
+        self.startWalls.flattenMedium()
+        self.startProps = self.room.find('**/bodyProps')
+        self.startProps.flattenMedium()
         self.nameWalls = self.room.find('**/nameWalls')
         self.nameWalls.flattenStrong()
         self.nameProps = self.room.find('**/nameProps')
@@ -287,6 +313,8 @@ class MakeAToon(StateData.StateData):
         self.bs.load()
         self.cos.load()
         self.cls.load()
+        self.ss.load()
+        self.sts.load()
         self.ns.load()
         self.music = base.loader.loadMusic('phase_3/audio/bgm/create_a_toon.ogg')
         self.musicVolume = base.config.GetFloat('makeatoon-music-volume', 1)
@@ -307,11 +335,15 @@ class MakeAToon(StateData.StateData):
         self.bs.unload()
         self.cos.unload()
         self.cls.unload()
+        self.ss.unload()
+        self.sts.unload()
         self.ns.unload()
         del self.gs
         del self.bs
         del self.cos
         del self.cls
+        del self.ss
+        del self.sts
         del self.ns
         self.guiTopBar.destroy()
         self.guiBottomBar.destroy()
@@ -320,8 +352,8 @@ class MakeAToon(StateData.StateData):
         self.eee.destroy()
         self.guiNextButton.destroy()
         self.guiLastButton.destroy()
-        self.rotateLeftButton.destroy()
-        self.rotateRightButton.destroy()
+        if self.toonRotateSlider is not None:
+            self.toonRotateSlider.destroy()
         del self.guiTopBar
         del self.guiBottomBar
         del self.guiCancelButton
@@ -329,6 +361,7 @@ class MakeAToon(StateData.StateData):
         del self.eee
         del self.guiNextButton
         del self.guiLastButton
+        del self.toonRotateSlider
         del self.rotateLeftButton
         del self.rotateRightButton
         del self.names
@@ -347,6 +380,8 @@ class MakeAToon(StateData.StateData):
         self.cleanupFocusOutIval()
         self.room.removeNode()
         del self.room
+        self.room2.removeNode()
+        del self.room2
         self.genderWalls.removeNode()
         self.genderProps.removeNode()
         del self.genderWalls
@@ -363,6 +398,14 @@ class MakeAToon(StateData.StateData):
         self.clothesProps.removeNode()
         del self.clothesWalls
         del self.clothesProps
+        self.statusWalls.removeNode()
+        self.statusProps.removeNode()
+        del self.statusWalls
+        del self.statusProps
+        self.startWalls.removeNode()
+        self.startProps.removeNode()
+        del self.startWalls
+        del self.startProps
         self.nameWalls.removeNode()
         self.nameProps.removeNode()
         del self.nameWalls
@@ -398,6 +441,12 @@ class MakeAToon(StateData.StateData):
 
     def __handleColorShop(self):
         self.fsm.request('ColorShop')
+		
+    def __handleStatusShop(self):
+        self.fsm.request('StatusShop')
+		
+    def __handleStartShop(self):
+        self.fsm.request('StartShop')
 
     def __handleNameShop(self):
         self.fsm.request('NameShop')
@@ -418,6 +467,10 @@ class MakeAToon(StateData.StateData):
             self.fsm.request('ColorShop')
         elif self.shop == COLORSHOP:
             self.fsm.request('ClothesShop')
+        elif self.shop == CLOTHESSHOP:
+            self.fsm.request('StatusShop')
+        elif self.shop == STATUSSHOP:
+            self.fsm.request('StartShop')
         else:
             self.fsm.request('NameShop')
 
@@ -429,8 +482,12 @@ class MakeAToon(StateData.StateData):
             self.fsm.request('BodyShop')
         elif self.shop == CLOTHESSHOP:
             self.fsm.request('ColorShop')
-        else:
+        elif self.shop == STATUSSHOP:
             self.fsm.request('ClothesShop')
+        elif self.shop == STARTSHOP:
+            self.fsm.request('StatusShop')
+        else:
+            self.fsm.request('StartShop')
 
     def charSez(self, char, statement, dialogue = None):
         import pdb
@@ -461,8 +518,8 @@ class MakeAToon(StateData.StateData):
         self.gs.enter()
         self.guiNextButton.show()
         self.gs.showButtons()
-        self.rotateLeftButton.hide()
-        self.rotateRightButton.hide()
+        if self.toonRotateSlider:
+            self.toonRotateSlider.hide()
 
     def exitGenderShop(self):
         self.squishRoom(self.genderWalls)
@@ -479,10 +536,10 @@ class MakeAToon(StateData.StateData):
         self.bs.showButtons()
         self.guiNextButton.show()
         self.guiLastButton.show()
-        self.rotateLeftButton.show()
-        self.rotateRightButton.show()
+        self.toonRotateSlider.show()
 
     def enterBodyShop(self):
+        guiButton = loader.loadModel('phase_3/models/gui/quit_button')
         self.toon.show()
         self.shop = BODYSHOP
         self.guiTopBar['text'] = TTLocalizer.ShapeYourToonTitle
@@ -493,6 +550,13 @@ class MakeAToon(StateData.StateData):
         self.bs.enter(self.toon, self.shopsVisited)
         if BODYSHOP not in self.shopsVisited:
             self.shopsVisited.append(BODYSHOP)
+            if not self.toonRotateSlider:
+                self.toonRotateSlider = DirectSlider(parent = self.guiBottomBar, thumb_geom=(guiButton.find('**/QuitBtn_UP')), frameSize = (-0.8, 0.8, 0.1, -0.1), thumb_relief=None, thumb_geom_scale=1, text = 'Rotate', text_fg = (1, 1, 1, 1), text_style = 3, text_scale = 0.18, text_pos = (0.8, -0.04), text_align = TextNode.ALeft, scale = 1, value = 0, range = (-180, 180), command = self.rotateToonSlider)
+                self.toonRotateSlider.setPos(-0.1, 0, -0.07)
+                self.toonRotateSlider.setScale(0.5)
+                self.toonRotateSliderRotationText = OnscreenText("0.0", scale=.1, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
+                self.toonRotateSliderRotationText.reparentTo(self.toonRotateSlider.thumb)
+                self.toonRotateSlider['extraArgs'] = [self.toonRotateSlider]
         self.bodyShopOpening()
 
     def exitBodyShop(self):
@@ -515,8 +579,7 @@ class MakeAToon(StateData.StateData):
         self.cos.showButtons()
         self.guiNextButton.show()
         self.guiLastButton.show()
-        self.rotateLeftButton.show()
-        self.rotateRightButton.show()
+        self.toonRotateSlider.show()
 
     def enterColorShop(self):
         self.shop = COLORSHOP
@@ -551,8 +614,7 @@ class MakeAToon(StateData.StateData):
         self.guiNextButton.show()
         self.guiLastButton.show()
         self.cls.showButtons()
-        self.rotateLeftButton.show()
-        self.rotateRightButton.show()
+        self.toonRotateSlider.show()
 
     def enterClothesShop(self):
         self.shop = CLOTHESSHOP
@@ -585,6 +647,83 @@ class MakeAToon(StateData.StateData):
         else:
             self.cls.hideButtons()
             self.goToLastShop()
+			
+    def statusShopOpening(self):
+        self.guiNextButton.show()
+        self.guiLastButton.show()
+        self.ss.showButtons()
+        self.toonRotateSlider.show()
+		
+    def enterStatusShop(self):
+        self.shop = STATUSSHOP
+        self.guiTopBar['text'] = TTLocalizer.PickStatusTitle
+        self.guiTopBar['text_fg'] = (1, 0.92, 0.2, 1)
+        self.guiTopBar['text_scale'] = TTLocalizer.MATenterClothesShop
+        self.accept('StatusShop-done', self.__handleStatusShopDone)
+        self.dropRoom(self.statusWalls, self.statusProps)
+        self.toon.setScale(self.toonScale)
+        self.toon.setPos(self.toonPosition)
+        if not self.progressing:
+            self.toon.setHpr(self.toonHpr)
+        self.statusShopOpening()
+        self.ss.enter(self.toon)
+        if STATUSSHOP not in self.shopsVisited:
+            self.shopsVisited.append(STATUSSHOP)
+
+    def exitStatusShop(self):
+        self.squishRoom(self.statusWalls)
+        self.squishProp(self.statusProps)
+        self.ss.exit()
+        self.ignore('StatusShop-done')
+		
+    def __handleStatusShopDone(self):
+        self.guiNextButton.hide()
+        self.guiLastButton.hide()
+        if self.ss.doneStatus == 'next':
+            self.ss.hideButtons()
+            self.goToNextShop()
+        else:
+            self.ss.hideButtons()
+            self.goToLastShop()
+			
+    def startShopOpening(self):
+        self.guiNextButton.show()
+        self.guiLastButton.show()
+        self.sts.showButtons()
+        self.toonRotateSlider.show()
+		
+    def enterStartShop(self):
+        self.shop = STARTSHOP
+        self.guiTopBar['text'] = TTLocalizer.PickStartTitle
+        self.guiTopBar['text_fg'] = (1, 0.92, 0.2, 1)
+        self.guiTopBar['text_scale'] = TTLocalizer.MATenterClothesShop
+        self.accept('StartShop-done', self.__handleStartShopDone)
+        self.dropRoom(self.startWalls, self.startProps)
+        self.toon.setScale(self.toonScale)
+        self.toon.setPos(self.toonPosition)
+        if not self.progressing:
+            self.toon.setHpr(self.toonHpr)
+        self.startShopOpening()
+        self.sts.enter(self.toon)
+        if STARTSHOP not in self.shopsVisited:
+            self.shopsVisited.append(STARTSHOP)
+
+    def exitStartShop(self):
+        self.squishRoom(self.startWalls)
+        self.squishProp(self.startProps)
+        self.sts.exit()
+        self.ignore('StartShop-done')
+		
+    def __handleStartShopDone(self):
+        self.guiNextButton.hide()
+        self.guiLastButton.hide()
+        if self.sts.doneStatus == 'next':
+            self.sts.hideButtons()
+            self.goToNextShop()
+        else:
+            self.sts.hideButtons()
+            self.goToLastShop()
+
 
     def nameShopOpening(self, task):
         self.guiCheckButton.show()
@@ -605,8 +744,8 @@ class MakeAToon(StateData.StateData):
         self.spotlight.setPos(2, -1.95, 0.41)
         self.toon.setPos(Point3(1.5, -4, 0))
         self.toon.setH(120)
-        self.rotateLeftButton.hide()
-        self.rotateRightButton.hide()
+        if self.toonRotateSlider:
+            self.toonRotateSlider.hide()
         if self.progressing:
             waittime = self.leftTime
         else:
@@ -785,3 +924,15 @@ class MakeAToon(StateData.StateData):
 
     def stopToonRotateRightTask(self, event):
         taskMgr.remove('rotateToonRightTask')
+        
+    def rotateToonSlider(self, slider):
+        value = slider['value']
+        self.lastRot = value + self.defaultH
+        dec = Decimal(self.lastRot - self.defaultH)
+        self.toonRotateSliderRotationText['text'] = str(round(dec, 1))
+
+        self.rotateToon()
+
+    def rotateToon(self):
+        hpr = self.toon.getHpr()
+        self.toon.setHpr(self.lastRot, hpr[1], hpr[2])

@@ -14,7 +14,7 @@ from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.task import Task
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-from direct.showbase.PythonUtil import Functor, ScratchPad
+from toontown.toonbase.ToonPythonUtil import Functor, ScratchPad
 from direct.showbase.InputStateGlobal import inputState
 from otp.avatar import Avatar
 from otp.avatar import DistributedAvatar
@@ -41,16 +41,6 @@ from toontown.uberdog import TTSpeedchatRelay
 from toontown.login import DateObject
 from toontown.login import AvatarChooser
 from toontown.makeatoon import MakeAToon
-
-# import global objects, so nuitka will include them into the final build!
-from toontown.uberdog.ClientServicesManager import ClientServicesManager
-from otp.friends.AvatarFriendsManager import AvatarFriendsManager
-from toontown.friends.TTPlayerFriendsManager import TTPlayerFriendsManager
-from toontown.friends.TTAFriendsManager import TTAFriendsManager
-from toontown.uberdog.TTSpeedchatRelay import TTSpeedchatRelay
-from toontown.uberdog.DistributedDeliveryManager import DistributedDeliveryManager
-from toontown.coderedemption.TTCodeRedemptionMgr import TTCodeRedemptionMgr
-
 from toontown.pets import DistributedPet, PetDetail, PetHandle
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
@@ -62,9 +52,8 @@ from toontown.parties import ToontownTimeManager
 from toontown.toon import Toon, DistributedToon
 from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
+from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
-
-# Import DMENU
 from toontown.dmenu import DMenuScreen
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
@@ -103,7 +92,9 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.partyManager = None
         self.inGameNewsMgr = None
         self.whitelistMgr = None
+        self.defaultShard = None
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
+        self.sillyMeterMgr = DistributedSillyMeterMgr.DistributedSillyMeterMgr(self)
         self.csm = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
         self.avatarFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_AVATAR_FRIENDS_MANAGER, 'AvatarFriendsManager')
         self.playerFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_PLAYER_FRIENDS_MANAGER, 'TTPlayerFriendsManager')
@@ -126,6 +117,9 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.__queryAvatarMap = {}
         self.dateObject = DateObject.DateObject()
         self.hoodMgr = HoodMgr.HoodMgr(self)
+        self.hydrantZeroMgr = DistributedHydrantZeroMgr.DistributedHydrantZeroMgr(self)
+        self.mailboxZeroMgr = DistributedMailboxZeroMgr.DistributedMailboxZeroMgr(self)
+        self.trashcanZeroMgr = DistributedTrashcanZeroMgr.DistributedTrashcanZeroMgr(self)
         self.setZonesEmulated = 0
         self.old_setzone_interest_handle = None
         self.setZoneQueue = Queue()
@@ -161,6 +155,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                 except Exception, e:
                                     print e
         self.DMENU_SCREEN = None
+        
     def congratulations(self, avatarChoice):
         self.acceptedScreen = loader.loadModel('phase_3/models/gui/toon_council')
         self.acceptedScreen.setScale(0.667)
@@ -283,9 +278,10 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def exitChooseAvatar(self):
         self.handler = None
-        self.avChoice.exit()
-        self.avChoice.unload()
-        self.avChoice = None
+        if self.avChoice:
+            self.avChoice.exit()
+            self.avChoice.unload()
+            self.avChoice = None
         self.ignore(self.avChoiceDoneEvent)
 
     def goToPickAName(self, avList, index):
@@ -387,8 +383,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             self.ttaFriendsManager.d_getPetDetails(avId)
         else:
             self.ttaFriendsManager.d_getAvatarDetails(avId)
-
-        return
         
     def n_handleGetAvatarDetailsResp(self, avId, fields):
         self.notify.info('Query reponse for avId %d' % avId)
@@ -405,12 +399,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         dclass = self.dclassesByName[dclassName]
         #pad.avatar.updateAllRequiredFields(dclass, fields)
 
-        # This is a much saner way to load avatar details, and is also
-        # dynamic. This means we aren't restricted in what we pass.
-        # Due to Python's random ordering of dictionaries, we have to pass
-        # a list containing a list of the field and value. For example:
-        # To set the hp and maxHp of an avatar, my fields list would be
-        # fields = [['setHp', 15], ['setMaxHp', 15]]
+        '''This is a much saner way to load avatar details, and is also
+        dynamic. This means we aren't restricted in what we pass.
+        Due to Python's random ordering of dictionaries, we have to pass
+        a list containing a list of the field and value. For example:
+        To set the hp and maxHp of an avatar, my fields list would be
+        fields = [['setHp', 15], ['setMaxHp', 15]]'''
 
         for currentField in fields:
             getattr(pad.avatar, currentField[0])(currentField[1])
@@ -452,7 +446,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def enterPlayingGame(self, *args, **kArgs):
         OTPClientRepository.OTPClientRepository.enterPlayingGame(self, *args, **kArgs)
-        self.gameFSM.request('waitOnEnterResponses', [None,
+        self.gameFSM.request('waitOnEnterResponses', [self.defaultShard,
          base.localAvatar.defaultZone,
          base.localAvatar.defaultZone,
          -1])
@@ -574,11 +568,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             doId = di2.getUint32()
             if self._doIdIsOnCurrentShard(doId):
                 return
+        
         self.handleMessageType(msgType, di)
 
     def _logFailedDisable(self, doId, ownerView):
         if doId not in self.doId2do and doId in self._deletedSubShardDoIds:
             return
+        
         OTPClientRepository.OTPClientRepository._logFailedDisable(self, doId, ownerView)
 
     def exitCloseShard(self):
@@ -803,11 +799,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def addPetToFriendsMap(self, callback = None):
         doId = base.localAvatar.getPetId()
-        if doId not in self.friendsMap:
+        if not doId or doId in self.friendsMap:
             if callback:
                 callback()
 
         def petDetailsCallback(petAvatar):
+            petAvatar.announceGenerate()
             handle = PetHandle.PetHandle(petAvatar)
             self.friendsMap[doId] = handle
             petAvatar.disable()

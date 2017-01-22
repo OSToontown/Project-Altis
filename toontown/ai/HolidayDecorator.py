@@ -7,12 +7,10 @@ class HolidayDecorator:
     def __init__(self):
         self.dnaStore = base.cr.playGame.dnaStore
         self.swapIval = None
-        return
 
     def exit(self):
         if self.swapIval is not None and self.swapIval.isPlaying():
             self.swapIval.finish()
-        return
 
     def decorate(self):
         self.updateHoodDNAStore()

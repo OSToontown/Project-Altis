@@ -48,27 +48,152 @@ CEPumpkin = 12
 CEBigWhite = 13
 CESnowMan = 14
 CEGreenToon = 15
+CETinyToon = 16
+CEGiantToon = 17
+CEBeanToon = 18
+CERogerDog = 19
+CEFlippy = 20
+CESurlee = 21
+CEDimm = 22
+CEAlecTinn = 23
+CESlappy = 24
+CETutorialTom = 25
+CEOldman = 26
+CEKion = 27
+CESqueaky = 28
+CEFreddy = 29
+CEBilly = 30
+CEDroopy = 31
+CEPunchy = 32
+CEFurball = 33
+CEBarney = 34
+CEPete = 35
+CELouis = 36
+CEYesMan = 39
+CEDownsizer = 41
+CEMoverShaker = 65
+CEBigCheese = 44
+CEGladHander = 64
+CEMingler = 67
+CEFlunky = 37
+CETelemarketer = 62
+CELoanShark = 59
+CEBigWig = 52
+CEMicroManager = 40
+CEBigFish = 75
+CECorporateRaider = 43
+CEHeadHoncho = 76
+CEDoubleTalker = 47
+CETwoFace = 66
+CEConArtist = 69
+CEConnoisseur = 70
+CESwindler = 71
+CEMiddleman = 72
+CEToxicManager = 73
+CEMagnate = 74
+CELegalEagle = 51
+CERobberBaron = 60
+CEColdCaller = 61
+CEShortChange = 53
+CEBloodsucker = 46
+CENameDropper = 63
+CEHeadHunter = 42
+CEHollywood = 68
+CEPencilPusher = 38
+CEMoneyBags = 58
+CESpinDoctor = 50
+CEAmbulanceChaser = 48
+CENumberCruncher = 57
+CEPennyPincher = 54
+CETightwad = 55
+CEBeanCounter = 56
+CEBackStabber = 49
+CEBottomFeeder = 45
 CEGhost = 'g'
 CEName2Id = {
-    'normal': CENormal,
-    'bighead': CEBigHead,
-    'smallhead': CESmallHead,
-    'biglegs': CEBigLegs,
-    'smalllegs': CESmallLegs,
-    'bigtoon': CEBigToon,
-    'smalltoon': CESmallToon,
-    'flatportrait': CEFlatPortrait,
-    'flatprofile': CEFlatProfile,
-    'transparent': CETransparent,
-    'nocolor': CENoColor,
-    'invisible': CEInvisible,
-    'pumpkin': CEPumpkin,
-    'bigwhite': CEBigWhite,
-    'snowman': CESnowMan,
-    'greentoon': CEGreenToon
+ 'normal': CENormal,
+ 'bighead': CEBigHead,
+ 'smallhead': CESmallHead,
+ 'biglegs': CEBigLegs,
+ 'smalllegs': CESmallLegs,
+ 'bigtoon': CEBigToon,
+ 'smalltoon': CESmallToon,
+ 'flatportrait': CEFlatPortrait,
+ 'flatprofile': CEFlatProfile,
+ 'transparent': CETransparent,
+ 'nocolor': CENoColor,
+ 'invisible': CEInvisible,
+ 'pumpkin': CEPumpkin,
+ 'bigwhite': CEBigWhite,
+ 'snowman': CESnowMan,
+ 'greentoon': CEGreenToon,
+ 'tinytoon': CETinyToon,
+ 'gianttoon': CEGiantToon,
+ 'beantoon': CEBeanToon,
+ 'rogerdog': CERogerDog,
+ 'flippy': CEFlippy,
+ 'surlee': CESurlee,
+ 'dimm': CEDimm,
+ 'alectinn': CEAlecTinn,
+ 'slappy': CESlappy,
+ 'tutorialtom': CETutorialTom,
+ 'oldman': CEOldman,
+ 'kion': CEKion,
+ 'squeaky': CESqueaky,
+ 'freddy': CEFreddy,
+ 'billy': CEBilly,
+ 'droopy': CEDroopy,
+ 'punchy': CEPunchy,
+ 'furball': CEFurball,
+ 'barney': CEBarney,
+ 'pete': CEPete,
+ 'louis': CELouis,
+ 'yesman': CEYesMan,
+ 'downsizer': CEDownsizer,
+ 'movershaker': CEMoverShaker,
+ 'bigcheese': CEBigCheese,
+ 'gladhander': CEGladHander,
+ 'mingler': CEMingler,
+ 'flunky': CEFlunky,
+ 'telemarketer': CETelemarketer,
+ 'loanshark': CELoanShark,
+ 'bigwig': CEBigWig,
+ 'micromanager': CEMicroManager,
+ 'bigfish': CEBigFish,
+ 'corporateraider': CECorporateRaider,
+ 'headhoncho': CEHeadHoncho,
+ 'doubletalker': CEDoubleTalker,
+ 'twoface': CETwoFace,
+ 'conartist': CEConArtist,
+ 'connoisseur': CEConnoisseur,
+ 'swindler': CESwindler,
+ 'middleman': CEMiddleman,
+ 'toxicmanager': CEToxicManager,
+ 'magnate': CEMagnate,
+ 'legaleagle': CELegalEagle,
+ 'robberbaron': CERobberBaron,
+ 'coldcaller': CEColdCaller,
+ 'shortchange': CEShortChange,
+ 'bloodsucker': CEBloodsucker,
+ 'namedropper': CENameDropper,
+ 'headhunter': CEHeadHunter,
+ 'hollywood': CEHollywood,
+ 'pencilpusher': CEPencilPusher,
+ 'moneybags': CEMoneyBags,
+ 'spindoctor': CESpinDoctor,
+ 'ambulancechaser': CEAmbulanceChaser,
+ 'numbercruncher': CENumberCruncher,
+ 'pennypincher': CEPennyPincher,
+ 'tightwad': CETightwad,
+ 'beancounter': CEBeanCounter,
+ 'backstabber': CEBackStabber,
+ 'bottomfeeder': CEBottomFeeder
 }
-BigToonScale = 1.5
-SmallToonScale = 0.5
+BeanToonScale = 2.9
+GiantToonScale = 2.1
+BigToonScale = 1.4
+SmallToonScale = 0.4
+TinyToonScale = 0.2
 DisconnectUnknown = 0
 DisconnectBookExit = 1
 DisconnectCloseWindow = 2
@@ -116,7 +241,6 @@ def setInterfaceFont(path):
     global InterfaceFont
     InterfaceFontPath = path
     InterfaceFont = None
-    return
 
 
 def getSignFont():
@@ -259,7 +383,8 @@ toonBodyScales = {'mouse': 0.6,
  'dog': 0.85,
  'monkey': 0.68,
  'bear': 0.85,
- 'pig': 0.77}
+ 'pig': 0.77,
+ 'deer': 0.70}
 toonHeadScales = {'mouse': Point3(1.0),
  'cat': Point3(1.0),
  'duck': Point3(1.0),
@@ -268,7 +393,8 @@ toonHeadScales = {'mouse': Point3(1.0),
  'dog': Point3(1.0),
  'monkey': Point3(1.0),
  'bear': Point3(1.0),
- 'pig': Point3(1.0)}
+ 'pig': Point3(1.0),
+ 'deer': Point3(1.0)}
 legHeightDict = {'s': 1.5,
  'm': 2.0,
  'l': 2.75}
@@ -314,7 +440,11 @@ headHeightDict = {'dls': 0.75,
  'sls': 0.75,
  'sss': 0.5,
  'ssl': 0.5,
- 'sll': 0.75}
+ 'sll': 0.75,
+ 'xls': 0.75,
+ 'xss': 0.5,
+ 'xsl': 0.5,
+ 'xll': 0.75}
 RandomButton = 'Randomize'
 TypeANameButton = 'Type Name'
 PickANameButton = 'Pick-A-Name'

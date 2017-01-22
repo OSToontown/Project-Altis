@@ -3,7 +3,6 @@ from toontown.hood import Place, ZoneUtil
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 
-
 class BattlePlace(Place.Place):
 
     def __init__(self, loader, doneEvent):

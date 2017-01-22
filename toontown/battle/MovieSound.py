@@ -89,7 +89,10 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 delayTime = random.random()
                 suitTrack.append(Wait(delayTime + 2.0))
                 suitTrack.append(Func(setPosFromOther, breakEffect, suit, Point3(0, 0.0, suit.getHeight() - 1.0)))
-                suitTrack.append(Parallel(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit), __getPartTrack(breakEffect, 0.0, 1.0, [breakEffect, suit, 0], softStop=-0.5)))
+                #suitTrack.append(Parallel(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit), __getPartTrack(breakEffect, 0.0, 1.0, [breakEffect, suit, 0], softStop=-0.5))) THIS CRASHES PANDA WITH A BOUNDING SPHERE ERROR
+                suitTrack.append(Sequence(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit)))
+                if totalDamage >= suit.getHP() and not suit.getSkelecog():
+                    suitTrack.append(headExplodeTrack(suit, battle))
             else:
                 suitTrack.append(showDamage)
                 suitTrack.append(updateHealthBar)
@@ -102,7 +105,7 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 suitTrack.append(Func(battle.unlureSuit, suit))
             bonusTrack = None
             if hpbonus > 0:
-                bonusTrack = Sequence(Wait(delay + tSuitReact + delay + 0.75 + uberDelay), Func(suit.showHpText, -hpbonus, 1, openEnded=0))
+                bonusTrack = Sequence(Wait(delay + tSuitReact + delay + 0.75 + uberDelay), Func(suit.showHpText, -hpbonus, 1, openEnded=0), Func(suit.updateHealthBar, hpbonus))
             suitTrack.append(Func(suit.loop, 'neutral'))
             if bonusTrack == None:
                 tracks.append(suitTrack)
@@ -110,8 +113,42 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 tracks.append(Parallel(suitTrack, bonusTrack))
         elif totalDamage <= 0:
             tracks.append(Sequence(Wait(2.9), Func(MovieUtil.indicateMissed, suit, 1.0)))
+            tracks.append(MovieUtil.createSuitTeaseMultiTrack(suit, delay + tSuitReact))
 
     return tracks
+	
+def headExplodeTrack(suit, battle):
+    head = suit.getHeadParts()[0]
+    suitTrack = Sequence()
+    suitPos, suitHpr = battle.getActorPosHpr(suit)
+    suitTrack.append(Wait(0.15))
+    suitTrack.append(Func(MovieUtil.miscHide, head))
+    deathSound = base.loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+    deathSoundTrack = Sequence(SoundInterval(deathSound, volume=0.8))
+    BattleParticles.loadParticles()
+    smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
+    singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles=1)
+    smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
+    bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles=30)
+    gearPoint = Point3(suitPos.getX(), suitPos.getY(), suitPos.getZ() + suit.height + 1)
+    smallGears.setPos(gearPoint)
+    singleGear.setPos(gearPoint)
+    smallGears.setDepthWrite(False)
+    singleGear.setDepthWrite(False)
+    smallGearExplosion.setPos(gearPoint)
+    bigGearExplosion.setPos(gearPoint)
+    smallGearExplosion.setDepthWrite(False)
+    bigGearExplosion.setDepthWrite(False)
+    explosionTrack = Sequence()
+    explosionTrack.append(MovieUtil.createKapowExplosionTrack(battle, explosionPoint=gearPoint))
+    gears1Track = Sequence(Wait(0.5), ParticleInterval(smallGears, battle, worldRelative=0, duration=1.0, cleanup=True), name='gears1Track')
+    gears2MTrack = Track(
+        (0.1, ParticleInterval(singleGear, battle, worldRelative=0, duration=0.4, cleanup=True)),
+        (0.5, ParticleInterval(smallGearExplosion, battle, worldRelative=0, duration=0.5, cleanup=True)),
+        (0.9, ParticleInterval(bigGearExplosion, battle, worldRelative=0, duration=2.0, cleanup=True)), name='gears2MTrack'
+    )
+
+    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack)
 
 
 def __doSoundsLevel(sounds, delay, hitCount, npcs):
@@ -145,7 +182,10 @@ def __doSoundsLevel(sounds, delay, hitCount, npcs):
             if revived:
                 deathTracks.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
             elif died:
-                deathTracks.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
+                if (sound['level'] >= ToontownBattleGlobals.UBER_GAG_LEVEL_INDEX) and (totalDamage >= target['hp']):
+                    deathTracks.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs, headless=True))
+                else:
+                    deathTracks.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
 
     mainTrack.append(tracks)
     mainTrack.append(deathTracks)

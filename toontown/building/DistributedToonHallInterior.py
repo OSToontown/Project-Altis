@@ -20,7 +20,8 @@ from toontown.toon import ToonHead
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
 class DistributedToonHallInterior(DistributedToonInterior):
-
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedToonHallInterior")
+    
     def __init__(self, cr):
         DistributedToonInterior.__init__(self, cr)
         self.sillyFSM = ClassicFSM.ClassicFSM('SillyOMeter', [State.State('Setup', self.enterSetup, self.exitSetup, ['Phase0',
@@ -120,51 +121,51 @@ class DistributedToonHallInterior(DistributedToonInterior):
         result = -1
         enoughInfoToRun = False
         if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
+            if hasattr(base.cr, 'sillyMeterMgr') and not base.cr.sillyMeterMgr.isDisabled():
                 enoughInfoToRun = True
-            elif hasattr(base.cr, 'SillyMeterMgr'):
-                self.notify.debug('isDisabled = %s' % base.cr.SillyMeterMgr.isDisabled())
+            elif hasattr(base.cr, 'sillyMeterMgr'):
+                self.notify.debug('isDisabled = %s' % base.cr.sillyMeterMgr.isDisabled())
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
         else:
             self.notify.debug('holiday is not running')
         self.notify.debug('enoughInfoToRun = %s' % enoughInfoToRun)
-        if enoughInfoToRun and base.cr.SillyMeterMgr.getIsRunning():
-            result = base.cr.SillyMeterMgr.getCurPhase()
+        if enoughInfoToRun and base.cr.sillyMeterMgr.getIsRunning():
+            result = base.cr.sillyMeterMgr.getCurPhase()
         return result
 
     def calculatePhaseDuration(self):
         result = -1
         valid = False
         if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
+            if hasattr(base.cr, 'sillyMeterMgr') and not base.cr.sillyMeterMgr.isDisabled():
                 valid = True
-            elif hasattr(base.cr, 'SillyMeterMgr'):
-                self.notify.debug('isDisabled = %s' % base.cr.SillyMeterMgr.isDisabled())
+            elif hasattr(base.cr, 'sillyMeterMgr'):
+                self.notify.debug('isDisabled = %s' % base.cr.sillyMeterMgr.isDisabled())
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
         else:
             self.notify.debug('holiday is not running')
         self.notify.debug('valid = %s' % valid)
-        if valid and base.cr.SillyMeterMgr.getIsRunning():
-            result = base.cr.SillyMeterMgr.getCurPhaseDuration()
+        if valid and base.cr.sillyMeterMgr.getIsRunning():
+            result = base.cr.sillyMeterMgr.getCurPhaseDuration()
         return result
 
     def calculateFrameOffset(self, phaseDuration, numFrames):
         result = -1
         valid = False
         if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
+            if hasattr(base.cr, 'sillyMeterMgr') and not base.cr.sillyMeterMgr.isDisabled():
                 valid = True
-            elif hasattr(base.cr, 'SillyMeterMgr'):
-                self.notify.debug('isDisabled = %s' % base.cr.SillyMeterMgr.isDisabled())
+            elif hasattr(base.cr, 'sillyMeterMgr'):
+                self.notify.debug('isDisabled = %s' % base.cr.sillyMeterMgr.isDisabled())
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
         else:
             self.notify.debug('holiday is not running')
         self.notify.debug('valid = %s' % valid)
-        if valid and base.cr.SillyMeterMgr.getIsRunning():
-            startTime = time.mktime(base.cr.SillyMeterMgr.getCurPhaseStartDate().timetuple())
+        if valid and base.cr.sillyMeterMgr.getIsRunning():
+            startTime = time.mktime(base.cr.sillyMeterMgr.getCurPhaseStartDate().timetuple())
             serverTime = time.mktime(base.cr.toontownTimeManager.getCurServerDateTime().timetuple())
             offset = (serverTime - startTime) / phaseDuration
             if offset < 0:

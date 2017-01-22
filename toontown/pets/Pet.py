@@ -11,7 +11,7 @@ from toontown.pets import PetDNA
 from PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import random
 import types
 Component2IconDict = {'boredom': 'Bored',
@@ -45,8 +45,6 @@ class Pet(Avatar.Avatar):
         self.doodleChat = base.config.GetBool('want-doodle-chat', False)
         Avatar.Avatar.__init__(self)
         self.serialNum = Pet.SerialNum
-        if base.wantSmoothAnim:
-            self.setBlend(frameBlend = True)
         Pet.SerialNum += 1
         self.lockedDown = 0
         self.setPickable(1)
@@ -107,14 +105,11 @@ class Pet(Avatar.Avatar):
         self.leftBrow = None
         self.color = None
         Avatar.Avatar.delete(self)
-        return
 
     def getDNA(self):
         return self.style
 
     def setDNA(self, dna):
-        if base.wantSmoothAnim:
-            self.setBlend(frameBlend = True)
         if self.style:
             pass
         else:
@@ -268,9 +263,6 @@ class Pet(Avatar.Avatar):
         self.eyesClosedTexture.setMinfilter(Texture.FTLinear)
         self.eyesClosedTexture.setMagfilter(Texture.FTLinear)
         self.eyesOpen()
-        if base.wantSmoothAnim:
-            self.setBlend(frameBlend = True)
-        return None
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
@@ -469,8 +461,6 @@ class Pet(Avatar.Avatar):
         return track
 
     def enterTeleportIn(self, timestamp):
-        if base.wantSmoothAnim:
-            self.setBlend(frameBlend = True)
         self.track = self.getTeleportInTrack()
         self.track.start(globalClockDelta.localElapsedTime(timestamp))
 

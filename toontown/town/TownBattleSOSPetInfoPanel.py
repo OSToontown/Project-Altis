@@ -61,7 +61,6 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         self.trickMenu.finalizeAll()
         localAvatar.chatMgr.chatInputSpeedChat.whisperAvatarId = None
         self.petDetailPanel = None
-        return
 
     def unload(self):
         self.frame.destroy()
@@ -82,7 +81,6 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         self.trickMenu.destroy()
         del self.trickMenu
         del self.petDetailPanel
-        return
 
     def enter(self, petProxyId):
         self.petProxyId = petProxyId
@@ -96,7 +94,6 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         self.trickMenu.reparentTo(aspect2dp, DGG.FOREGROUND_SORT_INDEX)
         localAvatar.chatMgr.chatInputSpeedChat.whisperAvatarId = None
         self.detailButton['state'] = DGG.NORMAL
-        return
 
     def exit(self):
         self.ignore(self.trickMenuEventName)
@@ -106,7 +103,6 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
             self.petDetailPanel.cleanup()
             self.petDetailPanel = None
         self.frame.hide()
-        return
 
     def __handleTrickMenuEvent(self, textId):
         if textId in PetTricks.ScId2trickId:
@@ -130,7 +126,6 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
             self.petDetailPanel.cleanup()
             self.petDetailPanel = None
         self.detailButton['state'] = DGG.NORMAL
-        return
 
     def __handleDetail(self):
         self.petDetailPanel = PetDetailPanel.PetDetailPanel(pet=self.petProxy, closeCallback=self.__handleDetailDone, parent=self.frame)
@@ -150,7 +145,6 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
             self.nameLabel = DirectLabel(parent=self.frame, pos=(0, 0, 5.2), relief=None, text=avatar.getName(), text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_pos=(0, 0), text_scale=0.4, text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
             self.stateLabel = DirectLabel(parent=self.frame, pos=(0.7, 0, 3.5), relief=None, text='', text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_scale=0.4, text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
         self.__refreshPetInfo(avatar)
-        return
 
     def __refreshPetInfo(self, avatar):
         self.notify.debug('__refreshPetInfo(): doId=%s' % avatar.doId)

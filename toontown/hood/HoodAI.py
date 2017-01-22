@@ -11,6 +11,7 @@ from toontown.suit import DistributedSuitPlannerAI
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
+from toontown.weather.DistributedWeatherCycleAI import DistributedWeatherCycleAI
 
 class HoodAI:
     notify = directNotify.newCategory('HoodAI')
@@ -54,13 +55,19 @@ class HoodAI:
     def startup(self):
         if self.air.wantFishing:
             self.createFishingPonds()
+        
         if self.air.wantParties:
             self.createPartyPeople()
+        
         if simbase.config.GetBool('want-treasure-planners', True):
             self.createTreasurePlanner()
+        
         self.createBuildingManagers()
         if simbase.config.GetBool('want-suit-planners', True):
             self.createSuitPlanners()
+
+        if simbase.config.GetBool('want-weather', True):
+            self.createWeatherCycle()
 
     def shutdown(self):
         if self.treasurePlanner:
@@ -185,3 +192,8 @@ class HoodAI:
             suitPlanner.initTasks()
             self.suitPlanners.append(suitPlanner)
             self.air.suitPlanners[zoneId] = suitPlanner
+
+    def createWeatherCycle(self):
+        weatherCycle = DistributedWeatherCycleAI(self.air)
+        weatherCycle.setDuration(self.air.weatherCycleDuration)
+        weatherCycle.generateWithRequired(self.zoneId)

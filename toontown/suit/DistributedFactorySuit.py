@@ -7,6 +7,7 @@ from toontown.suit import DistributedSuitBase
 from direct.task.Task import Task
 import random
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer
 from otp.level import LevelConstants
 from toontown.distributed.DelayDeletable import DelayDeletable
 
@@ -83,6 +84,22 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
             self.reparentTo(hidden)
         else:
             self.doReparent()
+        if self.boss:
+            self.renameBoss()
+			
+    def renameBoss(self):
+        if self.getSkeleRevives() > 0:
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': TTLocalizer.Foreman,
+             'dept': self.getStyleDept(),
+             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)}
+            self.setName(TTLocalizer.Foreman)
+            self.setDisplayName(nameInfo)
+        else:
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': TTLocalizer.Foreman,
+             'dept': self.getStyleDept(),
+             'level': self.getActualLevel()}
+            self.setName(TTLocalizer.Foreman)
+            self.setDisplayName(nameInfo)
 
     def comeOutOfReserve(self):
         self.doReparent()

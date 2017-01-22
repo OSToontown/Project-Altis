@@ -1,9 +1,9 @@
 import random
 from direct.directnotify import DirectNotifyGlobal
-from direct.showbase.PythonUtil import invertDictLossless
+from toontown.toonbase.ToonPythonUtil import invertDictLossless
 from toontown.coghq import CountryClubRoomSpecs
 from toontown.toonbase import ToontownGlobals
-from direct.showbase.PythonUtil import normalDistrib, lerp
+from toontown.toonbase.ToonPythonUtil import normalDistrib, lerp
 
 def printAllBossbotInfo():
     print 'roomId: roomName'
@@ -69,15 +69,15 @@ def printNumBattles():
     iterateBossbotCountryClubs(func)
 
 
-ClubLayout3_0 = [(0, 2, 5, 9, 17), (0, 2, 4, 9, 17), (0, 2, 5, 9, 18)]
+ClubLayout3_0 = [(0, 2, random.choice([4, 5]), 9, 17), (0, 2, random.choice([4, 5]), 9, 17), (0, 2, random.choice([4, 5]), 9, 18)]
 ClubLayout3_1 = [(0, 2, 5, 9, 17), (0, 2, 4, 9, 17), (0, 2, 5, 9, 18)]
 ClubLayout3_2 = [(0, 2, 4, 9, 17), (0, 2, 4, 9, 17), (0, 2, 6, 9, 18)]
-ClubLayout6_0 = [(0, 22, 4, 29, 17),
- (0, 22, 5, 29, 17),
- (0, 22, 6, 29, 17),
- (0, 22, 5, 29, 17),
- (0, 22, 6, 29, 17),
- (0, 22, 5, 29, 18)]
+ClubLayout6_0 = [(0, 4, 17),
+ (0, random.choice([22, 29]), random.choice([4, 5, 6]), 17),
+ (0, random.choice([5, 6]), random.choice([22, 29]), 17),
+ (0, 29, random.choice([4, 5, 6]), 22, 17),
+ (0, random.choice([5, 6]), 17),
+ (0, random.choice([4, 5, 6]), 29, 18)]
 ClubLayout6_1 = [(0, 22, 4, 29, 17),
  (0, 22, 6, 29, 17),
  (0, 22, 4, 29, 17),
@@ -90,15 +90,15 @@ ClubLayout6_2 = [(0, 22, 4, 29, 17),
  (0, 22, 6, 29, 17),
  (0, 22, 5, 29, 17),
  (0, 22, 7, 29, 18)]
-ClubLayout9_0 = [(0, 32, 4, 39, 17),
- (0, 32, 5, 39, 17),
- (0, 32, 6, 39, 17),
- (0, 32, 7, 39, 17),
- (0, 32, 5, 39, 17),
- (0, 32, 6, 39, 17),
- (0, 32, 7, 39, 17),
- (0, 32, 7, 39, 17),
- (0, 32, 6, 39, 18)]
+ClubLayout9_0 = [(0, 4, 17),
+ (0, random.choice([32, 39]), random.choice([4, 5, 6, 7]), 17),
+ (0, random.choice([4, 5, 6, 7]), random.choice([32, 39]), 17),
+ (0, 39, random.choice([4, 5, 6, 7]), 32, 17),
+ (0, random.choice([32, 39]), random.choice([4, 5, 6, 7]), 17),
+ (0, random.choice([4, 5, 6, 7]), random.choice([32, 39]), 17),
+ (0, random.choice([4, 5, 6, 7]), 17),
+ (0, 32, random.choice([4, 5, 6, 7]), 17),
+ (0, random.choice([4, 5, 6, 7]), 39, 18)]
 ClubLayout9_1 = [(0, 32, 4, 39, 17),
  (0, 32, 5, 39, 17),
  (0, 32, 6, 39, 17),

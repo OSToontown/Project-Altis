@@ -4,7 +4,7 @@ from toontown.minigame import RingAction
 from toontown.minigame import RingTracks
 from toontown.minigame import RingTrack
 from toontown.minigame import RingTrackGroup
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 STATIC = 0
 SIMPLE = 1
 COMPLEX = 2

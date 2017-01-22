@@ -11,6 +11,7 @@ from otp.level import LevelSpec, LevelConstants
 from toontown.nametag.NametagGlobals import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase.ToontownGlobals import *
+from toontown.chat.ChatGlobals import CFThought, CFTimeout
 
 if __dev__:
     from otp.level import EditorGlobals
@@ -221,3 +222,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel, MintRoomBase.MintRo
 
     def __repr__(self):
         return str(self)
+
+    def reportModelSpecSyncError(self, msg): #we need this cause the unit spec and model Num do match to see what i mean un hash next line
+        self.notify.info('%s\n\nyour spec does not match the level model\nuse SpecUtil.updateSpec, then restart your AI and client' % msg)
+        pass

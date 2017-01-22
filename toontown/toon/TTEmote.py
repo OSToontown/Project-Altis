@@ -3,7 +3,7 @@ import types
 from toontown.toon import ToonDNA
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from pandac.PandaModules import *
 from otp.avatar import Emote
 from otp.otpbase import OTPLocalizer

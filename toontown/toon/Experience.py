@@ -25,7 +25,7 @@ class Experience:
         dataList = self.experience
         datagram = PyDatagram()
         for track in xrange(0, len(Tracks)):
-            datagram.addUint16(dataList[track])
+            datagram.addUint16(int(dataList[track]))
 
         dgi = PyDatagramIterator(datagram)
         return dgi.getRemainingBytes()

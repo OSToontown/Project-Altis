@@ -50,8 +50,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         for part in suit.getHeadParts():
             part.hide()
 
-        suit.loop('neutral')
-
     def load(self):
         CogdoGameMovie.load(self)
         self.toonDNA = ToonDNA.ToonDNA()
@@ -82,8 +80,10 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         self._toonDialogueSfx = audioMgr.createSfx('toonDialogue')
         suitData = Globals.SuitData[Globals.SuitTypes.Boss]
         bossSuit = Suit.Suit()
+        bossSuit.nametag3d.stash()
+        bossSuit.nametag.destroy()
         d = SuitDNA.SuitDNA()
-        d.newSuit(suitData['dnaName'])
+        d.newSuit('ms')
         bossSuit.setDNA(d)
         bossSuit.setScale(suitData['scale'])
         bossSuit.loop('neutral')
@@ -147,7 +147,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
             self._camHelperNode.setHpr(self._camHelperNode, dt, dt, 0)
             camera.setY(camera, 0.8 * dt)
             camera.lookAt(self._camTarget, 0, 0, 3)
-        
         return task.cont
 
     def unload(self):
@@ -189,7 +188,6 @@ class CogdoMazeGameFinish(CogdoGameMovie):
         if not self._exit.hasPlayer(self._localPlayer):
             loseSfx = base.cogdoGameAudioMgr.createSfx('lose')
             self._ival.append(Sequence(Func(loseSfx.play), Func(self._localPlayer.toon.setAnimState, 'Sad')))
-        
         self._ival.append(Sequence(Wait(Globals.FinishDurationSeconds - 1.0), Func(base.transitions.irisOut), Wait(1.0)))
 
     def unload(self):

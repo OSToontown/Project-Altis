@@ -18,8 +18,6 @@ def openFriendSecret(secretType):
         globalFriendSecret.unload()
     globalFriendSecret = ToontownFriendSecret(secretType)
     globalFriendSecret.enter()
-    return
-
 
 FriendSecret.openFriendSecret = openFriendSecret
 
@@ -41,7 +39,6 @@ class ToontownFriendSecret(FriendSecret.FriendSecret):
         accountText.reparentTo(self.accountButton.stateNodePath[2])
         self.accountButton.hide()
         buttons.removeNode()
-        return
 
     def __determineSecret(self):
         if self.secretType == BothSecrets:

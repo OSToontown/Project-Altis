@@ -18,6 +18,12 @@ class DNAWall(DNANode.DNANode):
         self.code = ''
         self.height = 0
         self.color = LVector4f(1, 1, 1, 1)
+
+    def __del__(self):
+        DNANode.DNANode.__del__(self)
+        del self.code
+        del self.height
+        del self.color
         
     def getCode(self):
         return self.code

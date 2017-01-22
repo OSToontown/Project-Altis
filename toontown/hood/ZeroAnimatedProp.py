@@ -3,7 +3,7 @@ import math
 from direct.interval.IntervalGlobal import Sequence, Wait, ActorInterval, Func, SoundInterval, Parallel
 from direct.task import Task
 from direct.fsm import FSM
-from direct.showbase.PythonUtil import weightedChoice
+from toontown.toonbase.ToonPythonUtil import weightedChoice
 from toontown.hood import GenericAnimatedProp
 from toontown.hood import AnimatedProp
 from toontown.toonbase import ToontownGlobals
@@ -140,7 +140,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         if base.cr.newsManager.isHolidayRunning(self.holidayId):
             zeroMgrString = '%sZeroMgr' % self.propString
             if hasattr(base.cr, zeroMgrString):
-                zeroMgr = eval('base.cr.%s' % zeroMgrString)
+                zeroMgr = getattr(base.cr, zeroMgrString)
                 if not zeroMgr.isDisabled():
                     enoughInfoToRun = True
                 else:

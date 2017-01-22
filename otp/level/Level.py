@@ -2,7 +2,7 @@ import string
 import types
 from direct.directnotify import DirectNotifyGlobal
 from otp.level import LevelConstants
-from direct.showbase.PythonUtil import lineInfo, uniqueElements
+from toontown.toonbase.ToonPythonUtil import lineInfo, uniqueElements
 
 class Level:
     notify = DirectNotifyGlobal.directNotify.newCategory('Level')

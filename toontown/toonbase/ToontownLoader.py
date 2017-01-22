@@ -35,11 +35,11 @@ class ToontownLoader(nLoader.Loader):
 
     def endBulkLoad(self, name):
         if not self.inBulkBlock:
-            Loader.Loader.notify.warning("Tried to end a block ('%s'), but not in one" % name)
+            nLoader.Loader.notify.warning("Tried to end a block ('%s'), but not in one" % name)
             return
         
         if name != self.blockName:
-            Loader.Loader.notify.warning("Tried to end a block ('%s'), other then the current one ('%s')" % (name, self.blockName))
+            nLoader.Loader.notify.warning("Tried to end a block ('%s'), other then the current one ('%s')" % (name, self.blockName))
             return
         
         self.inBulkBlock = None

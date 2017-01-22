@@ -1,8 +1,10 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
@@ -25,7 +27,6 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
         self.hasLocalAvatar = 0
         self.hasJarOut = 0
         self.jarLods = []
-        return
 
     def generate(self):
         DistributedFurnitureItem.DistributedFurnitureItem.generate(self)
@@ -113,7 +114,7 @@ class DistributedBank(DistributedFurnitureItem.DistributedFurnitureItem):
     def showBankGui(self):
         if self.bankGui:
             self.bankGui.destroy()
-        self.bankGui = BankGUI.BankGUI(self.bankGuiDoneEvent)
+        self.bankGui = BankGUI.BankGui(self.bankGuiDoneEvent)
         self.accept(self.bankGuiDoneEvent, self.__handleBankDone)
 
     def setMovie(self, mode, avId, timestamp):

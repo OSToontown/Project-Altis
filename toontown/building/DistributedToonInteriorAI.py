@@ -22,7 +22,11 @@ class DistributedToonInteriorAI(DistributedObjectAI.DistributedObjectAI):
                 State.State('beingTakenOver', self.enterBeingTakenOver, self.exitBeingTakenOver, []),
                 State.State('off', self.enterOff, self.exitOff, [])
             ], 'toon', 'off')
+        
         self.fsm.enterInitialState()
+
+    def announceGenerate(self):
+        DistributedObjectAI.DistributedObjectAI.announceGenerate(self)
 
     def delete(self):
         self.ignoreAll()

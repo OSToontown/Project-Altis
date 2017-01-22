@@ -9,12 +9,14 @@ from otp.friends.FriendManagerAI import FriendManagerAI
 from toontown.ai import CogPageManagerAI
 from toontown.ai import CogSuitManagerAI
 from toontown.ai import PromotionManagerAI
+from toontown.ai import ExperienceRewardManagerAI
 from toontown.ai.AchievementsManagerAI import AchievementsManagerAI
 from toontown.ai.FishManagerAI import  FishManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
+from toontown.ai.DialogueManagerAI import DialogueManagerAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
 from toontown.ai.QuestManagerAI import QuestManagerAI
-from toontown.ai import BankManagerAI
+from toontown.ai import DistributedSillyMeterMgrAI, DistributedHydrantZeroMgrAI, DistributedMailboxZeroMgrAI, DistributedTrashcanZeroMgrAI
 from toontown.building.DistributedTrophyMgrAI import DistributedTrophyMgrAI
 from toontown.catalog.CatalogManagerAI import CatalogManagerAI
 from toontown.catalog.PopularItemManagerAI import PopularItemManagerAI
@@ -48,6 +50,7 @@ from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
+from toontown.events.CharityScreenAI import CharityScreenAI
 
 class ToontownAIRepository(ToontownInternalRepository):
 
@@ -63,6 +66,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.dnaDataMap = {}
         self.suitPlanners = {}
         self.buildingManagers = {}
+        self.sillyMeterMgr = None
         self.factoryMgr = None
         self.mintMgr = None
         self.lawOfficeMgr = None
@@ -81,10 +85,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.doLiveUpdates = self.config.GetBool('want-live-updates', False)
         self.wantTrackClsends = self.config.GetBool('want-track-clsends', False)
         self.wantAchievements = self.config.GetBool('want-achievements', True)
+        self.wantCharityScreen = self.config.GetBool('want-charity-screen', False)
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
         self.cogSuitMessageSent = False
+        self.weatherCycleDuration = self.config.GetInt('weather-cycle-duration', 100)
 
     def createManagers(self):
         self.timeManager = TimeManagerAI(self)
@@ -107,8 +113,17 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trophyMgr.generateWithRequired(2)
         self.cogSuitMgr = CogSuitManagerAI.CogSuitManagerAI(self)
         self.promotionMgr = PromotionManagerAI.PromotionManagerAI(self)
+        self.experienceMgr = ExperienceRewardManagerAI.ExperienceRewardManagerAI(self)
         self.cogPageManager = CogPageManagerAI.CogPageManagerAI()
-        self.bankManager = BankManagerAI.BankManagerAI(self)
+        self.sillyMeterMgr = DistributedSillyMeterMgrAI.DistributedSillyMeterMgrAI(self)
+        self.sillyMeterMgr.generateWithRequired(2)
+        self.hydrantZeroMgr = DistributedHydrantZeroMgrAI.DistributedHydrantZeroMgrAI(self)
+        self.hydrantZeroMgr.generateWithRequired(2)
+        self.mailboxZeroMgr = DistributedMailboxZeroMgrAI.DistributedMailboxZeroMgrAI(self)
+        self.mailboxZeroMgr.generateWithRequired(2)
+        self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
+        self.trashcanZeroMgr.generateWithRequired(2)
+        self.dialogueManager = DialogueManagerAI(self)
         self.holidayManager = HolidayManagerAI(self)
         
         if self.wantFishing:
@@ -131,12 +146,14 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.partyManager.generateWithRequired(2)
             self.globalPartyMgr = self.generateGlobalObject(
                 OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
+                
+        if self.wantCharityScreen:
+            self.charityCounter = CharityScreenAI(self)
+            self.charityCounter.generateWithRequired(2)
+            self.charityCounter.start()
 
-        self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 
-            'TTCodeRedemptionMgr')
-
-        self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER, 
-            'ChatAgent')
+        self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
+        self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
 
     def createSafeZones(self):
         NPCToons.generateZone2NpcDict()
@@ -183,12 +200,13 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.districtId, self.getGameDoId(), 2)
         
         self.notify.info('Claiming ownership of channel ID: %d...' % self.districtId)
-        self.claimOwnership(self.districtId)
+        self.setAI(self.districtId, self.ourChannel)
 
         self.districtStats = ToontownDistrictStatsAI(self)
         self.districtStats.settoontownDistrictId(self.districtId)
-        self.districtStats.generateWithRequiredAndId(
-            self.allocateChannel(), self.getGameDoId(), 3)
+        self.districtStats.generateWithRequiredAndId(self.allocateChannel(), 
+            self.getGameDoId(), 3)
+        
         self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
 
         self.notify.info('Creating managers...')
@@ -204,12 +222,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Making district available...')
         self.distributedDistrict.b_setAvailable(1)
         self.notify.info('Done.')
-
-    def claimOwnership(self, channelId):
-        datagram = PyDatagram()
-        datagram.addServerHeader(channelId, self.ourChannel, STATESERVER_OBJECT_SET_AI)
-        datagram.addChannel(self.ourChannel)
-        self.send(datagram)
 
     def lookupDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)

@@ -16,7 +16,6 @@ class PartyEditorListElement(DirectButton):
         self.unreleased = self.calcUnreleased(id)
         self.comingSoonTextScale = 1.0
         if self.isDecoration:
-            self.name = TTLocalizer.PartyDecorationNameDict[self.id]['editor']
             colorList = ((1.0, 0.0, 1.0, 1.0),
              (0.0, 0.0, 1.0, 1.0),
              (0.0, 1.0, 1.0, 1.0),
@@ -24,6 +23,7 @@ class PartyEditorListElement(DirectButton):
             assetName = PartyGlobals.DecorationIds.getString(self.id)
             if assetName == 'Hydra':
                 assetName = 'StageSummer'
+            
             geom = self.partyEditor.decorationModels.find('**/partyDecoration_%s' % assetName)
             if geom.isEmpty() or self.unreleased:
                 helpGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_brd_help')
@@ -44,7 +44,6 @@ class PartyEditorListElement(DirectButton):
                     geom_pos = (0.0, 0.0, -3.9)
                     scale = Vec3(0.05, 0.0001, 0.05)
         else:
-            self.name = TTLocalizer.PartyActivityNameDict[self.id]['editor']
             colorList = ((0.0, 0.0, 0.0, 1.0),
              (0.0, 1.0, 0.0, 1.0),
              (1.0, 1.0, 0.0, 1.0),
@@ -54,18 +53,26 @@ class PartyEditorListElement(DirectButton):
                 iconString = PartyGlobals.ActivityIds.getString(PartyGlobals.ActivityIds.PartyJukebox)
             elif self.id == PartyGlobals.ActivityIds.PartyDance20:
                 iconString = PartyGlobals.ActivityIds.getString(PartyGlobals.ActivityIds.PartyDance)
+            
             geom = getPartyActivityIcon(self.partyEditor.activityIconsModel, iconString)
             scale = 0.35
             geom3_color = (0.5, 0.5, 0.5, 1.0)
             geom_pos = (0.0, 0.0, 0.0)
             self.comingSoonTextScale = 0.25
+
         optiondefs = (('geom', geom, None),
-         ('geom3_color', geom3_color, None),
-         ('geom_pos', geom_pos, None),
-         ('relief', None, None))
+            ('geom3_color', geom3_color, None),
+            ('geom_pos', geom_pos, None),
+            ('relief', None, None))
+        
         self.defineoptions(kw, optiondefs)
         DirectButton.__init__(self, self.partyEditor.elementList)
         self.initialiseoptions(PartyEditorListElement)
+        if self.isDecoration:
+            self.name = TTLocalizer.PartyDecorationNameDict[self.id]['editor']
+        else:
+            self.name = TTLocalizer.PartyActivityNameDict[self.id]['editor']
+        
         self.setName('%sListElement' % self.name)
         self.setScale(scale)
         self.bind(DirectGuiGlobals.B1PRESS, self.clicked)
@@ -81,7 +88,6 @@ class PartyEditorListElement(DirectButton):
 
         self.activeGridElementIndex = -1
         self.adjustForUnreleased()
-        return
 
     def calcUnreleased(self, id):
         if base.cr.partyManager.allowUnreleasedClient():
@@ -90,6 +96,7 @@ class PartyEditorListElement(DirectButton):
             self.unreleased = id in PartyGlobals.UnreleasedDecorationIds
         else:
             self.unreleased = id in PartyGlobals.UnreleasedActivityIds
+        
         return self.unreleased
 
     def adjustForUnreleased(self):
@@ -97,7 +104,6 @@ class PartyEditorListElement(DirectButton):
             textScale = self.comingSoonTextScale
             comingSoon = DirectLabel(parent=self, text=TTLocalizer.PartyPlannerComingSoon, text_scale=textScale, text_fg=(1.0, 0, 0, 1.0), text_shadow=(0, 0, 0, 1), relief=None)
             self['state'] = DirectGuiGlobals.DISABLED
-        return
 
     def clearPartyGrounds(self):
         for gridElement in self.partyEditorGridElements:
@@ -113,6 +119,7 @@ class PartyEditorListElement(DirectButton):
             self.partyEditor.partyPlanner.elementDescriptionNode.setText(TTLocalizer.PartyActivityNameDict[self.id]['description'])
             self.partyEditor.partyPlanner.elementPriceNode.setText('%d %s' % (PartyGlobals.ActivityInformationDict[self.id]['cost'], TTLocalizer.PartyPlannerBeans))
             self.partyEditor.partyPlanner.elementTitleLabel['text'] = self.name
+        
         self.checkSoldOutAndPaidStatusAndAffordability()
 
     def checkSoldOutAndPaidStatusAndAffordability(self):
@@ -140,7 +147,6 @@ class PartyEditorListElement(DirectButton):
                 return
 
         self.setSoldOut(True)
-        return
 
     def setOffLimits(self):
         self['state'] = DirectGuiGlobals.DISABLED
@@ -205,4 +211,3 @@ class PartyEditorListElement(DirectButton):
         del self.partyEditorGridElements
         self.partyEditor = None
         DirectButton.destroy(self)
-        return

@@ -3,7 +3,7 @@ from toontown.toonbase.ToonBaseGlobal import *
 from toontown.minigame.DistributedMinigame import *
 from direct.interval.IntervalGlobal import *
 from toontown.minigame.OrthoWalk import *
-from direct.showbase.PythonUtil import Functor, bound, lineupPos, lerp
+from toontown.toonbase.ToonPythonUtil import Functor, bound, lineupPos, lerp
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import TTLocalizer

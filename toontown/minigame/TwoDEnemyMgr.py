@@ -20,7 +20,6 @@ class TwoDEnemyMgr(DirectObject):
             self.enemies.remove(enemy)
 
         self.enemies = None
-        return
 
     def load(self):
         if len(self.enemyList):

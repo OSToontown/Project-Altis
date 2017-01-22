@@ -1,9 +1,10 @@
-from direct.showbase.PythonUtil import invertDict
+from toontown.toonbase.ToonPythonUtil import invertDict
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import NullCogs
 from toontown.coghq import LawbotOfficeOilRoom_Battle00_Cogs
 from toontown.coghq import LawbotOfficeOilRoom_Battle01_Cogs
 from toontown.coghq import LawbotOfficeBoilerRoom_Battle00_Cogs
+from toontown.coghq import LawbotOfficeBoilerRoom_Trap00
 from toontown.coghq import LawbotOfficeBoilerRoom_Trap00_Cogs
 from toontown.coghq import LawbotOfficeLobby_Trap00_Cogs
 from toontown.coghq import LawbotOfficeDiamondRoom_Trap00_Cogs
@@ -25,6 +26,7 @@ from toontown.coghq import LawbotOfficeDiamondRoom_Trap00
 from toontown.coghq import LawbotOfficeGearRoom_Platform00
 from toontown.coghq import LawbotOfficeLobby_Lights00
 from toontown.coghq import LawbotOfficeBoilerRoom_Action01
+from toontown.coghq import LawbotOfficeBoilerRoom_Action01_Cogs
 from toontown.coghq import LawbotOfficeDiamondRoom_Action00
 from toontown.coghq import LawbotOfficeDiamondRoom_Action01
 from toontown.coghq import LawbotOfficeLobby_Action01
@@ -57,6 +59,7 @@ CashbotStageRoomId2RoomName = {0: 'LawbotOfficeEntrance_Action00',
  10: 'LawbotOfficeDiamondRoom_Trap00',
  11: 'LawbotOfficeGearRoom_Platform00',
  12: 'LawbotOfficeLobby_Lights00',
+ 13: 'LawbotOfficeBoilerRoom_Trap00',
  100: 'LawbotOfficeBoilerRoom_Action01',
  101: 'LawbotOfficeDiamondRoom_Action00',
  102: 'LawbotOfficeDiamondRoom_Action01',
@@ -76,6 +79,7 @@ CogSpecModules = {'LawbotOfficeOilRoom_Battle00': LawbotOfficeOilRoom_Battle00_C
  'LawbotOfficeOilRoom_Battle01': LawbotOfficeOilRoom_Battle01_Cogs,
  'LawbotOfficeBoilerRoom_Battle00': LawbotOfficeBoilerRoom_Battle00_Cogs,
  'LawbotOfficeBoilerRoom_Trap00': LawbotOfficeBoilerRoom_Trap00_Cogs,
+ 'LawbotOfficeBoilerRoom_Action01': LawbotOfficeBoilerRoom_Action01_Cogs,
  'LawbotOfficeLobby_Trap00': LawbotOfficeLobby_Trap00_Cogs,
  'LawbotOfficeDiamondRoom_Trap00': LawbotOfficeDiamondRoom_Trap00_Cogs,
  'LawbotOfficeDiamondRoom_Battle00': LawbotOfficeDiamondRoom_Battle00_Cogs,

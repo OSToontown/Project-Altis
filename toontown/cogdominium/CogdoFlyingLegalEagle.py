@@ -5,7 +5,7 @@ from direct.fsm.FSM import FSM
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import Sequence, Parallel, LerpScaleInterval, LerpFunctionInterval, Func, Wait, LerpFunc, SoundInterval, ParallelEndTogether, LerpPosInterval, ActorInterval, LerpPosHprInterval, LerpHprInterval
 from direct.directutil import Mopath
-from direct.showbase.PythonUtil import bound as clamp
+from toontown.toonbase.ToonPythonUtil import bound as clamp
 from pandac.PandaModules import CollisionSphere, CollisionNode, CollisionTube, CollisionPolygon, Vec3, Point3
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
@@ -70,6 +70,8 @@ class CogdoFlyingLegalEagle(DirectObject, FSM):
         audioMgr = base.cogdoGameAudioMgr
         self._screamSfx = audioMgr.createSfx('legalEagleScream', self.suit)
         self.initIntervals()
+        self.suit.nametag.setNametag2d(None)
+        self.suit.nametag.setNametag3d(None)
         return
 
     def attachPropeller(self):

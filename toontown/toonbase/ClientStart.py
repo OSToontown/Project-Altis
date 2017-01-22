@@ -46,6 +46,10 @@ if 'show-disclaimer' not in settings:
     settings['show-disclaimer'] = True
 if 'fieldofview' not in settings:
     settings['fieldofview'] = 52
+if 'show-cog-levels' not in settings:
+    settings['show-cog-levels'] = True
+if 'health-meter-mode' not in settings:
+    settings['health-meter-mode'] = 2
 settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
@@ -83,8 +87,12 @@ tempLoader = Loader()
 backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
+
+from toontown.pgui import DirectGuiGlobals as PGUIGlobals
+
 notify.info('Setting the default font...')
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
+PGUIGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
 from toontown.toonbase import ToonBase
 ToonBase.ToonBase()
@@ -112,9 +120,40 @@ base.graphicsEngine.renderFrame()
 DirectGuiGlobals.setDefaultRolloverSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
 DirectGuiGlobals.setDefaultClickSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
 DirectGuiGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
+PGUIGlobals.setDefaultRolloverSound(base.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
+PGUIGlobals.setDefaultClickSound(base.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
+PGUIGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
+
+#For Devs only. (The below)
+'''from direct.stdpy import threading, thread
+def __inject_wx(_):
+    code = textbox.GetValue()
+    exec (code, globals())
+
+def openInjector_wx():
+    import wx
+    
+    app = wx.App(redirect = False)
+        
+    frame = wx.Frame(None, title = "TTPA Dev Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
+    panel = wx.Panel(frame)
+    button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
+    global textbox
+    textbox = wx.TextCtrl(parent = panel, id = -1, pos = (20, 22), size = (600, 340), style = wx.TE_MULTILINE)
+    frame.Bind(wx.EVT_BUTTON, __inject_wx, button)
+
+    frame.Show()
+    app.SetTopWindow(frame)
+    
+    textbox.AppendText(" ")
+    
+    threading.Thread(target = app.MainLoop).start()
+
+openInjector_wx()'''
+
 if base.musicManagerIsValid:
     music = base.loader.loadMusic('phase_3/audio/bgm/tt_theme.ogg')
     if music:
@@ -129,7 +168,19 @@ else:
 from toontown.toonbase import ToontownLoader
 from direct.gui.DirectGui import *
 serverVersion = base.config.GetString('server-version', 'no_version_set')
-version = OnscreenText(serverVersion, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 0, 1), align=TextNode.ALeft)
+
+'''
+Let's have these here so you can tell if dev or debug mode is enabled or not
+easily.
+'''
+if __dev__:
+    serverVersionText = serverVersion + "-dev"
+elif __debug__:
+    serverVersionText = serverVersion + "-debug"
+else:
+    serverVersionText = serverVersion
+    
+version = OnscreenText(serverVersionText, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 0, 1), align=TextNode.ALeft)
 version.setPos(0.03,0.03)
 version.reparentTo(base.a2dBottomLeft)
 from toontown.suit import Suit
@@ -167,6 +218,6 @@ if autoRun:
     except SystemExit:
         raise
     except:
-        from direct.showbase import PythonUtil
+        from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
         raise

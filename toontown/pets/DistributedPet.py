@@ -3,7 +3,7 @@ from panda3d.direct import *
 from panda3d.core import *
 from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import *
+from toontown.toonbase.ToonPythonUtil import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
 from direct.distributed.ClockDelta import globalClockDelta

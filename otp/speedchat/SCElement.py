@@ -3,7 +3,7 @@ from direct.gui.DirectGui import *
 from direct.task import Task
 from otp.speedchat.SCConstants import *
 from otp.speedchat.SCObject import SCObject
-from direct.showbase.PythonUtil import boolEqual
+from toontown.toonbase.ToonPythonUtil import boolEqual
 from otp.otpbase import OTPGlobals
 
 class SCElement(SCObject, NodePath):

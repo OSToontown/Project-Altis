@@ -19,7 +19,6 @@ EFFECT_RADIUS = 30
 RESISTANCE_TOONUP = 0
 RESISTANCE_RESTOCK = 1
 RESISTANCE_MONEY = 2
-RESISTANCE_DANCE = 3
 allowedResistanceMessages = []
 if config.GetBool('want-resistance-toonup', True):
     allowedResistanceMessages.append(RESISTANCE_TOONUP)
@@ -27,11 +26,8 @@ if config.GetBool('want-resistance-restock', True):
     allowedResistanceMessages.append(RESISTANCE_RESTOCK)
 if config.GetBool('want-resistance-money', True):
     allowedResistanceMessages.append(RESISTANCE_MONEY)
-if config.GetBool('want-resistance-dance', True):
-    allowedResistanceMessages.append(RESISTANCE_DANCE)
 resistanceMenu = [
-    RESISTANCE_TOONUP, RESISTANCE_RESTOCK, RESISTANCE_MONEY,
-    RESISTANCE_DANCE
+    RESISTANCE_TOONUP, RESISTANCE_RESTOCK, RESISTANCE_MONEY
 ]
 resistanceDict = {
     RESISTANCE_TOONUP: {
@@ -59,6 +55,7 @@ resistanceDict = {
             ToontownBattleGlobals.SOUND_TRACK,
             ToontownBattleGlobals.THROW_TRACK,
             ToontownBattleGlobals.SQUIRT_TRACK,
+            ToontownBattleGlobals.ZAP_TRACK,
             ToontownBattleGlobals.DROP_TRACK,
             -1
         ],
@@ -69,17 +66,11 @@ resistanceDict = {
             TTLocalizer.MovieNPCSOSSound,
             TTLocalizer.MovieNPCSOSThrow,
             TTLocalizer.MovieNPCSOSSquirt,
+            TTLocalizer.MovieNPCSOSZap,
             TTLocalizer.MovieNPCSOSDrop,
             TTLocalizer.MovieNPCSOSAll
         ],
-        'items': [0, 1, 2, 3, 4, 5, 6, 7]
-    },
-    RESISTANCE_DANCE: {
-        'menuName': TTLocalizer.ResistanceDanceMenu,
-        'itemText': TTLocalizer.ResistanceDanceItem,
-        'chatText': TTLocalizer.ResistanceDanceChat,
-        'values': ['Dance'],
-        'items': [0]
+        'items': [0, 1, 2, 3, 4, 5, 6, 7, 8]
     }
 }
 
@@ -178,7 +169,7 @@ def doEffect(textId, speakingToon, nearbyToons):
                 iconName = ToontownBattleGlobals.AvPropsNew[itemValue][item]
                 icons.append(invModel.find('**/%s' % iconName))
         else:
-            tracks = range(7)
+            tracks = range(8)
             random.shuffle(tracks)
             for i in xrange(6):
                 track = tracks[i]
@@ -197,13 +188,6 @@ def doEffect(textId, speakingToon, nearbyToons):
             p = effect.getParticlesNamed(name)
             p.renderer.setFromNode(icon)
         fadeColor = VBase4(0, 0, 1, 1)
-    elif menuIndex == RESISTANCE_DANCE:
-        effect = BattleParticles.loadParticleFile('resistanceEffectSparkle.ptf')
-        fadeColor = VBase4(1, 0.5, 1, 1)
-        for toonId in nearbyToons:
-            toon = base.cr.doId2do.get(toonId)
-            if toon and (not toon.ghostMode):
-                toon.setAnimState('victory')
     else:
         return
     recolorToons = Parallel()

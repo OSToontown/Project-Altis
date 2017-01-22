@@ -5,7 +5,8 @@ from direct.actor import Actor
 from otp.avatar import Avatar
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.battle import SuitBattleGlobals
 from direct.task import Task
 from toontown.battle import BattleProps
@@ -30,3 +31,19 @@ class DistributedStageSuit(DistributedFactorySuit.DistributedFactorySuit):
             self.reparentTo(hidden)
         else:
             self.doReparent()
+        if self.boss:
+            self.renameBoss()
+
+    def renameBoss(self):
+        if self.getSkeleRevives() > 0:
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': TTLocalizer.Clerk,
+             'dept': self.getStyleDept(),
+             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)}
+            self.setName(TTLocalizer.Clerk)
+            self.setDisplayName(nameInfo)
+        else:
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': TTLocalizer.Clerk,
+             'dept': self.getStyleDept(),
+             'level': self.getActualLevel()}
+            self.setName(TTLocalizer.Clerk)
+            self.setDisplayName(nameInfo)

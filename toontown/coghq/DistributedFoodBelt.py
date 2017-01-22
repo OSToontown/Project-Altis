@@ -43,7 +43,6 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         self.toonupWaitTimes = []
         self.toonupModelDict = {}
         self.toonupNum = 0
-        return
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
@@ -192,7 +191,6 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         self.beltModel = None
         self.removeAllTasks()
         self.ignoreAll()
-        return
 
     def setupFoodNodes(self):
         for i in xrange(self.NumFoodNodes):
@@ -207,8 +205,6 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
                 debugFood.reparentTo(newFoodNode)
             newFoodNode.setH(180)
             self.foodNodes.append(newFoodNode)
-
-        return
 
     def setupFoodIvals(self):
         for i in xrange(len(self.foodNodes)):

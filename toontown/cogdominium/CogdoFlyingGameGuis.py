@@ -1,6 +1,6 @@
 from direct.interval.IntervalGlobal import LerpFunctionInterval
 from direct.gui.DirectGui import DirectLabel, DirectFrame, DGG
-from direct.showbase.PythonUtil import bound as clamp
+from toontown.toonbase.ToonPythonUtil import bound as clamp
 from pandac.PandaModules import TextNode, NodePath
 from toontown.toonbase import ToontownGlobals
 from toontown.cogdominium import CogdoUtil
@@ -57,7 +57,10 @@ class CogdoFlyingProgressGui(DirectFrame):
         return
 
     def _getToonMarker(self, toon):
-        return self._laffMeterModel.find('**/' + toon.style.getType() + 'head')
+        type = self._laffMeterModel.find('**/' + toon.style.getType() + 'head')
+        if type.isEmpty():
+            type = self._laffMeterModel.find('**/bunnyhead')
+        return type
 
     def update(self):
         for toon, marker in self._toonMarkers.items():

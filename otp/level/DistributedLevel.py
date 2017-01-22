@@ -1,7 +1,7 @@
 import random
 from direct.distributed.ClockDelta import *
 from pandac.PandaModules import *
-from direct.showbase.PythonUtil import Functor, sameElements, list2dict, uniqueElements
+from toontown.toonbase.ToonPythonUtil import Functor, sameElements, list2dict, uniqueElements
 from direct.interval.IntervalGlobal import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.toonbase import ToontownGlobals
@@ -34,6 +34,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         self.smallTitleText = OnscreenText.OnscreenText('', fg=self.titleColor, font=ToontownGlobals.getSuitFont(), pos=(0.65, 0.9), scale=0.08, drawOrder=0, mayChange=1, bg=(0.5, 0.5, 0.5, 0.5), align=TextNode.ARight)
         self.titleSeq = None
         self.zonesEnteredList = []
+        self.avIdList = []
         self.fColorZones = 0
         self.scenarioIndex = 0
 
@@ -130,6 +131,8 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         if self.entranceId in self.entranceId2entity:
             epEnt = self.entranceId2entity[self.entranceId]
             if moveLocalAvatar:
+                if base.localAvatar.doId not in self.avIdList:
+                    self.avIdList.append(base.localAvatar.doId)
                 epEnt.placeToon(base.localAvatar, self.avIdList.index(base.localAvatar.doId), len(self.avIdList))
             initialZoneEnt = self.getEntity(epEnt.getZoneEntId())
         elif self.EmulateEntrancePoint:

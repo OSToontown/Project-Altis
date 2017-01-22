@@ -22,12 +22,513 @@ from toontown.toonbase import ToontownGlobals
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = min(1.0, max(0.0, config.GetFloat('cogdo-ratio', 0.5)))
+    CogdoRatio = 0.99
+    SuitHoodInfo = [[2100, #Silly Street
+      5,
+      15,
+      0,
+      5,
+      20,
+      3,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (20,
+       20,
+       20,
+       20,
+       20),
+      (2, 3, 4),
+      []],
+     [2200, #Loopy Lane
+      3,
+      10,
+      0,
+      5,
+      15,
+      3,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (30,
+       40,
+       5,
+       5,
+       20),
+      (1, 2, 3),
+      []],
+     [2300, #Punchline Place
+      3,
+      10,
+      0,
+      5,
+      15,
+      3,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (5,
+       5,
+       40,
+       40,
+       10),
+      (1, 2, 3),
+      []],
+     [1100, #Barnacle Boulevard 
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (80,
+       10,
+       0,
+       0,
+       10),
+      (2, 3, 4, 5),
+      []],
+     [1200, #Seaweed Street
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       10,
+       60,
+       30,
+       0),
+      (3, 4, 5),
+      []],
+     [1300, #Lighthouse Lane
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (10,
+       40,
+       10,
+       10,
+       30),
+      (3,
+       4,
+       5,
+       6),
+      []],
+     [3100, #Walrus Way
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (80,
+       10,
+       0,
+       0,
+       10),
+      (5, 6, 7, 8),
+      []],
+     [3200, #Sleet Street
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (10,
+       10,
+       10,
+       60,
+       10),
+      (5, 6, 7, 8),
+      []],
+     [3300, #Polar Place
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (5,
+       80,
+       5,
+       5,
+       5),
+      (7, 8, 9),
+      []],
+     [4100, #Alto Avenue
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       0,
+       50,
+       50,
+       0),
+      (3, 4, 5),
+      []],
+     [4200, #Baritone Boulevard
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       0,
+       90,
+       10,
+       0),
+      (4,
+       5,
+       6,
+       7),
+      []],
+     [4300, #Tenor Terrance
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (15,
+       10,
+       0,
+       0,
+       75),
+      (5,
+       6,
+       7,
+       8),
+      []],
+     [5100, #Elm Street
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (5,
+       5,
+       40,
+       40,
+       10),
+      (2,
+	   3,
+	   4,
+	   5,
+	   6),
+      []],
+     [5200, #Maple Street
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (40,
+       40,
+       0,
+       0,
+       20),
+      (4, 5, 6),
+      []],
+     [5300, #Oak Street
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80,
+       0),
+      (5,
+       5,
+       5,
+       80,
+       5),
+      (4,
+       5,
+       6,
+	   7),
+      []],
+     [5400, #Rose Valley
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80,
+       0),
+      (5,
+       5,
+       5,
+       80,
+       5),
+      (4,
+       5,
+       6,
+       7),
+      []],
+     [9100, #Lullaby Lane
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (20,
+       20,
+       20,
+       20,
+       20),
+      (7,
+       8,
+       9,
+       10),
+      []],
+     [9200, #Pajama Place
+      1,
+      5,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (5,
+       5,
+       80,
+       5,
+       5),
+      (6,
+       7,
+       8,
+       9),
+      []],
+    [10000, #Bossbot Country Club 
+      10,
+      20,
+      0,
+      0,
+      0,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (100,
+       0,
+       0,
+       0,
+       0),
+      (8, 9, 10),
+      []],            
+     [11000, #Sellbot Junkyard
+      3,
+      15,
+      0,
+      0,
+      0,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       0,
+       0,
+       100,
+       0),
+      (3, 4, 5, 6),
+      []],
+     [11200, #Sellbot Factory Exterior
+      10,
+      20,
+      0,
+      0,
+      0,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       0,
+       0,
+       100,
+       0),
+      (4, 5, 6),
+      []],
+     [12000, #Cashbot Trainyard
+      10,
+      20,
+      0,
+      0,
+      0,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       0,
+       100,
+       0,
+       0),
+      (6, 7, 8, 9),
+      []],
+     [13000, #Lawbot Courtyard
+      10,
+      20,
+      0,
+      0,
+      0,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       100,
+       0,
+       0,
+       0),
+      (7, 8, 9, 10),
+      []]]
+    SUIT_HOOD_INFO_ZONE = 0
+    SUIT_HOOD_INFO_MIN = 1
+    SUIT_HOOD_INFO_MAX = 2
+    SUIT_HOOD_INFO_BMIN = 3
+    SUIT_HOOD_INFO_BMAX = 4
+    SUIT_HOOD_INFO_BWEIGHT = 5
+    SUIT_HOOD_INFO_SMAX = 6
+    SUIT_HOOD_INFO_JCHANCE = 7
+    SUIT_HOOD_INFO_TRACK = 8
+    SUIT_HOOD_INFO_LVL = 9
+    SUIT_HOOD_INFO_HEIGHTS = 10
     MAX_SUIT_TYPES = 6
+    MAX_SUIT_TYPES = 6
+    MAX_SUIT_TYPES_HQ = 6
+    HQ_SKELE_CHANCE = 0.15
     POP_UPKEEP_DELAY = 10
-    POP_ADJUST_DELAY = 300
+    POP_ADJUST_DELAY = 200
     PATH_COLLISION_BUFFER = 5
-    TOTAL_MAX_SUITS = 50
+    TOTAL_MAX_SUITS = 120
     MIN_PATH_LEN = 40
     MAX_PATH_LEN = 300
     MIN_TAKEOVER_PATH_LEN = 2
@@ -39,6 +540,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     ]
     TOTAL_SUIT_BUILDING_PCT = 18 * CogdoPopFactor
     BUILDING_HEIGHT_DISTRIBUTION = [14, 18, 25, 23, 20]
+    ALLOWED_COGDO_TYPES = ['s', 'l']
     defaultSuitName = simbase.config.GetString('suit-type', 'random')
     if defaultSuitName == 'random':
         defaultSuitName = None
@@ -49,12 +551,18 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.air = air
         self.zoneId = zoneId
         self.canonicalZoneId = ZoneUtil.getCanonicalZoneId(zoneId)
+
         if simbase.air.wantCogdominiums:
             if not hasattr(self.__class__, 'CogdoPopAdjusted'):
-                self.__class__.CogdoPopAdjusted = True
+                self.__class__.CogdoPopAdjusted = False
                 for index in xrange(len(self.SuitHoodInfo)):
-                    SuitBuildingGlobals[self.zoneId][0] = int(0.5 + self.CogdoPopFactor * SuitBuildingGlobals[self.zoneId][0])
-                    SuitBuildingGlobals[self.zoneId][1] = int(0.5 + self.CogdoPopFactor * SuitBuildingGlobals[self.zoneId][1])
+                    hoodInfo = self.SuitHoodInfo[index]
+                    hoodInfo[self.SUIT_HOOD_INFO_BMIN] = int(0.5 + self.CogdoPopFactor * hoodInfo[
+                        self.SUIT_HOOD_INFO_BMIN])
+
+                    hoodInfo[self.SUIT_HOOD_INFO_BMAX] = int(0.5 + self.CogdoPopFactor * hoodInfo[
+                        self.SUIT_HOOD_INFO_BMAX])
+        
         self.hoodInfoIdx = -1
         for index in xrange(len(self.SuitHoodInfo)):
             currHoodInfo = self.SuitHoodInfo[index]
@@ -83,7 +591,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             self.notify.debug('Creating a building manager AI in zone' + str(self.zoneId))
         self.buildingMgr = self.air.buildingManagers.get(self.zoneId)
         if self.buildingMgr:
-            (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, bankBlocks, libraryBlocks, animBldgBlocks) = self.buildingMgr.getDNABlockLists()
+            (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, animBldgBlocks) = self.buildingMgr.getDNABlockLists()
             for currBlock in blocks:
                 bldg = self.buildingMgr.getBuilding(currBlock)
                 bldg.setSuitPlannerExt(self)
@@ -245,10 +753,13 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             cogdoTakeover=None, minPathLen=None, maxPathLen=None,
             buildingHeight=None, suitLevel=None, suitType=None, suitTrack=None,
             suitName=None, skelecog=None, revives=None, waiter=None):
+        self.skeleChance = 0
         startPoint = None
         blockNumber = None
         if self.notify.getDebug():
             self.notify.debug('Choosing origin from %d+%d possibles.' % (len(streetPoints), len(blockNumbers)))
+        if cogdoTakeover is None:
+            cogdoTakeOver = random.random() < self.CogdoRatio
         while startPoint == None and len(blockNumbers) > 0:
             bn = random.choice(blockNumbers)
             blockNumbers.remove(bn)
@@ -326,6 +837,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.zoneChange(newSuit, None, newSuit.zoneId)
         if skelecog:
             newSuit.setSkelecog(skelecog)
+        if self.skeleChance == 1:
+            newSuit.setSkelecog(1)
         newSuit.generateWithRequired(newSuit.zoneId)
         if revives is not None:
             newSuit.b_setSkeleRevives(revives)
@@ -383,6 +896,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 if not NPCToons.isZoneProtected(intZoneId):
                     if blockNumber in self.buildingFrontDoors:
                         possibles.append((blockNumber, self.buildingFrontDoors[blockNumber]))
+            if cogdoTakeover is None:
+                if suit.dna.dept in self.ALLOWED_COGDO_TYPES:
+                    cogdoTakeover = random.random() < self.CogdoRatio
+
         elif self.buildingMgr:
             for blockNumber in self.buildingMgr.getSuitBlocks():
                 track = self.buildingMgr.getBuildingTrack(blockNumber)
@@ -480,11 +997,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         return count
 
     def __waitForNextUpkeep(self):
-        t = random.random() * 2.0 + self.POP_UPKEEP_DELAY
+        t = 15
         taskMgr.doMethodLater(t, self.upkeepSuitPopulation, self.taskName('sptUpkeepPopulation'))
 
     def __waitForNextAdjust(self):
-        t = random.random() * 10.0 + self.POP_ADJUST_DELAY
+        t = 15
         taskMgr.doMethodLater(t, self.adjustSuitPopulation, self.taskName('sptAdjustPopulation'))
 
     def upkeepSuitPopulation(self, task):
@@ -567,11 +1084,20 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             return
         building.suitTakeOver(suitTrack, difficulty, buildingHeight)
 
-    def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight):
+    def getCogdoBuildingHeight(self, suitType):
+        if suitType == 's':
+            buildingHeight = 2
+        else:
+            buildingHeight = 3
+
+        return buildingHeight
+
+    def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight, dept):
         if self.pendingBuildingHeights.count(buildingHeight) > 0:
             self.pendingBuildingHeights.remove(buildingHeight)
+
         building = self.buildingMgr.getBuilding(blockNumber)
-        building.cogdoTakeOver(difficulty, buildingHeight)
+        building.cogdoTakeOver(difficulty, buildingHeight, dept)
 
     def recycleBuilding(self):
         bmin = SuitBuildingGlobals.buildingMinMax[self.zoneId][0]
@@ -602,8 +1128,16 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 if suitName is not None:
                     suitType = SuitDNA.getSuitType(suitName)
                     suitTrack = SuitDNA.getSuitDept(suitName)
+                
                 (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(None, suitType, suitTrack)
-                building.suitTakeOver(suitTrack, suitLevel, None)
+
+                if random.random() < self.CogdoRatio:
+                    if suitTrack in self.ALLOWED_COGDO_TYPES:
+                        building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType), suitTrack)
+                    else:
+                        building.cogdoTakeOver(suitLevel, self.getCogdoBuildingHeight(suitType))
+                else:
+                    building.suitTakeOver(suitTrack, suitLevel, None)
 
         # Save the building manager's state:
         self.buildingMgr.save()
@@ -649,7 +1183,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             'c': 0,
             'l': 0,
             'm': 0,
-            's': 0
+            's': 0,
+            'g': 0
         }
         for sp in self.air.suitPlanners.values():
             sp.countNumBuildingsPerTrack(numPerTrack)
@@ -657,12 +1192,14 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             numPerTrack['l'] += sp.pendingBuildingTracks.count('l')
             numPerTrack['m'] += sp.pendingBuildingTracks.count('m')
             numPerTrack['s'] += sp.pendingBuildingTracks.count('s')
+            numPerTrack['g'] += sp.pendingBuildingTracks.count('g')
         numPerHeight = {
             0: 0,
             1: 0,
             2: 0,
             3: 0,
-            4: 0
+            4: 0,
+            5: 0
         }
         for sp in self.air.suitPlanners.values():
             sp.countNumBuildingsPerHeight(numPerHeight)
@@ -671,6 +1208,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             numPerHeight[2] += sp.pendingBuildingHeights.count(2)
             numPerHeight[3] += sp.pendingBuildingHeights.count(3)
             numPerHeight[4] += sp.pendingBuildingHeights.count(4)
+            numPerHeight[5] += sp.pendingBuildingHeights.count(5)
         while numToAssign > 0:
             smallestCount = None
             smallestTracks = []
@@ -729,11 +1267,13 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     totalWeightPerTrack[1] -= weight * tracks[1]
                     totalWeightPerTrack[2] -= weight * tracks[2]
                     totalWeightPerTrack[3] -= weight * tracks[3]
+                    totalWeightPerTrack[4] -= weight * tracks[4]
                     totalWeightPerHeight[0] -= weight * heights[0]
                     totalWeightPerHeight[1] -= weight * heights[1]
                     totalWeightPerHeight[2] -= weight * heights[2]
                     totalWeightPerHeight[3] -= weight * heights[3]
                     totalWeightPerHeight[4] -= weight * heights[4]
+                    totalWeightPerHeight[5] -= weight * heights[5]
                     if totalWeightPerTrack[buildingTrackIndex] <= 0:
                         buildingTrack = None
                     if totalWeightPerHeight[buildingHeight] <= 0:
@@ -939,7 +1479,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     def buildingListQuery(self):
         buildingDict = {}
         self.countNumBuildingsPerTrack(buildingDict)
-        buildingList = [0, 0, 0, 0]
+        buildingList = [0, 0, 0, 0, 0]
         for dept in SuitDNA.suitDepts:
             if dept in buildingDict:
                 buildingList[SuitDNA.suitDepts.index(dept)] = buildingDict[dept]
@@ -949,8 +1489,16 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         if level is None:
             level = random.choice(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL])
         if type is None:
-            typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
-            type = random.choice(typeChoices)
+            if ZoneUtil.isCogHQZone(self.zoneId):
+                typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
+                type = random.choice(typeChoices)
+                if random.random() < self.HQ_SKELE_CHANCE:
+                    self.skeleChance = 1
+            else:
+                typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
+                type = random.choice(typeChoices)
+        if level > 12:
+            pass 
         else:
             level = min(max(level, type), type + 4)
         if track is None:

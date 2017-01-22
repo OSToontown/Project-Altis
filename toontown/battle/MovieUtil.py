@@ -6,6 +6,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.particles import ParticleEffect
 from toontown.battle import BattleParticles
 from toontown.battle import BattleProps
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase import TTLocalizer
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieUtil')
@@ -73,6 +75,10 @@ def avatarHide(avatar):
     if hasattr(avatar, 'battleTrapProp'):
         notify.debug('avatar.battleTrapProp = %s' % avatar.battleTrapProp)
     avatar.detachNode()
+
+	
+def miscHide(misc):
+    misc.detachNode()
 
 
 def copyProp(prop):
@@ -180,6 +186,27 @@ def removeDeathSuit(suit, deathSuit):
     if not deathSuit.isEmpty():
         deathSuit.detachNode()
         suit.cleanupLoseActor()
+		
+def insertZapSuit(suit, zapSuit, battle = None, pos = None, hpr = None):
+    holdParent = suit.getParent()
+    if suit.getVirtual():
+        virtualize(zapSuit)
+    if zapSuit != None and not zapSuit.isEmpty():
+        if holdParent and 0:
+            zapSuit.reparentTo(holdParent)
+        else:
+            zapSuit.reparentTo(render)
+        if battle != None and pos != None:
+            zapSuit.setPos(battle, pos)
+        if battle != None and hpr != None:
+            zapSuit.setHpr(battle, hpr)
+    return
+	
+def removeZapSuit(suit, zapSuit):
+    notify.debug('removeDeathSuit()')
+    if not zapSuit.isEmpty():
+        zapSuit.detachNode()
+        suit.cleanupZapActor()
 
 
 def insertReviveSuit(suit, deathSuit, battle = None, pos = None, hpr = None):
@@ -302,12 +329,12 @@ def createSuitReviveTrack(suit, toon, battle, npcs = []):
     return Parallel(suitTrack, deathSoundTrack, gears1Track, gears2MTrack, toonMTrack)
 
 
-def createSuitDeathTrack(suit, toon, battle, npcs = []):
+def createSuitDeathTrack(suit, toon, battle, npcs = [], headless = False):
     suitTrack = Sequence()
     suitPos, suitHpr = battle.getActorPosHpr(suit)
     if hasattr(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
         suitTrack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
-    deathSuit = suit.getLoseActor()
+    deathSuit = suit.getLoseActor(headless=headless)
     deathSuit.setBlend(frameBlend = True)
     suitTrack.append(Func(notify.debug, 'before insertDeathSuit'))
     suitTrack.append(Func(insertDeathSuit, suit, deathSuit, battle, suitPos, suitHpr))
@@ -673,7 +700,14 @@ def createSuitStunInterval(suit, before, after):
     head.calcTightBounds(p1, p2)
     return Sequence(Wait(before), Func(stars.reparentTo, head), Func(stars.setZ, max(0.0, p2[2] - 1.0)), Func(stars.loop, 'stun'), Wait(after), Func(stars.removeNode))
 	
-def zapCog(suit, before, after):
+def zapCog(suit, before, after, battle):
+    zapSuit = suit.getZapActor()
+    zapSuit.setBlend(frameBlend = True)
+    suitPos = suit.getPos(battle)
+    suitHpr = suit.getHpr(battle)
+    zapSuit.setBin("fixed", 0)
+    zapSuit.setDepthTest(False)
+    zapSuit.setDepthWrite(False)
     zapSfx = loader.loadSfx('phase_5/audio/sfx/AA_cog_shock.ogg')
     p1 = Point3(0)
     p2 = Point3(0)
@@ -681,7 +715,10 @@ def zapCog(suit, before, after):
     head.calcTightBounds(p1, p2)
     headLoop = head.hprInterval(0.5, Vec3(360, 0, 0))
     headNormal = head.hprInterval(0, Vec3(0, 0, 0))
-    return Sequence(Wait(before), Func(base.playSfx, zapSfx), headLoop, headLoop, Wait(after), headNormal)
+    zapTrack = Sequence(Wait(before), Func(base.playSfx, zapSfx), headLoop, headLoop, Wait(after), headNormal)
+    flashTrack = Sequence(Wait(before), Func(suit.setColorScale, (0,0,0,1)), Func(insertZapSuit, suit, zapSuit, battle, suitPos, suitHpr), Func(zapSuit.setColorScale, (1,1,0,1)), Wait(.2), Func(zapSuit.setColorScale, (1,1,1,1)), Wait(.2), Func(zapSuit.setColorScale, (1,1,0,1)), Wait(.2), Func(zapSuit.setColorScale, (1,1,1,1)), Wait(.2), Func(removeZapSuit, suit, zapSuit), Func(suit.setColorScale, (1,1,1,1)), Wait(after))
+    spazzTrack = Sequence(Wait(before), Func(zapSuit.loop, 'shock'), Wait(after))
+    return Parallel(zapTrack, flashTrack, spazzTrack)
 
 
 def calcAvgSuitPos(throw):

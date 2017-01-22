@@ -15,6 +15,11 @@ class DNAFlatBuilding(DNANode.DNANode):
         self.width = 0
         self.hasDoor = False
 
+    def __del__(self):
+        DNANode.DNANode.__del__(self)
+        del self.width
+        del self.hasDoor
+
     def getWidth(self):
         return self.width
 

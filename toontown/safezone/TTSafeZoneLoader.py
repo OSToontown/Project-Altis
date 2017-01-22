@@ -1,5 +1,6 @@
 from toontown.safezone import SafeZoneLoader
 from toontown.safezone import TTPlayground
+from panda3d.core import DecalEffect
 
 class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     
@@ -16,9 +17,24 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.birdSound = map(base.loader.loadSfx, ['phase_4/audio/sfx/SZ_TC_bird1.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird2.ogg',
                                             'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
+        
+        library = self.geom.find('**/*toon_landmark_TT_library_DNARoot')
+        if not library.isEmpty():
+            libraryDoor = library.find('**/door_double_round_ur')
+            if not libraryDoor.isEmpty():
+                libraryDoorGeom = libraryDoor.find('**/+GeomNode')
+                libraryDoorGeom.setEffect(DecalEffect.make())
+                libraryDoor.setY(0.0930333)
         bank = self.geom.find('**/*toon_landmark_TT_bank_DNARoot')
-        doorTrigger = bank.find('**/door_trigger*')
-        doorTrigger.setY(doorTrigger.getY() - 1.5)
+        if not bank.isEmpty():
+            bankDoorOrigin = bank.find('**/*door_origin')
+            doorTrigger = bank.find('**/door_trigger*')
+            bankDoor = bank.find('**/door_double_round_ur')
+            doorTrigger.setY(doorTrigger.getY() - 1.5)
+            offsetFix = 0.51
+            doorTrigger.setZ(doorTrigger.getZ() + offsetFix)
+            bankDoorOrigin.setZ(bankDoorOrigin.getZ() + offsetFix)
+            bankDoor.setZ(bankDoor.getZ() + offsetFix)
 
     def unload(self):
         SafeZoneLoader.SafeZoneLoader.unload(self)

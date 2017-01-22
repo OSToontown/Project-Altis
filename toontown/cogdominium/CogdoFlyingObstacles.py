@@ -3,8 +3,10 @@ from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import LerpFunc, ActorInterval, LerpPosInterval
 from direct.interval.MetaInterval import Sequence
 from direct.directutil import Mopath
-from direct.showbase import PythonUtil
-from pandac.PandaModules import *
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from panda3d.core import *
+from panda3d.direct import *
+from panda3d.physics import *
 from toontown.toonbase import ToontownGlobals
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
@@ -16,7 +18,7 @@ from direct.particles import ParticleEffect
 from direct.particles import Particles
 from direct.particles import ForceGroup
 
-class CogdoFlyingObtacleFactory:
+class CogdoFlyingObstacleFactory:
 
     def __init__(self):
         self._index = -1
@@ -29,8 +31,9 @@ class CogdoFlyingObtacleFactory:
         self._fanModel.removeNode()
         del self._fanModel
         if Globals.Level.AddParticlesToStreamers:
-            self.f.cleanup()
-            del self.f
+            if hasattr(self, 'f'):
+                self.f.cleanup()
+                del self.f
 
     def createFan(self):
         self._index += 1
@@ -86,7 +89,6 @@ class CogdoFlyingObtacleFactory:
         self.f.setHpr(0, 0, 0)
         return self.f
 
-
 class CogdoFlyingObstacle(DirectObject):
     EnterEventName = 'CogdoFlyingObstacle_Enter'
     ExitEventName = 'CogdoFlyingObstacle_Exit'
@@ -102,7 +104,6 @@ class CogdoFlyingObstacle(DirectObject):
         else:
             self.model = model
             self.model.setName(name)
-        
         self.currentT = 0.0
         self.direction = 1.0
         self.collNode = None
@@ -186,7 +187,6 @@ class CogdoFlyingObstacle(DirectObject):
     def _handleExitCollision(self, collEntry):
         messenger.send(CogdoFlyingObstacle.ExitEventName, [self, collEntry])
 
-
 from pandac.PandaModules import TransformState
 
 class CogdoFlyingWhirlwind(CogdoFlyingObstacle):
@@ -230,9 +230,16 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         self.prop = None
         self.suit = Suit.Suit()
         d = SuitDNA.SuitDNA()
-        d.newSuit(Globals.Gameplay.MinionDnaName)
+        invSuit = base.cr.newsManager.getInvading()
+        if invSuit:
+            d.newSuit(invSuit)
+        else:
+            d.newSuit(random.choice(Globals.Gameplay.MinionDnaName))
+        
         self.suit.setDNA(d)
         self.suit.setScale(Globals.Gameplay.MinionScale)
+        self.suit.nametag3d.stash()
+        self.suit.nametag.destroy()
         swapAvatarShadowPlacer(self.suit, 'minion-%sShadowPlacer' % index)
         self.mopathNodePath = NodePath('mopathNodePath')
         self.suit.reparentTo(self.mopathNodePath)
@@ -264,6 +271,7 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         if self.lastPos != None:
             vec = self.currPos - self.lastPos
             self.mopathNodePath.lookAt(self.currPos + vec)
+        
         self.mopathNodePath.setP(0)
         self.lastPos = self.mopathNodePath.getPos()
 
@@ -274,7 +282,6 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         self.suit.removeNode()
         self.suit.delete()
         CogdoFlyingObstacle.destroy(self)
-
 
 class CogdoFlyingMinionFlying(CogdoFlyingMinion):
 
@@ -290,7 +297,9 @@ class CogdoFlyingMinionFlying(CogdoFlyingMinion):
         suitPos = self.suit.getPos()
         upperPos = suitPos + Point3(0.0, 0.0, offset / 2.0)
         lowerPos = suitPos + Point3(0.0, 0.0, -offset / 2.0)
-        self.floatSequence = Sequence(LerpPosInterval(self.suit, dur / 4.0, startPos=suitPos, pos=upperPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 2.0, startPos=upperPos, pos=lowerPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 4.0, startPos=lowerPos, pos=suitPos, blendType='easeInOut'), name='%s.floatSequence%i' % (self.__class__.__name__, self.index))
+        self.floatSequence = Sequence(LerpPosInterval(self.suit, dur / 4.0, startPos=suitPos, pos=upperPos, blendType='easeInOut'), LerpPosInterval(self.suit, 
+            dur / 2.0, startPos=upperPos, pos=lowerPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 4.0, startPos=lowerPos, pos=suitPos, 
+            blendType='easeInOut'), name='%s.floatSequence%i' % (self.__class__.__name__, self.index))
 
     def startMoving(self, elapsedTime):
         CogdoFlyingMinion.startMoving(self, elapsedTime)

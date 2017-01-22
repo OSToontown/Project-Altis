@@ -32,7 +32,6 @@ class TwoDSpawnPointMgr(DirectObject):
         self.loadPoints = None
         self.collNPList = None
         self.collDict = None
-        return
 
     def load(self):
         if len(self.spawnPointList):

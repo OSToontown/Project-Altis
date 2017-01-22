@@ -13,7 +13,6 @@ class DistributedGridGoonAI(DistributedGoonAI.DistributedGoonAI):
         self.grid = None
         self.h = 0
         DistributedGoonAI.DistributedGoonAI.__init__(self, level, entId)
-        return
 
     def generate(self):
         self.notify.debug('generate')

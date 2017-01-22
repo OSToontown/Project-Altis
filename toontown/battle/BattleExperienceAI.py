@@ -3,14 +3,16 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory('BattleExprienceAI')
 
-EXP_MULTIPLIER = 5
-
 def getSkillGained(toonSkillPtsGained, toonId, track):
     exp = 0
-    expList = toonSkillPtsGained.get(toonId, None)
-    if expList != None:
+    expList = []
+    if toonSkillPtsGained.get(toonId, None) != None:
+        expList = toonSkillPtsGained.get(toonId, None)
         exp = expList[track]
-    return int(exp + 0.5) * EXP_MULTIPLIER
+    else:
+        expList = [0, 0, 0, 0, 0, 0, 0, 0]
+        exp = expList[track]
+    return (int(exp)) 
 
 def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toonOrigQuests, toonItems, toonOrigMerits, toonMerits, toonParts, suitsKilled, helpfulToonsList = None):
     if helpfulToonsList == None:
@@ -45,12 +47,15 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             p.append([0,
              0,
              0,
+             0,
              0])
             p.append([0,
              0,
              0,
+             0,
              0])
             p.append([0,
+             0,
              0,
              0,
              0])
@@ -73,9 +78,11 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             merits = toonMerits.get(toonId, [0,
              0,
              0,
+             0,
              0])
             p.append(merits)
             parts = toonParts.get(toonId, [0,
+             0,
              0,
              0,
              0])
@@ -161,6 +168,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
             activeToonList.append(toon)
 
     for toon in activeToonList:
+        toonExp = 0
         for i in xrange(len(ToontownBattleGlobals.Tracks)):
             uberIndex = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
             exp = getSkillGained(toonSkillPtsGained, toon.doId, i)
@@ -181,7 +189,14 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                     newGagList = toon.experience.getNewGagIndexList(i, exp)
                     toon.experience.addExp(i, amount=exp)
                     toon.inventory.addItemWithList(i, newGagList)
-
+        for suit in suitsKilled:
+            if suit['level'] == None:
+               pass
+            else:
+                level = suit['level']
+                toonExp += level * 5
+        currToonExp = toon.getToonExp()
+        toon.b_setToonExp(currToonExp + toonExp)
         toon.b_setExperience(toon.experience.makeNetString())
         toon.d_setInventory(toon.inventory.makeNetString())
         toon.b_setAnimState('victory', 1)
