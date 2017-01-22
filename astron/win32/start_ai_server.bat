@@ -15,6 +15,7 @@ set /P DISTRICT_NAME="District name (DEFAULT: Nuttyboro): " || ^
 set DISTRICT_NAME=Nuttyboro
 set /P BASE_CHANNEL="Base channel (DEFAULT: 401000000): " || ^
 set BASE_CHANNEL=401000000
+title %DISTRICT_NAME%
 
 echo ===============================
 echo Starting Toontown Project Altis AI server...
