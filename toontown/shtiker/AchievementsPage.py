@@ -32,19 +32,8 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
 
         self.scrollFrame = DirectScrolledFrame(parent=self, frameSize=(0, 1.5, -1.2, 0), pos=(-0.75, 1, 0.52),
                                                canvasSize=(0, 1, -7, 0), frameColor=(0.85, 0.95, 1, 1))
-        for achievement in xrange(len(AchievementsGlobals.AchievementTitles)):
-            achievementFrame = DirectFrame(parent=self.scrollFrame.getCanvas(), image=DGG.getDefaultDialogGeom(), scale=(1.3, 0, 0.32),
-                                           relief=None, pos=(start_pos.x, 1, start_pos.z - seperation.z * achievement),
-                                           text=AchievementsGlobals.AchievementTitles[achievement], text_scale=(0.05, 0.13),
-                                           text_font=ToontownGlobals.getMinnieFont(), text_pos=(0, 0, 0))
 
-            self.achievements.append(achievementFrame)
-
-            if achievement in  self.avAchievements:
-                achievementFrame['text'] = AchievementsGlobals.AchievementTitles[achievement]
-                achievementFrame['text_pos'] = (0, 0.2, -0.2)
-            else:
-                achievementFrame['text'] = '???'
+        self.updatePage()
 
     def setAvatar(self, av):
         self.avatar = av
@@ -64,20 +53,19 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         for achievement in xrange(len(AchievementsGlobals.AchievementTitles)):
             achievementFrame = DirectFrame(parent=self.scrollFrame.getCanvas(), image=DGG.getDefaultDialogGeom(), scale=(1.3, 0, 0.32),
                                            relief=None, pos=(start_pos.x, 1, start_pos.z - seperation.z * achievement),
-                                           text=AchievementsGlobals.AchievementTitles[achievement], text_scale=(0.05, 0.13),
+                                           text=AchievementsGlobals.AchievementTitles[achievement], text_scale=(.025, .1),
                                            text_font=ToontownGlobals.getMinnieFont(), text_pos=(0, 0, 0))
 
             self.achievements.append(achievementFrame)
 
             if achievement in  self.avAchievements:
                 achievementFrame['text'] = AchievementsGlobals.AchievementTitles[achievement]
-                achievementFrame['text_pos'] = (0, 0.2, -0.2)
+                achievementFrame['text_pos'] = (0, .4, 0)
 
                 currentAchievement = AchievementsGlobals.AchievementImages[achievement]
-                image = loader.loadModel(currentAchievement[0])
-                imageNode = image.find(currentAchievement[1])
-                imageNode.setColor(currentAchievement[2])
 
-                img = OnscreenGeom(geom=imageNode, parent=achievementFrame, pos=(-0.3, 0, 0))
+                img = OnscreenImage(image=currentAchievement, parent=achievementFrame, scale = (.05, 1, .2))
+                img.setTransparency(TransparencyAttrib.MAlpha)
+                experience = OnscreenText(parent=achievementFrame, text=str(AchievementsGlobals.AchievementExperience[achievement]) + " experience", scale=(.025, .1), font = ToontownGlobals.getMinnieFont(), fg = (.2, 1, .2, 1), pos = (0, -.4))
             else:
-                achievementFrame['text'] = '???'
+                achievementFrame['text'] = 'Achievement locked'

@@ -19,7 +19,7 @@ dc-file astron/dclass/toon.dc
 want-pets #t
 want-parties #f
 want-cogdominiums #t
-want-achievements #f
+want-achievements #t
 
 # Chat:
 want-whitelist #t

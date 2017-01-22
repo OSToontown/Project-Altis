@@ -9,7 +9,24 @@ class AchievementsManagerAI():
         if not av:
             return
 
-        pass
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.FriendAchievement)
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
     
+    def catalog(self, av, items):
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CatalogAchievement)
+
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(items):
+                    av.addAchievement(achievementId)
+                    
     def rideTrolley(self, av):
-        pass
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.TrolleyAchievement)
+
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
