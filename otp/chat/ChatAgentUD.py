@@ -28,12 +28,13 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
         cleanMessage, modifications = message, []
         modifications = []
-        words = message.split()
+        words = message.split('\x20')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
         for word in words:
             if word and not self.whiteList.isWord(word) and WantWhitelist:
                 modifications.append((offset, offset+len(word)-1))
+            
             offset += len(word) + 1
 
         self.air.writeServerEvent('chat-said', avId=sender, chatMode=chatMode, msg=message, cleanMsg=cleanMessage)
@@ -44,6 +45,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
                 cleanMessage = '.' + self.chatMode2prefix.get(chatMode, "") + message[1:]
             else:
                 cleanMessage = self.chatMode2prefix.get(chatMode, "") + message
+            
             modifications = []
         
         # send chat message update to ai
