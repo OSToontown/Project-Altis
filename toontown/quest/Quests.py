@@ -8100,7 +8100,7 @@ QuestDict = {
         Same,
         3102,
         NA,
-        (5250, 5258),
+        5250,
         TTLocalizer.QuestDialogDict[5249]),
  5250: (BR_TIER,
         Cont,
@@ -18740,7 +18740,7 @@ def avatarHasAllRequiredRewards(av, tier):
     for rewardId in rewardList:
         if rewardId == 900:
             found = 0
-            for actualRewardId in (901, 902, 903, 904, 905, 906, 907):
+            for actualRewardId in (901, 902, 903, 904, 905, 906, 907, 908):
                 if actualRewardId in rewardHistory:
                     found = 1
                     rewardHistory.remove(actualRewardId)

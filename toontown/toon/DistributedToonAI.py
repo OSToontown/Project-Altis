@@ -3279,9 +3279,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.warning('Bad suit index: %s' % suitIndex)
             return ['badIndex', suitIndex, 0]
   
-        suitName = SuitDNA.suitHeadTypes[suitIndex]
-        track = SuitDNA.getSuitDept(suitName)
-        type = SuitDNA.getSuitType(suitName)
+        track = suitIndex / SuitDNA.suitsPerDept
+        type = suitIndex % SuitDNA.suitsPerDept
 
         if self.air.suitInvasionManager.startInvasion(
                 suitDeptIndex=track, suitTypeIndex=type):
@@ -5227,8 +5226,7 @@ def suit(command, suitName="hho"):
         return "Couldn't start Cog Invasion for: " + suitFullName
     elif command == 'invasionend':
         returnCode = 'Ending Invasion..'
-        simbase.air.suitInvasionManager.cleanupTasks()
-        simbase.air.suitInvasionManager.cleanupInvasion()
+        simbase.air.suitInvasionManager.stopInvasion()
         return returnCode
     else:
         return 'Invalid command.'

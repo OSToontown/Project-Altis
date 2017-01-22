@@ -5218,10 +5218,10 @@ PickStatusTitle = 'Choose  Your  Statuses'
 PickStartTitle = 'Choose  Your  Starting  Playground'
 NameToonTitle = 'Choose  Your  Name'
 UberTitles = ['Normal', '15 Laff', '25 Laff', '34 Laff']
-UberInfos = ['Your average run of the mill toon, they have no laff or gag limits! Great for players who want to play traditionally.',
- '15 laff ubers can NEVER gain any laff points.',
- '25 laff ubers can gain up to 10 extra laff points from their base laff.',
- '34 laff ubers can gain up to 19 extra laff points from their base laff.']
+UberInfos = ['Your average run of the mill toon, they have no laff limits! Great for players who want to play traditionally.',
+ '15 laff ubers can NEVER GAIN ANY LAFF POINTS.',
+ '25 laff ubers can gain up to 10 extra laff points from their base laff. Once they reach 25 laff, they can NEVER GAIN ANY MORE LAFF POINTS.',
+ '34 laff ubers can gain up to 19 extra laff points from their base laff. Once they reach 34 laff, they can NEVER GAIN ANY MORE LAFF POINTS.']
 CreateYourToonHead = "Click the 'head' arrows to pick different animals."
 MakeAToonClickForNextScreen = 'Click the arrow below to go to the next screen.'
 PickClothes = 'Click the arrows to pick clothes!'
