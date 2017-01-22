@@ -74,12 +74,5 @@ class ToontownRPCHandlerBase:
                 raise ValueError
         except ValueError:
             return (-32003, 'Invalid token')
-
-        # Next, check if this token has expired:
-        period = config.GetInt('rpc-token-period', 5)
-        delta = int(time.time()) - token['timestamp']
-        if delta > period:
-            return (-32004, 'Token expired')
-
         if token['accesslevel'] < method.accessLevel:
             return (-32005, 'Insufficient access')
