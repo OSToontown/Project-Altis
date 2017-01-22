@@ -550,7 +550,7 @@ zoneId, str(activeToons)))
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def quests(command, arg0=0, arg1=0):
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     currQuests = invoker.getQuests()
     currentQuestIds = []
 
