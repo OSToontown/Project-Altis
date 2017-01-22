@@ -394,14 +394,13 @@ questClass.getNumGags())
 
 								# It looks like the Cog was valid. Lets see if they
 								# found what they were looking for.
-								baseChance = questClass.getPercentChance()
-								amountRemaining = questClass.getNumItems() - questDesc[QuestProgressIndex]
-								chance = Quests.calcRecoverChance(amountRemaining, baseChance)
+                                progress = toon.quests[index][4] & pow(2, 16) - 1 # This seems to be the Disne
+                                completion = quest.testRecover(progress)
 
                             # They found it! Give them their reward!
-								if chance >= baseChance:
-									questDesc[QuestProgressIndex] += 1
-									recoveredItems.append(questClass.getItem())
+                                if completion[0]:
+                                    recoveredItems.append(questClass.getItem())
+                                    self.__incrementQuestProgress(toon.quests[index])
 
                             # Better luck next time :(
 								else:
