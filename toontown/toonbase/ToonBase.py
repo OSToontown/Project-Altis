@@ -158,6 +158,10 @@ class ToonBase(OTPBase.OTPBase):
         textShadow.setShadow(.01)
         textShadow.setTextColor(0.8, 0.4, 0.0, 1)
         tpMgr.setProperties('textShadow', textShadow)
+        orangeText = TextProperties()
+        orangeText.setTextColor(1.0, 0.65, 0.0, 1)
+        orangeText.setTextScale(1.2)
+        tpMgr.setProperties('orangeText', orangeText)
         del tpMgr
         self.lastScreenShotTime = globalClock.getRealTime()
         self.accept('InputState-forward', self.__walking)
