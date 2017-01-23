@@ -986,11 +986,13 @@ def randomToonGroupShot(toons, suit, duration, battle):
 
 
 def chooseFireShot(throws, suitThrowsDict, attackDuration):
+    enterShot = chooseNPCEnterShot(traps, enterDuration)
     openShot = chooseFireOpenShot(throws, suitThrowsDict, attackDuration)
     openDuration = openShot.getDuration()
     openName = openShot.getName()
     closeShot = chooseFireCloseShot(throws, suitThrowsDict, openDuration, openName, attackDuration)
-    track = Sequence(openShot, closeShot)
+    exitShot = chooseNPCExitShot(traps, exitDuration)
+    track = Sequence(enterShot, openShot, closeShot, exitShot)
     return track
 
 
