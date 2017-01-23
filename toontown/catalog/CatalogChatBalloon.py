@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import * 
+
 class CatalogChatBalloon:
     TEXT_SHIFT = (0.1, -0.05, 1.1)
     TEXT_SHIFT_REVERSED = -0.05
@@ -29,7 +29,7 @@ class CatalogChatBalloon:
         balloon.setColor(balloonColor)
         if balloonColor[3] < 1.0:
             balloon.setTransparency(1)
-            
+
         # Render the text into a TextNode, using the font:
         t = root.attachNewNode(TextNode('text'))
         t.node().setFont(font)
@@ -46,7 +46,7 @@ class CatalogChatBalloon:
         t.setPos(self.TEXT_SHIFT)
         t.setX(t, self.TEXT_SHIFT_PROP*width)
         t.setZ(t, height)
-        t.reparentTo(balloon)
+
         if reversed:
             # The nametag code wants the text on the left side of the axis,
             # rather than on the right side. Therefore, we move the text to the
@@ -75,7 +75,7 @@ class CatalogChatBalloon:
             t.node().setAlign(TextNode.ACenter)
 
         # Set the balloon's size:
-        width *= 1+self.BUBBLE_PADDING_PROP
+        width *= 1 + self.BUBBLE_PADDING_PROP
         width += self.BUBBLE_PADDING
         balloon.setSx(width/self.NATIVE_WIDTH)
         if reversed:
@@ -88,7 +88,6 @@ class CatalogChatBalloon:
         left, bottom = self.FRAME_SHIFT
         if reversed:
             left = -left - width
-        frame = (left, left+width, bottom, bottom+height+1)
+        frame = (left, left + width, bottom, bottom+height+1)
 
         return root, frame
-
