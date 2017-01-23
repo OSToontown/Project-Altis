@@ -202,11 +202,9 @@ def createLocalNPC(npcId):
     return npc
 
 # Some buildings don't have NPCs, so we need to store their zone IDs here:
-badBlocks = [
-    2606, 2602, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
-    5609, 3605, 3703
-]
-
+badBlocks = [2606, 2602, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
+             5609, 3605, 3703]
+             
 def isZoneProtected(zoneId):
     if zoneId in badBlocks:
         return 1
@@ -8658,7 +8656,7 @@ NPCToonDict = {20000: (-1,
          1,
          16),
         'm',
-        1,
+        0,
         NPC_REGULAR),
  5202: (5703,
         lnames[5202],
