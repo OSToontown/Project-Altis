@@ -323,7 +323,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
                     return self.interactiveProp
                 
-         return None
+        return None
  
 
     def setInteractivePropTrackBonus(self, trackBonus):
