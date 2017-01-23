@@ -40,7 +40,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         return self.cagedToonNpcId
 		
     def chooseVPNpcFriend(self):
-        friend = random.choice(NPCToons.HQnpcFriends.keys()
+        friend = random.choice(NPCToons.HQnpcFriends.keys())
         if friend in self.blacklistedFriends:
             self.chooseVPNpcFriend()
         else:
