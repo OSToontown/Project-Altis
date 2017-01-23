@@ -16085,7 +16085,7 @@ QuestDict = {
 		 TTLocalizer.QuestDialogDict[11000]),
  11001: (FINAL_TIER,
 		 Start,
-		 (FactoryQuest, ToontownGlobals.SellbotHQ, 8),
+		 (FactoryQuest, ToontownGlobals.SellbotHQ, 5),
 		 5315,
 		 Same,
 		 NA,
