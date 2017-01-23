@@ -46,15 +46,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
                 self.acceptOnce(self.PlayGameSetPlaceEvent, self.calcInteractiveProp)
 
     def calcInteractiveProp(self):
-        if base.cr.playGame.hood:
-            loader = base.cr.playGame.hood.loader
-            if hasattr(loader, 'getInteractiveProp'):
-                self.interactiveProp = loader.getInteractiveProp(self.zoneId)
-                self.notify.debug('self.interactiveProp = %s' % self.interactiveProp)
-            else:
-                self.notify.warning('no loader.getInteractiveProp self.interactiveProp is None')
-        else:
-            self.notify.warning('no hood  self.interactiveProp is None')
+        self.getInteractiveProp()
 
     def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
         if self.battleCleanedUp():
