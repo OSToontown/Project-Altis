@@ -2238,13 +2238,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 newDuration = max(10.0, nextTime * 60 - time.time())
                 if existingDuration and existingDuration >= newDuration:
                     taskMgr.remove(taskName)
-                    taskMgr.doMethodLater(newDuration, self.__deliverGiftPurchase, taskName)
+                    taskMgr.doMethodLater(newDuration, self.__deliverBothPurchases, taskName)
                 elif existingDuration and existingDuration < newDuration:
                     pass
                 else:
-                    taskMgr.doMethodLater(newDuration, self.__deliverGiftPurchase, taskName)
+                    taskMgr.doMethodLater(newDuration, self.__deliverBothPurchases, taskName)
         return
-
+        
     def __deliverBothPurchases(self, task):
         '''
         This should only ever be used if the DistributedDelieveryManager is

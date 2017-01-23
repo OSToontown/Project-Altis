@@ -1,7 +1,8 @@
-import time
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-from toontown.catalog.CatalogGenerator import CatalogGenerator
+from CatalogGenerator import CatalogGenerator
 from toontown.toonbase import ToontownGlobals
+import time
+
 
 class CatalogManagerAI(DistributedObjectAI):
     notify = directNotify.newCategory('CatalogManagerAI')
@@ -28,7 +29,5 @@ class CatalogManagerAI(DistributedObjectAI):
         av.b_setCatalogSchedule(newWeek, int((time.time() + 604800)/60))
         av.b_setCatalogNotify(ToontownGlobals.NewItems, av.mailboxNotify)
 
-    def fetchPopularItems(self):
-        avId = self.air.getAvatarIdFromSender()
-        popularItems = self.air.popularItemManager.requestPopularItems()
-        self.sendUpdateToAvatarId(avId, 'setPopularItems', [popularItems])
+    def isItemReleased(self, accessory):
+        return 1

@@ -68,15 +68,18 @@ woodColors = [(0.933,
   0.4118,
   0.4118,
   1.0)]
-BankToMoney = {1300: 12000,
- 1310: 12000,
- 1320: 12000,
- 1330: 12000,
- 1340: 12000,
- 1350: 12000}
+BankToMoney = {
+ 1300: 20000,
+ 1310: 25000,
+ 1320: 30000,
+ 1330: 35000,
+ 1340: 40000,
+ 1350: 45000
+}
 MoneyToBank = {}
 for bankId, maxMoney in BankToMoney.items():
     MoneyToBank[maxMoney] = bankId
+
 
 MaxBankId = 1350
 ClosetToClothes = {500: 10,
@@ -1193,4 +1196,20 @@ def getAllFurnitures(index):
     for n in xrange(len(colors)):
         list.append(CatalogFurnitureItem(index, n))
 
+    return list
+
+def nextAvailableBank(avatar, duplicateItems):
+    if not avatar.getMaxBankMoney in MoneyToBank:
+        return CatalogFurnitureItem(1300)
+        
+    currBankAmt = MoneyToBank[avatar.getMaxBankMoney()]
+    if currBankAmt == MaxBankId:
+        return
+    else:
+        return CatalogFurnitureItem(currBankAmt + 10)
+        
+def getAllBanks():
+    list = []
+    for bankid in BankToMoney.keys():
+        list.append(CatalogFurnitureItem(bankId))
     return list
