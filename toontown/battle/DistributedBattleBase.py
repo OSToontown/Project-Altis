@@ -981,7 +981,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if track > 8:
             track = 8
         if level > 7:
-            level = 7:
+            level = 7
         self.sendUpdate('requestAttack', [track, level, av])
 
     def d_requestPetProxy(self, toonId, av):
