@@ -44,7 +44,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.intervalAvatar = None
         self.phoneInUse = 0
         self.origToonHpr = None
-        self.enableCatalog = False # We don't want this to be open to the public yet - set this to true for testing
+        self.enableCatalog = True # We don't want this to be open to the public yet - set this to true for testing
 
     def announceGenerate(self):
         self.notify.debug('announceGenerate')
