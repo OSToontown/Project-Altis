@@ -134,8 +134,6 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
                 do = DistributedBankAI(self.air, self, item)
             elif item.getFlags() & FLPhone:
                 do = DistributedPhoneAI(self.air, self, item)
-            elif item.getFlags() & FLChair:
-                do = DistributedChairAI(self.air, self, item)
             else:
                 do = DistributedFurnitureItemAI(self.air, self, item)
             if self.isGenerated():
