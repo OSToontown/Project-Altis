@@ -1011,10 +1011,7 @@ class LoadAvatarFSM(AvatarOperationFSM):
     def enterSetAvatarTask(self, channel, task):
         # Finally, grant ownership and shut down.
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            self.avId,
-            self.csm.air.ourChannel,
-            STATESERVER_OBJECT_SET_OWNER)
+        datagram.addServerHeader(self.avId, self.csm.air.ourChannel, STATESERVER_OBJECT_SET_OWNER)
         datagram.addChannel(self.target<<32 | self.avId)
         self.csm.air.send(datagram)
 
@@ -1031,46 +1028,32 @@ class LoadAvatarFSM(AvatarOperationFSM):
         # First, give them a POSTREMOVE to unload the avatar, just in case they
         # disconnect while we're working.
         datagramCleanup = PyDatagram()
-        datagramCleanup.addServerHeader(
-            self.avId,
-            channel,
-            STATESERVER_OBJECT_DELETE_RAM)
+        datagramCleanup.addServerHeader(self.avId, channel, STATESERVER_OBJECT_DELETE_RAM)
         datagramCleanup.addUint32(self.avId)
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            channel,
-            self.csm.air.ourChannel,
-            CLIENTAGENT_ADD_POST_REMOVE)
+        datagram.addServerHeader( channel, self.csm.air.ourChannel, CLIENTAGENT_ADD_POST_REMOVE)
         datagram.addString(datagramCleanup.getMessage())
         self.csm.air.send(datagram)
 
         # Activate the avatar on the DBSS:
-        self.csm.air.sendActivate(
-            self.avId, 0, 0, self.csm.air.dclassesByName['DistributedToonUD'],
-            {'setAdminAccess': [self.account.get('ACCESS_LEVEL', 100)]})
+        self.csm.air.sendActivate(self.avId, 0, 0, self.csm.air.dclassesByName['DistributedToonUD'], {'setAdminAccess': \
+            [self.account.get('ACCESS_LEVEL', 100)]})
 
         # Next, add them to the avatar channel:
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            channel,
-            self.csm.air.ourChannel,
-            CLIENTAGENT_OPEN_CHANNEL)
+        datagram.addServerHeader(channel, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
         datagram.addChannel(self.csm.GetPuppetConnectionChannel(self.avId))
         self.csm.air.send(datagram)
 
         # Now set their sender channel to represent their account affiliation:
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            channel,
-            self.csm.air.ourChannel,
-            CLIENTAGENT_SET_CLIENT_ID)
+        datagram.addServerHeader( channel, self.csm.air.ourChannel, CLIENTAGENT_SET_CLIENT_ID)
         datagram.addChannel(self.target<<32 | self.avId)
         self.csm.air.send(datagram)
 
         # Eliminate race conditions.
-        taskMgr.doMethodLater(0.2, self.enterSetAvatarTask,
-                              'avatarTask-%s' % self.avId, extraArgs=[channel],
-                              appendTask=True)
+        taskMgr.doMethodLater(0.2, self.enterSetAvatarTask, 'avatarTask-%s' % (self.avId), extraArgs=[channel],
+            appendTask=True)
 
 class UnloadAvatarFSM(OperationFSM):
     notify = directNotify.newCategory('UnloadAvatarFSM')
@@ -1088,36 +1071,24 @@ class UnloadAvatarFSM(OperationFSM):
 
         # Clear off POSTREMOVE:
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            channel,
-            self.csm.air.ourChannel,
-            CLIENTAGENT_CLEAR_POST_REMOVES)
+        datagram.addServerHeader(channel, self.csm.air.ourChannel, CLIENTAGENT_CLEAR_POST_REMOVES)
         self.csm.air.send(datagram)
 
         # Remove avatar channel:
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            channel,
-            self.csm.air.ourChannel,
-            CLIENTAGENT_CLOSE_CHANNEL)
+        datagram.addServerHeader(channel, self.csm.air.ourChannel, CLIENTAGENT_CLOSE_CHANNEL)
         datagram.addChannel(self.csm.GetPuppetConnectionChannel(self.avId))
         self.csm.air.send(datagram)
 
         # Reset sender channel:
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            channel,
-            self.csm.air.ourChannel,
-            CLIENTAGENT_SET_CLIENT_ID)
+        datagram.addServerHeader(channel, self.csm.air.ourChannel, CLIENTAGENT_SET_CLIENT_ID)
         datagram.addChannel(self.target<<32)
         self.csm.air.send(datagram)
 
         # Unload avatar object:
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            self.avId,
-            channel,
-            STATESERVER_OBJECT_DELETE_RAM)
+        datagram.addServerHeader(self.avId, channel, STATESERVER_OBJECT_DELETE_RAM)
         datagram.addUint32(self.avId)
         self.csm.air.send(datagram)
 
@@ -1125,10 +1096,17 @@ class UnloadAvatarFSM(OperationFSM):
         self.csm.air.writeServerEvent('avatarUnload', self.avId)
         self.demand('Off')
 
-
-# --- CLIENT SERVICES MANAGER UBERDOG ---
 class ClientServicesManagerUD(DistributedObjectGlobalUD):
     notify = directNotify.newCategory('ClientServicesManagerUD')
+
+    def __init__(self, air):
+        DistributedObjectGlobalUD.__init__(self, air)
+
+        # For processing name patterns.
+        self.nameGenerator = NameGenerator()
+
+        # Temporary HMAC key:
+        self.key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
@@ -1139,12 +1117,6 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # of race conditions.
         self.connection2fsm = {}
         self.account2fsm = {}
-
-        # For processing name patterns.
-        self.nameGenerator = NameGenerator()
-
-        # Temporary HMAC key:
-        self.key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
 
         # Instantiate our account DB interface:
         if accountDBType == 'developer':
@@ -1158,10 +1130,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
     def killConnection(self, connId, reason):
         datagram = PyDatagram()
-        datagram.addServerHeader(
-            connId,
-            self.air.ourChannel,
-            CLIENTAGENT_EJECT)
+        datagram.addServerHeader(connId, self.air.ourChannel, CLIENTAGENT_EJECT)
         datagram.addUint16(122)
         datagram.addString(reason)
         self.air.send(datagram)
@@ -1181,8 +1150,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def killAccountFSM(self, accountId):
         fsm = self.account2fsm.get(accountId)
         if not fsm:
-
-            self.notify.warning('Tried to kill account %d for duplicate FSM, but none exists!' % accountId)
+            self.notify.warning('Tried to kill account %d for duplicate FSM, but none exists!' % (accountId))
             return
 
         self.killAccount(accountId, 'An operation is already underway: ' + fsm.name)
@@ -1211,7 +1179,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
             # recieved a bad authentication key from the client, drop there connection!
-            self.killConnection(sender, 'Failed to login, recieved a bad login token %s' % (cookie))
+            self.killConnection(sender, 'Failed to login, recieved a bad login cookie %s!' % (cookie))
             return
 
         if sender >> 32:
@@ -1239,8 +1207,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.runAccountFSM(SetNameTypedFSM, avId, name)
 
     def setNamePattern(self, avId, p1, f1, p2, f2, p3, f3, p4, f4):
-        self.runAccountFSM(SetNamePatternFSM, avId, [(p1, f1), (p2, f2),
-                                                     (p3, f3), (p4, f4)])
+        self.runAccountFSM(SetNamePatternFSM, avId, [(p1, f1), (p2, f2), (p3, f3), (p4, f4)])
 
     def acknowledgeAvatarName(self, avId):
         self.runAccountFSM(AcknowledgeNameFSM, avId)

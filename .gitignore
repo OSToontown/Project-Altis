@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+gg8# Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
 *.pyo
@@ -111,3 +111,5 @@ backups/
 contentpacks/
 toondata/
 deployment/
+
+*.json
