@@ -130,10 +130,12 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
                 elif item.furnitureType - 500 > 10:
                     item.furnitureType -= 10
                 do = DistributedClosetAI(self.air, self, item)
-            elif item.getFlags() & FLPhone:
-                do = DistributedPhoneAI(self.air, self, item)
             elif item.getFlags() & FLBank:
                 do = DistributedBankAI(self.air, self, item)
+            elif item.getFlags() & FLPhone:
+                do = DistributedPhoneAI(self.air, self, item)
+            elif item.getFlags() & FLChair:
+                do = DistributedChairAI(self.air, self, item)
             else:
                 do = DistributedFurnitureItemAI(self.air, self, item)
             if self.isGenerated():
