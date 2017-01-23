@@ -78,6 +78,9 @@ class CogdoBarrelRoom:
         taskMgr.remove(self.rewardCameraTaskName)
         self._isLoaded = False
 
+    def finish(self):
+        self.destroy()
+
     def isLoaded(self):
         return self._isLoaded
 
