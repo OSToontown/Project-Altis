@@ -1,5 +1,4 @@
-from toontown.catalog.CatalogSurfaceItem import *
-
+from CatalogSurfaceItem import *
 WSTTextureName = 0
 WSTColor = 1
 WSTBasePrice = 2

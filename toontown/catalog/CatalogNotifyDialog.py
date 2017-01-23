@@ -2,7 +2,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
-
 CatalogNotifyBaseXPos = -0.93
 
 class CatalogNotifyDialog:

@@ -1,6 +1,7 @@
+import CatalogItem
 import time
-from toontown.catalog import CatalogItem
-from toontown.toonbase import ToontownGlobals, TTLocalizer
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 from toontown.toontowngui import TTDialog
@@ -70,6 +71,7 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
             heading = 45
         elif self.typeIndex == ToontownGlobals.RentalGameTable:
             model = loader.loadModel('phase_6/models/golf/game_table')
+        model.setH(45)
         self.hasPicture = True
         return self.makeFrameModel(model, spin)
 
