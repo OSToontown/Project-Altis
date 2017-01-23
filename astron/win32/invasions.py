@@ -56,7 +56,7 @@ while True:
         shard = shards[skey]
         if shard['invasion'] == None:
           if shard['name'] in superDistricts:
-            typ = int(float(random.random()) * 4.0)
+            typ = int(float(random.random()) * 5.0)
             suit = int(float(random.random()) * 4.0) + 4  # Bias the cogs to be big
             client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
             count = count + 1
@@ -67,7 +67,7 @@ while True:
           if shard['invasion'] == None and not shard['name'] in safeHarbor:
             r = random.random()
             if r < BaseInvasionChance and not shard['name'] in superDistricts:
-              typ = int(float(random.random()) * 4.0)
+              typ = int(float(random.random()) * 5.0)
               suit = int(float(random.random()) * 8.0)
               client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
               print 'Calling invasion for %s with %d,%d'%(shard['name'],typ,suit)
