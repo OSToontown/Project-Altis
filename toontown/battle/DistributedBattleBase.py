@@ -437,7 +437,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if len(oldSuitTraps) != len(self.suitTraps):
             self.needAdjustTownBattle = 1
         else:
-            for i in xrange(len(oldSuitTraps)):
+            for i in range(len(oldSuitTraps)):
                 if oldSuitTraps[i] == '9' and self.suitTraps[i] != '9' or oldSuitTraps[i] != '9' and self.suitTraps[i] == '9':
                     self.needAdjustTownBattle = 1
                     break
@@ -556,7 +556,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         targetIndices = []
         unAttack = 0
         localToonInList = 0
-        for i in xrange(len(ids)):
+        for i in range(len(ids)):
             track = tracks[i]
             level = levels[i]
             toon = self.findToon(ids[i])
@@ -603,7 +603,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     targetIndex = -1
             targetIndices.append(targetIndex)
 
-        for i in xrange(4 - len(ids)):
+        for i in range(4 - len(ids)):
             toonIndices.append(-1)
             tracks.append(-1)
             levels.append(-1)
@@ -978,6 +978,10 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def d_requestAttack(self, toonId, track, level, av):
         self.notify.debug('network:requestAttack(%d, %d, %d)' % (track, level, av))
+        if track > 8:
+            track = 8
+        if level > 7:
+            level = 7
         self.sendUpdate('requestAttack', [track, level, av])
 
     def d_requestPetProxy(self, toonId, av):

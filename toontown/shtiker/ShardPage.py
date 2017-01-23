@@ -47,7 +47,6 @@ def setupInvasionMarker(node, invasionStatus):
 
     icons.removeNode()
 
-    icon.setColor(ICON_COLORS[invasionStatus - 1])
     icon.setPos(0.44, 0, 0.015)
     icon.setScale(0.053)
 
