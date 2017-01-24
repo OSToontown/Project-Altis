@@ -127,12 +127,13 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             phone = CatalogFurnitureItem(1399)
             phone.posHpr = (-5, 0, 0, 0, 0, 0)
             items.append(phone)
+            print('spawned a phone for someone')
         
         # banks
         hasBank = False
         for bank in items:
             try:
-                if bank.getFlags() & FLPhone:
+                if bank.getFlags() & FLBank:
                     hasBank = True
                     break
             except:
@@ -142,12 +143,14 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             bank = CatalogFurnitureItem(1300)
             bank.posHpr = (5, 0, 0, 0, 0, 0)
             items.append(bank)
+            print('spawned a bank for someone')
         
             
         if not hasCloset and self.ownerId != 0:
             item = CatalogFurnitureItem(500)  # the basic closet...
             item.posHpr = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             items.append(item)
+            print('spawned a closet for someone')
             
         # Since we have modified the items list, should we save it back to the house?
         for item in items:
