@@ -102,6 +102,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
 
         items.removeDuplicates(FLCloset)
         items.removeDuplicates(FLPhone)
+        items.removeDuplicates(FLBank)
 
         # Due to a bug, some people are missing their closets...
         hasCloset = False
@@ -126,10 +127,28 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             phone = CatalogFurnitureItem(1399)
             phone.posHpr = (-5, 0, 0, 0, 0, 0)
             items.append(phone)
+        
+        # banks
+        hasBank = False
+        for bank in items:
+            try:
+                if bank.getFlags() & FLPhone:
+                    hasBank = True
+                    break
+            except:
+                pass
+        
+        if not hasBank and self.ownerId != 0:
+            bank = CatalogFurnitureItem(1300)
+            bank.posHpr = (5, 0, 0, 0, 0, 0)
+            items.append(bank)
+        
+            
         if not hasCloset and self.ownerId != 0:
             item = CatalogFurnitureItem(500)  # the basic closet...
             item.posHpr = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             items.append(item)
+            
         # Since we have modified the items list, should we save it back to the house?
         for item in items:
             try:
