@@ -993,10 +993,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def d_requestAttack(self, toonId, track, level, av):
         self.notify.debug('network:requestAttack(%d, %d, %d)' % (track, level, av))
-        if track > 8:
-            track = 8
-        if level > 7:
-            level = 7
         self.sendUpdate('requestAttack', [track, level, av])
 
     def d_requestPetProxy(self, toonId, av):
