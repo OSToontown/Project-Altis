@@ -65,7 +65,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.treasure.getChildren().detach()
         model = loader.loadModel(modelPath)
         model.instanceTo(self.treasure)
-        return
 
     def makeNodePath(self):
         self.nodePath = NodePath(self.uniqueName('treasure'))
@@ -115,7 +114,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         base.playSfx(self.rejectSound, node=self.nodePath)
         self.treasureFlyTrack = Sequence(LerpColorScaleInterval(self.nodePath, 0.8, colorScale=VBase4(0, 0, 0, 0), startColorScale=VBase4(1, 1, 1, 1), blendType='easeIn'), LerpColorScaleInterval(self.nodePath, 0.2, colorScale=VBase4(1, 1, 1, 1), startColorScale=VBase4(0, 0, 0, 0), blendType='easeOut'), name=self.uniqueName('treasureFlyTrack'))
         self.treasureFlyTrack.start()
-        return
 
     def handleGrab(self, avId):
         self.collNodePath.stash()
@@ -144,14 +142,12 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         else:
             self.treasureFlyTrack = Sequence(track, name=self.uniqueName('treasureFlyTrack'))
         self.treasureFlyTrack.start()
-        return
 
     def handleUnexpectedExit(self):
         self.notify.warning('While getting treasure, ' + str(self.avId) + ' disconnected.')
         if self.treasureFlyTrack:
             self.treasureFlyTrack.finish()
             self.treasureFlyTrack = None
-        return
 
     def getStareAtNodeAndOffset(self):
         return (self.nodePath, Point3())
