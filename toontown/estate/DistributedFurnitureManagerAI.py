@@ -124,32 +124,34 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             item = CatalogFurnitureItem(500)  # the basic closet...
             item.posHpr = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             items.append(item)
-            # Since we have modified the items list, should we save it back to the house?
-
+        # Since we have modified the items list, should we save it back to the house?
         for item in items:
-            if item.getFlags() & FLTrunk:
-                if self.house.gender is 0:
-                    if item.furnitureType - 4000 < 10:
-                        item.furnitureType += 10
-                elif item.furnitureType - 4000 > 10:
-                    item.furnitureType -= 10
-                do = DistributedTrunkAI(self.air, self, item)
-            elif item.getFlags() & FLCloset:
-                if self.house.gender is 0:
-                    if item.furnitureType - 500 < 10:
-                        item.furnitureType += 10
-                elif item.furnitureType - 500 > 10:
-                    item.furnitureType -= 10
-                do = DistributedClosetAI(self.air, self, item)
-            elif item.getFlags() & FLBank:
-                do = DistributedBankAI(self.air, self, item)
-            elif item.getFlags() & FLPhone:
-                do = DistributedPhoneAI(self.air, self, item)
-            else:
-                do = DistributedFurnitureItemAI(self.air, self, item)
-            if self.isGenerated():
-                do.generateWithRequired(self.zoneId)
-            self.items.append(do)
+            try:
+                if item.getFlags() & FLTrunk:
+                    if self.house.gender is 0:
+                        if item.furnitureType - 4000 < 10:
+                            item.furnitureType += 10
+                    elif item.furnitureType - 4000 > 10:
+                        item.furnitureType -= 10
+                    do = DistributedTrunkAI(self.air, self, item)
+                elif item.getFlags() & FLCloset:
+                    if self.house.gender is 0:
+                        if item.furnitureType - 500 < 10:
+                            item.furnitureType += 10
+                    elif item.furnitureType - 500 > 10:
+                        item.furnitureType -= 10
+                    do = DistributedClosetAI(self.air, self, item)
+                elif item.getFlags() & FLBank:
+                    do = DistributedBankAI(self.air, self, item)
+                elif item.getFlags() & FLPhone:
+                    do = DistributedPhoneAI(self.air, self, item)
+                else:
+                    do = DistributedFurnitureItemAI(self.air, self, item)
+                if self.isGenerated():
+                    do.generateWithRequired(self.zoneId)
+                self.items.append(do)
+            except:
+                print("another user with a broken estate hurray!!!!!!!!!!!!!!!!!!")
 
     def getItems(self):
         items = CatalogItemList(store=CatalogItem.Customization|CatalogItem.Location)

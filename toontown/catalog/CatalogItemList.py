@@ -246,11 +246,13 @@ class CatalogItemList:
     def removeDuplicates(self, flags):
         if not self.__list:
             self.generateList()
-
         found = False
         for item in self.__list:
-            if item.getFlags() == flags:
-                if found:
-                    self.__list.remove(item)
-                    continue
-                found = True
+            try:
+                if item.getFlags() == flags:
+                    if found:
+                        self.__list.remove(item)
+                        continue
+                    found = True
+            except:
+                pass
