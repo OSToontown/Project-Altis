@@ -48,13 +48,17 @@ class BattleCalculatorAI:
         self.__clearBonuses(hp=1)
         self.__clearBonuses(hp=0)
         self.delayedUnlures = []
-        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier
+        if self.air.holidayManager.isMoreXpHolidayRunning():
+            mult = self.air.holidayManager.getXpMultiplier()
+            self.__skillCreditMultiplier = mult
+        else:
+            self.__skillCreditMultiplier = 3
         self.tutorialFlag = tutorialFlag
         self.trainTrapTriggered = False
         self.fireDifficulty = 0
 
     def setSkillCreditMultiplier(self, mult):
-        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier * mult
+        self.__skillCreditMultiplier = mult
 
     def getSkillCreditMultiplier(self):
         return self.__skillCreditMultiplier

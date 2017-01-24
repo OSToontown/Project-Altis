@@ -2241,7 +2241,8 @@ class Toon(Avatar.Avatar, ToonHead):
                 self.effectTrack = self.__undoCheesyEffect(oldEffect, lerpTime)
             else:
                 self.effectTrack = Sequence(self.__undoCheesyEffect(oldEffect, lerpTime / 2.0), self.__doCheesyEffect(effect, lerpTime / 2.0))
-            self.effectTrack.start()
+            if self.effectTrack:
+                self.effectTrack.start()
 
     def reapplyCheesyEffect(self, lerpTime = 0):
         if self.effectTrack != None:
