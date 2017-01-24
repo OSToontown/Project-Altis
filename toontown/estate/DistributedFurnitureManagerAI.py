@@ -106,16 +106,22 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         # Due to a bug, some people are missing their closets...
         hasCloset = False
         for item in items:
-            if item.getFlags() & FLCloset:
-                hasCloset = True
-                break
+            try:
+                if item.getFlags() & FLCloset:
+                    hasCloset = True
+                    break
+            except:
+                pass
                 
         # kys
         hasAGodDamnPhone = False
         for killme in items:
-            if killme.getFlags() & FLPhone:
-                hasAGodDamnPhone = True
-                break
+            try:
+                if killme.getFlags() & FLPhone:
+                    hasAGodDamnPhone = True
+                    break
+            except:
+                pass
         if not hasAGodDamnPhone and self.ownerId != 0:
             phone = CatalogFurnitureItem(1399)
             phone.posHpr = (-5, 0, 0, 0, 0, 0)
