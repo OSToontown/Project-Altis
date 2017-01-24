@@ -5153,7 +5153,7 @@ def trackBonus(trackIndex):
     if not 0 <= trackIndex < 8:
         return 'Invalid track index!'
     trackBonusLevel = [0] * 8
-    trackBonusLevel[trackIndex] = 1
+    trackBonusLevel[trackIndex] = 6
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 
