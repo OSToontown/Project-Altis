@@ -22,7 +22,7 @@ from toontown.toonbase import ToontownGlobals
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = 0.99
+    CogdoRatio = 0
     SuitHoodInfo = [[2100, #Silly Street
       8,
       20,
