@@ -91,6 +91,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1100: ('to', 'on', 'Barnacle Boulevard'),
  1200: ('to', 'on', 'Seaweed Street'),
  1300: ('to', 'on', 'Lighthouse Lane'),
+ 1400: ('to', 'on', 'Ahoy Avenue'),
  2000: ('to the', 'in the', 'Playground'),
  2100: ('to', 'on', 'Silly Street'),
  2200: ('to', 'on', 'Loopy Lane'),
@@ -9270,9 +9271,9 @@ GolfTimeTieBreakWinner = '%(name)s wins the total aiming time tie breaker!!!'
 RoamingTrialerWeekendStart = 'Tour Toontown is starting! Free players may now enter any neighborhood!'
 RoamingTrialerWeekendOngoing = 'Welcome to Tour Toontown! Free players may now enter any neighborhood!'
 RoamingTrialerWeekendEnd = "That's all for Tour Toontown."
-MoreXpHolidayStart = 'Good news! Exclusive Test Toon double gag experience time has started.'
-MoreXpHolidayOngoing = 'Welcome! Exclusive Test Toon double gag experience time is currently ongoing.'
-MoreXpHolidayEnd = 'Exclusive Test Toon double gag experience time has ended. Thanks for helping us Test things!'
+MoreXpHolidayStart = 'Good news! Exclusive Test Toon 5x gag experience time has started.'
+MoreXpHolidayOngoing = 'Welcome! Exclusive Test Toon 5x gag experience time is currently ongoing.'
+MoreXpHolidayEnd = 'Exclusive Test Toon 5x gag experience time has ended. Thanks for helping us Test things!'
 JellybeanDayHolidayStart = "It's Jellybean Day! Get Double Jellybean rewards at Parties!"
 JellybeanDayHolidayEnd = "That's all for Jellybean Day. See you next year."
 PartyRewardDoubledJellybean = 'Double Jellybeans!'

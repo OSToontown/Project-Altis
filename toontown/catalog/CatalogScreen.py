@@ -97,7 +97,7 @@ class CatalogScreen(DirectFrame):
         taskMgr.doMethodLater(1.0, clarabelleGreeting, 'clarabelleGreeting')
         taskMgr.doMethodLater(12.0, clarabelleHelpText1, 'clarabelleHelpText1')
         if hasattr(self, 'giftToggle'):
-            self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOn
+            self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
 
     def hide(self):
         self.ignore('CatalogItemPurchaseRequest')
