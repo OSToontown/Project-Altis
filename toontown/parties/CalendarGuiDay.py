@@ -220,7 +220,6 @@ class CalendarGuiDay(DirectFrame):
                     self.timedEvents.append((party.startTime.time(), party))
 
         if base.cr.newsManager and (self.filter == ToontownGlobals.CalendarFilterShowAll or self.filter == ToontownGlobals.CalendarFilterShowOnlyHolidays):
-            base.cr.newsManager.setYearlyCalendarHolidays([(13, (10, 5, 0, 0), (10, 6, 12, 0)), (26, (10, 1, 0, 0), (11, 1, 0, 0))])
             yearlyHolidays = base.cr.newsManager.getYearlyHolidaysForDate(self.myDate)
             for holiday in yearlyHolidays:
                 holidayId = holiday[1]
@@ -276,7 +275,7 @@ class CalendarGuiDay(DirectFrame):
                 else:
                     self.notify.error('holiday is not today %s' % holiday)
                 self.timedEvents.append((myTime, holiday))
-
+            
         def timedEventCompare(te1, te2):
             if te1[0] < te2[0]:
                 return -1
