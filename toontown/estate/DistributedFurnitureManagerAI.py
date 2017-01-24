@@ -101,6 +101,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         self.items = []
 
         items.removeDuplicates(FLCloset)
+        items.removeDuplicates(FLPhone)
 
         # Due to a bug, some people are missing their closets...
         hasCloset = False
@@ -108,7 +109,17 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             if item.getFlags() & FLCloset:
                 hasCloset = True
                 break
-
+                
+        # kys
+        hasAGodDamnPhone = False
+        for killme in items:
+            if killme.getFlags() & FLPhone:
+                hasAGodDamnPhone = True
+                break
+        if not hasAGodDamnPhone and self.ownerId != 0:
+            phone = CatalogFurnitureItem(1399)
+            phone.posHpr = (-5, 0, 0, 0, 0, 0)
+            items.append(phone)
         if not hasCloset and self.ownerId != 0:
             item = CatalogFurnitureItem(500)  # the basic closet...
             item.posHpr = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
