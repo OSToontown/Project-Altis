@@ -16,6 +16,7 @@ from toontown.toon import DistributedToon
 from direct.directnotify import DirectNotifyGlobal
 from toontown.nametag import NametagGlobals
 import CatalogChatBalloon
+from toontown.toontowngui import FeatureComingSoonDialog
 
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2
@@ -33,6 +34,7 @@ class CatalogScreen(DirectFrame):
     def __init__(self, parent = aspect2d, **kw):
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         background = guiItems.find('**/catalog_background')
+        background.setBin("background", 10)
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
         guiBack = loader.loadModel('phase_5.5/models/gui/package_delivery_panel')
         optiondefs = (('scale', 0.667, None),
@@ -95,11 +97,7 @@ class CatalogScreen(DirectFrame):
         taskMgr.doMethodLater(1.0, clarabelleGreeting, 'clarabelleGreeting')
         taskMgr.doMethodLater(12.0, clarabelleHelpText1, 'clarabelleHelpText1')
         if hasattr(self, 'giftToggle'):
-            self.giftToggle['state'] = DGG.DISABLED
-            self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleWait
-        base.cr.deliveryManager.sendAck()
-        self.accept('DeliveryManagerAck', self.__handleUDack)
-        taskMgr.doMethodLater(10.0, self.__handleNoAck, 'ackTimeOut')
+            self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOn
 
     def hide(self):
         self.ignore('CatalogItemPurchaseRequest')
@@ -1075,6 +1073,8 @@ class CatalogScreen(DirectFrame):
 
     def __giftToggle(self):
         messenger.send('wakeup')
+        FeatureComingSoonDialog.FeatureComingSoonDialog("Woah! That feature will is \n\1textShadow\1coming soon\2! Sorry about that!")
+        '''
         if self.gifting == -1:
             self.gifting = 1
             self.giftLabel.show()
@@ -1091,7 +1091,7 @@ class CatalogScreen(DirectFrame):
 
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
             self.update()
-
+        '''
     def __handleUDack(self, caller = None):
         taskMgr.remove('ackTimeOut')
         if hasattr(self, 'giftToggle') and self.giftToggle:
