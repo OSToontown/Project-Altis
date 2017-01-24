@@ -4418,7 +4418,7 @@ def cheesyEffect(value, hood=0, expire=0):
         return 'Invalid cheesy effect value: %d' % value
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setCheesyEffect(value, hood, expire)
     return 'Set your cheesy effect to: %d' % value
 
@@ -4427,7 +4427,7 @@ def hp(hp):
     """
     Modify the invoker's current HP.
     """
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     maxHp = invoker.getMaxHp()
     if not -1 <= hp <= maxHp:
         return 'HP must be in range (-1-%d).' % maxHp
@@ -4727,7 +4727,7 @@ def hat(hatIndex, hatTex=0):
         return 'Invalid hat index.'
     if not 0 <= hatTex < len(ToonDNA.HatTextures):
         return 'Invalid hat texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setHat(hatIndex, hatTex, 0)
     return "Set %s's hat to %d, %d!" % (invoker.getName(), hatIndex, hatTex)
 
@@ -4740,7 +4740,7 @@ def glasses(glassesIndex, glassesTex=0):
         return 'Invalid glasses index.'
     if not 0 <= glassesTex < len(ToonDNA.GlassesTextures):
         return 'Invalid glasses texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setGlasses(glassesIndex, glassesTex, 0)
     return "Set %s's glasses to %d, %d!" % (invoker.getName(), glassesIndex, glassesTex)
 
@@ -4753,7 +4753,7 @@ def backpack(backpackIndex, backpackTex=0):
         return 'Invalid backpack index.'
     if not 0 <= backpackTex < len(ToonDNA.BackpackTextures):
         return 'Invalid backpack texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setBackpack(backpackIndex, backpackTex, 0)
     return "Set %s's backpack to %d, %d!" % (invoker.getName(), backpackIndex, backpackTex)
 
@@ -4766,7 +4766,7 @@ def shoes(shoesIndex, shoesTex=0):
         return 'Invalid shoes index.'
     if not 0 <= shoesTex < len(ToonDNA.ShoesTextures):
         return 'Invalid shoes texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setShoes(shoesIndex, shoesTex, 0)
     return "Set %s's shoes to %d, %d!" % (invoker.getName(), shoesIndex, shoesTex)
 
@@ -5164,7 +5164,7 @@ def track(command, track, value=None):
                  'squirt', 'zap', 'drop').index(track.lower())
     except:
         return 'Invalid Gag track!'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     trackAccess = invoker.getTrackAccess()
     if (command.lower() not in ('add',)) and (not trackAccess[index]):
         return "You don't have that track!"
