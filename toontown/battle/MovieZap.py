@@ -23,7 +23,7 @@ sprayScales = [0.2,
  0.8,
  1.0,
  2.0]
-WaterSprayColor = Point4(0, 0, 0, 0)
+WaterSprayColor = Point4(1.0, 1.0, 0, 1.0)
 zapPos = Point3(0, 0, 0)
 zapHpr = Vec3(0, 0, 0)
 
