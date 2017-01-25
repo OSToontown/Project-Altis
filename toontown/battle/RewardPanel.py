@@ -200,10 +200,11 @@ class RewardPanel(DirectFrame):
     def initGagFrame(self, toon, expList, meritList, noSkip = False):
         self.notify.debug('Initializing Gag Frame!')
         self.avNameLabel['text'] = toon.getName()
-        if base.cr.newsManager.isHolidayRunning(ToontownGlobals.MORE_XP_HOLIDAY):
-            self.multiplier['text'] = "5x Gag Multiplier"
-        if base.cr.newsManager.getInvading():
-            self.invasion['text'] = "2x Invasion Multiplier"
+        if hasattr(base.cr, 'newsManager'):
+            if base.cr.newsManager.isHolidayRunning(ToontownGlobals.MORE_XP_HOLIDAY):
+                self.multiplier['text'] = "5x Gag Multiplier"
+            if base.cr.newsManager.getInvading():
+                self.invasion['text'] = "Invasion Multiplier"
         self.endTrackFrame.hide()
         self.gagExpFrame.show()
         self.invasion.show()

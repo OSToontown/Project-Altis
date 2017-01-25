@@ -54,7 +54,7 @@ class BattleCalculatorAI:
         self.fireDifficulty = 0
 
     def setSkillCreditMultiplier(self, mult):
-        self.__skillCreditMultiplier = simbase.air.holidayManager.getXpMultiplier() * mult
+        self.__skillCreditMultiplier = mult
 
     def getSkillCreditMultiplier(self):
         return self.__skillCreditMultiplier
