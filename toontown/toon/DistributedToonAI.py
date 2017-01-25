@@ -1104,17 +1104,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def d_setAnimState(self, animName, animMultiplier):
         timestamp = globalClockDelta.getRealNetworkTime()
         self.sendUpdate('setAnimState', [animName, animMultiplier, timestamp])
-        return None
 
     def setAnimState(self, animName, animMultiplier, timestamp = 0):
         if animName not in ToontownGlobals.ToonAnimStates:
             desc = 'tried to set invalid animState: %s' % (animName,)
-            if config.GetBool('want-ban-animstate', 1):
-                #simbase.air.banManager.ban(self.doId, self.DISLid, desc)
+            if config.GetBool('want-ban-animstate', True):
+                simbase.air.banManager.ban(self.doId, desc)
                 pass
             else:
                 self.air.writeServerEvent('suspicious', self.doId, desc)
-            return
         
         self.animName = animName
         self.animMultiplier = animMultiplier
@@ -1380,7 +1378,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.notify.warning('%s setCogIndex invalid: %s' % (self.doId, index))
                 if simbase.config.GetBool('want-ban-wrong-suit-place', False):
                     commentStr = 'Toon %s trying to set cog index to %s in Zone: %s' % (self.doId, index, self.zoneId)
-                    #simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                    simbase.air.banManager.ban(self.doId, commentStr)
         else:
             self.cogIndex = index
 
@@ -1670,7 +1668,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.sendUpdate('setCheesyEffect', [effect, hoodId, expireTime])
 
     def setCheesyEffect(self, effect, hoodId, expireTime):
-        # We don't yet have a working holidayManager, and we want to keep snowman heads.
         if simbase.air.holidayManager and ToontownGlobals.WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.WACKY_WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and effect == ToontownGlobals.CESnowMan:
             self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
             self.b_setScavengerHunt([])
@@ -1887,7 +1884,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             simbase.air.writeServerEvent('suspicious', self.doId, 'Toon teleporting to zone %s they do not have access to.' % zoneId)
             if simbase.config.GetBool('want-ban-teleport', False):
                 commentStr = 'Toon %s teleporting to a zone %s they do not have access to' % (self.doId, zoneId)
-                #simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                simbase.air.banManager.ban(self.doId, commentStr)
 
     def setTeleportOverride(self, flag):
         self.teleportOverride = flag
@@ -2457,7 +2454,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             commentStr = 'User %s has negative money %s' % (self.doId, money)
             dislId = self.DISLid
             if simbase.config.GetBool('want-ban-negative-money', False):
-                #simbase.air.banManager.ban(self.doId, dislId, commentStr)
+                simbase.air.banManager.ban(self.doId, commentStr)
                 pass
         self.money = money
 
@@ -4060,7 +4057,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 if nextTime != None:
                     duration = max(10.0, nextTime * 60 - time.time())
                     taskMgr.doMethodLater(duration, self.__deliverAwardPurchase, taskName)
-        return
 
     def __deliverAwardPurchase(self, task):
         now = int(time.time() / 60 + 0.5)
@@ -4126,7 +4122,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             newName = name
         if self.name != newName:
             self.b_setName(newName)
-        return
 
     def setName(self, name):
         DistributedPlayerAI.DistributedPlayerAI.setName(self, name)
@@ -4162,8 +4157,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.air.writeServerEvent('suspicious', avId, 'Black List module %s loaded into process.' % module)
                     if simbase.config.GetBool('want-ban-blacklist-module', False):
                         commentStr = 'User has blacklist module: %s attached to their game process' % module
-                        dislId = self.DISLid
-                        #simbase.air.banManager.ban(self.doId, dislId, commentStr)
+                        simbase.air.banManager.ban(self.doId, commentStr)
                 else:
                     self.air.writeServerEvent('suspicious', avId, 'Unknown module %s loaded into process.' % module)
 

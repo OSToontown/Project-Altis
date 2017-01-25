@@ -50,6 +50,8 @@ if 'show-cog-levels' not in settings:
     settings['show-cog-levels'] = True
 if 'health-meter-mode' not in settings:
     settings['health-meter-mode'] = 2
+if 'experienceBarMode' not in settings:
+    settings['experienceBarMode'] = True
 settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
