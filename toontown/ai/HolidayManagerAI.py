@@ -91,7 +91,6 @@ class HolidayManagerAI():
         
     def startHoliday(self, holidayId):
         if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
-            self.xpMultiplier = 5
             self.air.newsManager.setMoreXpHolidayStart()
     
     def removeHoliday(self, holidayId):
