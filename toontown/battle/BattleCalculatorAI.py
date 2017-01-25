@@ -61,7 +61,6 @@ class BattleCalculatorAI:
 
     def cleanup(self):
         self.battle = None
-        return
 
     def __calcToonAtkHit(self, attackIndex, atkTargets):
         if len(atkTargets) == 0:
@@ -1067,7 +1066,6 @@ class BattleCalculatorAI:
         self.__processBonuses(hp=0)
         self.__processBonuses(hp=1)
         self.__postProcessToonAttacks()
-        return
 
     def __knockBackAtk(self, attackIndex, toon = 1):
         if toon and (self.battle.toonAttacks[attackIndex][TOON_TRACK_COL] == THROW or self.battle.toonAttacks[attackIndex][TOON_TRACK_COL] == SQUIRT):
@@ -1114,7 +1112,6 @@ class BattleCalculatorAI:
             return self.battle.activeToons.index(toonId)
         else:
             return self.__pickRandomToon(suitId)
-        return
 
     def __pickRandomToon(self, suitId):
         liveToons = []
@@ -1199,15 +1196,13 @@ class BattleCalculatorAI:
             return handle.hp + self.toonHPAdjusts[toonDoId]
         else:
             return 0
-        return
-
+            
     def __getToonMaxHp(self, toonDoId):
         handle = self.battle.getToon(toonDoId)
         if handle != None:
             return handle.maxHp
         else:
             return 0
-        return
 
     def __applySuitAttackDamages(self, attackIndex):
         attack = self.battle.suitAttacks[attackIndex]
