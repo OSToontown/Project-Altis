@@ -1974,6 +1974,9 @@ dclass NewsManager : DistributedObject {
   setTrolleyHolidayEnd() broadcast;
   setTrolleyWeekendStart() broadcast;
   setTrolleyWeekendEnd() broadcast;
+  setMoreXpHolidayStart() broadcast;
+  setMoreXpHolidayOngoing() broadcast;
+  setMoreXpHolidayEnd() broadcast;
   setRoamingTrialerWeekendStart() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8, string, uint32, uint8) broadcast;
