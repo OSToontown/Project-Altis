@@ -49,11 +49,14 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.toonMerits = {}
         self.toonParts = {}
         self.battleCalc = BattleCalculatorAI(self, tutorialFlag)
-        if self.air.suitInvasionManager.getInvading():
-            mult = getInvasionMultiplier()
+        if self.air.holidayManager.isMoreXpHolidayRunning() and self.air.suitInvasionManager.getInvading():
+            mult = simbase.air.holidayManager.getXpMultiplier() + getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
-        if self.air.holidayManager.isMoreXpHolidayRunning():
+        elif self.air.holidayManager.isMoreXpHolidayRunning():
             mult = simbase.air.holidayManager.getXpMultiplier()
+            self.battleCalc.setSkillCreditMultiplier(mult)              
+        elif self.air.suitInvasionManager.getInvading():
+            mult = getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
         self.fsm = None
         self.clearAttacks()

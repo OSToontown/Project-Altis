@@ -579,6 +579,8 @@ from toontown.safezone import SafeZoneManager/AI
 from toontown.tutorial import TutorialManager/AI
 from toontown.catalog import CatalogManager/AI
 from toontown.safezone import DistributedTreasure/AI
+from toontown.safezone import DistributedSZTreasure/AI
+from toontown.safezone import DistributedEFlyingTreasure/AI
 from toontown.coghq import DistributedCashbotBossTreasure/AI
 from toontown.building import DistributedTrophyMgr/AI
 from toontown.building import DistributedBuilding/AI
@@ -1972,9 +1974,6 @@ dclass NewsManager : DistributedObject {
   setTrolleyHolidayEnd() broadcast;
   setTrolleyWeekendStart() broadcast;
   setTrolleyWeekendEnd() broadcast;
-  setMoreXpHolidayStart() broadcast;
-  setMoreXpHolidayOngoing() broadcast;
-  setMoreXpHolidayEnd() broadcast;
   setRoamingTrialerWeekendStart() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8, string, uint32, uint8) broadcast;
@@ -2038,6 +2037,12 @@ dclass DistributedTreasure : DistributedObject {
   requestGrab() airecv clsend;
   setGrab(uint32) broadcast ram;
   setReject() broadcast;
+};
+
+dclass DistributedSZTreasure : DistributedTreasure {
+};
+
+dclass DistributedEFlyingTreasure : DistributedSZTreasure {
 };
 
 dclass DistributedCashbotBossTreasure : DistributedTreasure {
