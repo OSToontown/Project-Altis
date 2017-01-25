@@ -38,8 +38,7 @@ while True:
     
     while True:
       msg = raw_input("Message: ")
-      shards = client.messageAll(msg)
-      print "tick..(was %d)\n"%(count)
+      shards = client.messageAll(generate_token(700), msg)
   except Exception, e:
     print e
   time.sleep(300)
