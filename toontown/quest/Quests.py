@@ -456,7 +456,7 @@ class NewbieQuest:
         newbieHp = self.getNewbieLevel()
         num = 0
         for av in avList:
-            if av.getDoId() != avId and av.getMaxHp() <= newbieHp:
+            if av != avId and av.getMaxHp() <= newbieHp:
                 num += 1
 
         return num
