@@ -1,10 +1,6 @@
 from toontown.toonbase.ToontownGlobals import *
 # [Holiday, Weekday]
 WEEKLY_HOLIDAYS = [
-   [CIRCUIT_RACING, 0], # Monday
-   [FISH_BINGO_NIGHT, 2],  # Wednesday
-   [TROLLEY_HOLIDAY, 3],  # Thursday
-   [SILLY_SATURDAY_BINGO, 5],  # Saturday
 ]
 
 # [Holiday, begin[Month, Day, Hour, Minute], end[Month, Day, Hour, Minute]]
