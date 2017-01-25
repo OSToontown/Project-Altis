@@ -53,7 +53,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
             mult = getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
         if self.air.holidayManager.isMoreXpHolidayRunning():
-            mult = simbase.air.holidayManager.getXpMultiplier()
+            mult = getMoreXpHolidayMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
         self.fsm = None
         self.clearAttacks()

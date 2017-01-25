@@ -68,8 +68,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
     def makeNodePath(self):
         self.nodePath = NodePath(self.uniqueName('treasure'))
-        if self.billboard:
-            self.nodePath.setBillboardPointEye()
         self.nodePath.setScale(0.9 * self.scale)
         self.treasure = self.nodePath.attachNewNode('treasure')
         if self.shadow:

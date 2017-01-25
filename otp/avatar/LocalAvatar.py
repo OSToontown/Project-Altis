@@ -1228,7 +1228,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def slow():
-    base.localAvatar.controlManager.setSpeeds(OTPGlobals.ToonReverseSpeed, OTPGlobals.ToonJumpForce, OTPGlobals.ToonReverseSpeed, OTPGlobals.ToonRotateSpeed)
+    base.localAvatar.controlManager.setSpeeds(OTPGlobals.ToonForwardSlowSpeed, OTPGlobals.ToonJumpForce, OTPGlobals.ToonForwardSlowSpeed, OTPGlobals.ToonRotateSpeed)
     return 'Walk speed decreased! do ~speednormal to reset to normal'
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
