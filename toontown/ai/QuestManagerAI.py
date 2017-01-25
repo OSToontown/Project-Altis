@@ -503,7 +503,7 @@ zoneId, str(activeToons)))
 
         av.b_setQuests(questList)
 		
-    def toonDefeatedCountryClub(self, toon, countryClubId, activeToonVictors):
+    def toonDefeatedCountryClub(self, av, clubId, activeVictors):
         # Get the avatars current quests.
         avQuests = av.getQuests()
         questList = []
