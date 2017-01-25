@@ -32,7 +32,7 @@ class HolidayManagerAI():
 
     def isMoreXpHolidayRunning(self):
         if ToontownGlobals.MORE_XP_HOLIDAY in self.currentHolidays:
-            self.xpMultiplier = 2
+            self.xpMultiplier = 5
             return True
         return False
         
@@ -91,7 +91,6 @@ class HolidayManagerAI():
         
     def startHoliday(self, holidayId):
         if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
-            self.xpMultiplier = 5
             self.air.newsManager.setMoreXpHolidayStart()
     
     def removeHoliday(self, holidayId):
