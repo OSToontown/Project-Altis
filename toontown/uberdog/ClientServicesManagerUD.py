@@ -140,13 +140,13 @@ class LocalAccountDB(AccountDB):
     def addNameRequest(self, avId, name):
         # add type a name
         nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avid, name))
+        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
         return # return if error: false pls
     
     def getNameStatus(self, avId):
         # check type a name
         nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avid)) # this should just use avid
+        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
         return # return the status
     
     def lookup(self, username, callback):
