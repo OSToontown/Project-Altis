@@ -69,7 +69,7 @@ def judgeName(name): #All of this gunction is just fuckrd
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
-    # Use Google's API for checking badword list     
+    # Use Google's API for checking badword list
     return True
 
 class AccountDB:
