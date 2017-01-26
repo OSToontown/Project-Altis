@@ -56,7 +56,7 @@ blacklist = executeHttpRequest('names/blacklist.json')
 if blacklist:
     blacklist = json.loads(blacklist)
 
-def judgeName(name):
+def judgeName(name): #All of this gunction is just fuckrd
     if not name:
         return False
     
@@ -69,7 +69,7 @@ def judgeName(name):
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
-    
+    # Use Google's API for checking badword list     
     return True
 
 class AccountDB:
