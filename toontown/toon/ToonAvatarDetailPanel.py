@@ -153,6 +153,7 @@ class ToonAvatarDetailPanel(DirectFrame):
     def __showData(self):
         av = self.avatar
         online = 1
+        toonId = ("TTPA-U-"+ str(self.avId - 100000000))
         if base.cr.isFriend(self.avId):
             online = base.cr.isFriendOnline(self.avId)
         if online:
@@ -166,13 +167,14 @@ class ToonAvatarDetailPanel(DirectFrame):
                 text = TTLocalizer.AvatarDetailPanelOnlinePlayer % {'district': shardName,
                  'location': hoodName,
                  'player': self.playerInfo.playerName,
-                 'level': (av.level + 1)}
+                 'level': (av.level + 1),
+                 'toonId': toonId}
             else:
                 text = TTLocalizer.AvatarDetailPanelOnline % {'district': shardName,
                  'location': hoodName,
                  'level': (av.level + 1)}
         else:
-            text = TTLocalizer.AvatarDetailPanelOffline % str(av.level + 1)
+            text = TTLocalizer.AvatarDetailPanelOffline % (str(av.level + 1), toonId)
 
         self.dataText['text'] = text
         self.__updateTrackInfo()
