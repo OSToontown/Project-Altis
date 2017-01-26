@@ -28546,6 +28546,8 @@ WHITELIST = [
     'reminding',
     'reminds',
     'remix',
+    'remot',
+    'remote',
     'removal',
     'remove',
     'removed',
