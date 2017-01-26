@@ -236,6 +236,8 @@ MyEstate = 16000
 GolfZone = 17000
 PartyHood = 18000
 HoodsAlwaysVisited = [17000, 18000]
+BoardbotHQ = 19000
+BoardbotLobby = 19100
 WelcomeValleyBegin = 22000
 WelcomeValleyEnd = 61000
 DynamicZonesBegin = 61000
@@ -243,19 +245,24 @@ DynamicZonesEnd = 1 << 20
 cogDept2index = {'c': 0,
  'l': 1,
  'm': 2,
- 's': 3}
+ 's': 3,
+ 'g': 4}
 cogIndex2dept = invertDict(cogDept2index)
 HQToSafezone = {SellbotHQ: DaisyGardens,
  CashbotHQ: DonaldsDreamland,
  LawbotHQ: TheBrrrgh,
- BossbotHQ: DonaldsDock}
+ BossbotHQ: DonaldsDock,
+ BoardbotHQ: MinniesMelodyland}
 CogDeptNames = [TTLocalizer.Bossbot,
  TTLocalizer.Lawbot,
  TTLocalizer.Cashbot,
- TTLocalizer.Sellbot]
+ TTLocalizer.Sellbot,
+ TTLocalizer.Boardbot]
 
 def cogHQZoneId2deptIndex(zone):
-    if zone >= 13000 and zone <= 13999:
+    if zone >= 19000 and zone <= 19999:
+        return 4
+    elif zone >= 13000 and zone <= 13999:
         return 1
     elif zone >= 12000:
         return 2
@@ -273,7 +280,8 @@ def dept2cogHQ(dept):
     dept2hq = {'c': BossbotHQ,
      'l': LawbotHQ,
      'm': CashbotHQ,
-     's': SellbotHQ}
+     's': SellbotHQ,
+     'g': BoardbotHQ}
     return dept2hq[dept]
 
 
@@ -444,7 +452,8 @@ phaseMap = {Tutorial: 4,
  CashbotHQ: 10,
  LawbotHQ: 11,
  GolfZone: 6,
- PartyHood: 13}
+ PartyHood: 13,
+ BoardbotHQ: 14}
 streetPhaseMap = {ToontownCentral: 5,
  DonaldsDock: 6,
  MinniesMelodyland: 6,
@@ -458,7 +467,8 @@ streetPhaseMap = {ToontownCentral: 5,
  SellbotHQ: 9,
  CashbotHQ: 10,
  LawbotHQ: 11,
- PartyHood: 13}
+ PartyHood: 13,
+ BoardbotHQ: 14}
 dnaMap = {Tutorial: 'toontown_central',
  ToontownCentral: 'toontown_central',
  DonaldsDock: 'donalds_dock',
@@ -473,6 +483,7 @@ dnaMap = {Tutorial: 'toontown_central',
  SellbotHQ: 'cog_hq_sellbot',
  CashbotHQ: 'cog_hq_cashbot',
  LawbotHQ: 'cog_hq_lawbot',
+ BoardbotHQ: 'cog_hq_boardbot',
  GolfZone: 'golf_zone'}
 hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  ToontownCentral: TTLocalizer.ToontownCentral,
@@ -490,7 +501,8 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  Tutorial: TTLocalizer.Tutorial,
  MyEstate: TTLocalizer.MyEstate,
  GolfZone: TTLocalizer.GolfZone,
- PartyHood: TTLocalizer.PartyHood}
+ PartyHood: TTLocalizer.PartyHood,
+ BoardbotHQ: TTLocalizer.BoardbotHQ}
 safeZoneCountMap = {MyEstate: 8,
  Tutorial: 6,
  ToontownCentral: 6,
@@ -532,7 +544,8 @@ hoodCountMap = {MyEstate: 2,
  CashbotHQ: 2,
  LawbotHQ: 2,
  GolfZone: 2,
- PartyHood: 2}
+ PartyHood: 2,
+ BoardbotHQ: 2}
 TrophyStarLevels = (10,
  20,
  30,
