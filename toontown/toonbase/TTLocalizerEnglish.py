@@ -2042,7 +2042,8 @@ CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
  ('Flat profile', 'you will be two-dimensional'),
  ('Transparent', 'you will be transparent'),
  ('No color', 'you will be colorless'),
- ('Invisible toon', 'you will be invisible')]
+ ('Invisible toon', 'you will be invisible'),
+ ('Wireframe', 'you will take on a more geometric form')]
 CheesyEffectIndefinite = 'Until you choose another effect, %(effectName)s%(whileIn)s.'
 CheesyEffectMinutes = 'For the next %(time)s minutes, %(effectName)s%(whileIn)s.'
 CheesyEffectHours = 'For the next %(time)s hours, %(effectName)s%(whileIn)s.'

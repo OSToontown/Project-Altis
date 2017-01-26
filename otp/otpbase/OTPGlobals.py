@@ -110,6 +110,7 @@ CEBeanCounter = 56
 CEBackStabber = 49
 CEBottomFeeder = 45
 CEGhost = 'g'
+CEWire = 77
 CEName2Id = {
  'normal': CENormal,
  'bighead': CEBigHead,
