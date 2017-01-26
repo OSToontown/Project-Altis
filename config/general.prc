@@ -143,6 +143,7 @@ randomize-interactive-idles #t
 interactive-prop-random-idles #t
 interactive-prop-info #f
 props-buff-battles #t
+prop-and-organic-bonus-stack #t
 prop-idle-pause-time 0.0
 
 # Events
