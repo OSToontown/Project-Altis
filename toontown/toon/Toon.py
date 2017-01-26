@@ -2371,6 +2371,18 @@ class Toon(Avatar.Avatar, ToonHead):
             track.append(Func(self.enablePumpkins, False))
             track.append(Func(self.startBlink))
         return track
+		
+    def __doWireFrame(self):
+        node = self.getGeomNode()
+        track = Sequence()
+        track.append(Func(node.setRenderModeWireframe))
+        return track
+		
+    def __doUnWireFrame(self):
+        node = self.getGeomNode()
+        track = Sequence()
+        track.append(Func(node.setRenderModeFilled))
+        return track
 
     def __doSnowManHeadSwitch(self, lerpTime, toSnowMan):
         node = self.getGeomNode()
@@ -4783,6 +4795,8 @@ class Toon(Avatar.Avatar, ToonHead):
             if base.localAvatar.getAdminAccess() < self.adminAccess:
                 alpha = 0
             return Sequence(self.__doToonGhostColorScale(VBase4(1, 1, 1, alpha), lerpTime, keepDefault=1), Func(self.nametag3d.hide))
+        elif effect == ToontownGlobals.CEWire:
+            return self.__doWireFrame()
         return Sequence()
 
     def __undoCheesyEffect(self, effect, lerpTime):
@@ -4942,6 +4956,8 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doUnVirtual()
         elif effect == ToontownGlobals.CEGhost:
             return Sequence(Func(self.nametag3d.show), self.__doToonGhostColorScale(None, lerpTime, keepDefault=1))
+        elif effect == ToontownGlobals.CEWire:
+            return self.__doUnWireFrame()
         return Sequence()
 
             
