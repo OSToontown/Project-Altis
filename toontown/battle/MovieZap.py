@@ -184,7 +184,7 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
             suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
         return Parallel(suitTrack, bonusTrack)
     else:
-        return MovieUtil.createSuitZaplessMultiTrack(suit, 2.5)
+        return MovieUtil.createSuitDodgeMultitrack(tDodge, suit, leftSuits, rightSuits)
 		
 def shortCircuitTrack(suit, battle):
     suitTrack = Sequence()
