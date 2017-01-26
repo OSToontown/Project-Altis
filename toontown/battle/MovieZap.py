@@ -622,7 +622,9 @@ def __doLightning(zap, delay, fShowStun, uberClone = 0, npcs=[]):
     suit = zap['target'][0]['suit']
     suitPos = suit.getPos(battle)
     toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, suitPos), ActorInterval(toon, 'pushbutton'), 
-        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'))
+    if not 'npc' in zap:
+        toonTrack.append(Func(toon.setHpr, battle, origHpr))
    
     tracks.append(toonTrack)
     for target in zap['target']:
