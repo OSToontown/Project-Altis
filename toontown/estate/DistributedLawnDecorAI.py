@@ -4,17 +4,38 @@ from direct.distributed.DistributedNodeAI import DistributedNodeAI
 class DistributedLawnDecorAI(DistributedNodeAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedLawnDecorAI")
 
-    def setPlot(self, todo0):
-        pass
+    def __init__(self, air):
+        DistributedNodeAI.__init__(self, air)
 
-    def setHeading(self, todo0):
-        pass
+    def setPlot(self, plot):
+        self.plot = plot
 
-    def setPosition(self, todo0, todo1, todo2):
-        pass
+    def getPlot(self):
+        return self.plot
 
-    def setOwnerIndex(self, todo0):
-        pass
+    def setHeading(self, heading):
+        self.heading = heading
+
+    def getHeading(self):
+        return self.heading
+
+    def setPosition(self, position):
+        self.position = position
+
+    def getPosition(self):
+        return self.position
+
+    def setOwnerIndex(self, ownerIndex):
+        self.ownerIndex = ownerIndex
+
+    def getOwnerIndex(self):    
+        return self.ownerIndex
+
+    def generate(self):
+        DistributedNodeAI.generate(self)
+
+    def announceGenerate(self):
+        DistributedNodeAI.announceGenerate(self)
 
     def plotEntered(self):
         pass
@@ -22,12 +43,14 @@ class DistributedLawnDecorAI(DistributedNodeAI):
     def removeItem(self):
         pass
 
-    def setMovie(self, todo0, todo1):
-        pass
+    def d_setMovie(self, mode, avId):
+        self.sendUpdate('setMovie', [mode, avId])
 
     def movieDone(self):
         pass
 
-    def interactionDenied(self, todo0):
-        pass
+    def d_interactionDenied(self, avId):
+        self.sendUpdate('interactionDenied', [avId])
 
+    def delete(self):
+        DistributedNodeAI.delete(self)

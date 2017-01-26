@@ -4,6 +4,15 @@ from toontown.estate.DistributedLawnDecorAI import DistributedLawnDecorAI
 class DistributedGardenPlotAI(DistributedLawnDecorAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedGardenPlotAI")
 
+    def __init__(self, air):
+        DistributedLawnDecorAI.__init__(self, air)
+
+    def plotEntered(self):
+        pass
+
+    def removeItem(self):
+        pass
+
     def plantFlower(self, todo0, todo1):
         pass
 
@@ -18,4 +27,3 @@ class DistributedGardenPlotAI(DistributedLawnDecorAI):
 
     def plantNothing(self, todo0):
         pass
-
