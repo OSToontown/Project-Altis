@@ -535,7 +535,7 @@ zoneId, str(activeToons)))
 
                 # Check if the cog counts...
                 for suit in suitsKilled:
-                    if questClass.doesCogCount(av.doId, suit, zoneId, activeToonDoIds):
+                    if questClass.doesCogCount(av.doId, suit, zoneId, activeToonList):
 
                         # Looks like the cog counts!
                         if questClass.getCompletionStatus(av, questDesc) != Quests.COMPLETE:
