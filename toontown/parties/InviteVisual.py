@@ -47,7 +47,6 @@ class InviteVisual(DirectFrame):
         self.activityTextLabel = DirectLabel(parent=self, relief=None, text='.\n.\n.\n.', pos=self.gui.find('**/what_locator').getPos(), text_scale=TTLocalizer.IVactivityTextLabel, textMayChange=True)
         self.whenTextLabel = DirectLabel(parent=self, relief=None, text='.\n.\n.', pos=self.gui.find('**/when_locator').getPos(), text_scale=TTLocalizer.IVwhenTextLabel, textMayChange=True)
         self.noFriends = False
-        return None
 
     def setNoFriends(self, noFriends):
         self.noFriends = noFriends

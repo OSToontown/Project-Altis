@@ -202,11 +202,9 @@ def createLocalNPC(npcId):
     return npc
 
 # Some buildings don't have NPCs, so we need to store their zone IDs here:
-badBlocks = [
-    2606, 2602, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
-    5609, 3605, 3703
-]
-
+badBlocks = [2606, 2602, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
+             5609, 3605, 3703]
+             
 def isZoneProtected(zoneId):
     if zoneId in badBlocks:
         return 1
@@ -8643,14 +8641,14 @@ NPCToonDict = {20000: (-1,
         NPC_FISHERMAN),
  5201: (5702,
         lnames[5201],
-        ('hls',
-         'ls',
+        ('css',
          'l',
          'm',
-         15,
+         'm',
+         20,
          0,
-         15,
-         15,
+         20,
+         20,
          1,
          10,
          1,
@@ -8658,7 +8656,7 @@ NPCToonDict = {20000: (-1,
          1,
          16),
         'm',
-        1,
+        0,
         NPC_REGULAR),
  5202: (5703,
         lnames[5202],
@@ -11569,19 +11567,19 @@ if config.GetBool('want-new-toonhall', 1):
      lnames[2001],
      ('dss',
       'ms',
-      'm',
-      'm',
+     'm',
+     'm',
       17,
       0,
       17,
       17,
       3,
-      3,
-      3,
-      3,
+     3,
+     3,
+     3,
       7,
       2),
-     'm',
+    'm',
      1,
      NPC_FLIPPYTOONHALL)
 else:
@@ -11664,7 +11662,8 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  4230: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  3135: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
  2208: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
- 5124: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0,4),
+ 5124: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
+ 3308: (100, 0, 0, 5),
  2003: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, -1, 0, 5),
  2126: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.HEAL_TRACK, 0, 3),
  4007: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.TRAP_TRACK, 0, 3),

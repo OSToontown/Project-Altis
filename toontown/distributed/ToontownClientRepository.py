@@ -92,6 +92,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.partyManager = None
         self.inGameNewsMgr = None
         self.whitelistMgr = None
+        self.defaultShard = None
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
         self.sillyMeterMgr = DistributedSillyMeterMgr.DistributedSillyMeterMgr(self)
         self.csm = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
@@ -154,6 +155,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                 except Exception, e:
                                     print e
         self.DMENU_SCREEN = None
+        
     def congratulations(self, avatarChoice):
         self.acceptedScreen = loader.loadModel('phase_3/models/gui/toon_council')
         self.acceptedScreen.setScale(0.667)
@@ -444,7 +446,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def enterPlayingGame(self, *args, **kArgs):
         OTPClientRepository.OTPClientRepository.enterPlayingGame(self, *args, **kArgs)
-        self.gameFSM.request('waitOnEnterResponses', [None,
+        self.gameFSM.request('waitOnEnterResponses', [self.defaultShard,
          base.localAvatar.defaultZone,
          base.localAvatar.defaultZone,
          -1])

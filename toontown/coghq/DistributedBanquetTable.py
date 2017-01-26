@@ -154,13 +154,13 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     def setNumDiners(self, numDiners):
         self.numDiners = numDiners
 
-    def setDinerInfo(self, hungryDurations, eatingDurations, dinerLevels):
+    def setDinerInfo(self, hungryDurations, eatingDurations, dinerLevels, dinerDept):
         self.dinerInfo = {}
         for i in xrange(len(hungryDurations)):
             hungryDur = hungryDurations[i]
             eatingDur = eatingDurations[i]
             dinerLevel = dinerLevels[i]
-            self.dinerInfo[i] = (hungryDur, eatingDur, dinerLevel)
+            self.dinerInfo[i] = (hungryDur, eatingDur, dinerLevel, dinerDept)
 
     def loadAssets(self):
         self.tableGroup = loader.loadModel('phase_12/models/bossbotHQ/BanquetTableChairs')
@@ -191,6 +191,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         level = self.dinerInfo[i][2]
         level -= 4
         diner.dna.newSuitRandom(level=level, dept='c')
+        dept = self.dinerInfo[i][3][i]
+        diner.dna.newSuitRandom(level=level, dept=dept)
         diner.setDNA(diner.dna)
         diner.nametag.setNametag2d(None)
         diner.nametag.setNametag3d(None)

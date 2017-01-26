@@ -8,6 +8,7 @@ general:
 
 messagedirector:
     bind: 127.0.0.1:7199
+    threaded: true
 
 uberdogs:
     - class: CentralLogger
@@ -57,14 +58,15 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 0.0.0.0:7198
-      version: "TTPA-Alpha-1.2.0"
+      version: "TTPA-Alpha-1.2.4"
       client:
        relocate: true
        add_interest: enabled
       channels:
         min: 1000000000
         max: 1000001000
-
+  
+        
     - type: stateserver
       control: 4002
 

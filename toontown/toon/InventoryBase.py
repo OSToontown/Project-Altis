@@ -48,6 +48,12 @@ class InventoryBase(DirectObject.DirectObject):
         datagram = PyDatagram()
         for track in xrange(0, len(Tracks)):
             for level in xrange(0, len(Levels[track])):
+                if track < 0:
+                    self.notify.warning("Invalid Track Specfied!")
+                    return
+                if level < 0:
+                    self.notify.warning("Invalid Level Specfied!")
+                    return
                 datagram.addUint8(dataList[track][level])
 
         dgi = PyDatagramIterator(datagram)

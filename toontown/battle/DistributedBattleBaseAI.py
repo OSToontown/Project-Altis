@@ -49,11 +49,14 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.toonMerits = {}
         self.toonParts = {}
         self.battleCalc = BattleCalculatorAI(self, tutorialFlag)
-        if self.air.suitInvasionManager.getInvading():
-            mult = getInvasionMultiplier()
+        if self.air.holidayManager.isMoreXpHolidayRunning() and self.air.suitInvasionManager.getInvading():
+            mult = simbase.air.holidayManager.getXpMultiplier() + getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
-        if self.air.holidayManager.isMoreXpHolidayRunning():
-            mult = getMoreXpHolidayMultiplier()
+        elif self.air.holidayManager.isMoreXpHolidayRunning():
+            mult = simbase.air.holidayManager.getXpMultiplier()
+            self.battleCalc.setSkillCreditMultiplier(mult)              
+        elif self.air.suitInvasionManager.getInvading():
+            mult = getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
         self.fsm = None
         self.clearAttacks()
@@ -360,7 +363,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 attack = getToonAttack(index)
                 p = p + attack
 
-        for i in xrange(4 - len(self.activeToons)):
+        for i in range(4 - len(self.activeToons)):
             p = p + getToonAttack(-1)
 
         for sa in self.suitAttacks:
@@ -422,7 +425,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         uberIndex = LAST_REGULAR_GAG_LEVEL + 1
         for toon in self.activeToons:
             toonList = []
-            for trackIndex in xrange(MAX_TRACK_INDEX):
+            for trackIndex in range(MAX_TRACK_INDEX):
                 toonList.append(toon.inventory.numItem(track, uberIndex))
 
             fieldList.append(encodeUber(toonList))
@@ -667,7 +670,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         if self.activeToons.count(toonId) == 1:
             activeToonIdx = self.activeToons.index(toonId)
             self.notify.debug('removing activeToons[%d], updating suitAttacks SUIT_HP_COL to match' % activeToonIdx)
-            for i in xrange(len(self.suitAttacks)):
+            for i in range(len(self.suitAttacks)):
                 if activeToonIdx < len(self.suitAttacks[i][SUIT_HP_COL]):
                     del self.suitAttacks[i][SUIT_HP_COL][activeToonIdx]
                 else:
@@ -1348,7 +1351,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                         self.notify.debug('toon: %d called for help' % toonId)
                     elif track == PETSOS:
                         self.notify.debug('toon: %d called for pet' % toonId)
-                        for i in xrange(len(self.activeToons)):
+                        for i in range(len(self.activeToons)):
                             toon = self.getToon(self.activeToons[i])
                             if toon != None:
                                 if i < len(hps):
@@ -1368,7 +1371,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
                     elif track == HEAL:
                         if levelAffectsGroup(HEAL, level):
-                            for i in xrange(len(self.activeToons)):
+                            for i in range(len(self.activeToons)):
                                 at = self.activeToons[i]
                                 if at != toonId or attack[TOON_TRACK_COL] == NPCSOS:
                                     toon = self.getToon(at)
@@ -1540,7 +1543,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         lastActiveSuitDied = 0
         if len(self.activeSuits) == 0 and len(self.pendingSuits) == 0:
             lastActiveSuitDied = 1
-        for i in xrange(4):
+        for i in range(4):
             attack = self.suitAttacks[i][SUIT_ATK_COL]
             if attack != NO_ATTACK:
                 suitId = self.suitAttacks[i][SUIT_ID_COL]

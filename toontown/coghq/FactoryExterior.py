@@ -139,7 +139,6 @@ class FactoryExterior(BattlePlace.BattlePlace):
         else:
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent)
-        return
 
     def exitTeleportOut(self):
         BattlePlace.BattlePlace.exitTeleportOut(self)

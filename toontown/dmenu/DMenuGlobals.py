@@ -11,3 +11,9 @@ QuitBtnPos = (-0.8, 0, -0.4)
 PlayBtnHidePos = (-2.8, 0, 0.0)
 OptionsBtnHidePos = (-2.8, 0, -0.2)
 QuitBtnHidePos = (-2.8, 0, -0.4)
+
+DiscordBtnPos = (.8, 0, 0.0)
+DiscordBtnHidePos = (2.8, 0, 0.0)
+
+CreditsBtnPos = (.8, 0, -0.2)
+CreditsBtnHidePos = (2.8, 0, -0.2)

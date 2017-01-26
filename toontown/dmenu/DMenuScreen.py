@@ -1,4 +1,4 @@
-# DMENU VERSION 0.7
+# DMENU VERSION 0.8
 
 DMENU_GAME = 'Toontown'
 
@@ -10,9 +10,11 @@ from toontown.pickatoon import PickAToonOptions, PickAToon
 from toontown.dmenu.DMenuGlobals import *
 from toontown.dmenu.DMenuLocalizer import *
 from toontown.dmenu.DMenuResources import *
+from toontown.dmenu import DMenuCredits
 from direct.actor import Actor
 from direct.showbase import Audio3DManager
 import random
+import webbrowser
 
 if DMENU_GAME == 'Toontown':
 # TT
@@ -22,6 +24,7 @@ if DMENU_GAME == 'Toontown':
     from toontown.toon import Toon, ToonDNA
     from toontown.nametag.NametagGroup import *
     from toontown.nametag.NametagGlobals import *
+    from toontown.toontowngui import FeatureComingSoonDialog
 
 # The camera's initial position when first entering main menu
 INIT_POS = (-62, 0, 11)
@@ -54,7 +57,8 @@ class DMenuScreen(DirectObject):
             Wait(.5),
             Func(base.transitions.fadeIn, .5),
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
-               
+        FeatureComingSoonDialog.FeatureComingSoonDialog(text='\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!')
+
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
         self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
@@ -232,7 +236,16 @@ class DMenuScreen(DirectObject):
         self.QuitButton.reparentTo(aspect2d)
         self.QuitButton.setPos(QuitBtnHidePos)
         self.QuitButton.show()
-
+        
+        self.DiscordButton = DirectButton(relief = None, text_style = 3, image=(shuffleUp, shuffleDown, shuffleUp), image_scale=(0.8, 0.7, 0.7), image1_scale=(0.83, 0.7, 0.7), image2_scale=(0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = "Discord", text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.openDiscord)
+        self.DiscordButton.reparentTo(aspect2d)
+        self.DiscordButton.setPos(DiscordBtnHidePos)
+        self.DiscordButton.show()
+        
+        self.CreditsButton = DirectButton(relief = None, text_style = 3, image=(shuffleUp, shuffleDown, shuffleUp), image_scale=(0.8, 0.7, 0.7), image1_scale=(0.83, 0.7, 0.7), image2_scale=(0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = "Credits", text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.startCredits)
+        self.CreditsButton.reparentTo(aspect2d)
+        self.CreditsButton.setPos(CreditsBtnHidePos)
+        self.CreditsButton.show()
 
         # self.BRButton = DirectButton(text = 'REPORT BUG', text_scale = .1, scale=0.95)
         # self.BRButton.reparentTo(aspect2d)
@@ -264,6 +277,14 @@ class DMenuScreen(DirectObject):
             self.QuitButton.destroy()
             self.QuitButton = None
             
+        if self.DiscordButton:
+            self.DiscordButton.destroy()
+            self.DiscordButton = None
+            
+        if self.CreditsButton:
+            self.CreditsButton.destroy()
+            self.CreditsButton = None
+            
         if self.phase3Sfx:
             self.phase3Sfx.stop()
             del self.phase3Sfx
@@ -294,6 +315,8 @@ class DMenuScreen(DirectObject):
             self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
             self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
             self.QuitButton.posInterval(.2, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
+            self.DiscordButton.posInterval(.2, Point3(DiscordBtnHidePos), blendType = 'easeInOut'),
+            self.CreditsButton.posInterval(.2, Point3(CreditsBtnHidePos), blendType = 'easeInOut'),
             self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
 
     def hideOptions(self):
@@ -327,6 +350,8 @@ class DMenuScreen(DirectObject):
             self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
             self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
             self.QuitButton.posInterval(.2, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
+            self.DiscordButton.posInterval(.2, Point3(DiscordBtnHidePos), blendType = 'easeInOut'),
+            self.CreditsButton.posInterval(.2, Point3(CreditsBtnHidePos), blendType = 'easeInOut'),
             self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
 
     def quitGame(self):
@@ -341,15 +366,20 @@ class DMenuScreen(DirectObject):
         play = self.PlayButton.posInterval(.5, Point3(PlayBtnPos), blendType = 'easeInOut')
         opt = self.OptionsButton.posInterval(.5, Point3(OptionsBtnPos), blendType = 'easeInOut')
         quit = self.QuitButton.posInterval(.5, Point3(QuitBtnPos), blendType = 'easeInOut')
+        discord = self.DiscordButton.posInterval(.5, Point3(DiscordBtnPos), blendType = 'easeInOut')
+        credits = self.CreditsButton.posInterval(.5, Point3(CreditsBtnPos), blendType = 'easeInOut')
         
         Sequence(
                  Func(logo.start),
                  Wait(0.1),
                  Func(play.start),
+                 Func(discord.start),
                  Wait(0.2),
                  Func(opt.start),
+                 Func(credits.start),
                  Wait(0.2),
-                 Func(quit.start)).start()
+                 Func(quit.start),
+                 Wait(0.2)).start()
                  
     def showHamburgerMenu(self):
         self.hbButton.hide()
@@ -372,6 +402,11 @@ class DMenuScreen(DirectObject):
     def reportBug(self):
         BugReportGUI.BugReportGUI()
         
+    def openDiscord(self):
+        webbrowser.open_new_tab('https://discord.me/ttprojectaltis')
+        
+    def startCredits(self):
+        DMenuCredits.DMenuCredits()
         
     def createTabs(self):
         self.PlayButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = PlayGame, text_scale = .1, scale = 0.95, command = self.playGame)

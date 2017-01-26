@@ -172,6 +172,7 @@ DonaldsDreamland = 9000
 BarnacleBoulevard = 1100
 SeaweedStreet = 1200
 LighthouseLane = 1300
+AhoyAvenue = 1400
 SillyStreet = 2100
 LoopyLane = 2200
 PunchlinePlace = 2300
@@ -1542,13 +1543,13 @@ ColorNoChat = (0.8,
  0.5,
  0.1,
  1)
-FactoryLaffMinimums = [(0, 31),
- (0, 66, 71),
+FactoryLaffMinimums = [(0, 0),
+ (0, 0, 0),
  (0,
-  81,
-  86,
-  96),
- (0, 101, 106)]
+  0,
+  0,
+  0),
+ (0, 0, 0)]
 PICNIC_COUNTDOWN_TIME = 60
 BossbotRTIntroStartPosHpr = (0,
  -64,

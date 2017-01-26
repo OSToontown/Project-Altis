@@ -14,6 +14,7 @@ from direct.fsm import State
 from otp.level import VisibilityBlocker
 
 class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.LockBase):
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedDoorEntityLock')
     slideLeft = Vec3(-7.5, 0.0, 0.0)
     slideRight = Vec3(7.5, 0.0, 0.0)
 
@@ -47,6 +48,7 @@ class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.L
 
     def setLockState(self, stateIndex):
         if not hasattr(self, 'stateIndex'):
+            self.notify.warning("No State Index Defined!")
             return
         if getattr(self, 'stateIndex') != stateIndex:
             state = self.states.get(stateIndex)
@@ -98,6 +100,7 @@ class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.L
 
 class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourState, VisibilityBlocker.VisibilityBlocker, 
     DistributedDoorEntityBase.DistributedDoorEntityBase, BasicEntities.NodePathAttribsProxy):
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedDoorEntity')
 
     def __init__(self, cr):
         self.innerDoorsTrack = None
@@ -266,6 +269,8 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
             del self.initialLock0StateIndex
             del self.initialLock1StateIndex
             del self.initialLock2StateIndex
+            
+            self.notify.info(str(self.locks))
 
             door = doorway.find('doortop')
             if door.isEmpty():

@@ -9,7 +9,6 @@ class ToontownAsyncLoader(nLoader.Loader):
 
     def __init__(self, base):
         nLoader.Loader.__init__(self, base)
-        return
         
     def loadModel(self, *args, **kw):
         ret = nLoader.Loader.loadModel(self, *args, **kw)

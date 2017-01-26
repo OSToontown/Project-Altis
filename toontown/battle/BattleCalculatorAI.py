@@ -48,20 +48,19 @@ class BattleCalculatorAI:
         self.__clearBonuses(hp=1)
         self.__clearBonuses(hp=0)
         self.delayedUnlures = []
-        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier
+        self.__skillCreditMultiplier = simbase.air.holidayManager.getXpMultiplier()
         self.tutorialFlag = tutorialFlag
         self.trainTrapTriggered = False
         self.fireDifficulty = 0
 
     def setSkillCreditMultiplier(self, mult):
-        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier * mult
+        self.__skillCreditMultiplier = mult
 
     def getSkillCreditMultiplier(self):
         return self.__skillCreditMultiplier
 
     def cleanup(self):
         self.battle = None
-        return
 
     def __calcToonAtkHit(self, attackIndex, atkTargets):
         if len(atkTargets) == 0:
@@ -773,7 +772,7 @@ class BattleCalculatorAI:
             return
         tgts = self.__createToonTargetList(toonId)
         for currTgt in tgts:
-            tgtPos = self.battle.suits.index(currTgt)
+            tgtPos = self.battle.activeSuits.index(currTgt)
             attackerId = self.toonAtkOrder[attackIndex]
             attack = self.battle.toonAttacks[attackerId]
             track = self.__getActualTrack(attack)
@@ -1067,7 +1066,6 @@ class BattleCalculatorAI:
         self.__processBonuses(hp=0)
         self.__processBonuses(hp=1)
         self.__postProcessToonAttacks()
-        return
 
     def __knockBackAtk(self, attackIndex, toon = 1):
         if toon and (self.battle.toonAttacks[attackIndex][TOON_TRACK_COL] == THROW or self.battle.toonAttacks[attackIndex][TOON_TRACK_COL] == SQUIRT):
@@ -1079,7 +1077,7 @@ class BattleCalculatorAI:
     def __unlureAtk(self, attackIndex, toon = 1):
         attack = self.battle.toonAttacks[attackIndex]
         track = self.__getActualTrack(attack)
-        if toon and (track == THROW or track == SQUIRT or track == SOUND):
+        if toon and (track == THROW or track == SQUIRT or track == SOUND or track == ZAP):
             if self.notify.getDebug():
                 self.notify.debug('attack is an unlure')
             return 1
@@ -1114,7 +1112,6 @@ class BattleCalculatorAI:
             return self.battle.activeToons.index(toonId)
         else:
             return self.__pickRandomToon(suitId)
-        return
 
     def __pickRandomToon(self, suitId):
         liveToons = []
@@ -1199,15 +1196,13 @@ class BattleCalculatorAI:
             return handle.hp + self.toonHPAdjusts[toonDoId]
         else:
             return 0
-        return
-
+            
     def __getToonMaxHp(self, toonDoId):
         handle = self.battle.getToon(toonDoId)
         if handle != None:
             return handle.maxHp
         else:
             return 0
-        return
 
     def __applySuitAttackDamages(self, attackIndex):
         attack = self.battle.suitAttacks[attackIndex]

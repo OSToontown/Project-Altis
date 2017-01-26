@@ -1,4 +1,4 @@
-from direct.gui.DirectGui import *
+from toontown.pgui.DirectGui import *
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals

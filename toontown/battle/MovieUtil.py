@@ -703,7 +703,8 @@ def createSuitStunInterval(suit, before, after):
 def zapCog(suit, before, after, battle):
     zapSuit = suit.getZapActor()
     zapSuit.setBlend(frameBlend = True)
-    suitPos, suitHpr = battle.getActorPosHpr(suit)
+    suitPos = suit.getPos(battle)
+    suitHpr = suit.getHpr(battle)
     zapSuit.setBin("fixed", 0)
     zapSuit.setDepthTest(False)
     zapSuit.setDepthWrite(False)

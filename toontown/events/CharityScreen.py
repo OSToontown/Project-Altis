@@ -32,15 +32,16 @@ class CharityScreen(DistributedObject):
             if not self.screenObject:
                 return
             self.screenObject.reparentTo(render)
+            text = "Clarabelle's Cattlelog\nis now open!\nHead to your estate\nand call her up!"
             if ZoneUtil.getHoodId(zoneId) == ToontownGlobals.MinniesMelodyland:
                 self.screenObject.reparentTo(self.cr.playGame.getPlace().loader.geom.find('**/center_icon'))
             self.screenObject.setPos(self.zone2pos.get(ZoneUtil.getHoodId(zoneId), (0, 0, 6)))
             self.screenObject.setHpr(-90, 0, 0)
-            self.counter = DirectLabel(parent = render, pos = (0, 0, 0), relief = None, text = '10 cogs destroyed = $0.01\nto Child\'s Play Charity\n(Max $15,000)\nCheck website for more details!', text_scale = 1, text_fg = (1, 1, 1, 1) , text_align = TextNode.ACenter, text_font = ToontownGlobals.getMinnieFont())
+            self.counter = DirectLabel(parent = render, pos = (0, 0, 0), relief = None, text = text, text_scale = 1, text_fg = (1, 1, 1, 1) , text_align = TextNode.ACenter, text_font = ToontownGlobals.getMinnieFont())
             self.counter.reparentTo(self.screenObject)
             self.counter.setPos(self.screenObject.find("**/front_screen").getPos() + Point3(0.0, -1.5, 0.3)) 
             
-            self.counterback = DirectLabel(parent = render, pos = (0, 0, 0), relief = None, text = '10 cogs destroyed = $0.01\nto Child\'s Play Charity\n(Max $15,000)\nCheck website for more details!', text_scale = 1, text_fg = (1, 1, 1, 1) , text_align = TextNode.ACenter, text_font = ToontownGlobals.getMinnieFont())
+            self.counterback = DirectLabel(parent = render, pos = (0, 0, 0), relief = None, text = text, text_scale = 1, text_fg = (1, 1, 1, 1) , text_align = TextNode.ACenter, text_font = ToontownGlobals.getMinnieFont())
             self.counterback.reparentTo(self.screenObject)
             self.counterback.setPos(self.screenObject.find("**/back_screen").getPos() + Point3(0.0, 1.5, 0.3))
             self.counterback.setHpr(180, 0, 0)

@@ -101,44 +101,85 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         self.items = []
 
         items.removeDuplicates(FLCloset)
+        items.removeDuplicates(FLPhone)
+        items.removeDuplicates(FLBank)
 
         # Due to a bug, some people are missing their closets...
         hasCloset = False
         for item in items:
-            if item.getFlags() & FLCloset:
-                hasCloset = True
-                break
-
+            try:
+                if item.getFlags() & FLCloset:
+                    hasCloset = True
+                    break
+            except:
+                pass
+                
+        # kys
+        hasAGodDamnPhone = False
+        for killme in items:
+            try:
+                if killme.getFlags() & FLPhone:
+                    hasAGodDamnPhone = True
+                    break
+            except:
+                pass
+        if not hasAGodDamnPhone and self.ownerId != 0:
+            phone = CatalogFurnitureItem(1399)
+            phone.posHpr = (-5, 0, 0, 0, 0, 0)
+            items.append(phone)
+            print('spawned a phone for someone')
+        
+        # banks
+        hasBank = False
+        for bank in items:
+            try:
+                if bank.getFlags() & FLBank:
+                    hasBank = True
+                    break
+            except:
+                pass
+        
+        if not hasBank and self.ownerId != 0:
+            bank = CatalogFurnitureItem(1300)
+            bank.posHpr = (5, 0, 0, 0, 0, 0)
+            items.append(bank)
+            print('spawned a bank for someone')
+        
+            
         if not hasCloset and self.ownerId != 0:
             item = CatalogFurnitureItem(500)  # the basic closet...
             item.posHpr = (0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             items.append(item)
-            # Since we have modified the items list, should we save it back to the house?
-
+            print('spawned a closet for someone')
+            
+        # Since we have modified the items list, should we save it back to the house?
         for item in items:
-            if item.getFlags() & FLTrunk:
-                if self.house.gender is 0:
-                    if item.furnitureType - 4000 < 10:
-                        item.furnitureType += 10
-                elif item.furnitureType - 4000 > 10:
-                    item.furnitureType -= 10
-                do = DistributedTrunkAI(self.air, self, item)
-            elif item.getFlags() & FLCloset:
-                if self.house.gender is 0:
-                    if item.furnitureType - 500 < 10:
-                        item.furnitureType += 10
-                elif item.furnitureType - 500 > 10:
-                    item.furnitureType -= 10
-                do = DistributedClosetAI(self.air, self, item)
-            elif item.getFlags() & FLPhone:
-                do = DistributedPhoneAI(self.air, self, item)
-            elif item.getFlags() & FLBank:
-                do = DistributedBankAI(self.air, self, item)
-            else:
-                do = DistributedFurnitureItemAI(self.air, self, item)
-            if self.isGenerated():
-                do.generateWithRequired(self.zoneId)
-            self.items.append(do)
+            try:
+                if item.getFlags() & FLTrunk:
+                    if self.house.gender is 0:
+                        if item.furnitureType - 4000 < 10:
+                            item.furnitureType += 10
+                    elif item.furnitureType - 4000 > 10:
+                        item.furnitureType -= 10
+                    do = DistributedTrunkAI(self.air, self, item)
+                elif item.getFlags() & FLCloset:
+                    if self.house.gender is 0:
+                        if item.furnitureType - 500 < 10:
+                            item.furnitureType += 10
+                    elif item.furnitureType - 500 > 10:
+                        item.furnitureType -= 10
+                    do = DistributedClosetAI(self.air, self, item)
+                elif item.getFlags() & FLBank:
+                    do = DistributedBankAI(self.air, self, item)
+                elif item.getFlags() & FLPhone:
+                    do = DistributedPhoneAI(self.air, self, item)
+                else:
+                    do = DistributedFurnitureItemAI(self.air, self, item)
+                if self.isGenerated():
+                    do.generateWithRequired(self.zoneId)
+                self.items.append(do)
+            except:
+                print("another user with a broken estate hurray!!!!!!!!!!!!!!!!!!")
 
     def getItems(self):
         items = CatalogItemList(store=CatalogItem.Customization|CatalogItem.Location)

@@ -6,25 +6,27 @@ from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
 from otp.ai.MagicWordGlobal import *
 from direct.showbase.DirectObject import DirectObject
+import threading
+import httplib
 
 class BanFSM(FSM):
 
-    def __init__(self, air, avId, comment, duration):
+    def __init__(self, air, avId):
         FSM.__init__(self, 'banFSM-%s' % avId)
         self.air = air
         self.avId = avId
 
         # Needed variables for the actual banning.
-        self.comment = comment
-        self.duration = duration
         self.DISLid = None
         self.accountId = None
         self.avName = None
 
-    def performBan(self, bannedUntil):
-        executeHttpRequest('accounts/ban/', Id=self.accountId, Release=bannedUntil,
-                           Reason=self.comment)
-
+    def performBan(self):
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq.request('GET', '/api/ban/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s' % self.accountId)
+        httpReq.getresponse().read()
+        print(self.accountId)
+                           
     def ejectPlayer(self):
         av = self.air.doId2do.get(self.avId)
         if not av:
@@ -40,7 +42,7 @@ class BanFSM(FSM):
         simbase.air.send(datagram)
 
     def dbCallback(self, dclass, fields):
-        if dclass != self.air.dclassesByName['AccountAI']:
+        if dclass != simbase.air.dclassesByName['AccountAI']:
             return
 
         self.accountId = fields.get('ACCOUNT_ID')
@@ -48,15 +50,8 @@ class BanFSM(FSM):
         if not self.accountId:
             return
 
-        date = datetime.date.today()
-        if simbase.config.GetBool('want-bans', True):
-            if self.duration == 0:
-                bannedUntil = "0000-00-00" # Terminated.
-            else:
-                bannedUntil = date + datetime.timedelta(days=self.duration)
-
-            self.duration = None
-            self.performBan(bannedUntil)
+        self.duration = None
+        self.performBan()
 
     def getAvatarDetails(self):
         av = self.air.doId2do.get(self.avId)
@@ -67,7 +62,7 @@ class BanFSM(FSM):
         self.avName = av.getName()
 
     def log(self):
-        simbase.air.writeServerEvent('ban', self.accountId, self.comment)
+        simbase.air.writeServerEvent('ban', self.accountId)
 
     def cleanup(self):
         self.air = None
@@ -82,9 +77,7 @@ class BanFSM(FSM):
 
     def enterStart(self):
         self.getAvatarDetails()
-        self.air.dbInterface.queryObject(self.air.dbId, self.DISLid,
-                                         self.dbCallback)
-        self.ejectPlayer()
+        self.air.dbInterface.queryObject(self.air.dbId, self.DISLid, self.dbCallback)
 
     def exitStart(self):
         self.log()
@@ -104,8 +97,8 @@ class BanManagerAI(DirectObject):
         self.air = air
         self.banFSMs = {}
 
-    def ban(self, avId, duration, comment):
-        self.banFSMs[avId] = BanFSM(self.air, avId, comment, duration)
+    def ban(self, avId, comment):
+        self.banFSMs[avId] = BanFSM(self.air, avId)
         self.banFSMs[avId].request('Start')
 
         self.acceptOnce(self.air.getAvatarExitEvent(avId), self.banDone, [avId])
@@ -133,15 +126,20 @@ def kick(reason='No reason specified'):
     return "Kicked %s from the game server!" % target.getName()
 
 
-@magicWord(category=CATEGORY_MODERATOR, types=[str, int])
-def ban(reason, duration):
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
+def ban(reason):
     """
-    Ban the target from the game server.
+    Ban and Kick the target from the game server.
     """
     target = spellbook.getTarget()
     if target == spellbook.getInvoker():
         return "You can't ban yourself!"
-    if reason not in ('hacking', 'language', 'other'):
-        return "'%s' is not a valid reason." % reason
-    simbase.air.banManager.ban(target.doId, duration, reason)
-    return "Banned %s from the game server!" % target.getName()
+    simbase.air.banManager.ban(target.doId, reason)
+    datagram = PyDatagram()
+    datagram.addServerHeader(
+        target.GetPuppetConnectionChannel(target.doId),
+        simbase.air.ourChannel, CLIENTAGENT_EJECT)
+    datagram.addUint16(155)
+    datagram.addString('You were banned by a moderator for the following reason: %s' % reason)
+    simbase.air.send(datagram)
+    return "Kicked and Banned %s from the game server!" % target.getName()

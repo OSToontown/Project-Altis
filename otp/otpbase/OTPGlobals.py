@@ -189,8 +189,11 @@ CEName2Id = {
  'backstabber': CEBackStabber,
  'bottomfeeder': CEBottomFeeder
 }
-BigToonScale = 1.5
-SmallToonScale = 0.5
+BeanToonScale = 2.9
+GiantToonScale = 2.1
+BigToonScale = 1.4
+SmallToonScale = 0.4
+TinyToonScale = 0.2
 DisconnectUnknown = 0
 DisconnectBookExit = 1
 DisconnectCloseWindow = 2

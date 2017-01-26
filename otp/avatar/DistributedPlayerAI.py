@@ -208,6 +208,42 @@ def maintenance(minutes):
 
     countdown(minutes)
 
+@magicWord(category=CATEGORY_SYSTEM_ADMINISTRATOR, types=[int, str])
+def update(minutes, reason):
+    """
+    Initiate the update message sequence. It will last for the specified
+    amount of <minutes>.
+    """
+    def disconnect(task):
+        dg = PyDatagram()
+        dg.addServerHeader(10, simbase.air.ourChannel, CLIENTAGENT_EJECT)
+        dg.addUint16(154)
+        dg.addString('Toontown Project Altis is now closed for an update.')
+        simbase.air.send(dg)
+        return Task.done
+
+    def countdown(minutes):
+        if minutes > 0:
+            system("Attention Toons! Project Altis will be going down for %s in %d minutes." % (reason, minutes))
+        else:
+            system("Attention Toons! Project Altis is now going down for %s" % reason)
+            taskMgr.doMethodLater(10, disconnect, 'maintenance-disconnection')
+        if minutes <= 5:
+            next = 60
+            minutes -= 1
+        elif minutes % 5:
+            next = 60 * (minutes%5)
+            minutes -= minutes % 5
+        else:
+            next = 300
+            minutes -= 5
+        if minutes >= 0:
+            taskMgr.doMethodLater(next, countdown, 'maintenance-task',
+                                  extraArgs=[minutes])
+
+
+    countdown(minutes)
+    
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str, int])
 def accessLevel(accessLevel, storage='PERSISTENT', showGM=1):
     """

@@ -15,6 +15,7 @@ set /P DISTRICT_NAME="District name (DEFAULT: Nuttyboro): " || ^
 set DISTRICT_NAME=Nuttyboro
 set /P BASE_CHANNEL="Base channel (DEFAULT: 401000000): " || ^
 set BASE_CHANNEL=401000000
+title %DISTRICT_NAME%
 
 echo ===============================
 echo Starting Toontown Project Altis AI server...
@@ -32,5 +33,4 @@ echo ===============================
                --max-channels %MAX_CHANNELS% --stateserver %STATESERVER% ^
                --astron-ip %ASTRON_IP% --eventlogger-ip %EVENTLOGGER_IP% ^
                --district-name "%DISTRICT_NAME%"
-pause
 goto main
