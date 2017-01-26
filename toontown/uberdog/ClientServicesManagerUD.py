@@ -136,19 +136,6 @@ class DeveloperAccountDB(AccountDB):
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-
-    def addNameRequest(self, avId, name):
-        # add type a name
-        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avid, name))
-        return # return if error: false pls
-    
-    def getNameStatus(self, avId):
-        # check type a name
-        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avid)) # this should just use avid
-        return # return the status
-    
     def lookup(self, username, callback):
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
@@ -237,6 +224,21 @@ class LocalAccountDB(AccountDB):
             callback(response)
             return response
 
+
+    def addNameRequest(self, avId, name):
+        # add type a name
+        self.notify.info("debug: sending name from %s : %s" %(avId, name))
+        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
+        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
+        return 'Success' # Success if it properly sends
+    
+    def getNameStatus(self, avId):
+        # check type a name
+        self.notify.info("debug: checking name from %s" %(avId))
+        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
+        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
+        return # return the status
+    
 class RemoteAccountDB(AccountDB):
     notify = directNotify.newCategory('RemoteAccountDB')
 
