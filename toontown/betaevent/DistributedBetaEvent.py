@@ -37,7 +37,7 @@ class DistributedBetaEvent(DistributedEvent):
         self.prepostera.setDNA(dna)
         self.prepostera.loop('scientistEmcee')
         self.prepostera.reparentTo(render)
-        self.prepostera.setPosHpr(4, -3, -68.367, 0, 0, 0)
+        self.prepostera.setPosHpr(4, -3, 1, 0, 0, 0)
         self.prepostera.blinkEyes()
         self.prepostera.head = self.prepostera.find('**/__Actor_head')
         self.prepostera.initializeBodyCollisions('toon')
@@ -78,7 +78,7 @@ class DistributedBetaEvent(DistributedEvent):
         self.middleman2.initializeBodyCollisions('toon')
         
         base.musicManager.stopAllSounds()
-        self.toonMusic = loader.loadMusic('phase_14/audio/bgm/ttiHalcyon.mp3') # Placeholder
+        self.toonMusic = loader.loadMusic('phase_14/audio/bgm/tt2_ambient_1.mp3') # Placeholder
         base.playMusic(self.toonMusic, looping = 1)
 
     def announceGenerate(self):
@@ -149,7 +149,7 @@ class DistributedBetaEvent(DistributedEvent):
         self.headHoncho1.setPosHpr(0, 0, 0, 0, 0, 0)
         self.headHoncho1.show()
         Sequence(
-                    self.headHoncho1.beginSupaFlyMove(Vec3(12, -4, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
+                    self.headHoncho1.beginSupaFlyMove(Vec3(12, -4, 1), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
                     Func(self.headHoncho1.loop, 'walk'),
                     self.headHoncho1.hprInterval(2, VBase3(90, 0, 0)),
                     Func(self.headHoncho1.loop, 'neutral'),
@@ -171,8 +171,8 @@ class DistributedBetaEvent(DistributedEvent):
                  Func(self.headHoncho1.setChatAbsolute, 'I hear you are opening Looney Labs...', CFSpeech|CFTimeout),
                  Wait(4),
                  Parallel(
-                          self.middleman1.beginSupaFlyMove(Vec3(-8, -4, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
-                          self.middleman2.beginSupaFlyMove(Vec3(4, -12, -68.367), True, "firstCogInvadeFlyIn", walkAfterLanding=False)
+                          self.middleman1.beginSupaFlyMove(Vec3(-8, -4, 1), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
+                          self.middleman2.beginSupaFlyMove(Vec3(4, -12, 1), True, "firstCogInvadeFlyIn", walkAfterLanding=False)
                           ),
                  Func(self.middleman2.loop, 'neutral'),
                  Parallel(

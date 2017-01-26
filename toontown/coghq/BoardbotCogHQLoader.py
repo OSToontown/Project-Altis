@@ -15,8 +15,8 @@ class BoardbotCogHQLoader(CogHQLoader.CogHQLoader):
     def __init__(self, hood, parentFSMState, doneEvent):
         CogHQLoader.CogHQLoader.__init__(self, hood, parentFSMState, doneEvent)
 
-        self.musicFile = 'phase_14/audio/bgm/BD_courtyard.ogg'
-        self.cogHQExteriorModelPath = 'phase_11/models/lawbotHQ/LawbotPlaza'
+        self.musicFile = 'phase_14/audio/bgm/BD_courtyard.mid'
+        self.cogHQExteriorModelPath = 'phase_14/models/looneylabs/ll_terrain.bam'
         self.factoryExteriorModelPath = 'phase_11/models/lawbotHQ/LB_DA_Lobby'
         self.cogHQLobbyModelPath = 'phase_11/models/lawbotHQ/LB_CH_Lobby'
         self.geom = None
