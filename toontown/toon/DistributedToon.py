@@ -93,6 +93,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.maxCarry = 0
         self.disguisePageFlag = 0
         self.sosPageFlag = 0
+        self.cogIndex = -1
         self.disguisePage = None
         self.sosPage = None
         self.gardenPage = None
