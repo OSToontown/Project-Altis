@@ -128,7 +128,7 @@ def __doZap(zap, delay, fShowStun, uberClone = 0, npcs=[]):
         if ival:
             zapSequence.append(ival)
     else:
-        ival = zapfn_array[zap['level']](zap, delay, fShowStun, uberClone=0, npcs=npcs)
+        ival = zapfn_array[zap['level']](zap, delay, fShowStun, npcs=npcs)
         if ival:
             zapSequence.append(ival)
     return [zapSequence]
