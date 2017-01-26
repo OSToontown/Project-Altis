@@ -56,10 +56,28 @@ class NewsManagerAI(DistributedObjectAI):
         pass
 
     def setRoamingTrialerWeekendStart(self):
-        pass
+        self.sendUpdate('setRoamingTrialerWeekendStart', [])
+    
+    def setRoamingTrialerWeekendOngoing(self):
+        self.sendUpdate('setRoamingTrialerWeekendOngoing', [])
 
     def setRoamingTrialerWeekendEnd(self):
-        pass
+        self.sendUpdate('setRoamingTrialerWeekendEnd', [])
+    
+    def setSellbotNerfHolidayStart(self):
+        self.sendUpdate('setSellbotNerfHolidayStart', [])
+        
+    def setSellbotNerfHolidayEnd(self):
+        self.sendUpdate('setSellbotNerfHolidayEnd', [])
+    
+    def setMoreXpHolidayStart(self):
+        self.sendUpdate('setMoreXpHolidayStart', [])
+        
+    def setMoreXpHolidayOngoing(self):
+        self.sendUpdate('setMoreXpHolidayOngoing', [])
+        
+    def setMoreXpHolidayEnd(self):
+        self.sendUpdate('setMoreXpHolidayEnd', [])
 
     def setInvasionStatus(self, msgType, cogType, numRemaining, skeleton):
         self.sendUpdate('setInvasionStatus', args=[msgType, cogType, numRemaining, skeleton])
@@ -99,15 +117,6 @@ class NewsManagerAI(DistributedObjectAI):
 
     def getMultipleStartHolidays(self):
         return []
-        
-    def setMoreXpHolidayStart(self):
-        self.sendUpdate('setMoreXpHolidayStart', [])
-        
-    def setMoreXpHolidayOngoing(self):
-        self.sendUpdate('setMoreXpHolidayOngoing', [])
-        
-    def setMoreXpHolidayEnd(self):
-        self.sendUpdate('setMoreXpHolidayEnd', [])
 
     def sendSystemMessage(self, message, style):
         self.sendUpdate('sendSystemMessage', [message, style])
