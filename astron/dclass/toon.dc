@@ -3543,7 +3543,7 @@ dclass DistributedBanquetTable : DistributedObject {
   setIndex(uint8) required broadcast ram;
   setNumDiners(uint8) required broadcast ram;
   setBossCogId(uint32) required broadcast ram;
-  setDinerInfo(uint8[], uint8[], uint8[]) required broadcast ram;
+  setDinerInfo(uint8[], uint8[], uint8[], char[]) required broadcast ram;
   setState(char, uint32, int8) broadcast ram;
   setDinerStatus(uint8, uint8) broadcast;
   requestControl() airecv clsend;
