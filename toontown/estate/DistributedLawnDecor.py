@@ -147,6 +147,12 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             self.nodePath = None
         taskMgr.remove(self.uniqueName('adjust tree'))
         return
+    
+    def setEstate(self, estate):
+        self.estate = estate
+    
+    def getEstate(self):
+        return self.estate
 
     def setPos(self, x, y, z):
         DistributedNode.DistributedNode.setPos(self, x, y, z)
@@ -242,7 +248,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         base.localAvatar.hideShovelButton()
         base.localAvatar.hideWateringCanButton()
         self.startInteraction()
-        self.sendUpdate('removeItem', [])
+        self.sendUpdate('removeItem', [base.localAvatar.doId])
 
     def generateToonMoveTrack(self, toon):
         node = NodePath('tempNode')
@@ -326,16 +332,19 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if not toon:
             return
         self.finishMovies()
+        if avId == localAvatar.doId:
+            self.startInteraction()
         self.model.setTransparency(1)
         self.model.setAlphaScale(1)
         shovel = toon.attachShovel()
         shovel.hide()
         moveTrack = self.generateToonMoveTrack(toon)
         digupTrack = self.generateDigupTrack(toon)
-        self.movie = Sequence(self.startCamIval(avId), moveTrack, Func(shovel.show), digupTrack)
+        self.movie = Sequence(self.startCamIval(avId), moveTrack, Func(shovel.show), digupTrack, Func(base.cr.removeObject, self.doId))
         if avId == localAvatar.doId:
-            self.expectingReplacement = 1
-            self.movie.append(Func(self.movieDone))
+            self.expectingReplacement = 1 
+                                    # sry for long string \/ kappa
+            self.movie.append(Func(base.cr.doId2do.get(self.getOwnerPlot()).sendUpdate, 'finishRemoving', [avId]))
         self.movie.start()
 
     def generateDigupTrack(self, toon):

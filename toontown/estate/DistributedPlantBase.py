@@ -37,6 +37,12 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         self.model.reparentTo(self.rotateNode)
         self.stick2Ground()
         return
+    
+    def setOwnerPlot(self, owner):
+        self.ownerPlot = owner
+        
+    def getOwnerPlot(self):
+        return self.ownerPlot
 
     def setupShadow(self):
         DistributedLawnDecor.DistributedLawnDecor.setupShadow(self)
@@ -95,11 +101,11 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
 
     def handleWatering(self):
         self.startInteraction()
-        self.sendUpdate('waterPlant')
+        self.sendUpdate('waterPlant', [localAvatar.doId])
 
     def __handleWatering(self, plantToWaterId):
         if plantToWaterId == self.doId:
-            self.sendUpdate('waterPlant')
+            self.sendUpdate('waterPlant', [localAvatar.doId])
         else:
             self.notify.debug('not sending water plant')
 

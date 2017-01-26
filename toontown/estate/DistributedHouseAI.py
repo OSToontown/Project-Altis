@@ -316,3 +316,14 @@ class DistributedHouseAI(DistributedObjectAI):
         self.atticWallpaper.append(item)
         self.d_setAtticWallpaper(self.atticWallpaper.getBlob())
         self.interior.furnitureManager.loadFromHouse()
+        
+    def placeStarterGarden(self):
+        av = self.air.doId2do.get(self.avatarId)
+        if not av:
+            return
+        
+        # Check if they already have a garden
+        if av.getGardenStart():
+            self.notify.warning("%s started a garden, but they already had one!" % self.avatarId)
+            return
+        pass # TODO

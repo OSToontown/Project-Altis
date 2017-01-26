@@ -34,6 +34,9 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
     def setTypeIndex(self, typeIndex):
         DistributedPlantBase.DistributedPlantBase.setTypeIndex(self, typeIndex)
         self.setSpecies(typeIndex)
+        
+    def getTypeIndex(self):
+        return self.typeIndex
 
     def showWiltOrBloom(self):
         if not self.model:
@@ -128,13 +131,16 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         base.localAvatar.removeShovelRelatedDoId(self.doId)
         base.localAvatar.setInGardenAction(self)
         base.cr.playGame.getPlace().detectedGardenPlotUse()
-        self.sendUpdate('removeItem', [])
+        self.sendUpdate('removeItem', [base.localAvatar.doId])
 
     def setWaterLevel(self, waterLevel):
         DistributedPlantBase.DistributedPlantBase.setWaterLevel(self, waterLevel)
         self.showWiltOrBloom()
         if self.model:
             self.adjustWaterIndicator()
+            
+    def getWaterLevel(self):
+        return self.waterLevel
 
     def setGrowthLevel(self, growthLevel):
         origGrowthLevel = self.growthLevel
@@ -142,6 +148,9 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         if origGrowthLevel > -1:
             self.loadModel()
             self.makeMovieNode()
+        
+    def getGrowthLevel(self):
+        return self.growthLevel
 
     def makeMovieNode(self):
         self.movieNode = self.rotateNode.attachNewNode('moviePos')

@@ -6,6 +6,7 @@ class DistributedGardenBoxAI(DistributedLawnDecorAI):
 
     def __init__(self, air):
         DistributedLawnDecorAI.__init__(self, air)
+        self.air = air
 
     def setTypeIndex(self, typeIndex):
         self.typeIndex = typeIndex

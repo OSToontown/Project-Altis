@@ -5382,3 +5382,7 @@ def dump_doId2do():
         for name, size in sorted_objSizes:
             file.write('OBJ: %s | SIZE: %d\n' % (name, size))
     return "Dumped doId2do sizes (grouped by class) to '%s'." % temp_file[1]
+
+@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+def catalog():
+    simbase.air.catalogManager.deliverCatalogFor(spellbook.getTarget())
