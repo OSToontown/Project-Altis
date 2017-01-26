@@ -84,7 +84,7 @@ def doThrows(throws):
     mtrack = Parallel()
     for st in suitThrows:
         if len(st) > 0:
-            ival = __doSuitThrows(st)
+            ival = __doSuitThrows(st, npcs)
             if ival:
                 mtrack.append(Sequence(Wait(delay), ival))
             delay = delay + TOON_THROW_SUIT_DELAY
