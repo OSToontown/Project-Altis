@@ -38,7 +38,6 @@ from toontown.hood import DLHoodAI
 from toontown.hood import GSHoodAI
 from toontown.hood import GZHoodAI
 from toontown.hood import LawbotHQAI
-from toontown.hood import BoardbotHQAI
 from toontown.hood import MMHoodAI
 from toontown.hood import OZHoodAI
 from toontown.hood import SellbotHQAI
@@ -191,8 +190,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.config.GetBool('want-bossbot-headquarters', True):
             self.countryClubMgr = CountryClubManagerAI.CountryClubManagerAI(self)
             self.cogHeadquarters.append(BossbotHQAI.BossbotHQAI(self))
-        if self.config.GetBool('want-boardbot-headquarters', True):
-            self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
 
     def handleConnected(self):
         self.districtId = self.allocateChannel()

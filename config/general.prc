@@ -120,7 +120,6 @@ want-sellbot-headquarters #t
 want-cashbot-headquarters #t
 want-lawbot-headquarters #t
 want-bossbot-headquarters #t
-want-boardbot-headquarters #t
 
 # Cashbot boss:
 want-resistance-toonup #f
