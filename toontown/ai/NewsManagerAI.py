@@ -28,32 +28,41 @@ class NewsManagerAI(DistributedObjectAI):
     def setPopulation(self, todo0):
         pass
 
-    def setBingoWin(self, todo0):
-        pass
+    def setBingoWin(self, avatar, zoneId):
+        self.sendUpdateToAvatarId(avatar.getDoId(), 'setBingoWin', [zoneId])
 
     def setBingoStart(self):
-        pass
+        self.sendUpdate('setBingoStart', [])
+    
+    def setBingoOngoing(self):
+        self.sendUpdate('setBingoOngoing', [])
 
     def setBingoEnd(self):
-        pass
+        self.sendUpdate('setBingoEnd', [])
 
     def setCircuitRaceStart(self):
-        pass
+        self.sendUpdate('setCircuitRaceStart', [])
+        
+    def setCircuitRaceOngoing(self):
+        self.sendUpdate('setCircuitRaceOngoing', [])
 
     def setCircuitRaceEnd(self):
-        pass
+        self.sendUpdate('setCircuitRaceEnd', [])
 
     def setTrolleyHolidayStart(self):
-        pass
+        self.sendUpdate('setTrolleyHolidayStart', [])
+        
+    def setTrolleyHolidayOngoing(self):
+        self.sendUpdate('setTrolleyHolidayOngoing', [])
 
     def setTrolleyHolidayEnd(self):
-        pass
+        self.sendUpdate('setTrolleyHolidayEnd', [])
 
     def setTrolleyWeekendStart(self):
-        pass
+        self.sendUpdate('setTrolleyWeekendStart', [])
 
     def setTrolleyWeekendEnd(self):
-        pass
+        self.sendUpdate('setTrolleyWeekendEnd', [])
 
     def setRoamingTrialerWeekendStart(self):
         self.sendUpdate('setRoamingTrialerWeekendStart', [])
@@ -86,7 +95,7 @@ class NewsManagerAI(DistributedObjectAI):
         self.sendUpdate('setHolidayIdList', holidays)
 
     def holidayNotify(self):
-        pass
+        self.sendUpdate('holidayNotify', [])
 
     def d_setWeeklyCalendarHolidays(self, weeklyHolidays):
         self.sendUpdate('setWeeklyCalendarHolidays', [weeklyHolidays])
