@@ -2,6 +2,7 @@ from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
+from HolidayGlobals import *
 
 class NewsManagerAI(DistributedObjectAI):
     notify = directNotify.newCategory('NewsManagerAI')
@@ -10,6 +11,8 @@ class NewsManagerAI(DistributedObjectAI):
         DistributedObjectAI.__init__(self, air)
         self.air = air
         self.holidayList = []
+        self.weeklyHolidays = WEEKLY_HOLIDAYS
+        self.yearlyHolidays = YEARLY_HOLIDAYS
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -19,6 +22,8 @@ class NewsManagerAI(DistributedObjectAI):
     def __handleAvatarEntered(self, avatar):
         if self.air.suitInvasionManager.getInvading():
             self.air.suitInvasionManager.notifyInvasionBulletin(avatar.getDoId())
+        if self.air.holidayManager.isHolidayRunning(MORE_XP_HOLIDAY):
+            self.sendUpdateToAvatarId(avatar.getDoId(), 'setMoreXpHolidayOngoing', [])
 
     def setPopulation(self, todo0):
         pass
@@ -58,59 +63,24 @@ class NewsManagerAI(DistributedObjectAI):
 
     def setInvasionStatus(self, msgType, cogType, numRemaining, skeleton):
         self.sendUpdate('setInvasionStatus', args=[msgType, cogType, numRemaining, skeleton])
-        
-    def setHolidayIdList(self, holidays):
-        self.holidayList = holidays
 
     def d_setHolidayIdList(self, holidays):
-        self.sendUpdate('setHolidayIdList', [holidays])
-        self.checkForNotify()
- 
-    def b_setHolidayIdList(self, holidays):
-        self.setHolidayIdList(holidays)
-        self.d_setHolidayIdList(holidays)
-        
-    def resendHolidayList(self):
-        self.b_setHolidayIdList(self.holidayList)
-        
-    def checkForNotify(self):
-        if len(self.holidayList) > 0:
-            self.holidayNotify()
+        self.sendUpdate('setHolidayIdList', holidays)
 
     def holidayNotify(self):
-        self.sendUpdate('holidayNotify', [])
-        
-    def addHolidayId(self, holidayId):
-        if int(holidayId) != holidayId:
-            return
-            
-        if holidayId not in self.holidayList:
-            self.holidayList.append(holidayId)
-            self.resendHolidayList()
-        else:
-            return
-        
-    def removeHolidayId(self, holidayId):
-        if int(holidayId) != holidayId:
-            return
-            
-        if holidayId in self.holidayList:
-            del self.holidayList[holidayId]
-            self.resendHolidayList()
-        else:
-            return
-
-    def setWeeklyCalendarHolidays(self, todo0):
         pass
+
+    def d_setWeeklyCalendarHolidays(self, weeklyHolidays):
+        self.sendUpdate('setWeeklyCalendarHolidays', [weeklyHolidays])
 
     def getWeeklyCalendarHolidays(self):
-        return []
+        return self.weeklyHolidays
 
-    def setYearlyCalendarHolidays(self, todo0):
-        pass
+    def d_setYearlyCalendarHolidays(self, yearlyHolidays):
+        self.sendUpdate('setYearlyCalendarHolidays', [yearlyHolidays])
 
     def getYearlyCalendarHolidays(self):
-        return []
+        return self.yearlyHolidays
 
     def setOncelyCalendarHolidays(self, todo0):
         pass
@@ -129,6 +99,15 @@ class NewsManagerAI(DistributedObjectAI):
 
     def getMultipleStartHolidays(self):
         return []
+        
+    def setMoreXpHolidayStart(self):
+        self.sendUpdate('setMoreXpHolidayStart', [])
+        
+    def setMoreXpHolidayOngoing(self):
+        self.sendUpdate('setMoreXpHolidayOngoing', [])
+        
+    def setMoreXpHolidayEnd(self):
+        self.sendUpdate('setMoreXpHolidayEnd', [])
 
     def sendSystemMessage(self, message, style):
         self.sendUpdate('sendSystemMessage', [message, style])

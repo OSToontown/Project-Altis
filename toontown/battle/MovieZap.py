@@ -23,7 +23,7 @@ sprayScales = [0.2,
  0.8,
  1.0,
  2.0]
-WaterSprayColor = Point4(0, 0, 0, 0)
+WaterSprayColor = Point4(1.0, 1.0, 0, 1.0)
 zapPos = Point3(0, 0, 0)
 zapHpr = Vec3(0, 0, 0)
 
@@ -137,6 +137,17 @@ def __suitTargetPoint(suit):
     pnt = suit.getPos(render)
     pnt.setZ(pnt[2] + suit.getHeight() * 0.66)
     return Point3(pnt)
+	
+def __createSuitResetPosTrack(suit, battle):
+    resetPos, resetHpr = battle.getActorPosHpr(suit)
+    moveDist = Vec3(suit.getPos(battle) - resetPos).length()
+    moveDuration = 0.5
+    walkTrack = Sequence(Func(suit.setHpr, battle, resetHpr), ActorInterval(suit, 'walk', startTime=1, duration=moveDuration, endTime=0.0001), Func(suit.loop, 'neutral'))
+    moveTrack = LerpPosInterval(suit, moveDuration, resetPos, other=battle)
+    return Parallel(walkTrack, moveTrack)
+	
+def createSuitResetPosTrack(suit, battle):
+    return __createSuitResetPosTrack(suit, battle)
 
 def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun = 0.5, afterStun = 1.8, geyser = 0, uberRepeat = 0, revived = 0):
     if hp > 0:
@@ -161,10 +172,9 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         else:
             suitTrack.append(Wait(5.5))
         bonusTrack = Sequence(Wait(tContact))
-        if kbbonus > 0:
-            bonusTrack.append(Wait(0.75))
-            bonusTrack.append(Func(suit.showHpText, -kbbonus, 2, openEnded=0, attackTrack=ZAP_TRACK))
-            bonusTrack.append(updateHealthBar)
+        if kbbonus == 0:
+            suitTrack.append(__createSuitResetPosTrack(suit, battle))
+            suitTrack.append(Func(battle.unlureSuit, suit))
         if hpbonus > 0:
             bonusTrack.append(Wait(0.75))
             bonusTrack.append(Func(suit.showHpText, -hpbonus, 1, openEnded=0, attackTrack=ZAP_TRACK))

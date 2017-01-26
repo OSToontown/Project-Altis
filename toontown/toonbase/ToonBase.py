@@ -50,11 +50,11 @@ class ToonBase(OTPBase.OTPBase):
         self.camLens.setMinFov(settings['fieldofview']/(4./3.))
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         self.musicManager.setVolume(settings.get("musicVol"))
-        
         for sfm in self.sfxManagerList:
             sfm.setVolume(settings.get("sfxVol"))
         self.sfxActive = settings.get("sfxVol") > 0.0
         self.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
+        self.screenshotSfx = self.loader.loadSfx('phase_4/audio/sfx/Photo_shutter.ogg')
         tpm = TextPropertiesManager.getGlobalPtr()
         candidateActive = TextProperties()
         candidateActive.setTextColor(0, 0, 1, 1)
@@ -71,8 +71,6 @@ class ToonBase(OTPBase.OTPBase):
         if self.config.GetBool('want-particles', 1) == 1:
             self.notify.debug('Enabling particles')
             self.enableParticles()
-
-        self.accept(ToontownGlobals.ScreenshotHotkey, self.takeScreenShot)
 
         # OS X Specific Actions
         if platform == "darwin":
@@ -158,6 +156,10 @@ class ToonBase(OTPBase.OTPBase):
         textShadow.setShadow(.01)
         textShadow.setTextColor(0.8, 0.4, 0.0, 1)
         tpMgr.setProperties('textShadow', textShadow)
+        orangeText = TextProperties()
+        orangeText.setTextColor(1.0, 0.65, 0.0, 1)
+        orangeText.setTextScale(1.2)
+        tpMgr.setProperties('orangeText', orangeText)
         del tpMgr
         self.lastScreenShotTime = globalClock.getRealTime()
         self.accept('InputState-forward', self.__walking)
@@ -192,6 +194,7 @@ class ToonBase(OTPBase.OTPBase):
         
         self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 't')
         
+        self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 
         self.Widescreen = settings.get('Widescreen', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
@@ -280,7 +283,7 @@ class ToonBase(OTPBase.OTPBase):
         if not os.path.exists(TTLocalizer.ScreenshotPath):
             os.mkdir(TTLocalizer.ScreenshotPath)
             self.notify.info('Made new directory to save screenshots.')
-
+        self.screenshotSfx.play()
         namePrefix = TTLocalizer.ScreenshotPath + launcher.logPrefix + 'screenshot'
         timedif = globalClock.getRealTime() - self.lastScreenShotTime
         if self.glitchCount > 10 and self.walking:
@@ -537,6 +540,7 @@ class ToonBase(OTPBase.OTPBase):
         base.win.requestProperties(wp)
 
     def reloadControls(self):
+        self.ignore(self.SCREENSHOT_KEY)
         keymap = settings.get('keymap', {})
         self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 'r')
         if self.wantCustomControls:
@@ -546,6 +550,7 @@ class ToonBase(OTPBase.OTPBase):
             self.MOVE_RIGHT = keymap.get('MOVE_RIGHT', self.MOVE_RIGHT)
             self.JUMP = keymap.get('JUMP', self.JUMP)
             self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
+            self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
             ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
         else:
             self.MOVE_UP = 'arrow_up'
@@ -554,3 +559,7 @@ class ToonBase(OTPBase.OTPBase):
             self.MOVE_RIGHT = 'arrow_right'
             self.JUMP = 'control'
             self.ACTION_BUTTON = 'delete'
+            self.SCREENSHOT_KEY = 'f9'
+    
+        self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
+

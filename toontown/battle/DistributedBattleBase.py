@@ -310,6 +310,21 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def setBattleCellId(self, battleCellId):
         pass
+    
+    def getInteractiveProp(self):
+        if config.GetBool('want-anim-props', True):
+            if self.interactiveProp:
+                return self.interactiveProp
+            elif base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader'):
+                loader = base.cr.playGame.hood.loader
+
+                if hasattr(loader, 'getInteractiveProp'):
+                    self.interactiveProp = base.cr.playGame.hood.loader.getInteractiveProp(self.zoneId)
+
+                    return self.interactiveProp
+                
+        return None
+ 
 
     def setInteractivePropTrackBonus(self, trackBonus):
         self.interactivePropTrackBonus = trackBonus
@@ -437,7 +452,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if len(oldSuitTraps) != len(self.suitTraps):
             self.needAdjustTownBattle = 1
         else:
-            for i in xrange(len(oldSuitTraps)):
+            for i in range(len(oldSuitTraps)):
                 if oldSuitTraps[i] == '9' and self.suitTraps[i] != '9' or oldSuitTraps[i] != '9' and self.suitTraps[i] == '9':
                     self.needAdjustTownBattle = 1
                     break
@@ -556,7 +571,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         targetIndices = []
         unAttack = 0
         localToonInList = 0
-        for i in xrange(len(ids)):
+        for i in range(len(ids)):
             track = tracks[i]
             level = levels[i]
             toon = self.findToon(ids[i])
@@ -603,7 +618,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     targetIndex = -1
             targetIndices.append(targetIndex)
 
-        for i in xrange(4 - len(ids)):
+        for i in range(4 - len(ids)):
             toonIndices.append(-1)
             tracks.append(-1)
             levels.append(-1)

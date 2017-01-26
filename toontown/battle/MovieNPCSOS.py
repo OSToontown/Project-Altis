@@ -240,6 +240,8 @@ def __doRestockGags(attack, level, hp):
         text = TTLocalizer.MovieNPCSOSThrow
     elif level == ToontownBattleGlobals.SQUIRT_TRACK:
         text = TTLocalizer.MovieNPCSOSSquirt
+    elif level == ToontownBattleGlobals.ZAP_TRACK:
+        text = TTLocalizer.MovieNPCSOSZap
     elif level == ToontownBattleGlobals.DROP_TRACK:
         text = TTLocalizer.MovieNPCSOSDrop
     elif level == -1:

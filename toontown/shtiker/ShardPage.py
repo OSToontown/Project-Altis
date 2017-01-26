@@ -10,7 +10,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 
 ICON_COLORS = (Vec4(0.863, 0.776, 0.769, 1.0), Vec4(0.749, 0.776, 0.824, 1.0),
-               Vec4(0.749, 0.769, 0.749, 1.0), Vec4(0.843, 0.745, 0.745, 1.0))
+               Vec4(0.749, 0.769, 0.749, 1.0), Vec4(0.843, 0.745, 0.745, 1.0), Vec4(1, 1, 1, 1))
 
 POP_COLORS = (Vec4(0.4, 0.4, 1.0, 1.0), Vec4(0.4, 1.0, 0.4, 1.0),
               Vec4(1.0, 0.4, 0.4, 1.0))
@@ -32,10 +32,6 @@ def setupInvasionMarker(node, invasionStatus):
 
     markerNode = node.attachNewNode('invasion-marker')
 
-    if invasionStatus == 5:
-        setupInvasionMarkerAny(markerNode)
-        return
-
     icons = loader.loadModel('phase_3/models/gui/cog_icons')
 
     if invasionStatus == 1:
@@ -44,13 +40,14 @@ def setupInvasionMarker(node, invasionStatus):
         icon = icons.find('**/LegalIcon').copyTo(markerNode)
     elif invasionStatus == 3:
         icon = icons.find('**/MoneyIcon').copyTo(markerNode)
-    else:
+    elif invasionStatus == 4:
         icon = icons.find('**/SalesIcon').copyTo(markerNode)
+    else:
+        icon = icons.find('**/BoardIcon').copyTo(markerNode)
 
     icons.removeNode()
 
-    icon.setColor(ICON_COLORS[invasionStatus - 1])
-    icon.setPos(0.54, 0, 0.015)
+    icon.setPos(0.44, 0, 0.015)
     icon.setScale(0.053)
 
 def removeInvasionMarker(node):

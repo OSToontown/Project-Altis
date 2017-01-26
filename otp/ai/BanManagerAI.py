@@ -129,7 +129,7 @@ def kick(reason='No reason specified'):
 @magicWord(category=CATEGORY_MODERATOR, types=[str])
 def ban(reason):
     """
-    Kick the target from the game server.
+    Ban and Kick the target from the game server.
     """
     target = spellbook.getTarget()
     if target == spellbook.getInvoker():

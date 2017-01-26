@@ -2,7 +2,7 @@
 model-path ../resources
 
 # Server:
-server-version TTPA-Alpha-1.2.1
+server-version TTPA-Alpha-1.2.4
 min-access-level 600
 accountdb-type local
 shard-low-pop 50
@@ -18,7 +18,7 @@ dc-file astron/dclass/toon.dc
 # Core features:
 want-pets #t
 want-parties #f
-want-cogdominiums #t
+want-cogdominiums #f
 want-achievements #f
 
 # Chat:

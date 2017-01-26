@@ -91,6 +91,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1100: ('to', 'on', 'Barnacle Boulevard'),
  1200: ('to', 'on', 'Seaweed Street'),
  1300: ('to', 'on', 'Lighthouse Lane'),
+ 1400: ('to', 'on', 'Ahoy Avenue'),
  2000: ('to the', 'in the', 'Playground'),
  2100: ('to', 'on', 'Silly Street'),
  2200: ('to', 'on', 'Loopy Lane'),
@@ -410,9 +411,9 @@ QuestsRecoverItemQuestRecoverFromSCString = 'I need to recover %(item)s from %(h
 QuestsRecoverItemQuestString = 'Recover %(item)s from %(holder)s'
 QuestsRecoverItemQuestHolderString = '%(level)s %(holder)d+ %(cogs)s'
 QuestsTrackChoiceQuestHeadline = 'CHOOSE'
-QuestsTrackChoiceQuestSCString = 'I need to choose between %(trackA)s and %(trackB)s.'
+QuestsTrackChoiceQuestSCString = 'I need to choose a gag track.'
 QuestsTrackChoiceQuestMaybeSCString = 'Maybe I should choose %s.'
-QuestsTrackChoiceQuestString = 'Choose between %(trackA)s and %(trackB)s'
+QuestsTrackChoiceQuestString = 'Choose a gag track.'
 QuestsFriendQuestHeadline = 'FRIEND'
 QuestsFriendQuestSCString = 'I need to make a friend.'
 QuestsFriendQuestString = 'Make a friend'
@@ -1226,7 +1227,7 @@ QuestDialogDict = {160: {GREETING: '',
         COMPLETE: "Found it!"},
  5210: {QUEST: '_toNpcName_\'s snow globe collection has been stolen by the Cogs._where_'},
  5211: {GREETING: '',
-        QUEST: 'My entire snow globe collection! Ruined!\x08_avName_, you must help me!\x07The Cogs on this street have stolen all 15 of my snow globes.\x07Please go get them back for me!',
+        QUEST: 'My entire snow globe collection! Ruined!\x07_avName_, you must help me!\x07The Cogs on this street have stolen all 15 of my snow globes.\x07Please go get them back for me!',
         LEAVING: '',
         INCOMPLETE_PROGRESS: 'Please find my letter.'},
  5264: {GREETING: '',
@@ -1268,7 +1269,7 @@ QuestDialogDict = {160: {GREETING: '',
         QUEST: "Oh thank goodness you're back!\x07Give me the potion, quick!\x07Glug, glug, glug...\x07That tasted awful!\x07You know what though? I feel a lot calmer. Now that I can think clearly, I realize that...\x07It wasn't the Legal Eagles that were driving me crazy after all this time.",
         COMPLETE: "Oh boy, now I can relax!\x07I'm sure there's something here I can give you.  Here you go!"},
  5225: {QUEST: '_toNpcName_ is hosting a skiing party and needs help preparing._where_'},
- 5226: {QUEST: 'As you have heard, I am hosting a skiing party for a bunch of guests, but I have three things I need you to help me with.\x07First off, the Ambulance Chasers on this street can be a bit rough.\x07They usually take my guests and break their legs after these events.\x07Seeing this as problematic, please defeat at least 10 of them.',
+ 5226: {QUEST: 'As you have heard, I am hosting a skiing party for a bunch of guests, but I have three things I need you to help me with.\x07First off, the Ambulance Chasers on this street can be a bit rough.\x07As my guests come, they love to trap them in their Red Tape.\x07Seeing this as problematic, please defeat at least 10 of them.',
         LEAVING: '',
         INCOMPLETE_PROGRESS: 'Maybe a few more buildings?'},
  5227: {QUEST: "Great job on those Chasers.\x07Next, I need you to get me some of _toNpcName_'s world famous soup, for I have a cold and do not need it spreading._where_"},
@@ -1298,11 +1299,11 @@ QuestDialogDict = {160: {GREETING: '',
         LEAVING: '',
         INCOMPLETE_PROGRESS: "I may be old, but I know you haven't finished your quest yet. You can't fool me that easily."},
  5235: {GREETING: '',
-        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to take down some Lawbot Field Offices.",
+        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to take defeat some of those Big Cheeses.\x07They are Cogs that love to hide in buildings and Cog Golf Courses.",
         LEAVING: '',
         INCOMPLETE_PROGRESS: "I may be old, but I know you haven't finished your quest yet. You can't fool me that easily."},
  5236: {GREETING: '',
-        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to take down some Sellbot Field Offices.",
+        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to take defeat some of those Big Wigs.\x07They are Cogs that love to hide in buildings and DA Offices.",
         LEAVING: '',
         INCOMPLETE_PROGRESS: "I may be old, but I know you haven't finished your quest yet. You can't fool me that easily."},
  5237: {QUEST: "Now, I want you to defeat some of the strongest Cogs out there.\x07Afterwards, I will give you my final quest for you.",
@@ -1553,7 +1554,7 @@ QuestDialogDict = {160: {GREETING: '',
          QUEST: "Welcome, _avName_!\x07As you have heard, I have the scoop on how you can teleport to Sellbot Headquarters.\x07First, I want you to do some vigorous tasks involving taking those Sellbots down.\x07Shut down several Cog Factories.",
          LEAVING: ''},
  11002: {GREETING: '',
-         QUEST: "Now, take down some Sellbot Field Offices.",
+         QUEST: "Now, take down some strong Sellbot Buildings.",
          LEAVING: ''},
  11003: {GREETING: '',
          QUEST: "OK, I'll tell you how you can get teleportation access.\x07Rarely, one of the Cogs in Sellbot Headquarters carry around a memo for teleportation access.\x07The reason that nobody has figured it out before is because the memo is in the shape of a Cog Gear.\x07Once you recover it, return it here to me and you will be granted with teleportation access.",
@@ -1583,7 +1584,7 @@ QuestDialogDict = {160: {GREETING: '',
          QUEST: "Welcome, _avName_.\x07I am willing to grant you teleportation access, but you must prove yourself worthy.\x07Shut down several Lawbot B-Offices to start with."},
  13002: {GREETING: '',
          LEAVING: '',
-         QUEST: "Now, take down some Lawbot Field Offices."},
+         QUEST: "Now, take down some strong Lawbot Buildings."},
  13003: {GREETING: '',
          LEAVING: '',
          QUEST: "Now, I shall let you in on my little secret.\x07All Cogs in Lawbot Headquarters carry around a small gavel with them.\x07Who were to know that some of their gavels are folded up teleporation access memo?\x07Now that you know, go find one and bring it back here so I can grant you teleportation access.",
@@ -1597,7 +1598,38 @@ QuestDialogDict = {160: {GREETING: '',
  14002: {GREETING: '',
          LEAVING: '',
          QUEST: "OK, I'll tell ya.\x07In their pockets, the Bossbots that are members at the Country Club carry a golf ball.\x07Several of the Cogs fold their teleportation access memos into spheres to make them look like golf balls.\x07Bring back a memo so I can grant your access.",
-         COMPLETE: "Wonderful job!"}}
+         COMPLETE: "Wonderful job!"},
+ 15000: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "_toNpcName_ needs help taking down some Boardbots._where_"},
+ 15001: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "Welcome, _avName_.\x07I am sick of these Boardbots roaming the town and making everything boring!\x07I want you to tackle down the Boardbot Corporate Ladder, starting with 5 Con Artists."},
+ 15002: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "Now defeat some of those fancy Connoisseurs."},
+ 15003: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "Try not to get swindled when you take down those Swindlers."},
+ 15004: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "The Middlemen are the center of my problems!\x07Go out and defeat some!"},
+ 15005: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "It's dangerous not to wear a mask when fighting some Toxic Managers..."},
+ 15006: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "Is it me, or are those Magnates a bit creepy?\x07Just thinking about them gives me the chills...\x07I would really appreciate it if you can defeat some..."},
+ 15007: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "Go fishing for some Big Fish!\x07I bet you haven't heard THAT ONE a million times."},
+ 15008: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "Now defeat the heads of the ladder, the Head Honchos"},
+ 15009: {GREETING: '',
+		 LEAVING: '',
+		 QUEST: "Finally, I'd like you to take down some Boardbot Buildings.\x07Return to me once you are finished with that, then I will give you your reward.",
+		 COMPLETE: "Fantastic job to you for all your hard work!\x07Here is your well-deserved reward..."}}
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']
@@ -5219,10 +5251,10 @@ PickStatusTitle = 'Choose  Your  Statuses'
 PickStartTitle = 'Choose  Your  Starting  Playground'
 NameToonTitle = 'Choose  Your  Name'
 UberTitles = ['Normal', '15 Laff', '25 Laff', '34 Laff']
-UberInfos = ['Your average run of the mill toon, they have no laff or gag limits! Great for players who want to play traditionally.',
- '15 laff ubers can NEVER gain any laff points.',
- '25 laff ubers can gain up to 10 extra laff points from their base laff.',
- '34 laff ubers can gain up to 19 extra laff points from their base laff.']
+UberInfos = ['Your average run of the mill toon, they have no laff limits! Great for players who want to play traditionally.',
+ '15 laff ubers can NEVER GAIN ANY LAFF POINTS.',
+ '25 laff ubers can gain up to 10 extra laff points from their base laff. Once they reach 25 laff, they can NEVER GAIN ANY MORE LAFF POINTS.',
+ '34 laff ubers can gain up to 19 extra laff points from their base laff. Once they reach 34 laff, they can NEVER GAIN ANY MORE LAFF POINTS.']
 CreateYourToonHead = "Click the 'head' arrows to pick different animals."
 MakeAToonClickForNextScreen = 'Click the arrow below to go to the next screen.'
 PickClothes = 'Click the arrows to pick clothes!'
@@ -7328,7 +7360,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  5127: 'Polly Pollen',
  5128: 'Shoshanna Sap',
  5129: 'Sally',
- 5201: 'Jake',
+ 5201: 'Jakebooy',
  5202: 'Cynthia',
  5203: 'Lisa',
  5204: 'Bert',
@@ -9271,9 +9303,9 @@ GolfTimeTieBreakWinner = '%(name)s wins the total aiming time tie breaker!!!'
 RoamingTrialerWeekendStart = 'Tour Toontown is starting! Free players may now enter any neighborhood!'
 RoamingTrialerWeekendOngoing = 'Welcome to Tour Toontown! Free players may now enter any neighborhood!'
 RoamingTrialerWeekendEnd = "That's all for Tour Toontown."
-MoreXpHolidayStart = 'Good news! Exclusive Test Toon double gag experience time has started.'
-MoreXpHolidayOngoing = 'Welcome! Exclusive Test Toon double gag experience time is currently ongoing.'
-MoreXpHolidayEnd = 'Exclusive Test Toon double gag experience time has ended. Thanks for helping us Test things!'
+MoreXpHolidayStart = 'Good news! Exclusive Test Toon 5x gag experience time has started.'
+MoreXpHolidayOngoing = 'Welcome! Exclusive Test Toon 5x gag experience time is currently ongoing.'
+MoreXpHolidayEnd = 'Exclusive Test Toon 5x gag experience time has ended. Thanks for helping us Test things!'
 JellybeanDayHolidayStart = "It's Jellybean Day! Get Double Jellybean rewards at Parties!"
 JellybeanDayHolidayEnd = "That's all for Jellybean Day. See you next year."
 PartyRewardDoubledJellybean = 'Double Jellybeans!'
@@ -9546,6 +9578,7 @@ HolidayNamesInCalendar = {1: ('Summer Fireworks', 'Celebrate Summer with a firew
  17: ('Trolley Tracks', 'Trolley Tracks Thursday! Board any Trolley with two or more Toons to play.'),
  19: ('Silly Saturdays', 'Saturdays are silly with Fish Bingo and Grand Prix throughout the day!'),
  24: ('Ides of March', 'Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!'),
+ 25: ('5x Gag Experience', 'Recieve 5 times the gag experience from battles!'),
  26: ('Halloween Decor', 'Celebrate Halloween as spooky trees and streetlights transform Toontown!'),
  28: ('Winter Invasion', 'The sellbots are on the loose spreading their cold sales tactics!'),
  29: ("April Toons' Week", "Celebrate April Toons' Week - a holiday built by Toons for Toons!"),

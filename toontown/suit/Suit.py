@@ -139,6 +139,7 @@ txm = (('cigar-smoke', 'cigar-smoke', 8),
 mg = (('speak', 'speak', 5),
  ('glower', 'glower', 5),     
  ('throw-paper', 'throw-paper', 5),
+ ('phone', 'phone', 5),
  ('throw-object', 'throw-object', 5),
  ('magic1', 'magic1', 5),
  ('finger-wag', 'finger-wag', 5))
