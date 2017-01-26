@@ -136,6 +136,19 @@ class DeveloperAccountDB(AccountDB):
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
+
+    def addNameRequest(self, avId, name):
+        # add type a name
+        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
+        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avid, name))
+        return # return if error: false pls
+    
+    def getNameStatus(self, avId):
+        # check type a name
+        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
+        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avid)) # this should just use avid
+        return # return the status
+    
     def lookup(self, username, callback):
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
@@ -861,7 +874,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
     def enterJudgeName(self):
         # Let's see if the name is valid:
         status = judgeName(self.name)
-
+        
         if self.avId and status:
             resp = self.csm.accountDB.addNameRequest(self.avId, self.name)
             if resp != 'Success':
