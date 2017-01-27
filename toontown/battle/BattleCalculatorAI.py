@@ -493,6 +493,20 @@ class BattleCalculatorAI:
                 toon = self.battle.getToon(toonId)
                 if attack[TOON_TRACK_COL] == NPCSOS and lureDidDamage != 1 or attack[TOON_TRACK_COL] == PETSOS:
                     attackDamage = atkHp
+                    if atkTrack == ZAP:
+                        if self.__isWet(targetId) == 1:
+                            if random.randint(0,99) <= InstaKillChance[atkLevel]:
+                                suit = self.battle.findSuit(targetId)
+                                if suit.getHP() > 500:
+                                    attackDamage = 500
+                                else:
+                                    suit.b_setSkeleRevives(0)
+                                    attackDamage = suit.getHP()
+                            else:
+                                attackDamage = atkHp * 2
+                    if atkTrack == THROW:
+                        tgtPos = self.battle.activeSuits.index(targetList[currTarget])
+                        attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
                 elif atkTrack == FIRE:
                     suit = self.battle.findSuit(targetId)
                     if suit:
