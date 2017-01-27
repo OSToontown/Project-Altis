@@ -34,6 +34,8 @@ class ToonBlitzAssetMgr(DirectObject):
         self.treasureModelList.append(legalIcon)
         corpIcon = loader.loadModel('phase_4/models/minigames/corpIcon')
         self.treasureModelList.append(corpIcon)
+        boardIcon = loader.loadModel('phase_4/models/minigames/boardIcon')
+        self.treasureModelList.append(boardIcon)
         self.particleGlow = loader.loadModel('phase_4/models/minigames/particleGlow')
         self.blockTypes = []
         for i in xrange(4):
