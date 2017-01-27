@@ -74,7 +74,6 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         self.sendUpdateToAvatarId(avId, 'addPartyResponse', [avId, errorCode])
         # We also need to remember to update the field on the DToon indicating parties he's hosting
         self.air.doId2do[avId].sendUpdate('setHostedParties', [[partyStruct]])
-        pass
 
     def markInviteAsReadButNotReplied(self, todo0, todo1):
         pass
@@ -199,7 +198,6 @@ class DistributedPartyManagerAI(DistributedObjectAI):
             del self.partyId2PlanningZone[partyId]
             del self.host2PartyId[hostId]
             del self.partyId2Host[partyId]
-        return
 
     def sendAvToPlayground(self, todo0, todo1):
         pass

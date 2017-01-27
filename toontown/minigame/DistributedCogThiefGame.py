@@ -18,6 +18,7 @@ from toontown.minigame.DistributedMinigame import DistributedMinigame
 from toontown.minigame import Trajectory
 from toontown.minigame import MinigameGlobals
 from toontown.minigame import CogThiefWalk
+from toontown.suit import SuitDNA
 CTGG = CogThiefGameGlobals
 
 class DistributedCogThiefGame(DistributedMinigame):
@@ -356,10 +357,8 @@ class DistributedCogThiefGame(DistributedMinigame):
              'suit': None}
 
     def loadCogs(self):
-        suitTypes = ['ds',
-         'ac',
-         'bc',
-         'ms']
+        suitTypes = SuitDNA.suitHeadTypes
+		
         for suitIndex in xrange(self.getNumCogs()):
             st = self.randomNumGen.choice(suitTypes)
             suit = CogThief.CogThief(suitIndex, st, self, self.getCogSpeed())

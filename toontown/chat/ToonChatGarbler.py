@@ -36,7 +36,7 @@ class ToonChatGarbler(ChatGarbler.ChatGarbler):
     def garbleSingle(self, toon, message):
         newMessage = ''
         animalType = toon.getStyle().getType()
-        if animalType in ToonChatGarbler.animalSounds and not toon.isCog():
+        if animalType in ToonChatGarbler.animalSounds:
             wordlist = ToonChatGarbler.animalSounds[animalType]
         else:
             wordlist = ToonChatGarbler.animalSounds['default']
