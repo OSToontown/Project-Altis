@@ -26,14 +26,17 @@ class ToonBlitzAssetMgr(DirectObject):
         self.arrow = loader.loadModel('phase_4/models/minigames/toonblitz_game_arrow')
         self.sprayProp = loader.loadModel('phase_4/models/minigames/prop_waterspray')
         self.treasureModelList = []
-        salesIcon = loader.loadModel('phase_4/models/minigames/salesIcon')
+        cogIcons = loader.loadModel('phase_3/models/gui/cog_icons')
+        salesIcon = cogIcons.find('**/SalesIcon')
         self.treasureModelList.append(salesIcon)
-        moneyIcon = loader.loadModel('phase_4/models/minigames/moneyIcon')
+        moneyIcon = icon = cogIcons.find('**/MoneyIcon')
         self.treasureModelList.append(moneyIcon)
-        legalIcon = loader.loadModel('phase_4/models/minigames/legalIcon')
+        legalIcon = icon = cogIcons.find('**/LegalIcon')
         self.treasureModelList.append(legalIcon)
-        corpIcon = loader.loadModel('phase_4/models/minigames/corpIcon')
+        corpIcon = cogIcons.find('**/CorpIcon')
         self.treasureModelList.append(corpIcon)
+        boardIcon = cogIcons.find('**/BoardIcon')
+        self.treasureModelList.append(boardIcon)
         self.particleGlow = loader.loadModel('phase_4/models/minigames/particleGlow')
         self.blockTypes = []
         for i in xrange(4):

@@ -4,6 +4,8 @@ from otp.ai.MagicWordGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
 from toontown.toon.DistributedToonAI import DistributedToonAI
+import time
+import datetime
 
 class MagicWordManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("MagicWordManagerAI")
@@ -19,7 +21,7 @@ class MagicWordManagerAI(DistributedObjectAI):
         if not invoker:
             self.sendUpdateToAvatarId(invokerId, 'sendMagicWordResponse', ['missing invoker'])
             return
-
+        now = time.strftime("%c")
         if invoker.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
             self.air.writeServerEvent('suspicious', invokerId, 'Attempted to issue magic word: %s' % word)
             dg = PyDatagram()
@@ -42,6 +44,9 @@ class MagicWordManagerAI(DistributedObjectAI):
                                   invokerId, invoker.getAdminAccess(),
                                   targetId, target.getAdminAccess(),
                                   word, response)
+        with open("logs/mw/magic-words.txt","a") as textFile:
+            textFile.write("%s | %s : %s\n" % (now, invokerId, word))
+        print("%s | %s : %s\n" % (now, invokerId, word))
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def help(wordName=None):

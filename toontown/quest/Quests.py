@@ -17651,6 +17651,8 @@ class CheesyEffectReward(Reward):
 
     def getPosterString(self):
         effect = self.getEffect()
+        if effect == 77:
+            effect = 12
         desc = TTLocalizer.CheesyEffectDescriptions[effect][0]
         return TTLocalizer.QuestsCheesyEffectRewardPoster % desc
 

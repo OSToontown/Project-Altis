@@ -59,6 +59,7 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
             self.treasuresCollectedDict[avId] = [0,
              0,
              0,
+             0,
              0]
 
         for i in xrange(len(self.sectionsSelected)):
@@ -352,7 +353,7 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
                 enemyIndicesSelected.sort()
             treasureIndicesPool = []
             treasureValuePool = []
-            for value in xrange(1, 5):
+            for value in xrange(1, 6):
                 treasureValuePool += [value] * ToonBlitzGlobals.TreasureValueProbability[value]
 
             treasureIndicesSelected = []
