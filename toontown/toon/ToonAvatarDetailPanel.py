@@ -167,12 +167,12 @@ class ToonAvatarDetailPanel(DirectFrame):
                 text = TTLocalizer.AvatarDetailPanelOnlinePlayer % {'district': shardName,
                  'location': hoodName,
                  'player': self.playerInfo.playerName,
-                 'level': (av.level + 1),
-                 'toonId': toonId}
+                 'level': (av.level + 1)}
             else:
                 text = TTLocalizer.AvatarDetailPanelOnline % {'district': shardName,
                  'location': hoodName,
-                 'level': (av.level + 1)}
+                 'level': (av.level + 1),
+                 'toonId': toonId}
         else:
             text = TTLocalizer.AvatarDetailPanelOffline % (str(av.level + 1), toonId)
 
