@@ -1677,9 +1677,9 @@ AvatarDetailPanelFailedLookup = 'Unable to get details for %s.'
 AvatarDetailPanelPlayer = 'Player: %(player)s\nWorld: %(world)s'
 AvatarDetailPanelPlayerShort = '%(player)s\nWorld: %(world)s\nLocation: %(location)s'
 AvatarDetailPanelRealLife = 'Offline'
-AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel: %(level)s'
+AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel: %(level)s\nToon ID: %(toonId)s'
 AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s\nLevel %(level)s'
-AvatarDetailPanelOffline = 'District: offline\nLocation: offline\nLevel %s'
+AvatarDetailPanelOffline = 'District: offline\nLocation: offline\nLevel %s\nToon ID: %s'
 AvatarShowPlayer = 'Show Player'
 OfflineLocation = 'Offline'
 PlayerToonName = 'Toon: %(toonname)s'
@@ -2042,7 +2042,8 @@ CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
  ('Flat profile', 'you will be two-dimensional'),
  ('Transparent', 'you will be transparent'),
  ('No color', 'you will be colorless'),
- ('Invisible toon', 'you will be invisible')]
+ ('Invisible toon', 'you will be invisible'),
+ ('Wireframe', 'you will take on a more geometric form')]
 CheesyEffectIndefinite = 'Until you choose another effect, %(effectName)s%(whileIn)s.'
 CheesyEffectMinutes = 'For the next %(time)s minutes, %(effectName)s%(whileIn)s.'
 CheesyEffectHours = 'For the next %(time)s hours, %(effectName)s%(whileIn)s.'

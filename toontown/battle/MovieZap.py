@@ -33,6 +33,7 @@ def doZaps(zaps):
 
     suitZapsDict = {}
     doneUber = 0
+    npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(zaps)
     skip = 0
     for zap in zaps:
         skip = 0
@@ -68,19 +69,19 @@ def doZaps(zaps):
     mtrack = Parallel()
     for st in suitZaps:
         if len(st) > 0:
-            ival = __doSuitZaps(st)
+            ival = __doSuitZaps(st, npcs)
             if ival:
                 mtrack.append(Sequence(Wait(delay), ival))
             delay = delay + TOON_ZAP_SUIT_DELAY
-    npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(zaps)
+    zapTrack = Sequence(npcArrivals, mtrack, npcDepartures)
     enterDuration = npcArrivals.getDuration()
     exitDuration = npcDepartures.getDuration()
-    camDuration = mtrack.getDuration()
+    camDuration = zapTrack.getDuration()
     camTrack = MovieCamera.chooseLureShot(zaps, camDuration, enterDuration, exitDuration)
-    return (mtrack, camTrack)
+    return (zapTrack, camTrack)
 
 
-def __doSuitZaps(zaps):
+def __doSuitZaps(zaps, npcs):
     uberClone = 0
     toonTracks = Parallel()
     delay = 0.0
@@ -96,7 +97,7 @@ def __doSuitZaps(zaps):
     else:
         fShowStun = 0
     for s in zaps:
-        tracks = __doZap(s, delay, fShowStun, uberClone)
+        tracks = __doZap(s, delay, fShowStun, uberClone, npcs)
         if s['level'] >= ToontownBattleGlobals.UBER_GAG_LEVEL_INDEX:
             uberClone = 1
         if tracks:
@@ -108,7 +109,7 @@ def __doSuitZaps(zaps):
     return toonTracks
 
 
-def __doZap(zap, delay, fShowStun, uberClone = 0):
+def __doZap(zap, delay, fShowStun, uberClone = 0, npcs=[]):
     zapSequence = Sequence(Wait(delay))
     if type(zap['target']) == type([]):
         for target in zap['target']:
@@ -123,11 +124,11 @@ def __doZap(zap, delay, fShowStun, uberClone = 0):
          zap['target']['suit'].doId,
          zap['target']['hp']))
     if uberClone:
-        ival = zapfn_array[zap['level']](zap, delay, fShowStun, uberClone)
+        ival = zapfn_array[zap['level']](zap, delay, fShowStun, uberClone, npcs=npcs)
         if ival:
             zapSequence.append(ival)
     else:
-        ival = zapfn_array[zap['level']](zap, delay, fShowStun)
+        ival = zapfn_array[zap['level']](zap, delay, fShowStun, npcs=npcs)
         if ival:
             zapSequence.append(ival)
     return [zapSequence]
@@ -149,7 +150,7 @@ def __createSuitResetPosTrack(suit, battle):
 def createSuitResetPosTrack(suit, battle):
     return __createSuitResetPosTrack(suit, battle)
 
-def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun = 0.5, afterStun = 1.8, geyser = 0, uberRepeat = 0, revived = 0):
+def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun = 0.5, afterStun = 1.8, uberRepeat = 0, revived = 0, npcs = []):
     if hp > 0:
         suitTrack = Sequence()
         sival = ActorInterval(suit, anim)
@@ -163,14 +164,7 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         suitTrack.append(Wait(tContact))
         suitTrack.append(showDamage)
         suitTrack.append(updateHealthBar)
-        if not geyser:
-            suitTrack.append(sival)
-        elif not uberRepeat:
-            geyserMotion = Sequence(sUp, Wait(0.0), sDown)
-            suitLaunch = Parallel(sival, geyserMotion)
-            suitTrack.append(suitLaunch)
-        else:
-            suitTrack.append(Wait(5.5))
+        suitTrack.append(sival)
         bonusTrack = Sequence(Wait(tContact))
         if kbbonus == 0:
             suitTrack.append(__createSuitResetPosTrack(suit, battle))
@@ -183,14 +177,14 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
             if hp == suit.currHP:
                 suitTrack.append(shortCircuitTrack(suit, battle))
             else:
-                suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
+                suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
         else:
             suitTrack.append(Func(suit.loop, 'neutral'))
         if revived != 0:
-            suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle))
+            suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
         return Parallel(suitTrack, bonusTrack)
     else:
-        return MovieUtil.createSuitZaplessMultiTrack(suit, 2.5)
+        return MovieUtil.createSuitDodgeMultitrack(tDodge, suit, leftSuits, rightSuits)
 		
 def shortCircuitTrack(suit, battle):
     suitTrack = Sequence()
@@ -244,7 +238,7 @@ def __getSoundTrack(level, hitSuit, delay, node = None):
         return soundTrack
 
 
-def __doJoybuzzer(zap, delay, fShowStun):
+def __doJoybuzzer(zap, delay, fShowStun, npcs=[]):
     toon = zap['toon']
     level = zap['level']
     hpbonus = zap['hpbonus']
@@ -290,7 +284,7 @@ def __doJoybuzzer(zap, delay, fShowStun):
     return tracks
 
 
-def __doRug(zap, delay, fShowStun):
+def __doRug(zap, delay, fShowStun, npcs=[]):
     toon = zap['toon']
     level = zap['level']
     hpbonus = zap['hpbonus']
@@ -344,7 +338,7 @@ def __doRug(zap, delay, fShowStun):
     return tracks
 
 
-def __doBalloon(zap, delay, fShowStun):
+def __doBalloon(zap, delay, fShowStun, npcs=[]):
     toon = zap['toon']
     level = zap['level']
     hpbonus = zap['hpbonus']
@@ -402,7 +396,7 @@ def __doBalloon(zap, delay, fShowStun):
     return tracks
 
 
-def __doBattery(zap, delay, fShowStun):
+def __doBattery(zap, delay, fShowStun, npcs=[]):
     toon = zap['toon']
     level = zap['level']
     hpbonus = zap['hpbonus']
@@ -467,7 +461,7 @@ def __doBattery(zap, delay, fShowStun):
     return tracks
 
 
-def __doTazer(zap, delay, fShowStun):
+def __doTazer(zap, delay, fShowStun, npcs=[]):
     toon = zap['toon']
     level = zap['level']
     hpbonus = zap['hpbonus']
@@ -534,7 +528,7 @@ def __doTazer(zap, delay, fShowStun):
     return tracks
 
 
-def __doTesla(zap, delay, fShowStun):
+def __doTesla(zap, delay, fShowStun, npcs=[]):
     toon = zap['toon']
     level = zap['level']
     hpbonus = zap['hpbonus']
@@ -606,8 +600,10 @@ def __doTesla(zap, delay, fShowStun):
     return tracks
 
 
-def __doLightning(zap, delay, fShowStun, uberClone = 0):
+def __doLightning(zap, delay, fShowStun, uberClone = 0, npcs=[]):
     toon = zap['toon']
+    if 'npc' in zap:
+        toon = zap['npc']
     level = zap['level']
     hpbonus = zap['hpbonus']
     tracks = Parallel()
@@ -626,7 +622,9 @@ def __doLightning(zap, delay, fShowStun, uberClone = 0):
     suit = zap['target'][0]['suit']
     suitPos = suit.getPos(battle)
     toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, suitPos), ActorInterval(toon, 'pushbutton'), 
-        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'))
+    if not 'npc' in zap:
+        toonTrack.append(Func(toon.setHpr, battle, origHpr))
    
     tracks.append(toonTrack)
     for target in zap['target']:
@@ -667,7 +665,7 @@ def __doLightning(zap, delay, fShowStun, uberClone = 0):
 
         tracks.append(getCloudTrack(cloud, suit, cloudPosPoint, scaleUpPoint, rainDelay, cloudHold))
         if hp > 0 or delay <= 0:
-            tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun=2.6, afterStun=2.3, revived=revived))
+            tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun=2.6, afterStun=2.3, revived=revived, npcs=npcs))
     return tracks
 
 

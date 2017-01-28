@@ -4408,7 +4408,7 @@ def cheesyEffect(value, hood=0, expire=0):
         if value not in OTPGlobals.CEName2Id:
             return 'Invalid cheesy effect value: %s' % value
         value = OTPGlobals.CEName2Id[value]
-    elif not 0 <= value <= 76:
+    elif not 0 <= value <= 77:
         return 'Invalid cheesy effect value: %d' % value
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
@@ -4459,7 +4459,7 @@ def maxToon(missingTrack=None):
     """
     Max the target's stats for end-level gameplay.
     """
-    target = spellbook.getTarget() if spellbook.getInvokerAccess() >= 450 else spellbook.getInvoker()
+    target = spellbook.getInvoker()
 
     # First, unlock the target's Gag tracks:
     gagTracks = [1, 1, 1, 1, 1, 1, 1, 1]
@@ -5382,3 +5382,8 @@ def dump_doId2do():
         for name, size in sorted_objSizes:
             file.write('OBJ: %s | SIZE: %d\n' % (name, size))
     return "Dumped doId2do sizes (grouped by class) to '%s'." % temp_file[1]
+
+    
+@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+def catalog():
+    simbase.air.catalogManager.deliverCatalogFor(spellbook.getTarget())
