@@ -61,21 +61,10 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.initializeBattles(1, ToontownGlobals.CashbotBossBattleOnePosHpr)
 
     def generateSuits(self, battleNumber):
-        cogs = self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_CFO, 0)
-        skelecogs = self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_CFO_SKELECOGS, 1)
-        activeSuits = cogs['activeSuits'] + skelecogs['activeSuits']
-        reserveSuits = cogs['reserveSuits'] + skelecogs['reserveSuits']
-        random.shuffle(activeSuits)
-        while len(activeSuits) > 4:
-            suit = activeSuits.pop()
-            reserveSuits.append((suit, 100))
-
-        def compareJoinChance(a, b):
-            return cmp(a[1], b[1])
-
-        reserveSuits.sort(compareJoinChance)
-        return {'activeSuits': activeSuits,
-         'reserveSuits': reserveSuits}
+        if battleNumber == 1:
+            return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_CFO, 0)
+        else:
+            return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_CFO_SKELECOGS, 1)
 
     def removeToon(self, avId):
         if self.cranes != None:
@@ -490,6 +479,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.stopGoons()
         self.stopHelmets()
         self.heldObject = None
+
     def enterVictory(self):
         self.resetBattles()
         self.suitsKilled.append({'type': None,

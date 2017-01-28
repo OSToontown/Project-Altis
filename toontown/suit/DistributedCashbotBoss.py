@@ -229,7 +229,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         planeNode.setCollideMask(ToontownGlobals.PieBitmask)
         self.geom.attachNewNode(planeNode)
         self.geom.reparentTo(render)
-        self.battleOneMusic = base.loadMusic('phase_7/audio/bgm/encntr_general_bg_indoor.ogg')
+        self.battleTwoMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
         self.midCutsceneMusic = base.loadMusic('phase_9/audio/bgm/encntr_toon_winning.ogg')
         self.battleThreeMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
 
@@ -846,10 +846,10 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.toonsToBattlePosition(self.toonsB, self.battleBNode)
         self.doAnimate()
         self.__hideResistanceToon()
-        base.playMusic(self.battleOneMusic, looping=1, volume=0.9)
+        base.playMusic(self.battleTwoMusic, looping=1, volume=0.9)
 
     def exitBattleTwo(self):
-        self.battleOneMusic.stop()
+        self.battleTwoMusic.stop()
     
     def __beginBattleTwo(self):
         intervalName = 'PrepareBattleTwoMovie'
