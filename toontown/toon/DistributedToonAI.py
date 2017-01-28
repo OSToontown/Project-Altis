@@ -5249,7 +5249,7 @@ def nametagStyle(nametagStyle):
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def disguise(command, suitIndex, value):
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
 
     if suitIndex > 3:
         return 'Invalid suit index: %s' % suitIndex
