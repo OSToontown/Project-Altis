@@ -445,6 +445,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Wait(2),
             Func(self.setChatAbsolute, TTL.CashbotBossCogAgain, CFSpeech),
             Wait(2),
+            Func(self.clearChat),
             Func(self.getGeomNode().setH, 0),
             Func(self.midCutsceneMusic.stop))
         return Sequence(Func(base.camera.reparentTo, self), base.camera.posHprInterval(1, Point3(0, -27, 25), VBase3(0, -18, 0), blendType='easeInOut'), track, Func(base.camera.reparentTo, render))
