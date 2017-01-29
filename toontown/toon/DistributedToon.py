@@ -53,6 +53,7 @@ from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toon.LaffMeter import LaffMeter
+from toontown.toon import GMUtils
 
 if base.wantKarts:
     from toontown.racing.KartDNA import *
