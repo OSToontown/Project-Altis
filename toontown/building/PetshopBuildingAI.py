@@ -1,14 +1,14 @@
-from toontown.building import DistributedDoorAI
-from toontown.building import DistributedPetshopInteriorAI
-from toontown.building import DoorTypes
-from pandac.PandaModules import *
+import DistributedDoorAI
+import DistributedPetshopInteriorAI
+import DoorTypes
+from panda3d.core import *
+from panda3d.direct import *
 from toontown.hood import ZoneUtil
-# from toontown.pets import DistributedPetAI, PetTraits, PetUtil
+from toontown.pets import DistributedPetAI, PetTraits, PetUtil
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 
 class PetshopBuildingAI:
-
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone
@@ -50,10 +50,10 @@ class PetshopBuildingAI:
         zoneId = self.interiorZone
         safeZoneId = ZoneUtil.getCanonicalSafeZoneId(zoneId)
         (name, dna, traitSeed) = PetUtil.getPetInfoFromSeed(seed, safeZoneId)
-        pet = DistributedPetAI.DistributedPetAI(self.air, dna=dna)
+        pet = DistributedPetAI.DistributedPetAI(self.air, dna = dna)
         pet.setOwnerId(ownerId)
         pet.setPetName(name)
-        pet.traits = PetTraits.PetTraits(traitSeed=traitSeed, safeZoneId=safeZoneId)
+        pet.traits = PetTraits.PetTraits(traitSeed = traitSeed, safeZoneId = safeZoneId)
         pet.generateWithRequired(zoneId)
         pet.setPos(0, 0, 0)
         pet.b_setParent(ToontownGlobals.SPRender)
