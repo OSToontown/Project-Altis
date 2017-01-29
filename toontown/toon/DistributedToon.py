@@ -10,7 +10,7 @@ from direct.fsm import ClassicFSM
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, SoundInterval
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from panda3s.core import *
 from otp.ai.MagicWordGlobal import *
 from otp.avatar import Avatar, DistributedAvatar
 from otp.avatar import DistributedPlayer
@@ -2677,7 +2677,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setName(self, name = 'unknownDistributedAvatar'):
         DistributedPlayer.DistributedPlayer.setName(self, name)
-        self._handleGMName()
+        if GMUtils.testGMIdentity(name):
+            self._handleTrooperGMName(name)
+        else:
+            self._handleGMName()
 
     def _handleGMName(self):
         name = self.name
@@ -2688,6 +2691,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         else:
             self.gmToonLockStyle = False
             self.removeGMIcon()
+            
+    def _handleTrooperGMName(self):
+        gmName = GMUtils.handleGMName(name)
+        self.setDisplayName(gmName)
+        self.setNametagStyle(5)
+        if self._isGM:
+            self.setGMIcon(self._gmType)
+            self.gmToonLockStyle = False
+            self.gmToon = True
+        else:
+            self.gmToonLockStyle = False
+            self.removeGMIcon()
+            self.gmToon = False
 
     def setGMIcon(self, gmType=None):
         if hasattr(self, 'gmIcon') and self.gmIcon:
@@ -2749,6 +2765,29 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'gmIcon') and self.gmIcon:
             self.gmIcon.detachNode()
             del self.gmIcon
+            
+    def _startZombieCheck(self):
+        self._lastZombieContext = None
+        self._zombieCheckSerialGen = SerialNumGen(random.randrange(1 << 31))
+        taskMgr.doMethodLater(2.0 + 60.0 * random.random(), self._doZombieCheck, self._getZombieCheckTaskName())
+    
+    def _stopZombieCheck(self):
+        taskMgr.remove(self._getZombieCheckTaskName())
+    
+    def _getZombieCheckTaskName(self):
+        return self.uniqueName('zombieCheck')
+    
+    def _doZombieCheck(self, task = None):
+        self._lastZombieContext = self._zombieCheckSerialGen.next()
+        #self.cr.timeManager.checkAvOnDistrict(self, self._lastZombieContext)
+        taskMgr.doMethodLater(60.0, self._doZombieCheck, self._getZombieCheckTaskName())
+
+    def _zombieCheckResult(self, context, present):
+        if context == self._lastZombieContext:
+            self.notify.debug('_zombieCheckResult[%s]: %s' % (self.doId, present))
+            if not present:
+                self.notify.warning('Hiding av %s because they are not on the district!' % self.doId)
+                self.setParent(OTPGlobals.SPHidden)
 
     def setAnimalSound(self, index):
         self.animalSound = index
@@ -2803,15 +2842,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         }]
         base.cr.playGame.getPlace().fsm.forceTransition('teleportOut', requestStatus)
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
-def globalTeleport():
-    """
-    Activates the global teleport cheat.
-    """
-    invoker = spellbook.getInvoker()
-    invoker.sendUpdate('setTeleportOverride', [1])
-    invoker.setTeleportAccess(list(ToontownGlobals.HoodsForTeleportAll))
-    return 'Global teleport has been activated.'
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def zone(zoneId):
