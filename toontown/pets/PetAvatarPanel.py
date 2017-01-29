@@ -279,6 +279,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.petModel.setDNA(avatar.getDNA())
         self.petModel.fitAndCenterHead(3.575, forGui=1)
         self.petModel.reparentTo(self.petView)
+        self.petModel.setScale(0.6)
         self.petModel.enterNeutralHappy()
         self.petModel.startBlink()
         self.nameLabel = DirectLabel(parent=self.frame, pos=(0, 0, 5.2), relief=None, text=avatar.getName(), text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_pos=(0, 0), text_scale=0.4, text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))

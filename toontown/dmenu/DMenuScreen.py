@@ -57,7 +57,8 @@ class DMenuScreen(DirectObject):
             Wait(.5),
             Func(base.transitions.fadeIn, .5),
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
-        FeatureComingSoonDialog.FeatureComingSoonDialog(text='\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!')
+        if base.showDisclaimer:
+            FeatureComingSoonDialog.FeatureComingSoonDialog(text='\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!')
 
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
