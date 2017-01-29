@@ -636,11 +636,11 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             attackCode = ToontownGlobals.BossCogRecoverDizzyAttack
         if self.movingToTable:
             self.waitForNextAttack(5)
-        elif self.getBattleFourTime() > self.overtimeOneStart and not self.doneOvertimeOneAttack:
+        elif self.bossDamage >= self.bossMaxDamage*0.5 and not self.doneOvertimeOneAttack:
             attackCode = ToontownGlobals.BossCogOvertimeAttack
             self.doneOvertimeOneAttack = True
             optionalParam = 0
-        elif self.getBattleFourTime() > 1.0 and not self.doneOvertimeTwoAttack:
+        elif self.bossDamage >= self.bossMaxDamage*0.75 and not self.doneOvertimeTwoAttack:
             attackCode = ToontownGlobals.BossCogOvertimeAttack
             self.doneOvertimeTwoAttack = True
             optionalParam = 1
@@ -747,7 +747,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             toon = simbase.air.doId2do.get(toonId)
             if toon:
                 totalToons += 1
-                totalCogSuitTier += toon.cogTypes[1]
+                totalCogSuitTier += toon.cogTypes[0]
 
         averageTier = math.floor(totalCogSuitTier / totalToons) + 1
         return int(averageTier)
@@ -902,11 +902,11 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         return t1
 
     def getDamageMultiplier(self):
-        mult = 1.0
+        mult = ToontownGlobals.BossbotBossDamageMultipliers[self.battleDifficulty]
         if self.doneOvertimeOneAttack and not self.doneOvertimeTwoAttack:
-            mult = 1.25
-        if self.getBattleFourTime() > 1.0:
-            mult = self.getBattleFourTime() + 1
+            mult *= 1.25
+        elif self.doneOvertimeOneAttack and self.doneOvertimeTwoAttack:
+            mult *= 2
         return mult
 
     def toggleMove(self):
