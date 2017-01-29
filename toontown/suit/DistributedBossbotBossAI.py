@@ -468,10 +468,11 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         avId = self.air.getAvatarIdFromSender()
         if not self.validate(avId, avId in self.involvedToons, 'hitBoss from unknown avatar'):
             return
-        if bossDamage > 3:
-            self.air.writeServerEvent('suspicious', avId, 'Bossbot: Toon sent an attack over 3 damage!')
-            self.air.banManager.ban(avId, 0, 'hacking')
-            return
+        if self.attackCode == ToontownGlobals.BossCogDizzyNow:
+            bossDamage *= 2
+        if bossDamage >= 3 and self.attackCode != ToontownGlobals.BossCogDizzyNow:
+            if random.random() <= self.speedDamage/self.maxSpeedDamage:
+                self.b_setAttackCode(ToontownGlobals.BossCogDizzyNow)
         if bossDamage < 1:
             self.air.writeServerEvent('suspicious', avId, 'Bossbot: Toon sent an attack less than 1 damage!')
             return
@@ -631,10 +632,10 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def doNextAttack(self, task):
         attackCode = -1
         optionalParam = None
-        if self.movingToTable:
-            self.waitForNextAttack(5)
-        elif self.attackCode == ToontownGlobals.BossCogDizzyNow:
+        if self.attackCode == ToontownGlobals.BossCogDizzyNow:
             attackCode = ToontownGlobals.BossCogRecoverDizzyAttack
+        elif self.movingToTable:
+            self.waitForNextAttack(5)
         elif self.getBattleFourTime() > self.overtimeOneStart and not self.doneOvertimeOneAttack:
             attackCode = ToontownGlobals.BossCogOvertimeAttack
             self.doneOvertimeOneAttack = True
