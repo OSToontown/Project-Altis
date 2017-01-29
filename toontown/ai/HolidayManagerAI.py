@@ -115,4 +115,15 @@ class HolidayManagerAI():
             elif end < now and holidayId in self.currentHolidays:
                 self.removeHoliday(holidayId)
                 self.endHoliday(holidayId)
+        for holiday in ONCELY_HOLIDAYS:
+            holidayId = holiday[0]
+            now = datetime.now()
+            start = datetime(*holiday[1])
+            end = datetime(*holiday[2])
+            if start < now < end and holidayId not in self.currentHolidays:
+                self.addHoliday(holidayId)
+                self.startHoliday(holidayId)
+            elif end < now and holidayId in self.currentHolidays:
+                self.removeHoliday(holidayId)
+                self.endHoliday(holidayId)
         taskMgr.doMethodLater(4000, self.checkForHoliday, 'holidaycheck')

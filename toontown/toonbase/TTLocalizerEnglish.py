@@ -80,6 +80,7 @@ lDonaldsDock = "Donald's Dock"
 lDonaldsDreamland = "Donald's Dreamland"
 lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
+lFunnyFarm = 'Funny Farm'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
 lGoofySpeedway = 'Goofy Speedway'
@@ -141,7 +142,7 @@ TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
 OutdoorZone = ('to', 'in', lOutdoorZone)
-FunnyFarm = ('to', 'in', 'The Unpainted Playground')
+FunnyFarm = ('to', 'in', lFunnyFarm)
 GoofySpeedway = ('to', 'in', lGoofySpeedway)
 DonaldsDreamland = ('to', 'in', lDonaldsDreamland)
 BossbotHQ = ('to', 'in', 'Bossbot HQ')
@@ -246,6 +247,7 @@ QuestsDefaultReject = ('Heya, _avName_!',
  'Whatcha need?',
  'Hello! How are you doing?',
  'Hi there.',
+ "How's it going?",
  "Sorry _avName_, I'm a bit busy right now.",
  'Yes?',
  'Howdy, _avName_!',
@@ -1976,7 +1978,7 @@ ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['What do you get if you cross a railway engine with a stick of gum?', 'A chew-chew train.'],
  ['What would you get if you crossed an elephant with a computer?', 'A big know-it-all.'],
  ['What would you get if you crossed an elephant with a skunk?', 'A big stinker.'],
- ['Why did ' + MickeyMouse + ' take a trip to outer space?', 'He wanted to find ' + Pluto + '.']]
+ ['Why did the mouse take a trip to outer space?', 'He wanted to find Pluto.']]
 MovieHealLaughterMisses = ('hmm',
  'heh',
  'ha',
@@ -2295,6 +2297,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
                'Did you count on this?',
                "Add it up, you're going down.",
                'Let me help you add this up.',
+               "It just doesn't add up!",
                'Did you register all your expenses?',
                "According to my calculations, you won't be around much longer.",
                "Here's the grand total.",
@@ -2455,6 +2458,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
                   "You're going to take this hard.",
                   'This should cause freezer burn.',
                   'I hope you like cold cuts.',
+                  'This one will be cold.',
                   "I'm very cold blooded."],
  'GlowerPower': ['You looking at me?',
                  "I'm told I have very piercing eyes.",
@@ -2498,6 +2502,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
             "It appears you've got a weak link.",
             'Your time is up.',
             'I hope you receive this loud and clear.',
+            'Thank you come again.',
             'You got the wrong number.'],
  'HeadShrink': ["Looks like you're seeing a shrink.",
                 'Honey, I shrunk the toon.',
@@ -2687,6 +2692,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
              "Hope you're claustrophobic.",
              "I'll make sure you stick around.",
              'Let me keep you busy.',
+             "Looks like you're in a sticky situation.",
              'Just try to unravel this.',
              'I want this meeting to stick with you.'],
  'ReOrg': ["You don't like the way I reorganized things!",
@@ -2800,6 +2806,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
           "This'll really make your head spin!",
           "Here's my spin on things.",
           "I'll take you for a spin.",
+          "It's time to take a spin!",
           'How do you like to "spin" your time?',
           "Watch it.  Wouldn't want to spin out of control!",
           "Oh what a spin you're in!",
@@ -2886,7 +2893,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
               "I'll shuffle your accounts around.",
               "You're about to suffer some losses.",
               'This is going to hurt your bottom line.']}
-BuildingWaitingForVictors = ('Waiting for other players...',)
+BuildingWaitingForVictors = ('Waiting for other toons...',)
 ElevatorHopOff = 'Hop off'
 ElevatorStayOff = "If you hop off, you'll need to wait\nfor the elevator to leave or empty."
 ElevatorLeaderOff = 'Only your leader can decide when to hop off.'
@@ -6163,7 +6170,10 @@ SpecialEventMailboxStrings = {1: 'A special item from the Toon Council just for 
  14: 'Here is your Most V.P.s Defeated Tournament prize! Congratulations!',
  15: 'Here is your Operation: Storm Sellbot prize! Congratulations!',
  16: 'Here is your Most C.J.s Defeated Tournament prize! Congratulations!',
- 17: 'Here is your Operation: Lawbots Lose prize! Congratulations!'}
+ 17: 'Here is your Operation: Lawbots Lose prize! Congratulations!',
+ 18: 'Here is your Operation: Crash Cashbots prize! Congratulations!',
+ 19: 'Here is your Operation: Blast Bossbots prize! Congratulations!',
+ 20: 'Here is your Most C.E.O.s Defeated Tournament prize! Congratulations!'}
 RentalHours = 'Hours'
 RentalOf = 'Of'
 RentalCannon = 'Cannons!'
@@ -6691,7 +6701,9 @@ SpecialEventNames = {1: 'Generic Award',
  14: 'Most V.P.s Defeated',
  15: 'Operation Storm Sellbot Event',
  16: 'Most C.J.s Defeated',
- 17: 'Operation Lawbots Lose Event'}
+ 17: 'Operation Lawbots Lose Event',
+ 18: 'Operation Blast Bossbots Event',
+ 19: 'Operation Crash Cashbots Event'}
 NewCatalogNotify = 'There are new items available to order at your phone!'
 NewDeliveryNotify = 'A new delivery has just arrived at your mailbox!'
 CatalogNotifyFirstCatalog = 'Your first cattlelog has arrived!  You may use this to order new items for yourself or for your house.'
