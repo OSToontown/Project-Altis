@@ -811,8 +811,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             petAvatar.delete()
             if callback:
                 callback()
-
-            petAvatar.detectLeaks()
+            if self._proactiveLeakChecks:
+                petAvatar.detectLeaks()
 
         PetDetail.PetDetail(doId, petDetailsCallback)
 
