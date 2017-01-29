@@ -36,6 +36,7 @@ from toontown.golf import GolfGlobals
 from toontown.hood import ZoneUtil
 from toontown.minigame import MinigameCreatorAI
 from toontown.parties import PartyGlobals
+from toontown.parties.SimpleMailBase import SimpleMailBase
 from toontown.parties.InviteInfo import InviteInfoBase
 from toontown.parties.PartyGlobals import InviteStatus
 from toontown.parties.PartyInfo import PartyInfoAI
@@ -186,6 +187,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.numMailItems = 0
         self.simpleMailNotify = ToontownGlobals.NoItems
         self.inviteMailNotify = ToontownGlobals.NoItems
+        self.mail = []
         self.invites = []
         self.hostedParties = []
         self.partiesInvitedTo = []
@@ -3849,9 +3851,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setMail(self, mail):
         self.sendUpdate('setMail', [mail])
-
+    
     def setMail(self, mail):
-        self.mail = mail
+        self.mail = []
+        for i in range(len(mail)):
+            oneMailItem = mail[i]
+            newMail = SimpleMailBase(*oneMailItem)
+            self.mail.append(newMail)
         
     def getMail(self):
         return self.mail
@@ -3864,13 +3870,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setSimpleMailNotify(self, simpleMailNotify):
         self.simpleMailNotify = simpleMailNotify
+        
+    def d_setSimpleMailNotify(self, simpleMailNotify):
+        self.sendUpdate('setSimpleMailNotify', [simpleMailNotify])
+        
+    def b_setSimpleMailNotify(self, simpleMailNotify):
+        self.setSimpleMailNotify(simpleMailNotify)
+        self.d_setSimpleMailNotify(simpleMailNotify)
 
     def setInviteMailNotify(self, inviteMailNotify):
         self.inviteMailNotify = inviteMailNotify
 
     def setInvites(self, invites):
         self.invites = []
-        for i in xrange(len(invites)):
+        for i in range(len(invites)):
             oneInvite = invites[i]
             newInvite = InviteInfoBase(*oneInvite)
             self.invites.append(newInvite)
@@ -4080,6 +4093,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setAwardNotify(self, awardNotify):
         self.awardNotify = awardNotify
+        
+    def hasGMName(self):
+        return self.getName().startswith('$')
 
     def b_setGM(self, gmType):
         if (gmType < CATEGORY_USER.defaultAccess) and (gmType != 0):

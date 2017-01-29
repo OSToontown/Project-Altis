@@ -2368,7 +2368,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setMail(self, mail):
         DistributedToon.partyNotify.debug('setMail called with %d mail items' % len(mail))
         self.mail = []
-        for i in xrange(len(mail)):
+        for i in range(len(mail)):
             oneMailItem = mail[i]
             newMail = SimpleMailBase(*oneMailItem)
             self.mail.append(newMail)
@@ -2390,7 +2390,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setInvites(self, invites):
         DistributedToon.partyNotify.debug('setInvites called passing in %d invites.' % len(invites))
         self.invites = []
-        for i in xrange(len(invites)):
+        for i in range(len(invites)):
             oneInvite = invites[i]
             newInvite = InviteInfo(*oneInvite)
             self.invites.append(newInvite)

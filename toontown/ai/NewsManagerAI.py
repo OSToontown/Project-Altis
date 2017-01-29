@@ -13,6 +13,7 @@ class NewsManagerAI(DistributedObjectAI):
         self.holidayList = []
         self.weeklyHolidays = WEEKLY_HOLIDAYS
         self.yearlyHolidays = YEARLY_HOLIDAYS
+        self.oncelyHolidays = ONCELY_HOLIDAYS
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -113,20 +114,20 @@ class NewsManagerAI(DistributedObjectAI):
     def getYearlyCalendarHolidays(self):
         return self.yearlyHolidays
 
-    def setOncelyCalendarHolidays(self, todo0):
-        pass
+    def setOncelyCalendarHolidays(self, oncelyHolidays):
+        self.sendUpdate('setOncelyCalendarHolidays', [oncelyHolidays])
 
     def getOncelyCalendarHolidays(self):
-        return []
+        return self.oncelyHolidays
 
-    def setRelativelyCalendarHolidays(self, todo0):
-        pass
+    def setRelativelyCalendarHolidays(self, relatHolidays):
+        self.sendUpdate('setRelativelyCalendarHolidays', [relatHolidays])
 
     def getRelativelyCalendarHolidays(self):
         return []
 
-    def setMultipleStartHolidays(self, todo0):
-        pass
+    def setMultipleStartHolidays(self, multiHolidays):
+        self.sendUpdate('setMultipleStartHolidays', [multiHolidays])
 
     def getMultipleStartHolidays(self):
         return []
