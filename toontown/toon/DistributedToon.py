@@ -10,7 +10,7 @@ from direct.fsm import ClassicFSM
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, SoundInterval
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task.Task import Task
-from panda3s.core import *
+from panda3d.core import *
 from otp.ai.MagicWordGlobal import *
 from otp.avatar import Avatar, DistributedAvatar
 from otp.avatar import DistributedPlayer

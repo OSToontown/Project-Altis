@@ -12,7 +12,7 @@ from direct.distributed.ClockDelta import *
 from direct.distributed.MsgTypes import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toon.NPCToons import npcFriends
 from otp.ai.AIBaseGlobal import *
 from otp.ai.MagicWordGlobal import *
