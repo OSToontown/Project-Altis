@@ -125,7 +125,7 @@ class pymover(FSM):
 
         self.__seq = Sequence(Func(self.pet.lookAt, target),
                               Func(self.pet.setP, 0),
-                              self.pet.posInterval(self.fwdSpeed, target, here),
+                              self.pet.posInterval(dist/self.fwdSpeed, target),
                               Func(self.__stateComplete)).start()
 
     def exitWander(self):
