@@ -32,7 +32,7 @@ minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 accountServerEndpoint = simbase.config.GetString(
     'account-server-endpoint', 'https://projectaltis.com/api/')
 accountServerSecret = simbase.config.GetString(
-    'account-server-secret', '6163636f756e7473')
+    'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
 http = HTTPClient()
 http.setVerifySsl(0)
@@ -276,7 +276,7 @@ class RemoteAccountDB(AccountDB):
 
         # Next, decrypt the token using AES-128 in CBC mode:
         accountServerSecret = simbase.config.GetString(
-            'account-server-secret', '6163636f756e7473')
+            'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
         # Ensure that our secret is the correct size:
         if len(accountServerSecret) > AES.block_size:
@@ -1132,7 +1132,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
+        self.key = 'VhgdThjgoNI0SAbfeSjcyxo9iSyghKSh43ZMidFI'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)

@@ -23,7 +23,7 @@ import time
 import string
 import copy
 from toontown.toonbase.ToonPythonUtil import StackTrace
-from toontown.pets.PetMoverAI import PetMoverAI
+from toontown.pets.pymover import pymover
 
 class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLookerAI.PetLookerAI, PetBase.PetBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPetAI')
@@ -506,7 +506,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
         self.requiredMoodComponents = {}
         self.brain = PetBrain.PetBrain(self)
-        self.mover = PetMoverAI(self)
+        self.mover = pymover(self)
         self.enterPetLook()
         self.actionFSM = PetActionFSM.PetActionFSM(self)
         self.teleportIn()

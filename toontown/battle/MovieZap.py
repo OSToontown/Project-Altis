@@ -184,7 +184,7 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
             suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
         return Parallel(suitTrack, bonusTrack)
     else:
-        return MovieUtil.createSuitZaplessMultiTrack(suit, 2.5)
+        return MovieUtil.createSuitDodgeMultitrack(tDodge, suit, leftSuits, rightSuits)
 		
 def shortCircuitTrack(suit, battle):
     suitTrack = Sequence()
@@ -622,7 +622,9 @@ def __doLightning(zap, delay, fShowStun, uberClone = 0, npcs=[]):
     suit = zap['target'][0]['suit']
     suitPos = suit.getPos(battle)
     toonTrack = Sequence(Func(MovieUtil.showProps, buttons, hands), Func(toon.headsUp, battle, suitPos), ActorInterval(toon, 'pushbutton'), 
-        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+        Func(MovieUtil.removeProps, buttons), Func(toon.loop, 'neutral'))
+    if not 'npc' in zap:
+        toonTrack.append(Func(toon.setHpr, battle, origHpr))
    
     tracks.append(toonTrack)
     for target in zap['target']:
