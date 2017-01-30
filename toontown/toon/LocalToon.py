@@ -762,7 +762,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def __toonMoved(self, isSet):
         if isSet:
-            self.interruptPie()
+            pass
+            #self.interruptPie()
 
     def localTossPie(self, power):
         if not self.__presentingPie:
