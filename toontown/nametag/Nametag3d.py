@@ -1,7 +1,7 @@
 import math
 from direct.task.Task import Task
-from direct.directnotify import DirectNotifyGlobal
-from panda3d.core import BillboardEffect, DepthWriteAttrib, Vec3, Point3, PGButton, VBase4
+from panda3d.core import BillboardEffect, Vec3, Point3, PGButton, VBase4
+from panda3d.core import DepthWriteAttrib
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.nametag import NametagGlobals
 from toontown.nametag.Nametag import Nametag
@@ -9,7 +9,6 @@ from toontown.toontowngui.Clickable3d import Clickable3d
 from direct.interval.IntervalGlobal import Sequence
 
 class Nametag3d(Nametag, Clickable3d):
-    notify = DirectNotifyGlobal.directNotify.newCategory('Nametag3d')
     SCALING_MIN_DISTANCE = 1
     SCALING_MAX_DISTANCE = 200
     SCALING_FACTOR = 0.065
@@ -75,12 +74,6 @@ class Nametag3d(Nametag, Clickable3d):
             top = centerY + (self.panelHeight/2.0)
 
             self.setClickRegionFrame(left, right, bottom, top)
-            
-            if (self.avatar and not self.avatar.isEmpty()):
-                if base.cam.node().isInView(self.avatar.getPos(base.cam)):
-                   self.notify.debug("Avatar is in View!") # TODO: Make it so the Avatar can be clicked!
-                    
-            
 
     def isClickable(self):
         if self.getChatText() and self.hasChatButton():
@@ -88,7 +81,6 @@ class Nametag3d(Nametag, Clickable3d):
         return NametagGlobals.wantActiveNametags and Clickable3d.isClickable(self)
 
     def setClickState(self, clickState):
-        self.notify.debug(clickState)
         if self.isClickable():
             self.applyClickState(clickState)
         else:

@@ -1,13 +1,11 @@
 from direct.task.Task import Task
-from direct.directnotify import DirectNotifyGlobal
-from panda3d.core import VBase4, PandaNode
+from pandac.PandaModules import VBase4, PandaNode
 from toontown.margins.MarginVisible import MarginVisible
 from toontown.nametag import NametagGlobals
 from toontown.nametag.Nametag2d import Nametag2d
 from toontown.nametag.Nametag3d import Nametag3d
 
 class NametagGroup:
-    notify = DirectNotifyGlobal.directNotify.newCategory('NametagGroup')
     CHAT_TIMEOUT_MIN = 4.0
     CHAT_TIMEOUT_MAX = 12.0
     CHAT_STOMP_DELAY = 0.2
