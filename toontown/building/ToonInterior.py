@@ -25,6 +25,7 @@ class ToonInterior(Place.Place):
         self.tfaDoneEvent = 'tfaDoneEvent'
         self.hfaDoneEvent = 'hfaDoneEvent'
         self.npcfaDoneEvent = 'npcfaDoneEvent'
+        self.townBattle = None
         self.fsm = ClassicFSM.ClassicFSM('ToonInterior', [State.State('start', self.enterStart, self.exitStart, ['doorIn', 'teleportIn', 'tutorial']),
          State.State('walk', self.enterWalk, self.exitWalk, ['sit',
           'stickerBook',
