@@ -120,7 +120,10 @@ class pymover(FSM):
         return Point3(x, y, 0)
 
     def walkToPoint(self, target):
-        here = self.pet.getPos()
+        try:
+            here = self.pet.getPos()
+        except:
+            return # For some reason it still tries to do it so lest just hackily do this since it crashes districts
         dist = Vec3(here - target).length()
 
         self.__seq = Sequence(Func(self.pet.lookAt, target),
