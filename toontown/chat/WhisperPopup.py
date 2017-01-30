@@ -1,11 +1,11 @@
-from panda3d.core import TextNode, PGButton, Point3
+from panda3d.core import TextNode, PGButton, Point3, VBase4
 from toontown.chat import ChatGlobals
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.margins import MarginGlobals
 from toontown.margins.MarginVisible import MarginVisible
 from toontown.nametag import NametagGlobals
 from toontown.toontowngui.Clickable2d import Clickable2d
-from direct.interval.IntervalGlobal import Sequence, LerpScaleInterval, Func
+from direct.interval.IntervalGlobal import Sequence, LerpScaleInterval, Func, LerpColorScaleInterval, Parallel
 
 class WhisperQuitButton(Clickable2d):
     CONTENTS_SCALE = 12
@@ -142,8 +142,9 @@ class WhisperPopup(Clickable2d, MarginVisible):
         
     def destroyAnimation(self):
         self.ignoreAll()
+        LerpColorScaleInterval(self.contents, .15, VBase4(1, 1, 1, 0), VBase4(1, 1, 1, 1)).start()
         Sequence(
-            self.contents.scaleInterval(.1, 0, blendType = 'easeInOut'),
+            self.contents.scaleInterval(.15, 0, blendType = 'easeInOut'),
             Func(self.destroy)).start()
 
     def destroy(self):
@@ -229,9 +230,13 @@ class WhisperPopup(Clickable2d, MarginVisible):
         # Allow the quit button to close this whisper:
         self.quitButton.setClickEvent(self.quitEvent)
 
-        Sequence(
-            LerpScaleInterval(self.contents, .2, (self.CONTENTS_SCALE + 0.01), (0)),
-            LerpScaleInterval(self.contents, .09, (self.CONTENTS_SCALE))).start()
+        Parallel(
+            LerpColorScaleInterval(self.contents, .2, VBase4(1, 1, 1, 1), VBase4(1, 1, 1, 0)),
+            Sequence(
+                     LerpScaleInterval(self.contents, .2, (self.CONTENTS_SCALE + 0.01), (0)),
+                     LerpScaleInterval(self.contents, .09, (self.CONTENTS_SCALE))
+                     )
+             ).start()
             
     def manage(self, marginManager):
         MarginVisible.manage(self, marginManager)
