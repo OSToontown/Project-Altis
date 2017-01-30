@@ -5,6 +5,7 @@ from toontown.margins import MarginGlobals
 from toontown.margins.MarginVisible import MarginVisible
 from toontown.nametag import NametagGlobals
 from toontown.toontowngui.Clickable2d import Clickable2d
+from direct.interval.IntervalGlobal import Sequence, LerpScaleInterval, Func
 
 class WhisperQuitButton(Clickable2d):
     CONTENTS_SCALE = 12
@@ -130,7 +131,7 @@ class WhisperPopup(Clickable2d, MarginVisible):
         self.timeoutTask = None
 
         self.quitEvent = self.getUniqueName() + '-quit'
-        self.accept(self.quitEvent, self.destroy)
+        self.accept(self.quitEvent, self.destroyAnimation)
 
         self.setPriority(MarginGlobals.MP_high)
         self.setVisible(True)
@@ -138,6 +139,12 @@ class WhisperPopup(Clickable2d, MarginVisible):
         self.update()
 
         self.accept('MarginVisible-update', self.update)
+        
+    def destroyAnimation(self):
+        self.ignoreAll()
+        Sequence(
+            self.contents.scaleInterval(.1, 0, blendType = 'easeInOut'),
+            Func(self.destroy)).start()
 
     def destroy(self):
         self.ignoreAll()
@@ -206,6 +213,7 @@ class WhisperPopup(Clickable2d, MarginVisible):
 
         # Translate the chat balloon along the inverse:
         self.chatBalloon.setPos(self.chatBalloon, -center)
+        
 
         # Draw the quit button:
         self.quitButton = WhisperQuitButton(self)
@@ -221,6 +229,10 @@ class WhisperPopup(Clickable2d, MarginVisible):
         # Allow the quit button to close this whisper:
         self.quitButton.setClickEvent(self.quitEvent)
 
+        Sequence(
+            LerpScaleInterval(self.contents, .2, (self.CONTENTS_SCALE + 0.01), (0)),
+            LerpScaleInterval(self.contents, .09, (self.CONTENTS_SCALE))).start()
+            
     def manage(self, marginManager):
         MarginVisible.manage(self, marginManager)
 
@@ -230,7 +242,7 @@ class WhisperPopup(Clickable2d, MarginVisible):
     def unmanage(self, marginManager):
         MarginVisible.unmanage(self, marginManager)
 
-        self.destroy()
+        self.destroyAnimation()
 
     def setClickable(self, senderName, fromId, isPlayer=0):
         self.senderName = senderName
