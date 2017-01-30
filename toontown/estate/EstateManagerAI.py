@@ -100,7 +100,35 @@ class LoadHouseFSM(FSM):
     def enterOff(self):
         self.done = True
         self.callback(self.house)
+        
+class LoadPetFSM(FSM):
+    def __init__(self, mgr, estate, toon, callback):
+        FSM.__init__(self, 'LoadPetFSM')
+        self.mgr = mgr
+        self.estate = estate
+        self.toon = toon
+        self.callback = callback
 
+        self.done = False
+
+    def start(self):
+        self.petId = self.toon['setPetId'][0]
+        if not self.petId in self.mgr.air.doId2do:
+            self.mgr.air.sendActivate(self.petId, self.mgr.air.districtId, self.estate.zoneId)
+            self.acceptOnce('generate-%d' % self.petId, self.__generated)
+
+        else:
+            self.__generated(self.mgr.air.doId2do[self.petId])
+
+    def __generated(self, pet):
+        self.pet = pet
+        self.estate.pets.append(pet)
+        self.demand('Off')
+
+    def enterOff(self):
+        self.done = True
+        self.callback(self.pet)
+        
 class LoadEstateFSM(FSM):
     
     def __init__(self, mgr, callback):
@@ -203,7 +231,7 @@ class LoadEstateFSM(FSM):
 
     def __gotEstate(self, estate):
         self.estate = estate
-        
+        self.estate.pets = []
         self.estate.toons = self.toonIds
         self.estate.updateToons()
 
@@ -231,6 +259,27 @@ class LoadEstateFSM(FSM):
 
         # A houseFSM just finished! Let's see if all of them are done:
         if all(houseFSM.done for houseFSM in self.houseFSMs):
+            self.demand('LoadPets')
+
+    def enterLoadPets(self):
+        self.petFSMs = []
+        for houseIndex in range(6):
+            toon = self.toons[houseIndex]
+            if toon and toon['setPetId'][0] != 0:
+                fsm = LoadPetFSM(self.mgr, self.estate, toon, self.__petDone)
+                self.petFSMs.append(fsm)
+                fsm.start()
+
+        if not self.petFSMs:
+            taskMgr.doMethodLater(0, lambda: self.demand('Finished'), 'nopets', extraArgs=[])
+
+    def __petDone(self, pet):
+        if self.state != 'LoadPets':
+            pet.requestDelete()
+            return
+
+        # A houseFSM just finished! Let's see if all of them are done:
+        if all(petFSM.done for petFSM in self.petFSMs):
             self.demand('Finished')
 
     def enterFinished(self):
@@ -277,7 +326,6 @@ class EstateManagerAI(DistributedObjectAI):
                     # Yep, there it is!
                     avId = estate.owner.doId
                     zoneId = estate.zoneId
-                    estate.initPets(toon)
                     self._mapToEstate(toon, estate)
                     self._unloadEstate(toon) # In case they're doing estate->estate TP.
                     self.sendUpdateToAvatarId(senderId, 'setEstateZone', [avId, zoneId])
@@ -291,8 +339,6 @@ class EstateManagerAI(DistributedObjectAI):
         estate = getattr(toon, 'estate', None)
 
         if estate:
-            estate.initPets(toon)
-
             # They already have an estate loaded, so let's just return it:
             self._mapToEstate(toon, toon.estate)
             self.sendUpdateToAvatarId(senderId, 'setEstateZone', [senderId, estate.zoneId])
@@ -316,7 +362,6 @@ class EstateManagerAI(DistributedObjectAI):
             if success:
                 toon.estate = toon.loadEstateFSM.estate
                 toon.estate.owner = toon
-                toon.estate.initPets(toon)
 
                 self._mapToEstate(toon, toon.estate)
                 self.sendUpdateToAvatarId(senderId, 'setEstateZone', [senderId, zoneId])
@@ -385,10 +430,17 @@ class EstateManagerAI(DistributedObjectAI):
         # Destroy estate and unmap from owner:
         estate.destroy()
         estate.owner.estate = None
+        
+        # Destroy pets:
+        for pet in estate.pets:
+            pet.requestDelete()
+
+        estate.pets = []
 
         # Free estate's zone:
         self.air.deallocateZone(estate.zoneId)
-
+        del self.zoneId2owner[estate.zoneId]
+        
     def _sendToonsToPlayground(self, estate, reason):
         for toon in self.estate2toons.get(estate, []):
             self.sendUpdateToAvatarId(toon.doId, 'sendAvToPlayground',

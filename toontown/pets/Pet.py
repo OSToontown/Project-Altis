@@ -324,6 +324,10 @@ class Pet(Avatar.Avatar):
         self.moodModel = moodModel
         if self.moodModel:
             self.moodModel.show()
+        self.moodModel.setScale(0, 0, 0)
+        Sequence(
+            self.moodModel.scaleInterval(.2, VBase3(1.1, 1.1, 1.1), blendType = 'easeInOut'),
+            self.moodModel.scaleInterval(.09, VBase3(1, 1, 1), blendType = 'easeInOut')).start()
         return
 
     def speakMood(self, mood):
