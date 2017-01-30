@@ -227,17 +227,38 @@ class LocalAccountDB(AccountDB):
 
     def addNameRequest(self, avId, name):
         # add type a name
-        self.notify.info("debug: sending name from %s : %s" %(avId, name))
-        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
-        return 'Success' # Success if it properly sends
-    
+        self.notify.info("adding name from %s : %s" %(avId, name))
+        try:
+            nameCheck = httplib.HTTPConnection('zoid.servehttp.com:8000')
+            nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
+            print json.loads(nameCheck.getresponse().read())
+        except:
+            self.notify.info("Unable to add name request from %s (%s)" %(avId, name))
+        return 'Success'
+        
     def getNameStatus(self, avId):
         # check type a name
         self.notify.info("debug: checking name from %s" %(avId))
-        nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
-        return # return the status
+        try:
+            nameCheck = httplib.HTTPConnection('zoid.servehttp.com:8000')
+            nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
+            resp = json.loads(nameCheck.getresponse().read())
+            print(resp)
+            status = resp[u"status"]
+            if status == -1:
+                state = "REJECTED"
+            elif status == 0:
+                state = "PENDING"
+            elif status == 1:
+                state = "APPROVED"
+            else:
+                self.notify.info("Get name status for av %s didnt return an expected value, got %s, setting to PENDING" % (avId, str(status)))
+                state = "PENDING"
+        except:
+            self.notify.info("Get name status failed for av %s, setting to pending" % avId)
+            state = "PENDING"
+        self.notify.info("Get name status for av %s returned state %s" % (avId, state))
+        return state
     
 class RemoteAccountDB(AccountDB):
     notify = directNotify.newCategory('RemoteAccountDB')
