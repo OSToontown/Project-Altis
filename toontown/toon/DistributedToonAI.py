@@ -316,6 +316,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         if self.isPlayerControlled() and self.WantTpTrack:
             messenger.send(self.staticGetLogicalZoneChangeAllEvent(), [newZoneId, oldZoneId, self])
+            
+        if oldZoneId is not None:
+            # check if the previous zone was an interior zone, if so request time update
+            # from the day time manager to ensure sky state is correct.
+            if ZoneUtil.isInterior(oldZoneId):
+                # get current time from the time of day manager when toon changes zones
+                for hood in self.air.hoods:
+                    if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
+                        continue
+
+                    if not hood.zoneId == 9000:
+                        hood.dayTimeMgr.d_requestUpdate()
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         if simbase.wantPets:

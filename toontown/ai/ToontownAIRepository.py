@@ -243,6 +243,9 @@ class ToontownAIRepository(ToontownInternalRepository):
     def decrementPopulation(self):
         self.districtStats.b_setAvatarCount(self.districtStats.getAvatarCount() - 1)
 
+    def setHour(self, hour):
+        pass # Todo: Hour on district page
+
     def allocateZone(self):
         return self.zoneAllocator.allocate()
 

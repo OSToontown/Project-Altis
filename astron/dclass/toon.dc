@@ -813,6 +813,10 @@ from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
 from toontown.weather import DistributedWeatherCycle/AI
 from toontown.weather import DistributedWeatherStorm/AI
 from toontown.club import DistributedToonClub/AI
+from toontown.environment import DistributedDayTimeManager/AI
+from toontown.environment import DistributedRainManager/AI
+from toontown.environment import DistributedWeatherMGR/AI
+
 
 struct GiftItem {
   blob Item;
@@ -3943,4 +3947,17 @@ dclass DistributedToonClub : DistributedObjectGlobal {
   addMember(uint32) clsend;
   removeMember(uint32);
   setMembers(Member []);
+};
+
+dclass DistributedWeatherMGR : DistributedObject {
+  start() broadcast ram;
+  setState(string, int32) broadcast ram;
+};
+
+dclass DistributedDayTimeManager : DistributedWeatherMGR {
+  update(int8) broadcast ram;
+};
+
+dclass DistributedRainManager : DistributedWeatherMGR {
+
 };

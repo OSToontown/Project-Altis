@@ -14,6 +14,7 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.toon.Toon import teleportDebug
 from toontown.dna.DNAParser import *
+from toontown.hood import SkyUtil
 
 class Hood(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('Hood')
@@ -31,6 +32,11 @@ class Hood(StateData.StateData):
         self.holidayStorageDNADict = {}
         self.spookySkyFile = None
         self.snowySkyFile = 'phase_3.5/models/props/BR_sky'
+        self.mmlSkyFile = 'phase_6/models/props/MM_sky'
+        self.daySkyFile = 'phase_3.5/models/props/TT_sky'
+        self.nightSkyFile = 'phase_8/models/props/DL_sky'
+        self.oldSky = None
+        self.newSky = None
         self.halloweenLights = []
 
     def enter(self, requestStatus):
@@ -78,27 +84,10 @@ class Hood(StateData.StateData):
         files = []
         if self.storageDNAFile:
             files.append(self.storageDNAFile)
-        newsManager = base.cr.newsManager
-        if newsManager:
-            holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            for holiday in holidayIds:
-                for storageFile in self.holidayStorageDNADict.get(holiday, []):
-                    files.append(storageFile)
-
-            if ToontownGlobals.HALLOWEEN_COSTUMES not in holidayIds and ToontownGlobals.SPOOKY_COSTUMES not in holidayIds or not self.spookySkyFile:
-                self.sky = loader.loadModel(self.skyFile)
-                self.sky.setTag('sky', 'Regular')
-                self.sky.setScale(1.0)
-                self.sky.setFogOff()
-            else:
-                self.sky = loader.loadModel(self.spookySkyFile)
-                self.sky.setTag('sky', 'Halloween')
-        
-        if not newsManager:
-            self.sky = loader.loadModel(self.skyFile)
-            self.sky.setTag('sky', 'Regular')
-            self.sky.setScale(1.0)
-            self.sky.setFogOff()
+        self.sky = loader.loadModel(self.skyFile)
+        self.sky.setTag('sky', 'Regular')
+        self.sky.setScale(1.0)
+        self.sky.setFogOff()
         
         dnaBulk = DNABulkLoader(self.dnaStore, tuple(files))
         dnaBulk.loadDNAFiles()
@@ -114,8 +103,16 @@ class Hood(StateData.StateData):
         del self.parentFSM
         self.dnaStore.resetHood()
         del self.dnaStore
-        self.sky.removeNode()
-        del self.sky
+        if hasattr(self, 'sky'):
+            if self.sky:
+                self.stopSky()
+                self.sky.removeNode()
+                del self.sky
+        if hasattr(self, 'newSky'):
+            if self.newSky:
+                self.newSky.removeNode()
+                del self.newSky
+            
         self.ignoreAll()
         ModelPool.garbageCollect()
         TexturePool.garbageCollect()
@@ -283,3 +280,61 @@ class Hood(StateData.StateData):
             self.sky.setTag('sky', 'Regular')
             self.sky.setScale(1.0)
             self.startSky()
+            
+    def end(self):
+        if hasattr(self, 'oldSky'):
+            if self.oldSky:
+                self.oldSky.reparentTo(hidden)
+        self.oldSky = None
+        self.newSky = None
+        
+    def skyTrack(self, task):
+        return SkyUtil.cloudSkyTrack(task)
+        
+    def skyTransition(self, sky):
+        if self.id != DonaldsDreamland or self.id != DonaldsDock or self.id != TheBrrrgh:
+            print(self.sky.getTag('sky') + "-->" + sky)
+            if not self.sky.getTag('sky').lower() == sky: # Dont update sky if its the same one
+                if hasattr(self, 'sky'):
+                    self.oldSky = self.sky
+                if sky == 'mml':
+                    self.newSky = loader.loadModel(self.mmlSkyFile)
+                    self.newSky.setTag('sky', 'MML')
+                if sky == 'day':
+                    self.newSky = loader.loadModel(self.daySkyFile)
+                    self.newSky.setTag('sky', 'Day')
+                if sky == 'night':
+                    self.newSky = loader.loadModel(self.nightSkyFile)
+                    self.newSky.setTag('sky', 'Night')
+                if sky == 'rain':
+                    self.newSky = loader.loadModel(self.snowySkyFile)
+                    self.newSky.setTag('sky', 'Rain')
+                if self.oldSky:
+                    self.oldSky.setTransparency(TransparencyAttrib.MDual, 1)
+                if self.newSky:
+                    self.newSky.setTransparency(TransparencyAttrib.MDual, 1)
+                    self.newSky.setScale(1.0)
+                    self.newSky.setDepthTest(0)
+                    self.newSky.setDepthWrite(0)
+                    self.newSky.setColorScale(1, 1, 1, 0)
+                    self.newSky.setBin('background', 100)
+                    self.newSky.setFogOff()
+                    self.newSky.setZ(0.0)
+                    self.newSky.setHpr(0.0, 0.0, 0.0)
+                    ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
+                    self.newSky.node().setEffect(ce)
+                    self.newSky.reparentTo(camera)
+                    self.sky = self.newSky
+                    SkyUtil.startCloudSky(self)
+                    newFadeIn = LerpColorScaleInterval(self.newSky, 3, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0), blendType='easeInOut')
+                    if self.oldSky:
+                        oldFadeOut = LerpColorScaleInterval(self.oldSky, 3, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeInOut')
+                    else:
+                        oldFadeOut = Wait(0) # Just do that to please the sequence so it doesnt crash
+                    Sequence(
+                        Parallel(
+                            newFadeIn,
+                            oldFadeOut
+                        ),
+                        Func(self.end)
+                    ).start()
