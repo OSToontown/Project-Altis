@@ -30,7 +30,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     pitcherMaxH = 360
     rotateSpeed = 30
     waterPowerSpeed = base.config.GetDouble('water-power-speed', 15)
-    waterPowerExponent = base.config.GetDouble('water-power-exponent', 0.75)
+    waterPowerExponent = base.config.GetDouble('water-power-exponent', 3)
     useNewAnimations = True
     TugOfWarControls = False
     OnlyUpArrow = True
