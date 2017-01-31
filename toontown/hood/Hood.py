@@ -292,9 +292,9 @@ class Hood(StateData.StateData):
         return SkyUtil.cloudSkyTrack(task)
         
     def skyTransition(self, sky):
+        self.startSky()
         if self.id != DonaldsDreamland or self.id != DonaldsDock or self.id != TheBrrrgh:
-            print(self.sky.getTag('sky') + "-->" + sky)
-            if not self.sky.getTag('sky').lower() == sky: # Dont update sky if its the same one
+            if self.sky.getTag('sky').lower() != sky:
                 if hasattr(self, 'sky'):
                     self.oldSky = self.sky
                 if sky == 'mml':
