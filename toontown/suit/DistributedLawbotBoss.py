@@ -4,8 +4,8 @@ from direct.distributed.ClockDelta import *
 from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import Functor
-from direct.showbase.PythonUtil import StackTrace
+from toontown.toonbase.ToonPythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import StackTrace
 from direct.showbase.ShowBase import *
 from direct.task import Task
 import math
@@ -92,6 +92,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         global OneBossCog
         self.notify.debug('----- announceGenerate')
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
+        base.cr.forbidCheesyEffects(1)
         self.setName(TTLocalizer.LawbotBossName)
         nameInfo = TTLocalizer.BossCogNameWithDept % {'name': self.name,
          'dept': SuitDNA.getDeptFullname(self.style.dept)}
@@ -149,6 +150,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         global OneBossCog
         self.notify.debug('----- disable')
         DistributedBossCog.DistributedBossCog.disable(self)
+        base.cr.forbidCheesyEffects(0)
         self.request('Off')
         self.unloadEnvironment()
         self.__cleanupWitnessToon()

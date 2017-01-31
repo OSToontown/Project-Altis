@@ -1,6 +1,6 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.battle.BattleProps import globalPropPool
 from direct.directnotify import DirectNotifyGlobal
 SFX = PythonUtil.Enum('poof, magic')

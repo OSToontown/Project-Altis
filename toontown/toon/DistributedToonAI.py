@@ -12,7 +12,7 @@ from direct.distributed.ClockDelta import *
 from direct.distributed.MsgTypes import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toon.NPCToons import npcFriends
 from otp.ai.AIBaseGlobal import *
 from otp.ai.MagicWordGlobal import *
@@ -36,6 +36,7 @@ from toontown.golf import GolfGlobals
 from toontown.hood import ZoneUtil
 from toontown.minigame import MinigameCreatorAI
 from toontown.parties import PartyGlobals
+from toontown.parties.SimpleMailBase import SimpleMailBase
 from toontown.parties.InviteInfo import InviteInfoBase
 from toontown.parties.PartyGlobals import InviteStatus
 from toontown.parties.PartyInfo import PartyInfoAI
@@ -140,6 +141,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.savedCheesyExpireTime = 0
         self.ghostMode = 0
         self.immortalMode = 0
+        self.unlimitedGags = 0
         self.numPies = 0
         self.pieType = 0
         self.uber = 0
@@ -185,6 +187,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.numMailItems = 0
         self.simpleMailNotify = ToontownGlobals.NoItems
         self.inviteMailNotify = ToontownGlobals.NoItems
+        self.mail = []
         self.invites = []
         self.hostedParties = []
         self.partiesInvitedTo = []
@@ -194,6 +197,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.teleportOverride = 0
         self._gmDisabled = False
         self.promotionStatus = [0, 0, 0, 0, 0]
+        self.magicWordTeleportRequests = []
         self.buffs = []
 
     def generate(self):
@@ -714,7 +718,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setShoesList(self, clothesList):
         self.sendUpdate('setShoesList', [clothesList])
-        return None
 
     def setShoesList(self, clothesList):
         self.shoesList = clothesList
@@ -1102,17 +1105,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def d_setAnimState(self, animName, animMultiplier):
         timestamp = globalClockDelta.getRealNetworkTime()
         self.sendUpdate('setAnimState', [animName, animMultiplier, timestamp])
-        return None
 
     def setAnimState(self, animName, animMultiplier, timestamp = 0):
         if animName not in ToontownGlobals.ToonAnimStates:
             desc = 'tried to set invalid animState: %s' % (animName,)
-            if config.GetBool('want-ban-animstate', 1):
-                #simbase.air.banManager.ban(self.doId, self.DISLid, desc)
-                pass
+            if config.GetBool('want-ban-animstate', True):
+                if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+                    simbase.air.banManager.ban(self.doId, desc)
+                    pass
             else:
                 self.air.writeServerEvent('suspicious', self.doId, desc)
-            return
         
         self.animName = animName
         self.animMultiplier = animMultiplier
@@ -1319,20 +1321,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setCogParts(parts)
 
     def loseCogParts(self, dept):
-        loseCount = random.randrange(CogDisguiseGlobals.MinPartLoss, CogDisguiseGlobals.MaxPartLoss + 1)
-        parts = self.getCogParts()
-        partBitmask = parts[dept]
-        partList = xrange(17)
-        while loseCount > 0 and partList:
-            losePart = random.choice(partList)
-            partList.remove(losePart)
-            losePartBit = 1 << losePart
-            if partBitmask & losePartBit:
-                partBitmask &= ~losePartBit
-                loseCount -= 1
-
-        parts[dept] = partBitmask
-        self.b_setCogParts(parts)
+        self.notify.warning('Tried to remove a cog part, skipping')
 
     def b_setCogMerits(self, merits):
         self.setCogMerits(merits)
@@ -1391,7 +1380,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.notify.warning('%s setCogIndex invalid: %s' % (self.doId, index))
                 if simbase.config.GetBool('want-ban-wrong-suit-place', False):
                     commentStr = 'Toon %s trying to set cog index to %s in Zone: %s' % (self.doId, index, self.zoneId)
-                    #simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                    if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+                        simbase.air.banManager.ban(self.doId, commentStr)
         else:
             self.cogIndex = index
 
@@ -1681,7 +1671,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.sendUpdate('setCheesyEffect', [effect, hoodId, expireTime])
 
     def setCheesyEffect(self, effect, hoodId, expireTime):
-        # We don't yet have a working holidayManager, and we want to keep snowman heads.
         if simbase.air.holidayManager and ToontownGlobals.WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.WACKY_WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and effect == ToontownGlobals.CESnowMan:
             self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
             self.b_setScavengerHunt([])
@@ -1898,11 +1887,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             simbase.air.writeServerEvent('suspicious', self.doId, 'Toon teleporting to zone %s they do not have access to.' % zoneId)
             if simbase.config.GetBool('want-ban-teleport', False):
                 commentStr = 'Toon %s teleporting to a zone %s they do not have access to' % (self.doId, zoneId)
-                #simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+                    simbase.air.banManager.ban(self.doId, commentStr)
 
     def setTeleportOverride(self, flag):
         self.teleportOverride = flag
-        self.b_setHoodsVisited([1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000])
+        self.b_setHoodsVisited(list(ToontownGlobals.HoodsForTeleportAll))
 
     def b_setScavengerHunt(self, scavengerHuntArray):
         self.setScavengerHunt(scavengerHuntArray)
@@ -2249,13 +2239,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 newDuration = max(10.0, nextTime * 60 - time.time())
                 if existingDuration and existingDuration >= newDuration:
                     taskMgr.remove(taskName)
-                    taskMgr.doMethodLater(newDuration, self.__deliverGiftPurchase, taskName)
+                    taskMgr.doMethodLater(newDuration, self.__deliverBothPurchases, taskName)
                 elif existingDuration and existingDuration < newDuration:
                     pass
                 else:
-                    taskMgr.doMethodLater(newDuration, self.__deliverGiftPurchase, taskName)
+                    taskMgr.doMethodLater(newDuration, self.__deliverBothPurchases, taskName)
         return
-
+        
     def __deliverBothPurchases(self, task):
         '''
         This should only ever be used if the DistributedDelieveryManager is
@@ -2330,6 +2320,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setImmortalMode(self, flag):
         self.immortalMode = flag
+        
+    def setUnlimitedGags(self, flag):
+        self.unlimitedGags = flag
 
     def b_setSpeedChatStyleIndex(self, index):
         self.setSpeedChatStyleIndex(index)
@@ -2465,8 +2458,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             commentStr = 'User %s has negative money %s' % (self.doId, money)
             dislId = self.DISLid
             if simbase.config.GetBool('want-ban-negative-money', False):
-                #simbase.air.banManager.ban(self.doId, dislId, commentStr)
-                pass
+                if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+                    simbase.air.banManager.ban(self.doId, commentStr)
+                    pass
         self.money = money
 
     def getMoney(self):
@@ -2612,7 +2606,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         black = 26
         newDna.updateToonProperties(armColor=black, legColor=black, headColor=black)
         self.b_setDNAString(newDna.makeNetString())
-        return None
 
     def b_announceBingo(self):
         self.d_announceBingo()
@@ -2945,7 +2938,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     return
             else:
                 self.air.writeServerEvent('suspicious', self.doId, 'attempt to add accessory %s which is not a valid accessory.' % accessoryId)
-                return
 
         def removeOwnedAccessory(self, accessoryId):
             if accessoryId in AccessoryDict:
@@ -2960,7 +2952,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.b_setKartAccessoriesOwned(accList)
             else:
                 self.air.writeServerEvent('suspicious', self.doId, 'attempt to remove accessory %s which is not a valid accessory.' % accessoryId)
-                return
 
         def updateKartDNAField(self, dnaField, fieldValue):
             if not checkKartFieldValidity(dnaField):
@@ -3011,7 +3002,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                         self.__updateKartDNAField(dnaField, fieldValue)
                 else:
                     self.air.writeServerEvent('suspicious', self.doId, 'attempt to udpate accessory %s in the invalid field %s' % (fieldValue, dnaField))
-                    return
 
         def __updateKartDNAField(self, dnaField, fieldValue):
             if dnaField == KartDNA.bodyColor:
@@ -3079,7 +3069,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     pet.handleAvPetInteraction(flag, self.getDoId())
                 else:
                     self.air.writeServerEvent('suspicious', self.doId, 'setPetMovie: playing pet movie %s on non-pet object %s' % (flag, petId))
-            return
 
         def setPetTutorialDone(self, bDone):
             self.notify.debug('setPetTutorialDone')
@@ -3201,15 +3190,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         elif type == 'building':
             returnCode = self.doBuildingTakeover(suitIndex)
         elif type == 'invasion':
-            suitDeptIndex = suitIndex / SuitDNA.suitsPerDept
-            suitTypeIndex = suitIndex % SuitDNA.suitsPerDept
-            returnCode = self.doCogInvasion(suitDeptIndex, suitTypeIndex)
+            returnCode = self.doCogInvasion(suitIndex)
         if returnCode:
             if returnCode[0] == 'success':
                 self.air.writeServerEvent('cogSummoned', self.doId, '%s|%s|%s' % (type, suitIndex, self.zoneId))
                 self.removeCogSummonsEarned(suitIndex, type)
             self.sendUpdate('cogSummonsResponse', returnCode)
-        return
 
     def doSummonSingleCog(self, suitIndex):
         if suitIndex >= len(SuitDNA.suitHeadTypes):
@@ -3256,7 +3242,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          self.zoneId))
         return ['success', suitIndex, building.doId]
 
-    def doCogdoTakeOver(self, difficulty, buildingHeight):
+    def doCogdoTakeOver(self, difficulty, buildingHeight, track):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
         if streetId not in self.air.suitPlanners:
             self.notify.warning('Street %d is not known.' % streetId)
@@ -3269,15 +3255,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         building.cogdoTakeOver(difficulty, buildingHeight)
         return ['success', difficulty, building.doId]
 
-    def doCogInvasion(self, suitDeptIndex, suitTypeIndex):
+    def doCogInvasion(self, suitIndex):
         if self.air.suitInvasionManager.getInvading():
             return ['busy', 0, 0]
-
-        suitName = SuitDNA.getSuitName(suitDeptIndex, suitTypeIndex)
-        suitIndex = SuitDNA.suitHeadTypes.index(suitName)
+            
+        if suitIndex >= len(SuitDNA.suitHeadTypes):
+            self.notify.warning('Bad suit index: %s' % suitIndex)
+            return ['badIndex', suitIndex, 0]
+  
+        track = suitIndex / SuitDNA.suitsPerDept
+        type = suitIndex % SuitDNA.suitsPerDept
 
         if self.air.suitInvasionManager.startInvasion(
-                suitDeptIndex=suitDeptIndex, suitTypeIndex=suitTypeIndex):
+                suitDeptIndex=track, suitTypeIndex=type):
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
@@ -3399,8 +3389,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     if hasattr(building, 'door'):
                         if building.door.zoneId == zone:
                             return building
-
-        return None
 
     def b_setGardenTrophies(self, trophyList):
         self.setGardenTrophies(trophyList)
@@ -3622,7 +3610,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return self.trackBonusLevel
         else:
             return self.trackBonusLevel[track]
-        return
 
     def checkGagBonus(self, track, level):
         trackBonus = self.getTrackBonusLevel(track)
@@ -3701,15 +3688,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if simbase.config.GetBool('want-ban-setSCSinging', True):
             if 'invalid msgIndex in setSCSinging:' in eventName:
                 if senderId == self.doId:
-                    commentStr = 'Toon %s trying to call setSCSinging' % self.doId
-                    #simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                    commentStr = 'Toon %s trying to call invalid setSCSinging' % self.doId
+                    if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+                        simbase.air.banManager.ban(self.doId, commentStr)
                 else:
                     self.notify.warning('logSuspiciousEvent event=%s senderId=%s != self.doId=%s' % (eventName, senderId, self.doId))
         if simbase.config.GetBool('want-ban-setAnimState', True):
             if eventName.startswith('setAnimState: '):
                 if senderId == self.doId:
-                    commentStr = 'Toon %s trying to call setAnimState' % self.doId
-                    #simbase.air.banManager.ban(self.doId, self.DISLid, commentStr)
+                    commentStr = 'Toon %s trying to call invalid setAnimState' % self.doId
+                    if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+                        simbase.air.banManager.ban(self.doId, commentStr)
                 else:
                     self.notify.warning('logSuspiciousEvent event=%s senderId=%s != self.doId=%s' % (eventName, senderId, self.doId))
 
@@ -3862,22 +3851,39 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setMail(self, mail):
         self.sendUpdate('setMail', [mail])
-
+    
     def setMail(self, mail):
-        self.mail = mail
+        self.mail = []
+        for i in range(len(mail)):
+            oneMailItem = mail[i]
+            newMail = SimpleMailBase(*oneMailItem)
+            self.mail.append(newMail)
+        
+    def getMail(self):
+        return self.mail
 
     def setNumMailItems(self, numMailItems):
         self.numMailItems = numMailItems
+        
+    def getNumMailItems(self):
+        return self.numMailItems
 
     def setSimpleMailNotify(self, simpleMailNotify):
         self.simpleMailNotify = simpleMailNotify
+        
+    def d_setSimpleMailNotify(self, simpleMailNotify):
+        self.sendUpdate('setSimpleMailNotify', [simpleMailNotify])
+        
+    def b_setSimpleMailNotify(self, simpleMailNotify):
+        self.setSimpleMailNotify(simpleMailNotify)
+        self.d_setSimpleMailNotify(simpleMailNotify)
 
     def setInviteMailNotify(self, inviteMailNotify):
         self.inviteMailNotify = inviteMailNotify
 
     def setInvites(self, invites):
         self.invites = []
-        for i in xrange(len(invites)):
+        for i in range(len(invites)):
             oneInvite = invites[i]
             newInvite = InviteInfoBase(*oneInvite)
             self.invites.append(newInvite)
@@ -4067,7 +4073,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 if nextTime != None:
                     duration = max(10.0, nextTime * 60 - time.time())
                     taskMgr.doMethodLater(duration, self.__deliverAwardPurchase, taskName)
-        return
 
     def __deliverAwardPurchase(self, task):
         now = int(time.time() / 60 + 0.5)
@@ -4088,6 +4093,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setAwardNotify(self, awardNotify):
         self.awardNotify = awardNotify
+        
+    def hasGMName(self):
+        return self.getName().startswith('$')
 
     def b_setGM(self, gmType):
         if (gmType < CATEGORY_USER.defaultAccess) and (gmType != 0):
@@ -4133,7 +4141,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             newName = name
         if self.name != newName:
             self.b_setName(newName)
-        return
 
     def setName(self, name):
         DistributedPlayerAI.DistributedPlayerAI.setName(self, name)
@@ -4144,7 +4151,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
-            if config.GetBool('want-ban-old-gm-name', 0):
+            if config.GetBool('want-ban-old-gm-name', False):
                 self.ban('invalid name: %s' % self.name)
             else:
                 self.air.writeServerEvent('suspicious', self.doId, '$ found in toon name')
@@ -4169,8 +4176,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.air.writeServerEvent('suspicious', avId, 'Black List module %s loaded into process.' % module)
                     if simbase.config.GetBool('want-ban-blacklist-module', False):
                         commentStr = 'User has blacklist module: %s attached to their game process' % module
-                        dislId = self.DISLid
-                        #simbase.air.banManager.ban(self.doId, dislId, commentStr)
+                        if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+                            simbase.air.banManager.ban(self.doId, commentStr)
                 else:
                     self.air.writeServerEvent('suspicious', avId, 'Unknown module %s loaded into process.' % module)
 
@@ -4289,7 +4296,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                             response = simbase.config.GetString('toon-pos-hack-response', 'nothing')
                             av.handleHacking(response, 'collision and position hacking', [otherAv])
                         del DistributedToonAI.flagCounts[avPairKey]
-        return
 
     def handleHacking(self, response, comment, coconspirators = []):
         if response == 'quietzone':
@@ -4422,11 +4428,11 @@ def cheesyEffect(value, hood=0, expire=0):
         if value not in OTPGlobals.CEName2Id:
             return 'Invalid cheesy effect value: %s' % value
         value = OTPGlobals.CEName2Id[value]
-    elif not 0 <= value <= 76:
+    elif not 0 <= value <= 77:
         return 'Invalid cheesy effect value: %d' % value
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setCheesyEffect(value, hood, expire)
     return 'Set your cheesy effect to: %d' % value
 
@@ -4435,7 +4441,7 @@ def hp(hp):
     """
     Modify the invoker's current HP.
     """
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     maxHp = invoker.getMaxHp()
     if not -1 <= hp <= maxHp:
         return 'HP must be in range (-1-%d).' % maxHp
@@ -4471,11 +4477,11 @@ def allSummons():
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str])
 def maxToon(missingTrack=None):
     """
-    Max the invoker's stats for end-level gameplay.
+    Max the target's stats for end-level gameplay.
     """
-    invoker = spellbook.getInvoker()
+    target = spellbook.getInvoker()
 
-    # First, unlock the invoker's Gag tracks:
+    # First, unlock the target's Gag tracks:
     gagTracks = [1, 1, 1, 1, 1, 1, 1, 1]
     if missingTrack is not None:
         try:
@@ -4486,27 +4492,27 @@ def maxToon(missingTrack=None):
         if index in (4, 5):
             return 'You are required to have Throw and Squirt.'
         gagTracks[index] = 0
-    invoker.b_setTrackAccess(gagTracks)
-    invoker.b_setMaxCarry(110)
+    target.b_setTrackAccess(gagTracks)
+    target.b_setMaxCarry(110)
 
     # Next, max out their experience for the tracks they have:
-    experience = Experience.Experience(invoker.getExperience(), invoker)
-    for i, track in enumerate(invoker.getTrackAccess()):
+    experience = Experience.Experience(target.getExperience(), target)
+    for i, track in enumerate(target.getTrackAccess()):
         if track:
             experience.experience[i] = (Experience.MaxSkill)
-    invoker.b_setExperience(experience.makeNetString())
+    target.b_setExperience(experience.makeNetString())
     
     # Restock their inventory:
-    inventory = invoker.inventory
+    inventory = target.inventory
     inventory.NPCMaxOutInv(targetTrack=-1, maxLevelIndex=6)
-    invoker.b_setInventory(inventory.makeNetString())
+    target.b_setInventory(inventory.makeNetString())
 
     # Max out their Laff:
-    invoker.b_setMaxHp(ToontownGlobals.MaxHpLimit)
-    invoker.toonUp(invoker.getMaxHp() - invoker.hp)
+    target.b_setMaxHp(ToontownGlobals.MaxHpLimit)
+    target.toonUp(target.getMaxHp() - target.hp)
 
     # Unlock all of the emotes:
-    emotes = list(invoker.getEmoteAccess())
+    emotes = list(target.getEmoteAccess())
     for emoteId in OTPLocalizer.EmoteFuncDict.values():
         if emoteId >= len(emotes):
             continue
@@ -4515,51 +4521,53 @@ def maxToon(missingTrack=None):
         if emoteId in (17, 18, 19):
             continue
         emotes[emoteId] = 1
-    invoker.b_setEmoteAccess(emotes)
+    target.b_setEmoteAccess(emotes)
 
     # Max out cog suits (ORDER: Bossbot, Lawbot, Cashbot, Sellbot, Boardbots)
-    invoker.b_setCogParts([
+    target.b_setCogParts([
         CogDisguiseGlobals.PartsPerSuitBitmasks[0], # Bossbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[3], # Sellbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
     ])
-    invoker.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
-    invoker.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
+    target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
     deptCount = len(SuitDNA.suitDepts)
-    invoker.b_setCogCount(list(CogPageGlobals.COG_QUOTAS[1]) * deptCount)
+    target.b_setCogCount(list(CogPageGlobals.COG_QUOTAS[1]) * deptCount)
     cogStatus = [CogPageGlobals.COG_COMPLETE2] * SuitDNA.suitsPerDept
-    invoker.b_setCogStatus(cogStatus * deptCount)
-    invoker.b_setCogRadar([1, 1, 1, 1, 1])
-    invoker.b_setBuildingRadar([1, 1, 1, 1, 1])
+    target.b_setCogStatus(cogStatus * deptCount)
+    target.b_setCogRadar([1, 1, 1, 1, 1])
+    target.b_setBuildingRadar([1, 1, 1, 1, 1])
 
     # Max out their racing tickets:
-    invoker.b_setTickets(99999)
+    target.b_setTickets(99999)
     
     # Max out their toon level:
-    invoker.b_setToonLevel(69)
+    target.b_setToonLevel(69)
 
     # Give them teleport access everywhere (including Cog HQs):
     hoods = list(ToontownGlobals.HoodsForTeleportAll)
-    invoker.b_setHoodsVisited(hoods)
-    invoker.b_setTeleportAccess(hoods)
+    target.b_setHoodsVisited(hoods)
+    target.b_setTeleportAccess(hoods)
 
     # End game settings:
-    invoker.b_setQuests([])
-    invoker.b_setQuestCarryLimit(4)
-    invoker.b_setRewardHistory(Quests.ELDER_TIER, [])
-    invoker.b_setMaxMoney(250)
-    invoker.b_setMoney(invoker.getMaxMoney())
-    invoker.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
+    target.b_setQuests([])
+    target.b_setQuestCarryLimit(4)
+    target.b_setRewardHistory(Quests.ELDER_TIER, [])
+    target.b_setMaxMoney(250)
+    target.b_setMoney(target.getMaxMoney())
+    target.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
     # Finally, unlock all of their pet phrases:
     if simbase.wantPets:
-        invoker.b_setPetTrickPhrases(range(7))
-
-    return 'Maxed your Toon!'
+        target.b_setPetTrickPhrases(range(7))
+     
+    if target != spellbook.getInvoker():
+        return "Maxed Target's Toon!"
+    return "Maxed your Toon!"
 
 @magicWord(category=CATEGORY_PROGRAMMER)
 def unlocks():
@@ -4711,7 +4719,7 @@ def maxFishTank(maxFishTank):
     target.b_setMaxFishTank(maxFishTank)
     return "Set %s's max fish tank value to %d!" % (target.getName(), maxFishTank)
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str])
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
 def name(name=''):
     """
     Modify the target's name.
@@ -4733,7 +4741,7 @@ def hat(hatIndex, hatTex=0):
         return 'Invalid hat index.'
     if not 0 <= hatTex < len(ToonDNA.HatTextures):
         return 'Invalid hat texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setHat(hatIndex, hatTex, 0)
     return "Set %s's hat to %d, %d!" % (invoker.getName(), hatIndex, hatTex)
 
@@ -4746,7 +4754,7 @@ def glasses(glassesIndex, glassesTex=0):
         return 'Invalid glasses index.'
     if not 0 <= glassesTex < len(ToonDNA.GlassesTextures):
         return 'Invalid glasses texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setGlasses(glassesIndex, glassesTex, 0)
     return "Set %s's glasses to %d, %d!" % (invoker.getName(), glassesIndex, glassesTex)
 
@@ -4759,7 +4767,7 @@ def backpack(backpackIndex, backpackTex=0):
         return 'Invalid backpack index.'
     if not 0 <= backpackTex < len(ToonDNA.BackpackTextures):
         return 'Invalid backpack texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setBackpack(backpackIndex, backpackTex, 0)
     return "Set %s's backpack to %d, %d!" % (invoker.getName(), backpackIndex, backpackTex)
 
@@ -4772,11 +4780,11 @@ def shoes(shoesIndex, shoesTex=0):
         return 'Invalid shoes index.'
     if not 0 <= shoesTex < len(ToonDNA.ShoesTextures):
         return 'Invalid shoes texture.'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     invoker.b_setShoes(shoesIndex, shoesTex, 0)
     return "Set %s's shoes to %d, %d!" % (invoker.getName(), shoesIndex, shoesTex)
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[int])
+@magicWord(category=CATEGORY_MEDIA, types=[int])
 def gmIcon(accessLevel=None):
     """
     Toggles the target's GM icon. If an access level is provided, however, the
@@ -4785,7 +4793,7 @@ def gmIcon(accessLevel=None):
     invoker = spellbook.getInvoker()
     target = spellbook.getTarget()
     invokerAccess = spellbook.getInvokerAccess()
-    if invokerAccess != CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess:
+    if invokerAccess < CATEGORY_PROGRAMMER.defaultAccess:
         if accessLevel is not None:
             return "You must be of a higher access level to override your GM icon."
         target = spellbook.getInvoker()
@@ -4800,9 +4808,10 @@ def gmIcon(accessLevel=None):
         if accessLevel is None:
             accessLevel = target.getAdminAccess()
         if accessLevel != target.getGMType():
-            if invokerAccess != CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess:
+            if not invokerAccess >= CATEGORY_PROGRAMMER.defaultAccess:
                 accessLevel = target.getGMType()
         if accessLevel not in (0,
+                               CATEGORY_MEDIA.defaultAccess,
                                CATEGORY_COMMUNITY_MANAGER.defaultAccess,
                                CATEGORY_MODERATOR.defaultAccess,
                                CATEGORY_CREATIVE.defaultAccess,
@@ -4920,7 +4929,7 @@ def inventory(a, b=None, c=None):
 @magicWord(category=CATEGORY_CREATIVE, types=[str, str])
 def dna(part, value):
     """Modify a DNA part on the invoker."""
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
 
     dna = ToonDNA.ToonDNA()
     dna.makeFromNetString(invoker.getDNAString())
@@ -5158,7 +5167,7 @@ def trackBonus(trackIndex):
     if not 0 <= trackIndex < 8:
         return 'Invalid track index!'
     trackBonusLevel = [0] * 8
-    trackBonusLevel[trackIndex] = 1
+    trackBonusLevel[trackIndex] = 6
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 
@@ -5169,7 +5178,7 @@ def track(command, track, value=None):
                  'squirt', 'zap', 'drop').index(track.lower())
     except:
         return 'Invalid Gag track!'
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     trackAccess = invoker.getTrackAccess()
     if (command.lower() not in ('add',)) and (not trackAccess[index]):
         return "You don't have that track!"
@@ -5195,7 +5204,7 @@ def track(command, track, value=None):
     return 'Invalid command.'
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str])
-def suit(command, suitName):
+def suit(command, suitName="hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
     if suitName not in SuitDNA.suitHeadTypes:
@@ -5211,6 +5220,15 @@ def suit(command, suitName):
         if returnCode[0] == 'success':
             return 'Successfully spawned a Cog building with: ' + suitFullName
         return "Couldn't spawn a Cog building with: " + suitFullName
+    elif command == 'invasion':
+        returnCode = invoker.doCogInvasion(SuitDNA.suitHeadTypes.index(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully started Cog Invasion for: ' + suitFullName
+        return "Couldn't start Cog Invasion for: " + suitFullName
+    elif command == 'invasionend':
+        returnCode = 'Ending Invasion..'
+        simbase.air.suitInvasionManager.stopInvasion()
+        return returnCode
     else:
         return 'Invalid command.'
 
@@ -5251,7 +5269,7 @@ def nametagStyle(nametagStyle):
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def disguise(command, suitIndex, value):
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
 
     if suitIndex > 3:
         return 'Invalid suit index: %s' % suitIndex
@@ -5296,10 +5314,105 @@ def printDNA():
     target = spellbook.getTarget()
     return str(target.dna.__str__())
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
-def summonCogdo(difficulty, buildingHeight):
-    return spellbook.getTarget().doCogdoTakeOver(difficulty, buildingHeight)
+@magicWord(category=CATEGORY_MODERATOR, types=[str, int])
+def summonCogdo(track, difficulty=0):
+    """ Spawns a Field Office with the given type and difficulty """
+    tracks = ['s', 'l']
+    if track not in tracks:
+        return 'Invalid Field Office type! Supported types are "s" and "l"'
+
+    av = spellbook.getInvoker()
+    try:
+        building = av.findClosestDoor()
+    except KeyError:
+        return 'You\'re not on a street!'
+    if building == None:
+        return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
+
+    building.cogdoTakeOver(difficulty, 2, track)
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)    
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def summonBuilding(suitIndex):
     return spellbook.getTarget().doBuildingTakeover(suitIndex)
+    
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def pouch(amt):
+    """ Set the target's max gag limit. """
+    spellbook.getTarget().b_setMaxCarry(amt)
+    return "Set %s's pouch size to %d" % (spellbook.getTarget().getName(), amt)
+    
+@magicWord(category=CATEGORY_CREATIVE)
+def unlimitedGags():
+    """ Restock avatar's gags at the start of each round. """
+    av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
+    av.setUnlimitedGags(not av.unlimitedGags)
+    return 'Toggled unlimited gags %s for %s' % ('ON' if av.unlimitedGags else 'OFF', av.getName())
+
+@magicWord(category=CATEGORY_CREATIVE)
+def immortal():
+    """ Make target (if 400+) or self (if 399-) immortal. """
+    av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
+    av.setImmortalMode(not av.immortalMode)
+    return 'Toggled immortal mode %s for %s' % ('ON' if av.immortalMode else 'OFF', av.getName())
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def goto(avIdShort):
+    """ Teleport to the avId specified. """
+    avId = 100000000+avIdShort # To get target doId.
+    toon = simbase.air.doId2do.get(avId)
+    if not toon:
+        return "Unable to teleport to target, they are not currently on this district."
+    spellbook.getInvoker().magicWordTeleportRequests.append(avId)
+    toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()]) 
+
+@magicWord(category=CATEGORY_PROGRAMMER)
+def dump_doId2do():
+    """
+    Please note that this MW should NOT be used more than it needs to be on a live
+    cluster. This is very hacked together and is purely so we can get a dump of doId2do
+    to get an idea of where the huge memory usage is coming from.
+
+    This should be removed once we are complete.
+    """
+    import sys, operator, tempfile
+    objSizes = {}
+    for object in simbase.air.doId2do.itervalues():
+        # Iterate through each object in doId2do.
+        name = object.__class__.__name__
+        objCurrSizes = objSizes.get(name)
+        if not objCurrSizes:
+            # We haven't yet come across this class. Store first size value.
+            objSizes[name] = sys.getsizeof(object)
+        else:
+            # Increment the stored value by the size of the object we just
+            # iterated through.
+            objSizes[name] += sys.getsizeof(object)
+    # Sort the dict by the size of the objects.
+    # N.B.: This spits out a list of tuples, e.g: [('obj1', 1000), ('obj2', 1001)]
+    sorted_objSizes = sorted(objSizes.iteritems(), key=operator.itemgetter(1))
+    # Create a temporary file that we can store to. This returns a tuple of a file
+    # handler and an absolute file location. (handler, location)
+    temp_file = tempfile.mkstemp(prefix='doId2do-dump_', suffix='.txt', text=True)
+    # Screw the documents, the first value in temp_file is a useless pile of dog shit.
+    # I hax and do like this. <3
+    with open(temp_file[1], 'w+') as file:
+        # Write each class to the file, containing the name and the total size of
+        # all instances of that class.
+        for name, size in sorted_objSizes:
+            file.write('OBJ: %s | SIZE: %d\n' % (name, size))
+    return "Dumped doId2do sizes (grouped by class) to '%s'." % temp_file[1]
+    
+@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+def globalTeleport():
+    """
+    Activates the global teleport cheat for the invoker.
+    """
+    invoker = spellbook.getInvoker()
+    invoker.setTeleportOverride(1)
+    return 'Global teleport has been activated.'
+
+    
+@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+def catalog():
+    simbase.air.catalogManager.deliverCatalogFor(spellbook.getTarget())

@@ -287,8 +287,8 @@ dclass OtpAvatarManager : DistributedObject {
 
 dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
-  chatMessage(string(0-256)) clsend;
-  chatMessageResponse(DoId, string, TalkModification []) airecv;
+  chatMessage(string(0-256), uint8 chatMode) clsend;
+  chatMessageResponse(DoId, string, TalkModification [], uint8 chatMode) airecv;
 };
 
 dclass FriendManager : DistributedObject {
@@ -579,6 +579,8 @@ from toontown.safezone import SafeZoneManager/AI
 from toontown.tutorial import TutorialManager/AI
 from toontown.catalog import CatalogManager/AI
 from toontown.safezone import DistributedTreasure/AI
+from toontown.safezone import DistributedSZTreasure/AI
+from toontown.safezone import DistributedEFlyingTreasure/AI
 from toontown.coghq import DistributedCashbotBossTreasure/AI
 from toontown.building import DistributedTrophyMgr/AI
 from toontown.building import DistributedBuilding/AI
@@ -808,6 +810,8 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
+from toontown.weather import DistributedWeatherCycle/AI
+from toontown.weather import DistributedWeatherStorm/AI
 from toontown.club import DistributedToonClub/AI
 
 struct GiftItem {
@@ -944,9 +948,9 @@ dclass DistributedToon : DistributedPlayer {
   setDNAString(blob) required broadcast ownrecv db;
   setGM(uint16 = 0) required broadcast ownrecv db;
   setMoney(int16 = 0) required ownrecv db;
-  setMaxBankMoney(int16 maxMoney = 15000) required broadcast ownrecv db;
+  setMaxBankMoney(int32 maxMoney = 15000) required broadcast ownrecv db;
   setMaxMoney(int16 maxMoney = 40) required broadcast ownrecv db;
-  setBankMoney(int32 = 0) required ownrecv;
+  setBankMoney(int32 money = 0) required ownrecv db;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
   setHp(int16 = 15) required broadcast ownrecv db;
   setUber(int16) required broadcast ownrecv db;
@@ -1013,7 +1017,6 @@ dclass DistributedToon : DistributedPlayer {
   setTeleportAccess(uint32[] = []) required ownrecv db;
   setScavengerHunt(uint32[] = []) required ownrecv db;
   checkTeleportAccess(uint16) airecv ownsend;
-  setTeleportOverride(uint8) clsend airecv;
   battleSOS(uint32) ownrecv clsend;
   teleportQuery(uint32) ownrecv clsend;
   teleportResponse(uint32, int8, uint32, uint32, uint32) ownrecv clsend;
@@ -1110,7 +1113,7 @@ dclass DistributedToon : DistributedPlayer {
   forceLogoutWithNotify() ownrecv;
   setPinkSlips(uint8 = 0) required ownrecv db;
   setNametagStyle(uint8 = 0) required broadcast ownrecv db;
-  setMail(simpleMail []) ownrecv;
+  setMail(simpleMail []) ownrecv airecv ram;
   setNumMailItems(uint32) airecv;
   setSimpleMailNotify(uint8) ownrecv airecv;
   setInvites(invite []) ownrecv airecv ram;
@@ -1970,6 +1973,9 @@ dclass NewsManager : DistributedObject {
   setTrolleyHolidayEnd() broadcast;
   setTrolleyWeekendStart() broadcast;
   setTrolleyWeekendEnd() broadcast;
+  setMoreXpHolidayStart() broadcast;
+  setMoreXpHolidayOngoing() broadcast;
+  setMoreXpHolidayEnd() broadcast;
   setRoamingTrialerWeekendStart() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8, string, uint32, uint8) broadcast;
@@ -2033,6 +2039,12 @@ dclass DistributedTreasure : DistributedObject {
   requestGrab() airecv clsend;
   setGrab(uint32) broadcast ram;
   setReject() broadcast;
+};
+
+dclass DistributedSZTreasure : DistributedTreasure {
+};
+
+dclass DistributedEFlyingTreasure : DistributedSZTreasure {
 };
 
 dclass DistributedCashbotBossTreasure : DistributedTreasure {
@@ -2158,7 +2170,8 @@ dclass DistCogdoGame : DistributedObject {
   setGameFinish(int16) broadcast;
 };
 
-dclass DistCogdoLevelGame : DistCogdoGame, DistributedLevel {
+dclass DistCogdoLevelGame : DistributedLevel, DistCogdoGame {
+
 };
 
 dclass DistCogdoMazeGame : DistCogdoGame {
@@ -2626,8 +2639,8 @@ dclass DistributedFurnitureItem : DistributedSmoothNode {
 dclass DistributedBank : DistributedFurnitureItem {
   avatarEnter() airecv clsend;
   freeAvatar();
-  setMovie(uint8, uint32, int16) broadcast ram;
-  transferMoney(int16) airecv clsend;
+  setMovie(uint8 mode, uint32 avId, int16 timestamp) broadcast ram;
+  transferMoney(int16 amount) airecv clsend;
 };
 
 dclass DistributedCloset : DistributedFurnitureItem {
@@ -3529,7 +3542,7 @@ dclass DistributedBanquetTable : DistributedObject {
   setIndex(uint8) required broadcast ram;
   setNumDiners(uint8) required broadcast ram;
   setBossCogId(uint32) required broadcast ram;
-  setDinerInfo(uint8[], uint8[], uint8[]) required broadcast ram;
+  setDinerInfo(uint8[], uint8[], uint8[], char[]) required broadcast ram;
   setState(char, uint32, int8) broadcast ram;
   setDinerStatus(uint8, uint8) broadcast;
   requestControl() airecv clsend;
@@ -3758,7 +3771,7 @@ dclass ClientServicesManager : DistributedObjectGlobal {
   requestAvatars() clsend;
   setAvatars(PotentialToon[]);
 
-  createAvatar(blob dna, uint8 index, uint8 uber) clsend;
+  createAvatar(blob dna, uint8 index, uint8 uber, uint16[], uint8 pg) clsend;
   createAvatarResp(uint32 avId);
 
   setNameTyped(uint32 avId, string name) clsend;
@@ -3905,8 +3918,20 @@ dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
 
 dclass CharityScreen : DistributedObject {
-   start() broadcast ram;
+   start() broadcast;
    setCount(uint16) broadcast ram;
+};
+
+dclass DistributedWeatherCycle : DistributedObject {
+  setState(string) required broadcast ram;
+  setDuration(int32) required broadcast ram;
+};
+
+dclass DistributedWeatherStorm : DistributedObject {
+  start() broadcast;
+  stop() broadcast;
+  setStormType(int8) broadcast ram;
+  setDuration(int32) broadcast ram;
 };
 
 struct Member {
@@ -3915,9 +3940,7 @@ struct Member {
 
 dclass DistributedToonClub : DistributedObjectGlobal {
   requestStats() clsend;
-  
   addMember(uint32) clsend;
   removeMember(uint32);
-
   setMembers(Member []);
 };

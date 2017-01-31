@@ -48,6 +48,10 @@ if 'fieldofview' not in settings:
     settings['fieldofview'] = 52
 if 'show-cog-levels' not in settings:
     settings['show-cog-levels'] = True
+if 'health-meter-mode' not in settings:
+    settings['health-meter-mode'] = 2
+if 'experienceBarMode' not in settings:
+    settings['experienceBarMode'] = True
 settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
@@ -85,8 +89,12 @@ tempLoader = Loader()
 backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
+
+from toontown.pgui import DirectGuiGlobals as PGUIGlobals
+
 notify.info('Setting the default font...')
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
+PGUIGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
 from toontown.toonbase import ToonBase
 ToonBase.ToonBase()
@@ -114,10 +122,12 @@ base.graphicsEngine.renderFrame()
 DirectGuiGlobals.setDefaultRolloverSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
 DirectGuiGlobals.setDefaultClickSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
 DirectGuiGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
+PGUIGlobals.setDefaultRolloverSound(base.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
+PGUIGlobals.setDefaultClickSound(base.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
+PGUIGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
-
 
 #For Devs only. (The below)
 '''from direct.stdpy import threading, thread
@@ -145,7 +155,6 @@ def openInjector_wx():
     threading.Thread(target = app.MainLoop).start()
 
 openInjector_wx()'''
-
 
 if base.musicManagerIsValid:
     music = base.loader.loadMusic('phase_3/audio/bgm/tt_theme.ogg')
@@ -211,6 +220,6 @@ if autoRun:
     except SystemExit:
         raise
     except:
-        from direct.showbase import PythonUtil
+        from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
         raise

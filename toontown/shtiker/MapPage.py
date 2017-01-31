@@ -1,6 +1,6 @@
 from toontown.shtiker import ShtikerPage
 from toontown.toonbase import ToontownGlobals
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.hood import ZoneUtil
 from direct.gui.DirectGui import *
 from panda3d.core import *

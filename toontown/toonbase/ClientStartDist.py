@@ -7,10 +7,7 @@ import __builtin__
 import collections
 collections.namedtuple = lambda *x: list
 
-# set the import path to current directory for Nuitka generated executable
-#sys.path = ['.']
-
-# Disable both dev before anything else.
+# Disable both dev,debug before anything else.
 # This is to make sure the distrubution client doesn't
 # get any special perms or anything of the sort.
 __builtin__.__dev__ = False
@@ -19,7 +16,7 @@ __builtin__.__dev__ = False
 #    raise SystemExit
 
 # replace these methods to prevent injection...
-#__builtin__.exec = lambda *args, **kw: raise SystemExit
+#__builtin__.exec = __runfunc
 #__builtin__.eval = __runfunc
 #__builtin__.compile = __runfunc
 #__builtin__.execfile = __runfunc
@@ -27,15 +24,26 @@ __builtin__.__dev__ = False
 #__builtin__.locals = __runfunc
 
 # TODO: append resources
+import aes
+import niraidata
 
-configStream = """# Window settings:
-window-title Project Altis
-win-origin -1 -1
+iv = '\0' * 16
+key = 'g89a1hU0acBrlcru'
+
+#config = niraidata.CONFIG
+#config = aes.decrypt(config, key, iv)
+
+config = """# Window settings:
+window-title Project Altis [ALPHA 1.3.0]
+win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
-show-frame-rate-meter #t
+show-frame-rate-meter #f
+
+# Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
+want-pstats #f
 
 # Audio:
 audio-library-name p3fmod_audio
@@ -57,6 +65,9 @@ smooth-lag 0.4
 smooth-max-future 0.4
 smooth-min-suggest-resync 15
 
+average-frame-rate-interval 60.0
+clock-frame-rate 60.0
+
 # Textures:
 texture-anisotropic-degree 16
 
@@ -73,10 +84,10 @@ server-port 7198
 account-bridge-filename astron/databases/account-bridge.db
 
 # Performance:
-sync-video #t
+sync-video #f
 texture-power-2 none
 gl-check-errors #f
-garbage-collect-states #t
+garbage-collect-states #f
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
@@ -103,6 +114,9 @@ want-donalds-dreamland #t
 want-goofy-speedway #t
 want-outdoor-zone #t
 want-golf-zone #t
+
+# Weather system
+want-weather #f
 
 # Options Page
 change-display-settings #t
@@ -153,6 +167,8 @@ want-cogbuildings #t
 show-total-population #f
 want-mat-all-tailors #t
 want-long-pattern-game #f
+show-population #t
+show-total-population #t
 
 # Animated Props
 zero-pause-mult 1.0
@@ -174,7 +190,7 @@ want-directtools #f
 want-tk #f
 
 # Holidays
-#active-holidays 116, 63, 64, 65, 66, 128
+active-holidays 64, 65, 66 #128, 116, 63
 
 # Temporary:
 want-old-fireworks #t
@@ -182,26 +198,21 @@ want-old-fireworks #t
 # Live updates:
 want-live-updates #t
 
-# Art assets:
-model-path ../resources
-
 # Server:
-server-version TTPA-Alpha-1.2.0
-min-access-level 600
-accountdb-type developer
+server-version TTPA-Alpha-1.3.0
 shard-low-pop 50
-shard-mid-pop 100
+shard-mid-pop 150
 
-# RPC:
-want-rpc-server #f
-rpc-server-endpoint http://localhost:8080/
+# DC File
+dc-file config/toon.dc
 
-# DClass file:
-dc-file astron/dclass/toon.dc
+#Resources
+model-path /
 
 # Core features:
 want-pets #t
-want-parties #t
+want-pets #t
+want-parties #f
 want-cogdominiums #t
 want-achievements #f
 
@@ -213,22 +224,38 @@ want-resistance-toonup #t
 want-resistance-restock #t
 
 # Developer options:
-show-population #t
-force-skip-tutorial #t
-want-instant-parties #t"""
+want-dev #f"""
 
-from panda3d.core import loadPrcFileData
+del iv
+del key
+
+from panda3d.core import *
 import StringIO
 
-io = StringIO.StringIO(configStream)
+io = StringIO.StringIO(config)
+
+vfs = VirtualFileSystem.getGlobalPtr()
+import glob
+print("No Content Packs Detected!")
+print("Loading Default Pack...")
+for file in glob.glob('resources/default/*.mf'):
+    mf = Multifile()
+    mf.openReadWrite(Filename(file))
+    names = mf.getSubfileNames()
+    vfs.mount(mf, Filename('/'), 0)
+    print('Successfully Mounted:' + file[13:])
+print("Default Pack Loaded!")
 
 for line in io.readlines():
     # check if the current line is a comment...
     if line.startswith('#'):
         continue
 
+    #print line
     # load the prc file value
-    loadPrcFileData('', '%s' % (line.split()))
+    loadPrcFileData('', line)
+
+del config
 
 # Finally, start the game:
 import toontown.toonbase.ClientStart

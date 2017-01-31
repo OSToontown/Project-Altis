@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+*.pyo
 
 # C extensions
 *.so
@@ -12,6 +12,7 @@ env/
 build/
 develop-eggs/
 dist/
+alt-astron/
 downloads/
 eggs/
 .eggs/
@@ -109,3 +110,6 @@ screenshots/
 backups/
 contentpacks/
 toondata/
+deployment/
+
+*.json

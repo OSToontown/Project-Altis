@@ -26,6 +26,10 @@ class RewardPanel(DirectFrame):
         DirectFrame.__init__(self, relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_pos=Point3(0, 0, -.05), geom_scale=gscale, pos=(0, 0, 0.587))
         self.initialiseoptions(RewardPanel)
         self.avNameLabel = DirectLabel(parent=self, relief=None, pos=(0, 0, 0.3), text=name, text_scale=0.08)
+        self.multiplier = DirectLabel(parent=self, relief=None, pos=(.7, 0, 0.25), text_fg = (0, 0, 1, 1), text='', text_scale=0.06)
+        self.multiplier.setHpr(0, 0, 30)
+        self.invasion = DirectLabel(parent=self, relief=None, pos=(-.7, 0, 0.25), text_fg = (1, 0, 0, 1), text='', text_scale=0.06)
+        self.invasion.setHpr(0, 0, -30)
         self.gagExpFrame = DirectFrame(parent=self, relief=None, pos=(-0.32, 0, 0.24))
         self.itemFrame = DirectFrame(parent=self, relief=None, text=TTLocalizer.RewardPanelItems, text_pos=(0, 0.2), text_scale=0.08)
         self.cogPartFrame = DirectFrame(parent=self, relief=None, text=TTLocalizer.RewardPanelCogPart, text_pos=(0, 0.2), text_scale=0.08)
@@ -122,6 +126,8 @@ class RewardPanel(DirectFrame):
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
+        self.invasion.hide()
+        self.multiplier.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
         self.itemFrame.show()
@@ -133,6 +139,8 @@ class RewardPanel(DirectFrame):
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
+        self.invasion.hide()
+        self.multiplier.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
         self.itemFrame.hide()
@@ -144,6 +152,8 @@ class RewardPanel(DirectFrame):
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
+        self.invasion.hide()
+        self.multiplier.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
         self.itemFrame.hide()
@@ -155,6 +165,8 @@ class RewardPanel(DirectFrame):
         self.notify.debug('Initializing Quest Frame!')
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
+        self.invasion.hide()
+        self.multiplier.hide()
         self.newGagFrame.hide()
         self.promotionFrame.hide()
         self.questFrame.show()
@@ -188,8 +200,15 @@ class RewardPanel(DirectFrame):
     def initGagFrame(self, toon, expList, meritList, noSkip = False):
         self.notify.debug('Initializing Gag Frame!')
         self.avNameLabel['text'] = toon.getName()
+        if hasattr(base.cr, 'newsManager'):
+            if base.cr.newsManager.isHolidayRunning(ToontownGlobals.MORE_XP_HOLIDAY):
+                self.multiplier['text'] = "5x Gag Multiplier"
+            if base.cr.newsManager.getInvading():
+                self.invasion['text'] = "Invasion Multiplier"
         self.endTrackFrame.hide()
         self.gagExpFrame.show()
+        self.invasion.show()
+        self.multiplier.show()
         self.newGagFrame.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()

@@ -23,7 +23,6 @@ class Impulse(DirectObject.DirectObject):
         if self.mover == mover:
             self.mover = None
             self.nodePath = None
-        return
 
     def isCpp(self):
         return 0

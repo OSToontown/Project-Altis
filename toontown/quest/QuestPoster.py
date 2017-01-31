@@ -1,7 +1,7 @@
 from direct.gui.DirectGui import *
 from panda3d.core import *
 from panda3d.direct import *
-import Quests
+from toontown.quest import Quests
 import random
 from toontown.toon import NPCToons
 from toontown.toon import ToonHead
@@ -183,10 +183,15 @@ class QuestPoster(DirectFrame):
         suit = None
         return head
 
-    def loadElevator(self, building, numFloors):
+    def loadElevator(self, building, numFloors, isCogdo=False):
         elevatorNodePath = hidden.attachNewNode('elevatorNodePath')
+        if not isCogdo:
+            elevatorModel = loader.loadModel('phase_4/models/modules/elevator')
+        else:
+            elevatorModel = loader.loadModel('phase_5/models/cogdominium/cogdominiumElevator')
         elevatorModel = loader.loadModel('phase_4/models/modules/elevator')
         floorIndicator = [None,
+         None,
          None,
          None,
          None,

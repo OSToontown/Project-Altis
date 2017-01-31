@@ -20,7 +20,6 @@ class FishPage(ShtikerPage.ShtikerPage):
         ShtikerPage.ShtikerPage.__init__(self)
         self.avatar = None
         self.mode = FishPage_Tank
-        return
 
     def enter(self):
         if not hasattr(self, 'title'):

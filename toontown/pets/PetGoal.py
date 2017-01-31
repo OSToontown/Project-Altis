@@ -1,6 +1,6 @@
 from direct.task import Task
 from direct.fsm import FSM, ClassicFSM, State
-from direct.showbase.PythonUtil import randFloat, Functor
+from toontown.toonbase.ToonPythonUtil import randFloat, Functor
 from direct.directnotify import DirectNotifyGlobal
 from toontown.pets import PetConstants
 from toontown.toon import DistributedToonAI
@@ -19,7 +19,6 @@ class PetGoal(FSM.FSM):
         PetGoal.SerialNum += 1
         self.fsm = ClassicFSM.ClassicFSM('PetGoalFSM', [State.State('off', self.enterOff, self.exitOff, ['background']), State.State('background', self.enterBackground, self.exitBackground, ['foreground']), State.State('foreground', self.enterForeground, self.exitForeground, ['background'])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def destroy(self):
         if hasattr(self, 'fsm'):

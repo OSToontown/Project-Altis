@@ -286,7 +286,11 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         self.battle.setInitialMembers(self.toons, self.suits)
         self.battle.generateWithRequired(self.zoneId)
         mult = getCreditMultiplier(self.currentFloor)
-        if self.air.suitInvasionManager.getInvading():
+        if self.air.holidayManager.isMoreXpHolidayRunning() and self.air.suitInvasionManager.getInvading():
+            mult *= simbase.air.holidayManager.getXpMultiplier() + getInvasionMultiplier()
+        elif self.air.holidayManager.isMoreXpHolidayRunning():
+            mult *= simbase.air.holidayManager.getXpMultiplier()
+        elif self.air.suitInvasionManager.getInvading():
             mult *= getInvasionMultiplier()
         self.battle.battleCalc.setSkillCreditMultiplier(mult)
 

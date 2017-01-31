@@ -1,6 +1,6 @@
 from toontown.catalog import CatalogItem
 from toontown.toonbase import TTLocalizer
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.toonbase import ToontownGlobals
 
 class CatalogInvalidItem(CatalogItem.CatalogItem):

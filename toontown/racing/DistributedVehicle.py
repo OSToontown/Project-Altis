@@ -6,7 +6,7 @@ from pandac.PandaModules import *
 from direct.fsm import FSM
 from direct.distributed import DistributedSmoothNode
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import clampScalar
+from toontown.toonbase.ToonPythonUtil import clampScalar
 from otp.otpbase import OTPGlobals
 from otp.avatar import ShadowCaster
 from toontown.racing import Kart
@@ -18,7 +18,7 @@ from toontown.effects.Sparks import Sparks
 from direct.interval.ProjectileInterval import *
 from toontown.battle.BattleProps import *
 import random
-from direct.showbase.PythonUtil import randFloat
+from toontown.toonbase.ToonPythonUtil import randFloat
 from direct.task.Task import Task
 from toontown.nametag import NametagGlobals
 import math
@@ -136,7 +136,6 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         self.wantSmoke = ConfigVariableBool('want-kart-smoke', 1).getValue()
         self.wantSparks = ConfigVariableBool('want-kart-sparks', 1).getValue()
         self.__loadTextures()
-        return
 
     def __loadTextures(self):
         self.pieSplatter = loader.loadModel('phase_6/models/karting/pie_splat_1.bam')
@@ -540,7 +539,6 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             self.toon.startSmooth()
         NametagGlobals.setForceOnscreenChat(False)
         base.camLens.setMinFov(settings['fieldofview']/(4./3.))
-        return
 
     def doHeadScale(self, model, scale):
         if scale == None:
@@ -550,15 +548,11 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             head = model.headParts[hi]
             head.setScale(scale)
 
-        return
-
     def __createPieWindshield(self):
         self.piePieces = []
         for piece in xrange(self.numPieChunks):
             self.piePieces.append(DirectLabel(relief=None, pos=(0.0, 0.0, 0.0), image=self.pieSplatter, image_scale=(0.5, 0.5, 0.5), text=' ', text_scale=0.18, text_fg=(1, 0, 1, 1), text_pos=(-0.0, 0.0, 0), text_font=ToontownGlobals.getSignFont(), textMayChange=1))
             self.piePieces[piece].hide()
-
-        return
 
     def showPieces(self):
         xRange = 0.3
@@ -638,9 +632,9 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             self.speedometer.reparentTo(base.a2dBottomRight)
         else:
             self.showSpeedometer()
+        
         self.arrowVert = 0
         self.arrowHorz = 0
-        return
 
     def showSpeedometer(self):
         if self.speedometer:
@@ -665,7 +659,6 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             self.speedGauge = None
             self.speedometerImages.removeNode()
             self.speedometerImages = None
-        return
 
     def setTurbo(self, setting):
         self.turbo = setting
@@ -679,7 +672,6 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         if self.cameraTrack:
             self.cameraTrack.finish()
             self.cameraTrack = None
-        return
 
     def startTurbo(self):
         newCameraPos = Point3(0, -25, 16)
@@ -894,8 +886,6 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         curHeading = rotMat.xform(Vec3.forward())
         push = (3 - self.getP()) * 0.02
         curHeading.setZ(curHeading.getZ() - min(0.2, max(-.2, push)))
-        onScreenDebug.append('vehicle curHeading = %s\n' % curHeading.pPrintValues())
-        onScreenDebug.append('vehicle H = %s  newHForTurning=%f\n' % (self.getH(), newHForTurning))
         windResistance = self.surfaceModifiers[self.groundType]['windResistance']
         self.windResistance.setCoef(windResistance)
         physicsFrame = int((globalClock.getFrameTime() - self.physicsEpoch) * self.physicsCalculationsPerSecond)
@@ -1220,4 +1210,3 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         if self.spinAnim:
             self.spinAnim.finish()
             self.spinAnim = None
-        return

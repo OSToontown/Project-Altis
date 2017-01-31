@@ -1,6 +1,6 @@
 import TTLocalizer
 from otp.otpbase.OTPGlobals import *
-from direct.showbase.PythonUtil import Enum, invertDict
+from toontown.toonbase.ToonPythonUtil import Enum, invertDict
 from pandac.PandaModules import BitMask32, Vec4
 MapHotkeyOn = 'alt'
 MapHotkeyOff = 'alt-up'
@@ -18,6 +18,7 @@ CFOElevatorFov = 43.0
 CJElevatorFov = 59.0
 CEOElevatorFov = 59.0
 CBElevatorFov = 42.0
+CogdoFov = 45.0
 WantPromotion = 0
 PendingPromotion = 1
 CeilingBitmask = BitMask32(256)
@@ -171,6 +172,7 @@ DonaldsDreamland = 9000
 BarnacleBoulevard = 1100
 SeaweedStreet = 1200
 LighthouseLane = 1300
+AhoyAvenue = 1400
 SillyStreet = 2100
 LoopyLane = 2200
 PunchlinePlace = 2300
@@ -188,7 +190,7 @@ LullabyLane = 9100
 PajamaPlace = 9200
 ToonHall = 2513
 HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
- DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane),
+ DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
@@ -1535,13 +1537,13 @@ ColorNoChat = (0.8,
  0.5,
  0.1,
  1)
-FactoryLaffMinimums = [(0, 31),
- (0, 66, 71),
+FactoryLaffMinimums = [(0, 0),
+ (0, 0, 0),
  (0,
-  81,
-  86,
-  96),
- (0, 101, 106)]
+  0,
+  0,
+  0),
+ (0, 0, 0)]
 PICNIC_COUNTDOWN_TIME = 60
 BossbotRTIntroStartPosHpr = (0,
  -64,

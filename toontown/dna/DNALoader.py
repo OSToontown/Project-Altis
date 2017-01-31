@@ -194,19 +194,17 @@ class DNALoader(object):
         if type(_file) == str and _file.endswith(".dna"):
             _file = _file.replace(".dna", ".pdna")
             #_file = _file.replace("../resources/", "")
-            _file = Filename('../resources/' + _file)
+        if __debug__:
+            _file = Filename("../resources/" + _file)
+        else:
+            _file = Filename("/" + _file)
 
-        '''vfs = VirtualFileSystem.getGlobalPtr()
+        vfs = VirtualFileSystem.getGlobalPtr()
         vfs.resolveFilename(_file, "")
         if not vfs.exists(_file):
             raise DNAError.DNAError("Unable to open dna")
-        dnaData = vfs.readFile(_file, True)'''
-        with open('../resources/%s' % (_file), 'rb') as dnaFile:
-            dnaData = dnaFile.read()
+        dnaData = vfs.readFile(_file, True)
 
-            # close the file instance.
-            dnaFile.close()
-        
         self.curStore = store
         dg = PyDatagram(dnaData)
         dgi = PyDatagramIterator(dg)

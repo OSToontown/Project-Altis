@@ -5,7 +5,7 @@ from toontown.coghq.StomperGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import lerp
+from toontown.toonbase.ToonPythonUtil import lerp
 from direct.task import Task
 from otp.level import BasicEntities
 from pandac.PandaModules import *

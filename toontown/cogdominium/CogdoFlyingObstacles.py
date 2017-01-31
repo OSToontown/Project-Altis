@@ -3,7 +3,7 @@ from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import LerpFunc, ActorInterval, LerpPosInterval
 from direct.interval.MetaInterval import Sequence
 from direct.directutil import Mopath
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from panda3d.core import *
 from panda3d.direct import *
 from panda3d.physics import *
@@ -89,7 +89,6 @@ class CogdoFlyingObstacleFactory:
         self.f.setHpr(0, 0, 0)
         return self.f
 
-
 class CogdoFlyingObstacle(DirectObject):
     EnterEventName = 'CogdoFlyingObstacle_Enter'
     ExitEventName = 'CogdoFlyingObstacle_Exit'
@@ -130,7 +129,6 @@ class CogdoFlyingObstacle(DirectObject):
             if self.motionPattern == CogdoFlyingObstacle.MotionTypes.BackForth:
                 movePart2 = LerpFunc(moveObstacle, fromData=self.motionPath.getMaxT(), toData=0.0, duration=dur, blendType=blendType)
                 self.motionSequence.append(movePart2)
-        return
 
     def _initCollisions(self, name, collSolid):
         self.collName = name
@@ -147,29 +145,26 @@ class CogdoFlyingObstacle(DirectObject):
     def disable(self):
         if self.collNode is not None:
             self.collNode.setIntoCollideMask(BitMask32(0))
-        return
 
     def enable(self):
         if self.collNode is not None:
             self.collNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
-        return
 
     def startMoving(self, elapsedTime = 0.0):
         if self.motionSequence is not None:
             self.motionSequence.loop()
             self.motionSequence.setT(elapsedTime % self.motionSequence.getDuration())
-        return
 
     def stopMoving(self):
         if self.motionSequence is not None:
             self.motionSequence.pause()
-        return
 
     def destroy(self):
         self.ignoreAll()
         if self.motionSequence is not None:
             self.motionSequence.clearToInitial()
             del self.motionSequence
+        
         del self.collSolid
         self.collNodePath.removeNode()
         del self.collNodePath
@@ -177,7 +172,6 @@ class CogdoFlyingObstacle(DirectObject):
         self.model.removeNode()
         del self.model
         del self.motionPath
-        return
 
     def update(self, dt):
         pass
@@ -192,7 +186,6 @@ class CogdoFlyingObstacle(DirectObject):
 
     def _handleExitCollision(self, collEntry):
         messenger.send(CogdoFlyingObstacle.ExitEventName, [self, collEntry])
-
 
 from pandac.PandaModules import TransformState
 
@@ -237,11 +230,12 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         self.prop = None
         self.suit = Suit.Suit()
         d = SuitDNA.SuitDNA()
-        invSuit = base.cr.newsManager.getInvadingSuit()
+        invSuit = base.cr.newsManager.getInvading()
         if invSuit:
             d.newSuit(invSuit)
         else:
             d.newSuit(random.choice(Globals.Gameplay.MinionDnaName))
+        
         self.suit.setDNA(d)
         self.suit.setScale(Globals.Gameplay.MinionScale)
         self.suit.nametag3d.stash()
@@ -252,21 +246,18 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         CogdoFlyingObstacle.__init__(self, Globals.Level.ObstacleTypes.Minion, index, self.mopathNodePath, collSolid, motionPath=motionPath, motionPattern=CogdoFlyingObstacle.MotionTypes.Loop, blendMotion=False, instanceModel=False)
         self.lastPos = None
         self.suit.loop('neutral')
-        return
 
     def attachPropeller(self):
         if self.prop is None:
             self.prop = BattleProps.globalPropPool.getProp('propeller')
             head = self.suit.find('**/joint_head')
             self.prop.reparentTo(head)
-        return
 
     def detachPropeller(self):
         if self.prop:
             self.prop.cleanup()
             self.prop.removeNode()
             self.prop = None
-        return
 
     def startMoving(self, elapsedTime):
         CogdoFlyingObstacle.startMoving(self, elapsedTime)
@@ -280,9 +271,9 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         if self.lastPos != None:
             vec = self.currPos - self.lastPos
             self.mopathNodePath.lookAt(self.currPos + vec)
+        
         self.mopathNodePath.setP(0)
         self.lastPos = self.mopathNodePath.getPos()
-        return
 
     def destroy(self):
         self.mopathNodePath.removeNode()
@@ -291,7 +282,6 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         self.suit.removeNode()
         self.suit.delete()
         CogdoFlyingObstacle.destroy(self)
-
 
 class CogdoFlyingMinionFlying(CogdoFlyingMinion):
 
@@ -307,7 +297,9 @@ class CogdoFlyingMinionFlying(CogdoFlyingMinion):
         suitPos = self.suit.getPos()
         upperPos = suitPos + Point3(0.0, 0.0, offset / 2.0)
         lowerPos = suitPos + Point3(0.0, 0.0, -offset / 2.0)
-        self.floatSequence = Sequence(LerpPosInterval(self.suit, dur / 4.0, startPos=suitPos, pos=upperPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 2.0, startPos=upperPos, pos=lowerPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 4.0, startPos=lowerPos, pos=suitPos, blendType='easeInOut'), name='%s.floatSequence%i' % (self.__class__.__name__, self.index))
+        self.floatSequence = Sequence(LerpPosInterval(self.suit, dur / 4.0, startPos=suitPos, pos=upperPos, blendType='easeInOut'), LerpPosInterval(self.suit, 
+            dur / 2.0, startPos=upperPos, pos=lowerPos, blendType='easeInOut'), LerpPosInterval(self.suit, dur / 4.0, startPos=lowerPos, pos=suitPos, 
+            blendType='easeInOut'), name='%s.floatSequence%i' % (self.__class__.__name__, self.index))
 
     def startMoving(self, elapsedTime):
         CogdoFlyingMinion.startMoving(self, elapsedTime)

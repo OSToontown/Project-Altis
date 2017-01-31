@@ -5,7 +5,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import Functor
+from toontown.toonbase.ToonPythonUtil import Functor
 from direct.showutil import Rope
 from direct.task import Task
 import math
@@ -14,6 +14,7 @@ import random
 from toontown.suit import DistributedBossCog
 from toontown.suit import SuitDNA
 from toontown.battle import BattleBase
+from toontown.battle import BattleParticles
 from toontown.battle import MovieToonVictory
 from toontown.battle import RewardPanel
 from toontown.battle import SuitBattleGlobals
@@ -47,6 +48,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.dooberRequest = None
         self.bossDamage = 0
         self.attackCode = None
+        self.rain = None
         self.attackAvId = 0
         self.recoverRate = 0
         self.recoverStartTime = 0
@@ -68,9 +70,28 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.localToonPromoted = True
         self.resetMaxDamage()
 
+    def startRain(self):
+        if not settings.get('want-particle-effects', True):
+            pass
+        else:
+            self.rain = BattleParticles.loadParticleFile('raindisk.ptf')
+            self.rain.setPos(0, 0, 20)
+            self.rainRender = render.attachNewNode('rainRender')
+            self.rainRender.setDepthWrite(0)
+            self.rainRender.setBin('fixed', 1)
+            self.rain.start(camera, self.rainRender)
+            self.rainSound = base.loader.loadSfx('phase_12/audio/sfx/CHQ_rain_ambient.ogg')
+            base.playSfx(self.rainSound, looping=1, volume=0.25)
+
+    def stopRain(self):
+        if self.rain:
+            self.rain.cleanup()
+            self.rainSound.stop()
+ 
     def announceGenerate(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
+        base.cr.forbidCheesyEffects(1)
         self.setName(TTLocalizer.SellbotBossName)
         nameInfo = TTLocalizer.BossCogNameWithDept % {'name': self.name,
          'dept': SuitDNA.getDeptFullname(self.style.dept)}
@@ -124,6 +145,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def disable(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.disable(self)
+        base.cr.forbidCheesyEffects(0)
         self.request('Off')
         self.unloadEnvironment()
         self.__unloadMopaths()
@@ -146,6 +168,9 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             toonMopath.finish()
             toonMopath.destroy()
             self.toonMopathInterval.remove(toonMopath)
+            
+        if self.rain:
+           self.stopRain()
 
         if OneBossCog == self:
             OneBossCog = None
@@ -348,6 +373,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 ActorInterval(self, 'turn2Fb'))),
             (34, Sequence(
                 Func(self.clearChat),
+                Func(self.startRain),
                 self.loseCogSuits(self.toonsA, self.battleANode, (0, 18, 5, -180, 0, 0)),
                 self.loseCogSuits(self.toonsB, self.battleBNode, (0, 18, 5, -180, 0, 0)))),
             (37, Sequence(
@@ -549,10 +575,11 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.rope.ropeNode.setUvScale(0.8)
         self.rope.setTexture(self.cage.findTexture('hq_chain'))
         self.rope.setTransparency(1)
-        self.promotionMusic = base.loader.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
-        self.betweenBattleMusic = base.loader.loadMusic('phase_9/audio/bgm/encntr_toon_winning.ogg')
-        self.battleTwoMusic = base.loader.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
-        self.battleThreeMusic = base.loader.loadMusic('phase_9/audio/bgm/encntr_vp_boss.ogg')
+        self.promotionMusic = base.loadMusic('phase_9/audio/bgm/encntr_head_suit_theme.ogg')
+        self.toonsDiscovered = base.loadMusic('phase_9/audio/bgm/encntr_sting_announce.ogg')
+        self.betweenBattleMusic = base.loadMusic('phase_9/audio/bgm/encntr_toon_winning.ogg')
+        self.battleTwoMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+        self.battleThreeMusic = base.loadMusic('phase_9/audio/bgm/encntr_head_suit_theme.ogg')
         self.geom.reparentTo(render)
 
     def unloadEnvironment(self):

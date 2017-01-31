@@ -13,6 +13,11 @@ class DNALandmarkBuilding(DNANode.DNANode):
         DNANode.DNANode.__init__(self, name)
         self.code = ''
         self.wallColor = LVector4f(1)
+
+    def __del__(self):
+        DNANode.DNANode.__del__(self)
+        del self.code
+        del self.wallColor
         
     def getCode(self):
         return self.code

@@ -24,7 +24,6 @@ class GardenPage(ShtikerPage.ShtikerPage):
         self.mode = GardenPage_Basket
         self.accept('use-special-response', self.useSpecialDone)
         self.resultDialog = None
-        return
 
     def enter(self):
         self.notify.debug('enter')

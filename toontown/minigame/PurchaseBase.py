@@ -34,7 +34,6 @@ class PurchaseBase(StateData.StateData):
             self.statusLabel['text'] = TTLocalizer.GagShopYouHaveOne
         self.isBroke = 0
         self._teaserPanel = None
-        return
 
     def unload(self):
         if self._teaserPanel:
@@ -49,7 +48,6 @@ class PurchaseBase(StateData.StateData):
         del self.statusLabel
         del self.music
         del self.fsm
-        return
 
     def __handleSelection(self, track, level):
         if gagIsPaidOnly(track, level):
@@ -61,7 +59,6 @@ class PurchaseBase(StateData.StateData):
     def _teaserDone(self):
         self._teaserPanel.destroy()
         self._teaserPanel = None
-        return
 
     def handlePurchase(self, track, level):
         if self.toon.getMoney() <= 0:

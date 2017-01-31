@@ -9,7 +9,7 @@ import copy, string
 from toontown.hood import ZoneUtil
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import time, types, random
 notify = DirectNotifyGlobal.directNotify.newCategory('Quests')
 ItemDict = TTLocalizer.QuestsItemDict
@@ -55,6 +55,7 @@ QuestDictNextQuestIndex = 6
 QuestDictDialogIndex = 7
 QuestDictExperienceIndex = 8
 VeryEasy = 100
+ModeratelyEasy = 80
 Easy = 75
 Medium = 50
 Hard = 25
@@ -67,7 +68,7 @@ BR_TIER = 11
 DL_TIER = 14
 FINAL_TIER = 18
 ELDER_TIER = 19
-LOOPING_FINAL_TIER = ELDER_TIER
+LOOPING_FINAL_TIER = 19
 VISIT_QUEST_ID = 1000
 TROLLEY_QUEST_ID = 110
 FIRST_COG_QUEST_ID = 145
@@ -455,7 +456,7 @@ class NewbieQuest:
         newbieHp = self.getNewbieLevel()
         num = 0
         for av in avList:
-            if av.getDoId() != avId and av.getMaxHp() <= newbieHp:
+            if av != avId and av.getMaxHp() <= newbieHp:
                 num += 1
 
         return num
@@ -1910,6 +1911,9 @@ class RecoverItemQuest(LocationBasedQuest):
                 holderName = TTLocalizer.LawbotP
             elif holder == 'g':
                 holderName = TTLocalizer.BoardbotP
+        elif not holder:
+            print("WHY THE HELL IS THERE NO HOLDER BARKS")
+            return [itemName, "BARKS FRICKING FIX"]
         item = self.getItem()
         num = self.getNumItems()
         if num == 1:
@@ -3076,10 +3080,12 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[1049]),
  1053: (TT_TIER + 2,
         Cont,
-        (DeliverGagQuest,
-         5,
-         ToontownBattleGlobals.SQUIRT_TRACK,
-         1),
+        (RecoverItemQuest,
+         ToontownGlobals.ToontownCentral,
+         1,
+         21,
+         Easy,
+         'dt'),
         Same,
         Same,
         700,
@@ -3460,7 +3466,7 @@ QuestDict = {
          2),
         2119,
         ToonHQ,
-        101,
+        102,
         NA,
         TTLocalizer.QuestDialogDict[1091]),
  1100: (TT_TIER + 2,
@@ -3743,10 +3749,12 @@ QuestDict = {
 		TTLocalizer.QuestDialogDict[1305]),
  1306: (DD_TIER,
 		Cont,
-		(DeliverGagQuest,
-		1,
-		ToontownBattleGlobals.SQUIRT_TRACK,
-		2),
+		(RecoverItemQuest,
+		 1100,
+		 1,
+		 61,
+		 Medium,
+		 'p'),
 		Same,
 		Same,
 		NA,
@@ -3754,10 +3762,12 @@ QuestDict = {
 		TTLocalizer.QuestDialogDict[1306]),
  1307: (DD_TIER,
 		Cont,
-		(DeliverGagQuest,
-		1,
-		ToontownBattleGlobals.THROW_TRACK,
-		2),
+		(RecoverItemQuest,
+		 1100,
+		 1,
+		 61,
+		 Medium,
+		 'ym'),
 		Same,
 		Same,
 		NA,
@@ -4647,10 +4657,10 @@ QuestDict = {
         DefaultDialog),
  2159: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         2,
-         ToontownBattleGlobals.THROW_TRACK,
-         1),
+        (CogQuest,
+         Anywhere,
+         10,
+         Any),
         Any,
         Any,
         Any,
@@ -4658,10 +4668,10 @@ QuestDict = {
         DefaultDialog),
  2160: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         1,
-         ToontownBattleGlobals.SQUIRT_TRACK,
-         1),
+        (CogQuest,
+         Anywhere,
+         11,
+         Any),
         Any,
         Any,
         Any,
@@ -4669,10 +4679,10 @@ QuestDict = {
         DefaultDialog),
  2161: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         1,
-         ToontownBattleGlobals.SQUIRT_TRACK,
-         2),
+        (CogQuest,
+         Anywhere,
+         12,
+         Any),
         Any,
         Any,
         Any,
@@ -4680,10 +4690,10 @@ QuestDict = {
         DefaultDialog),
  2162: (DD_TIER + 1,
         Start,
-        (DeliverGagQuest,
-         2,
-         ToontownBattleGlobals.THROW_TRACK,
-         2),
+        (CogQuest,
+         Anywhere,
+         13,
+         Any),
         Any,
         Any,
         Any,
@@ -4989,7 +4999,7 @@ QuestDict = {
 		1100,
 		5,
 		2003,
-		Medium,
+		Easy,
 		'f'),
 		1104,
 		Same,
@@ -5002,7 +5012,7 @@ QuestDict = {
 		ToontownGlobals.DonaldsDock,
 		5,
 		2004,
-		Medium,
+		Easy,
 		'cn'),
 		Same,
 		Same,
@@ -5946,10 +5956,10 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[3200]),
  3201: (DG_TIER + 1,
         Start,
-        (CogQuest,
+        (CogTrackQuest,
 		 ToontownGlobals.DaisyGardens,
-		 8,
-		 'p'),
+		 10,
+		 'c'),
         5124,
         Same,
         100,
@@ -6213,7 +6223,7 @@ QuestDict = {
         Cont,
         (CogQuest,
 		 5200,
-		 7,
+		 4,
 		 'bs'),
         5214,
         Same,
@@ -6223,7 +6233,7 @@ QuestDict = {
  3253: (DG_TIER + 1,
         Cont,
         (BuildingQuest,
-         5200,
+         ToontownGlobals.DaisyGardens,
          3,
          'l',
          1),
@@ -6251,9 +6261,9 @@ QuestDict = {
  3258: (DG_TIER + 1,
         Cont,
         (CogQuest,
-         ToontownGlobals.DaisyGardens,
-         5,
-         'tf'),
+         Anywhere,
+         9,
+         'ms'),
         5102,
         Same,
         NA,
@@ -6262,9 +6272,9 @@ QuestDict = {
  3259: (DG_TIER + 1,
         Cont,
         (CogQuest,
-         ToontownGlobals.DaisyGardens,
-         3,
-         'hh'),
+         Anywhere,
+         6,
+         'tf'),
         Same,
         Same,
         NA,
@@ -6272,10 +6282,11 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[3259]),
  3260: (DG_TIER + 1,
         Cont,
-        (CogQuest,
-         ToontownGlobals.DaisyGardens,
-         5,
-         'sd'),
+        (BuildingQuest,
+		 ToontownGlobals.DaisyGardens,
+		 1,
+		 's',
+		 3),
         Same,
         Same,
         NA,
@@ -6283,10 +6294,13 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[3260]),
  3261: (DG_TIER + 1,
         Cont,
-        (CogQuest,
-         ToontownGlobals.DaisyGardens,
-         3,
-         'mb'),
+        (RecoverItemQuest,
+		 ToontownGlobals.SellbotHQ,
+		 1,
+		 62,
+		 Hard,
+		 's',
+		 'track'),
         Same,
         Same,
         102,
@@ -6294,10 +6308,13 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[3261]),
  3255: (DG_TIER + 1,
         Cont,
-        (CogQuest,
-         ToontownGlobals.DaisyGardens,
-         3,
-         'txm'),
+        (RecoverItemQuest,
+		 ToontownGlobals.SellbotHQ,
+		 1,
+		 63,
+		 Hard,
+		 's',
+		 'track'),
         Same,
         Same,
         102,
@@ -7578,45 +7595,42 @@ QuestDict = {
 		Start,
 		(VisitQuest,),
 		Any,
-		4228,
+		4322,
 		NA,
 		4226,
 		TTLocalizer.QuestDialogDict[4225]),
  4226: (MM_TIER,
 		Start,
 		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'cc'),
-		4228,
+		 ToontownGlobals.SellbotFactoryInt,
+		 10,
+		 59,
+		 ModeratelyEasy,
+		 's',
+		 'track'),
+		4322,
 		Same,
+		101,
 		NA,
-		4227,
 		TTLocalizer.QuestDialogDict[4226]),
  4227: (MM_TIER,
-		Cont,
-		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'tm'),
-		 Same,
-		 Same,
-		 NA,
-		 4228,
-		 TTLocalizer.QuestDialogDict[4227]),
+		Start,
+		(VisitQuest,),
+		Any,
+		4212,
+		NA,
+		4228,
+		TTLocalizer.QuestDialogDict[4227]),
  4228: (MM_TIER,
-		Cont,
+		Start,
 		(RecoverItemQuest,
 		 ToontownGlobals.SellbotHQ,
 		 1,
-		 5016,
+		 60,
 		 Medium,
-		 'nd'),
-		 Same,
+		 's',
+		 'track'),
+		 4212,
 		 Same,
 		 NA,
 		 4229,
@@ -7624,40 +7638,34 @@ QuestDict = {
  4229: (MM_TIER,
 		Cont,
 		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
+		 ToontownGlobals.SellbotFactoryInt,
 		 1,
-		 5016,
+		 13,
 		 Medium,
-		 'gh'),
+		 's',
+		 'track'),
 		 Same,
 		 Same,
+		 100,
 		 NA,
-		 4230,
 		 TTLocalizer.QuestDialogDict[4229]),
  4230: (MM_TIER,
-		Cont,
-		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'ms'),
-		 Same,
-		 Same,
-		 NA,
-		 4231,
-		 TTLocalizer.QuestDialogDict[4230]),
+		Start,
+		(VisitQuest,),
+		Any,
+		4211,
+		NA,
+		4231,
+		TTLocalizer.QuestDialogDict[4230]),
  4231: (MM_TIER,
-		Cont,
-		(RecoverItemQuest,
-		 ToontownGlobals.SellbotHQ,
-		 1,
-		 5016,
-		 Medium,
-		 'tf'),
+		Start,
+		(CogTrackQuest,
+		 4200,
+		 15,
+		 'm'),
+		 4211,
 		 Same,
-		 Same,
-		 104,
+		 102,
 		 NA,
 		 TTLocalizer.QuestDialogDict[4231]),
  4232: (MM_TIER,
@@ -7751,10 +7759,10 @@ QuestDict = {
        TTLocalizer.QuestDialogDict[902]),
  4903: (DG_TIER + 2,
         Start,
-        (DeliverGagQuest,
-         1,
-         ToontownBattleGlobals.THROW_TRACK,
-         4),
+        (CogTrackQuest,
+         ToontownGlobals.SellbotHQ,
+         15,
+         's'),
         5313,
         Same,
         NA,
@@ -8077,10 +8085,10 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[5247]),
  5248: (BR_TIER,
         Start,
-        (CogQuest,
-         Anywhere,
-         5,
-         'tbc'),
+        (CogLevelQuest,
+         ToontownGlobals.TheBrrrgh,
+         15,
+         6),
         3112,
         Same,
         NA,
@@ -8088,12 +8096,9 @@ QuestDict = {
         TTLocalizer.QuestDialogDict[5248]),
  5249: (BR_TIER,
         Cont,
-        (CogQuest,
-         Anywhere,
-         5,
-         'bw'),
+        (VisitQuest,),
         Same,
-        Same,
+        3102,
         NA,
         5250,
         TTLocalizer.QuestDialogDict[5249]),
@@ -8103,7 +8108,7 @@ QuestDict = {
          Anywhere,
          5,
          'rb'),
-        Same,
+        3102,
         Same,
         NA,
         5258,
@@ -8114,31 +8119,28 @@ QuestDict = {
          Anywhere,
          5,
          'mh'),
-        Same,
+        3102,
         Same,
         NA,
         5259,
         TTLocalizer.QuestDialogDict[5258]),
  5259: (BR_TIER,
         Cont,
-        (CogQuest,
+        (BuildingQuest,
          Anywhere,
          5,
-         'hho'),
+         Any,
+       	 4),
         Same,
         Same,
         NA,
-        (5001),
+        5260,
         TTLocalizer.QuestDialogDict[5259]),
  5260: (BR_TIER,
         Cont,
-        (BuildingQuest,
-         Anywhere,
-         2,
-         's',
-         4),
+        (VisitQuest,),
         Same,
-        Same,
+        3112,
         NA,
         (5001),
         TTLocalizer.QuestDialogDict[5260]),
@@ -9999,10 +10001,10 @@ QuestDict = {
 		TTLocalizer.QuestDialogDict[5234]),
  5235: (BR_TIER + 2,
 		Cont,
-		(CogdoQuest,
+		(CogQuest,
 		 Anywhere,
-		 5,
-		 'l'),
+		 10,
+		 'tbc'),
 		Same,
 		Same,
 		NA,
@@ -10010,10 +10012,10 @@ QuestDict = {
 		TTLocalizer.QuestDialogDict[5235]),
  5236: (BR_TIER + 2,
 		Cont,
-		(CogdoQuest,
+		(CogQuest,
 		 Anywhere,
-		 5,
-		 's'),
+		 10,
+		 'bw'),
 		Same,
 		Same,
 		NA,
@@ -16091,7 +16093,7 @@ QuestDict = {
 		 TTLocalizer.QuestDialogDict[11001]),
  11002: (FINAL_TIER,
 		 Cont,
-		 (CogdoQuest, Anywhere, 5, 's'),
+		 (BuildingQuest, Anywhere, 5, 's', 5),
 		 Same,
 		 Same,
 		 NA,
@@ -16163,7 +16165,7 @@ QuestDict = {
 		 TTLocalizer.QuestDialogDict[13001]),
  13002: (FINAL_TIER,
 		 Cont,
-		 (CogdoQuest, Anywhere, 5, 'l'),
+		 (BuildingQuest, Anywhere, 5, 'l', 5),
 		 Same,
 		 Same,
 		 NA,
@@ -16201,6 +16203,96 @@ QuestDict = {
 		 309,
 		 NA,
 		 TTLocalizer.QuestDialogDict[14002]),
+ 15000: (FINAL_TIER,
+		 Start,
+		 (VisitQuest,),
+		 Any,
+		 4315,
+		 NA,
+		 15001,
+		 TTLocalizer.QuestDialogDict[15000],
+		 2500),
+ 15001: (FINAL_TIER,
+		 Start,
+		 (CogQuest, Anywhere, 5, 'ca'),
+		 4315,
+		 Same,
+		 NA,
+		 15002,
+		 TTLocalizer.QuestDialogDict[15001],
+		 2500),
+ 15002: (FINAL_TIER,
+		 Cont,
+		 (CogQuest, Anywhere, 5, 'cn'),
+		 Same,
+		 Same,
+		 NA,
+		 15003,
+		 TTLocalizer.QuestDialogDict[15002],
+		 2500),
+ 15003: (FINAL_TIER,
+		 Cont,
+		 (CogQuest, Anywhere, 5, 'sw'),
+		 Same,
+		 Same,
+		 NA,
+		 15004,
+		 TTLocalizer.QuestDialogDict[15003],
+		 2500),
+ 15004: (FINAL_TIER,
+		 Cont,
+		 (CogQuest, Anywhere, 5, 'mdm'),
+		 Same,
+		 Same,
+		 NA,
+		 15005,
+		 TTLocalizer.QuestDialogDict[15004],
+		 2500),
+ 15005: (FINAL_TIER,
+		 Cont,
+		 (CogQuest, Anywhere, 5, 'txm'),
+		 Same,
+		 Same,
+		 NA,
+		 15006,
+		 TTLocalizer.QuestDialogDict[15005],
+		 2500),
+ 15006: (FINAL_TIER,
+		 Cont,
+		 (CogQuest, Anywhere, 5, 'mg'),
+		 Same,
+		 Same,
+		 NA,
+		 15007,
+		 TTLocalizer.QuestDialogDict[15006],
+		 2500),
+ 15007: (FINAL_TIER,
+		 Cont,
+		 (CogQuest, Anywhere, 5, 'bfh'),
+		 Same,
+		 Same,
+		 NA,
+		 15008,
+		 TTLocalizer.QuestDialogDict[15007],
+		 2500),
+ 15008: (FINAL_TIER,
+		 Cont,
+		 (CogQuest, Anywhere, 5, 'hho'),
+		 Same,
+		 Same,
+		 NA,
+		 15009,
+		 TTLocalizer.QuestDialogDict[15008],
+		 2500),
+ 15009: (FINAL_TIER,
+		 Cont,
+		 (BuildingQuest, Anywhere, 6, 'g', 1),
+		 Same,
+		 Same,
+		 101,
+		 NA,
+		 TTLocalizer.QuestDialogDict[15009],
+		 2500),
  10001: (ELDER_TIER,
          Start,
          (CogNewbieQuest,
@@ -16855,6 +16947,67 @@ def filterQuests(entireQuestPool, currentNpc, av):
     if notify.getDebug():
         notify.debug('filterQuests: finalQuestPool: %s' % finalQuestPool)
     return finalQuestPool
+    
+def chooseTrackChoiceQuest(tier, av, fixed = 0):
+
+    def fixAndCallAgain():
+        if not fixed and av.fixTrackAccess():
+            notify.info('av %s trackAccess fixed: %s' % (av.getDoId(), trackAccess))
+            return chooseTrackChoiceQuest(tier, av, fixed=1)
+        else:
+            return None
+        return None
+
+    bestQuest = None
+    trackAccess = av.getTrackAccess()
+    if tier == DG_TIER:
+        if trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 1:
+            bestQuest = 4002
+        elif trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 1:
+            bestQuest = 4001
+        else:
+            notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+            return fixAndCallAgain()
+    elif tier == BR_TIER:
+        if trackAccess[ToontownBattleGlobals.TRAP_TRACK] == 1:
+            if trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 1:
+                if trackAccess[ToontownBattleGlobals.DROP_TRACK] == 1:
+                    bestQuest = 5004
+                elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 1:
+                    bestQuest = 5003
+                else:
+                    notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+                    return fixAndCallAgain()
+            elif trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 1:
+                if trackAccess[ToontownBattleGlobals.DROP_TRACK] == 1:
+                    bestQuest = 5002
+                elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 1:
+                    bestQuest = 5001
+                else:
+                    notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+                    return fixAndCallAgain()
+        elif trackAccess[ToontownBattleGlobals.SOUND_TRACK] == 0:
+            bestQuest = 5005
+        elif trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 0:
+            bestQuest = 5006
+        elif trackAccess[ToontownBattleGlobals.DROP_TRACK] == 0:
+            bestQuest = 5007
+        elif trackAccess[ToontownBattleGlobals.LURE_TRACK] == 0:
+            bestQuest = 5008
+        else:
+            notify.warning('av %s has bogus trackAccess: %s' % (av.getDoId(), trackAccess))
+            return fixAndCallAgain()
+    else:
+        if notify.getDebug():
+            notify.debug('questPool for reward 400 had no dynamic choice, tier: %s' % tier)
+        bestQuest = seededRandomChoice(Tier2Reward2QuestsDict[tier][400])
+    if notify.getDebug():
+        notify.debug('chooseTrackChoiceQuest: avId: %s trackAccess: %s tier: %s bestQuest: %s' % (av.getDoId(),
+         trackAccess,
+         tier,
+         bestQuest))
+    return bestQuest
+
 
 def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
     questsMatchingReward = Tier2Reward2QuestsDict[tier].get(rewardId, [])
@@ -16999,16 +17152,16 @@ def getQuestExp(id):
                 return 80
             elif questTier >= DD_TIER and questTier < DG_TIER:
                 return 200
-            elif questTier == DG_TIER and questTier < MM_TIER:
+            elif questTier >= DG_TIER and questTier < MM_TIER:
+                return 300
+            elif questTier >= MM_TIER and questTier < BR_TIER:
                 return 500
-            elif questTier == MM_TIER and questTier < BR_TIER:
-                return 1000
             elif questTier >= BR_TIER and questTier < DL_TIER:
-                return 3000
+                return 800
             elif questTier >= DL_TIER and questTier < ELDER_TIER:
-                return 7500
+                return 1500
             elif questTier == ELDER_TIER:
-                return 15000
+                return 5000
             else:
                 return 0
     else:
@@ -17478,6 +17631,8 @@ class CheesyEffectReward(Reward):
             if duration > 36:
                 duration = int((duration + 12) / 24)
                 string = TTLocalizer.CheesyEffectDays
+        if effect == 77:
+            effect = 12
         desc = TTLocalizer.CheesyEffectDescriptions[effect][1]
         if hoodId == 0:
             whileStr = ''
@@ -17496,6 +17651,8 @@ class CheesyEffectReward(Reward):
 
     def getPosterString(self):
         effect = self.getEffect()
+        if effect == 77:
+            effect = 12
         desc = TTLocalizer.CheesyEffectDescriptions[effect][0]
         return TTLocalizer.QuestsCheesyEffectRewardPoster % desc
 
@@ -17837,12 +17994,20 @@ RewardDict = {100: (MaxHpReward, 1),
         ToontownGlobals.CESmallHead,
         1000,
         10),
+ 2103: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
+        1000,
+        10),
  2105: (CheesyEffectReward,
         ToontownGlobals.CEBigToon,
         0,
         20),
  2106: (CheesyEffectReward,
         ToontownGlobals.CESmallToon,
+        0,
+        20),
+ 2107: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
         0,
         20),
  2501: (CheesyEffectReward,
@@ -17867,6 +18032,10 @@ RewardDict = {100: (MaxHpReward, 1),
         60),
  2506: (CheesyEffectReward,
         ToontownGlobals.CESmallToon,
+        0,
+        60),
+ 2507: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
         0,
         60),
  2401: (CheesyEffectReward,
@@ -17907,6 +18076,10 @@ RewardDict = {100: (MaxHpReward, 1),
         30),
  2410: (CheesyEffectReward,
         ToontownGlobals.CENoColor,
+        4000,
+        30),
+ 2411: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
         4000,
         30),
  2301: (CheesyEffectReward,
@@ -17951,6 +18124,10 @@ RewardDict = {100: (MaxHpReward, 1),
         120),
  2311: (CheesyEffectReward,
         ToontownGlobals.CEInvisible,
+        3000,
+        120),
+ 2312: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
         3000,
         120),
  2900: (CheesyEffectReward,
@@ -18001,6 +18178,10 @@ RewardDict = {100: (MaxHpReward, 1),
         ToontownGlobals.CEInvisible,
         1,
         1440),
+ 2911: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
+        1,
+        1440),
  2920: (CheesyEffectReward,
         ToontownGlobals.CENormal,
         0,
@@ -18047,6 +18228,10 @@ RewardDict = {100: (MaxHpReward, 1),
         2880),
  2931: (CheesyEffectReward,
         ToontownGlobals.CEInvisible,
+        1,
+        2880),
+ 2932: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
         1,
         2880),
  2940: (CheesyEffectReward,
@@ -18097,6 +18282,10 @@ RewardDict = {100: (MaxHpReward, 1),
         ToontownGlobals.CEInvisible,
         1,
         10080),
+ 2952: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
+        1,
+        10080),
  2960: (CheesyEffectReward,
         ToontownGlobals.CENormal,
         0,
@@ -18143,6 +18332,10 @@ RewardDict = {100: (MaxHpReward, 1),
         43200),
  2971: (CheesyEffectReward,
         ToontownGlobals.CEInvisible,
+        1,
+        43200),
+ 2972: (CheesyEffectReward,
+        ToontownGlobals.CEWire,
         1,
         43200),
  4000: (CogSuitPartReward, 'm', CogDisguiseGlobals.leftLegUpper),
@@ -18225,7 +18418,7 @@ RequiredRewardTrackDict = {TT_TIER: (500,
                200,
                802,
                803,
-               101,
+               102,
                804,
                805,
                102,
@@ -18296,7 +18489,9 @@ RequiredRewardTrackDict = {TT_TIER: (500,
                302),
  DG_TIER + 2: (900,),
  MM_TIER: (303,
-           104,
+           100,
+           101,
+           102,
            203,
            101,
            101,
@@ -18349,7 +18544,8 @@ RequiredRewardTrackDict = {TT_TIER: (500,
  FINAL_TIER: (306,
               307,
               308,
-              309),
+              309,
+              101),
  ELDER_TIER: ()}
 OptionalRewardTrackDict = {TT_TIER: (),
  TT_TIER + 1: (),
@@ -18407,7 +18603,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
            2503,
            2504,
            2505,
-           2506),
+           2506,
+           2411),
  MM_TIER: (1000,
            604,
            604,
@@ -18419,7 +18616,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
            2406,
            2407,
            2408,
-           2409),
+           2409,
+           2411),
  DG_TIER + 1: (1000,
                604,
                604,
@@ -18431,7 +18629,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2406,
                2407,
                2408,
-               2409),
+               2409,
+               2411),
  DG_TIER + 2: (1000,
                604,
                604,
@@ -18443,7 +18642,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2406,
                2407,
                2408,
-               2409),
+               2409,
+               2411),
  BR_TIER: (1000,
            606,
            606,
@@ -18461,7 +18661,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
            2308,
            2309,
            2310,
-           2311),
+           2311,
+           2312),
  BR_TIER + 1: (1000,
                606,
                606,
@@ -18479,7 +18680,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2308,
                2309,
                2310,
-               2311),
+               2311,
+               2312),
  BR_TIER + 2: (1000,
                606,
                606,
@@ -18497,7 +18699,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2308,
                2309,
                2310,
-               2311),
+               2311,
+               2312),
  DL_TIER: (607,
            607,
            607,
@@ -18512,7 +18715,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
            2908,
            2909,
            2910,
-           2911),
+           2911,
+           2912),
  DL_TIER + 1: (1000,
                607,
                607,
@@ -18528,7 +18732,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2928,
                2929,
                2930,
-               2931),
+               2931,
+               2932),
  DL_TIER + 2: (608,
                608,
                608,
@@ -18545,7 +18750,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2948,
                2949,
                2950,
-               2951),
+               2951,
+               2952),
  DL_TIER + 3: (1000,
                609,
                609,
@@ -18563,7 +18769,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2968,
                2969,
                2970,
-               2971),
+               2971,
+               2972),
  ELDER_TIER: (1000,
               1000,
               610,
@@ -18585,7 +18792,8 @@ OptionalRewardTrackDict = {TT_TIER: (),
               2968,
               2969,
               2970,
-              2971)}
+              2971,
+              2972)}
 
 def isRewardOptional(tier, rewardId):
     return OptionalRewardTrackDict.has_key(tier) and rewardId in OptionalRewardTrackDict[tier]
@@ -18652,7 +18860,24 @@ def avatarWorkingOnRequiredRewards(av):
 
 
 def avatarHasAllRequiredRewards(av, tier):
+    # Get the reward history.
     rewardHistory = list(av.getRewardHistory()[1])
+
+    # Delete quests we're working on from the reward History.
+    avQuests = av.getQuests()
+
+    # Iterate through the current quests.
+    for i in xrange(0, len(avQuests), 5):
+        questDesc = avQuests[i:i + 5]
+        questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
+        transformedRewardId = transformReward(rewardId, av)
+
+        if rewardId in rewardHistory:
+            rewardHistory.remove(rewardId)
+
+        if transformedRewardId in rewardHistory:
+            rewardHistory.remove(transformedRewardId)
+
     rewardList = getRewardsInTier(tier)
     notify.debug('checking avatarHasAllRequiredRewards: history: %s, tier: %s' % (rewardHistory, rewardList))
     for rewardId in rewardList:
@@ -18674,17 +18899,6 @@ def avatarHasAllRequiredRewards(av, tier):
             actualRewardId = transformReward(rewardId, av)
             if actualRewardId in rewardHistory:
                 rewardHistory.remove(actualRewardId)
-            elif getRewardClass(rewardId) == CogSuitPartReward:
-                deptStr = RewardDict.get(rewardId)[1]
-                cogPart = RewardDict.get(rewardId)[2]
-                dept = ToontownGlobals.cogDept2index[deptStr]
-                if av.hasCogPart(cogPart, dept):
-                    if notify.getDebug():
-                        notify.debug('avatarHasAllRequiredRewards: rewardId: %s counts, avatar has cog part: %s dept: %s' % (actualRewardId, cogPart, dept))
-                else:
-                    if notify.getDebug():
-                        notify.debug('avatarHasAllRequiredRewards: CogSuitPartReward: %s not found' % actualRewardId)
-                    return 0
             else:
                 if notify.getDebug():
                     notify.debug('avatarHasAllRequiredRewards: rewardId %s not found' % actualRewardId)

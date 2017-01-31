@@ -8,6 +8,11 @@ class DNASuitEdge(object):
         self.endpt = endpt
         self.zoneId = zoneId
 
+    def __del__(self):
+        del self.startpt
+        del self.endpt
+        del self.zoneId
+
     def getEndPoint(self):
         return self.endpt
 

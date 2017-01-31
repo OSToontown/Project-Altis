@@ -5,7 +5,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.estate import DistributedHouseInterior, DistributedFurnitureItem, PhoneGlobals
 from direct.actor import Actor
 from direct.distributed import ClockDelta
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.showutil import Rope
 from direct.directnotify.DirectNotifyGlobal import *
 from panda3d.core import *
@@ -44,7 +44,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.intervalAvatar = None
         self.phoneInUse = 0
         self.origToonHpr = None
-        self.enableCatalog = False # We don't want this to be open to the public yet - set this to true for testing
+        self.enableCatalog = True # We don't want this to be open to the public yet - set this to true for testing
 
     def announceGenerate(self):
         self.notify.debug('announceGenerate')

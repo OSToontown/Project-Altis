@@ -3,7 +3,7 @@ from pandac.PandaModules import TextNode, NodePath, Vec3, Point3
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.distributed import DistributedObject
 from direct.showbase import RandomNumGen
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.interval.IntervalGlobal import Sequence, Parallel, ActorInterval
 from direct.interval.FunctionInterval import Wait
 from otp.avatar import Emote
@@ -42,7 +42,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self.difficultyOverride = None
         self.trolleyZoneOverride = None
         self._localToonRequestStatus = None
-        return
 
     def localToonExiting(self):
         self._localToonRequestStatus = PartyGlobals.ActivityRequestStatus.Exiting
@@ -54,13 +53,11 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         if self._localToonRequestStatus is None:
             self.localToonJoining()
             self.sendUpdate('toonJoinRequest')
-        return
 
     def d_toonExitRequest(self):
         if self._localToonRequestStatus is None:
             self.localToonExiting()
             self.sendUpdate('toonExitRequest')
-        return
 
     def d_toonExitDemand(self):
         self.localToonExiting()
@@ -68,11 +65,9 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
 
     def joinRequestDenied(self, reason):
         self._localToonRequestStatus = None
-        return
 
     def exitRequestDenied(self, reason):
         self._localToonRequestStatus = None
-        return
 
     def handleToonJoined(self, toonId):
         self.notify.error('BASE: handleToonJoined should be overridden %s' % self.activityName)
@@ -102,8 +97,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
                     self.cr.relatedObjectMgr.abortRequest(self._toonId2ror[toonId])
                     del self._toonId2ror[toonId]
 
-        return
-
     def _processJoinedToons(self, joinedToons):
         for toonId in joinedToons:
             if toonId != base.localAvatar.doId or toonId == base.localAvatar.doId and self.isLocalToonRequestStatus(PartyGlobals.ActivityRequestStatus.Joining):
@@ -125,7 +118,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self.handleToonJoined(toonId)
         if toonId == base.localAvatar.doId:
             self._localToonRequestStatus = None
-        return
 
     def _enableHandleToonDisabled(self, toonId):
         toon = self.getAvatar(toonId)
@@ -133,7 +125,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             self.acceptOnce(toon.uniqueName('disable'), self.handleToonDisabled, [toonId])
         else:
             self.notify.warning('BASE: unable to get handle to toon with toonId:%d. Hook for handleToonDisabled not set.' % toonId)
-        return
 
     def isLocalToonRequestStatus(self, requestStatus):
         return self._localToonRequestStatus == requestStatus
@@ -211,7 +202,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         if self.messageGui is not None and not self.messageGui.isEmpty():
             self.messageGui.cleanup()
             self.messageGui = None
-        return
 
     def delete(self):
         self.notify.debug('BASE: delete')
@@ -306,7 +296,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self.stickHinge.lookAt(host.rightHand, lookAtPoint, lookAtUp)
         host.play('walk')
         host.update()
-        return
 
     def unloadLever(self):
         self.lever.removeNode()
@@ -376,7 +365,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         if self.messageGui is not None and not self.messageGui.isEmpty():
             self.messageGui.cleanup()
             self.messageGui = None
-        return
 
     def showJellybeanReward(self, earnedAmount, jarAmount, message):
         if not self.isLocalToonInActivity() or base.localAvatar.doId in self.getToonIdsAsList():
@@ -436,7 +424,6 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         del self.trolleyZoneOverride
         if hasattr(base, 'partyActivityDict'):
             del base.partyActivityDict
-        return
 
     def setPartyDoId(self, partyDoId):
         self.party = base.cr.doId2do[partyDoId]
@@ -468,8 +455,8 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             return self.cr.doId2do[toonId]
         else:
             self.notify.warning('BASE: getAvatar: No avatar in doId2do with id: ' + str(toonId))
-            return None
-        return None
+            
+        return 
 
     def getAvatarName(self, toonId):
         avatar = self.getAvatar(toonId)

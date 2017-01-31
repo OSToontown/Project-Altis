@@ -20,8 +20,8 @@ from otp.avatar import Emote
 from toontown.hood import ZoneUtil
 
 FO_DICT = {'s': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
- 'l': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
- 'm': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
+ 'l': 'tt_m_ara_cbe_fieldOfficeLegalEagle',
+ 'm': 'tt_m_ara_cbe_fieldOfficeLoanShark',
  'c': 'tt_m_ara_cbe_fieldOfficeMoverShaker'}
 
 class DistributedBuilding(DistributedObject.DistributedObject):
@@ -563,9 +563,11 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         signTextNodePath.setPosHprScale(0.0, -0.001, -0.13 + textHeight * 0.1 / zScale, 0.0, 0.0, 0.0, 0.1 * 8.0 / 20.0, 0.1, 0.1 / zScale)
         signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
-        frontNP = suitBuildingNP.find('**/*_front/+GeomNode;+s')
+        if chr(self.track) == 'l':
+            frontNP = suitBuildingNP.find('**/*_front')
+        else:
+            frontNP = suitBuildingNP.find('**/*_front/+GeomNode;+s')
         backgroundNP.wrtReparentTo(frontNP)
-        frontNP.node().setEffect(DecalEffect.make())
         suitBuildingNP.setName('cb' + str(self.block) + ':_landmark__DNARoot')
         suitBuildingNP.setPosHprScale(nodePath, 15.463, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
         suitBuildingNP.flattenMedium()
@@ -703,7 +705,18 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.transitionTrack.start(timeStamp)
 
     def walkOutCameraTrack(self):
-        track = Sequence(Func(camera.reparentTo, render), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0), Func(base.camLens.setMinFov, 52.0/(4./3.)), Wait(VICTORY_RUN_TIME), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 17, 0, 347, 0), Func(base.camLens.setMinFov, 75.0/(4./3.)), Wait(TO_TOON_BLDG_TIME), Func(base.camLens.setMinFov, 52.0/(4./3.)))
+        avHeight = max(base.localAvatar.getHeight(), 3.0)
+        scaleFactor = avHeight * 0.3333333333
+        track = Sequence(Func(camera.reparentTo, render),
+        Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0),
+        Func(base.camLens.setMinFov, 52.0/(4./3.)),
+        Wait(VICTORY_RUN_TIME),
+        Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 17, 0, 347, 0),
+        Func(base.camLens.setMinFov, 75.0/(4./3.)),
+        Wait(TO_TOON_BLDG_TIME),
+        Func(base.camLens.setMinFov, 52.0/(4./3.)),
+        Func(camera.wrtReparentTo, base.localAvatar),
+        camera.posQuatInterval(1.5, (0, -9 * scaleFactor, avHeight), (0, 0, 0), other=base.localAvatar, blendType='easeInOut'))
         return track
 
     def plantVictorsOutsideBldg(self):

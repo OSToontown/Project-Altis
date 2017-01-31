@@ -1,5 +1,5 @@
-import Entity
-import DistributedEntity
+from otp.level import Entity
+from otp.level import DistributedEntity
 from pandac.PandaModules import NodePath
 
 class NodePathEntityBase:

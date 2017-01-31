@@ -17,13 +17,14 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSellbotBossAI')
     limitHitCount = 6
     hitCountDamage = 35
-    numPies = ToontownGlobals.FullPies
+    numPies = 50
+    blacklistedFriends = [91917, 3308]
 
     def __init__(self, air):
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
         FSM.FSM.__init__(self, 'DistributedSellbotBossAI')
         self.doobers = []
-        self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
+        self.cagedToonNpcId = self.chooseVPNpcFriend()
         self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
         self.recoverRate = 0
         self.recoverStartTime = 0
@@ -37,6 +38,13 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def getCagedToonNpcId(self):
         return self.cagedToonNpcId
+		
+    def chooseVPNpcFriend(self):
+        friend = random.choice(NPCToons.HQnpcFriends.keys())
+        if friend in self.blacklistedFriends:
+            self.chooseVPNpcFriend()
+        else:
+            return friend
 
     def magicWordHit(self, damage, avId):
         if self.attackCode != ToontownGlobals.BossCogDizzyNow:
@@ -310,7 +318,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         if index:
             self.d_cagedToonBattleThree(index, avId)
         self.__saySomethingLater()
-        return
 
     def __saySomethingLater(self, delayTime = 15):
         taskName = self.uniqueName('CagedToonSaySomething')
@@ -422,7 +429,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             self.doobers.append(suit)
 
         self.__sendDooberIds()
-        return
 
     def setPieType(self):
         for toonId in self.involvedToons:
@@ -446,8 +452,9 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def enterReward(self):
         self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
         DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
+        
 
-@magicWord(category=CATEGORY_ADMINISTRATOR)
+@magicWord(category=CATEGORY_PROGRAMMER)
 def skipVP():
     """
     Skips to the final round of the VP.
@@ -467,7 +474,7 @@ def skipVP():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 
-@magicWord(category=CATEGORY_ADMINISTRATOR)
+@magicWord(category=CATEGORY_PROGRAMMER)
 def killVP():
     """
     Kills the VP.

@@ -27,8 +27,6 @@ class DistributedPartyWinterCatchActivity(DistributedPartyCatchActivity):
             self.dropObjModels[objType.name] = model
             model.flattenStrong()
 
-        return
-
     def handleToonJoined(self, toonId):
         if toonId not in self.toonSDs:
             toonSD = WinterPartyCatchActivityToonSD.WinterPartyCatchActivityToonSD(toonId, self)

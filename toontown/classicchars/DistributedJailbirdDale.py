@@ -6,7 +6,7 @@ from direct.fsm import State
 from toontown.classicchars import CharStateDatas
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-import DistributedDale
+from toontown.classicchars import DistributedDale
 
 class DistributedJailbirdDale(DistributedDale.DistributedDale):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedJailbirdDale')

@@ -2,7 +2,7 @@ from direct.interval.IntervalGlobal import Sequence, Func, Wait, LerpColorScaleI
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.task.Task import Task
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.distributed import DelayDelete
 from toontown.distributed.DelayDeletable import DelayDeletable
 from toontown.toonbase import ToontownGlobals
@@ -142,8 +142,8 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                     av = base.cr.doId2do.get(avId)
                     if av:
                         tPanels = ToonHeadFrame.ToonHeadFrame(av, GolfGlobals.PlayerColors[color], headPanel)
-                        tPanels.reparentTo(aspect2d)
-                        tPanels.setPos(base.a2dTopLeft.getPos()[0] + 0.1875, 0, toonPanelsStart + whichToon * tpDiff)
+                        tPanels.reparentTo(base.a2dTopLeft)
+                        tPanels.setPos(0.1875, 0, toonPanelsStart + whichToon * tpDiff)
                         tPanels.setScale(0.3, 1, 0.7)
                         tPanels.head.setPos(0, 10, 0.18)
                         tPanels.head.setScale(0.47, 0.2, 0.2)

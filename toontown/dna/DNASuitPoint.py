@@ -17,6 +17,13 @@ class DNASuitPoint(object):
         self.graphId = 0
         self.landmarkBuildingIndex = landmarkBuildingIndex
 
+    def __del__(self):
+        del self.index
+        del self.pointType
+        del self.pos
+        del self.graphId
+        del self.landmarkBuildingIndex
+
     def __str__(self):
         pointType = self.getPointType()
         if pointType == DNASuitPoint.STREET_POINT:

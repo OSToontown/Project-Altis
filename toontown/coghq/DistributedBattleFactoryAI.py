@@ -4,7 +4,7 @@ from direct.fsm import State
 from direct.fsm import ClassicFSM, State
 from toontown.battle.BattleBase import *
 from toontown.coghq import CogDisguiseGlobals
-from direct.showbase.PythonUtil import addListsByValue
+from toontown.toonbase.ToonPythonUtil import addListsByValue
 
 class DistributedBattleFactoryAI(DistributedLevelBattleAI.DistributedLevelBattleAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleFactoryAI')
@@ -47,10 +47,9 @@ class DistributedBattleFactoryAI(DistributedLevelBattleAI.DistributedLevelBattle
         self.bossDefeated = 1
         self.level.setVictors(self.activeToons[:])
         self.timer.startCallback(BUILDING_REWARD_TIMEOUT, self.serverRewardDone)
-        return None
 
     def exitFactoryReward(self):
-        return None
+        pass
 
     def enterResume(self):
         DistributedLevelBattleAI.DistributedLevelBattleAI.enterResume(self)

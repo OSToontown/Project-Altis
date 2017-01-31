@@ -1,11 +1,10 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.gui.DirectGui import *
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task import Task
 from panda3d.core import *
-
-import DisplaySettingsDialog
-import ShtikerPage
+from toontown.shtiker import DisplaySettingsDialog
+from toontown.shtiker import ShtikerPage
 from otp.speedchat import SCColorScheme
 from otp.speedchat import SCStaticTextTerminal
 from otp.speedchat import SpeedChat
@@ -746,6 +745,16 @@ class SpecialOptionsTabPage(DirectFrame):
         self.fov_resetButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='Reset FOV', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.4), command=self.__resetFov)
         self.fovsliderText = OnscreenText("0.0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
         self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
+        
+        self.meterMode_Label = DirectLabel(parent=self, relief=None, text='Nametag Laff Display Mode\n(May take a few seconds to update)', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.5))
+
+        self.meterMode_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.6),
+                                               value=settings['health-meter-mode'], pageSize=1, range=(0, 2), command=self.__doMeterMode,
+                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+        self.meterMode_toggleSlider.setScale(0.25)
+        self.meterModesliderText = OnscreenText("0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
+        self.meterModesliderText.reparentTo(self.meterMode_toggleSlider.thumb)
+        
         guiButton.removeNode()
         circleModel.removeNode()
 
@@ -834,3 +843,15 @@ class SpecialOptionsTabPage(DirectFrame):
         settings['fieldofview'] = 52
         base.camLens.setMinFov(52/(4./3.))
         self.fovsliderText['text'] = str(52)
+        
+    def __doMeterMode(self):
+        mode2name = {
+        0: "Disabled",
+        1: "Always On",
+        2: "Hide only if full laff"}
+        mode = self.meterMode_toggleSlider['value']
+        mode = round(mode, 0)
+        settings['health-meter-mode'] = mode
+        self.meterMode_toggleSlider['value']
+        base.meterMode = mode
+        self.meterModesliderText['text'] = mode2name.get(mode)

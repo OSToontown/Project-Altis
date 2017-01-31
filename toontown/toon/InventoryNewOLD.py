@@ -2,8 +2,9 @@ from direct.gui.DirectGui import *
 from panda3d.core import *
 from panda3d.direct import *
 from toontown.toonbase.ToontownBattleGlobals import *
-import InventoryBase
+from toontown.toon import InventoryBase
 from toontown.toonbase import TTLocalizer
+from toontown.battle import BattleGlobals
 from toontown.quest import BlinkingArrows
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -321,7 +322,10 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
         self.detailAmountLabel.configure(text=TTLocalizer.InventoryDetailAmount % {'numItems': self.numItem(track, level),
          'maxItems': self.getMax(track, level)})
         self.detailDataLabel.show()
-        damage = getAvPropDamage(track, level, self.toon.experience.getExp(track))
+        if track == LURE_TRACK:
+            damage = BattleGlobals.NumRoundsLured[level]
+        else:
+            damage = getAvPropDamage(track, level, self.toon.experience.getExp(track))
         organicBonus = self.toon.checkGagBonus(track, level)
         propBonus = self.checkPropBonus(track)
         damageBonusStr = ''

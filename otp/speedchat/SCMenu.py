@@ -4,7 +4,7 @@ from direct.task import Task
 from otp.speedchat.SCConstants import *
 from direct.interval.IntervalGlobal import *
 from otp.speedchat.SCObject import SCObject
-from direct.showbase.PythonUtil import makeTuple
+from toontown.toonbase.ToonPythonUtil import makeTuple
 import types
 
 class SCMenu(SCObject, NodePath):

@@ -9,7 +9,7 @@ from toontown.battle import BattleExperienceAI
 from toontown.toon import NPCToons
 from toontown.pets import PetTricks, DistributedPetProxyAI
 from toontown.hood import ZoneUtil
-from direct.showbase.PythonUtil import lerp
+from toontown.toonbase.ToonPythonUtil import lerp
 
 class BattleCalculatorAI:
     AccuracyBonuses = [0, 20, 40, 60]
@@ -25,13 +25,13 @@ class BattleCalculatorAI:
     KBBONUS_LURED_FLAG = 0
     KBBONUS_TGT_LURED = 1
     notify = DirectNotifyGlobal.directNotify.newCategory('BattleCalculatorAI')
-    toonsAlwaysHit = simbase.config.GetBool('toons-always-hit', 0)
-    toonsAlwaysMiss = simbase.config.GetBool('toons-always-miss', 0)
-    toonsAlways5050 = simbase.config.GetBool('toons-always-5050', 0)
-    suitsAlwaysHit = simbase.config.GetBool('suits-always-hit', 0)
-    suitsAlwaysMiss = simbase.config.GetBool('suits-always-miss', 0)
-    immortalSuits = simbase.config.GetBool('immortal-suits', 0)
-    propAndOrganicBonusStack = simbase.config.GetBool('prop-and-organic-bonus-stack', 0)
+    toonsAlwaysHit = simbase.config.GetBool('toons-always-hit', False)
+    toonsAlwaysMiss = simbase.config.GetBool('toons-always-miss', False)
+    toonsAlways5050 = simbase.config.GetBool('toons-always-5050', False)
+    suitsAlwaysHit = simbase.config.GetBool('suits-always-hit', False)
+    suitsAlwaysMiss = simbase.config.GetBool('suits-always-miss', False)
+    immortalSuits = simbase.config.GetBool('immortal-suits', False)
+    propAndOrganicBonusStack = simbase.config.GetBool('prop-and-organic-bonus-stack', False)
 
     def __init__(self, battle, tutorialFlag = 0):
         self.battle = battle
@@ -61,7 +61,6 @@ class BattleCalculatorAI:
 
     def cleanup(self):
         self.battle = None
-        return
 
     def __calcToonAtkHit(self, attackIndex, atkTargets):
         if len(atkTargets) == 0:
@@ -494,18 +493,31 @@ class BattleCalculatorAI:
                 toon = self.battle.getToon(toonId)
                 if attack[TOON_TRACK_COL] == NPCSOS and lureDidDamage != 1 or attack[TOON_TRACK_COL] == PETSOS:
                     attackDamage = atkHp
+                    if atkTrack == ZAP:
+                        if self.__isWet(targetId) == 1:
+                            if random.randint(0,99) <= InstaKillChance[atkLevel]:
+                                suit = self.battle.findSuit(targetId)
+                                if suit.getHP() > 500:
+                                    attackDamage = 500
+                                else:
+                                    suit.b_setSkeleRevives(0)
+                                    attackDamage = suit.getHP()
+                            else:
+                                attackDamage = atkHp * 2
+                    if atkTrack == THROW:
+                        tgtPos = self.battle.activeSuits.index(targetList[currTarget])
+                        attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
                 elif atkTrack == FIRE:
                     suit = self.battle.findSuit(targetId)
                     if suit:
-                        costToFire = 1 + self.fireDifficulty
+                        costToFire = 1
                         abilityToFire = toon.getPinkSlips()
                         numLeft = abilityToFire - costToFire
                         if numLeft < 0:
                             numLeft = 0
                         toon.b_setPinkSlips(numLeft)
-                        self.fireDifficulty += 1
                         if costToFire > abilityToFire:
-                            simbase.air.writeServerEvent('suspicious', toonId, 'Toon attempting to fire a %s cost cog with %s pinkslips' % (costToFire, abilityToFire))
+                            simbase.air.writeServerEvent('suspicious', avId=toonId, issue='Toon attempting to fire a %s cost cog with %s pinkslips' % (costToFire, abilityToFire))
                             print 'Not enough PinkSlips to fire cog - print a warning here'
                         else:
                             suit.skeleRevives = 0
@@ -774,7 +786,7 @@ class BattleCalculatorAI:
             return
         tgts = self.__createToonTargetList(toonId)
         for currTgt in tgts:
-            tgtPos = self.battle.suits.index(currTgt)
+            tgtPos = self.battle.activeSuits.index(currTgt)
             attackerId = self.toonAtkOrder[attackIndex]
             attack = self.battle.toonAttacks[attackerId]
             track = self.__getActualTrack(attack)
@@ -1068,7 +1080,6 @@ class BattleCalculatorAI:
         self.__processBonuses(hp=0)
         self.__processBonuses(hp=1)
         self.__postProcessToonAttacks()
-        return
 
     def __knockBackAtk(self, attackIndex, toon = 1):
         if toon and (self.battle.toonAttacks[attackIndex][TOON_TRACK_COL] == THROW or self.battle.toonAttacks[attackIndex][TOON_TRACK_COL] == SQUIRT):
@@ -1080,7 +1091,7 @@ class BattleCalculatorAI:
     def __unlureAtk(self, attackIndex, toon = 1):
         attack = self.battle.toonAttacks[attackIndex]
         track = self.__getActualTrack(attack)
-        if toon and (track == THROW or track == SQUIRT or track == SOUND):
+        if toon and (track == THROW or track == SQUIRT or track == SOUND or track == ZAP):
             if self.notify.getDebug():
                 self.notify.debug('attack is an unlure')
             return 1
@@ -1115,7 +1126,6 @@ class BattleCalculatorAI:
             return self.battle.activeToons.index(toonId)
         else:
             return self.__pickRandomToon(suitId)
-        return
 
     def __pickRandomToon(self, suitId):
         liveToons = []
@@ -1200,15 +1210,13 @@ class BattleCalculatorAI:
             return handle.hp + self.toonHPAdjusts[toonDoId]
         else:
             return 0
-        return
-
+            
     def __getToonMaxHp(self, toonDoId):
         handle = self.battle.getToon(toonDoId)
         if handle != None:
             return handle.maxHp
         else:
             return 0
-        return
 
     def __applySuitAttackDamages(self, attackIndex):
         attack = self.battle.suitAttacks[attackIndex]

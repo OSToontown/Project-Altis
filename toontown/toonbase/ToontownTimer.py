@@ -12,4 +12,9 @@ class ToontownTimer(OTPTimer):
             model = loader.loadModel('phase_3.5/models/gui/clock_gui')
             ToontownTimer.ClockImage = model.find('**/alarm_clock')
             model.removeNode()
+        
         return ToontownTimer.ClockImage
+		
+    def posAboveMapButton(self):
+        self.reparentTo(base.a2dBottomRight)
+        self.setPos(-0.173, 0, 0.65)

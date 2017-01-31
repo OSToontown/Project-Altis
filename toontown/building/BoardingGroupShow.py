@@ -17,7 +17,6 @@ class BoardingGroupShow:
         self.toon = toon
         self.avId = self.toon.doId
         self.dustCloudIval = None
-        return
 
     def cleanup(self):
         if localAvatar.doId == self.avId:
@@ -62,7 +61,6 @@ class BoardingGroupShow:
         if self.countdownTask:
             self.countdownTask.callback = None
             taskMgr.remove(self.countdownTask)
-        return
 
     def uniqueName(self, avId):
         uniqueName = 'boardingElevatorTimerTask-' + str(avId)

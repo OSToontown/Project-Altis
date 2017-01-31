@@ -1,5 +1,4 @@
-from toontown.catalog.CatalogSurfaceItem import *
-
+from CatalogSurfaceItem import *
 MTTextureName = 0
 MTColor = 1
 MTBasePrice = 2

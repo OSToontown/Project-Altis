@@ -433,8 +433,8 @@ class CogdoFlyingPlatform:
     def getSpawnPosForPlayer(self, playerNum, parent):
         offset = Globals.Level.PlatformType2SpawnOffset[self._type]
         spawnLoc = self._model.find('**/spawn_loc')
-        x = (playerNum - 2.0) % 2 * offset
-        y = (playerNum - 1.0) % 2 * offset
+        x = (playerNum - 4.0) % 3 * offset
+        y = (playerNum - 4.0) % 3 * offset
         if not spawnLoc.isEmpty():
             spawnPos = spawnLoc.getPos(parent) + Vec3(x, y, 0.0)
         else:

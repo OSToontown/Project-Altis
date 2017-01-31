@@ -72,6 +72,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.trashcan.reparentTo(node)
         self.trashcan.loadAnims({'anim': '%s/%s' % (self.path, anim)})
         self.trashcan.pose('anim', 0)
+        self.trashcan.setBlend(frameBlend = True)
         self.node = self.trashcan
 
     def calcHoodId(self, node):

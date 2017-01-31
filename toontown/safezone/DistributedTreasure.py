@@ -22,7 +22,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         self.zOffset = 0.0
         self.billboard = 0
         self.treasureType = None
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -35,7 +34,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.treasureFlyTrack = None
         DistributedObject.DistributedObject.delete(self)
         self.nodePath.removeNode()
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -67,12 +65,9 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.treasure.getChildren().detach()
         model = loader.loadModel(modelPath)
         model.instanceTo(self.treasure)
-        return
 
     def makeNodePath(self):
         self.nodePath = NodePath(self.uniqueName('treasure'))
-        if self.billboard:
-            self.nodePath.setBillboardPointEye()
         self.nodePath.setScale(0.9 * self.scale)
         self.treasure = self.nodePath.attachNewNode('treasure')
         if self.shadow:
@@ -117,7 +112,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         base.playSfx(self.rejectSound, node=self.nodePath)
         self.treasureFlyTrack = Sequence(LerpColorScaleInterval(self.nodePath, 0.8, colorScale=VBase4(0, 0, 0, 0), startColorScale=VBase4(1, 1, 1, 1), blendType='easeIn'), LerpColorScaleInterval(self.nodePath, 0.2, colorScale=VBase4(1, 1, 1, 1), startColorScale=VBase4(0, 0, 0, 0), blendType='easeOut'), name=self.uniqueName('treasureFlyTrack'))
         self.treasureFlyTrack.start()
-        return
 
     def handleGrab(self, avId):
         self.collNodePath.stash()
@@ -146,14 +140,12 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         else:
             self.treasureFlyTrack = Sequence(track, name=self.uniqueName('treasureFlyTrack'))
         self.treasureFlyTrack.start()
-        return
 
     def handleUnexpectedExit(self):
         self.notify.warning('While getting treasure, ' + str(self.avId) + ' disconnected.')
         if self.treasureFlyTrack:
             self.treasureFlyTrack.finish()
             self.treasureFlyTrack = None
-        return
 
     def getStareAtNodeAndOffset(self):
         return (self.nodePath, Point3())

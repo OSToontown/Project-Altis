@@ -35,7 +35,6 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
         self.timer.destroy()
         self.timer = None
         DistCogdoLevelGame.disable(self)
-        return
 
     def enterLoaded(self):
         DistCogdoLevelGame.enterLoaded(self)
@@ -130,7 +129,6 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
         self._gravityForce = None
         self._gravityForceNode = None
         DistCogdoLevelGame.exitLoaded(self)
-        return
 
     def toCraneMode(self):
         if self.cr:
@@ -169,6 +167,7 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
     def exitGame(self):
         if __dev__:
             self.ignore(self._durationChangedEvent)
+        
         DistCogdoLevelGame.exitGame(self)
         self._physicsTask.remove()
 

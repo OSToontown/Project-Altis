@@ -9,7 +9,7 @@ from toontown.safezone import DistributedGolfKart
 from toontown.building import DistributedElevatorExt
 from toontown.building import ElevatorConstants
 from toontown.distributed import DelayDelete
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.building import BoardingGroupShow
 
 class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):

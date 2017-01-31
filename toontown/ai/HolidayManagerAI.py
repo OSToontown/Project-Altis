@@ -1,5 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal 
 from toontown.toonbase import ToontownGlobals
+from datetime import datetime
+from HolidayGlobals import *
 
 class HolidayManagerAI():
     notify = DirectNotifyGlobal.directNotify.newCategory('HolidayManagerAI')
@@ -7,16 +9,17 @@ class HolidayManagerAI():
     def __init__(self, air):
         self.air = air
         self.currentHolidays = []
-        self.xpMultiplier = 1
+        self.xpMultiplier = 3 # for the rest of alpha if 5x isnt enabled
         self.setup()
+        self.checkForHoliday('checkForHoliday')
 
     def setup(self):
-        holidays = config.GetString('active-holidays','')
+        holidays = config.GetString('active-holidays', '')
         if holidays != '':
             for holiday in holidays.split(","):
                 holiday = int(holiday)
                 self.currentHolidays.append(holiday)
-            simbase.air.newsManager.setHolidayIdList(self.currentHolidays)
+            simbase.air.newsManager.d_setHolidayIdList([self.currentHolidays])
             
         self.notify.debug(str(self.currentHolidays))
         if self.isSillyMeterHolidayRunning():
@@ -29,7 +32,7 @@ class HolidayManagerAI():
 
     def isMoreXpHolidayRunning(self):
         if ToontownGlobals.MORE_XP_HOLIDAY in self.currentHolidays:
-            self.xpMultiplier = 2
+            self.xpMultiplier = 5
             return True
         return False
         
@@ -80,3 +83,47 @@ class HolidayManagerAI():
 
     def getXpMultiplier(self):
         return self.xpMultiplier
+        
+    def addHoliday(self, holidayId):
+        if holidayId not in self.currentHolidays:
+            self.currentHolidays.append(holidayId)
+        simbase.air.newsManager.d_setHolidayIdList([self.currentHolidays])
+        
+    def startHoliday(self, holidayId):
+        if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
+            self.air.newsManager.setMoreXpHolidayStart()
+    
+    def removeHoliday(self, holidayId):
+        if self.holidayId in self.currentHolidays:
+            self.currentHolidays.remove(holidayId)
+        simbase.air.newsManager.d_setHolidayIdList([self.currentHolidays])
+        
+    def endHoliday(self, holidayId):
+        if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
+            self.xpMultiplier = 3 # for the rest of alpha if 5x isnt enabled
+            self.air.newsManager.setMoreXpHolidayEnd()
+
+    def checkForHoliday(self, task):
+        for holiday in YEARLY_HOLIDAYS:
+            holidayId = holiday[0]
+            now = datetime.now()
+            start = datetime(now.year, *holiday[1])
+            end = datetime(now.year, *holiday[2])
+            if start < now < end and holidayId not in self.currentHolidays:
+                self.addHoliday(holidayId)
+                self.startHoliday(holidayId)
+            elif end < now and holidayId in self.currentHolidays:
+                self.removeHoliday(holidayId)
+                self.endHoliday(holidayId)
+        for holiday in ONCELY_HOLIDAYS:
+            holidayId = holiday[0]
+            now = datetime.now()
+            start = datetime(*holiday[1])
+            end = datetime(*holiday[2])
+            if start < now < end and holidayId not in self.currentHolidays:
+                self.addHoliday(holidayId)
+                self.startHoliday(holidayId)
+            elif end < now and holidayId in self.currentHolidays:
+                self.removeHoliday(holidayId)
+                self.endHoliday(holidayId)
+        taskMgr.doMethodLater(4000, self.checkForHoliday, 'holidaycheck')

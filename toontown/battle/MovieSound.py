@@ -89,9 +89,9 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 delayTime = random.random()
                 suitTrack.append(Wait(delayTime + 2.0))
                 suitTrack.append(Func(setPosFromOther, breakEffect, suit, Point3(0, 0.0, suit.getHeight() - 1.0)))
-#                suitTrack.append(Parallel(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit), __getPartTrack(breakEffect, 0.0, 1.0, [breakEffect, suit, 0], softStop=-0.5)))
+                #suitTrack.append(Parallel(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit), __getPartTrack(breakEffect, 0.0, 1.0, [breakEffect, suit, 0], softStop=-0.5))) THIS CRASHES PANDA WITH A BOUNDING SPHERE ERROR
                 suitTrack.append(Sequence(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit)))
-                if totalDamage >= suit.getHP():
+                if died and not suit.getSkelecog():
                     suitTrack.append(headExplodeTrack(suit, battle))
             else:
                 suitTrack.append(showDamage)
@@ -105,7 +105,7 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 suitTrack.append(Func(battle.unlureSuit, suit))
             bonusTrack = None
             if hpbonus > 0:
-                bonusTrack = Sequence(Wait(delay + tSuitReact + delay + 0.75 + uberDelay), Func(suit.showHpText, -hpbonus, 1, openEnded=0))
+                bonusTrack = Sequence(Wait(delay + tSuitReact + delay + 0.75 + uberDelay), Func(suit.showHpText, -hpbonus, 1, openEnded=0), Func(suit.updateHealthBar, hpbonus))
             suitTrack.append(Func(suit.loop, 'neutral'))
             if bonusTrack == None:
                 tracks.append(suitTrack)
@@ -113,6 +113,7 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 tracks.append(Parallel(suitTrack, bonusTrack))
         elif totalDamage <= 0:
             tracks.append(Sequence(Wait(2.9), Func(MovieUtil.indicateMissed, suit, 1.0)))
+            tracks.append(MovieUtil.createSuitTeaseMultiTrack(suit, delay + tSuitReact))
 
     return tracks
 	

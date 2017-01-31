@@ -415,11 +415,6 @@ def createSuitTeaseMultiTrack(suit, delay = 0.01):
     suitTrack = Sequence(Wait(delay), ActorInterval(suit, 'victory', startTime=0.5, endTime=1.9), Func(suit.loop, 'neutral'))
     missedTrack = Sequence(Wait(delay + 0.2), Func(indicateMissed, suit, 0.9))
     return Parallel(suitTrack, missedTrack)
-	
-def createSuitZaplessMultiTrack(suit, delay = 0.01):
-    suitTrack = Sequence(Wait(delay), ActorInterval(suit, 'neutral', startTime=0.5, endTime=1.9), Func(suit.loop, 'neutral'))
-    missedTrack = Sequence(Wait(delay + 0.2), Func(indicateMissed, suit, 0.9))
-    return Parallel(suitTrack, missedTrack)
 
 
 SPRAY_LEN = 1.5
@@ -703,7 +698,8 @@ def createSuitStunInterval(suit, before, after):
 def zapCog(suit, before, after, battle):
     zapSuit = suit.getZapActor()
     zapSuit.setBlend(frameBlend = True)
-    suitPos, suitHpr = battle.getActorPosHpr(suit)
+    suitPos = suit.getPos(battle)
+    suitHpr = suit.getHpr(battle)
     zapSuit.setBin("fixed", 0)
     zapSuit.setDepthTest(False)
     zapSuit.setDepthWrite(False)

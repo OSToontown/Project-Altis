@@ -29,14 +29,11 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
                 if toon:
                     self.view.handleToonJoined(toon, i, lateEntry=True)
 
-        return
-
     def unload(self):
         if hasattr(self, 'view') and self.view is not None:
             self.view.unload()
             del self.view
         DistributedPartyTeamActivity.unload(self)
-        return
 
     def enable(self):
         DistributedPartyTeamActivity.enable(self)

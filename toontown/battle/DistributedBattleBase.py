@@ -310,6 +310,21 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def setBattleCellId(self, battleCellId):
         pass
+    
+    def getInteractiveProp(self):
+        if config.GetBool('want-anim-props', True):
+            if self.interactiveProp:
+                return self.interactiveProp
+            elif base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader'):
+                loader = base.cr.playGame.hood.loader
+
+                if hasattr(loader, 'getInteractiveProp'):
+                    self.interactiveProp = base.cr.playGame.hood.loader.getInteractiveProp(self.zoneId)
+
+                    return self.interactiveProp
+                
+        return None
+ 
 
     def setInteractivePropTrackBonus(self, trackBonus):
         self.interactivePropTrackBonus = trackBonus
@@ -437,7 +452,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if len(oldSuitTraps) != len(self.suitTraps):
             self.needAdjustTownBattle = 1
         else:
-            for i in xrange(len(oldSuitTraps)):
+            for i in range(len(oldSuitTraps)):
                 if oldSuitTraps[i] == '9' and self.suitTraps[i] != '9' or oldSuitTraps[i] != '9' and self.suitTraps[i] == '9':
                     self.needAdjustTownBattle = 1
                     break
@@ -556,7 +571,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         targetIndices = []
         unAttack = 0
         localToonInList = 0
-        for i in xrange(len(ids)):
+        for i in range(len(ids)):
             track = tracks[i]
             level = levels[i]
             toon = self.findToon(ids[i])
@@ -603,7 +618,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     targetIndex = -1
             targetIndices.append(targetIndex)
 
-        for i in xrange(4 - len(ids)):
+        for i in range(4 - len(ids)):
             toonIndices.append(-1)
             tracks.append(-1)
             levels.append(-1)
@@ -674,7 +689,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         suit.battleTrapProp = None
         self.notify.debug('883 suit.battleTrapProp = None')
         suit.battleTrapIsFresh = 0
-        return
 
     def __removeToon(self, toon, unexpected = 0):
         self.notify.debug('__removeToon(%d)' % toon.doId)
@@ -709,7 +723,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             base.cr.playGame.getPlace().setState('walk')
         base.localAvatar.earnedExperience = None
         self.localToonFsm.request('NoLocalToon')
-        return
 
     def removeInactiveLocalToon(self, toon):
         self.notify.debug('removeInactiveLocalToon(%d)' % toon.doId)
@@ -836,7 +849,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
           'shardId': None,
           'avId': -1,
           'battle': 1}])
-        return
 
     def __makeToonJoin(self, toon, pendingToons, ts):
         self.notify.debug('__makeToonJoin(%d)' % toon.doId)
@@ -1179,7 +1191,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             self.movie.finish()
         else:
             self.movie.play(ts, self.__handleMovieDone)
-        return None
 
     def __handleMovieDone(self):
         self.notify.debug('__handleMovieDone()')

@@ -11,7 +11,7 @@ from toontown.pets import PetDNA
 from PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import random
 import types
 Component2IconDict = {'boredom': 'Bored',
@@ -324,6 +324,10 @@ class Pet(Avatar.Avatar):
         self.moodModel = moodModel
         if self.moodModel:
             self.moodModel.show()
+        self.moodModel.setScale(0, 0, 0)
+        Sequence(
+            self.moodModel.scaleInterval(.2, VBase3(1.1, 1.1, 1.1), blendType = 'easeInOut'),
+            self.moodModel.scaleInterval(.09, VBase3(1, 1, 1), blendType = 'easeInOut')).start()
         return
 
     def speakMood(self, mood):

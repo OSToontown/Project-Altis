@@ -62,4 +62,6 @@ class TwoDTreasureMgr(DirectObject):
             model.setColor(0.9, 0.9, 1, 1)
         elif value == 3:
             model.setColor(1, 1, 0.6, 1)
+        elif value == 4:
+            model.setColor(.45, 0.45, .45, 1.0)		
         return model

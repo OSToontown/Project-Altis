@@ -16,7 +16,6 @@ class DistributedGag(DistributedObject.DistributedObject):
         self.shadow = True
         self.dropShadow = None
         self.type = 0
-        return
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)

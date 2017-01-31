@@ -139,6 +139,8 @@ def getSuitBodyType(name):
         return 'c'
     else:
         print 'Unknown body type for suit name: ', name
+    
+    return
 
 
 def getSuitDept(name):
@@ -155,9 +157,8 @@ def getSuitDept(name):
         return suitDepts[4]
     else:
         print 'Unknown dept for suit name: ', name
-        return None
     
-    return None
+    return 
 
 
 def getDeptFullname(dept):

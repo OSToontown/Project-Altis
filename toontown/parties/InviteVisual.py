@@ -2,7 +2,7 @@ from datetime import datetime
 import calendar
 from direct.gui.DirectGui import DirectFrame, DirectLabel
 from toontown.toonbase import TTLocalizer
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.fsm.FSM import FSM
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
@@ -47,7 +47,6 @@ class InviteVisual(DirectFrame):
         self.activityTextLabel = DirectLabel(parent=self, relief=None, text='.\n.\n.\n.', pos=self.gui.find('**/what_locator').getPos(), text_scale=TTLocalizer.IVactivityTextLabel, textMayChange=True)
         self.whenTextLabel = DirectLabel(parent=self, relief=None, text='.\n.\n.', pos=self.gui.find('**/when_locator').getPos(), text_scale=TTLocalizer.IVwhenTextLabel, textMayChange=True)
         self.noFriends = False
-        return None
 
     def setNoFriends(self, noFriends):
         self.noFriends = noFriends

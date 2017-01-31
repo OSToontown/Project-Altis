@@ -1,11 +1,12 @@
-import types
-import sys
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
+import types
+import sys
+
 
 CatalogReverseType = None
 CatalogItemVersion = 8
@@ -39,6 +40,7 @@ class CatalogItem:
             self.decodeDatagram(*args, **kw)
         else:
             self.makeNewItem(*args, **kw)
+        return
 
     def isAward(self):
         result = self.specialEventId != 0
@@ -280,17 +282,17 @@ class CatalogItem:
                 p = 0.0
                 r = 0.0
             elif versionNumber < 5:
-                h = di.getArg(STUint8, 255.0 / 360.0)
-                p = di.getArg(STUint8, 255.0 / 360.0)
-                r = di.getArg(STUint8, 255.0 / 360.0)
+                h = di.getArg(STInt16, 256.0 / 360.0)
+                p = di.getArg(STInt16, 256.0 / 360.0)
+                r = di.getArg(STInt16, 256.0 / 360.0)
                 hpr = oldToNewHpr(VBase3(h, p, r))
                 h = hpr[0]
                 p = hpr[1]
                 r = hpr[2]
             else:
-                h = di.getArg(STUint8, 255.0 / 360.0)
-                p = di.getArg(STUint8, 255.0 / 360.0)
-                r = di.getArg(STUint8, 255.0 / 360.0)
+                h = di.getArg(STInt16, 256.0 / 360.0)
+                p = di.getArg(STInt16, 256.0 / 360.0)
+                r = di.getArg(STInt16, 256.0 / 360.0)
             self.posHpr = (x,
              y,
              z,
@@ -311,15 +313,15 @@ class CatalogItem:
             dg.putArg(self.posHpr[0], STInt16, 10)
             dg.putArg(self.posHpr[1], STInt16, 10)
             dg.putArg(self.posHpr[2], STInt16, 100)
-            dg.putArg(self.posHpr[3] % 360.0, STUint8, 255.0 / 360.0)
-            dg.putArg(self.posHpr[4] % 360.0, STUint8, 255.0 / 360.0)
-            dg.putArg(self.posHpr[5] % 360.0, STUint8, 255.0 / 360.0)
+            dg.putArg(self.posHpr[3], STInt16, 256.0 / 360.0)
+            dg.putArg(self.posHpr[4], STInt16, 256.0 / 360.0)
+            dg.putArg(self.posHpr[5], STInt16, 256.0 / 360.0)
         if store & GiftTag:
             dg.addString(self.giftTag)
         dg.addUint8(self.specialEventId)
 
     def getTypeCode(self):
-        from toontown.catalog import CatalogItemTypes        
+        import CatalogItemTypes
         return CatalogItemTypes.CatalogItemTypes[self.__class__]
 
     def applyColor(self, model, colorDesc):
@@ -400,7 +402,7 @@ class CatalogItem:
 
 
 def encodeCatalogItem(dg, item, store):
-    from toontown.catalog import CatalogItemTypes    
+    import CatalogItemTypes
     flags = item.getTypeCode()
     if item.isSaleItem():
         flags |= CatalogItemTypes.CatalogItemSaleFlag
@@ -418,7 +420,7 @@ def encodeCatalogItem(dg, item, store):
 
 def decodeCatalogItem(di, versionNumber, store):
     global CatalogReverseType
-    from toontown.catalog import CatalogItemTypes    
+    import CatalogItemTypes
     if CatalogReverseType == None:
         CatalogReverseType = {}
         for itemClass, index in CatalogItemTypes.CatalogItemTypes.items():

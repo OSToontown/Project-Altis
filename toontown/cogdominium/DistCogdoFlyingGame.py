@@ -20,7 +20,7 @@ class DistCogdoFlyingGame(DistCogdoGame):
         return TTLocalizer.CogdoFlyingGameTitle
 
     def getInstructions(self):
-        return TTLocalizer.CogdoFlyingGameInstructions
+        return ''
 
     def placeEntranceElev(self, elev):
         self.game.placeEntranceElevator(elev)

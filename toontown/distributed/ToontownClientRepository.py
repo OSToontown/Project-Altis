@@ -14,7 +14,7 @@ from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.task import Task
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-from direct.showbase.PythonUtil import Functor, ScratchPad
+from toontown.toonbase.ToonPythonUtil import Functor, ScratchPad
 from direct.showbase.InputStateGlobal import inputState
 from otp.avatar import Avatar
 from otp.avatar import DistributedAvatar
@@ -41,16 +41,6 @@ from toontown.uberdog import TTSpeedchatRelay
 from toontown.login import DateObject
 from toontown.login import AvatarChooser
 from toontown.makeatoon import MakeAToon
-
-# import global objects, so nuitka will include them into the final build!
-from toontown.uberdog.ClientServicesManager import ClientServicesManager
-from otp.friends.AvatarFriendsManager import AvatarFriendsManager
-from toontown.friends.TTPlayerFriendsManager import TTPlayerFriendsManager
-from toontown.friends.TTAFriendsManager import TTAFriendsManager
-from toontown.uberdog.TTSpeedchatRelay import TTSpeedchatRelay
-from toontown.uberdog.DistributedDeliveryManager import DistributedDeliveryManager
-from toontown.coderedemption.TTCodeRedemptionMgr import TTCodeRedemptionMgr
-
 from toontown.pets import DistributedPet, PetDetail, PetHandle
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
@@ -64,8 +54,6 @@ from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
-
-# Import DMENU
 from toontown.dmenu import DMenuScreen
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
@@ -104,6 +92,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.partyManager = None
         self.inGameNewsMgr = None
         self.whitelistMgr = None
+        self.defaultShard = None
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
         self.sillyMeterMgr = DistributedSillyMeterMgr.DistributedSillyMeterMgr(self)
         self.csm = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
@@ -166,6 +155,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                 except Exception, e:
                                     print e
         self.DMENU_SCREEN = None
+        
     def congratulations(self, avatarChoice):
         self.acceptedScreen = loader.loadModel('phase_3/models/gui/toon_council')
         self.acceptedScreen.setScale(0.667)
@@ -407,9 +397,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
         dclassName = pad.args[0]
         dclass = self.dclassesByName[dclassName]
-        #Because the below doesn't cause the avatar panel issue;
-        #Leave uncommented.
-        pad.avatar.updateAllRequiredFields(dclass, fields)
+        #pad.avatar.updateAllRequiredFields(dclass, fields)
 
         '''This is a much saner way to load avatar details, and is also
         dynamic. This means we aren't restricted in what we pass.
@@ -458,7 +446,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def enterPlayingGame(self, *args, **kArgs):
         OTPClientRepository.OTPClientRepository.enterPlayingGame(self, *args, **kArgs)
-        self.gameFSM.request('waitOnEnterResponses', [None,
+        self.gameFSM.request('waitOnEnterResponses', [self.defaultShard,
          base.localAvatar.defaultZone,
          base.localAvatar.defaultZone,
          -1])
@@ -580,11 +568,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             doId = di2.getUint32()
             if self._doIdIsOnCurrentShard(doId):
                 return
+        
         self.handleMessageType(msgType, di)
 
     def _logFailedDisable(self, doId, ownerView):
         if doId not in self.doId2do and doId in self._deletedSubShardDoIds:
             return
+        
         OTPClientRepository.OTPClientRepository._logFailedDisable(self, doId, ownerView)
 
     def exitCloseShard(self):
@@ -821,7 +811,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             petAvatar.delete()
             if callback:
                 callback()
-            
             if self._proactiveLeakChecks:
                 petAvatar.detectLeaks()
 

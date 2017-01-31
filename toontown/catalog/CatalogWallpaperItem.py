@@ -1,4 +1,4 @@
-from toontown.catalog.CatalogSurfaceItem import *
+from CatalogSurfaceItem import *
 
 WTTextureName = 0
 WTColor = 1

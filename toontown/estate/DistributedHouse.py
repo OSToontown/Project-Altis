@@ -14,7 +14,7 @@ from toontown.toon import Toon
 from direct.showbase import RandomNumGen
 from toontown.toonbase import TTLocalizer
 import random
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.hood import Place
 from toontown.estate import HouseGlobals
 from toontown.building import ToonInteriorColors

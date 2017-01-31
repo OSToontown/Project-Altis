@@ -1,4 +1,4 @@
-from toontown.catalog import CatalogGardenItem
+import CatalogGardenItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
@@ -31,7 +31,6 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
         self.pictureToonStatue.deleteToon()
         self.pictureToonStatue = None
         CatalogGardenItem.CatalogGardenItem.cleanupPicture(self)
-        return
 
     def decodeDatagram(self, di, versionNumber, store):
         CatalogGardenItem.CatalogGardenItem.decodeDatagram(self, di, versionNumber, store)

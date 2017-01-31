@@ -11,8 +11,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.suit import Suit, SuitDNA
 from toontown.toon import Toon, ToonHead, ToonDNA
 from DistributedCogdoInterior import *
-from CogdoUtil import CogdoGameMovie
-import CogdoBarrelRoomConsts, CogdoUtil
+from toontown.cogdominium.CogdoUtil import CogdoGameMovie
+from toontown.cogdominium import CogdoBarrelRoomConsts, CogdoUtil
 
 class CogdoBarrelRoomIntro(CogdoGameMovie):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogdoElevatorMovie')
@@ -22,7 +22,6 @@ class CogdoBarrelRoomIntro(CogdoGameMovie):
         self._toonDialogueSfx = None
         self.toonHead = None
         self.frame = None
-        return
 
     def displayLine(self, text):
         self.notify.debug('displayLine')
@@ -85,18 +84,15 @@ class CogdoBarrelRoomIntro(CogdoGameMovie):
 
         def start():
             self.frame.show()
-            base.setCellsAvailable(base.bottomCells + base.leftCells + base.rightCells, 0)
 
         def end():
             self._dialogueLabel.reparentTo(hidden)
             self.toonHead.reparentTo(hidden)
             self.frame.hide()
-            base.setCellsAvailable(base.bottomCells + base.leftCells + base.rightCells, 1)
             self._stopUpdateTask()
 
         self._ival = Sequence(Func(start), Func(self.displayLine, dialogue), Wait(CogdoBarrelRoomConsts.BarrelRoomIntroTimeout), Func(end))
         self._startUpdateTask()
-        return
 
     def _updateTask(self, task):
         dt = globalClock.getDt()

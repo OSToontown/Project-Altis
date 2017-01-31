@@ -24,12 +24,19 @@ class ToontownAccess:
 
         self.sendUpdate('setModuleInfo', [newModules])
         return task.again
+        
 
     def getModuleList(self):
-        # TODO: This funciton is supposed to return a list of all modules that
-        # have been linked into the process at runtime. It is only needed for
-        # hack detect.
-        return []
+        try:
+            from otp.launcher import procapi
+            moduleString = procapi.getProcessList()
+        except:
+            moduleString = ''
+        moduleList = []
+        if moduleString:
+            moduleList = moduleString.split(',')
+        
+        return moduleList
 
     def sendUpdate(self, fieldName, args = [], sendToId = None):
         if base.cr and hasattr(base, 'localAvatar'):

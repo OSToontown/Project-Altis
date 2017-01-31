@@ -7,7 +7,7 @@ class Nametag:
     TEXT_WORD_WRAP = 6
     TEXT_Y_OFFSET = -0.05
 
-    CHAT_TEXT_WORD_WRAP = 8
+    CHAT_TEXT_WORD_WRAP = 10
 
     PANEL_X_PADDING = 0.2
     PANEL_Z_PADDING = 0.2

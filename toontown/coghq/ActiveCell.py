@@ -27,7 +27,6 @@ class ActiveCell(BasicEntities.DistributedNodePathEntity):
                 model.setColorScale(1, 0, 0, 0.5)
                 model.copyTo(self)
                 self.setPos(pos)
-        return
 
     def setState(self, state, objId):
         self.state = state

@@ -73,7 +73,6 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
         del self.friends
         del self.NPCFriends
         DirectFrame.destroy(self)
-        return 
 
     def makeFriendButton(self, friendPair):
         friendId, flags = friendPair

@@ -15,6 +15,15 @@ class QuestManagerAI:
 
     def __init__(self, air):
         self.air = air
+		
+    def __toonQuestsList2Quests(self, quests):
+        return [Quests.getQuest(x[0]) for x in quests]
+		
+    def __incrementQuestProgress(self, quest):
+        """
+        Increment the supplied quest's progress by 1.
+        """
+        quest[4] += 1
 
     def requestInteract(self, avId, npc):
         # Get the avatar.
@@ -56,7 +65,8 @@ class QuestManagerAI:
                 # Check if it's the required NPC.
                 if npc.npcId == toNpcId:
                     track, level = questClass.getGagType()
-                    av.inventory.setItem(track, level, av.inventory.numItem(track, level) - questClass.getNumGags())
+                    av.inventory.setItem(track, level, av.inventory.numItem(track, level) - 
+questClass.getNumGags())
                     av.b_setInventory(av.inventory.makeNetString())
 
             # If they've completed a quest.
@@ -195,6 +205,7 @@ class QuestManagerAI:
                    continue
                 else:
                     av.b_setToonExp(av.getToonExp() + questExp)
+                
                 break
 
     def giveReward(self, av, questId, rewardId):
@@ -356,59 +367,47 @@ class QuestManagerAI:
                     av.removeQuest(questDesc[QuestIdIndex])
                     break
 
-    def recoverItems(self, av, suitsKilled, taskZoneId):
-        # Get the avatars current quests.
-        avQuests = av.getQuests()
-        questList = []
-        recoveredItems = []
-        unrecoveredItems = []
-        taskZoneId = ZoneUtil.getBranchZone(taskZoneId)
+    def recoverItems(self, toon, suitsKilled, zoneId):
+        """
+        Called in battleExperience to alert the quest system that a toon should
+        test for recovered items.
 
-        # Iterate through the avatars current quests.
-        for i in xrange(0, len(avQuests), 5):
-            questDesc = avQuests[i : i + 5]
-            questClass = Quests.getQuest(questDesc[QuestIdIndex])
-
-            # Check if the Quest isnt already complete
-            if questClass.getCompletionStatus(av, questDesc) == Quests.INCOMPLETE:
-
-                # Check if we are dealing with a RecoverItemQuest
-                if isinstance(questClass, Quests.RecoverItemQuest):
-
-                    # Iterate through all the Cogs that were killed in the battle
-                    for suit in suitsKilled:
-
-                        # Because the RecoveItemQuest class doesn't have a
-                        # function to see if a Cog counts. We need to manually
-                        # check if the Cog is valid for the Quest
-                        if (questClass.getHolder() == Quests.Any) or \
-                            (questClass.getHolderType() == 'type' and \
-                            questClass.getHolder() == suit['type']) or \
-                            (questClass.getHolderType() == 'track' and \
-                            questClass.getHolder() == suit['track']) or \
-                            (questClass.getHolderType() == 'level' and \
-                            questClass.getHolder() <= suit['level']):
-
-                            # It looks like the Cog was valid. Lets see if they
-                            # found what they were looking for.
-                            baseChance = questClass.getPercentChance()
-                            amountRemaining = questClass.getNumItems() - questDesc[QuestProgressIndex]
-                            chance = Quests.calcRecoverChance(amountRemaining, baseChance)
-
-                            # They found it! Give them their reward!
-                            if chance >= baseChance:
-                                questDesc[QuestProgressIndex] += 1
-                                recoveredItems.append(questClass.getItem())
-
-                            # Better luck next time :(
-                            else:
-                                unrecoveredItems.append(questClass.getItem())
-
-            questList.append(questDesc)
-
-        av.b_setQuests(questList)
-
-        return (recoveredItems, unrecoveredItems)
+        Returns a tuple of two lists:
+            Index 0: a list of recovered items.
+            Index 1: a list of unrecovered items.
+        """
+        recovered, notRecovered = ([] for i in xrange(2))
+        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
+            if isinstance(quest, Quests.RecoverItemQuest):
+                isComplete = quest.getCompletionStatus(toon, toon.quests[index])
+                if isComplete == Quests.COMPLETE:
+                    # This quest is complete, skip.
+                    continue
+                # It's a quest where we need to recover an item!
+                if quest.isLocationMatch(zoneId):
+                    # We're in the correct area to recover the item, woo!
+                    if quest.getHolder() == Quests.Any or quest.getHolderType() in ['type', 'track', 'level']:
+                        for suit in suitsKilled:
+                            if quest.getCompletionStatus(toon, toon.quests[index]) == Quests.COMPLETE:
+                                # Test if the task has already been completed.
+                                # If it has, we don't need to iterate through the cogs anymore.
+                                break
+                            # Here comes the long IF statement...
+                            if (quest.getHolder() == Quests.Any) \
+                            or (quest.getHolderType() == 'type' and quest.getHolder() == suit['type']) \
+                            or (quest.getHolderType() == 'track' and quest.getHolder() == suit['track']) \
+                            or (quest.getHolderType() == 'level' and quest.getHolder() <= suit['level']):
+                                progress = toon.quests[index][4] & pow(2, 16) - 1 # This seems to be the Disne
+                                completion = quest.testRecover(progress)
+                                if completion[0]:
+                                    # We win! We got the item from the cogs. :)
+                                    recovered.append(quest.getItem())
+                                    self.__incrementQuestProgress(toon.quests[index])
+                                else:
+                                    # Tough luck, maybe next time.
+                                    notRecovered.append(quest.getItem())
+        toon.d_setQuests(toon.getQuests())
+        return (recovered, notRecovered)
 
     def toonKilledBuilding(self, av, type, difficulty, floors, zoneId, activeToons):
         # Get the avatars current quests.
@@ -427,11 +426,14 @@ class QuestManagerAI:
                             if questClass.doesBuildingCount(av, activeToons):
                                 if floors >= questClass.getNumFloors():
                                     questDesc[QuestProgressIndex] += 1
+            
             questList.append(questDesc)
 
         av.b_setQuests(questList)
 		
-    def toonKilledCogdo(self, av, track, difficulty, zoneId, activeToons):
+    def toonKilledCogdo(self, av, type, difficulty, zoneId, activeToons):
+        self.notify.debug("toonKilledCogdo(%s, '%s', %s, %d, %s)" % (str(av), type, str(difficulty), 
+zoneId, str(activeToons)))
         # Get the avatars current quests.
         avQuests = av.getQuests()
         questList = []
@@ -497,7 +499,7 @@ class QuestManagerAI:
 
         av.b_setQuests(questList)
 		
-    def toonDefeatedCountryClub(self, toon, countryClubId, activeToonVictors):
+    def toonDefeatedCountryClub(self, av, clubId, activeVictors):
         # Get the avatars current quests.
         avQuests = av.getQuests()
         questList = []
@@ -529,7 +531,7 @@ class QuestManagerAI:
 
                 # Check if the cog counts...
                 for suit in suitsKilled:
-                    if questClass.doesCogCount(av.doId, suit, zoneId, activeToonDoIds):
+                    if questClass.doesCogCount(av.doId, suit, zoneId, activeToonList):
 
                         # Looks like the cog counts!
                         if questClass.getCompletionStatus(av, questDesc) != Quests.COMPLETE:
@@ -544,7 +546,7 @@ class QuestManagerAI:
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def quests(command, arg0=0, arg1=0):
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     currQuests = invoker.getQuests()
     currentQuestIds = []
 

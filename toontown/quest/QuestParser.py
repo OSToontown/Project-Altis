@@ -3,7 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.showbase import AppRunnerGlobal
 from direct.showbase import DirectObject
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 import os
 from pandac.PandaModules import *
 import re
@@ -11,6 +11,8 @@ import sys
 import token
 import tokenize
 from toontown.quest import BlinkingArrows
+from StringIO import StringIO
+
 from otp.speedchat import SpeedChatGlobals
 from toontown.ai import DistributedBlackCatMgr
 from toontown.char import Char
@@ -21,12 +23,15 @@ from toontown.suit import SuitDNA
 from toontown.toon import ToonHeadFrame
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
+from toontown.questscripts import TTQUESTS
+
 
 notify = DirectNotifyGlobal.directNotify.newCategory('QuestParser')
 lineDict = {}
 globalVarDict = {}
 curId = None
 FLOAT = re.compile(r'[+-]?\d+[.]\d*([e][+-]\d+)?')
+
 
 def init():
     globalVarDict.update({'render': render,
@@ -46,31 +51,38 @@ def init():
      'chatScButton': base.localAvatar.chatMgr.scButton,
      'arrows': BlinkingArrows.BlinkingArrows()})
 
+
 def clear():
     globalVarDict.clear()
 
-def readFile(filename):
-    global curId
-    scriptFile = StreamReader(vfs.openReadFile(filename, 1), 1)
-    def readline():
-        return scriptFile.readline().replace('\r', '')
 
-    gen = tokenize.generate_tokens(readline)
+def readFile():
+    global curId
+
+    script = StringIO(TTQUESTS.SCRIPT)
+
+    def readLine():
+        return script.readline().replace('\r', '')
+
+    gen = tokenize.generate_tokens(readLine)
     line = getLineOfTokens(gen)
+
     while line is not None:
+
         if line == []:
             line = getLineOfTokens(gen)
             continue
+
         if line[0] == 'ID':
             parseId(line)
         elif curId is None:
             notify.error('Every script must begin with an ID')
         else:
             lineDict[curId].append(line)
+
         line = getLineOfTokens(gen)
 
-    return
-
+    script.close()
 
 def getLineOfTokens(gen):
     tokens = []
@@ -90,10 +102,7 @@ def getLineOfTokens(gen):
             if re.match(FLOAT, token[1]):
                 number = float(token[1])
             else:
-                try:
-                    number = int(token[1])
-                except ValueError:
-                    number = float(token[1])
+                number = int(token[1])
             if nextNeg:
                 tokens.append(-number)
                 nextNeg = 0
@@ -409,6 +418,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
                     iList.append(self.parseLerpPos(line))
                 elif command == 'LERP_HPR':
                     iList.append(self.parseLerpHpr(line))
+                elif command == 'LERP_POSHPR':
+                    iList.append(self.parseLerpPosHpr(line))
                 elif command == 'LERP_SCALE':
                     iList.append(self.parseLerpScale(line))
                 elif command == 'LERP_POSHPRSCALE':
@@ -490,7 +501,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
     def parseLoadSfx(self, line):
         token, varName, fileName = line
-        sfx = base.loader.loadSfx(fileName)
+        sfx = base.loadSfx(fileName)
         self.setVar(varName, sfx)
 
     def parseLoadDialogue(self, line):
@@ -498,7 +509,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         if varName == 'tomDialogue_01':
             notify.debug('VarName tomDialogue getting added. Tutorial Ack: %d' % base.localAvatar.tutorialAck)
         if base.config.GetString('language', 'english') == 'japanese':
-            dialogue = base.loader.loadSfx(fileName)
+            dialogue = base.loadSfx(fileName)
         else:
             dialogue = None
         self.setVar(varName, dialogue)
@@ -512,7 +523,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             classicChar = 'minnie'
         filename = filenameTemplate % classicChar
         if base.config.GetString('language', 'english') == 'japanese':
-            dialogue = base.loader.loadSfx(filename)
+            dialogue = base.loadSfx(filename)
         else:
             dialogue = None
         self.setVar(varName, dialogue)
@@ -815,6 +826,11 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         node = self.getVar(nodeName)
         return Sequence(LerpScaleInterval(node, t, VBase3(x, y, z), blendType='easeInOut'), duration=0.0)
 
+    def parseLerpPosHpr(self, line):
+        token, nodeName, x, y, z, h, p, r, t = line
+        node = self.getVar(nodeName)
+        return Sequence(LerpPosHprInterval(node, t, VBase3(x, y, z), VBase3(h, p, r), blendType='easeInOut'), duration=0.0)
+
     def parseLerpPosHprScale(self, line):
         token, nodeName, x, y, z, h, p, r, sx, sy, sz, t = line
         node = self.getVar(nodeName)
@@ -897,7 +913,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
     def parseAddInventory(self, line):
         token, track, level, number = line
         inventory = self.getVar('inventory')
-        countSound = base.loader.loadSfx('phase_3.5/audio/sfx/tick_counter.ogg')
+        countSound = base.loadSfx('phase_3.5/audio/sfx/tick_counter.ogg')
         return Sequence(Func(base.playSfx, countSound), Func(inventory.buttonBoing, track, level), Func(inventory.addItems, track, level, number), Func(inventory.updateGUI, track, level))
 
     def parseSetInventory(self, line):
@@ -1084,13 +1100,4 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             return Wait(0.0)
 
-
-searchPath = DSearchPath()
-if __debug__:
-    searchPath.appendDirectory(Filename('../resources/phase_3/etc'))
-searchPath.appendDirectory(Filename('/phase_3/etc'))
-scriptFile = Filename('QuestScripts.txt')
-found = vfs.resolveFilename(scriptFile, searchPath)
-if not found:
-    notify.error('Could not find QuestScripts.txt file')
-readFile(scriptFile)
+readFile()

@@ -6,7 +6,7 @@ from direct.fsm.FSM import FSM
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
 from direct.showbase import DirectObject
-from direct.showbase import PythonUtil
+from toontown.toonbase import ToonPythonUtil as PythonUtil
 from pandac.PandaModules import *
 from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4
 from otp.otpbase import OTPGlobals
@@ -673,7 +673,7 @@ class PartyPlanner(DirectFrame, FSM):
         return invitees
 
     def processAddPartyResponse(self, hostId, errorCode):
-        PartyPlanner.notify.debug('processAddPartyResponse : hostId=%d errorCode=%s' % (hostId, PartyGlobals.AddPartyErrorCode.getString(errorCode)))
+        self.notify.debug('processAddPartyResponse : hostId=%d errorCode=%s' % (hostId, PartyGlobals.AddPartyErrorCode.getString(errorCode)))
         goingBackAllowed = False
         if errorCode == PartyGlobals.AddPartyErrorCode.AllOk:
             goingBackAllowed = False
@@ -697,7 +697,7 @@ class PartyPlanner(DirectFrame, FSM):
         self.request('Farewell', goingBackAllowed)
 
     def __acceptExit(self):
-        PartyPlanner.notify.debug('__acceptExit')
+        self.notify.debug('__acceptExit')
         if hasattr(self, 'frame'):
             self.hide()
             messenger.send(self.doneEvent)
@@ -706,12 +706,10 @@ class PartyPlanner(DirectFrame, FSM):
         messenger.send('wakeup')
         if self.state == 'PartyEditor' and self.okWithGroundsGui.doneStatus != 'ok':
             self.okWithGroundsGui.show()
-            return
         if self.state == 'PartyEditor' and self.noFriends:
             self.request('Date')
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
-            return
         if self.state == 'Guests':
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
@@ -721,7 +719,6 @@ class PartyPlanner(DirectFrame, FSM):
                 self.acceptOnce(self.okChooseFutureTimeEvent, self.okChooseFutureTime)
                 self.chooseFutureTimeDialog = TTDialog.TTGlobalDialog(dialogName=self.uniqueName('chooseFutureTimeDialog'), doneEvent=self.okChooseFutureTimeEvent, message=TTLocalizer.PartyPlannerChooseFutureTime, style=TTDialog.Acknowledge)
                 self.chooseFutureTimeDialog.show()
-                return
         
         self.requestNext()
 
@@ -736,11 +733,9 @@ class PartyPlanner(DirectFrame, FSM):
         messenger.send('wakeup')
         if self.state == 'Date' and self.noFriends:
             self.request('PartyEditor')
-            return
         
         if self.state == 'Invitation' and self.selectedCalendarGuiDay is None:
             self.request('Guests')
-            return
         
         self.requestPrev()
 

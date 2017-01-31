@@ -68,6 +68,7 @@ class PetshopGUI(DirectObject):
             self.petModel.fitAndCenterHead(0.435, forGui=1)
             self.petModel.reparentTo(self.petView)
             self.petModel.setH(225)
+            self.petModel.setScale(0.125)
             self.petModel.enterNeutralHappy()
             self.ng = PetNameGenerator.PetNameGenerator()
             if gender == 1:
@@ -227,6 +228,7 @@ class PetshopGUI(DirectObject):
             self.petModel.fitAndCenterHead(0.395, forGui=1)
             self.petModel.reparentTo(self.petView)
             self.petModel.setH(130)
+            self.petModel.setScale(0.125)
             self.petModel.enterNeutralHappy()
             self.moneyDisplay = DirectLabel(parent=self, relief=None, text=str(base.localAvatar.getTotalMoney()), text_scale=0.075, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.225, 0.33), text_font=ToontownGlobals.getSignFont())
             self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
@@ -275,6 +277,7 @@ class PetshopGUI(DirectObject):
                 self.petModel.fitAndCenterHead(0.395, forGui=1)
                 self.petModel.reparentTo(self.petView)
                 self.petModel.setH(130)
+                self.petModel.setScale(0.125)
                 self.petModel.enterNeutralSad()
                 model.removeNode()
                 self.initialized = True
@@ -383,6 +386,7 @@ class PetshopGUI(DirectObject):
             self.petModel.fitAndCenterHead(0.57, forGui=1)
             self.petModel.reparentTo(self.petView)
             self.petModel.setH(130)
+            self.petModel.setScale(0.125)
             self.petModel.enterNeutralHappy()
             self.descLabel = DirectLabel(parent=self, pos=(-0.4, 0, 0.72), relief=None, scale=0.05, text=self.petDesc[self.curPet], text_align=TextNode.ALeft, text_wordwrap=TTLocalizer.PGUIwordwrap, text_scale=TTLocalizer.PGUIdescLabel)
             if self.petCost[self.curPet] > base.localAvatar.getTotalMoney():

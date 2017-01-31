@@ -17,6 +17,35 @@ from otp.ai.MagicWordGlobal import *
 from toontown.shtiker import ShtikerPage
 from direct.interval.IntervalGlobal import *
 POP_COLORS = (Vec4(0.4, 0.4, 1.0, 1.0), Vec4(0.4, 1.0, 0.4, 1.0), Vec4(1.0, 0.4, 0.4, 1.0))
+def setupInvasionMarker(node, invasionStatus):
+    if node.find('**/*invasion-marker'):
+        return
+
+    markerNode = node.attachNewNode('invasion-marker')
+
+    icons = loader.loadModel('phase_3/models/gui/cog_icons')
+
+    if invasionStatus == 1:
+        icon = icons.find('**/CorpIcon').copyTo(markerNode)
+    elif invasionStatus == 2:
+        icon = icons.find('**/LegalIcon').copyTo(markerNode)
+    elif invasionStatus == 3:
+        icon = icons.find('**/MoneyIcon').copyTo(markerNode)
+    elif invasionStatus == 4:
+        icon = icons.find('**/SalesIcon').copyTo(markerNode)
+    else:
+        icon = icons.find('**/BoardIcon').copyTo(markerNode)
+
+    icons.removeNode()
+
+    icon.setPos(0.44, 0, 0.015)
+    icon.setScale(0.053)
+
+def removeInvasionMarker(node):
+    markerNode = node.find('**/*invasion-marker')
+
+    if not markerNode.isEmpty():
+        markerNode.removeNode()
 
 class ShardPicker(ShtikerPage.ShtikerPage):
     notify = DirectNotifyGlobal.directNotify.newCategory('ShardPicker')
@@ -101,7 +130,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         taskMgr.doMethodLater(self.ShardInfoUpdateInterval, self.askForShardInfoUpdate, 'ShardPageUpdateTask-doLater')
         return Task.done
 
-    def makeShardButton(self, shardId, shardName, shardPop, shardHour):
+    def makeShardButton(self, shardId, shardName, shardPop):
         shardButtonParent = DirectFrame()
         shardButtonL = DirectButton(parent=shardButtonParent, relief=None, text=shardName, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, text_style=3, command=self.getPopChoiceHandler(shardPop), extraArgs=[shardId])
         if self.showPop:
@@ -109,16 +138,17 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             if shardPop == None:
                 popText = ''
             shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.5, 0, 0), text_style=3, command=self.choseShard, extraArgs=[shardId])
-            shardButtonHour = DirectButton(parent=shardButtonParent, relief=None, text="", text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.25, 0, 0), command=self.choseShard, extraArgs=[shardId])
         else:
             model = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
             button = model.find('**/minnieCircle')
             shardButtonR = DirectButton(parent=shardButtonParent, relief=None, image=button, image_scale=(0.3, 1, 0.3), image2_scale=(0.35, 1, 0.35), image_color=self.getPopColor(shardPop), pos=(0.6, 0, 0.0125), text=self.getPopText(shardPop), text_scale=0.06, text_align=TextNode.ACenter, text_pos=(-0.0125, -0.0125), text_fg=Vec4(0, 0, 0, 0), text1_fg=Vec4(0, 0, 0, 0), text2_fg=Vec4(0, 0, 0, 1), text3_fg=Vec4(0, 0, 0, 0), command=self.getPopChoiceHandler(shardPop), extraArgs=[shardId])
-            shardButtonHour = DirectButton(parent=shardButtonParent, relief=None, text="", text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.25, 0, 0), command=self.choseShard, extraArgs=[shardId])
 
             del model
             del button
-        return (shardButtonParent, shardButtonR, shardButtonL, shardButtonHour)
+            
+        invasionMarker = NodePath('InvasionMarker-%s' % shardId)
+        invasionMarker.reparentTo(shardButtonParent)
+        return (shardButtonParent, shardButtonR, shardButtonL, invasionMarker)
 
     def getPopColor(self, pop):
         if config.GetBool('want-lerping-pop-colors', True):
@@ -204,7 +234,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         currentMap = {}
         self.shardButtons = []
         for i in range(len(curShardTuples)):
-            shardId, name, pop, WVPop, hour = curShardTuples[i]
+            shardId, name, pop, WVPop, invasionStatus = curShardTuples[i]
             if shardId == currentShardId:
                 shardName = name
             
@@ -213,7 +243,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             currentMap[shardId] = 1
             buttonTuple = self.shardButtonMap.get(shardId)
             if buttonTuple == None or self.adminForceReload:
-                buttonTuple = self.makeShardButton(shardId, name, pop, hour)
+                buttonTuple = self.makeShardButton(shardId, name, pop)
                 self.shardButtonMap[shardId] = buttonTuple
                 anyChanges = 1
             elif self.showPop:
@@ -224,16 +254,18 @@ class ShardPicker(ShtikerPage.ShtikerPage):
                     buttonTuple[1]['text'] = self.getPopText(pop)
                     buttonTuple[1]['command'] = self.getPopChoiceHandler(pop)
                     buttonTuple[2]['command'] = self.getPopChoiceHandler(pop)
-                    buttonTuple[3]['command'] = self.getPopChoiceHandler(pop)
             self.shardButtons.append(buttonTuple[0])
             if shardId == currentShardId:
                 buttonTuple[1]['state'] = DGG.DISABLED
                 buttonTuple[2]['state'] = DGG.DISABLED
-                buttonTuple[3]['state'] = DGG.DISABLED
             else:
                 buttonTuple[1]['state'] = DGG.NORMAL
                 buttonTuple[2]['state'] = DGG.NORMAL
-                buttonTuple[3]['state'] = DGG.NORMAL
+                
+            if invasionStatus:
+                setupInvasionMarker(buttonTuple[3], invasionStatus)
+            else:
+                removeInvasionMarker(buttonTuple[3])
 
         for shardId, buttonTuple in self.shardButtonMap.items():
             if shardId not in currentMap:

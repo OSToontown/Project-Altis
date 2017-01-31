@@ -28,7 +28,6 @@ class CyclePlacer(DirectObject.DirectObject):
     def destroy(self):
         self.locations = None
         self.ignoreAll()
-        return
 
     def gotoNextLocation(self):
         self.index = (self.index + 1) % len(self.locations)
@@ -41,7 +40,6 @@ class CyclePlacer(DirectObject.DirectObject):
         base.localAvatar.reparentTo(render)
         base.localAvatar.setPos(*pos)
         base.localAvatar.setH(h)
-        return
 
 
 class ToonLifter(DirectObject.DirectObject):

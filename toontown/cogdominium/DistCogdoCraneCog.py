@@ -24,9 +24,9 @@ class DistCogdoCraneCog(Suit, DistributedObject):
     def _startMoveIval(self, entranceId, startT):
         self._stopMoveIval()
         unitVecs = (PM.Vec3(1, 0, 0),
-         PM.Vec3(0, 1, 0),
-         PM.Vec3(-1, 0, 0),
-         PM.Vec3(0, -1, 0))
+            PM.Vec3(0, 1, 0),
+            PM.Vec3(-1, 0, 0),
+            PM.Vec3(0, -1, 0))
         machineDistance = 4
         entranceDistance = 60
         startPos = unitVecs[entranceId] * entranceDistance

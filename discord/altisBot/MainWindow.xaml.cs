@@ -41,12 +41,14 @@ namespace discordCSBOT
             InitializeComponent();
             msgTab1.Visibility = Visibility.Visible;
             startBot();
+            
         }
 
         public async void startBot()
         {
             _bot = new DiscordClient();
             await _bot.Connect("MjY3MDE4ODkzNzMyNzQxMTIw.C1GIdw.W46npMbaOd3k-vyaClwym_QI39Q", TokenType.Bot);
+            List<string> blacklist = File.ReadAllLines(@"blacklist.txt").ToList();
             // Setup Commands
             _bot.UsingCommands(cmd =>
             {
@@ -86,6 +88,21 @@ namespace discordCSBOT
             _bot.UserJoined += (s, e) =>
             {
                 SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"joined the server", "#42f46b");
+                foreach (var word in blacklist)
+                {
+                    try
+                    {
+                        if (e.User.Name.Contains(word))
+                        {
+                            e.Server.Ban(e.User);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                
             };
 
             _bot.UserLeft += (s, e) =>
@@ -96,6 +113,11 @@ namespace discordCSBOT
             _bot.UserBanned += (s, e) =>
             {
                 SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was banned from the server", "#ff0000");
+            };
+
+            _bot.UserUnbanned += (s, e) =>
+            {
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"was unbanned from the server", "#c25725");
             };
         }
 
@@ -231,5 +253,7 @@ namespace discordCSBOT
             User banuser = _bot.GetServer(261646233913917443).GetUser(268168864401981441);
             _bot.GetServer(261646233913917443).Ban(banuser);
         }
+
+        
     }
 }

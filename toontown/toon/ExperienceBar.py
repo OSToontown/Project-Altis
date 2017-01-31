@@ -36,18 +36,21 @@ class ExperienceBar(DirectFrame):
     def load(self):
         if self.isToon:
             self.barGeom = loader.loadModel('phase_3.5/models/gui/exp_bar')
-            if self.level == ToontownGlobals.MaxToonLevel:
-                return
-            
             self.color = self.style.getHeadColor()
             self.bgBar = DirectFrame(parent = base.a2dBottomLeft, relief=None, geom=self.barGeom, pos=(.6, 0, .3), geom_scale=(0.3,0.25,0.1), geom_color=self.color)
             self.expBar = DirectWaitBar(parent=self.bgBar, guiId='expBar', pos=(0.0, 0, 0), relief=DGG.SUNKEN, frameSize=(-2.0, 2.0, -0.1, 0.1), borderWidth=(0.01, 0.01), scale=0.25, range=self.maxExp, sortOrder=50, frameColor=(0.5, 0.5, 0.5, 0.5), barColor=(0.0, 1.0, 0.0, 0.5), text=str(self.exp)+'/'+str(self.maxExp), text_scale=0.2, text_fg=(1, 1, 1, 1), text_align=TextNode.ACenter, text_pos=(0, -0.05))
             self.expBar['value'] = self.exp
+            if self.level == ToontownGlobals.MaxToonLevel:
+                self.expBar['range'] = 1
+                self.expBar['value'] = 1
+                self.expBar['text'] = 'MAX'
             self.levelLabel = OnscreenText(parent = self.bgBar, text = TTLocalizer.ExpBarLevel + str(self.level+1), pos = (0.0, 0.05), scale = 0.05, font=ToontownGlobals.getBuildingNametagFont(), fg = (1, 1, 1, 1))
             self.levelLabel.hide()
             gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
             arrowImage = (gui.find('**/tt_t_gui_mat_shuffleArrowUp'), gui.find('**/tt_t_gui_mat_shuffleArrowDown'), gui.find('**/tt_t_gui_mat_shuffleArrowUp'), gui.find('**/tt_t_gui_mat_shuffleArrowDisabled'))
             self.visToggle = DirectButton(parent = self.bgBar, relief=None, geom=arrowImage, hpr=(0, 0, 0), pos=(.53, 0, 0), scale=(0.4,0.4,0.4), command=self.toggleVis)
+            if not settings.get('experienceBarMode'):
+                self.hide()
 
     def destroy(self):
         if self.av:
@@ -148,6 +151,7 @@ class ExperienceBar(DirectFrame):
         
         self.visToggle.setHpr(0, 0, 180)
         self.__obscured = 1
+        settings['experienceBarMode'] = False
         
     def show(self):
         if self.bgBar:
@@ -158,3 +162,4 @@ class ExperienceBar(DirectFrame):
         
         self.visToggle.setHpr(0, 0, 0)
         self.__obscured = 0
+        settings['experienceBarMode'] = True

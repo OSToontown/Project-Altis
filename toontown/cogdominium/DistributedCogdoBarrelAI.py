@@ -32,4 +32,5 @@ class DistributedCogdoBarrelAI(DistributedObjectAI):
         av = self.air.doId2do.get(avId)
         if not av:
             return
+        
         av.toonUp(self.brLaff)

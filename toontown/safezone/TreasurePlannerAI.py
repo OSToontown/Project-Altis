@@ -21,7 +21,6 @@ class TreasurePlannerAI(DirectObject.DirectObject):
         self.lastRequestId = None
         self.requestStartTime = None
         self.requestCount = None
-        return
 
     def initSpawnPoints(self):
         self.spawnPoints = []
@@ -61,8 +60,6 @@ class TreasurePlannerAI(DirectObject.DirectObject):
             elif treasureId == treasure.getDoId():
                 return counter
             counter += 1
-
-        return
 
     def placeAllTreasures(self):
         index = 0
@@ -114,7 +111,6 @@ class TreasurePlannerAI(DirectObject.DirectObject):
                     self.deleteTreasureSoon(treasure)
                 else:
                     treasure.d_setReject()
-        return
 
     def deleteTreasureSoon(self, treasure):
         taskName = treasure.uniqueName('deletingTreasure')
@@ -137,8 +133,6 @@ class TreasurePlannerAI(DirectObject.DirectObject):
         self.treasures = []
         for spawnPoint in self.spawnPoints:
             self.treasures.append(None)
-
-        return
 
     def __deleteTreasureNow(self, treasure, taskName):
         treasure.requestDelete()

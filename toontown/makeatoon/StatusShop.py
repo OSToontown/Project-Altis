@@ -2,7 +2,7 @@ from panda3d.core import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from MakeAToonGlobals import *
+from toontown.makeatoon.MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer, ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
@@ -14,7 +14,6 @@ class StatusShop(StateData.StateData):
         StateData.StateData.__init__(self, doneEvent)
         self.toon = None
         self.index = 0
-        return
 
     def enter(self, toon, shopsVisited = []):
         base.disableMouse()
@@ -54,6 +53,7 @@ class StatusShop(StateData.StateData):
         bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
         poster = bookModel.find('**/questCard')
         self.parentFrame = self.getNewFrame()
+        self.childProofingText = DirectLabel(parent=aspect2d, relief=None, text='WARNING: UBER MODE IS IRREVERSIBLE\nONLY CLICK NEXT IF YOU ARE SURE\nOTHERWISE, CHANGE BACK TO NORMAL MODE', text_scale=0.15, text_fg=(1,0,0,1))
         self.uberFrame = DirectFrame(parent=self.parentFrame, image=shuffleFrame, image_scale=halfButtonInvertScale, relief=None, pos=(0, 0, -0.7), hpr=(0, 0, 3), scale=1.1, frameColor=(1, 1, 1, 1), text='', text_scale=0.0625, text_pos=(-0.001, -0.015), text_fg=(1, 1, 1, 1))
         self.uberLButton = DirectButton(parent=self.uberFrame, relief=None, image=shuffleImage, image_scale=halfButtonScale, image1_scale=halfButtonHoverScale, image2_scale=halfButtonHoverScale, pos=(-0.2, 0, 0), command=self.__swapUberStatus, extraArgs=[-1])
         self.uberRButton = DirectButton(parent=self.uberFrame, relief=None, image=shuffleImage, image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.__swapUberStatus, extraArgs=[1])
@@ -66,6 +66,8 @@ class StatusShop(StateData.StateData):
         del self.gui
         self.parentFrame.destroy()
         del self.parentFrame
+        self.childProofingText.destroy()
+        del self.childProofingText
         self.ignore('MAT-newToonCreated')
     
     def getNewFrame(self):
@@ -87,6 +89,10 @@ class StatusShop(StateData.StateData):
         else:
             self.uberLButton['state'] = DGG.NORMAL
             self.uberRButton['state'] = DGG.NORMAL
+        if self.index > 0:
+            self.childProofingText.show()
+        else:
+            self.childProofingText.hide()
         if self.toon:
             self.toon.uberType = self.index
         self.uberFrame['text'] = TTLocalizer.UberTitles[self.index]
@@ -95,6 +101,7 @@ class StatusShop(StateData.StateData):
     def __handleForward(self):
         self.doneStatus = 'next'
         messenger.send(self.doneEvent)
+        self.childProofingText.hide()
 
     def __handleBackward(self):
         self.doneStatus = 'last'

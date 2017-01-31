@@ -50,7 +50,7 @@ class ToontownRPCHandlerBase:
             return (-32002, 'Invalid token length')
 
         # Next, decrypt the token using AES-128 in CBC mode:
-        rpcServerSecret = config.GetString('rpc-server-secret', '6163636f756e7473')
+        rpcServerSecret = config.GetString('rpc-server-secret', 'tta36f75jb74sl8g')
 
         # Ensure that our secret is the correct size:
         if len(rpcServerSecret) > AES.block_size:
@@ -74,12 +74,5 @@ class ToontownRPCHandlerBase:
                 raise ValueError
         except ValueError:
             return (-32003, 'Invalid token')
-
-        # Next, check if this token has expired:
-        period = config.GetInt('rpc-token-period', 5)
-        delta = int(time.time()) - token['timestamp']
-        if delta > period:
-            return (-32004, 'Token expired')
-
         if token['accesslevel'] < method.accessLevel:
             return (-32005, 'Insufficient access')
