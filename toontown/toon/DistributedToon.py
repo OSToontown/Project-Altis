@@ -2241,6 +2241,20 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             nametagStyle = 0
         self.nametagStyle = nametagStyle
         self.setDisplayName(self.getName())
+        
+    def getNametagStyles(self):
+        return self.nametagStyles
+        
+    def setNametagStyles(self, nametagStyles):
+        self.nametagStyles = nametagStyles
+        if self == base.localAvatar:
+            messenger.send('refreshNametagStyle')
+    
+    def requestNametagStyle(self, nametagStyle):
+        if nametagStyle not in self.nametagStyles:
+            return
+        
+        self.sendUpdate('requestNametagStyle', [nametagStyle])
 
     def getAvIdName(self):
         paidStr = PythonUtil.choice(self.getGameAccess() == OTPGlobals.AccessFull, 'P', 'F')
