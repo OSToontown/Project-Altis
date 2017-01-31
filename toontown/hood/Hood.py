@@ -286,7 +286,6 @@ class Hood(StateData.StateData):
             if self.oldSky:
                 self.oldSky.reparentTo(hidden)
         self.oldSky = None
-        self.newSky = None
         
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -295,6 +294,7 @@ class Hood(StateData.StateData):
         self.startSky()
         if self.id != DonaldsDreamland or self.id != DonaldsDock or self.id != TheBrrrgh:
             if self.sky.getTag('sky').lower() != sky:
+                print(self.sky.getTag('sky') + "-->" + sky)
                 if hasattr(self, 'sky'):
                     self.oldSky = self.sky
                 if sky == 'mml':
@@ -338,3 +338,6 @@ class Hood(StateData.StateData):
                         ),
                         Func(self.end)
                     ).start()
+            else:
+                fadeIn = self.sky.colorScaleInterval(1.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0.25), blendType='easeInOut')
+                fadeIn.start()
