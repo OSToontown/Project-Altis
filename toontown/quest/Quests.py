@@ -4732,7 +4732,7 @@ QuestDict = {
 		 Anywhere,
 		 2,
 		 27,
-		 Hard,
+		 70,
 		 'txm'),
         1123,
         Same,
