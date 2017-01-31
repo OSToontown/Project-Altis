@@ -291,7 +291,6 @@ class Hood(StateData.StateData):
         return SkyUtil.cloudSkyTrack(task)
         
     def skyTransition(self, sky):
-        self.startSky()
         if self.id != DonaldsDreamland or self.id != DonaldsDock or self.id != TheBrrrgh:
             if self.sky.getTag('sky').lower() != sky:
                 print(self.sky.getTag('sky') + "-->" + sky)
@@ -338,6 +337,3 @@ class Hood(StateData.StateData):
                         ),
                         Func(self.end)
                     ).start()
-            else:
-                fadeIn = self.sky.colorScaleInterval(1.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0.25), blendType='easeInOut')
-                fadeIn.start()
