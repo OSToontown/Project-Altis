@@ -11,7 +11,8 @@ from toontown.suit import DistributedSuitPlannerAI
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
-from toontown.weather.DistributedWeatherCycleAI import DistributedWeatherCycleAI
+from toontown.environment import DistributedDayTimeManagerAI
+from toontown.environment import DistributedRainManagerAI
 
 class HoodAI:
     notify = directNotify.newCategory('HoodAI')
@@ -26,7 +27,7 @@ class HoodAI:
         self.treasurePlanner = None
         self.buildingManagers = []
         self.suitPlanners = []
-
+ 
         for zoneId in self.getZoneTable():
             self.notify.info('Creating objects... ' + self.getLocationName(zoneId))
             dnaFileName = self.air.lookupDNAFileName(zoneId)
@@ -34,6 +35,8 @@ class HoodAI:
             dnaData = simbase.air.loadDNAFileAI(dnaStore, dnaFileName)
             self.air.dnaStoreMap[zoneId] = dnaStore
             self.air.dnaDataMap[zoneId] = dnaData
+        self.createTime()
+        self.createRain()
 
     def getZoneTable(self):
         zoneTable = [self.zoneId]
@@ -193,7 +196,15 @@ class HoodAI:
             self.suitPlanners.append(suitPlanner)
             self.air.suitPlanners[zoneId] = suitPlanner
 
-    def createWeatherCycle(self):
-        weatherCycle = DistributedWeatherCycleAI(self.air)
-        weatherCycle.setDuration(self.air.weatherCycleDuration)
-        weatherCycle.generateWithRequired(self.zoneId)
+    def createTime(self):
+        for zoneId in self.getZoneTable():
+            if zoneId not in [9000, 9100, 9200]:
+                self.dayTimeMgr = DistributedDayTimeManagerAI.DistributedDayTimeManagerAI(self.air)
+                self.dayTimeMgr.generateWithRequired(zoneId)
+                self.notify.info('Day Time Manager turned on for zone ' + str(zoneId))
+            
+    def createRain(self):
+        for zoneId in self.getZoneTable():
+            self.rainMgr = DistributedRainManagerAI.DistributedRainManagerAI(self.air)
+            self.rainMgr.generateWithRequired(zoneId)
+            self.notify.info('Rain Manager turned on for zone ' + str(zoneId))
