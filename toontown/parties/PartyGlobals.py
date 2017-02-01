@@ -29,7 +29,7 @@ JarLabelMaxedTextColor = (1.0,
  0.0,
  1.0)
 TuftsOfGrass = 75
-MaxToonsAtAParty = 40
+MaxToonsAtAParty = 50
 DefaultPartyDuration = 0.5
 DelayBeforeAutoKick = 1.0
 MaxHostedPartiesPerToon = 1
