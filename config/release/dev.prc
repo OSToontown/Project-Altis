@@ -32,7 +32,7 @@ want-resistance-restock #t
 show-population #t
 show-total-population #t
 force-skip-tutorial #t
-want-instant-parties #t
+want-instant-parties #f
 
 # Weather
 weather-cycle-duration 100
