@@ -29,7 +29,7 @@ JarLabelMaxedTextColor = (1.0,
  0.0,
  1.0)
 TuftsOfGrass = 75
-MaxToonsAtAParty = 20
+MaxToonsAtAParty = 50
 DefaultPartyDuration = 0.5
 DelayBeforeAutoKick = 1.0
 MaxHostedPartiesPerToon = 1
@@ -105,18 +105,18 @@ PartyEditorActivityOrder = [ ActivityIds.PartyClock,
  ActivityIds.PartyDance20,
  ActivityIds.PartyValentineDance,
  ActivityIds.PartyValentineDance20,
- ActivityIds.PartyTugOfWar,
  ActivityIds.PartyCatch,
  ActivityIds.PartyWinterCatch,
  ActivityIds.PartyCog,
- ActivityIds.PartyWinterCog,
- ActivityIds.PartyFireworks]
+ ActivityIds.PartyWinterCog]
 UnreleasedActivityIds = (ActivityIds.PartyWinterCog,
  ActivityIds.PartyValentineJukebox,
  ActivityIds.PartyValentineJukebox40,
  ActivityIds.PartyValentineTrampoline,
  ActivityIds.PartyWinterTrampoline,
  ActivityIds.PartyWinterCatch,
+ ActivityIds.PartyTugOfWar,
+ ActivityIds.PartyFireworks,
  ActivityIds.PartyValentineDance,
  ActivityIds.PartyValentineDance20)
 MutuallyExclusiveActivities = ((ActivityIds.PartyJukebox, ActivityIds.PartyJukebox40),
@@ -165,35 +165,16 @@ DecorationIds = PythonUtil.Enum(('BalloonAnvil',
  'Snowman',
  'SnowDoodle',
  'BalloonAnvilValentine'))
-TTIUnreleasedDecor = [DecorationIds.HeartTarget,
- DecorationIds.HeartBanner,
- DecorationIds.FlyingHeart,
- DecorationIds.Hydra,
- DecorationIds.BannerVictory,
- DecorationIds.CannonVictory,
- DecorationIds.CogStatueVictory,
- DecorationIds.TubeCogVictory,
- DecorationIds.CogIceCreamVictory,
- DecorationIds.CogIceCreamWinter,
- DecorationIds.StageWinter,
- DecorationIds.CogStatueWinter,
- DecorationIds.Snowman,
- DecorationIds.SnowDoodle,
- DecorationIds.BalloonAnvilValentine]
+TTIUnreleasedDecor = []
 DECORATION_VOLUME = 1.0
 DECORATION_CUTOFF = 45
-VictoryPartyDecorationIds = frozenset([DecorationIds.Hydra,
- DecorationIds.BannerVictory,
- DecorationIds.CannonVictory,
- DecorationIds.CogStatueVictory,
- DecorationIds.TubeCogVictory,
- DecorationIds.CogIceCreamVictory])
+VictoryPartyDecorationIds = frozenset([])
 WinterPartyDecorationIds = frozenset([DecorationIds.CogIceCreamWinter,
  DecorationIds.StageWinter,
  DecorationIds.CogStatueWinter,
  DecorationIds.Snowman,
  DecorationIds.SnowDoodle])
-VictoryPartyReplacementDecorationIds = frozenset([DecorationIds.BannerJellyBean])
+VictoryPartyReplacementDecorationIds = frozenset([])
 ValentinePartyDecorationIds = frozenset([DecorationIds.BalloonAnvilValentine,
  DecorationIds.HeartBanner,
  DecorationIds.HeartTarget,
@@ -448,8 +429,8 @@ DecorationInformationDict = {DecorationIds.BalloonAnvil: {'cost': int(10 * Party
                              'gridsize': (1, 1),
                              'numberPerPurchase': 1,
                              'limitPerParty': 5,
-                             'paidOnly': False,
                              'gridAsset': 'decoration_1x1'},
+                             'paidOnly': False,
  DecorationIds.FlyingHeart: {'cost': int(25 * PartyCostMultiplier),
                              'gridsize': (1, 1),
                              'numberPerPurchase': 1,

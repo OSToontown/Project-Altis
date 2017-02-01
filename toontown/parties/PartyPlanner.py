@@ -3,8 +3,8 @@ from datetime import datetime
 from datetime import timedelta
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm.FSM import FSM
-from direct.gui import DirectGuiGlobals
-from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
+from toontown.pgui import DirectGuiGlobals
+from toontown.pgui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
 from direct.showbase import DirectObject
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from pandac.PandaModules import *
