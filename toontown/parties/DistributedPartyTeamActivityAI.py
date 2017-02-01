@@ -45,6 +45,7 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
             self.__update()
         else:
             self.notify.warning("Toon %d joined activity but left unexpectdly!" % (av.doId))
+            return
 
     def toonExitRequest(self, team):
         av = self._getCaller()
