@@ -2303,8 +2303,6 @@ class Toon(Avatar.Avatar, ToonHead):
         if scale == None:
             scale = VBase4(1, 1, 1, 1)
         node = self.getGeomNode()
-        if not node:
-            return None
         caps = self.getPieces(('torso', 'torso-bot-cap'))
         track = Sequence()
         track.append(Func(node.setTransparency, 1))
@@ -2376,24 +2374,18 @@ class Toon(Avatar.Avatar, ToonHead):
 		
     def __doWireFrame(self):
         node = self.getGeomNode()
-        if not node:
-            return None
         track = Sequence()
         track.append(Func(node.setRenderModeWireframe))
         return track
 		
     def __doUnWireFrame(self):
         node = self.getGeomNode()
-        if not node:
-            return None
         track = Sequence()
         track.append(Func(node.setRenderModeFilled))
         return track
 
     def __doSnowManHeadSwitch(self, lerpTime, toSnowMan):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -2452,8 +2444,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doYesMan(self, lerpTime, toYesMan):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -2485,8 +2475,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doDownsizer(self, lerpTime, toDownsizer):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -2518,8 +2506,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doMoverShaker(self, lerpTime, toMoverShaker):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -2551,9 +2537,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doBigCheese(self, lerpTime, toBigCheese):
         node = self.getGeomNode()
-        if not node:
-            return None
-            
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2584,9 +2568,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doGladHander(self, lerpTime, toGladHander):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2617,9 +2599,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doMingler(self, lerpTime, toMingler):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2650,9 +2630,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doFlunky(self, lerpTime, toFlunky):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2683,9 +2661,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doTelemarketer(self, lerpTime, toTelemarketer):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2716,9 +2692,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doLoanShark(self, lerpTime, toLoanShark):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2749,9 +2723,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doBigWig(self, lerpTime, toBigWig):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2782,9 +2754,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doMicroManager(self, lerpTime, toMicroManager):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2815,9 +2785,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doBigFish(self, lerpTime, toBigFish):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2848,9 +2816,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doCorporateRaider(self, lerpTime, toCorporateRaider):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2881,8 +2847,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doHeadHoncho(self, lerpTime, toHeadHoncho):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -2914,9 +2878,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doDoubleTalker(self, lerpTime, toDoubleTalker):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -2947,8 +2909,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doTwoFace(self, lerpTime, toTwoFace):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -2980,9 +2940,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doConArtist(self, lerpTime, toConArtist):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -3013,9 +2971,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doConnoisseur(self, lerpTime, toConnoisseur):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -3046,9 +3002,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doSwindler(self, lerpTime, toSwindler):
         node = self.getGeomNode()
-        if not node:
-            return None
-        
+
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
             dustCloud.setBillboardAxis(2.0)
@@ -3079,8 +3033,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doMiddleman(self, lerpTime, toMiddleman):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3112,8 +3064,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doToxicManager(self, lerpTime, toToxicManager):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3145,8 +3095,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doMagnate(self, lerpTime, toMagnate):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3178,8 +3126,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doLegalEagle(self, lerpTime, toLegalEagle):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3211,8 +3157,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doRobberBaron(self, lerpTime, toRobberBaron):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3244,8 +3188,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doColdCaller(self, lerpTime, toColdCaller):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3277,8 +3219,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doShortChange(self, lerpTime, toShortChange):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3310,8 +3250,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doBloodsucker(self, lerpTime, toBloodsucker):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3343,8 +3281,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doNameDropper(self, lerpTime, toNameDropper):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3376,8 +3312,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doHeadHunter(self, lerpTime, toHeadHunter):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3409,8 +3343,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doHollywood(self, lerpTime, toHollywood):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3442,8 +3374,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doPencilPusher(self, lerpTime, toPencilPusher):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3475,8 +3405,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doMoneyBags(self, lerpTime, toMoneyBags):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3508,8 +3436,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doSpinDoctor(self, lerpTime, toSpinDoctor):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3541,8 +3467,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doAmbulanceChaser(self, lerpTime, toAmbulanceChaser):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3574,8 +3498,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doNumberCruncher(self, lerpTime, toNumberCruncher):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3607,8 +3529,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doPennyPincher(self, lerpTime, toPennyPincher):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3640,8 +3560,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doTightwad(self, lerpTime, toTightwad):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3673,8 +3591,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doBeanCounter(self, lerpTime, toBeanCounter):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3706,8 +3622,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doBackStabber(self, lerpTime, toBackStabber):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3739,8 +3653,6 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doBottomFeeder(self, lerpTime, toBottomFeeder):
         node = self.getGeomNode()
-        if not node:
-            return None
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
@@ -3964,12 +3876,11 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def __doToonColor(self, color, lerpTime):
         node = self.getGeomNode()
-        if not node:
-            return None
         if color == None:
             return Func(node.clearColor)
         else:
             return Func(node.setColor, color, 1)
+        return
 
     def __doPartsColorScale(self, scale, lerpTime):
         if scale == None:
@@ -5244,8 +5155,11 @@ class Toon(Avatar.Avatar, ToonHead):
 
         def getVelocity(toon = self, relVel = relVel):
             return render.getRelativeVector(toon, relVel)
-
-        toss = Track((0, Sequence(Func(self.setPosHpr, x, y, z, h, 0, 0), Func(pie.reparentTo, self.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), Parallel(ActorInterval(self, 'throw', startFrame=48), animPie), Func(self.loop, 'neutral'))), (16.0 / 24.0, Func(pie.detachNode)))
+        partName = None
+        oldanim = self.playingAnim
+        if self.playingAnim != 'neutral':
+            partName = 'torso'
+        toss = Track((0, Sequence(Func(self.setPosHpr, x, y, z, h, 0, 0), Func(pie.reparentTo, self.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), Parallel(ActorInterval(self, 'throw', startFrame=48, partName=partName), animPie), Func(self.loop, oldanim))), (16.0 / 24.0, Func(pie.detachNode)))
         fly = Track((14.0 / 24.0, SoundInterval(sound, node=self)), (16.0 / 24.0, Sequence(Func(flyPie.reparentTo, render), Func(flyPie.setScale, self.pieScale), Func(flyPie.setPosHpr, self, 0.52, 0.97, 2.24, 89.42, -10.56, 87.94), beginFlyIval, ProjectileInterval(flyPie, startVel=getVelocity, duration=3), Func(flyPie.detachNode))))
         return (toss, fly, flyPie)
 

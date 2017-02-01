@@ -5283,7 +5283,7 @@ def nametagStyle(nametagStyle):
 def disguise(command, suitIndex, value):
     invoker = spellbook.getTarget()
 
-    if suitIndex > 4:
+    if suitIndex > 3:
         return 'Invalid suit index: %s' % suitIndex
     if value < 0:
         return 'Invalid value: %s' % value
