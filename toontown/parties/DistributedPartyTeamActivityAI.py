@@ -38,10 +38,13 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
             self.sendUpdateToAvatarId(av.doId, 'joinRequestDenied', [PartyGlobals.DenialReasons.Default])
             return
 
-        # idgaf if they exit unexpectedly in this case
-        self.toonIds[team].append(av.doId)
-        DistributedPartyActivityAI.toonJoinRequest(self)
-        self.__update()
+        # We need to care if they exit before being appened to prevent District Resets.
+        if av.doId in self.air.doId2do:
+            self.toonIds[team].append(av.doId)
+            DistributedPartyActivityAI.toonJoinRequest(self)
+            self.__update()
+        else:
+            self.notify.warning("Toon %d joined activity but left unexpectdly!" % (av.doId))
 
     def toonExitRequest(self, team):
         av = self._getCaller()
@@ -84,7 +87,7 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
         if len(self.toonIds[otherTeam]) >= self.getPlayersPerTeam()[1]:
             self.sendUpdateToAvatarId(av.doId, 'switchTeamRequestDenied', [PartyGlobals.DenialReasons.Full])
             return
-
+        
         self.toonIds[currentTeam].remove(av.doId)
         self.toonIds[otherTeam].append(av.doId)
 
