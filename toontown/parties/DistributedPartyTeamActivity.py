@@ -242,14 +242,11 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         else:
             return None
 
-        return None
-
     def getIndex(self, toonId, team):
         if self.toonIds[team].count(toonId) > 0:
             return self.toonIds[team].index(toonId)
         else:
             return None
-        return None
 
     def _joinLeftTeam(self, collEntry):
         if self.isLocalToonInActivity():
