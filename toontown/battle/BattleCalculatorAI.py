@@ -48,13 +48,13 @@ class BattleCalculatorAI:
         self.__clearBonuses(hp=1)
         self.__clearBonuses(hp=0)
         self.delayedUnlures = []
-        self.__skillCreditMultiplier = simbase.air.holidayManager.getXpMultiplier()
+        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier
         self.tutorialFlag = tutorialFlag
         self.trainTrapTriggered = False
         self.fireDifficulty = 0
 
     def setSkillCreditMultiplier(self, mult):
-        self.__skillCreditMultiplier = mult
+        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier * mult
 
     def getSkillCreditMultiplier(self):
         return self.__skillCreditMultiplier
@@ -505,8 +505,9 @@ class BattleCalculatorAI:
                             else:
                                 attackDamage = atkHp * 2
                     if atkTrack == THROW:
-                        tgtPos = self.battle.activeSuits.index(targetList[currTarget])
-                        attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
+                        if self.__suitIsLured(targetId):
+                            tgtPos = self.battle.activeSuits.index(targetList[targetId])
+                            attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
                 elif atkTrack == FIRE:
                     suit = self.battle.findSuit(targetId)
                     if suit:

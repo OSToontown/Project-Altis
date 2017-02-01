@@ -46,6 +46,10 @@ uberdogs:
     - class: DistributedDeliveryManager
       id: 4683
       anonymous: false
+      
+    - class: DistributedMailManager
+      id: 4690
+      anonymous: false
 
     - class: TTCodeRedemptionMgr
       id: 4695
