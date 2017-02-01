@@ -12,16 +12,16 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
         # Inform the UD that we as an AI have started up
         self.uberdogUp = False
         self.sendUpdate('partyManagerAIHello', [simbase.air.partyManager.doId])
-        taskMgr.doMethodLater(5, self.reportUdLost, 'noResponseTask')
+        #taskMgr.doMethodLater(30, self.reportUdLost, 'noResponseTask')
 
     def startHeartbeat(self):
         taskMgr.remove('noResponseTask')
         self.uberdogUp = True
-        taskMgr.doMethodLater(5, self.heartbeat, 'heartbeatTask')
+        #taskMgr.doMethodLater(15, self.heartbeat, 'heartbeatTask')
 
     def heartbeat(self, task):
         self.sendUpdate('heartbeat', [simbase.air.partyManager.doId])
-        taskMgr.doMethodLater(5, self.reportUdLost, 'heartbeatLostTask')
+        #taskMgr.doMethodLater(15, self.reportUdLost, 'heartbeatLostTask')
         return Task.again
 
     def heartbeatResponse(self):

@@ -44,56 +44,10 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
         self.runAtNextInterval()
 
     def save(self, dictName=None):
-        try:
-            saveDict = lambda d: self.air.backups.save('parties', (d,), eval('self.' + d))
-            if isinstance(dictName, (tuple, list, set)):
-                for x in dictName:
-                    saveDict(x)
-                return
-            elif dictName:
-                saveDict(dictName)
-                return
-
-            self.air.backups.save('parties', ('hostsToRefund',), self.hostsToRefund)
-            self.air.backups.save('parties', ('inviteeId2Invites',), self.inviteeId2Invites)
-            self.air.backups.save('parties', ('hostId2PartyReplies',), self.hostId2PartyReplies)
-            self.air.backups.save('parties', ('inviteKey2Invite',), self.inviteKey2Invite)
-            self.air.backups.save('parties', ('partyId2InviteKeys',), self.partyId2InviteKeys)
-            self.air.backups.save('parties', ('host2PartyId',), self.host2PartyId)
-            self.air.backups.save('parties', ('id2Party',), self.id2Party)
-        except Exception as e:
-            self.notify.warning('Party dats saving failed!\n%s' % e.message)
+        pass
 
     def load(self):
-        # JSON doesn't allow ints as dictionary keys so we have to convert them.
-        # Our party times also have to be converted from strings.
-        try:
-            convert = lambda d: dict((int(k), v) for k, v in d.iteritems())
-
-            self.hostsToRefund = convert(self.air.backups.load('parties', ('hostsToRefund',), default=({})))
-
-            self.inviteeId2Invites = convert(self.air.backups.load('parties', ('inviteeId2Invites',), default=({})))
-
-            self.host2PartyId = convert(self.air.backups.load('parties', ('host2PartyId',), default=({})))
-
-            self.partyId2InviteKeys = convert(self.air.backups.load('parties', ('partyId2InviteKeys'), default=({})))
-
-            self.inviteKey2Invite = convert(self.air.backups.load('parties', ('inviteKey2Invite',), default=({})))
-
-            self.hostId2PartyReplies = convert(self.air.backups.load('parties', ('hostId2PartyReplies',), default=({})))
-
-            self.id2Party = convert(self.air.backups.load('parties', ('id2Party',), default=({})))
-
-            if self.id2Party:
-                for partyId in self.id2Party.keys():
-                    self.id2Party[partyId]['start'] = datetime.strptime(
-                        self.id2Party[partyId]['start'].split('-04:00')[0], LOAD_TIME_FORMAT)
-                    self.id2Party[partyId]['end'] = datetime.strptime(
-                        self.id2Party[partyId]['end'].split('-04:00')[0], LOAD_TIME_FORMAT)
-                    self.checkForDeletion(partyId, refund=True)
-
-        except Exception as e:
-            self.notify.warning('Party backup loading failed!\n%s' % e.message)
+        pass
 
     def checkForDeletion(self, partyId, refund=False):
         party = self.id2Party.get(partyId)
