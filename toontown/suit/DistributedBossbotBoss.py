@@ -638,6 +638,8 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Wait(4.0),
             Func(rToon.setChatAbsolute, TTL.BossbotRTPhase4Speech2, CFSpeech),
             Wait(4.0),
+            Func(rToon.setChatAbsolute, TTL.BossbotRTPhase4Speech3, CFSpeech),
+            Wait(4.0),
             Func(self.__hideResistanceToon),
             Func(camera.reparentTo, self),
             Func(camera.setPos, Point3(0, -45, 5)),
