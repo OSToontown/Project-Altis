@@ -53,6 +53,7 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.TTLocalizerEnglish import SuitNameDropper
+from datetime import datetime
 
 if simbase.wantPets:
     from toontown.pets import PetLookerAI, PetObserve
@@ -3944,7 +3945,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                         appendInvite = False
                 if appendInvite:
                     endDate = partyInfo.endTime.date()
-                    curDate = simbase.air.toontownTimeManager.getCurServerDateTime().date()
+                    curDate = datetime.now().date()
                     if endDate < curDate:
                         appendInvite = False
             if appendInvite:
