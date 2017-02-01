@@ -38,7 +38,7 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
             self.sendUpdateToAvatarId(av.doId, 'joinRequestDenied', [PartyGlobals.DenialReasons.Default])
             return
 
-        # We need to care if they exit before being appened to prevent District Resets.
+        # We need to care if they exit before being appended to prevent District Resets.
         if av.doId in self.air.doId2do:
             self.toonIds[team].append(av.doId)
             DistributedPartyActivityAI.toonJoinRequest(self)
