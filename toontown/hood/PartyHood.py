@@ -51,10 +51,11 @@ class PartyHood(Hood.Hood):
         self.fsm.request(requestStatus['loader'], [requestStatus])
 
     def exit(self):
-        if self.loader:
-            self.loader.exit()
-            self.loader.unload()
-            del self.loader
+        if hasattr(self, 'loader'):
+            if self.loader:
+                self.loader.exit()
+                self.loader.unload()
+                del self.loader
         Hood.Hood.exit(self)
 
     def kickToPlayground(self, retCode):
@@ -113,8 +114,10 @@ class PartyHood(Hood.Hood):
     def startSky(self):
         SkyUtil.startCloudSky(self)
         if base.cloudPlatformsEnabled:
-            self.loader.startCloudPlatforms()
+            if hasattr(self, 'loader'):
+                self.loader.startCloudPlatforms()
 
     def stopSky(self):
         Hood.Hood.stopSky(self)
-        self.loader.stopCloudPlatforms()
+        if hasattr(self, 'loader'):
+            self.loader.stopCloudPlatforms()
