@@ -813,7 +813,6 @@ from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
 from toontown.weather import DistributedWeatherCycle/AI
 from toontown.weather import DistributedWeatherStorm/AI
-from toontown.club.DistributedToonClubManager/AI import DistributedToonClubManager/AI
 from toontown.club import DistributedToonClub/AI
 from toontown.environment import DistributedDayTimeManager/AI
 from toontown.environment import DistributedRainManager/AI
@@ -1099,7 +1098,6 @@ dclass DistributedToon : DistributedPlayer {
   setKartAccessoriesOwned(int8 [16] = [-1*16]) required broadcast ownrecv db;
   setCurrentKart(uint32) broadcast ownrecv ram;
   squish(uint8) ownsend airecv;
-  setClubId(uint32) required broadcast ownrecv db;
   announceBingo() broadcast ownrecv;
   trickOrTreatTargetMet(uint32) ownrecv;
   trickOrTreatMilestoneMet() ownrecv;
@@ -3956,6 +3954,13 @@ struct Member {
   uint32 doId;
 }
 
+dclass DistributedToonClub : DistributedObjectGlobal {
+  requestStats() clsend;
+  addMember(uint32) clsend;
+  removeMember(uint32);
+  setMembers(Member []);
+};
+
 dclass DistributedWeatherMGR : DistributedObject {
   start() broadcast ram;
   setState(string, int32) broadcast ram;
@@ -3967,17 +3972,4 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 
 dclass DistributedRainManager : DistributedWeatherMGR {
 
-};
-dclass DistributedToonClubManager : DistributedObjectGlobal {
-  requestStatus() clsend airecv;
-  requestStatusResponse(bool, uint32);
-};
-
-dclass DistributedToonClub : DistributedObject {
-  setOwner(uint32) required broadcast db;
-  setStatus(bool) required broadcast db;
-  setMembers(Member []) required broadcast db;
-  setInviteCode(string) required broadcast db;
-  addMember(uint32) clsend airecv;
-  removeMember(uint32) clsend airecv;
 };

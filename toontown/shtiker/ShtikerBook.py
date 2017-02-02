@@ -44,7 +44,6 @@ class ShtikerBook(DirectFrame, StateData.StateData):
          TTLocalizer.GardenPageTitle,
          TTLocalizer.GolfPageTitle,
          TTLocalizer.EventsPageName,
-         TTLocalizer.ClubsPageTitle,
          TTLocalizer.AchievementsPageTitle,
          TTLocalizer.NewsPageName]
         return
@@ -270,11 +269,6 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             iconGeom = iconModels = loader.loadModel('phase_4/models/minigames/photogame_filmroll')
             iconScale = (1.9, 1.5, 1.5)
             iconModels.detachNode()
-            
-        elif pageName == TTLocalizer.ClubsJoinWithCode:
-            iconModels = loader.loadModel('phase_4/models/parties/partyStickerbook')
-            iconGeom = iconModels.find('**/Stickerbook_PartyIcon')
-            iconModels.detachNode()
         elif pageName == TTLocalizer.NewsPageName:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
             iconGeom = iconModels.find('**/tt_t_gui_sbk_newsPageTab')
@@ -422,8 +416,8 @@ class ShtikerBook(DirectFrame, StateData.StateData):
 
     def __checkForNewsPage(self):
         from toontown.shtiker import NewsPage
-        self.ignore('arrow_left')
-        self.ignore('arrow_right')
+        self.ignore(base.MOVE_LEFT)
+        self.ignore(base.MOVE_RIGHT)
         if isinstance(self.pages[self.currPageIndex], NewsPage.NewsPage):
             self.ignore('arrow_right')
             self.ignore('arrow_left')
