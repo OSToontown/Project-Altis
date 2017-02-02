@@ -504,6 +504,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.requiredMoodComponents = {}
         self.brain = PetBrain.PetBrain(self)
         self.mover = PetMoverAI(self)
+        self.lockMover = PetMoverAI(self)
         self.enterPetLook()
         self.actionFSM = PetActionFSM.PetActionFSM(self)
         self.teleportIn()
@@ -582,13 +583,9 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             del self.mood
         if hasattr(self, 'traits'):
             del self.traits
-        try:
             for funcName in self.__funcsToDelete:
-                del self.__dict__[funcName]
-
-        except:
-            pass
-
+                if funcName in self.__dict__:
+                    del self.__dict__[funcName]
         if hasattr(self, 'gaitFSM'):
             if self.gaitFSM:
                 self.gaitFSM.requestFinalState()
@@ -623,6 +620,36 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.zoneId = None
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         self.ignoreAll()
+        
+    def createImpulses(self):
+        self.createSphereImpulse()
+        self.chaseImpulse = PetChase()
+        self.fleeImpulse = PetFlee()
+        self.wanderImpulse = PetWander.PetWander()
+        self.lockChaseImpulse = PetChase()
+    
+    def destroyImpulses(self):
+        self.wanderImpulse.destroy()
+        del self.chaseImpulse
+        del self.fleeImpulse
+        del self.wanderImpulse
+        self.destroySphereImpulse()
+        del self.lockChaseImpulse
+        
+    def createSphereImpulse(self):
+        petRadius = 1.0
+        collTrav = self.getCollTrav()
+        if collTrav is None:
+            DistributedPetAI.notify.warning('no collision traverser for zone %s' % self.zoneId)
+        else:
+            self.sphereImpulse = PetSphere.PetSphere(petRadius, collTrav)
+            self.mover.addImpulse('sphere', self.sphereImpulse)
+    
+    def destroySphereImpulse(self):
+        self.mover.removeImpulse('sphere')
+        if hasattr(self, 'sphereImpulse'):
+            self.sphereImpulse.destroy()
+            del self.sphereImpulse
 
     def getMoveTaskName(self):
         return 'petMove-%s' % self.doId
