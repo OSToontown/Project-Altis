@@ -4,7 +4,7 @@ DMENU_GAME = 'Toontown'
 
 
 from direct.actor import Actor
-from direct.gui.DirectGui import OnscreenImage, DirectButton
+from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, ActorInterval
 from direct.showbase import Audio3DManager
 from direct.showbase.DirectObject import DirectObject
@@ -363,6 +363,11 @@ class DMenuScreen(DirectObject):
         base.cr.avChoice.enter()
 
     def doPlayButton(self):
+        self.PlayButton['state'] = DGG.DISABLED
+        self.OptionsButton['state'] = DGG.DISABLED
+        self.QuitButton['state'] = DGG.DISABLED
+        self.DiscordButton['state'] = DGG.DISABLED
+        self.CreditsButton['state'] = DGG.DISABLED
         Parallel(
             self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
             self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),

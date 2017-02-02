@@ -44,6 +44,7 @@ class DMenuQuit(DirectObject):
         self.confBox.setPos(0, 0, 0)
         self.confBox.setScale(0.7, 1, 0.4)
         self.confBox.reparentTo(self.confNode)
+        
         self.question = DirectLabel(parent = self.confNode, relief = None, text_style = 3, text = 'Are you sure you want to quit?', text_align = TextNode.ACenter, text_scale = 0.07, pos = (0, 0, 0.2))
         
         self.yesBtn = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = "Yes", text_pos = (0, -0.02), text_scale = .07, scale = 1.2, command = self.quitGame)
@@ -65,4 +66,6 @@ class DMenuQuit(DirectObject):
         messenger.send('doQuitGame')
         
     def cancelQuitGame(self):
+        self.yesBtn['state'] = DGG.DISABLED
+        self.noBtn['state'] = DGG.DISABLED
         messenger.send('doCancelQuitGame')
