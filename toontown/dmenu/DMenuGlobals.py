@@ -4,16 +4,19 @@ Created on May 1, 2016
 @author: Drew
 '''
 
-PlayBtnPos = (-0.8, 0, 0.0)
-OptionsBtnPos = (-0.8, 0, -0.2)
-QuitBtnPos = (-0.8, 0, -0.4)
+PlayBtnPos = (0, 0, 0.0)
+PlayBtnHidePos = (0, 0, -1.1)
 
-PlayBtnHidePos = (-2.8, 0, 0.0)
-OptionsBtnHidePos = (-2.8, 0, -0.2)
-QuitBtnHidePos = (-2.8, 0, -0.4)
 
-DiscordBtnPos = (.8, 0, 0.0)
-DiscordBtnHidePos = (2.8, 0, 0.0)
+OptionsBtnPos = (0, 0, -0.2)
+OptionsBtnHidePos = (0, 0, -1.3)
 
-CreditsBtnPos = (.8, 0, -0.2)
-CreditsBtnHidePos = (2.8, 0, -0.2)
+
+DiscordBtnPos = (0, 0, -0.4)
+DiscordBtnHidePos = (0, 0, -1.5)
+
+CreditsBtnPos = (0, 0, -0.6)
+CreditsBtnHidePos = (0, 0, -1.7)
+
+QuitBtnPos = (0, 0, -0.8)
+QuitBtnHidePos = (0, 0, -1.9)
