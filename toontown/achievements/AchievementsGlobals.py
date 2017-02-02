@@ -1,5 +1,6 @@
 AchievementTitles = ("Make a friend",
                      "Make 10 friends",
+                     "Make 50 friends",
                      "Purchase an item from the cattlelog",
                      "Purchase 10 items from the cattlelog",
                      "Purchase 50 items from the cattlelog",
@@ -12,6 +13,7 @@ AchievementTitles = ("Make a friend",
 
 AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.png'), # 1 friend
                      ('phase_3/maps/achievements/ttpa_achievement_makefriend_10.png'), # 10 friends
+                     ('phase_3/maps/achievements/ttpa_achievement_makefriend_10.png'), # 50 friends
                      ('phase_3/maps/achievements/ttpa_achievement_catalog_1.png'), # catalog 1
                      ('phase_3/maps/achievements/ttpa_achievement_catalog_10.png'), # catalog 10
                      ('phase_3/maps/achievements/ttpa_achievement_catalog_50.png'), # catalog 50
@@ -24,6 +26,7 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      
 AchievementExperience = (10,# 1 friend
                          20,# 10 friends
+                         50,# 50 friends
                          10,# catalog 1
                          15,# catalog 10
                          20,# catalog 50

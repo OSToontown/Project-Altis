@@ -329,7 +329,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
                     if not hood.zoneId == 9000:
                         hood.dayTimeMgr.d_requestUpdate()
-
+                        
+        # Not sure if i sohuld really code it in here, but fuck it
+        if newZoneId == 2741: # Loopy's balls
+            self.air.achievementsManager.loopysBalls(self.doId)
+        
     def announceZoneChange(self, newZoneId, oldZoneId):
         if simbase.wantPets:
             broadcastZones = [oldZoneId, newZoneId]
