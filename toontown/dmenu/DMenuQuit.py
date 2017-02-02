@@ -13,7 +13,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui.TTGui import *
 
-class DMenuQuit:
+class DMenuQuit(DirectObject):
 
     def __init__(self):
         self.optionsOpenSfx = None # base.loadSfx(DMenuResources.Settings_Open) # ALTIS: TODO: Add sound effects
