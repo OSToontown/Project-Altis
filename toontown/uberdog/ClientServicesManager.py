@@ -24,13 +24,10 @@ class ClientServicesManager(DistributedObjectGlobal):
 
         conn = httplib.HTTPConnection('www.projectaltis.com')
         conn.request("POST", "/api/login", params, headers)
-        response = conn.getresponse()
-        print(response.status, response.reason)
         
         try:
-            data = response.read()
+            response = json.loads(str(conn.getresponse().read()))
             conn.close()
-            response = json.loads(str(data))
         except:
             self.notify.error('Failed to decode json login API response!')
             return
@@ -42,7 +39,7 @@ class ClientServicesManager(DistributedObjectGlobal):
             # the request was successful, set the login cookie and login.
             cookie = response['additional']
 
-        key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
+        key = 'VhgdThjgoNI0SAbfeSjcyxo9iSyghKSh43ZMidFI'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
 

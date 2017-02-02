@@ -470,7 +470,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         b1 = Point3(a + delta)
         self.enableRaycast(1)
         h = self.calculateHeading(a, b)
-        self.setHprScale(h, 0.0, 0.0, 1.0, 1.0, 1.0)
+        self.hprScaleInterval(.3, Vec3(h, 0, 0), Vec3(1, 1, 1)).start()
         self.mtrack = Sequence(LerpPosInterval(self, leg.getLegTime(), b1, startPos=a), name=self.taskName('walkFromStreet'))
         self.mtrack.start(time)
 
@@ -487,7 +487,8 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         b = leg.getPosB()
         h = self.calculateHeading(a, b)
         pos = leg.getPosAtTime(time)
-        self.setPosHprScale(pos[0], pos[1], pos[2], h, 0.0, 0.0, 1.0, 1.0, 1.0)
+        fullpos = (pos[0], pos[1], pos[2])
+        self.posQuatScaleInterval(.3, Point3(fullpos), Vec3(h, 0, 0), Vec3(1, 1, 1)).start()
         self.mtrack = Sequence(LerpPosInterval(self, leg.getLegTime(), b, startPos=a), name=self.taskName('bellicose'))
         self.mtrack.start(time)
 

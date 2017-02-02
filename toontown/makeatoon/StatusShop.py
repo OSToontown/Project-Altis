@@ -66,6 +66,8 @@ class StatusShop(StateData.StateData):
         del self.gui
         self.parentFrame.destroy()
         del self.parentFrame
+        self.childProofingText.destroy()
+        del self.childProofingText
         self.ignore('MAT-newToonCreated')
     
     def getNewFrame(self):
@@ -99,6 +101,7 @@ class StatusShop(StateData.StateData):
     def __handleForward(self):
         self.doneStatus = 'next'
         messenger.send(self.doneEvent)
+        self.childProofingText.hide()
 
     def __handleBackward(self):
         self.doneStatus = 'last'

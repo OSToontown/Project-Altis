@@ -2241,7 +2241,8 @@ class Toon(Avatar.Avatar, ToonHead):
                 self.effectTrack = self.__undoCheesyEffect(oldEffect, lerpTime)
             else:
                 self.effectTrack = Sequence(self.__undoCheesyEffect(oldEffect, lerpTime / 2.0), self.__doCheesyEffect(effect, lerpTime / 2.0))
-            self.effectTrack.start()
+            if self.effectTrack:
+                self.effectTrack.start()
 
     def reapplyCheesyEffect(self, lerpTime = 0):
         if self.effectTrack != None:
@@ -2369,6 +2370,18 @@ class Toon(Avatar.Avatar, ToonHead):
             track.append(Func(showHiddenParts))
             track.append(Func(self.enablePumpkins, False))
             track.append(Func(self.startBlink))
+        return track
+		
+    def __doWireFrame(self):
+        node = self.getGeomNode()
+        track = Sequence()
+        track.append(Func(node.setRenderModeWireframe))
+        return track
+		
+    def __doUnWireFrame(self):
+        node = self.getGeomNode()
+        track = Sequence()
+        track.append(Func(node.setRenderModeFilled))
         return track
 
     def __doSnowManHeadSwitch(self, lerpTime, toSnowMan):
@@ -4782,6 +4795,8 @@ class Toon(Avatar.Avatar, ToonHead):
             if base.localAvatar.getAdminAccess() < self.adminAccess:
                 alpha = 0
             return Sequence(self.__doToonGhostColorScale(VBase4(1, 1, 1, alpha), lerpTime, keepDefault=1), Func(self.nametag3d.hide))
+        elif effect == ToontownGlobals.CEWire:
+            return self.__doWireFrame()
         return Sequence()
 
     def __undoCheesyEffect(self, effect, lerpTime):
@@ -4941,6 +4956,8 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doUnVirtual()
         elif effect == ToontownGlobals.CEGhost:
             return Sequence(Func(self.nametag3d.show), self.__doToonGhostColorScale(None, lerpTime, keepDefault=1))
+        elif effect == ToontownGlobals.CEWire:
+            return self.__doUnWireFrame()
         return Sequence()
 
             
@@ -5138,8 +5155,11 @@ class Toon(Avatar.Avatar, ToonHead):
 
         def getVelocity(toon = self, relVel = relVel):
             return render.getRelativeVector(toon, relVel)
-
-        toss = Track((0, Sequence(Func(self.setPosHpr, x, y, z, h, 0, 0), Func(pie.reparentTo, self.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), Parallel(ActorInterval(self, 'throw', startFrame=48), animPie), Func(self.loop, 'neutral'))), (16.0 / 24.0, Func(pie.detachNode)))
+        partName = None
+        oldanim = self.playingAnim
+        if self.playingAnim != 'neutral':
+            partName = 'torso'
+        toss = Track((0, Sequence(Func(self.setPosHpr, x, y, z, h, 0, 0), Func(pie.reparentTo, self.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), Parallel(ActorInterval(self, 'throw', startFrame=48, partName=partName), animPie), Func(self.loop, oldanim))), (16.0 / 24.0, Func(pie.detachNode)))
         fly = Track((14.0 / 24.0, SoundInterval(sound, node=self)), (16.0 / 24.0, Sequence(Func(flyPie.reparentTo, render), Func(flyPie.setScale, self.pieScale), Func(flyPie.setPosHpr, self, 0.52, 0.97, 2.24, 89.42, -10.56, 87.94), beginFlyIval, ProjectileInterval(flyPie, startVel=getVelocity, duration=3), Func(flyPie.detachNode))))
         return (toss, fly, flyPie)
 

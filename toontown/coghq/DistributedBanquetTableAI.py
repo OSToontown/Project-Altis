@@ -29,7 +29,13 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
                 level = dinerLevel
             else:
                 level = random.choice(dinerLevel)
-            self.dinerInfo[i] = (hungryDuration, eatingDuration, level)
+            dept = random.choice(['s', 'm', 'l', 'c', 'g'])
+			
+            if level == 11 and dept == 'm':
+                # TODO: Add sit animation for suit B cogs.
+                level = 10
+				
+            self.dinerInfo[i] = (hungryDuration, eatingDuration, level, dept)
 
         self.transitionTasks = {}
         self.numFoodEaten = {}
@@ -60,12 +66,14 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
         hungryDurations = []
         eatingDurations = []
         dinerLevels = []
+        dinerSuitDept = []
         for i in xrange(self.numDiners):
             hungryDurations.append(self.dinerInfo[i][0])
             eatingDurations.append(self.dinerInfo[i][1])
             dinerLevels.append(self.dinerInfo[i][2])
+            dinerSuitDept.append(self.dinerInfo[i][3])
 
-        return (hungryDurations, eatingDurations, dinerLevels)
+        return (hungryDurations, eatingDurations, dinerLevels, dinerSuitDept)
 
     def d_setDinerStatus(self, chairIndex, newStatus):
         self.sendUpdate('setDinerStatus', [chairIndex, newStatus])
@@ -154,7 +162,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
         notDeadList = []
         for i in xrange(self.numDiners):
             if self.dinerStatus[i] != self.DEAD:
-                notDeadList.append((self.index, i, self.dinerInfo[i][2]))
+                notDeadList.append((self.index, i, self.dinerInfo[i][2], self.dinerInfo[i][3]))
 
         return notDeadList
 

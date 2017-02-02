@@ -183,12 +183,14 @@ def chooseSoundCloseShot(sounds, targets, openDuration, openName, attackDuration
     return track
 
 
-def chooseThrowShot(throws, suitThrowsDict, attackDuration):
+def chooseThrowShot(throws, suitThrowsDict, attackDuration, enterDuration=0, exitDuration=0):
+    enterShot = chooseNPCEnterShot(throws, enterDuration)
     openShot = chooseThrowOpenShot(throws, suitThrowsDict, attackDuration)
     openDuration = openShot.getDuration()
     openName = openShot.getName()
+    exitShot = chooseNPCExitShot(throws, exitDuration)
     closeShot = chooseThrowCloseShot(throws, suitThrowsDict, openDuration, openName, attackDuration)
-    track = Sequence(openShot, closeShot)
+    track = Sequence(enterShot, openShot, closeShot, exitShot)
     return track
 
 
@@ -985,12 +987,14 @@ def randomToonGroupShot(toons, suit, duration, battle):
     return focusShot(x, y, z, duration, focalPoint)
 
 
-def chooseFireShot(throws, suitThrowsDict, attackDuration):
+def chooseFireShot(throws, suitThrowsDict, attackDuration, enterDuration = 0, exitDuration = 0):
+    enterShot = chooseNPCEnterShot(throws, enterDuration)
     openShot = chooseFireOpenShot(throws, suitThrowsDict, attackDuration)
     openDuration = openShot.getDuration()
     openName = openShot.getName()
     closeShot = chooseFireCloseShot(throws, suitThrowsDict, openDuration, openName, attackDuration)
-    track = Sequence(openShot, closeShot)
+    exitShot = chooseNPCExitShot(throws, exitDuration)
+    track = Sequence(enterShot, openShot, closeShot, exitShot)
     return track
 
 

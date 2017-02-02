@@ -1,3 +1,8 @@
 @echo off
-"../../Panda3D-1.10.0/python/python.exe" -m whitelistTool
+cd ../
+
+rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
+set /P PPYTHON_PATH=<PPYTHON_PATH
+
+%PPYTHON_PATH% -m tools.whitelistTool
 pause

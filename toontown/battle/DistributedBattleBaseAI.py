@@ -18,6 +18,7 @@ from toontown.toon import InventoryBase
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import NPCToons
 from otp.ai.MagicWordGlobal import *
+from toontown.pets import DistributedPetProxyAI
 
 class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBaseAI')
@@ -360,7 +361,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 attack = getToonAttack(index)
                 p = p + attack
 
-        for i in xrange(4 - len(self.activeToons)):
+        for i in range(4 - len(self.activeToons)):
             p = p + getToonAttack(-1)
 
         for sa in self.suitAttacks:
@@ -422,7 +423,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         uberIndex = LAST_REGULAR_GAG_LEVEL + 1
         for toon in self.activeToons:
             toonList = []
-            for trackIndex in xrange(MAX_TRACK_INDEX):
+            for trackIndex in range(MAX_TRACK_INDEX):
                 toonList.append(toon.inventory.numItem(track, uberIndex))
 
             fieldList.append(encodeUber(toonList))
@@ -667,7 +668,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         if self.activeToons.count(toonId) == 1:
             activeToonIdx = self.activeToons.index(toonId)
             self.notify.debug('removing activeToons[%d], updating suitAttacks SUIT_HP_COL to match' % activeToonIdx)
-            for i in xrange(len(self.suitAttacks)):
+            for i in range(len(self.suitAttacks)):
                 if activeToonIdx < len(self.suitAttacks[i][SUIT_HP_COL]):
                     del self.suitAttacks[i][SUIT_HP_COL][activeToonIdx]
                 else:
@@ -1101,24 +1102,66 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         petId = toon.getPetId()
         zoneId = self.zoneId
         if petId == av:
-            if toonId not in self.pets:
-
-                def handleGetPetProxy(success, petProxy, petId = petId, zoneId = zoneId, toonId = toonId):
+            if not toonId in self.pets:
+                def handleGetPetProxy(success, pet, petId = petId, zoneId = zoneId, toonId = toonId):
                     if success:
-                        if petId not in simbase.air.doId2do:
-                            simbase.air.requestDeleteDoId(petId)
-                        else:
-                            petDO = simbase.air.doId2do[petId]
-                            petDO.requestDelete()
-                            simbase.air.deleteDistObject(petDO)
-                        petProxy.dbObject = 1
-                        petProxy.generateWithRequiredAndId(petId, self.air.districtId, zoneId)
-                        petProxy.broadcastDominantMood()
-                        self.pets[toonId] = petProxy
+                        petProxy = DistributedPetProxyAI.DistributedPetProxyAI(self.air)
+                        petProxy.setOwnerId(pet.getOwnerId())
+                        petProxy.setPetName(pet.getPetName())
+                        petProxy.setTraitSeed(pet.getTraitSeed())
+                        petProxy.setSafeZone(pet.getSafeZone())
+                        petProxy.setForgetfulness(pet.getForgetfulness())
+                        petProxy.setBoredomThreshold(pet.getBoredomThreshold())
+                        petProxy.setRestlessnessThreshold(pet.getRestlessnessThreshold())
+                        petProxy.setPlayfulnessThreshold(pet.getPlayfulnessThreshold())
+                        petProxy.setLonelinessThreshold(pet.getLonelinessThreshold())
+                        petProxy.setSadnessThreshold(pet.getSadnessThreshold())
+                        petProxy.setFatigueThreshold(pet.getFatigueThreshold())
+                        petProxy.setHungerThreshold(pet.getHungerThreshold())
+                        petProxy.setConfusionThreshold(pet.getConfusionThreshold())
+                        petProxy.setExcitementThreshold(pet.getExcitementThreshold())
+                        petProxy.setAngerThreshold(pet.getAngerThreshold())
+                        petProxy.setSurpriseThreshold(pet.getSurpriseThreshold())
+                        petProxy.setAffectionThreshold(pet.getAffectionThreshold())
+                        petProxy.setHead(pet.getHead())
+                        petProxy.setEars(pet.getEars())
+                        petProxy.setNose(pet.getNose())
+                        petProxy.setTail(pet.getTail())
+                        petProxy.setBodyTexture(pet.getBodyTexture())
+                        petProxy.setColor(pet.getColor())
+                        petProxy.setColorScale(pet.getColorScale())
+                        petProxy.setEyeColor(pet.getEyeColor())
+                        petProxy.setGender(pet.getGender())
+                        petProxy.setLastSeenTimestamp(pet.getLastSeenTimestamp())
+                        petProxy.setBoredom(pet.getBoredom())
+                        petProxy.setRestlessness(pet.getRestlessness())
+                        petProxy.setPlayfulness(pet.getPlayfulness())
+                        petProxy.setLoneliness(pet.getLoneliness())
+                        petProxy.setSadness(pet.getSadness())
+                        petProxy.setAffection(pet.getAffection())
+                        petProxy.setHunger(pet.getHunger())
+                        petProxy.setConfusion(pet.getConfusion())
+                        petProxy.setExcitement(pet.getExcitement())
+                        petProxy.setFatigue(pet.getFatigue())
+                        petProxy.setAnger(pet.getAnger())
+                        petProxy.setSurprise(pet.getSurprise())
+                        petProxy.setTrickAptitudes(pet.getTrickAptitudes())
+                        pet.requestDelete()
+                        def deleted(task):
+                            petProxy.doNotDeallocateChannel = True
+                            petProxy.generateWithRequiredAndId(petId, self.air.districtId, self.zoneId)
+                            petProxy.broadcastDominantMood()
+                            self.pets[toonId] = petProxy
+                            return task.done
+
+                        self.acceptOnce(self.air.getAvatarExitEvent(petId),
+                                        lambda: taskMgr.doMethodLater(0,
+                                                deleted, self.uniqueName('petdel-%d' % petId)))
                     else:
                         self.notify.warning('error generating petProxy: %s' % petId)
 
                 self.getPetProxyObject(petId, handleGetPetProxy)
+
 
     def suitCanJoin(self):
         return len(self.suits) < self.maxSuits and self.isJoinable()
@@ -1348,7 +1391,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                         self.notify.debug('toon: %d called for help' % toonId)
                     elif track == PETSOS:
                         self.notify.debug('toon: %d called for pet' % toonId)
-                        for i in xrange(len(self.activeToons)):
+                        for i in range(len(self.activeToons)):
                             toon = self.getToon(self.activeToons[i])
                             if toon != None:
                                 if i < len(hps):
@@ -1368,7 +1411,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
                     elif track == HEAL:
                         if levelAffectsGroup(HEAL, level):
-                            for i in xrange(len(self.activeToons)):
+                            for i in range(len(self.activeToons)):
                                 at = self.activeToons[i]
                                 if at != toonId or attack[TOON_TRACK_COL] == NPCSOS:
                                     toon = self.getToon(at)
@@ -1540,7 +1583,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         lastActiveSuitDied = 0
         if len(self.activeSuits) == 0 and len(self.pendingSuits) == 0:
             lastActiveSuitDied = 1
-        for i in xrange(4):
+        for i in range(4):
             attack = self.suitAttacks[i][SUIT_ATK_COL]
             if attack != NO_ATTACK:
                 suitId = self.suitAttacks[i][SUIT_ID_COL]
@@ -1788,18 +1831,12 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         pass
 
     def getPetProxyObject(self, petId, callback):
-        doneEvent = 'readPet-%s' % self._getNextSerialNum()
-        dbo = DatabaseObject.DatabaseObject(self.air, petId, doneEvent=doneEvent)
-        pet = dbo.readPetProxy()
+        doneEvent = 'generate-%d' % petId
 
-        def handlePetProxyRead(dbo, retCode, callback = callback, pet = pet):
-            success = retCode == 0
-            if not success:
-                self.notify.warning('pet DB read failed')
-                pet = None
-            callback(success, pet)
-            return
+        def handlePetProxyRead(pet):
+            callback(1, pet)
 
+        self.air.sendActivate(petId, self.air.districtId, 0)
         self.acceptOnce(doneEvent, handlePetProxyRead)
 
     def _getNextSerialNum(self):

@@ -37,6 +37,81 @@ class ToonBase(OTPBase.OTPBase):
 
     def __init__(self):
         OTPBase.OTPBase.__init__(self)
+        # First, build a list of all possible resolutions:
+        self.resList = []
+        displayInfo = self.pipe.getDisplayInformation()
+        for i in xrange(displayInfo.getTotalDisplayModes()):
+            width = displayInfo.getDisplayModeWidth(i)
+            height = displayInfo.getDisplayModeHeight(i)
+            if (width, height) not in self.resList:
+                self.resList.append((width, height))
+
+        # Next, separate the resolutions by their ratio:
+        self.resDict = {}
+        for res in self.resList:
+            ratio = int((float(res[0])/float(res[1])) * 100000) / 100000.0
+            self.resDict.setdefault(ratio, []).append(res)
+
+        # Get the native width, height and ratio:
+        self.nativeWidth = self.pipe.getDisplayWidth()
+        self.nativeHeight = self.pipe.getDisplayHeight()
+        self.nativeRatio = int((float(self.nativeWidth)/float(self.nativeHeight)) * 100000) / 100000.0
+
+        # Finally, choose the best resolution if we're either fullscreen, or
+        # don't have one defined in our preferences:
+        fullscreen = settings.get('fullscreen', False)
+        if ('res' not in settings) or fullscreen:
+            if fullscreen:
+                # If we're fullscreen, we want to fit the entire screen:
+                res = (self.nativeWidth, self.nativeHeight)
+            elif self.nativeRatio not in self.resDict:
+                print "base.resDict does not contain the native resolution: %r" % self.resDict
+                res = (800, 600)
+            elif len(self.resDict[self.nativeRatio]) > 1:
+                # We have resolutions that match our native ratio and fit it!
+                # Let's use one:
+                res = sorted(self.resDict[self.nativeRatio])[0]
+            else:
+                # Okay, we don't have any resolutions that match our native
+                # ratio and fit it. Let's just use one of the second largest
+                # ratio's resolutions:
+                ratios = sorted(self.resDict.keys(), reverse=False)
+                nativeIndex = ratios.index(self.nativeRatio)
+                res = sorted(self.resDict[ratios[nativeIndex - 1]])[0]
+
+            # Store our result:
+            settings['res'] = res
+
+            # Reload the graphics pipe:
+            properties = WindowProperties()
+
+            properties.setSize(res[0], res[1])
+            properties.setFullscreen(fullscreen)
+            properties.setParentWindow(0)
+
+            # Store the window sort for later:
+            sort = self.win.getSort()
+
+            if self.win:
+                currentProperties = WindowProperties(self.win.getProperties())
+                gsg = self.win.getGsg()
+            else:
+                currentProperties = WindowProperties.getDefault()
+                gsg = None
+            newProperties = WindowProperties(currentProperties)
+            newProperties.addProperties(properties)
+            if (gsg is None) or (currentProperties.getFullscreen() != newProperties.getFullscreen()) or (currentProperties.getParentWindow() != newProperties.getParentWindow()):
+                self.openMainWindow(props=properties, gsg=gsg, keepCamera=True)
+                self.graphicsEngine.openWindows()
+                self.disableShowbaseMouse()
+            else:
+                self.win.requestProperties(properties)
+                self.graphicsEngine.renderFrame()
+
+            self.win.setSort(sort)
+            self.graphicsEngine.renderFrame()
+            self.graphicsEngine.renderFrame()
+        
         self.disableShowbaseMouse()
         self.addCullBins()
         self.debugRunningMultiplier /= OTPGlobals.ToonSpeedFactor
@@ -50,11 +125,11 @@ class ToonBase(OTPBase.OTPBase):
         self.camLens.setMinFov(settings['fieldofview']/(4./3.))
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         self.musicManager.setVolume(settings.get("musicVol"))
-        
         for sfm in self.sfxManagerList:
             sfm.setVolume(settings.get("sfxVol"))
         self.sfxActive = settings.get("sfxVol") > 0.0
         self.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
+        self.screenshotSfx = self.loader.loadSfx('phase_4/audio/sfx/Photo_shutter.ogg')
         tpm = TextPropertiesManager.getGlobalPtr()
         candidateActive = TextProperties()
         candidateActive.setTextColor(0, 0, 1, 1)
@@ -71,8 +146,6 @@ class ToonBase(OTPBase.OTPBase):
         if self.config.GetBool('want-particles', 1) == 1:
             self.notify.debug('Enabling particles')
             self.enableParticles()
-
-        self.accept(ToontownGlobals.ScreenshotHotkey, self.takeScreenShot)
 
         # OS X Specific Actions
         if platform == "darwin":
@@ -196,6 +269,7 @@ class ToonBase(OTPBase.OTPBase):
         
         self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 't')
         
+        self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 
         self.Widescreen = settings.get('Widescreen', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
@@ -284,7 +358,7 @@ class ToonBase(OTPBase.OTPBase):
         if not os.path.exists(TTLocalizer.ScreenshotPath):
             os.mkdir(TTLocalizer.ScreenshotPath)
             self.notify.info('Made new directory to save screenshots.')
-
+        self.screenshotSfx.play()
         namePrefix = TTLocalizer.ScreenshotPath + launcher.logPrefix + 'screenshot'
         timedif = globalClock.getRealTime() - self.lastScreenShotTime
         if self.glitchCount > 10 and self.walking:
@@ -541,6 +615,7 @@ class ToonBase(OTPBase.OTPBase):
         base.win.requestProperties(wp)
 
     def reloadControls(self):
+        self.ignore(self.SCREENSHOT_KEY)
         keymap = settings.get('keymap', {})
         self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 'r')
         if self.wantCustomControls:
@@ -550,6 +625,7 @@ class ToonBase(OTPBase.OTPBase):
             self.MOVE_RIGHT = keymap.get('MOVE_RIGHT', self.MOVE_RIGHT)
             self.JUMP = keymap.get('JUMP', self.JUMP)
             self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
+            self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
             ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
         else:
             self.MOVE_UP = 'arrow_up'
@@ -558,3 +634,7 @@ class ToonBase(OTPBase.OTPBase):
             self.MOVE_RIGHT = 'arrow_right'
             self.JUMP = 'control'
             self.ACTION_BUTTON = 'delete'
+            self.SCREENSHOT_KEY = 'f9'
+    
+        self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
+

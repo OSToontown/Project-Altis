@@ -9,6 +9,7 @@ from direct.directnotify import DirectNotifyGlobal
 import random
 from toontown.battle import MovieCamera
 from toontown.battle import MovieUtil
+from toontown.battle import MovieNPCSOS
 from toontown.battle.MovieUtil import calcAvgSuitPos
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieThrow')
@@ -28,6 +29,7 @@ def addHit(dict, suitId, hitCount):
 
 
 def doFires(fires):
+    npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(fires)
     if len(fires) == 0:
         return (None, None)
 
@@ -77,9 +79,13 @@ def doFires(fires):
             delay = delay + TOON_FIRE_SUIT_DELAY
 
     retTrack = Sequence()
+    retTrack.append(npcArrivals)
     retTrack.append(mtrack)
+    retTrack.append(npcDepartures)
+    enterDuration = npcArrivals.getDuration()
+    exitDuration = npcDepartures.getDuration()
     camDuration = retTrack.getDuration()
-    camTrack = MovieCamera.chooseFireShot(fires, suitFiresDict, camDuration)
+    camTrack = MovieCamera.chooseFireShot(fires, suitFiresDict, camDuration, enterDuration, exitDuration)
     return (retTrack, camTrack)
 
 def __doSuitFires(fires):
@@ -223,6 +229,8 @@ def __getSoundTrack(level, hitSuit, node = None):
 
 def __throwPie(throw, delay, hitCount, showCannon = 1):
     toon = throw['toon']
+    if 'npc' in throw:
+        toon = throw['npc']
     hpbonus = throw['hpbonus']
     target = throw['target']
     suit = target['suit']

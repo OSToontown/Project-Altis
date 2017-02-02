@@ -1,5 +1,7 @@
 from toontown.toonbase import ToontownGlobals
+from toontown.suit import SuitDNA
 from pandac.PandaModules import BitMask32
+import random
 ShowScoresDuration = 4.0
 EndlessGame = config.GetBool('endless-2d-game', 0)
 ScoreToJellyBeansMultiplier = 5
@@ -111,7 +113,8 @@ PercentMaxStompers = {ToontownGlobals.ToontownCentral: 50,
 TreasureValueProbability = {1: 4,
  2: 3,
  3: 2,
- 4: 1}
+ 4: 1,
+ 5: 5}
 BLOCK_H24 = 'BlockH24'
 BLOCK_V24F = 'BlockV24F'
 BLOCK_V24B = 'BlockV24B'
@@ -180,17 +183,30 @@ EnemyHealthMultiplier = {'f': 1,
  'p': 1,
  'ym': 1,
  'mm': 1,
+ 'ds': 1,
  'bf': 1,
  'b': 1,
  'dt': 1,
+ 'ac': 1,
+ 'bs': 1,
  'sc': 1,
  'pp': 1,
  'tw': 1,
+ 'bc': 1,
+ 'nc': 1,
+ 'mb': 1,
  'cc': 1,
- 'tm': 1}
+ 'tm': 1,
+ 'nd': 1,
+ 'gh': 1,
+ 'ms': 1,
+ 'ca': 1,
+ 'cn': 1,
+ 'sw': 1,
+ 'mdm': 1}
 NumEnemies = 2
 EnemyList = []
-NumTreasures = 5
+NumTreasures = 6
 TreasureList = []
 BlockListStart = [[BLOCK_H24, [(0, 0, 12)]]]
 BlockListEnd = [[BLOCK_H24, [(0, 0, 12)]], [BLOCK_H24, [(24, 0, 12)]], [BLOCK_H24, [(48, 0, 12)]]]
@@ -201,7 +217,7 @@ BlockList0 = [[BLOCK_H24, [(0, 0, 12)]],
  [BLOCK_H24, [(30, 0, 18.75)]],
  [BLOCK_H24, [(58, 0, 18.75)]],
  [BLOCK_H24, [(0, 0, 18.75)]]]
-EnemyList0 = [['tm', [(35, 0, 12.65), (30, 0, 12.65), 2]], ['tm', [(24, 0, 12.65), (24, 0, 30.0), 2]]]
+EnemyList0 = [[random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(35, 0, 12.65), (30, 0, 12.65), 2]], [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(24, 0, 12.65), (24, 0, 30.0), 2]]]
 TreasureList0 = [[(16, 0, 16)],
  [(30, 0, 23)],
  [(40, 0, 23)],
@@ -242,12 +258,12 @@ TreasureList1 = [[(8, 0, 27.25)],
  [(74, 0, 27.25)],
  [(102, 0, 27.25)]]
 SpawnPointList1 = [[(2, 0, 16)], [(73, 0, 16)]]
-EnemyList1 = [['f', [(20, 0, 6), (50, 0, 6), 3.5]],
- ['bf', [(50, 0, 6), (20, 0, 6), 3.5]],
- ['f', [(62, 0, 6), (90, 0, 6), 3.5]],
- ['bf', [(90, 0, 6), (62, 0, 6), 3.5]],
- ['dt', [(52, 0, 6), (52, 0, 28), 3.5]],
- ['b', [(60, 0, 28), (60, 0, 6), 3.5]]]
+EnemyList1 = [[random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(20, 0, 6), (50, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(50, 0, 6), (20, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(62, 0, 6), (90, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(90, 0, 6), (62, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(52, 0, 6), (52, 0, 28), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(60, 0, 28), (60, 0, 6), 3.5]]]
 BlockList2 = [[BLOCK_H12, [(0, 0, 12)]],
  [BLOCK_H12, [(16, 0, 18.75)]],
  [BLOCK_H6, [(34, 0, 12)]],
@@ -271,12 +287,12 @@ TreasureList2 = [[(8, 0, 27.25)],
  [(20, 0, 14)],
  [(72, 0, 14)]]
 SpawnPointList2 = [[(2, 0, 16)], [(72, 0, 22.75)]]
-EnemyList2 = [['p', [(31, 0, 6), (31, 0, 31), 3.5]],
- ['ym', [(31, 0, 31), (31, 0, 6), 3.5]],
- ['bf', [(61, 0, 6), (61, 0, 31), 3.5]],
- ['b', [(61, 0, 31), (61, 0, 6), 3.5]],
- ['sc', [(35, 0, 26.25), (57, 0, 26.25), 3.5]],
- ['tw', [(57, 0, 26.25), (35, 0, 26.25), 3.5]]]
+EnemyList2 = [[random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(31, 0, 6), (31, 0, 31), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(31, 0, 31), (31, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(61, 0, 6), (61, 0, 31), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(61, 0, 31), (61, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(35, 0, 26.25), (57, 0, 26.25), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(57, 0, 26.25), (35, 0, 26.25), 3.5]]]
 BlockList3 = [[BLOCK_H12, [(0, 0, 12)]],
  [BLOCK_H12, [(12, 0, 5.25), (36, 0, 25.5), 3]],
  [BLOCK_H12, [(48, 0, 25.5)]],
@@ -305,12 +321,12 @@ SpawnPointList3 = [[(2, 0, 16)],
  [(56, 0, 29.5)],
  [(108, 0, 9.25)],
  [(162, 0, 9.25)]]
-EnemyList3 = [['p', [(31, 0, 6), (31, 0, 31), 3.5]],
- ['ym', [(31, 0, 31), (31, 0, 6), 3.5]],
- ['bf', [(61, 0, 6), (61, 0, 31), 3.5]],
- ['b', [(61, 0, 31), (61, 0, 6), 3.5]],
- ['sc', [(35, 0, 26.25), (57, 0, 26.25), 3.5]],
- ['tw', [(57, 0, 26.25), (35, 0, 26.25), 3.5]]]
+EnemyList3 = [[random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(31, 0, 6), (31, 0, 31), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(31, 0, 31), (31, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(61, 0, 6), (61, 0, 31), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(61, 0, 31), (61, 0, 6), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(35, 0, 26.25), (57, 0, 26.25), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(57, 0, 26.25), (35, 0, 26.25), 3.5]]]
 BlockList5 = [[BLOCK_H24, [(0, 0, 12)]],
  [BLOCK_H24, [(24, 0, 12)]],
  [BLOCK_H24, [(48, 0, 12)]],
@@ -493,7 +509,7 @@ TreasureList11 = [[(4, 0, 34)],
  [(124, 0, 34)],
  [(140, 0, 34)],
  [(162, 0, 34)]]
-EnemyList11 = [['cc', [(26, 0, 12.75), (46, 0, 12.75), 3.5]], ['tm', [(74, 0, 6), (94, 0, 6), 3.5]], ['sc', [(122, 0, 19.5), (142, 0, 19.5), 3.5]]]
+EnemyList11 = [[random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(26, 0, 12.75), (46, 0, 12.75), 3.5]], [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(74, 0, 6), (94, 0, 6), 3.5]], [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(122, 0, 19.5), (142, 0, 19.5), 3.5]]]
 SpawnPointList11 = [[(2, 0, 16)], [(70, 0, 16)]]
 BlockList12 = [[BLOCK_H24, [(0, 0, 12)]],
  [BLOCK_H24, [(9, 0, 5.25)]],
@@ -544,12 +560,12 @@ TreasureList13 = [[(2, 0, 34)],
  [(128, 0, 34)],
  [(192, 0, 34)]]
 SpawnPointList13 = [[(2, 0, 16)], [(67, 0, 22.75)], [(130, 0, 16)]]
-EnemyList13 = [['cc', [(20, 0, 12.75), (48, 0, 12.75), 3.5]],
- ['cc', [(48, 0, 12.75), (20, 0, 12.75), 3.5]],
- ['sc', [(92, 0, 31), (92, 0, -1), 3.5]],
- ['sc', [(92, 0, -1), (92, 0, 31), 3.5]],
- ['cc', [(146, 0, 12.75), (174, 0, 12.75), 3.5]],
- ['cc', [(174, 0, 12.75), (146, 0, 12.75), 3.5]]]
+EnemyList13 = [[random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(20, 0, 12.75), (48, 0, 12.75), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(48, 0, 12.75), (20, 0, 12.75), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(92, 0, 31), (92, 0, -1), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(92, 0, -1), (92, 0, 31), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(146, 0, 12.75), (174, 0, 12.75), 3.5]],
+ [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(174, 0, 12.75), (146, 0, 12.75), 3.5]]]
 StomperList13 = [[1, (16, 0, 20.75), 2],
  [1, (52, 0, 20.75), 2],
  [1, (76, 0, 27.5), 2],
@@ -597,7 +613,7 @@ TreasureList4 = [[(-3, 0, 25)],
  [(-3, 0, 25)],
  [(-3, 0, 25)]]
 SpawnPointList4 = [[(9, 0, 16)]]
-EnemyList4 = [['cc', [(26, 0, 12.75), (46, 0, 12.75), 3.5]], ['tm', [(74, 0, 6), (94, 0, 6), 3.5]], ['sc', [(122, 0, 19.5), (142, 0, 19.5), 3.5]]]
+EnemyList4 = [[random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(26, 0, 12.75), (46, 0, 12.75), 3.5]], [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(74, 0, 6), (94, 0, 6), 3.5]], [random.choice(['f', 'p', 'ym', 'mm', 'ds', 'bf', 'b', 'dt', 'ac', 'bs', 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'cc', 'tm', 'nd', 'gh', 'ms', 'ca', 'cn', 'sw', 'mdm']), [(122, 0, 19.5), (142, 0, 19.5), 3.5]]]
 StomperList4 = [[1, (12, 0, 20.75), 2], [1, (50, 0, 20.75), 2], [1, (82, 0, 20.75), 2]]
 SectionTypes = {'end': (0,
          24,

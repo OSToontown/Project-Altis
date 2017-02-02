@@ -10,7 +10,7 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.parties.InviteVisual import InviteVisual
-from toontown.catalog import CatalogItem
+import CatalogItem
 from toontown.toonbase.ToonPythonUtil import StackTrace
 
 class MailboxScreen(DirectObject.DirectObject):

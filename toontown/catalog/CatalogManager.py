@@ -1,6 +1,7 @@
-import time
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.catalog.CatalogItemList import CatalogItemList
+import time
+
 
 class CatalogManager(DistributedObject):
     notify = directNotify.newCategory('CatalogManager')
@@ -9,7 +10,6 @@ class CatalogManager(DistributedObject):
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
 
-        self.popularItems = None
 
     def generate(self):
         if base.cr.catalogManager != None:
@@ -29,10 +29,3 @@ class CatalogManager(DistributedObject):
 
     def d_startCatalog(self):
         self.sendUpdate('startCatalog')
-
-    def fetchPopularItems(self):
-        self.sendUpdate('fetchPopularItems')
-
-    def setPopularItems(self, popularItems):
-        self.popularItems = CatalogItemList(popularItems)
-        messenger.send('PopularItemsSet')

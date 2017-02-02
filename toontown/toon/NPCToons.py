@@ -67,6 +67,7 @@ NPC_PARTYPERSON = 8
 NPC_SPECIALQUESTGIVER = 9
 NPC_FLIPPYTOONHALL = 10
 NPC_SCIENTIST = 11
+NPC_LOOPY = 12
 CLERK_COUNTDOWN_TIME = 120
 TAILOR_COUNTDOWN_TIME = 300
 RTDNAFile = '/RTDNAFile.txt'
@@ -90,6 +91,8 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     from toontown.toon import DistributedNPCSpecialQuestGiverAI
     from toontown.toon import DistributedNPCFlippyInToonHallAI
     from toontown.toon import DistributedNPCScientistAI
+    from toontown.toon import DistributedNPCLoopyGAI
+    
     canonicalZoneId, name, dnaType, gender, protected, type = desc
     if type == NPC_REGULAR:
         npc = DistributedNPCToonAI.DistributedNPCToonAI(air, npcId, questCallback=questCallback)
@@ -115,6 +118,8 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
         npc = DistributedNPCFlippyInToonHallAI.DistributedNPCFlippyInToonHallAI(air, npcId)
     elif type == NPC_SCIENTIST:
         npc = DistributedNPCScientistAI.DistributedNPCScientistAI(air, npcId)
+    elif type == NPC_LOOPY:
+        npc =  DistributedNPCLoopyGAI.DistributedNPCLoopyGAI(air, npcId)
     else:
         print 'createNPC() error!!!'
     npc.setName(name)
@@ -202,11 +207,9 @@ def createLocalNPC(npcId):
     return npc
 
 # Some buildings don't have NPCs, so we need to store their zone IDs here:
-badBlocks = [
-    2606, 2602, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
-    5609, 3605, 3703
-]
-
+badBlocks = [2606, 2602, 2605, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
+             5609, 3605, 3703]
+             
 def isZoneProtected(zoneId):
     if zoneId in badBlocks:
         return 1
@@ -2096,6 +2099,25 @@ NPCToonDict = {20000: (-1,
 		'm',
 		0,
 		NPC_REGULAR),
+ 2323: (2741,
+		lnames[2323],
+		('cls',
+		 'ms',
+		 'l',
+		 'm',
+		 17,
+		 0,
+		 0,
+		 17,
+		 97,
+		 13,
+		 86,
+		 13,
+		 1,
+		 13),
+		'm',
+		0,
+		NPC_LOOPY),
  1001: (1506,
         lnames[1001],
         ('rss',
@@ -8658,7 +8680,7 @@ NPCToonDict = {20000: (-1,
          1,
          16),
         'm',
-        1,
+        0,
         NPC_REGULAR),
  5202: (5703,
         lnames[5202],
@@ -11647,8 +11669,8 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  2132: (ToontownBattleGlobals.HEAL_TRACK, 5, 70, 4),
  2121: (ToontownBattleGlobals.HEAL_TRACK, 5, 45, 3),
  2011: (ToontownBattleGlobals.TRAP_TRACK, 4, 180, 5),
- 3007: (ToontownBattleGlobals.TRAP_TRACK, 4, 70, 4),
- 1001: (ToontownBattleGlobals.TRAP_TRACK, 4, 50, 3),
+ 3007: (ToontownBattleGlobals.TRAP_TRACK, 4, 120, 4),
+ 1001: (ToontownBattleGlobals.TRAP_TRACK, 4, 100, 3),
  3112: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 5),
  1323: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
  2308: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
@@ -11656,15 +11678,22 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  91917: (ToontownBattleGlobals.SOUND_TRACK, 6, 900, 5),
  4219: (ToontownBattleGlobals.SOUND_TRACK, 5, 50, 4),
  4115: (ToontownBattleGlobals.SOUND_TRACK, 5, 40, 3),
+ 5012: (ToontownBattleGlobals.THROW_TRACK, 6, 132, 5),
+ 2316: (ToontownBattleGlobals.THROW_TRACK, 6, 110, 4),
+ 2314: (ToontownBattleGlobals.THROW_TRACK, 6, 60, 3),
+ 9203: (ToontownBattleGlobals.ZAP_TRACK, 6, 105, 5),
+ 1123: (ToontownBattleGlobals.ZAP_TRACK, 6, 80, 4),
+ 2101: (ToontownBattleGlobals.ZAP_TRACK, 6, 50, 3),
  1116: (ToontownBattleGlobals.DROP_TRACK, 5, 170, 5),
- 2311: (ToontownBattleGlobals.DROP_TRACK, 5, 100, 4),
- 4140: (ToontownBattleGlobals.DROP_TRACK, 5, 60, 3),
+ 2311: (ToontownBattleGlobals.DROP_TRACK, 5, 110, 4),
+ 4140: (ToontownBattleGlobals.DROP_TRACK, 5, 90, 3),
  3137: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  4327: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  4230: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
  3135: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
  2208: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
- 5124: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0,4),
+ 5124: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
+ 3308: (100, 0, 0, 5),
  2003: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, -1, 0, 5),
  2126: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.HEAL_TRACK, 0, 3),
  4007: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.TRAP_TRACK, 0, 3),

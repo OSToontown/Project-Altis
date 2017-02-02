@@ -21,10 +21,10 @@ class CharityScreenAI(DistributedObjectAI):
         '''information = httplib.HTTPConnection('www.projectaltis.com')
         information.request('GET', '/api/getcogs')
         info = json.loads(information.getresponse().read())
-        self.count = info['counter']'''
+        self.count = info['counter']
         self.b_setCount(self.count)
         taskMgr.doMethodLater(10, self.getJson, 'jsonTask')
-        
+        '''
     def setCount(self, count):
         pass
         

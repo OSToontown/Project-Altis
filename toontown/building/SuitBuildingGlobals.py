@@ -46,7 +46,7 @@ SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
  ((1, 1), (5, 18), (18, 18), (290, 290), (1, 1, 1, 1, 1)), # CEO Round 1 Cogs
  ((1, 1), (1, 5), (5, 5), (33, 33), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 1
  ((1, 1), (4, 7), (5, 5), (50, 50), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 2
- ((1, 1), (11, 12), (12, 12), (206, 206), (1, 1, 1, 1, 1), (1,))) # CEO Diner Cogs (Only uses level range and revives flag, cogs are decided based on tables served)
+ ((1, 1), (10, 12), (12, 12), (206, 206), (1, 1, 1, 1, 1), (1,))) # CEO Diner Cogs (Only uses level range and revives flag, cogs are decided based on tables served)
 
 buildingMinMax = {
     ToontownGlobals.SillyStreet: (config.GetInt('silly-street-building-min', 0),
@@ -61,6 +61,8 @@ buildingMinMax = {
                                     config.GetInt('seaweed-street-building-max', 5)),
     ToontownGlobals.LighthouseLane: (config.GetInt('lighthouse-lane-building-min', 1),
                                      config.GetInt('lighthouse-lane-building-max', 5)),
+    ToontownGlobals.AhoyAvenue: (config.GetInt('ahoy-avenue-building-min', 0),
+                                   config.GetInt('ahoy-avenue-building-max', 0)),
     ToontownGlobals.ElmStreet: (config.GetInt('elm-street-building-min', 2),
                                 config.GetInt('elm-street-building-max', 6)),
     ToontownGlobals.MapleStreet: (config.GetInt('maple-street-building-min', 2),
@@ -73,8 +75,8 @@ buildingMinMax = {
                                         config.GetInt('baritone-boulevard-building-max', 7)),
     ToontownGlobals.TenorTerrace: (config.GetInt('tenor-terrace-building-min', 3),
                                    config.GetInt('tenor-terrace-building-max', 7)),
-    ToontownGlobals.SopranoStreet: (config.GetInt('soprano-street-building-min', 3),
-                                   config.GetInt('soprano-street-building-max', 7)),
+    ToontownGlobals.SopranoStreet: (config.GetInt('soprano-street-building-min', 0),
+                                   config.GetInt('soprano-street-building-max', 0)),
     ToontownGlobals.WalrusWay: (config.GetInt('walrus-way-building-min', 5),
                                 config.GetInt('walrus-way-building-max', 10)),
     ToontownGlobals.SleetStreet: (config.GetInt('sleet-street-building-min', 5),
@@ -99,13 +101,14 @@ buildingChance = {
     ToontownGlobals.BarnacleBoulevard: config.GetFloat('barnacle-boulevard-building-chance', 75.0),
     ToontownGlobals.SeaweedStreet: config.GetFloat('seaweed-street-building-chance', 75.0),
     ToontownGlobals.LighthouseLane: config.GetFloat('lighthouse-lane-building-chance', 75.0),
+    ToontownGlobals.AhoyAvenue: config.GetFloat('ahoy-avenue-building-chance', 0.0),
     ToontownGlobals.ElmStreet: config.GetFloat('elm-street-building-chance', 90.0),
     ToontownGlobals.MapleStreet: config.GetFloat('maple-street-building-chance', 90.0),
     ToontownGlobals.OakStreet: config.GetFloat('oak-street-building-chance', 90.0),
     ToontownGlobals.AltoAvenue: config.GetFloat('alto-avenue-building-chance', 95.0),
     ToontownGlobals.BaritoneBoulevard: config.GetFloat('baritone-boulevard-building-chance', 95.0),
     ToontownGlobals.TenorTerrace: config.GetFloat('tenor-terrace-building-chance', 95.0),
-    ToontownGlobals.SopranoStreet: config.GetFloat('soprano-street-building-chance', 95.0),
+    ToontownGlobals.SopranoStreet: config.GetFloat('soprano-street-building-chance', 0.0),
     ToontownGlobals.WalrusWay: config.GetFloat('walrus-way-building-chance', 100.0),
     ToontownGlobals.SleetStreet: config.GetFloat('sleet-street-building-chance', 100.0),
     ToontownGlobals.PolarPlace: config.GetFloat('polar-place-building-chance', 100.0),

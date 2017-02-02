@@ -31,6 +31,28 @@ class DNAProp(DNANode.DNANode):
         DNANode.DNANode.makeFromDGI(self, dgi, store)
         self.code = DNAUtil.dgiExtractString8(dgi)
         self.color = DNAUtil.dgiExtractColor(dgi)
+        
+    def smartFlatten(self, node):
+        if 'trolley' in self.name:
+            return
+        elif self.children:
+            node.flattenMedium()
+        elif 'HQTelescopeAnimatedProp' in self.name:
+            node.flattenMedium()
+        elif node.find('**/water1*').isEmpty():
+            node.flattenStrong()
+        elif not node.find('**/water').isEmpty():
+            print 'Found some water!'
+            water = node.find('**/water')
+            water.setTransparency(1)
+            water.setColor(1, 1, 1, 0.8)
+            node.flattenStrong()
+        elif not node.find('**/water1*').isEmpty():
+            water = node.find('**/water1*')
+            water.setTransparency(1)
+            water.setColorScale(1.0, 1.0, 1.0, 1.0)
+            water.setBin('water', 51, 1)
+            node.flattenStrong()
 
     def traverse(self, nodePath, dnaStorage):
         if self.code == 'DCS':
@@ -47,4 +69,5 @@ class DNAProp(DNANode.DNANode):
         node.setPosHprScale(self.pos, self.hpr, self.scale)
         node.setName(self.name)
         node.setColorScale(self.color)
+        self.smartFlatten(node)
         self.traverseChildren(node, dnaStorage)

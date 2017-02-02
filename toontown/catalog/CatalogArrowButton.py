@@ -2,8 +2,8 @@ from pandac.PandaModules import NodePath
 from direct.gui.DirectButton import DirectButton
 from toontown.catalog import CatalogGlobals
 
-class CatalogArrowButton(NodePath):
 
+class CatalogArrowButton(NodePath):
     def __init__(self, parent, nodeName, clickEvent):
         NodePath.__init__(self, parent.attachNewNode(nodeName))
 

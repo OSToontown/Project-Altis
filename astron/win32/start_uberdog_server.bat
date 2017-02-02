@@ -1,5 +1,6 @@
 @echo off
 cd ../../
+title Uberdog
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
@@ -28,5 +29,4 @@ echo ===============================
 %PPYTHON_PATH% -m toontown.uberdog.ServiceStart --base-channel %BASE_CHANNEL% ^
                --max-channels %MAX_CHANNELS% --stateserver %STATESERVER% ^
                --astron-ip %ASTRON_IP% --eventlogger-ip %EVENTLOGGER_IP%
-pause
 goto main

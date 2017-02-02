@@ -23,7 +23,7 @@ import time
 import string
 import copy
 from toontown.toonbase.ToonPythonUtil import StackTrace
-from toontown.pets.PetMoverAI import PetMoverAI
+from toontown.pets.PetMoverAI import PetMoverAI 
 
 class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLookerAI.PetLookerAI, PetBase.PetBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPetAI')
@@ -104,7 +104,6 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             self.setMoodComponent(component, 0.0)
 
         self.b_setTrickAptitudes([])
-        return
 
     def setDNA(self, dna):
         head, ears, nose, tail, body, color, colorScale, eyes, gender = dna
@@ -354,14 +353,12 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         timestamp = ClockDelta.globalClockDelta.getRealNetworkTime()
         self.notify.debug('DPAI: sending update @ ts = %s' % timestamp)
         self.sendUpdate('teleportIn', [timestamp])
-        return None
 
     def teleportOut(self, timestamp = None):
         self.notify.debug('DPAI: teleportOut')
         timestamp = ClockDelta.globalClockDelta.getRealNetworkTime()
         self.notify.debug('DPAI: sending update @ ts = %s' % timestamp)
         self.sendUpdate('teleportOut', [timestamp])
-        return None
 
     def getLastSeenTimestamp(self):
         return self.lastSeenTimestamp
@@ -507,6 +504,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.requiredMoodComponents = {}
         self.brain = PetBrain.PetBrain(self)
         self.mover = PetMoverAI(self)
+        self.lockMover = PetMoverAI(self)
         self.enterPetLook()
         self.actionFSM = PetActionFSM.PetActionFSM(self)
         self.teleportIn()
@@ -585,13 +583,9 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             del self.mood
         if hasattr(self, 'traits'):
             del self.traits
-        try:
             for funcName in self.__funcsToDelete:
-                del self.__dict__[funcName]
-
-        except:
-            pass
-
+                if funcName in self.__dict__:
+                    del self.__dict__[funcName]
         if hasattr(self, 'gaitFSM'):
             if self.gaitFSM:
                 self.gaitFSM.requestFinalState()
@@ -626,7 +620,36 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.zoneId = None
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         self.ignoreAll()
-        return
+        
+    def createImpulses(self):
+        self.createSphereImpulse()
+        self.chaseImpulse = PetChase()
+        self.fleeImpulse = PetFlee()
+        self.wanderImpulse = PetWander.PetWander()
+        self.lockChaseImpulse = PetChase()
+    
+    def destroyImpulses(self):
+        self.wanderImpulse.destroy()
+        del self.chaseImpulse
+        del self.fleeImpulse
+        del self.wanderImpulse
+        self.destroySphereImpulse()
+        del self.lockChaseImpulse
+        
+    def createSphereImpulse(self):
+        petRadius = 1.0
+        collTrav = self.getCollTrav()
+        if collTrav is None:
+            DistributedPetAI.notify.warning('no collision traverser for zone %s' % self.zoneId)
+        else:
+            self.sphereImpulse = PetSphere.PetSphere(petRadius, collTrav)
+            self.mover.addImpulse('sphere', self.sphereImpulse)
+    
+    def destroySphereImpulse(self):
+        self.mover.removeImpulse('sphere')
+        if hasattr(self, 'sphereImpulse'):
+            self.sphereImpulse.destroy()
+            del self.sphereImpulse
 
     def getMoveTaskName(self):
         return 'petMove-%s' % self.doId
