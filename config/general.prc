@@ -47,6 +47,7 @@ backups-extension .json
 server-timezone EST/EDT/-5
 server-port 7198
 account-bridge-filename astron/databases/account-bridge.db
+toon-club-bridge-filename astron/databases/toon-clubs.db
 
 # Performance:
 sync-video #f

@@ -24,8 +24,8 @@ clickColor = (0.8, 0.8, 0, 1)
 rolloverColor = (0.15, 0.82, 1.0, 1)
 diabledColor = (1.0, 0.98, 0.15, 1)
 
-
 class OptionTab(DirectButton):
+
     def __init__(self, tabType=2, parent=None, **kw):
         loadModels()
 
@@ -60,6 +60,7 @@ buttonbase_xcoord = 0.35
 buttonbase_ycoord = 0.45
 
 class OptionButton(DirectButton):
+
     def __init__(self, parent=None, wantLabel=False, z=buttonbase_ycoord, labelZ=None,
                  labelOrientation='left', labelPos=None, labelText='', image_scale=(0.7, 1, 1), text='', **kw):
         loadModels()
@@ -90,8 +91,10 @@ textStartHeight = 0.45
 leftMargin = -0.72
 
 class OptionLabel(DirectLabel):
+
     def __init__(self,  parent=None, z=textStartHeight, text_wordwrap=16, text='',
                  orientation='left', **kw):
+        
         loadModels()
 
         if parent is None:

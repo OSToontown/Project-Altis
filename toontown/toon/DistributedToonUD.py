@@ -367,6 +367,9 @@ class DistributedToonUD(DistributedObjectUD):
     def setPetTutorialDone(self, todo0):
         pass
 
+    def setClubId(self, clubId):
+        pass
+
     def setFishBingoTutorialDone(self, todo0):
         pass
 

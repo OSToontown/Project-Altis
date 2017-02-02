@@ -105,6 +105,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.toonExp = 0
         self.toonLevel = 0
         self.petId = None
+        self.clubId = 0
         self.quests = []
         self.achievements = []
         self.cogs = []
@@ -3167,6 +3168,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             DistributedToonAI.notify.debug('setSCCustom: %s' % msgId)
             from toontown.pets import PetObserve
             PetObserve.send(self.zoneId, PetObserve.getSCObserve(msgId, self.doId))
+
+    def setClubId(self, clubId):
+        self.clubId = clubId
+
+    def d_setClubId(self, clubId):
+        self.sendUpdate('setClubId', [clubId])
+
+    def b_setClubId(self, clubId):
+        self.setClubId(clubId)
+        self.d_setClubId(clubId)
+
+    def getClubId(self):
+        return self.clubId
 
     def setHatePets(self, hate):
         self.hatePets = hate

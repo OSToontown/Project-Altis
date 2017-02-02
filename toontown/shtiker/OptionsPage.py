@@ -185,6 +185,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             image2_color=rolloverColor, image3_color=diabledColor,
             text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode,
             extraArgs=[PageMode.Special], pos=(0.42, 0, 0.77))
+        
         gui.removeNode()
 
     def enter(self):

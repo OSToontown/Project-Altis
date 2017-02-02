@@ -36,6 +36,7 @@ from toontown.quest import QuestMap
 from toontown.quest import QuestParser
 from toontown.quest import Quests
 from toontown.shtiker import AchievementsPage
+from toontown.shtiker import ClubsPage
 from toontown.shtiker import DisguisePage
 from toontown.shtiker import EventsPage
 from toontown.shtiker import FishPage
@@ -292,6 +293,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         del self.fishPage
         del self.gardenPage
         del self.trackPage
+        del self.clubsPage
         del self.book
         if base.wantKarts:
             if hasattr(self, 'kartPage'):
@@ -376,6 +378,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.fishPage.setAvatar(self)
         self.fishPage.load()
         self.book.addPage(self.fishPage, pageName=TTLocalizer.FishPageTitle)
+        self.clubsPage = ClubsPage.ClubsPage()
+        self.clubsPage.setAvatar(self)
+        self.clubsPage.load()
+        self.book.addPage(self.clubsPage, pageName = TTLocalizer.ClubsPageTitle)
         if base.wantAchievements:
             self.achievementsPage = AchievementsPage.AchievementsPage()
             self.achievementsPage.setAvatar(self)

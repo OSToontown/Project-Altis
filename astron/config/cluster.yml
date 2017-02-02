@@ -59,6 +59,10 @@ uberdogs:
       id: 4477
       anonymous: false
 
+    - class: DistributedToonClubManager
+      id: 4664
+      anonymous: false
+
 roles:
     - type: clientagent
       bind: 0.0.0.0:7198
