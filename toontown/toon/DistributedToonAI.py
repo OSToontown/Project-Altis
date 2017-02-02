@@ -20,7 +20,7 @@ from otp.avatar import DistributedAvatarAI
 from otp.avatar import DistributedPlayerAI
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
-from toontown.achievements import Achievements
+from toontown.achievements import Achievements, AchievementsGlobals
 from toontown.battle import SuitBattleGlobals
 from toontown.catalog import CatalogAccessoryItem
 from toontown.catalog import CatalogItem
@@ -4377,6 +4377,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 achievements.append(achievementId)
 
                 self.b_setAchievements(achievements)
+                self.b_setToonExp(self.getToonExp() + AchievementsGlobals.AchievementExperience[achievementId])
 
     def hasAchievement(self, achievementId):
         if achievementId in self.achievements:
