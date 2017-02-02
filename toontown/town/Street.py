@@ -368,7 +368,6 @@ class Street(BattlePlace.BattlePlace):
         geom = base.cr.playGame.getPlace().loader.geom
         self.halloweenLights = geom.findAllMatches('**/*light*')
         self.halloweenLights += geom.findAllMatches('**/*lamp*')
-        self.halloweenLights += geom.findAllMatches('**/prop_snow_tree*')
         for light in self.halloweenLights:
             light.setColorScaleOff(1)
 

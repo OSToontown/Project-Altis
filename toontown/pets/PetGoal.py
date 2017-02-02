@@ -50,8 +50,7 @@ class PetGoal(FSM.FSM):
         self.pet = None
         self.brain = None
         self.fsm.requestFinalState()
-        return
-
+    
     def getPriority(self):
         return PetConstants.PriorityDefault
 
@@ -113,7 +112,6 @@ class InteractWithAvatar(PetGoal):
         else:
             self.accept(self.brain.getObserveEventAttendingAvStart(self.avatar.doId), Functor(self.request, 'Interact'))
             self.brain._chase(self.avatar)
-        return
 
     def exitChase(self):
         self.ignore(self.brain.getObserveEventAttendingAvStart(self.avatar.doId))

@@ -53,6 +53,7 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.TTLocalizerEnglish import SuitNameDropper
+from datetime import datetime
 
 if simbase.wantPets:
     from toontown.pets import PetLookerAI, PetObserve
@@ -316,6 +317,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         if self.isPlayerControlled() and self.WantTpTrack:
             messenger.send(self.staticGetLogicalZoneChangeAllEvent(), [newZoneId, oldZoneId, self])
+            
+        if oldZoneId is not None:
+            # check if the previous zone was an interior zone, if so request time update
+            # from the day time manager to ensure sky state is correct.
+            if ZoneUtil.isInterior(oldZoneId):
+                # get current time from the time of day manager when toon changes zones
+                for hood in self.air.hoods:
+                    if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
+                        continue
+
+                    if not hood.zoneId == 9000:
+                        hood.dayTimeMgr.d_requestUpdate()
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         if simbase.wantPets:
@@ -3951,7 +3964,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                         appendInvite = False
                 if appendInvite:
                     endDate = partyInfo.endTime.date()
-                    curDate = simbase.air.toontownTimeManager.getCurServerDateTime().date()
+                    curDate = datetime.now().date()
                     if endDate < curDate:
                         appendInvite = False
             if appendInvite:
@@ -5294,7 +5307,7 @@ def nametagStyle(nametagStyle):
 def disguise(command, suitIndex, value):
     invoker = spellbook.getTarget()
 
-    if suitIndex > 3:
+    if suitIndex > 4:
         return 'Invalid suit index: %s' % suitIndex
     if value < 0:
         return 'Invalid value: %s' % value

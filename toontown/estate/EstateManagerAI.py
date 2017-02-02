@@ -259,7 +259,8 @@ class LoadEstateFSM(FSM):
 
         # A houseFSM just finished! Let's see if all of them are done:
         if all(houseFSM.done for houseFSM in self.houseFSMs):
-            self.demand('LoadPets')
+            #self.demand('LoadPets')
+            self.demand('Finished')
 
     def enterLoadPets(self):
         self.petFSMs = []

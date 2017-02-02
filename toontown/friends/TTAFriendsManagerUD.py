@@ -249,6 +249,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
 
     def getPetDetails(self, petId):
+        return
         senderId = self.air.getAvatarIdFromSender()
         def handlePet(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedPetAI']:

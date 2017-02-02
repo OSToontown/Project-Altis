@@ -749,7 +749,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         for toonId in self.involvedToons:
             toon = simbase.air.doId2do.get(toonId)
             if toon:
-                toon.d_setPieType(8)
+                toon.d_setPieType(7)
 
     def takeAwayPies(self):
         for toonId in self.involvedToons:

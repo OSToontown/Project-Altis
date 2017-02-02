@@ -67,6 +67,7 @@ NPC_PARTYPERSON = 8
 NPC_SPECIALQUESTGIVER = 9
 NPC_FLIPPYTOONHALL = 10
 NPC_SCIENTIST = 11
+NPC_LOOPY = 12
 CLERK_COUNTDOWN_TIME = 120
 TAILOR_COUNTDOWN_TIME = 300
 RTDNAFile = '/RTDNAFile.txt'
@@ -90,6 +91,8 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     from toontown.toon import DistributedNPCSpecialQuestGiverAI
     from toontown.toon import DistributedNPCFlippyInToonHallAI
     from toontown.toon import DistributedNPCScientistAI
+    from toontown.toon import DistributedNPCLoopyGAI
+    
     canonicalZoneId, name, dnaType, gender, protected, type = desc
     if type == NPC_REGULAR:
         npc = DistributedNPCToonAI.DistributedNPCToonAI(air, npcId, questCallback=questCallback)
@@ -115,6 +118,8 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
         npc = DistributedNPCFlippyInToonHallAI.DistributedNPCFlippyInToonHallAI(air, npcId)
     elif type == NPC_SCIENTIST:
         npc = DistributedNPCScientistAI.DistributedNPCScientistAI(air, npcId)
+    elif type == NPC_LOOPY:
+        npc =  DistributedNPCLoopyGAI.DistributedNPCLoopyGAI(air, npcId)
     else:
         print 'createNPC() error!!!'
     npc.setName(name)
@@ -202,7 +207,7 @@ def createLocalNPC(npcId):
     return npc
 
 # Some buildings don't have NPCs, so we need to store their zone IDs here:
-badBlocks = [2606, 2602, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
+badBlocks = [2606, 2602, 2605, 2708, 2705, 2704, 2701, 2803, 2804, 2809, 2805, 5607, 1707,
              5609, 3605, 3703]
              
 def isZoneProtected(zoneId):
@@ -2094,6 +2099,25 @@ NPCToonDict = {20000: (-1,
 		'm',
 		0,
 		NPC_REGULAR),
+ 2323: (2741,
+		lnames[2323],
+		('cls',
+		 'ms',
+		 'l',
+		 'm',
+		 17,
+		 0,
+		 0,
+		 17,
+		 97,
+		 13,
+		 86,
+		 13,
+		 1,
+		 13),
+		'm',
+		0,
+		NPC_LOOPY),
  1001: (1506,
         lnames[1001],
         ('rss',
