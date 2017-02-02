@@ -5,6 +5,10 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.achievements import AchievementsGlobals
 
+POSITIONS = [(-.45, 0, .3), (-.15, 0, .3), (.15, 0, .3), (.45, 0, .3),
+             (-.45, 0, .0), (-.15, 0, .0), (.15, 0, .0), (.45, 0, .0),
+             (-.45, 0, -.3), (-.15, 0, -.3), (.15, 0, -.3), (.45, 0, -.3)]
+
 class AchievementsPage(ShtikerPage.ShtikerPage):
 
     def __init__(self):
@@ -20,18 +24,12 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         self.avAchievements = localAvatar.achievements
         self.title = DirectLabel(parent=self, relief=None, text=TTLocalizer.AchievementsPageTitle, text_scale=0.12, textMayChange=1, pos=(0, 0, 0.62))
 
-        start_pos = LVecBase3(0.72, 1, -0.21)
-        seperation = LVecBase3(0.45, 0, 0.4)
-
         cardModel = loader.loadModel('phase_3.5/models/gui/playingCard')
 
         incButton = (self.gui.find('**/FndsLst_ScrollUp'),
                      self.gui.find('**/FndsLst_ScrollDN'),
                      self.gui.find('**/FndsLst_ScrollUp_Rllvr'),
                      self.gui.find('**/FndsLst_ScrollUp'))
-
-        self.scrollFrame = DirectScrolledFrame(parent=self, frameSize=(0, 1.5, -1.2, 0), pos=(-0.75, 1, 0.52),
-                                               canvasSize=(0, 1, -7, 0), frameColor=(0.85, 0.95, 1, 1))
 
         self.updatePage()
 
@@ -47,13 +45,13 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         del self.achievements
         self.achievements = []
 
-        start_pos = LVecBase3(0.72, 1, -0.21)
-        seperation = LVecBase3(0.45, 0, 0.4)
+        start_pos = LVecBase3(.4, 1, -0.26)
+        seperation = LVecBase3(0, 0, 0.7)
 
         for achievement in xrange(len(AchievementsGlobals.AchievementTitles)):
-            achievementFrame = DirectFrame(parent=self.scrollFrame.getCanvas(), image=DGG.getDefaultDialogGeom(), scale=(1.3, 0, 0.32),
-                                           relief=None, pos=(start_pos.x, 1, start_pos.z - seperation.z * achievement),
-                                           text=AchievementsGlobals.AchievementTitles[achievement], text_scale=(.025, .1),
+            achievementFrame = DirectFrame(parent=self, image=DGG.getDefaultDialogGeom(), scale=(0.25, 0, 0.25),
+                                           relief=None, pos=(POSITIONS[achievement]),
+                                           text=AchievementsGlobals.AchievementTitles[achievement], text_scale=(.08),
                                            text_font=ToontownGlobals.getMinnieFont(), text_pos=(0, 0, 0))
 
             self.achievements.append(achievementFrame)
@@ -64,8 +62,8 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
 
                 currentAchievement = AchievementsGlobals.AchievementImages[achievement]
 
-                img = OnscreenImage(image=currentAchievement, parent=achievementFrame, scale = (.05, 1, .2))
+                img = OnscreenImage(image=currentAchievement, parent=achievementFrame, scale = (.2, 1, .2))
                 img.setTransparency(TransparencyAttrib.MAlpha)
-                experience = OnscreenText(parent=achievementFrame, text=str(AchievementsGlobals.AchievementExperience[achievement]) + " experience", scale=(.025, .1), font = ToontownGlobals.getMinnieFont(), fg = (.2, 1, .2, 1), pos = (0, -.4))
+                experience = OnscreenText(parent=achievementFrame, text=str(AchievementsGlobals.AchievementExperience[achievement]) + " experience", scale=(.08), font = ToontownGlobals.getMinnieFont(), fg = (.2, .8, .2, 1), pos = (0, -.4))
             else:
                 achievementFrame['text'] = 'Achievement locked'
