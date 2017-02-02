@@ -23,7 +23,7 @@ import time
 import string
 import copy
 from toontown.toonbase.ToonPythonUtil import StackTrace
-from toontown.pets.pymover import pymover
+from toontown.pets.PetMoverAI import PetMoverAI 
 
 class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLookerAI.PetLookerAI, PetBase.PetBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPetAI')
@@ -104,7 +104,6 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             self.setMoodComponent(component, 0.0)
 
         self.b_setTrickAptitudes([])
-        return
 
     def setDNA(self, dna):
         head, ears, nose, tail, body, color, colorScale, eyes, gender = dna
@@ -354,14 +353,12 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         timestamp = ClockDelta.globalClockDelta.getRealNetworkTime()
         self.notify.debug('DPAI: sending update @ ts = %s' % timestamp)
         self.sendUpdate('teleportIn', [timestamp])
-        return None
 
     def teleportOut(self, timestamp = None):
         self.notify.debug('DPAI: teleportOut')
         timestamp = ClockDelta.globalClockDelta.getRealNetworkTime()
         self.notify.debug('DPAI: sending update @ ts = %s' % timestamp)
         self.sendUpdate('teleportOut', [timestamp])
-        return None
 
     def getLastSeenTimestamp(self):
         return self.lastSeenTimestamp
@@ -506,7 +503,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
         self.requiredMoodComponents = {}
         self.brain = PetBrain.PetBrain(self)
-        self.mover = pymover(self)
+        self.mover = PetMoverAI(self)
         self.enterPetLook()
         self.actionFSM = PetActionFSM.PetActionFSM(self)
         self.teleportIn()
@@ -626,7 +623,6 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.zoneId = None
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         self.ignoreAll()
-        return
 
     def getMoveTaskName(self):
         return 'petMove-%s' % self.doId
