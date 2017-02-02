@@ -98,6 +98,7 @@ class FishPanel(DirectFrame):
             self.extraLabel.show()
             self.extraLabel['text'] = TTLocalizer.FishingNewRecord
             self.extraLabel['text_scale'] = TTLocalizer.FPnewRecord
+            self.extraLabel['text_fg'] = (0.25, 0.35, 1.0, 1.0)
         self.photo.show()
         DirectFrame.show(self)
 
