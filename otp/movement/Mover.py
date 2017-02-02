@@ -9,9 +9,7 @@ class Mover:
     SerialNum = 0
     Profile = 0
     Pstats = 1
-    PSCCpp = 'App:Show code:moveObjects:MoverC++'
     PSCPy = 'App:Show code:moveObjects:MoverPy'
-    PSCInt = 'App:Show code:moveObjects:MoverIntegrate'
 
     def __init__(self, objNodePath, fwdSpeed = 1, rotSpeed = 1):
         self.serialNum = Mover.SerialNum
@@ -19,9 +17,8 @@ class Mover:
         self.VecType = Vec3
         self.impulses = {}
         if Mover.Pstats:
-            self.pscCpp = PStatCollector(Mover.PSCCpp)
             self.pscPy = PStatCollector(Mover.PSCPy)
-            self.pscInt = PStatCollector(Mover.PSCInt)
+
 
     def destroy(self):
         for name, impulse in self.impulses.items():
@@ -50,15 +47,10 @@ class Mover:
             PythonUtil.startProfile(cmd='func()', filename='profile', sorts=['cumulative'], callInfo=0)
             del __builtin__.func
             return
+
         if Mover.Pstats:
-            self.pscCpp.start()
-        if Mover.Pstats:
-            self.pscCpp.stop()
             self.pscPy.start()
         for impulse in self.impulses.values():
             impulse._process(self.getDt())
         if Mover.Pstats:
             self.pscPy.stop()
-            self.pscInt.start()
-        if Mover.Pstats:
-            self.pscInt.stop()
