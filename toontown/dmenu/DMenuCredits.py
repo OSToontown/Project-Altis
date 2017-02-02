@@ -39,7 +39,7 @@ Judge
 LoopyGoopyG
 
 \1orangeText\1Developers\2
-Sir Tubby Cheesyfish | Lead Developer
+Sir Tubby Cheezyfish | Lead Developer
 Drew | Game Developer
 Alice | Web Developer
 Barks | Game Developer
