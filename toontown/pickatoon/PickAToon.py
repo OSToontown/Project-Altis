@@ -7,8 +7,10 @@ Created on Sep 12, 2016
 
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
+from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from panda3d.core import *
+from toontown.dmenu import DMenuQuit
 from toontown.hood import SkyUtil
 from toontown.pickatoon import PickAToonOptions
 from toontown.pickatoon import ShardPicker
@@ -47,9 +49,10 @@ chooser_notify = DirectNotifyGlobal.directNotify.newCategory('PickAToon')
 
 MAX_AVATARS = 6
 
-class PickAToon:
+class PickAToon(DirectObject):
 
     def __init__(self, avatarList, parentFSM, doneEvent):
+        DirectObject.__init__(self)
         self.toonList = {i: (i in [x.position for x in avatarList]) for i in xrange(6)}
         self.avatarList = avatarList
         self.selectedToon = 0
@@ -60,6 +63,7 @@ class PickAToon:
         self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
         self.shardPicker = ShardPicker.ShardPicker()
         self.buttonList = []
+        self.quitConfirmation = DMenuQuit.DMenuQuit()
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -74,6 +78,8 @@ class PickAToon:
         self.patNode.unstash()
         self.checkPlayButton()
         self.updateFunc()
+        self.accept('doQuitGame', self.doQuitFunc)
+        self.accept('doCancelQuitGame', self.doCancelQuitFunc)
 
     def exit(self):
         base.cam.iPosHpr()
@@ -94,7 +100,7 @@ class PickAToon:
         # Quit Button
         quitHover = gui.find('**/QuitBtn_RLVR')
         self.quitHover = quitHover
-        self.quitButton = DirectButton(image = (quitHover, quitHover, quitHover), relief = None, text = TTLocalizer.AvatarChooserQuit, text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = TTLocalizer.ACquitButtonPos, text_scale = TTLocalizer.ACquitButton, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, pos = (1.08, 0, -0.907), command = self.__handleQuit)
+        self.quitButton = DirectButton(image = (quitHover, quitHover, quitHover), relief = None, text = TTLocalizer.AvatarChooserQuit, text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = TTLocalizer.ACquitButtonPos, text_scale = TTLocalizer.ACquitButton, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, pos = (1.08, 0, -0.907), command = self.quitGame)
         self.quitButton.reparentTo(base.a2dBottomLeft)
         self.quitButton.setPos(0.25, 0, 0.075)
 
@@ -311,9 +317,7 @@ class PickAToon:
         messenger.send(self.doneEvent, [doneStatus])
 
     def __handleQuit(self):
-        cleanupDialog('globalDialog')
-        self.doneStatus = {'mode': 'exit'}
-        messenger.send(self.doneEvent, [self.doneStatus])
+        messenger.send('showQuitDialog')
 
     def openOptions(self):
         self.optionsMgr.showOptions()
@@ -344,3 +348,29 @@ class PickAToon:
         self.shardPicker.hidePicker()
         self.shardsButton['text'] = 'Districts'
         self.shardsButton['command'] = self.openShardPicker
+        
+    def quitGame(self):
+        self.showQuitConfirmation()
+        self.optionsButton.hide()
+        self.shardsButton.hide()
+        self.quitButton.hide()
+        self.patNode2d.hide()
+        self.patNode.hide()
+        if self.haveToon:
+            self.deleteButton.hide()
+            
+    def showQuitConfirmation(self):
+        self.quitConfirmation.showConf()
+            
+    def doQuitFunc(self):
+        base.exitFunc()
+        
+    def doCancelQuitFunc(self):
+        self.quitConfirmation.hideConf()
+        self.optionsButton.show()
+        self.shardsButton.show()
+        self.quitButton.show()
+        self.patNode2d.show()
+        self.patNode.show()
+        if self.haveToon:
+            self.deleteButton.show()

@@ -7,16 +7,14 @@ Created on May 1, 2016
 PlayBtnPos = (0, 0, 0.0)
 PlayBtnHidePos = (0, 0, -1.1)
 
+OptionsBtnPos = (-.9, 0, -0.6)
+OptionsBtnHidePos = (-.9, 0, -1.7)
 
-OptionsBtnPos = (0, 0, -0.2)
-OptionsBtnHidePos = (0, 0, -1.3)
+DiscordBtnPos = (-.3, 0, -0.6)
+DiscordBtnHidePos = (-.3, 0, -1.7)
 
+CreditsBtnPos = (.3, 0, -0.6)
+CreditsBtnHidePos = (.3, 0, -1.7)
 
-DiscordBtnPos = (0, 0, -0.4)
-DiscordBtnHidePos = (0, 0, -1.5)
-
-CreditsBtnPos = (0, 0, -0.6)
-CreditsBtnHidePos = (0, 0, -1.7)
-
-QuitBtnPos = (0, 0, -0.8)
-QuitBtnHidePos = (0, 0, -1.9)
+QuitBtnPos = (.9, 0, -0.6)
+QuitBtnHidePos = (.9, 0, -1.7)
