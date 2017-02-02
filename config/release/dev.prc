@@ -16,7 +16,7 @@ rpc-server-endpoint http://localhost:8080/
 dc-file astron/dclass/toon.dc
 
 # Core features:
-want-pets #t
+want-pets #f
 want-parties #t
 want-cogdominiums #f
 want-achievements #f
