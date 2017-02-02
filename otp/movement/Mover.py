@@ -19,7 +19,6 @@ class Mover:
         if Mover.Pstats:
             self.pscPy = PStatCollector(Mover.PSCPy)
 
-
     def destroy(self):
         for name, impulse in self.impulses.items():
             Mover.notify.debug('removing impulse: %s' % name)
