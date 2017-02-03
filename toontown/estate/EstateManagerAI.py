@@ -442,7 +442,6 @@ class EstateManagerAI(DistributedObjectAI):
 
         # Free estate's zone:
         self.air.deallocateZone(estate.zoneId)
-        del self.zoneId2owner[estate.zoneId]
         
     def _sendToonsToPlayground(self, estate, reason):
         for toon in self.estate2toons.get(estate, []):
