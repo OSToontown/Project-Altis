@@ -4,7 +4,7 @@ DMENU_GAME = 'Toontown'
 
 
 from direct.actor import Actor
-from direct.gui.DirectGui import OnscreenImage, DirectButton
+from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, ActorInterval
 from direct.showbase import Audio3DManager
 from direct.showbase.DirectObject import DirectObject
@@ -13,6 +13,7 @@ from toontown.dmenu import DMenuCredits
 from toontown.dmenu.DMenuGlobals import *
 from toontown.dmenu.DMenuLocalizer import *
 from toontown.dmenu.DMenuResources import *
+from toontown.dmenu import DMenuQuit
 from toontown.pickatoon import PickAToonOptions, PickAToon
 import random
 import webbrowser
@@ -65,6 +66,7 @@ class DMenuScreen(DirectObject):
         self.background2d.setScale(2, 1, 1)
         self.background2d.setBin('background', 1)
         self.background2d.setTransparency(1)
+        self.background2d.setColorScale(1, 1, 1, .5)
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
         self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
@@ -181,7 +183,9 @@ class DMenuScreen(DirectObject):
 
         self.fadeOut = None
         self.optionsMgr = PickAToonOptions.NewPickAToonOptions()
-        # self.quitConfirmation = DMenuQuit()
+        self.quitConfirmation = DMenuQuit.DMenuQuit()
+        self.accept('doQuitGame', self.doQuitFunc)
+        self.accept('doCancelQuitGame', self.doCancelQuitFunc)
         self.patNode = None
 
         if DMENU_GAME == 'Toontown':
@@ -228,7 +232,7 @@ class DMenuScreen(DirectObject):
         shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')
 
-        self.PlayButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = PlayGame, text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.playGame)
+        self.PlayButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = PlayGame, text_pos = (0, -0.02), text_scale = .07, scale = 1.2, command = self.playGame)
         self.PlayButton.reparentTo(aspect2d)
         self.PlayButton.setPos(PlayBtnHidePos)
         self.PlayButton.show()
@@ -336,6 +340,7 @@ class DMenuScreen(DirectObject):
         self.buttonInAnimation()
 
     def playGame(self):
+        self.ignoreAll()
         if self.fadeOut is not None:
             self.fadeOut.finish()
             self.fadeOut = None
@@ -344,7 +349,7 @@ class DMenuScreen(DirectObject):
         Sequence(
             Func(self.doPlayButton),
             Wait(1),
-            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, 1)),
+            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .5)),
             # Func(self.murder),
             Func(self.enterGame)).start()
             # Func(base.transitions.fadeIn, 1)).start()
@@ -358,6 +363,11 @@ class DMenuScreen(DirectObject):
         base.cr.avChoice.enter()
 
     def doPlayButton(self):
+        self.PlayButton['state'] = DGG.DISABLED
+        self.OptionsButton['state'] = DGG.DISABLED
+        self.QuitButton['state'] = DGG.DISABLED
+        self.DiscordButton['state'] = DGG.DISABLED
+        self.CreditsButton['state'] = DGG.DISABLED
         Parallel(
             self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
             self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
@@ -368,11 +378,24 @@ class DMenuScreen(DirectObject):
 
     def quitGame(self):
         self.showQuitConfirmation()
-
+        Parallel(
+            self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
+            self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
+            self.QuitButton.posInterval(.2, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
+            self.DiscordButton.posInterval(.2, Point3(DiscordBtnHidePos), blendType = 'easeInOut'),
+            self.CreditsButton.posInterval(.2, Point3(CreditsBtnHidePos), blendType = 'easeInOut'),
+            self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
+            
     def showQuitConfirmation(self):
-        # self.quitConfirmation.showConfirmation()
-        base.exitFunc()
+        self.quitConfirmation.showConf()
 
+    def doQuitFunc(self):
+        base.exitFunc()
+        
+    def doCancelQuitFunc(self):
+        self.buttonInAnimation()
+        self.quitConfirmation.hideConf()
+        
     def buttonInAnimation(self):
         logo = self.logo.posInterval(.5, Point3(0, 0, .5), blendType = 'easeInOut')
         play = self.PlayButton.posInterval(.5, Point3(PlayBtnPos), blendType = 'easeInOut')
@@ -385,15 +408,11 @@ class DMenuScreen(DirectObject):
                  Func(logo.start),
                  Wait(0.1),
                  Func(play.start),
-                 Wait(0.2),
+                 Wait(0.1),
                  Func(opt.start),
-                 Wait(0.2),
                  Func(discord.start),
-                 Wait(0.2),
                  Func(credits.start),
-                 Wait(0.2),
-                 Func(quit.start),
-                 Wait(0.2)).start()
+                 Func(quit.start)).start()
 
     def showHamburgerMenu(self):
         self.hbButton.hide()

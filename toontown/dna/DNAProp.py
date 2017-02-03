@@ -31,7 +31,7 @@ class DNAProp(DNANode.DNANode):
         DNANode.DNANode.makeFromDGI(self, dgi, store)
         self.code = DNAUtil.dgiExtractString8(dgi)
         self.color = DNAUtil.dgiExtractColor(dgi)
-
+        
     def traverse(self, nodePath, dnaStorage):
         if self.code == 'DCS':
             node = ModelNode(self.name)

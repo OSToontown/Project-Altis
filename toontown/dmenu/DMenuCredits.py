@@ -39,13 +39,12 @@ Judge
 LoopyGoopyG
 
 \1orangeText\1Developers\2
-SkippsDev | Lead Developer
+Sir Tubby Cheezyfish | Lead Developer
 Drew | Game Developer
 Alice | Web Developer
 Barks | Game Developer
 Dan | Game Developer
 Malverde | Game Developer
-Sir Tubby Cheezyfish | Game Developer
 Xanon | Web Developer
 
 \1orangeText\1Artists\2
@@ -53,6 +52,7 @@ Bethy / Limey Mouse | Lead Artist
 Old Geezer | Modeller | Composer
 Maddie | Texture Artist
 VoidPoro | Texture Artist
+Pascal | Modeller
 
 \1orangeText\1Community Managers\2
 Smirky Bumberpop | External Community Manager
