@@ -66,7 +66,7 @@ class DMenuScreen(DirectObject):
         self.background2d.setScale(2, 1, 1)
         self.background2d.setBin('background', 1)
         self.background2d.setTransparency(1)
-        self.background2d.setColorScale(1, 1, 1, .5)
+        self.background2d.setColorScale(1, 1, 1, .2)
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
         self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
@@ -349,7 +349,7 @@ class DMenuScreen(DirectObject):
         Sequence(
             Func(self.doPlayButton),
             Wait(1),
-            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .5)),
+            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .2)),
             # Func(self.murder),
             Func(self.enterGame)).start()
             # Func(base.transitions.fadeIn, 1)).start()
