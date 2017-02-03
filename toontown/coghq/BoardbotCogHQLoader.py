@@ -50,9 +50,9 @@ class BoardbotCogHQLoader(CogHQLoader.CogHQLoader):
             signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
             signText.setDepthWrite(0)
             self.geom.flattenMedium()
-        elif zoneId == ToontownGlobals.CashbotLobby:
+        elif zoneId == ToontownGlobals.BoardbotLobby:
             if base.config.GetBool('want-qa-regression', 0):
-                self.notify.info('QA-REGRESSION: COGHQ: Visit CashbotLobby')
+                self.notify.info('QA-REGRESSION: COGHQ: Visit BoardbotLobby')
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
             self.geom.flattenMedium()
         else:
