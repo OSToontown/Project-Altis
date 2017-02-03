@@ -949,7 +949,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 self.interactiveProp = base.cr.playGame.hood.loader.getInteractiveProp(self.getVisZoneId())
                 return self.interactiveProp
         self.notify.warning("Loader has no attribute 'getInteractiveProp' or no interactiveProp could be found.")
-        return
 
     def makePropSad(self):
         self.notify.debug('makePropSad')

@@ -210,7 +210,6 @@ class PetBrain(DirectObject.DirectObject):
 
     def clearFocus(self):
         self.setFocus(None)
-        return
 
     def _handleFocusHasLeft(self):
         if self.focus.isEmpty():
@@ -278,8 +277,7 @@ class PetBrain(DirectObject.DirectObject):
         self.setFocus(None)
         self.pet.actionFSM.request('Movie')
         self.inMovie = 1
-        return
-
+        
     def _endMovie(self):
         self.inMovie = 0
 
@@ -368,7 +366,6 @@ class PetBrain(DirectObject.DirectObject):
             if avatar is not None:
                 if self.getFocus() == avatar:
                     self._wander()
-        return
 
     def _handlePhraseObserve(self, observe):
 
@@ -417,7 +414,6 @@ class PetBrain(DirectObject.DirectObject):
             if avatar is not None:
                 if self.getFocus() == avatar:
                     self._wander()
-            return
 
         def _handleDoTrick(trickId, avId, self = self):
             looked = self.lookedAtBy(avId) or config.GetBool('pet-brain-ignore-looked-tricks', True)
@@ -472,8 +468,6 @@ class PetBrain(DirectObject.DirectObject):
         for goal in self.doId2goals[avId]:
             self.goalMgr.addGoal(goal)
 
-        return
-
     def _removeGoalsReAvatar(self, avId):
         if avId not in self.doId2goals:
             PetBrain.notify.warning('no goals re av %s to remove' % avId)
@@ -495,11 +489,9 @@ class PetBrain(DirectObject.DirectObject):
         def becomeAwareOf(avId, self = self):
             self.avAwareness[avId] = None
             self._addGoalsReAvatar(avId)
-            return
 
         if len(self.avAwareness) < PetConstants.MaxAvatarAwareness:
             becomeAwareOf(avId)
-            return
 
         def calcInterest(avId, self = self):
             if avId == self.pet.ownerId:
@@ -519,7 +511,6 @@ class PetBrain(DirectObject.DirectObject):
         if minInterestAvId != avId:
             self._removeAwarenessOf(minInterestAvId)
             becomeAwareOf(avId)
-        return
 
     def _removeAwarenessOf(self, avId):
         if avId in self.avAwareness:
@@ -538,7 +529,6 @@ class PetBrain(DirectObject.DirectObject):
         self.pet.lerpMoods({'excitement': 0.7,
          'loneliness': -.4})
         self._considerBecomeAwareOf(avId)
-        return
 
     def _handleAvatarLeave(self, avId):
         PetBrain.notify.debug('%s._handleAvatarLeave: %s' % (self.pet.doId, avId))

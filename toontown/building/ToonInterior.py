@@ -22,6 +22,7 @@ class ToonInterior(Place.Place):
         Place.Place.__init__(self, loader, doneEvent)
         self.dnaFile = 'phase_7/models/modules/toon_interior'
         self.isInterior = 1
+        self.townBattle = None
         self.tfaDoneEvent = 'tfaDoneEvent'
         self.hfaDoneEvent = 'hfaDoneEvent'
         self.npcfaDoneEvent = 'npcfaDoneEvent'

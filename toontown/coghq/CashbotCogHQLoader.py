@@ -23,6 +23,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.musicFile = 'phase_9/audio/bgm/encntr_suit_HQ_nbrhood.ogg'
         self.cogHQExteriorModelPath = 'phase_10/models/cogHQ/CashBotShippingStation'
         self.cogHQLobbyModelPath = 'phase_10/models/cogHQ/VaultLobby'
+        self.zoneVisDict = []
         self.geom = None
 
     def load(self, zoneId):
