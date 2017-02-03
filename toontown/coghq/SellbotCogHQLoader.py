@@ -180,3 +180,13 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def getBossPlaceClass(self):
         return SellbotHQBossBattle.SellbotHQBossBattle
+		
+    def enterCogHQBossBattle(self, requestStatus):
+        self.notify.debug('SellbotCogHQLoader.enterCogHQBossBattle')
+        CogHQLoader.CogHQLoader.enterCogHQBossBattle(self, requestStatus)
+        base.cr.forbidCheesyEffects(1)
+
+    def exitCogHQBossBattle(self):
+        self.notify.debug('SellbotCogHQLoader.exitCogHQBossBattle')
+        CogHQLoader.CogHQLoader.exitCogHQBossBattle(self)
+        base.cr.forbidCheesyEffects(0)

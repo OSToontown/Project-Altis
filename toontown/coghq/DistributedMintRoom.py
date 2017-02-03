@@ -158,10 +158,8 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel, MintRoomBase.MintRo
                 floorNum = '???'
             posStr = 'X: %.3f' % pos[0] + '\nY: %.3f' % pos[1] + '\nZ: %.3f' % pos[2] + '\nH: %.3f' % h + '\nmintId: %s' % self.mintId + '\nfloor: %s' % floorNum + '\nroomId: %s' % self.roomId + '\nroomName: %s' % roomName
             base.localAvatar.setChatAbsolute(posStr, CFThought | CFTimeout)
-            return
 
         self.accept('f2', printPos)
-        return
 
     def handleSOSPanel(self, panel):
         avIds = []

@@ -58,7 +58,6 @@ class PartyCog(FSM):
         self.netTimeSentToStartByHit = 0
         self.load()
         self.request('Down')
-        return
 
     def load(self):
         self.root = NodePath('PartyCog-%d' % self.id)
@@ -135,7 +134,6 @@ class PartyCog(FSM):
         self.hitInterval = None
         del self.upSound
         del self.pieHitSound
-        return
 
     def enterStatic(self):
         pass
@@ -260,7 +258,6 @@ class PartyCog(FSM):
     def clearHitInterval(self):
         if self.hitInterval is not None and self.hitInterval.isPlaying():
             self.hitInterval.clearToInitial()
-        return
 
     def __showSplat(self, position, direction, hot = False):
         if self.kaboomTrack is not None and self.kaboomTrack.isPlaying():
@@ -298,7 +295,6 @@ class PartyCog(FSM):
         self.hitInterval.start()
         self.kaboomTrack = Parallel(SoundInterval(self.pieHitSound, volume=1.0, node=self.actor, cutOff=PartyGlobals.PARTY_COG_CUTOFF), Sequence(Func(self.splat.showThrough), Parallel(Sequence(LerpScaleInterval(self.splat, duration=0.175, scale=targetscale, startScale=Point3(0.1, 0.1, 0.1), blendType='easeOut'), Wait(0.175)), Sequence(Wait(0.1), LerpFunc(setSplatAlpha, duration=1.0, fromData=1.0, toData=0.0, blendType='easeOut'))), Func(self.splat.cleanup), Func(self.splat.removeNode)))
         self.kaboomTrack.start()
-        return
 
     def showHitScore(self, number, scale = 1):
         if number <= 0:
@@ -331,7 +327,6 @@ class PartyCog(FSM):
             taskMgr.remove('PartyCogHpText' + str(self.id))
             self.hpText.removeNode()
             self.hpText = None
-        return
 
     def getHeadLocation(self):
         self.actor.getJoints(jointName='head')[0].getNetTransform(self.temp_transform)

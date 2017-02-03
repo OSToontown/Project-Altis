@@ -51,7 +51,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def announceGenerate(self):
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
-        base.cr.forbidCheesyEffects(1)
         self.setName(TTLocalizer.CashbotBossName)
         nameInfo = TTLocalizer.BossCogNameWithDept % {'name': self.name,
          'dept': SuitDNA.getDeptFullname(self.style.dept)}
@@ -88,7 +87,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def disable(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.disable(self)
-        base.cr.forbidCheesyEffects(0)
         self.demand('Off')
         self.unloadEnvironment()
         self.__cleanupResistanceToon()
@@ -224,6 +222,10 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         planeNode.setCollideMask(ToontownGlobals.PieBitmask)
         self.geom.attachNewNode(planeNode)
         self.geom.reparentTo(render)
+        self.battleOneMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg') # phase_10/audio/bgm/encntr_cfo_one
+        self.battleTwoMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg') # phase_10/audio/bgm/encntr_cfo_two
+        self.midCutsceneMusic = base.loadMusic('phase_9/audio/bgm/encntr_toon_winning.ogg')
+        self.battleThreeMusic = base.loadMusic('phase_10/audio/bgm/encntr_cfo_crane.ogg')
 
     def unloadEnvironment(self):
         DistributedBossCog.DistributedBossCog.unloadEnvironment(self)
@@ -424,6 +426,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         rToon.setPosHpr(93.935, -341.065, 0, -45, 0, 0)
         goon = self.fakeGoons[0]
         crane = self.cranes[0]
+        base.playMusic(self.midCutsceneMusic, looping=1, volume=0.9)
         track = Sequence(
             Func(self.__hideToons),
             Func(crane.request, 'Movie'),
@@ -473,7 +476,8 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(crane.request, 'Free'),
             Func(self.getGeomNode().setH, 0),
             self.moveToonsToBattleThreePos(self.involvedToons),
-            Func(self.__showToons))
+            Func(self.__showToons),
+            Func(self.midCutsceneMusic.stop))
         return Sequence(Func(base.camera.reparentTo, self), Func(base.camera.setPosHpr, 0, -27, 25, 0, -18, 0), track)
 
     def moveToonsToBattleThreePos(self, toons):
@@ -720,10 +724,12 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.endVault.stash()
         self.midVault.unstash()
         self.__hideResistanceToon()
+        base.playMusic(self.battleOneMusic, looping=1, volume=0.9)
 
     def exitBattleOne(self):
         DistributedBossCog.DistributedBossCog.exitBattleOne(self)
-
+        self.battleOneMusic.stop()
+        
     def enterPrepareBattleThree(self):
         self.controlToons()
         NametagGlobals.setWant2dNametags(False)
@@ -741,11 +747,13 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.midVault.unstash()
         self.__showResistanceToon(False)
         taskMgr.add(self.__doPhysics, self.uniqueName('physics'), priority=25)
+        base.playMusic(self.battleThreeMusic, looping=1, volume=0.9)
 
     def __beginBattleThree(self):
         intervalName = 'PrepareBattleThreeMovie'
         self.clearInterval(intervalName)
         self.doneBarrier('PrepareBattleThree')
+        self.battleThreeMusic.stop()
 
     def exitPrepareBattleThree(self):
         intervalName = 'PrepareBattleThreeMovie'

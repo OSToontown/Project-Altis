@@ -1,14 +1,14 @@
+import random
 from direct.actor import Actor
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import State
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
-import random
+from panda3d.core import *
+from otp.avatar import Emote
 from toontown.battle.BattleBase import *
 from toontown.battle import DistributedBattleBase
 from toontown.battle import MovieUtil
 from toontown.battle import SuitBattleGlobals
-from otp.avatar import Emote
 from toontown.chat.ChatGlobals import *
 from toontown.nametag import NametagGlobals
 from toontown.nametag.NametagGlobals import *
@@ -24,7 +24,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     camFOPos = Point3(0, -10, 4)
 
     def __init__(self, cr):
-        townBattle = cr.playGame.getPlace().townBattle
+        townBattle = base.cr.playGame.getPlace().townBattle
         DistributedBattleBase.DistributedBattleBase.__init__(self, cr, townBattle)
         self.streetBattle = 0
         self.fsm.addState(State.State('BuildingReward', self.enterBuildingReward, self.exitBuildingReward, ['Resume']))
@@ -139,14 +139,12 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         track = Sequence(mtrack, done, name=name)
         track.start(ts)
         self.storeInterval(track, name)
-        return
 
     def enterFaceOff(self, ts):
         if len(self.toons) > 0 and base.localAvatar == self.toons[0]:
             Emote.globalEmote.disableAll(self.toons[0], 'dbattlebldg, enterFaceOff')
         self.delayDeleteMembers()
         self.__faceOff(ts, self.faceOffName, self.__handleFaceOffDone)
-        return None
 
     def __handleFaceOffDone(self):
         self.notify.debug('FaceOff done')
@@ -160,7 +158,6 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         self._removeMembersKeep()
         camera.wrtReparentTo(self)
         base.camLens.setMinFov(self.camFov/(4./3.))
-        return None
 
     def __playReward(self, ts, callback):
         toonTracks = Parallel()
@@ -177,10 +174,9 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         self.notify.debug('enterReward()')
         self.delayDeleteMembers()
         self.__playReward(ts, self.__handleFloorRewardDone)
-        return None
 
     def __handleFloorRewardDone(self):
-        return None
+        pass
 
     def exitReward(self):
         self.notify.debug('exitReward()')
@@ -213,4 +209,4 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
             self.removeLocalToon()
 
     def exitResume(self):
-        return None
+        pass

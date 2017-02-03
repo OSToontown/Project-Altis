@@ -21,7 +21,7 @@ class Hood(StateData.StateData):
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         StateData.StateData.__init__(self, doneEvent)
-        self.loader = 'not initialized'
+        self.loader = None
         self.parentFSM = parentFSM
         self.dnaStore = dnaStore
         self.loaderDoneEvent = 'loaderDone'
