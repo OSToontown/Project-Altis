@@ -469,6 +469,26 @@ class SuitPlannerBase:
        0,
        0),
       (7, 8, 9, 10),
+      []],
+     [19000, #Boardbot Courtyard
+      8,
+      20,
+      0,
+      0,
+      0,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (0,
+       0,
+       0,
+       0,
+       100),
+      (7, 8, 9, 10),
       []]]
     SUIT_HOOD_INFO_ZONE = 0
     SUIT_HOOD_INFO_MIN = 1

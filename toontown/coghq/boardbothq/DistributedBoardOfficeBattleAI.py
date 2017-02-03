@@ -24,7 +24,7 @@ class DistributedBoardOfficeBattleAI(DistributedLevelBattleAI.DistributedLevelBa
         return self.level.boardofficeId
 
     def handleToonsWon(self, toons):
-        extraMerits = [0, 0, 0, 0]
+        extraMerits = [0, 0, 0, 0, 0]
         amount = ToontownGlobals.BoardOfficeCogBuckRewards[self.level.boardofficeId]
         index = ToontownGlobals.cogHQZoneId2deptIndex(self.level.boardofficeId)
         extraMerits[index] = amount
