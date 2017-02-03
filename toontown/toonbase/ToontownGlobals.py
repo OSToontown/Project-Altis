@@ -1666,6 +1666,7 @@ BossbotBossDifficultySettings = [(8,
   9,
   22,
   29)]
+BossbotBossDamageMultipliers = [1, 1.5, 1.5, 1.75, 2]
 BossbotRollSpeedMax = 22
 BossbotRollSpeedMin = 7.5
 BossbotTurnSpeedMax = 60

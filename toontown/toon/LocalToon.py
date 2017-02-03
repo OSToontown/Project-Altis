@@ -762,7 +762,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def __toonMoved(self, isSet):
         if isSet:
-            self.interruptPie()
+            pass
+            #self.interruptPie()
 
     def localTossPie(self, power):
         if not self.__presentingPie:
@@ -1084,6 +1085,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.furnitureManager.d_suggestDirector(self.doId)
 
     def stopMoveFurniture(self):
+        base.localAvatar.controlManager.collisionsOn() 
         if self.oldPos:
             self.setPos(self.oldPos)
         if self.furnitureManager != None:
@@ -1910,12 +1912,6 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def stopQuestMap(self):
         if self.questMap:
             self.questMap.stop()
-
-    def getPetId(self):
-        return False
-
-    def hasPet(self):
-        return False
 
     def setAchievements(self, achievements):
         if base.wantAchievements:

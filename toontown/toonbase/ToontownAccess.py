@@ -24,12 +24,14 @@ class ToontownAccess:
 
         self.sendUpdate('setModuleInfo', [newModules])
         return task.again
-    
-    def listProcessModules(self):
-        return None
+        
 
     def getModuleList(self):
-        moduleString = self.listProcessModules()
+        try:
+            from otp.launcher import procapi
+            moduleString = procapi.getProcessList()
+        except:
+            moduleString = ''
         moduleList = []
         if moduleString:
             moduleList = moduleString.split(',')

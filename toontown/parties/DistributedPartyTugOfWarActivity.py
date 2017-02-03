@@ -1,15 +1,7 @@
 import math
-from pandac.PandaModules import CollisionTube
-from pandac.PandaModules import CollisionNode
-from pandac.PandaModules import Point3
-from pandac.PandaModules import VBase3
-from pandac.PandaModules import RopeNode
-from direct.interval.IntervalGlobal import LerpPosHprInterval
-from direct.interval.IntervalGlobal import LerpPosInterval
-from direct.interval.IntervalGlobal import Wait
-from direct.interval.IntervalGlobal import ActorInterval
-from direct.interval.MetaInterval import Sequence
-from direct.interval.MetaInterval import Parallel
+from panda3d.core import CollisionTube, CollisionNode, Point3, VBase3, RopeNode
+from direct.interval.IntervalGlobal import LerpPosHprInterval, LerpPosInterval, Wait, ActorInterval
+from direct.interval.MetaInterval import Sequence, Parallel
 from direct.interval.FunctionInterval import Func
 from direct.showutil.Rope import Rope
 from toontown.toonbase.ToonPythonUtil import fitDestAngle2Src
@@ -19,8 +11,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.effects import Splash
 from toontown.minigame.MinigamePowerMeter import MinigamePowerMeter
 from toontown.minigame.ArrowKeys import ArrowKeys
-from toontown.parties import PartyGlobals
-from toontown.parties import PartyUtils
+from toontown.parties import PartyGlobals, PartyUtils
 from DistributedPartyTeamActivity import DistributedPartyTeamActivity
 
 class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
@@ -46,7 +37,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
          3]
         self.toonIdsToAnimIntervals = {}
         self.tugRopes = []
-        return
 
     def generate(self):
         DistributedPartyTeamActivity.generate(self)
@@ -81,7 +71,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 self.toonIdsToAnimIntervals[toonId].finish()
             self.toonIdsToAnimIntervals[toonId] = Sequence(Func(toon.startPosHprBroadcast, 0.1), Func(toon.b_setAnimState, 'run'), LerpPosHprInterval(toon, duration, targetPos, VBase3(targetH, 0.0, 0.0), other=self.root), Func(toon.stopPosHprBroadcast), Func(toon.b_setAnimState, 'neutral'))
             self.toonIdsToAnimIntervals[toonId].start()
-        return
 
     def handleToonExited(self, toonId):
         DistributedPartyTeamActivity.handleToonExited(self, toonId)
@@ -100,7 +89,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             else:
                 self._hopOffFinishedSV.set(True)
                 del self.toonIdsToAnimIntervals[toonId]
-        return
 
     def handleRewardDone(self):
         self._rewardFinishedSV.set(True)
@@ -125,7 +113,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             targetPos = self.dockPositions[self.localToonTeam][self.localToonPosIndex]
             self.toonIdsToAnimIntervals[toonId] = Sequence(Wait(0.6), Func(toon.startPosHprBroadcast, 0.1), Func(toon.b_setAnimState, 'run'), toon.posInterval(0.5, targetPos, other=self.root), Func(toon.stopPosHprBroadcast), Func(toon.b_setAnimState, 'neutral'))
             self.toonIdsToAnimIntervals[toonId].start()
-        return
 
     def handleToonDisabled(self, toonId):
         if toonId in self.toonIdsToAnimIntervals:
@@ -219,8 +206,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.arrows[x].setScale(0.2 - 0.4 * x, 0.2, 0.2)
             self.arrows[x].setPos(0.12 - 0.24 * x, 0, -.26)
 
-        return
-
     def loadSounds(self):
         self.splashSound = base.loader.loadSfx('phase_4/audio/sfx/MG_cannon_splash.ogg')
         self.whistleSound = base.loader.loadSfx('phase_4/audio/sfx/AA_sound_whistle.ogg')
@@ -293,7 +278,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         del self.tugRopes
         self.splash.destroy()
         del self.splash
-        return
 
     def unloadGuiElements(self):
         for arrow in self.arrows:
@@ -305,7 +289,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         if self.powerMeter is not None:
             self.powerMeter.cleanup()
             del self.powerMeter
-        return
 
     def unloadSounds(self):
         del self.splashSound
@@ -433,8 +416,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         for ival in self.toonIdsToAnimIntervals.values():
             if ival is not None:
                 ival.finish()
-
-        return
 
     def finishConclusion(self):
         DistributedPartyTeamActivity.finishConclusion(self)
@@ -599,7 +580,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             else:
                 self.notify.warning('toon %d is None, skipping toon.startLookAround' % toonId)
             self.toonIdsToIsPullingFlags[toonId] = False
-        return
 
     def enableKeys(self):
         self.notify.debug('enableKeys')
@@ -648,8 +628,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                         self.toonIdsToAnimIntervals[toonId] = Sequence(LerpPosInterval(toon, duration=PartyGlobals.TugOfWarKeyPressReportRate, pos=newPos, other=self.root), Func(self.checkIfFallen, toonId))
                         self.toonIdsToAnimIntervals[toonId].start()
 
-        return
-
     def checkIfFallen(self, toonId):
         if hasattr(self, 'fallenToons') and toonId not in self.fallenToons:
             toon = self.getAvatar(toonId)
@@ -688,8 +666,6 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 self.notify.warning('toon %d is none, skipping toon.loop(neutral)' % toonId)
                 self.toonIdsToAnimIntervals[toonId] = parallel
             self.toonIdsToAnimIntervals[toonId].start()
-
-        return
 
     def setAdvantage(self, advantage):
         DistributedPartyTeamActivity.setAdvantage(self, advantage)

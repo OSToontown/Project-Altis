@@ -54,6 +54,9 @@ class ToontownDistrictAI(DistributedDistrictAI):
 
     def getAllowAHNNLog(self):
         return self.ahnnLog
+        
+    def recordSuspiciousEventData(self, eventData):
+        self.notify.warning(str(eventData))
 
     def setName(self, name):
         DistributedDistrictAI.setName(self, name)
