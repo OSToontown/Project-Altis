@@ -79,3 +79,13 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def getBossPlaceClass(self):
         return CashbotHQBossBattle.CashbotHQBossBattle
+		
+    def enterCogHQBossBattle(self, requestStatus):
+        self.notify.debug('CashbotCogHQLoader.enterCogHQBossBattle')
+        CogHQLoader.CogHQLoader.enterCogHQBossBattle(self, requestStatus)
+        base.cr.forbidCheesyEffects(1)
+
+    def exitCogHQBossBattle(self):
+        self.notify.debug('CashbotCogHQLoader.exitCogHQBossBattle')
+        CogHQLoader.CogHQLoader.exitCogHQBossBattle(self)
+        base.cr.forbidCheesyEffects(0)

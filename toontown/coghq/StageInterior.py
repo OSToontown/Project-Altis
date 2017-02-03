@@ -83,7 +83,7 @@ class StageInterior(BattlePlace.BattlePlace):
         base.transitions.fadeOut(t=0)
         self._telemLimiter = TLGatherAllAvs('StageInterior', RotationLimitToH)
         base.localAvatar.inventory.setRespectInvasions(0)
-        #base.cr.forbidCheesyEffects(1)
+        base.cr.forbidCheesyEffects(1)
 
         def commence(self = self):
             NametagGlobals.setWant2dNametags(True)
@@ -110,7 +110,7 @@ class StageInterior(BattlePlace.BattlePlace):
         self._telemLimiter.destroy()
         del self._telemLimiter
         bboard.remove(DistributedStage.DistributedStage.ReadyPost)
-        #base.cr.forbidCheesyEffects(0)
+        base.cr.forbidCheesyEffects(0)
         base.localAvatar.inventory.setRespectInvasions(1)
         self.fsm.requestFinalState()
         self.loader.music.stop()
