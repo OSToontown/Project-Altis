@@ -6,7 +6,7 @@ import math
 
 class PetChase(Impulse.Impulse):
 
-    def __init__(self, target = None, minDist = None, moveAngle = None):
+    def __init__(self, target = None, minDist = 5.0, moveAngle = 20.0):
         Impulse.Impulse.__init__(self)
         self.target = target
         if minDist is None:
@@ -22,6 +22,18 @@ class PetChase(Impulse.Impulse):
 
     def setTarget(self, target):
         self.target = target
+        
+    def setMinDist(self, minDist):
+        self.minDist = minDist
+    
+    def getMinDist(self):
+        return self.minDist
+        
+    def setMoveAngle(self, moveAngle):
+        self.moveAngle = moveAngle
+    
+    def getMoveAngle(self):
+        return self.moveAngle
 
     def destroy(self):
         self.lookAtNode.removeNode()
