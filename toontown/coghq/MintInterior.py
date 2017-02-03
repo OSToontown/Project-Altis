@@ -80,7 +80,7 @@ class MintInterior(BattlePlace.BattlePlace):
         self.fsm.enterInitialState()
         base.transitions.fadeOut(t=0)
         base.localAvatar.inventory.setRespectInvasions(0)
-        base.cr.forbidCheesyEffects(1)
+        #base.cr.forbidCheesyEffects(1)
         self._telemLimiter = TLGatherAllAvs('MintInterior', RotationLimitToH)
 
         def commence(self = self):
@@ -108,7 +108,7 @@ class MintInterior(BattlePlace.BattlePlace):
         bboard.remove(DistributedMint.DistributedMint.ReadyPost)
         self._telemLimiter.destroy()
         del self._telemLimiter
-        base.cr.forbidCheesyEffects(0)
+        #base.cr.forbidCheesyEffects(0)
         base.localAvatar.inventory.setRespectInvasions(1)
         self.fsm.requestFinalState()
         self.loader.music.stop()

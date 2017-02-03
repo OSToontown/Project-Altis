@@ -72,7 +72,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def announceGenerate(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
-        base.cr.forbidCheesyEffects(1)
+        #base.cr.forbidCheesyEffects(1)
         self.setName(TTLocalizer.SellbotBossName)
         nameInfo = TTLocalizer.BossCogNameWithDept % {'name': self.name,
          'dept': SuitDNA.getDeptFullname(self.style.dept)}
@@ -126,7 +126,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def disable(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.disable(self)
-        base.cr.forbidCheesyEffects(0)
+        #base.cr.forbidCheesyEffects(0)
         self.request('Off')
         self.unloadEnvironment()
         self.__unloadMopaths()
