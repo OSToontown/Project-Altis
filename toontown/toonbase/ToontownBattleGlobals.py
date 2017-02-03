@@ -500,6 +500,11 @@ def getMintCreditMultiplier(mintId):
 def getStageCreditMultiplier(floor):
     return getCreditMultiplier(floor)
 
+def getBoardOfficeCreditMultiplier(boardofficeId):
+    return {BoardOfficeIntA: 2.0,
+     BoardOfficeIntB: 2.5,
+     BoardOfficeIntC: 3.0}.get(boardofficeId, 1.0)
+
 
 def getCountryClubCreditMultiplier(countryClubId):
     return {BossbotCountryClubIntA: 2.0,

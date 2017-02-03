@@ -23,13 +23,9 @@ ZoneIdsToMsgs = {10000: [GroupPhrases, [5100, 5101, 5102], [5200, 5201, 5202]],
  12000: [GroupPhrases, [5107, 5108, 5109], [5207, 5208, 5209]],
  12100: [GroupPhrases, [5110], [5210]],
  13100: [GroupPhrases, [5111], [5211]],
- 13200: [GroupPhrases, [5112,
-          5113,
-          5114,
-          5115], [5212,
-          5213,
-          5214,
-          5215]]}
+ 13200: [GroupPhrases, [5112, 5113, 5114, 5115], [5212, 5213, 5214, 5215]],
+ 19000: [GroupPhrases, [5111], [5211]], # TEMP BOARDBOT
+ 19100: [GroupPhrases, [5112, 5113, 5114, 5115], [5212, 5213, 5214, 5215]]} # TEMP BOARDBOT
 
 class TTSCBoardingMenu(SCMenu):
 

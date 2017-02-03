@@ -231,7 +231,13 @@ LawbotStageIntA = 13300
 LawbotStageIntB = 13400
 LawbotStageIntC = 13500
 LawbotStageIntD = 13600
+
 BoardbotHQ = 19000
+BoardbotLobby = 19100
+BoardOfficeIntA = 19500
+BoardOfficeIntB = 19600
+BoardOfficeIntC = 19700
+
 Tutorial = 15000
 MyEstate = 16000
 GolfZone = 17000
@@ -295,6 +301,23 @@ MintCogBuckRewards = {CashbotMintIntA: 8,
 MintNumRooms = {CashbotMintIntA: 2 * (6,) + 5 * (7,) + 5 * (8,) + 5 * (9,) + 3 * (10,),
  CashbotMintIntB: 3 * (8,) + 6 * (9,) + 6 * (10,) + 5 * (11,),
  CashbotMintIntC: 4 * (10,) + 10 * (11,) + 6 * (12,)}
+ 
+BoardOfficeNumFloors = {BoardOfficeIntA: 20,
+ BoardOfficeIntB: 20,
+ BoardOfficeIntC: 20}
+BoardOfficeCogLevel = 10
+BoardOfficeSkelecogLevel = 11
+BoardOfficeBossLevel = 12
+BoardOfficeNumBattles = {BoardOfficeIntA: 4,
+ BoardOfficeIntB: 6,
+ BoardOfficeIntC: 8}
+BoardOfficeCogBuckRewards = {BoardOfficeIntA: 8,
+ BoardOfficeIntB: 14,
+ BoardOfficeIntC: 20}
+BoardOfficeNumRooms = {BoardOfficeIntA: 2 * (6,) + 5 * (7,) + 5 * (8,) + 5 * (9,) + 3 * (10,),
+ BoardOfficeIntB: 3 * (8,) + 6 * (9,) + 6 * (10,) + 5 * (11,),
+ BoardOfficeIntC: 4 * (10,) + 10 * (11,) + 6 * (12,)}
+ 
 BossbotCountryClubCogLevel = 11
 BossbotCountryClubSkelecogLevel = 12
 BossbotCountryClubBossLevel = 12

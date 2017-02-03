@@ -24,6 +24,7 @@ from toontown.coghq import CountryClubManagerAI
 from toontown.coghq import FactoryManagerAI
 from toontown.coghq import LawOfficeManagerAI
 from toontown.coghq import MintManagerAI
+from toontown.coghq.boardbothq import BoardOfficeManagerAI
 from toontown.distributed.ToontownDistrictAI import ToontownDistrictAI
 from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
@@ -72,6 +73,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.mintMgr = None
         self.lawOfficeMgr = None
         self.countryClubMgr = None
+        self.boardofficeMgr = None
 
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
@@ -192,6 +194,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.countryClubMgr = CountryClubManagerAI.CountryClubManagerAI(self)
             self.cogHeadquarters.append(BossbotHQAI.BossbotHQAI(self))
         if self.config.GetBool('want-bdhq', True):
+            self.boardofficeMgr = BoardOfficeManagerAI.BoardOfficeManagerAI(self)
             self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
 
     def handleConnected(self):

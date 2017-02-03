@@ -531,6 +531,7 @@ from toontown.suit import DistributedSuit/AI
 from toontown.suit import DistributedTutorialSuit/AI
 from toontown.suit import DistributedFactorySuit/AI
 from toontown.suit import DistributedMintSuit/AI
+from toontown.suit import DistributedBoardOfficeSuit/AI
 from toontown.suit import DistributedStageSuit/AI
 from toontown.suit import DistributedSellbotBoss/AI
 from toontown.suit import DistributedCashbotBoss/AI
@@ -618,6 +619,7 @@ from toontown.building import DistributedElevatorExt/AI
 from toontown.building import DistributedElevatorInt/AI
 from toontown.coghq import DistributedFactoryElevatorExt/AI
 from toontown.coghq import DistributedMintElevatorExt/AI
+from toontown.coghq.boardbothq import DistributedBoardOfficeElevatorExt/AI
 from toontown.coghq import DistributedLawOfficeElevatorExt/AI
 from toontown.coghq import DistributedLawOfficeElevatorInt/AI
 from toontown.building import DistributedElevatorFloor/AI
@@ -684,6 +686,9 @@ from toontown.ai import DistributedWinterCarolingTarget/AI
 from toontown.coghq import DistributedMint/AI
 from toontown.coghq import DistributedMintRoom/AI
 from toontown.coghq import DistributedMintBattle/AI
+from toontown.coghq.boardbothq import DistributedBoardOffice/AI
+from toontown.coghq.boardbothq import DistributedBoardOfficeRoom/AI
+from toontown.coghq.boardbothq import DistributedBoardOfficeBattle/AI
 from toontown.coghq import DistributedStage/AI
 from toontown.coghq import DistributedStageRoom/AI
 from toontown.coghq import DistributedStageBattle/AI
@@ -1280,6 +1285,9 @@ dclass DistributedFactorySuit : DistributedSuitBase {
 dclass DistributedMintSuit : DistributedFactorySuit {
 };
 
+dclass DistributedBoardOfficeSuit : DistributedFactorySuit {
+};
+
 dclass DistributedStageSuit : DistributedFactorySuit {
 };
 
@@ -1443,6 +1451,9 @@ dclass DistributedBattleFactory : DistributedLevelBattle {
 };
 
 dclass DistributedMintBattle : DistributedLevelBattle {
+};
+
+dclass DistributedBoardOfficeBattle : DistributedLevelBattle {
 };
 
 dclass DistributedStageBattle : DistributedLevelBattle {
@@ -2506,6 +2517,12 @@ dclass DistributedMintElevatorExt : DistributedElevatorExt {
   setMintInteriorZoneForce(uint32);
 };
 
+dclass DistributedBoardOfficeElevatorExt : DistributedElevatorExt {
+  setBoardOfficeId(uint16) required broadcast ram;
+  setBoardOfficeInteriorZone(uint32);
+  setBoardOfficeInteriorZoneForce(uint32);
+};
+
 dclass DistributedCogdoElevatorExt : DistributedElevatorExt {
 };
 
@@ -2725,8 +2742,23 @@ dclass DistributedMint : DistributedObject {
   setRoomDoIds(uint32[]) broadcast ram;
 };
 
+dclass DistributedBoardOffice : DistributedObject {
+  setZoneId(uint32) required broadcast ram;
+  setBoardOfficeId(uint16) required broadcast ram;
+  setFloorNum(uint8) required broadcast ram;
+  setRoomDoIds(uint32[]) broadcast ram;
+};
+
 dclass DistributedMintRoom : DistributedLevel {
   setMintId(uint16) required broadcast ram;
+  setRoomId(uint16) required broadcast ram;
+  setRoomNum(uint8) required broadcast ram;
+  setSuits(uint32[], uint32[]) broadcast ram;
+  setBossConfronted(uint32) broadcast ram;
+  setDefeated() broadcast ram;
+};
+dclass DistributedBoardOfficeRoom : DistributedLevel {
+  setBoardOfficeId(uint16) required broadcast ram;
   setRoomId(uint16) required broadcast ram;
   setRoomNum(uint8) required broadcast ram;
   setSuits(uint32[], uint32[]) broadcast ram;
