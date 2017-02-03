@@ -82,7 +82,6 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
     def exitStageInterior(self):
         self.exitPlace()
         self.placeClass = None
-        return
 
     def getExteriorPlaceClass(self):
         self.notify.debug('getExteriorPlaceClass')
@@ -102,7 +101,6 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.hood.hideTitleText()
         self.exitPlace()
         self.placeClass = None
-        return
 
     def enterCogHQBossBattle(self, requestStatus):
         self.notify.debug('LawbotCogHQLoader.enterCogHQBossBattle')

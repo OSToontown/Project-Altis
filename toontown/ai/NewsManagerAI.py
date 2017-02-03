@@ -137,7 +137,7 @@ class NewsManagerAI(DistributedObjectAI):
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def startHoliday(holidayId):
-    simbase.air.newsManager.b_setHolidayIdList([holidayId])
+    simbase.air.newsManager.setHolidayIdList([holidayId])
     return 'Successfully set holiday to %d.' % (holidayId)
     
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])

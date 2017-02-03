@@ -317,10 +317,8 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                 return self.interactiveProp
             elif base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader'):
                 loader = base.cr.playGame.hood.loader
-
                 if hasattr(loader, 'getInteractiveProp'):
                     self.interactiveProp = base.cr.playGame.hood.loader.getInteractiveProp(self.zoneId)
-
                     return self.interactiveProp
                 
         return None
@@ -952,7 +950,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             return self.cr.doId2do[toonId]
         else:
             self.notify.warning('getToon() - toon: %d not in repository!' % toonId)
-            return None
         return None
 
     def d_toonRequestJoin(self, toonId, pos):

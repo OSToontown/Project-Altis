@@ -30,7 +30,6 @@ class DistributedMint(DistributedObject.DistributedObject):
         base.localAvatar.reparentTo(render)
         base.localAvatar.setPosHpr(0, 0, 0, 0, 0, 0)
         self.accept('SOSPanelEnter', self.handleSOSPanel)
-        return
 
     def setZoneId(self, zoneId):
         self.zoneId = zoneId
@@ -107,7 +106,6 @@ class DistributedMint(DistributedObject.DistributedObject):
 
         base.cr.sendSetZoneMsg(self.zoneId, zoneList)
         self.accept('takingScreenshot', self.handleScreenshot)
-        return
 
     def listenForFloorEvents(self, room):
         roomNum = room.getRoomNum()
@@ -140,7 +138,6 @@ class DistributedMint(DistributedObject.DistributedObject):
                 self.allRooms[self.curToonRoomNum].localToonFSM.request('notPresent')
             self.allRooms[roomNum].localToonFSM.request('present')
             self.curToonRoomNum = roomNum
-        return
 
     def camEnterRoom(self, roomNum):
         self.notify.debug('camEnterRoom: %s' % roomNum)
@@ -163,7 +160,6 @@ class DistributedMint(DistributedObject.DistributedObject):
         if av is None:
             return
         base.localAvatar.setSystemMessage(avId, TTLocalizer.MintBossConfrontedMsg % av.getName())
-        return
 
     def warpToRoom(self, roomId):
         for i in xrange(len(self.rooms)):
@@ -200,7 +196,6 @@ class DistributedMint(DistributedObject.DistributedObject):
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)

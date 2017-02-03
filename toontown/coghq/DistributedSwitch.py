@@ -100,7 +100,6 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
         if track is not None:
             track.start(ts)
             self.track = track
-        return
 
     def exitAttract(self):
         if self.track:
