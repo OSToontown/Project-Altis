@@ -771,7 +771,17 @@ class SpecialOptionsTabPage(DirectFrame):
                                               image_scale=button_image_scale, text='', text_scale=options_text_scale,
                                               text_pos=button_textpos,
                                               pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.8),
-                                              command=self.__doToggleTpMessages)                      
+                                              command=self.__doToggleTpMessages)     
+
+        self.friendMessages_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.9))
+        self.friendMessages_toggleButton = DirectButton(parent=self, relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.9),
+                                              command=self.__doToggleFriendMessages)              
         guiButton.removeNode()
         circleModel.removeNode()
 
@@ -783,6 +793,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.__doFovLevel()
         self.__setAnimationsButton()
         self.__setTpMessagesButton()
+        self.__setFriendMessagesButton()
 
     def exit(self):
         self.ignoreAll()
@@ -901,18 +912,37 @@ class SpecialOptionsTabPage(DirectFrame):
     def __doToggleTpMessages(self):
         if settings['tpmsgs'] == True:
             settings['tpmsgs'] = False
-            base.localAvatar.setSystemMessage(0, 'Disabled Friend / Teleport messages!')
+            base.localAvatar.setSystemMessage(0, 'Disabled Teleport messages!')
         else:
             settings['tpmsgs'] = True
-            base.localAvatar.setSystemMessage(0, 'Enabled Friend / Teleport messages!')
+            base.localAvatar.setSystemMessage(0, 'Enabled Teleport messages!')
         self.settingsChanged = 1
         self.__setTpMessagesButton()
         base.toggleTpMsgs()
 		
     def __setTpMessagesButton(self):
         if settings['tpmsgs'] == True:
-            self.tpMessages_Label['text'] = 'Friend / Teleport messages are enabled!'
+            self.tpMessages_Label['text'] = 'Teleport messages are enabled!'
             self.tpMessages_toggleButton['text'] = 'Turn Off'
         else:
-            self.tpMessages_Label['text'] = 'Friend / Teleport messages are disabled!'
+            self.tpMessages_Label['text'] = 'Teleport messages are disabled!'
             self.tpMessages_toggleButton['text'] = 'Turn On'
+            
+    def __doToggleFriendMessages(self):
+        if settings['friendstatusmsgs'] == True:
+            settings['friendstatusmsgs'] = False
+            base.localAvatar.setSystemMessage(0, 'Disabled Friend status messages!')
+        else:
+            settings['friendstatusmsgs'] = True
+            base.localAvatar.setSystemMessage(0, 'Enabled Friend status messages!')
+        self.settingsChanged = 1
+        self.__setFriendMessagesButton()
+        base.toggleTpMsgs()
+		
+    def __setFriendMessagesButton(self):
+        if settings['friendstatusmsgs'] == True:
+            self.friendMessages_Label['text'] = 'Friend status messages are enabled!'
+            self.friendMessages_toggleButton['text'] = 'Turn Off'
+        else:
+            self.friendMessages_Label['text'] = 'Friend status messages are disabled!'
+            self.friendMessages_toggleButton['text'] = 'Turn On'

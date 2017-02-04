@@ -56,6 +56,8 @@ if 'smoothanimations' not in settings:
     settings['smoothanimations'] = True
 if 'tpmsgs' not in settings:
     settings['tpmsgs'] = True
+if 'friendstatusmsgs' not in settings:
+    settings['friendstatusmsgs'] = True
 settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])

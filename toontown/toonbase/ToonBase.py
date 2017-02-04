@@ -287,6 +287,8 @@ class ToonBase(OTPBase.OTPBase):
         self.wantSmoothAnims = settings.get('smoothanimations', True)
         
         self.wantTpMessages = settings.get('tpmsgs', True)
+        
+        self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -304,6 +306,7 @@ class ToonBase(OTPBase.OTPBase):
         
     def toggleTpMsgs(self):
         self.wantTpMessages = settings.get('tpmsgs', True)
+        self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
