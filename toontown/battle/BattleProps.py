@@ -403,7 +403,7 @@ class PropPool:
                 animDict[name] = self.propStrings[name][1]
                 prop.loadAnims(animDict)
                 prop.setName(name)
-                prop.setBlend(frameBlend = True)
+                prop.setBlend(frameBlend = base.wantSmoothAnims)
                 self.storeProp(name, prop)
                 if name in Variants:
                     self.makeVariant(name)

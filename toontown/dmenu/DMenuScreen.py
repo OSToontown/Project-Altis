@@ -108,7 +108,7 @@ class DMenuScreen(DirectObject):
         thermometerMesh.setTexProjector(thermometerMesh.findTextureStage('default'), thermometerLocator, self.sillyMeter)
 
         self.sillyMeter.loop('phaseOne', partName = 'meter')
-        self.sillyMeter.setBlend(frameBlend = True)
+        self.sillyMeter.setBlend(frameBlend = base.wantSmoothAnims)
 
         self.surlee = Toon.Toon()
         self.surlee.setName('Doctor Surlee')
