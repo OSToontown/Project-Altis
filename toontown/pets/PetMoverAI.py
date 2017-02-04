@@ -1,7 +1,9 @@
+import random, math
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
+from direct.directnotify import DirectNotifyGlobal
 from direct.fsm.FSM import *
-import random, math
+from otp.movement.Mover import Mover 
 
 estateRadius = 130
 estateCenter = (0, -40)
@@ -89,16 +91,19 @@ def angle(A, B):
 
     return math.atan2(by-ay, bx-ax)
 
-class PetMoverAI(FSM):
+class PetMoverAI(FSM, Mover):
+    notify = DirectNotifyGlobal.directNotify.newCategory("PetMoverAI")
 
     def __init__(self, pet):
         self.pet = pet
-        FSM.__init__(self, 'PetMoverAI-%d' % self.pet.doId)
-        self.chaseTarget = None
-        self.__seq = None
         self.fwdSpeed = 10.0
         self.rotSpeed = 360.0
-        self.__moveFromStill()
+        self.dt = 0.0
+        FSM.__init__(self, 'PetMoverAI-%d' % self.pet.doId)
+        Mover.__init__(self, self.pet, self.fwdSpeed, self.rotSpeed)
+        self.chaseTarget = None
+        self.__seq = None
+        #self.__moveFromStill()
         self.__chaseCallback = None
 
     def enterStill(self):
@@ -139,7 +144,25 @@ class PetMoverAI(FSM):
             self.request("Still")
         except:
             pass
-
+        
+    def setDt(self, dt):
+        self.dt = dt
+        
+    def getDt(self):
+        return self.dt
+        
+    def addForce(self, force):
+        self.notify.warning('addForce() -- Not Implemented Yet!')
+        
+    def addRotForce(self, rotForce):
+        self.notify.warning('addRotForce() -- Not Implemented Yet!')
+   
+    def addShove(self, vel):
+        self.notify.warning('addShove() -- Not Implemented Yet!')
+        
+    def addRotShove(self, rotVel):
+        self.notify.warning('addRotShove() -- Not Implemented Yet!')
+    
     def destroy(self):
         self.demand("Off")
 
@@ -154,7 +177,12 @@ class PetMoverAI(FSM):
 
     def getRotSpeed(self):
         return self.rotSpeed
-
+        
+    def getNodePath(self):
+        if self.pet and not self.pet.isEmpty():
+            return self.pet
+        return None
+      
     def lock(self):
         if self.state != "Still":
             self.demand("Still")

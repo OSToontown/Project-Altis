@@ -112,7 +112,7 @@ want-travel-game #f
 want-game-tables #f
 
 # Cog Battles
-base-xp-multiplier 5.0
+base-xp-multiplier 3.0
 
 # Cog headquarters:
 want-cog-headquarters #t
@@ -143,6 +143,7 @@ randomize-interactive-idles #t
 interactive-prop-random-idles #t
 interactive-prop-info #f
 props-buff-battles #t
+prop-and-organic-bonus-stack #f
 prop-idle-pause-time 0.0
 
 # Events

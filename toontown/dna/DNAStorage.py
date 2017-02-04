@@ -137,7 +137,9 @@ class DNAStorage(object):
            return
         
         if search:
-            model = model.find("**/" + search)
+            newModel = model.find("**/" + search).copyTo(NodePath())
+            model.removeNode()
+            model = newModel
         
         model.setTag("DNACode", code)
         return model

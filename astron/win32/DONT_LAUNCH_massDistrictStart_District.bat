@@ -13,7 +13,7 @@ set EVENTLOGGER_IP=127.0.0.1:7197
 
 set DISTRICT_NAME=%~1
 set BASE_CHANNEL=%2
-
+set START_TIME=%3
 echo ===============================
 echo Starting Toontown Project Altis AI server...
 echo ppython: %PPYTHON_PATH%
@@ -29,6 +29,6 @@ echo ===============================
 %PPYTHON_PATH% -m toontown.ai.ServiceStart --base-channel %BASE_CHANNEL% ^
                --max-channels %MAX_CHANNELS% --stateserver %STATESERVER% ^
                --astron-ip %ASTRON_IP% --eventlogger-ip %EVENTLOGGER_IP% ^
-               --district-name "%DISTRICT_NAME%"
+               --district-name "%DISTRICT_NAME%" --start-time "%START_TIME%"
 
 goto main

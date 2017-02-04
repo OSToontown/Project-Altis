@@ -25,13 +25,13 @@ class BattleCalculatorAI:
     KBBONUS_LURED_FLAG = 0
     KBBONUS_TGT_LURED = 1
     notify = DirectNotifyGlobal.directNotify.newCategory('BattleCalculatorAI')
-    toonsAlwaysHit = simbase.config.GetBool('toons-always-hit', 0)
-    toonsAlwaysMiss = simbase.config.GetBool('toons-always-miss', 0)
-    toonsAlways5050 = simbase.config.GetBool('toons-always-5050', 0)
-    suitsAlwaysHit = simbase.config.GetBool('suits-always-hit', 0)
-    suitsAlwaysMiss = simbase.config.GetBool('suits-always-miss', 0)
-    immortalSuits = simbase.config.GetBool('immortal-suits', 0)
-    propAndOrganicBonusStack = simbase.config.GetBool('prop-and-organic-bonus-stack', 0)
+    toonsAlwaysHit = simbase.config.GetBool('toons-always-hit', False)
+    toonsAlwaysMiss = simbase.config.GetBool('toons-always-miss', False)
+    toonsAlways5050 = simbase.config.GetBool('toons-always-5050', False)
+    suitsAlwaysHit = simbase.config.GetBool('suits-always-hit', False)
+    suitsAlwaysMiss = simbase.config.GetBool('suits-always-miss', False)
+    immortalSuits = simbase.config.GetBool('immortal-suits', False)
+    propAndOrganicBonusStack = simbase.config.GetBool('prop-and-organic-bonus-stack', False)
 
     def __init__(self, battle, tutorialFlag = 0):
         self.battle = battle
@@ -48,13 +48,13 @@ class BattleCalculatorAI:
         self.__clearBonuses(hp=1)
         self.__clearBonuses(hp=0)
         self.delayedUnlures = []
-        self.__skillCreditMultiplier = simbase.air.holidayManager.getXpMultiplier()
+        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier
         self.tutorialFlag = tutorialFlag
         self.trainTrapTriggered = False
         self.fireDifficulty = 0
 
     def setSkillCreditMultiplier(self, mult):
-        self.__skillCreditMultiplier = mult
+        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier * mult
 
     def getSkillCreditMultiplier(self):
         return self.__skillCreditMultiplier
@@ -493,6 +493,21 @@ class BattleCalculatorAI:
                 toon = self.battle.getToon(toonId)
                 if attack[TOON_TRACK_COL] == NPCSOS and lureDidDamage != 1 or attack[TOON_TRACK_COL] == PETSOS:
                     attackDamage = atkHp
+                    if atkTrack == ZAP:
+                        if self.__isWet(targetId) == 1:
+                            if random.randint(0,99) <= InstaKillChance[atkLevel]:
+                                suit = self.battle.findSuit(targetId)
+                                if suit.getHP() > 500:
+                                    attackDamage = 500
+                                else:
+                                    suit.b_setSkeleRevives(0)
+                                    attackDamage = suit.getHP()
+                            else:
+                                attackDamage = atkHp * 2
+                    if atkTrack == THROW:
+                        if self.__suitIsLured(targetId):
+                            tgtPos = self.battle.activeSuits.index(targetList[currTarget])
+                            attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
                 elif atkTrack == FIRE:
                     suit = self.battle.findSuit(targetId)
                     if suit:

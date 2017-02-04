@@ -237,7 +237,10 @@ class PlayGame(StateData.StateData):
         if loaderName == 'safeZoneLoader':
             count += ToontownGlobals.safeZoneCountMap[canonicalHoodId]
         elif loaderName == 'townLoader':
-            count += ToontownGlobals.townCountMap[canonicalHoodId]
+            try:
+                count += ToontownGlobals.townCountMap[canonicalHoodId]
+            except:
+                count += ToontownGlobals.hoodCountMap[canonicalHoodId]
         if not loader.inBulkBlock:
             if hoodId == ToontownGlobals.MyEstate:
                 if avId == -1:

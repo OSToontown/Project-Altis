@@ -1,5 +1,4 @@
 import os
-os.chdir('../')
 
 from toontown.chat import WhiteListData
 

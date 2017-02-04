@@ -109,6 +109,7 @@ class Decoration(NodePath):
             wingsSeqNode.setFrameRate(12)
             wingsSeqNode.loop(True)
             wingsSeqNode.setPlayRate(1)
+            self.flyingHeart.setBlend(frameBlend = base.wantSmoothAnims)
             self.flyingHeart.loop('idle')
             self.flyingHeart.reparentTo(self)
         elif self.name == 'HeartBanner':
@@ -121,6 +122,7 @@ class Decoration(NodePath):
             balloonRightLocator = self.heartBanner.find('**/balloonJointR')
             balloonLeft.reparentTo(balloonLeftLocator)
             balloonRight.reparentTo(balloonRightLocator)
+            self.heartBanner.setBlend(frameBlend = base.wantSmoothAnims)
             self.heartBanner.loop('idle')
             self.heartBanner.reparentTo(self)
         elif self.name == 'Hydra' or self.name == 'StageWinter':
@@ -138,6 +140,7 @@ class Decoration(NodePath):
             collisions = self.hydra.find('**/*collision*')
             collisions.setPos(0, 0, -5)
             self.hydra.flattenStrong()
+            self.hydra.setBlend(frameBlend = base.wantSmoothAnims)
             self.hydra.reparentTo(self)
             if self.name == 'StageWinter':
                 stageBounds = self.hydra.find('**/stage').node().getBounds()
@@ -153,6 +156,7 @@ class Decoration(NodePath):
             self.animSeq = Parallel(animIval, soundIval)
             self.animSeq.loop()
             self.animSeq.setT(st)
+            self.tubeCog.setBlend(frameBlend = base.wantSmoothAnims)
             self.tubeCog.flattenStrong()
             self.tubeCog.reparentTo(self)
         elif self.name == 'BannerVictory':
@@ -165,6 +169,7 @@ class Decoration(NodePath):
             balloonRightLocator = self.bannerVictory.find('**/balloonJointR')
             balloonLeft.reparentTo(balloonLeftLocator)
             balloonRight.reparentTo(balloonRightLocator)
+            self.bannerVictory.setBlend(frameBlend = base.wantSmoothAnims)
             self.bannerVictory.loop('idle')
             self.bannerVictory.reparentTo(self)
         elif self.name == 'CannonVictory':
@@ -173,6 +178,7 @@ class Decoration(NodePath):
             confettiMesh = self.cannonVictory.find('**/confettis')
             confettiMesh.setTexProjector(confettiMesh.findTextureStage('default'), self.cannonVictory, confettiLocator)
             self.cannonVictory.flattenStrong()
+            self.cannonVictory.setBlend(frameBlend = base.wantSmoothAnims)
             self.cannonVictory.loop('idle')
             self.cannonVictory.reparentTo(self)
         elif self.name == 'CogStatueVictory':

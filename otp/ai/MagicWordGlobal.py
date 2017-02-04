@@ -95,7 +95,7 @@ CATEGORY_SYSTEM_ADMINISTRATOR = MagicWordCategory('System Administrator', defaul
 CATEGORY_OVERRIDE = MagicWordCategory('OVERRIDE', defaultAccess=900)
 
 
-MINIMUM_MAGICWORD_ACCESS = CATEGORY_VIP.defaultAccess
+MINIMUM_MAGICWORD_ACCESS = CATEGORY_COMMUNITY_MANAGER.defaultAccess
 
 
 class MagicWord:

@@ -37,8 +37,6 @@ class BoardingPartyBase:
         if avatarId in self.avIdDict:
             leaderId = self.avIdDict[avatarId]
             return leaderId
-        else:
-            return None
         return None
 
     def isGroupLeader(self, avatarId):

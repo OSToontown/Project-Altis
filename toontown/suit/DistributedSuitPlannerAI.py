@@ -7,6 +7,7 @@ from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed import DistributedObjectAI
 from direct.task import Task
 from otp.ai.AIBaseGlobal import *
+from otp.ai.MagicWordGlobal import *
 from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
 from toontown.building import HQBuildingAI
@@ -1525,3 +1526,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             track = SuitDNA.suitDepts[SuitBattleGlobals.pickFromFreqList(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_TRACK])]
         self.notify.debug('pickLevelTypeAndTrack: %s %s %s' % (level, type, track))
         return (level, type, track)
+        
+@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int, int, int])
+def spawnCog(name, level, revives = 0, skelecog = 0, waiter = 0):
+    av = spellbook.getInvoker()
+    zoneId = av.getLocation()[1]
+    sp = simbase.air.suitPlanners.get(zoneId - (zoneId % 100))
+    pointmap = sp.streetPointList
+    sp.createNewSuit([], pointmap, suitName=name, suitLevel=level, skelecog=skelecog, revives=revives, waiter=waiter)
+    return "Spawned %s in current zone." % name
