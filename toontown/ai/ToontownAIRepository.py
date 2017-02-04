@@ -54,7 +54,7 @@ from toontown.events.CharityScreenAI import CharityScreenAI
 
 class ToontownAIRepository(ToontownInternalRepository):
 
-    def __init__(self, baseChannel, stateServerChannel, districtName):
+    def __init__(self, baseChannel, stateServerChannel, districtName, startTime = 6):
         ToontownInternalRepository.__init__(self, baseChannel, stateServerChannel, 
             dcSuffix='AI')
 
@@ -71,6 +71,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.mintMgr = None
         self.lawOfficeMgr = None
         self.countryClubMgr = None
+        self.startTime = startTime
 
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
