@@ -694,8 +694,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
             del self.arrowSfx
 
     def setUpToonHallCam(self):
-        base.localAvatar.setCameraFov(75)
-        base.localAvatar.setCameraSettings(self.toonhallView)
+        pass
 
     def restoreCam(self):
         base.localAvatar.setCameraFov(settings['fieldofview'])
