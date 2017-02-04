@@ -754,7 +754,15 @@ class SpecialOptionsTabPage(DirectFrame):
         self.meterMode_toggleSlider.setScale(0.25)
         self.meterModesliderText = OnscreenText("0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
         self.meterModesliderText.reparentTo(self.meterMode_toggleSlider.thumb)
-        
+        self.animations_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.7))
+        self.animations_toggleButton = DirectButton(parent=self, relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.8),
+                                              command=self.__doToggleAnimations)
         guiButton.removeNode()
         circleModel.removeNode()
 
@@ -764,6 +772,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.__setWASDButton()
         self.__setNewGuiButton()
         self.__doFovLevel()
+        self.__setAnimationsButton()
 
     def exit(self):
         self.ignoreAll()
@@ -782,6 +791,10 @@ class SpecialOptionsTabPage(DirectFrame):
         del self.fov_resetButton
         self.fov_Label.destroy()
         del self.fov_Label
+        self.animations_Label.destroy()
+        del self.animations_Label
+        self.animations_toggleButton.destroy()
+        del self.animations_toggleButton
 
     def __doToggleNewGui(self):
         FeatureComingSoonDialog.FeatureComingSoonDialog()
@@ -855,3 +868,21 @@ class SpecialOptionsTabPage(DirectFrame):
         self.meterMode_toggleSlider['value']
         base.meterMode = mode
         self.meterModesliderText['text'] = mode2name.get(mode)
+        
+    def __doToggleAnimations(self):
+        if settings['smoothanimations'] == True:
+            settings['smoothanimations'] = False
+            base.localAvatar.setSystemMessage(0, 'Disabled smooth animations! Restart the game to see changes!')
+        else:
+            settings['smoothanimations'] = True
+            base.localAvatar.setSystemMessage(0, 'Enabled smooth animations! Restart the game to see changes!')
+        self.settingsChanged = 1
+        self.__setAnimationsButton()
+		
+    def __setAnimationsButton(self):
+        if settings['smoothanimations'] == True:
+            self.animations_Label['text'] = 'Smooth Animations ON'
+            self.animations_toggleButton['text'] = 'Turn Off'
+        else:
+            self.animations_Label['text'] = 'Smooth Animations OFF'
+            self.animations_toggleButton['text'] = 'Turn On'

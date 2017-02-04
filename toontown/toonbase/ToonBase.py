@@ -279,10 +279,12 @@ class ToonBase(OTPBase.OTPBase):
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
         self.lodMaxRange = 750
-        self.lodMinRange = 5
+        self.lodMinRange = 20
         self.lodDelayFactor = 0.4
         
         self.meterMode = settings.get('health-meter-mode', 2)
+        
+        self.wantSmoothAnims = settings.get('smoothanimations', True)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
