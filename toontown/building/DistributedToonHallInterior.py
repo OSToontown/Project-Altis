@@ -632,9 +632,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
             self.cleanUpCollisions()
             self.setupCollisions(0.75)
             self.oldView = base.localAvatar.cameraIndex
-            base.localAvatar.addCameraPosition(self.toonhallView)
             self.firstEnter = 0
-            self.setUpToonHallCam()
             return
         flippy = self.interior.find('**/*Flippy*/*NPCToon*')
         if flippy == collEntry.getIntoNodePath():
