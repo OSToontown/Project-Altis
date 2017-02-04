@@ -761,8 +761,17 @@ class SpecialOptionsTabPage(DirectFrame):
         guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
                                               image_scale=button_image_scale, text='', text_scale=options_text_scale,
                                               text_pos=button_textpos,
-                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.8),
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.7),
                                               command=self.__doToggleAnimations)
+        self.tpMessages_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.8))
+        self.tpMessages_toggleButton = DirectButton(parent=self, relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.8),
+                                              command=self.__doToggleTpMessages)                      
         guiButton.removeNode()
         circleModel.removeNode()
 
@@ -773,6 +782,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.__setNewGuiButton()
         self.__doFovLevel()
         self.__setAnimationsButton()
+        self.__setTpMessagesButton()
 
     def exit(self):
         self.ignoreAll()
@@ -878,6 +888,7 @@ class SpecialOptionsTabPage(DirectFrame):
             base.localAvatar.setSystemMessage(0, 'Enabled smooth animations! Restart the game to see changes!')
         self.settingsChanged = 1
         self.__setAnimationsButton()
+        #base.toggleSmoothAnimations() TODO:
 		
     def __setAnimationsButton(self):
         if settings['smoothanimations'] == True:
@@ -886,3 +897,22 @@ class SpecialOptionsTabPage(DirectFrame):
         else:
             self.animations_Label['text'] = 'Smooth Animations OFF'
             self.animations_toggleButton['text'] = 'Turn On'
+            
+    def __doToggleTpMessages(self):
+        if settings['tpmsgs'] == True:
+            settings['tpmsgs'] = False
+            base.localAvatar.setSystemMessage(0, 'Disabled Friend / Teleport messages!')
+        else:
+            settings['tpmsgs'] = True
+            base.localAvatar.setSystemMessage(0, 'Enabled Friend / Teleport messages!')
+        self.settingsChanged = 1
+        self.__setTpMessagesButton()
+        base.toggleTpMsgs()
+		
+    def __setTpMessagesButton(self):
+        if settings['tpmsgs'] == True:
+            self.tpMessages_Label['text'] = 'Friend / Teleport messages are enabled!'
+            self.tpMessages_toggleButton['text'] = 'Turn Off'
+        else:
+            self.tpMessages_Label['text'] = 'Friend / Teleport messages are disabled!'
+            self.tpMessages_toggleButton['text'] = 'Turn On'
