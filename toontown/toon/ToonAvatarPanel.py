@@ -15,7 +15,6 @@ from toontown.toon import ToonAvatarDetailPanel
 from toontown.toon import AvatarPanelBase
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPGlobals
-from toontown.town.TownBattleToonPanel import TownBattleToonPanel
 
 class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonAvatarPanel')
@@ -44,8 +43,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
         self.laffMeter = None
         wantsLaffMeter = hasattr(avatar, 'hp')
-
-        self.toonBattlePanels = [TownBattleToonPanel(x) for x in xrange(4)]
 
         if not hasattr(avatar, 'style'):
             self.notify.warning("Avatar has no 'style'. Abort initialization.")
@@ -304,38 +301,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.frame.show()
         messenger.send('avPanelDone')
 
-        self.__addToonBattlePanels(self.avId)
-
-    def __addToonBattlePanels(self, avId):
-        if avId not in base.cr.doId2do.keys():
-            return
-
-        toon = base.cr.doId2do.get(avId)
-
-        if not toon:
-            return
-
-        battleId = toon.battleId
-
-        if battleId not in base.cr.doId2do.keys():
-            return
-
-        battle = base.cr.doId2do.get(battleId)
-
-        for toon in battle.toons:
-            if toon.getDoId() not in base.cr.doId2do.keys():
-                continue
-
-            index = battle.toons.index(toon)
-            toonBattlePanel = self.toonBattlePanels[index]
-            toonBattlePanel.setLaffMeter(toon)
-            toonBattlePanel.show()
-
-    def __removeToonBattlePanels(self):
-        for panel in self.toonBattlePanels:
-            panel.hide()
-            panel.cleanup()
-
     def disableAll(self):
         self.detailButton['state'] = DGG.DISABLED
         if base.cr.productName not in ['ES',
@@ -392,7 +357,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
 
-        self.__removeToonBattlePanels()
         base.setCellsActive([base.rightCells[0]], 1)
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
 
