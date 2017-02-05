@@ -338,7 +338,17 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleText.setScale(self.speed_chat_scale)
         self.speedChatStyleText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 6 + 0.03)
         self.speedChatStyleText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
-        self.exitButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=1.15, text=TTLocalizer.OptionsPageExitToontown, text_scale=options_text_scale, text_pos=button_textpos, textMayChange=0, pos=(0.45, 0, -0.6), command=self.__handleExitShowWithConfirm)
+        self.exitButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=1.15, text=TTLocalizer.OptionsPageExitToontown, text_scale=options_text_scale, text_pos=button_textpos, textMayChange=0, pos=(0.5, 0, .6), command=self.__handleExitShowWithConfirm)
+        # DOOR KEY
+        self.doorKey_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.9))
+        self.doorKey_toggleButton = DirectButton(parent=self, relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.9),
+                                              command=self.__doToggleDoorKey)
         guiButton.removeNode()
         gui.removeNode()
 
@@ -353,6 +363,7 @@ class OptionsTabPage(DirectFrame):
         self.speedChatStyleText.enter()
         self.speedChatStyleIndex = base.localAvatar.getSpeedChatStyleIndex()
         self.updateSpeedChatStyle()
+        self.__setDoorKey()
         if self._parent.book.safeMode:
             self.exitButton.hide()
         else:
@@ -380,6 +391,8 @@ class OptionsTabPage(DirectFrame):
         self.DisplaySettingsButton.destroy()
         self.speedChatStyleLeftArrow.destroy()
         self.speedChatStyleRightArrow.destroy()
+        self.doorKey_Label.destroy()
+        self.doorKey_toggleButton.destroy()
         del self.exitButton
         del self.SoundFX_Label
         del self.Music_Label
@@ -392,6 +405,8 @@ class OptionsTabPage(DirectFrame):
         del self.Whispers_toggleButton
         del self.speedChatStyleLeftArrow
         del self.speedChatStyleRightArrow
+        del self.doorKey_Label
+        del self.doorKey_toggleButton
         self.speedChatStyleText.exit()
         self.speedChatStyleText.destroy()
         del self.speedChatStyleText
@@ -564,7 +579,25 @@ class OptionsTabPage(DirectFrame):
             base.cr._userLoggingOut = True
             messenger.send(self._parent.doneEvent)
 
-
+    def __doToggleDoorKey(self):
+        if settings['doorkey'] == True:
+            settings['doorkey'] = False
+            base.localAvatar.setSystemMessage(0, 'Door Entering Hotkey is DISABLED!')
+        else:
+            settings['doorkey'] = True
+            base.localAvatar.setSystemMessage(0, 'Door Entering Hotkey is ENABLED!')
+        self.settingsChanged = 1
+        self.__setDoorKey()
+        base.toggleDoorKey()
+		
+    def __setDoorKey(self):
+        if settings['doorkey'] == True:
+            self.doorKey_Label['text'] = 'Door Entering Hotkey is ENABLED'
+            self.doorKey_toggleButton['text'] = 'Turn Off'
+        else:
+            self.doorKey_Label['text'] = 'Door Entering Hotkey is DISABLED'
+            self.doorKey_toggleButton['text'] = 'Turn On'
+            
 class CodesTabPage(DirectFrame):
     notify = directNotify.newCategory('CodesTabPage')
 
@@ -771,7 +804,7 @@ class SpecialOptionsTabPage(DirectFrame):
                                               image_scale=button_image_scale, text='', text_scale=options_text_scale,
                                               text_pos=button_textpos,
                                               pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.8),
-                                              command=self.__doToggleTpMessages)     
+                                              command=self.__doToggleTpMessages)
 
         self.friendMessages_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
                                       text_scale=options_text_scale, text_wordwrap=16,
