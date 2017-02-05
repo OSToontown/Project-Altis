@@ -428,7 +428,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.uberZoneInterest = None
         self.wantSwitchboard = config.GetBool('want-switchboard', 0)
         self.wantSwitchboardHacks = base.config.GetBool('want-switchboard-hacks', 0)
-        self.defaultShard = 0
 
         self.__pendingGenerates = {}
         self.__pendingMessages = {}
@@ -1252,9 +1251,6 @@ class OTPClientRepository(ClientRepositoryBase):
             'zoneId': zoneId,
             'avId': avId}
 
-        if self.defaultShard:
-            shardId = self.defaultShard
-
         if shardId is not None:
             district = self.activeDistrictMap.get(shardId)
         else:
@@ -2050,7 +2046,7 @@ class OTPClientRepository(ClientRepositoryBase):
             return base.localAvatar.doId == id
         
         self.notify.warning('In isLocalId(), localAvatar not created yet')
-        return False
+            return False
 
     ITAG_PERM = 'perm'
     ITAG_AVATAR = 'avatar'
