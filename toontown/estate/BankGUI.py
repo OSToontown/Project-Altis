@@ -99,7 +99,7 @@ class BankGui(DirectFrame):
         if task.time - task.prevTime < task.delayTime:
             return Task.cont
         else:
-            task.delayTime = max(0.05, task.delayTime * 0.75)
+            task.delayTime = max(0.001, task.delayTime * 0.75)
             task.prevTime = task.time
             hitLimit, jar, bank, trans = self.__updateTransaction(task.delta)
             if hitLimit:
