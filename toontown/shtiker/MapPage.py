@@ -121,6 +121,8 @@ class MapPage(ShtikerPage.ShtikerPage):
                 command=self.__buttonCallback,
                 extraArgs=[hood],
                 sortOrder=1)
+            label.bind(DGG.WITHIN, self.__hoverCallback, extraArgs=[1, hoodIndex])
+            label.bind(DGG.WITHOUT, self.__hoverCallback, extraArgs=[0, hoodIndex])
             label.resetFrameSize()
             self.labels.append(label)
             hoodClouds = []
@@ -210,7 +212,8 @@ class MapPage(ShtikerPage.ShtikerPage):
                 else:
                     label['text'] = ('', fullname, fullname)
             else:
-                label.hide()
+                label['text_fg'] = (0, 0, 0, 0.65)
+                label.show()
                 for cloud in clouds:
                     cloud.show()
 
@@ -235,3 +238,16 @@ class MapPage(ShtikerPage.ShtikerPage):
             self.doneStatus = {'mode': 'teleport',
              'hood': hood}
             messenger.send(self.doneEvent)
+
+    def __hoverCallback(self, inside, hoodIndex, pos):
+        alpha = PythonUtil.choice(inside, 0.25, 1.0)
+        try:
+            clouds = self.clouds[hoodIndex]
+        except ValueError:
+            clouds = []
+
+        for cloud in clouds:
+            cloud.setColor((1,
+             1,
+             1,
+             alpha))
