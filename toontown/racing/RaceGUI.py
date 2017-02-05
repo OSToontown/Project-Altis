@@ -185,7 +185,7 @@ class RaceGUI:
             hash.setScale(line.getScale()[2], 1, line.getScale()[2] * 5)
             t = float(n) / self.race.lapCount
             hash.setPos(self.faceStartPos[0] * (1 - t) + self.faceEndPos[0] * t, self.faceStartPos[1], self.faceStartPos[2])
-
+        self.closeButton.show
         self.raceModeReady = True
         self.disable()
         return
@@ -252,7 +252,7 @@ class RaceGUI:
         self.endPanel.disable()
 
     def disable(self):
-        self.closeButton.hide()
+       # self.closeButton.hide()
         taskMgr.removeTasksMatching('clearRaceEndPanel')
         if self.raceModeReady:
             self.disableRaceMode()
@@ -463,6 +463,7 @@ class RaceGUI:
         if racer:
             racer.update(finished=True)
             racer.disable()
+            self.closeButton.hide()
             self.endPanel.displayRacer(place, entryFee, qualify, winnings, trackId, bonus, trophies, racer.face, base.cr.doId2do[avId].getName(), totalTime, circuitPoints, circuitTime)
             if racer.face in self.directObjList:
                 self.directObjList.remove(racer.face)
