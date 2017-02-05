@@ -2044,8 +2044,8 @@ class OTPClientRepository(ClientRepositoryBase):
     def isLocalId(self, id):
         if hasattr(base, 'localAvatar'):
             return base.localAvatar.doId == id
-        
-        self.notify.warning('In isLocalId(), localAvatar not created yet')
+        else:
+            self.notify.warning('In isLocalId(), localAvatar not created yet')
             return False
 
     ITAG_PERM = 'perm'
