@@ -70,8 +70,8 @@ loadPrcFileData('Settings: sfxVol', 'audio-master-sfx-volume %s' % settings['sfx
 loadPrcFileData('Settings: loadDisplay', 'load-display %s' % settings['loadDisplay'])
 loadPrcFileData('Settings: toonChatSounds', 'toon-chat-sounds %s' % settings['toonChatSounds'])
 
-'''loadDisplay = settings.get('loadDisplay', 'pandagl')
-loadPrcFileData('', 'load-display' % settings['loadDisplay'])'''
+loadDisplay = settings.get('loadDisplay', 'pandagl')
+loadPrcFileData('', 'load-display %s' % settings['loadDisplay'])
 
 import os
 import time
