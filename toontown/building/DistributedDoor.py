@@ -386,7 +386,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
                 if base.wantDoorKey:
                     if not hasattr(self, "enterText"):
                         self.accept("shift", self.enterDoor)
-                        self.enterText = OnscreenText("Press SHIFT to enter", style = 3, scale = .09, parent = base.a2dBottomCenter, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.7))
+                        self.enterText = OnscreenText("Press SHIFT to enter", style = 3, scale = .09, parent = base.a2dBottomCenter, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.5))
                         self.colorSeq = Sequence(
                         LerpColorScaleInterval(self.enterText, .8, VBase4(.5, .6, 1, .9)),
                         LerpColorScaleInterval(self.enterText, .8, VBase4(1, 1, 1, 1))).loop()
