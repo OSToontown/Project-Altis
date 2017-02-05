@@ -4,7 +4,7 @@ import random
 from toontown.suit import SuitDNA
 from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase.ToontownBattleGlobals import getInvasionMultiplier
-MeritMultiplier = 3.0
+MeritMultiplier = 1.0
 
 class PromotionManagerAI:
     notify = DirectNotifyGlobal.directNotify.newCategory('PromotionManagerAI')
