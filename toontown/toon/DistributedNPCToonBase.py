@@ -13,6 +13,7 @@ from toontown.quest import QuestChoiceGui
 from toontown.quest import QuestParser
 from toontown.quest import Quests
 from toontown.toonbase import ToontownGlobals
+from direct.gui.DirectGui import *
 
 class DistributedNPCToonBase(DistributedToon.DistributedToon):
     
@@ -85,8 +86,43 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         return 0
 
     def detectAvatars(self):
-        self.accept('enter' + self.cSphereNode.getName(), self.handleCollisionSphereEnter)
+        self.accept('enter' + self.cSphereNode.getName(), self.prompt)
 
+    def prompt(self, collEntry):
+        if base.wantInteractKey:
+            self.accept('exit' + self.cSphereNode.getName(), self.handleCollisionSphereExit)
+            self.accept("shift", self.activate, [collEntry])
+            if hasattr(self, "name"):
+                text = ("Press SHIFT to interact with %s" %self.name)
+            else:
+                text = "Press SHIFT to interact"
+            self.enterText = OnscreenText(text = text, style = 3, scale = .09, parent = base.a2dBottomCenter, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.5))
+            self.colorSeq = Sequence(
+            LerpColorScaleInterval(self.enterText, .8, VBase4(.5, .6, 1, .9)),
+            LerpColorScaleInterval(self.enterText, .8, VBase4(1, 1, 1, 1))).loop()
+        else:
+            self.handleCollisionSphereEnter(collEntry)
+
+    def activate(self, collEntry):
+        self.ignore("shift")
+        if hasattr(self, "colorSeq"):
+            if self.colorSeq:
+                self.colorSeq.finish()
+        if hasattr(self, "enterText"):
+            self.enterText.removeNode()
+            del self.enterText
+        
+        self.handleCollisionSphereEnter(collEntry)
+            
+    def handleCollisionSphereExit(self, collEntry):
+        self.ignore("shift")
+        if hasattr(self, "colorSeq"):
+            if self.colorSeq:
+                self.colorSeq.finish()
+        if hasattr(self, "enterText"):
+            self.enterText.removeNode()
+            del self.enterText
+            
     def ignoreAvatars(self):
         self.ignore('enter' + self.cSphereNode.getName())
 
@@ -103,6 +139,13 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         self.cSphereNode.setCollideMask(ToontownGlobals.WallBitmask)
 
     def __deleteCollisions(self):
+        self.ignore("shift")
+        if hasattr(self, "colorSeq"):
+            if self.colorSeq:
+                self.colorSeq.finish()
+        if hasattr(self, "enterText"):
+            self.enterText.removeNode()
+            del self.enterText
         del self.cSphere
         del self.cSphereNode
         self.cSphereNodePath.removeNode()
