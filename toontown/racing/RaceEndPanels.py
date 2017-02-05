@@ -340,7 +340,7 @@ class RaceEndPanel(DirectFrame):
          gui.find('**/CloseBtn_DN'),
          gui.find('**/CloseBtn_Rllvr'),
          gui.find('**/CloseBtn_UP')), relief=None, scale=2.0, text=exitText, text_scale=TTLocalizer.REPsmallLabel, text_pos=(0, -0.1), text_fg=VBase4(1, 1, 1, 1), pos=(1.1, 0, -0.5), command=self.closeButtonPressed)
-        self.closeButton.hide()
+        #self.closeButton.hide()
         self.disable()
         return
 
