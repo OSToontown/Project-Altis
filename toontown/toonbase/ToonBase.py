@@ -289,6 +289,8 @@ class ToonBase(OTPBase.OTPBase):
         self.wantTpMessages = settings.get('tpmsgs', True)
         
         self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
+        
+        self.wantDoorKey = settings.get('doorkey', False)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -307,6 +309,9 @@ class ToonBase(OTPBase.OTPBase):
     def toggleTpMsgs(self):
         self.wantTpMessages = settings.get('tpmsgs', True)
         self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
+        
+    def toggleDoorKey(self):
+        self.wantDoorKey = settings.get('doorkey', False)
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
