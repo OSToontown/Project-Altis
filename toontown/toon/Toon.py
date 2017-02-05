@@ -2263,6 +2263,9 @@ class Toon(Avatar.Avatar, ToonHead):
             scale = ToontownGlobals.toonHeadScales[self.style.getAnimal()]
         
         track = Parallel()
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to scale Toon!")
+            return track
         if not self.headParts:
             return track
         
@@ -2279,6 +2282,9 @@ class Toon(Avatar.Avatar, ToonHead):
         else:
             invScale = 1.0 / scale
         track = Parallel()
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to scale Toon!")
+            return track
         if not self.legsParts:
             return track
         for li in xrange(self.legsParts.getNumPaths()):
