@@ -248,7 +248,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         base.localAvatar.hideShovelButton()
         base.localAvatar.hideWateringCanButton()
         self.startInteraction()
-        self.sendUpdate('removeItem', [base.localAvatar.doId])
+        self.sendUpdate('removeItem', [])
 
     def generateToonMoveTrack(self, toon):
         node = NodePath('tempNode')
@@ -332,8 +332,6 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if not toon:
             return
         self.finishMovies()
-        if avId == localAvatar.doId:
-            self.startInteraction()
         self.model.setTransparency(1)
         self.model.setAlphaScale(1)
         shovel = toon.attachShovel()
@@ -342,9 +340,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         digupTrack = self.generateDigupTrack(toon)
         self.movie = Sequence(self.startCamIval(avId), moveTrack, Func(shovel.show), digupTrack, Func(base.cr.removeObject, self.doId))
         if avId == localAvatar.doId:
-            self.expectingReplacement = 1 
-                                    # sry for long string \/ kappa
-            self.movie.append(Func(base.cr.doId2do.get(self.getOwnerPlot()).sendUpdate, 'finishRemoving', [avId]))
+            self.movie.append(Func(self.movieDone))
         self.movie.start()
 
     def generateDigupTrack(self, toon):

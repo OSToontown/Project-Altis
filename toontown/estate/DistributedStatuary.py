@@ -36,12 +36,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         self.model.reparentTo(self.rotateNode)
         attrib = GardenGlobals.PlantAttributes[self.typeIndex]
         self.stick2Ground()
-        
-    def setOwnerPlot(self, owner):
-        self.ownerPlot = owner
-        
-    def getOwnerPlot(self):
-        return self.ownerPlot
+
 
     def setTypeIndex(self, typeIndex):
         self.typeIndex = typeIndex

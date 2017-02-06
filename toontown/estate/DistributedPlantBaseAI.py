@@ -1,81 +1,81 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.estate.DistributedLawnDecorAI import DistributedLawnDecorAI
 from toontown.estate import GardenGlobals
-import datetime
 
 class DistributedPlantBaseAI(DistributedLawnDecorAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPlantBaseAI")
 
-    def __init__(self, air):
-        DistributedLawnDecorAI.__init__(self, air)
-        self.air = air
-        self.growthLevel = -1
-
-    def announceGenerate(self):
-        DistributedLawnDecorAI.announceGenerate(self)
-
-    def delete(self):
-        DistributedLawnDecorAI.delete(self)
-
-    def disable(self):
-        DistributedLawnDecorAI.disable(self)
-
-    def setOwnerPlot(self, owner):
-        self.ownerPlot = owner
-
-    def getOwnerPlot(self):
-        return self.ownerPlot
-
+    def __init__(self, mgr):
+        DistributedLawnDecorAI.__init__(self, mgr)
+        self.typeIndex = 0
+        self.waterLevel = 0
+        self.growthLevel = 0
+    
     def setTypeIndex(self, typeIndex):
         self.typeIndex = typeIndex
         self.attributes = GardenGlobals.PlantAttributes[typeIndex]
-        self.name = self.attributes['name']
-        self.plantType = self.attributes['plantType']
         self.growthThresholds = self.attributes['growthThresholds']
-        self.maxWaterLevel = self.attributes['maxWaterLevel']
-        self.minWaterLevel = self.attributes['minWaterLevel']
-
+        
+    def d_setTypeIndex(self, typeIndex):
+        self.sendUpdate('setTypeIndex', [typeIndex])
+        
+    def b_setTypeIndex(self, typeIndex):
+        self.setTypeIndex(typeIndex)
+        self.d_setTypeIndex(typeIndex)
+        
     def getTypeIndex(self):
         return self.typeIndex
 
-    def setWaterLevel(self, water):
-        self.waterLevel = water
-
+    def setWaterLevel(self, waterLevel):
+        self.waterLevel = waterLevel
+       
+    def d_setWaterLevel(self, waterLevel):
+        self.sendUpdate('setWaterLevel', [waterLevel])
+        
+    def b_setWaterLevel(self, waterLevel):
+        self.setWaterLevel(waterLevel)
+        self.d_setWaterLevel(waterLevel)
+        
     def getWaterLevel(self):
         return self.waterLevel
 
-    def setGrowthLevel(self, growth):
-        self.growthLevel = growth
-
+    def setGrowthLevel(self, growthLevel):
+        self.growthLevel = growthLevel
+        
+    def d_setGrowthLevel(self, growthLevel):
+        self.sendUpdate('setGrowthLevel', [growthLevel])
+        
+    def b_setGrowthLevel(self, growthLevel):
+        self.setGrowthLevel(growthLevel)
+        self.d_setGrowthLevel(growthLevel)
+        
     def getGrowthLevel(self):
         return self.growthLevel
 
-    def waterPlant(self, avId):
-        self.lastWateredBy = avId
-        newLevel = self.waterLevel + 1
-        if newLevel > self.maxWaterLevel:
-            self.setWaterLevel(self.maxWaterLevel)
-        else:
-            self.setWaterLevel(newLevel)
-        self.sendUpdate('setMovie', [GardenGlobals.MOVIE_WATER, avId])
-        self.sendUpdate('setWaterLevel', [self.getWaterLevel()])
+    def waterPlant(self):
+        av = self.air.doId2do.get(self.air.getAvatarIdFromSender())
+        if not av:
+            return
+            
+        level = max(1, self.getWaterLevel() + av.getWateringCan() + 1)
+        level = min(20, level)
+        self.b_setWaterLevel(level)
+        
+        self.d_setMovie(GardenGlobals.MOVIE_WATER)
+        self.update()
 
     def waterPlantDone(self):
-        if hasattr(self, 'lastWateredBy'):
-            av = simbase.air.doId2do.get(self.lastWateredBy)
-            skill = av.getWateringCanSkill()
-            skill += GardenGlobals.WateringCanAttributes[av.wateringCan]['skillPts'] / 100
-            av.b_setWateringCanSkill(skill)
-            del self.lastWateredBy
-        estate = simbase.air.doId2do.get(self.getEstate())
-        dataIndex = -1
-        for n, item in enumerate(estate.items[self.getOwnerIndex()]):
-            if item[0] == self.getPlot():
-                dataIndex = n
-        if dataIndex >= 0:
-            dtime = int(datetime.datetime.now().strftime('%Y%m%d%H%M'))
-            data = list(estate.items[self.getOwnerIndex()][dataIndex])
-            data[4] = self.getWaterLevel()
-            data[8] = dtime
-            estate.items[self.getOwnerIndex()][dataIndex] = tuple(data)
-            estate.updateItems()
+        av = self.air.doId2do.get(self.air.getAvatarIdFromSender())
+        if not av:
+            return
+        
+        if self.waterLevel < 6:
+            av.b_setWateringCanSkill(av.getWateringCanSkill() + 1)
+        else:
+            av.b_setWateringCanSkill(av.getWateringCanSkill())
+            
+        self.d_setMovie(GardenGlobals.MOVIE_CLEAR)
+        
+    def update(self):
+        pass
+        

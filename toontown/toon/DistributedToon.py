@@ -2106,6 +2106,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if track == None:
             return self.trackBonusLevel
         else:
+            print(track)
             return self.trackBonusLevel[track]
 
     def checkGagBonus(self, track, level):

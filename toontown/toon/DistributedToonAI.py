@@ -125,6 +125,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.cogLevel = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogRadar = [0, 0, 0, 0, 0]
+        self.trackBonusLevel = [0] * 9
         self.cogIndex = -1
         self.disguisePageFlag = 0
         self.sosPageFlag = 0
@@ -5179,7 +5180,7 @@ def trackBonus(trackIndex):
     invoker = spellbook.getInvoker()
     if not 0 <= trackIndex < 8:
         return 'Invalid track index!'
-    trackBonusLevel = [0] * 8
+    trackBonusLevel = [0] * 9
     trackBonusLevel[trackIndex] = 6
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'

@@ -1,8 +1,9 @@
-from toontown.estate import DistributedLawnDecor
+import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
 from direct.interval.IntervalGlobal import *
-from toontown.estate import GardenGlobals
+from DistributedGardenBox import DistributedGardenBox
+import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI
@@ -14,6 +15,7 @@ import types
 
 class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGardenPlot')
+    deferFor = 2
 
     def __init__(self, cr):
         DistributedLawnDecor.DistributedLawnDecor.__init__(self, cr)
@@ -25,13 +27,14 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         self.defaultModel = 'phase_5.5/models/estate/dirt_mound'
         self.colorScaler = Vec4(1, 1, 1, 1)
         self.plantingGui = None
-        self.planted = None
+        return
 
     def delete(self):
         if self.plantingGui:
             self.plantingGui.destroy()
             self.plantingGui = None
         DistributedLawnDecor.DistributedLawnDecor.delete(self)
+        return
 
     def announceGenerate(self):
         self.plotType = GardenGlobals.whatCanBePlanted(self.ownerIndex, self.plot)
@@ -56,6 +59,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.collSphereOffset = 0.0
         self.notify.debug('announceGenerate')
         DistributedLawnDecor.DistributedLawnDecor.announceGenerate(self)
+        return
 
     def loadModel(self):
         self.rotateNode = self.plantPath.attachNewNode('rotate')
@@ -69,6 +73,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.model.reparentTo(self.rotateNode)
             self.model.setColorScale(self.colorScaler)
             self.stick2Ground()
+        return
 
     def setupShadow(self):
         pass
@@ -104,12 +109,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         return plantText
 
     def canBePlanted(self):
-        retval = True
-        if not base.localAvatar.doId == self.getOwnerId():
-            retval = False
-        if hasattr(self, 'planted') and self.planted:
-            retval = False
-        return retval
+        return base.localAvatar.doId == self.getOwnerId()
 
     def plantSomething(self):
         whatCanBePlanted = GardenGlobals.whatCanBePlanted(self.ownerIndex, self.plot)
@@ -138,12 +138,12 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             if recipeKey >= 0:
                 species, variety = GardenGlobals.getSpeciesVarietyGivenRecipe(recipeKey)
                 if species >= 0 and variety >= 0:
-                    self.sendUpdate('plantFlower', [species, variety, base.localAvatar.doId])
+                    self.sendUpdate('plantFlower', [species, variety])
                     successPlanting = True
             else:
                 self.notify.debug('%s %d is not a valid recipe' % (recipeStr, special))
                 burntBeans = len(recipeStr)
-                self.sendUpdate('plantNothing', [burntBeans, base.localAvatar.doId])
+                self.sendUpdate('plantNothing', [burntBeans])
         if successPlanting:
             flowerName = GardenGlobals.getFlowerVarietyName(species, variety)
             stringToShow = TTLocalizer.getResultPlantedSomethingSentence(flowerName)
@@ -203,11 +203,11 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
                         if species >= 205 and species <= 208:
                             successToonStatue = True
                         else:
-                            self.sendUpdate('plantStatuary', [species, base.localAvatar.doId])
+                            self.sendUpdate('plantStatuary', [species])
             else:
                 self.notify.debug('%s %d is not a valid recipe' % (recipeStr, special))
                 burntBeans = len(recipeStr)
-                self.sendUpdate('plantNothing', [burntBeans, base.localAvatar.doId])
+                self.sendUpdate('plantNothing', [burntBeans])
         if successPlanting:
             itemName = GardenGlobals.PlantAttributes[species]['name']
             stringToShow = TTLocalizer.getResultPlantedSomethingSentence(itemName)
@@ -246,7 +246,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         base.localAvatar.showGardeningGui()
         base.localAvatar.removeShovelRelatedDoId(self.doId)
         if willPlant:
-            self.sendUpdate('plantToonStatuary', [species, dnaCode, base.localAvatar.doId])
+            self.sendUpdate('plantToonStatuary', [species, dnaCode])
         else:
             self.popupItemPlantingGui()
         return
@@ -265,7 +265,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         base.localAvatar.showGardeningGui()
         base.localAvatar.removeShovelRelatedDoId(self.doId)
         if willPlant:
-            self.sendUpdate('plantGagTree', [gagTrack, gagLevel, base.localAvatar.doId])
+            self.sendUpdate('plantGagTree', [gagTrack, gagLevel])
         else:
             self.finishInteraction()
         return
@@ -309,7 +309,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         self.movie.append(Func(toon.loop, 'neutral'))
         if avId == localAvatar.doId:
             self.movie.append(Func(self.finishInteraction))
-            self.movie.append(Func(self.removePlanted))
+            self.movie.append(Func(self.movieDone))
         self.movie.start()
 
     def doPlaceItemTrack(self, avId, item = None):
@@ -326,7 +326,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         self.movie = Sequence(self.startCamIval(avId), moveTrack, Func(shovel.show), placeItemTrack)
         if avId == localAvatar.doId:
             self.expectingReplacement = 1
-            self.movie.append(Func(self.sendUpdate, 'finishPlanting', [avId]))
+            self.movie.append(Func(self.movieDone))
         self.movie.start()
 
     def generatePlaceItemTrack(self, toon, item):
@@ -354,12 +354,24 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         else:
             DistributedLawnDecor.DistributedLawnDecor.makeMovieNode(self)
 
-    def plantedItem(self, doId):
-        self.planted = doId
-    
-    def removePlanted(self):
-        if self.planted:
-            plant = base.cr.doId2do.get(self.planted)
-            if plant:
-                plant.delete()
-            self.planted = None
+    def setBoxDoId(self, boxId, index):
+        self.index = index
+        if boxId in base.cr.doId2do:
+            self.setBox(base.cr.doId2do[boxId])
+        else:
+            self.acceptOnce('generate-%d' % boxId, self.setBox)
+
+    def setBox(self, box):
+        x = GardenGlobals.FLOWER_POS[box.typeIndex][self.index]
+
+        self.setPos(0, 0, 0)
+        self.reparentTo(box)
+        self.setZ(1.2)
+        self.setX(x)
+
+    def stick2Ground(self, *args, **kwargs):
+        plotType = GardenGlobals.whatCanBePlanted(self.ownerIndex, self.plot)
+        if plotType == GardenGlobals.FLOWER_TYPE:
+            return
+
+        return DistributedLawnDecor.DistributedLawnDecor.stick2Ground(self, *args, **kwargs)
