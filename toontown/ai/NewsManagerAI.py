@@ -26,7 +26,7 @@ class NewsManagerAI(DistributedObjectAI):
         if self.air.holidayManager.isHolidayRunning(MORE_XP_HOLIDAY):
             self.sendUpdateToAvatarId(avatar.getDoId(), 'setMoreXpHolidayOngoing', [])
         if self.air.holidayManager.isHolidayRunning(TROLLEY_HOLIDAY):
-            self.sendUpdateToAvatarId(avatar.getDoId(), 'setTrolleyHolidayOngoing', [])
+            self.sendUpdateToAvatarId(avatar.getDoId(), 'holidayNotify', [])
         if self.air.holidayManager.isHolidayRunning(CIRCUIT_RACING_EVENT):
             self.sendUpdateToAvatarId(avatar.getDoId(), 'startHoliday', [CIRCUIT_RACING_EVENT])
         if self.air.holidayManager.isHolidayRunning(HYDRANT_ZERO_HOLIDAY):
