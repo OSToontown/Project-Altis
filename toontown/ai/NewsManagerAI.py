@@ -67,6 +67,9 @@ class NewsManagerAI(DistributedObjectAI):
 
     def setTrolleyWeekendStart(self):
         self.sendUpdate('setTrolleyWeekendStart', [])
+        
+    def setTrolleyWeekendOngoing(self):
+        self.sendUpdate('setTrolleyWeekendOngoing', [])
 
     def setTrolleyWeekendEnd(self):
         self.sendUpdate('setTrolleyWeekendEnd', [])
