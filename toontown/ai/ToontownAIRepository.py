@@ -1,5 +1,5 @@
 from direct.distributed.PyDatagram import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.ai.AIZoneData import AIZoneDataStore
 from otp.ai.MagicWordManagerAI import MagicWordManagerAI
 from otp.ai.TimeManagerAI import TimeManagerAI
@@ -30,6 +30,7 @@ from toontown.distributed.ToontownInternalRepository import ToontownInternalRepo
 from toontown.dna.DNAParser import loadDNAFileAI
 from toontown.estate.EstateManagerAI import EstateManagerAI
 from toontown.fishing.BingoHolidayMgrAI import BingoHolidayMgrAI
+from toontown.fishing.BingoWeekendMgrAI import BingoWeekendMgrAI
 from toontown.hood import BRHoodAI
 from toontown.hood import BossbotHQAI
 from toontown.hood import CashbotHQAI
@@ -135,9 +136,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
         self.trashcanZeroMgr.generateWithRequired(2)
         self.dialogueManager = DialogueManagerAI(self)
-        self.bingoHolidayMgr = BingoHolidayMgrAI(self)
-        self.trolleyHolidayMgr = TrolleyHolidayMgrAI(self)
-        self.trolleyWeekendMgr = TrolleyWeekendMgrAI(self)
+        self.bingoHolidayMgr = BingoHolidayMgrAI(self, ToontownGlobals.FISH_BINGO_NIGHT)
+        self.bingoWeekendMgr = BingoWeekendMgrAI(self, ToontownGlobals.SILLY_SATURDAY_BINGO)
+        self.trolleyHolidayMgr = TrolleyHolidayMgrAI(self, ToontownGlobals.TROLLEY_HOLIDAY)
+        self.trolleyWeekendMgr = TrolleyWeekendMgrAI(self, ToontownGlobals.TROLLEY_WEEKEND)
         self.holidayManager = HolidayManagerAI(self)
         
         
