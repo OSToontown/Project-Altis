@@ -127,3 +127,6 @@ class HolidayManagerAI():
                 self.removeHoliday(holidayId)
                 self.endHoliday(holidayId)
         taskMgr.doMethodLater(4000, self.checkForHoliday, 'holidaycheck')
+
+    def getCurPhase(self, holidayId):
+        return 1 #TODO: Get Phase for Actual Holiday.
