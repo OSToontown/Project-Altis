@@ -103,6 +103,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cogLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
+        self.trackBonusLevel = [-1, -1, -1, -1, -1, -1, -1, -1]
         self.savedCheesyEffect = ToontownGlobals.CENormal
         self.savedCheesyHoodId = 0
         self.savedCheesyExpireTime = 0
@@ -2098,6 +2099,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return haveRequired
 
     def setTrackBonusLevel(self, trackArray):
+        if len(trackArray) < 8:
+            trackArray = [-1, -1, -1, -1, -1, -1, -1, -1]
+        
         self.trackBonusLevel = trackArray
         if self.inventory:
             self.inventory.updateGUI()
