@@ -1,74 +1,40 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedNodeAI import DistributedNodeAI
-from toontown.estate import GardenGlobals
 
 class DistributedLawnDecorAI(DistributedNodeAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedLawnDecorAI")
 
-    def __init__(self, air):
-        DistributedNodeAI.__init__(self, air)
-        self.air = air
-        self.plot = None
-        self.ownerIndex = None
-
-    def delete(self):
-        DistributedNodeAI.delete(self)
-        
-    def disable(self):
-        DistributedNodeAI.disable(self)
-        
-    def setEstate(self, estate):
-        self.estate = estate
-        
-    def getEstate(self):
-        return self.estate
-
+    def __init__(self, mgr):
+        self.mgr = mgr
+        DistributedNodeAI.__init__(self, self.mgr.air)
+        self.plot = 0
+        self.ownerIndex = 0
+          
     def setPlot(self, plot):
         self.plot = plot
-
+          
     def getPlot(self):
         return self.plot
 
-    def setHeading(self, heading):
-        self.heading = heading
-
     def getHeading(self):
-        return self.heading
-
-    def setPosition(self, x, y, z):
-        self.position = (x, y, z)
+        return self.getH()
 
     def getPosition(self):
-        return self.position
+        return self.getPos()
 
     def setOwnerIndex(self, ownerIndex):
         self.ownerIndex = ownerIndex
-
-    def getOwnerIndex(self):    
+        self.ownerDoId = self.mgr.gardenMgr.mgr.toons[ownerIndex]
+        self.owner = self.air.doId2do.get(self.ownerDoId)
+        
+    def getOwnerIndex(self):
         return self.ownerIndex
 
-    def generate(self):
-        DistributedNodeAI.generate(self)
-
-    def announceGenerate(self):
-        DistributedNodeAI.announceGenerate(self)
-
-    def plotEntered(self):
-        pass
-
-    def removeItem(self, avId):
-        self.user = avId
-        self.d_setMovie(GardenGlobals.MOVIE_REMOVE, avId)
-
-    def d_setMovie(self, mode, avId):
+    def d_setMovie(self, mode, avId=None):
+        if avId is None:
+            avId = self.air.getAvatarIdFromSender()
+            
         self.sendUpdate('setMovie', [mode, avId])
 
-    def movieDone(self):
-        if hasattr(self, user):
-            del self.user
-
-    def d_interactionDenied(self, avId):
-        self.sendUpdate('interactionDenied', [avId])
-
-    def delete(self):
-        DistributedNodeAI.delete(self)
+    def d_interactionDenied(self):
+        self.sendUpdate('interactionDenied', [self.air.getAvatarIdFromSender()])

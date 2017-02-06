@@ -1149,6 +1149,7 @@ estatePlots = (plots0,
 BOX_ONE = 1
 BOX_TWO = 2
 BOX_THREE = 3
+FLOWER_POS = (None, (0,), (-1.5, 1.5), (-3.5, 0, 3.5))
 flowerBoxes0 = ((-62.5,
   -52.5,
   182.0,
