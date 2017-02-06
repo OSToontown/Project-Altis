@@ -104,6 +104,16 @@ class HolidayManagerAI():
             self.air.newsManager.setMoreXpHolidayEnd()
 
     def checkForHoliday(self, task):
+        for holiday in WEEKLY_HOLIDAYS:
+            holidayId = holiday[0]
+            day = holiday[1]
+            now = datetime.now()
+            if now.weekday == day and holidayId not in self.currentHolidays:
+                self.addHoliday(holidayId)
+                self.startHoliday(holidayId)
+            elif now.weekday != day and holidayId in self.currentHolidays:
+                self.removeHoliday(holidayId)
+                self.endHoliday(holidayId)
         for holiday in YEARLY_HOLIDAYS:
             holidayId = holiday[0]
             now = datetime.now()
