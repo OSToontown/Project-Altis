@@ -76,6 +76,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.countryClubMgr = None
         self.startTime = startTime
 
+        import pymongo
+        
+        # Mongo stuff to store seperate database things
+        self.dbConn = pymongo.MongoClient(config.GetString('mongodb-url', 'localhost'))
+        self.dbGlobalCursor = self.dbConn.altis
+        self.dbCursor = self.dbGlobalCursor['air-%d' % self.ourChannel]
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
         self.zoneDataStore = AIZoneDataStore()
