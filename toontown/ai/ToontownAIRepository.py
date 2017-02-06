@@ -29,6 +29,7 @@ from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 from toontown.dna.DNAParser import loadDNAFileAI
 from toontown.estate.EstateManagerAI import EstateManagerAI
+from toontown.fishing.BingoHolidayMgrAI import BingoHolidayMgrAI
 from toontown.hood import BRHoodAI
 from toontown.hood import BossbotHQAI
 from toontown.hood import CashbotHQAI
@@ -127,6 +128,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
         self.trashcanZeroMgr.generateWithRequired(2)
         self.dialogueManager = DialogueManagerAI(self)
+        self.bingoHolidayMgr = BingoHolidayMgrAI(self)
         self.trolleyHolidayMgr = TrolleyHolidayMgrAI(self)
         self.trolleyWeekendMgr = TrolleyWeekendMgrAI(self)
         self.holidayManager = HolidayManagerAI(self)
