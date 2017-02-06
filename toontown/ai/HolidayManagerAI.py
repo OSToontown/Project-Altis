@@ -92,6 +92,8 @@ class HolidayManagerAI():
     def startHoliday(self, holidayId):
         if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
             self.air.newsManager.setMoreXpHolidayStart()
+        if holidayId == ToontownGlobals.TROLLEY_HOLIDAY:
+            simbase.air.trolleyHolidayMgr.start()
     
     def removeHoliday(self, holidayId):
         if self.holidayId in self.currentHolidays:
@@ -102,6 +104,8 @@ class HolidayManagerAI():
         if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
             self.xpMultiplier = 3 # for the rest of alpha if 5x isnt enabled
             self.air.newsManager.setMoreXpHolidayEnd()
+        if holidayId == ToontownGlobals.TROLLEY_HOLIDAY:
+            simbase.air.trolleyHolidayMgr.stop()
 
     def checkForHoliday(self, task):
         for holiday in WEEKLY_HOLIDAYS:
