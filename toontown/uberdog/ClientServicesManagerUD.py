@@ -32,7 +32,7 @@ minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 accountServerEndpoint = simbase.config.GetString(
     'account-server-endpoint', 'https://projectaltis.com/api/')
 accountServerSecret = simbase.config.GetString(
-    'account-server-secret', '6163636f756e7473')
+    'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
 http = HTTPClient()
 http.setVerifySsl(0)
@@ -56,7 +56,7 @@ blacklist = executeHttpRequest('names/blacklist.json')
 if blacklist:
     blacklist = json.loads(blacklist)
 
-def judgeName(name):
+def judgeName(name): #All of this gunction is just fuckrd
     if not name:
         return False
     
@@ -69,7 +69,7 @@ def judgeName(name):
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
-    
+    # Use Google's API for checking badword list
     return True
 
 class AccountDB:
@@ -136,6 +136,19 @@ class DeveloperAccountDB(AccountDB):
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
+
+    def addNameRequest(self, avId, name):
+        # add type a name
+        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
+        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
+        return 'Success'
+    
+    def getNameStatus(self, avId):
+        # check type a name
+        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
+        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
+        return 'APPROVED'
+    
     def lookup(self, username, callback):
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
@@ -261,7 +274,7 @@ class RemoteAccountDB(AccountDB):
 
         # Next, decrypt the token using AES-128 in CBC mode:
         accountServerSecret = simbase.config.GetString(
-            'account-server-secret', '6163636f756e7473')
+            'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
         # Ensure that our secret is the correct size:
         if len(accountServerSecret) > AES.block_size:
@@ -861,7 +874,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
     def enterJudgeName(self):
         # Let's see if the name is valid:
         status = judgeName(self.name)
-
+        
         if self.avId and status:
             resp = self.csm.accountDB.addNameRequest(self.avId, self.name)
             if resp != 'Success':
@@ -1117,7 +1130,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = '209dTOvFoRB0QRbfeSjcyxo9iJamfKSh43ZJabBS'
+        self.key = 'VhgdThjgoNI0SAbfeSjcyxo9iSyghKSh43ZMidFI'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)

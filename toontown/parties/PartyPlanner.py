@@ -3,8 +3,8 @@ from datetime import datetime
 from datetime import timedelta
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm.FSM import FSM
-from direct.gui import DirectGuiGlobals
-from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
+from toontown.pgui import DirectGuiGlobals
+from toontown.pgui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
 from direct.showbase import DirectObject
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from pandac.PandaModules import *
@@ -89,7 +89,6 @@ class PartyPlanner(DirectFrame, FSM):
         self.nextButton['state'] = DirectGuiGlobals.DISABLED
         self.nextButton.hide()
         self.partyEditorPage.show()
-        self.okWithGroundsGui.doneStatus = ''
         self.partyEditor.request('Idle')
 
     def exitPartyEditor(self):
@@ -558,17 +557,10 @@ class PartyPlanner(DirectFrame, FSM):
         self.partyEditor.request('Hidden')
         pos = self.gui.find('**/step_05_add_text_locator').getPos()
         self.elementBuyButton = DirectButton(parent=page, relief=None, text=TTLocalizer.PartyPlannerBuy, text_pos=(pos[0], pos[2]), text_scale=TTLocalizer.PPelementBuyButton, geom=(self.gui.find('**/add_up'), self.gui.find('**/add_down'), self.gui.find('**/add_rollover')), geom3_color=VBase4(0.5, 0.5, 0.5, 1.0), textMayChange=True, pos=(0.0, 0.0, 0.04), command=self.partyEditor.buyCurrentElement)
-        self.okWithPartyGroundsLayoutEvent = 'okWithPartyGroundsLayoutEvent'
-        self.accept(self.okWithPartyGroundsLayoutEvent, self.okWithPartyGroundsLayout)
-        self.okWithGroundsGui = TTDialog.TTGlobalDialog(dialogName=self.uniqueName('PartyEditorOkGui'), doneEvent=self.okWithPartyGroundsLayoutEvent, message=TTLocalizer.PartyPlannerOkWithGroundsLayout, style=TTDialog.YesNo, okButtonText=OTPLocalizer.DialogYes, cancelButtonText=OTPLocalizer.DialogNo)
-        self.okWithGroundsGui.doneStatus = ''
-        self.okWithGroundsGui.hide()
         return page
 
     def okWithPartyGroundsLayout(self):
-        self.okWithGroundsGui.hide()
-        if self.okWithGroundsGui.doneStatus == 'ok':
-            self.__nextItem()
+        self.__nextItem()
 
     def setNextButtonState(self, enabled):
         if enabled:
@@ -631,11 +623,7 @@ class PartyPlanner(DirectFrame, FSM):
         self.prevThemeButton.destroy()
         self.inviteButton.destroy()
         self.closePlannerButton.destroy()
-        self.ignore(self.okWithPartyGroundsLayoutEvent)
-        if hasattr(self, 'okWithGroundsGui'):
-            self.okWithGroundsGui.cleanup()
-            del self.okWithGroundsGui
-        
+
         if hasattr(self, 'frame') and not self.frame.isEmpty():
             messenger.send(self.doneEvent)
             self.hide()
@@ -704,12 +692,6 @@ class PartyPlanner(DirectFrame, FSM):
 
     def __nextItem(self):
         messenger.send('wakeup')
-        if self.state == 'PartyEditor' and self.okWithGroundsGui.doneStatus != 'ok':
-            self.okWithGroundsGui.show()
-        if self.state == 'PartyEditor' and self.noFriends:
-            self.request('Date')
-            self.selectedCalendarGuiDay = None
-            self.calendarGuiMonth.clearSelectedDay()
         if self.state == 'Guests':
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()

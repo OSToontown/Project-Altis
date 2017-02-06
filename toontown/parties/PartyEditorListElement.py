@@ -73,7 +73,7 @@ class PartyEditorListElement(DirectButton):
         else:
             self.name = TTLocalizer.PartyActivityNameDict[self.id]['editor']
         
-        self.setName('%sListElement' % self.name)
+        self.setName(self.name)
         self.setScale(scale)
         self.bind(DirectGuiGlobals.B1PRESS, self.clicked)
         self.bind(DirectGuiGlobals.B1RELEASE, self.released)

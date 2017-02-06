@@ -4,6 +4,6 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 class AwardManagerUD(DistributedObjectGlobalUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("AwardManagerUD")
 
-    def giveAwardToToon(self, todo0, todo1, todo2, todo3, todo4, todo5):
+    def giveAwardToToon(self, rewardId, avId, rewardName, hours, seconds):
         pass
 

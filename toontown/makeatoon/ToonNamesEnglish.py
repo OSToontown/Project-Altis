@@ -148,9 +148,9 @@ TOONNAMES = '''0*0*Baron
 135*4*Willow
 136*5*B.D.
 137*5*Banjo
-138*5*Batty
-139*5*Beany
-140*5*Bebop
+138*5*Beany
+139*5*Bebop
+140*5*Bethy
 141*5*Bingo
 142*5*Binky
 143*5*Biscuit

@@ -39,7 +39,6 @@ class Cannon:
         self.toonHead = None
         self.toonOriginalScale = 0.0
         self.toonParentNode = None
-        return
 
     def reset(self):
         self.setRotation(0)
@@ -76,7 +75,6 @@ class Cannon:
         del self.sndCannonFire
         del self._position
         self.ignoreAll()
-        return
 
     def updateModel(self, rotation = None, angle = None):
         if rotation:

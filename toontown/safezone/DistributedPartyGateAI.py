@@ -17,8 +17,10 @@ class DistributedPartyGateAI(DistributedObjectAI):
 
     def getPartyList(self, avId):
         partyManager = simbase.air.partyManager
-        self.sendUpdateToAvatarId(avId, 'listAllPublicParties', [partyManager.getPublicParties()])
-
+        try:
+            self.sendUpdateToAvatarId(avId, 'listAllPublicParties', [partyManager.getPublicParties()])
+        except:
+            pass
     def partyChoiceRequest(self, avId, shardId, zoneId):
         # Try to get a spot for them in the party
         # find partyId

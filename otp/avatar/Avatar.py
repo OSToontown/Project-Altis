@@ -35,7 +35,7 @@ class Avatar(Actor, ShadowCaster):
             self.Avatar_initialized = 1
 
         Actor.__init__(self, None, None, other, flattenable=0, setFinal=1)
-        self.setBlend(frameBlend = True)
+        self.setBlend(frameBlend = base.wantSmoothAnims)
         self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
         ShadowCaster.__init__(self)
         self.name = ''

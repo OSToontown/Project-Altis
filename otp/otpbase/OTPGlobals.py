@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 QuietZone = 1
 UberZone = 2
 WallBitmask = BitMask32(1)
@@ -17,10 +17,7 @@ DefaultCameraNear = 1.0
 AICollisionPriority = 10
 AICollMovePriority = 8
 
-# As of right now, 200 friends is pretty insane, especially with the current CONSTANT db querying.
-# But since we told people that we are allowing "unlimited" friends, we instead can give them a
-# high amount.
-MaxFriends = 200
+MaxFriends = 300
 
 MaxPlayerFriends = 300
 MaxBackCatalog = 48
@@ -110,6 +107,7 @@ CEBeanCounter = 56
 CEBackStabber = 49
 CEBottomFeeder = 45
 CEGhost = 'g'
+CEWire = 77
 CEName2Id = {
  'normal': CENormal,
  'bighead': CEBigHead,

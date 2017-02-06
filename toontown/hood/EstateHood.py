@@ -17,7 +17,8 @@ class EstateHood(Hood):
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         Hood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-
+        
+        self.loader = None
         self.fsm = ClassicFSM.ClassicFSM('Hood', [State.State('start', self.enterStart, self.exitStart, ['safeZoneLoader']),
          State.State('safeZoneLoader', self.enterSafeZoneLoader, self.exitSafeZoneLoader, ['quietZone']),
          State.State('quietZone', self.enterQuietZone, self.exitQuietZone, ['safeZoneLoader']),
@@ -121,12 +122,14 @@ class EstateHood(Hood):
             self.endSpookySky()
         SkyUtil.startCloudSky(self)
         if base.cloudPlatformsEnabled:
-            self.loader.startCloudPlatforms()
+            if hasattr(self, 'loader') and self.loader:
+                self.loader.startCloudPlatforms()
 
     def stopSky(self):
         Hood.stopSky(self)
-
-        self.loader.stopCloudPlatforms()
+        
+        if hasattr(self, 'loader') and self.loader:
+            self.loader.stopCloudPlatforms()
 
     def startSpookySky(self):
         if hasattr(self, 'loader') and self.loader and hasattr(self.loader, 'cloudTrack') and self.loader.cloudTrack:

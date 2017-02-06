@@ -35,10 +35,11 @@ while True:
       print "Is the server accessable?\n"
       exit
     
-    
+    msg = raw_input('Message: ')
     while True:
-      msg = raw_input("Message: ")
       shards = client.messageAll(generate_token(700), msg)
+      print('sent msg')
+      time.sleep(300)
   except Exception, e:
     print e
   time.sleep(300)

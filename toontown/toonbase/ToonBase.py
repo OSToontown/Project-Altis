@@ -37,6 +37,81 @@ class ToonBase(OTPBase.OTPBase):
 
     def __init__(self):
         OTPBase.OTPBase.__init__(self)
+        # First, build a list of all possible resolutions:
+        self.resList = []
+        displayInfo = self.pipe.getDisplayInformation()
+        for i in xrange(displayInfo.getTotalDisplayModes()):
+            width = displayInfo.getDisplayModeWidth(i)
+            height = displayInfo.getDisplayModeHeight(i)
+            if (width, height) not in self.resList:
+                self.resList.append((width, height))
+
+        # Next, separate the resolutions by their ratio:
+        self.resDict = {}
+        for res in self.resList:
+            ratio = int((float(res[0])/float(res[1])) * 100000) / 100000.0
+            self.resDict.setdefault(ratio, []).append(res)
+
+        # Get the native width, height and ratio:
+        self.nativeWidth = self.pipe.getDisplayWidth()
+        self.nativeHeight = self.pipe.getDisplayHeight()
+        self.nativeRatio = int((float(self.nativeWidth)/float(self.nativeHeight)) * 100000) / 100000.0
+
+        # Finally, choose the best resolution if we're either fullscreen, or
+        # don't have one defined in our preferences:
+        fullscreen = settings.get('fullscreen', False)
+        if ('res' not in settings) or fullscreen:
+            if fullscreen:
+                # If we're fullscreen, we want to fit the entire screen:
+                res = (self.nativeWidth, self.nativeHeight)
+            elif self.nativeRatio not in self.resDict:
+                print "base.resDict does not contain the native resolution: %r" % self.resDict
+                res = (800, 600)
+            elif len(self.resDict[self.nativeRatio]) > 1:
+                # We have resolutions that match our native ratio and fit it!
+                # Let's use one:
+                res = sorted(self.resDict[self.nativeRatio])[0]
+            else:
+                # Okay, we don't have any resolutions that match our native
+                # ratio and fit it. Let's just use one of the second largest
+                # ratio's resolutions:
+                ratios = sorted(self.resDict.keys(), reverse=False)
+                nativeIndex = ratios.index(self.nativeRatio)
+                res = sorted(self.resDict[ratios[nativeIndex - 1]])[0]
+
+            # Store our result:
+            settings['res'] = res
+
+            # Reload the graphics pipe:
+            properties = WindowProperties()
+
+            properties.setSize(res[0], res[1])
+            properties.setFullscreen(fullscreen)
+            properties.setParentWindow(0)
+
+            # Store the window sort for later:
+            sort = self.win.getSort()
+
+            if self.win:
+                currentProperties = WindowProperties(self.win.getProperties())
+                gsg = self.win.getGsg()
+            else:
+                currentProperties = WindowProperties.getDefault()
+                gsg = None
+            newProperties = WindowProperties(currentProperties)
+            newProperties.addProperties(properties)
+            if (gsg is None) or (currentProperties.getFullscreen() != newProperties.getFullscreen()) or (currentProperties.getParentWindow() != newProperties.getParentWindow()):
+                self.openMainWindow(props=properties, gsg=gsg, keepCamera=True)
+                self.graphicsEngine.openWindows()
+                self.disableShowbaseMouse()
+            else:
+                self.win.requestProperties(properties)
+                self.graphicsEngine.renderFrame()
+
+            self.win.setSort(sort)
+            self.graphicsEngine.renderFrame()
+            self.graphicsEngine.renderFrame()
+        
         self.disableShowbaseMouse()
         self.addCullBins()
         self.debugRunningMultiplier /= OTPGlobals.ToonSpeedFactor
@@ -204,10 +279,20 @@ class ToonBase(OTPBase.OTPBase):
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
         self.lodMaxRange = 750
-        self.lodMinRange = 5
+        self.lodMinRange = 20
         self.lodDelayFactor = 0.4
         
         self.meterMode = settings.get('health-meter-mode', 2)
+        
+        self.wantSmoothAnims = settings.get('smoothanimations', True)
+        
+        self.wantTpMessages = settings.get('tpmsgs', True)
+        
+        self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
+        
+        self.wantDoorKey = settings.get('doorkey', False)
+        
+        self.wantInteractKey = settings.get('interactkey', False)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -222,7 +307,14 @@ class ToonBase(OTPBase.OTPBase):
             
     def setTextureScale(self): # Set the global texture scale (TODO)
         scale = settings.get('texture-scale')
-
+        
+    def toggleTpMsgs(self):
+        self.wantTpMessages = settings.get('tpmsgs', True)
+        self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
+        
+    def toggleDoorKey(self):
+        self.wantDoorKey = settings.get('doorkey', False)
+        self.wantInteractKey = settings.get('interactkey', False)
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)

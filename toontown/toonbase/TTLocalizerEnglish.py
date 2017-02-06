@@ -80,6 +80,7 @@ lDonaldsDock = "Donald's Dock"
 lDonaldsDreamland = "Donald's Dreamland"
 lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
+lFunnyFarm = 'Funny Farm'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
 lGoofySpeedway = 'Goofy Speedway'
@@ -141,7 +142,7 @@ TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
 OutdoorZone = ('to', 'in', lOutdoorZone)
-FunnyFarm = ('to', 'in', 'The Unpainted Playground')
+FunnyFarm = ('to', 'in', lFunnyFarm)
 GoofySpeedway = ('to', 'in', lGoofySpeedway)
 DonaldsDreamland = ('to', 'in', lDonaldsDreamland)
 BossbotHQ = ('to', 'in', 'Bossbot HQ')
@@ -246,6 +247,7 @@ QuestsDefaultReject = ('Heya, _avName_!',
  'Whatcha need?',
  'Hello! How are you doing?',
  'Hi there.',
+ "How's it going?",
  "Sorry _avName_, I'm a bit busy right now.",
  'Yes?',
  'Howdy, _avName_!',
@@ -544,6 +546,9 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  61: ['Toenail Clipper', 'Toenail Clippers', 'a '],
  62: ['Boxing Glove', 'Boxing Gloves', 'a '],
  63: ['Boxing Bag', 'Boxing Bags', 'a '],
+ 64: ['Jimmy', 'Jimmys', 'one '],
+ 65: ['Meatballs', 'Meatballs', 'some '],
+ 66: ['Rake', 'Rakes', 'a '],
  110: ['TIP Clothing Ticket', 'Clothing Tickets', 'a '],
  1000: ['Clothing Ticket', 'Clothing Tickets', 'a '],
  2001: ['Inner Tube', 'Inner Tubes', 'an '],
@@ -1298,11 +1303,11 @@ QuestDialogDict = {160: {GREETING: '',
         LEAVING: '',
         INCOMPLETE_PROGRESS: "I may be old, but I know you haven't finished your quest yet. You can't fool me that easily."},
  5235: {GREETING: '',
-        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to take defeat some of those Big Cheeses.\x07They are Cogs that love to hide in buildings and Cog Golf Courses.",
+        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to defeat some of those Big Cheeses.\x07They are Cogs that love to hide in buildings and Cog Golf Courses.",
         LEAVING: '',
         INCOMPLETE_PROGRESS: "I may be old, but I know you haven't finished your quest yet. You can't fool me that easily."},
  5236: {GREETING: '',
-        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to take defeat some of those Big Wigs.\x07They are Cogs that love to hide in buildings and DA Offices.",
+        QUEST: "Welcome back.\x07Great job on shutting down those factories.\x07Next, I want you to defeat some of those Big Wigs.\x07They are Cogs that love to hide in buildings and DA Offices.",
         LEAVING: '',
         INCOMPLETE_PROGRESS: "I may be old, but I know you haven't finished your quest yet. You can't fool me that easily."},
  5237: {QUEST: "Now, I want you to defeat some of the strongest Cogs out there.\x07Afterwards, I will give you my final quest for you.",
@@ -1490,7 +1495,7 @@ QuestDialogDict = {160: {GREETING: '',
         COMPLETE: "Thank you so much!\x07These pillows are awesome.\x07Here is your reward..."},
  7215: {QUEST: "The Boardbots of Lullaby Lane have been causing trouble to _toNpcName_'s shop._where_"},
  7216: {GREETING: '',
-        QUEST: "It's just awful how those Boardbots treat me!\x07I just fixed 10 watches for my customers. amd they just came in and stole them all!\x07Please go get them back for me! The customers will be here soon!\x07The Boardbots couldn't of gone far...",
+        QUEST: "It's just awful how those Boardbots treat me!\x07I just fixed 10 watches for my customers, and they just came in and stole them all!\x07Please go get them back for me! The customers will be here soon!\x07The Boardbots couldn't of gone far...",
         LEAVING: '',
         COMPLETE: "Thank you so much! Here's a larger bean bag for you."},
  8301: {QUEST: "_toNpcName_ has a bad feeling about the Lawbot Clerk._where_"},
@@ -1546,6 +1551,16 @@ QuestDialogDict = {160: {GREETING: '',
         QUEST: "Oh my, this is crazy.\x07The Cogs in Bossbot Headquarters go as high as level 18! That's crazy!\x07I want you to defeat several of these high leveled Cogs.",
         LEAVING: '',
         COMPLETE: "I got worried that you were hurt when I sent you off to do that quest.\x07Take this as an apology..."},
+ 10300: {QUEST: "We hear Loopy finally got his store added into Toontown!\x07Why don't you go on over and see what he's got for sale?_where_"},
+ 10301: {QUEST: "Welcome to Loopy's Balls!\x07We sell the freshest swedish meatballs in all of Toontown!\x07What would you like to order?\x07Meatballs! A Fan favorite. Great choice! Let me just check in with Jimmy.\x07JIMMY!!\x07Oh. That's right.\x07Jimmy was loafing around earlier so I tossed him in the pond.\x07Can you be a darling and go fish him out and bring him back for me?"},
+ 10302: {QUEST: "Perfect! The little rat is as good as ever. Now let's hope he actually cooks some meatballs.\x07What's that? He's not a rat you say?\x07Well regardless, let's get you some meatballs now why don't we.\x07JIMMY!!\x07Oh...\x07This is terrible.. let's hope Chef Knucklehead doesn't catch wind of this, that toon never lets me win with anything.\x07This is incredibly awkward but while Jimmy was out doing whatever he was doing in the pond and while I was taking my 5th nap of the day some cogs decided to drop by and steal my meatball stock for themselves!\x07Now naturally, this cannot be tolerated. We need meatballs to keep Spaghetti and Go- uh, I mean.. to keep the toons of Toontown satisfied and well-fed!\x07Go out and find the dastardly robots that did this! I want their heads!\x07What's that? Too much?\x07Alright.. well.. go find the cogs that took my meatballs and bring them back, I need to get my jellybeans back, it isn't cheap to rent this building out you know. I know why there's so many vacant buildings now..",
+		 COMPLETE: "Thank you so much! Now Loopy's Balls will remain the Number One meatball shop on Loopy Lane! Take that Knucklehead..\x07Anyways, do you want some meatballs now? They're only a couple hundred jellybeans a pop!\x07What was that? You don't want to pay that much?\x07Oh.. that's awkward isn't it.\x07Uhm, rewards, rewards, rewards... What do I give you?\x07Oh! I got just the thing!",
+		 LEAVING: "We tried to do some merch to help pay for the extreme rent costs, buuut it turns out nobody really wants them.\x07Except for you right! You'd love some Loopy's Balls merch right?\x07Right?\x07Well take it anyways, here, it's yours. Thanks for dropping by at Loopy's Balls and have a nice day!"},
+ 10303: {QUEST: "_toNpcName_ treats his rakes as if they are his children..._where_"},
+ 10304: {QUEST: "THOSE ROTTEN COGS STOLE MY BABIES!\x07GO GET THEM ALL BACK OR I WILL SET FIRE TO THIS STORE!",
+		 GREETING: '',
+		 LEAVING: '',
+		 COMPLETE: "Woo, I feel calm now.\x07Here, take this reward."},
  11000: {GREETING: '',
          LEAVING: '',
          QUEST: '_toNpcName_ has some dirt on how to teleport to Sellbot Headquarters._where_'},
@@ -1580,7 +1595,7 @@ QuestDialogDict = {160: {GREETING: '',
          QUEST: "_toNpcName_ knows her ways around Lawbot Headquarters and also knows how to get teleportation access to it._where_"},
  13001: {GREETING: '',
          LEAVING: '',
-         QUEST: "Welcome, _avName_.\x07I am willing to grant you teleportation access, but you must prove yourself worthy.\x07Shut down several Lawbot B-Offices to start with."},
+         QUEST: "Welcome, _avName_.\x07I am willing to grant you teleportation access, but you must prove yourself worthy.\x07Shut down several Lawbot A-Offices to start with."},
  13002: {GREETING: '',
          LEAVING: '',
          QUEST: "Now, take down some strong Lawbot Buildings."},
@@ -1677,9 +1692,9 @@ AvatarDetailPanelFailedLookup = 'Unable to get details for %s.'
 AvatarDetailPanelPlayer = 'Player: %(player)s\nWorld: %(world)s'
 AvatarDetailPanelPlayerShort = '%(player)s\nWorld: %(world)s\nLocation: %(location)s'
 AvatarDetailPanelRealLife = 'Offline'
-AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel: %(level)s'
+AvatarDetailPanelOnline = 'District: %(district)s\nLocation: %(location)s\nLevel: %(level)s\nToon ID: %(toonId)s'
 AvatarDetailPanelOnlinePlayer = 'District: %(district)s\nLocation: %(location)s\nPlayer: %(player)s\nLevel %(level)s'
-AvatarDetailPanelOffline = 'District: offline\nLocation: offline\nLevel %s'
+AvatarDetailPanelOffline = 'District: offline\nLocation: offline\nLevel %s\nToon ID: %s'
 AvatarShowPlayer = 'Show Player'
 OfflineLocation = 'Offline'
 PlayerToonName = 'Toon: %(toonname)s'
@@ -1976,7 +1991,7 @@ ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['What do you get if you cross a railway engine with a stick of gum?', 'A chew-chew train.'],
  ['What would you get if you crossed an elephant with a computer?', 'A big know-it-all.'],
  ['What would you get if you crossed an elephant with a skunk?', 'A big stinker.'],
- ['Why did ' + MickeyMouse + ' take a trip to outer space?', 'He wanted to find ' + Pluto + '.']]
+ ['Why did the mouse take a trip to outer space?', 'He wanted to find Pluto.']]
 MovieHealLaughterMisses = ('hmm',
  'heh',
  'ha',
@@ -2042,7 +2057,8 @@ CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
  ('Flat profile', 'you will be two-dimensional'),
  ('Transparent', 'you will be transparent'),
  ('No color', 'you will be colorless'),
- ('Invisible toon', 'you will be invisible')]
+ ('Invisible toon', 'you will be invisible'),
+ ('Wireframe', 'you will take on a more geometric form')]
 CheesyEffectIndefinite = 'Until you choose another effect, %(effectName)s%(whileIn)s.'
 CheesyEffectMinutes = 'For the next %(time)s minutes, %(effectName)s%(whileIn)s.'
 CheesyEffectHours = 'For the next %(time)s hours, %(effectName)s%(whileIn)s.'
@@ -2294,6 +2310,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
                'Did you count on this?',
                "Add it up, you're going down.",
                'Let me help you add this up.',
+               "It just doesn't add up!",
                'Did you register all your expenses?',
                "According to my calculations, you won't be around much longer.",
                "Here's the grand total.",
@@ -2454,6 +2471,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
                   "You're going to take this hard.",
                   'This should cause freezer burn.',
                   'I hope you like cold cuts.',
+                  'This one will be cold.',
                   "I'm very cold blooded."],
  'GlowerPower': ['You looking at me?',
                  "I'm told I have very piercing eyes.",
@@ -2497,6 +2515,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
             "It appears you've got a weak link.",
             'Your time is up.',
             'I hope you receive this loud and clear.',
+            'Thank you come again.',
             'You got the wrong number.'],
  'HeadShrink': ["Looks like you're seeing a shrink.",
                 'Honey, I shrunk the toon.',
@@ -2686,6 +2705,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
              "Hope you're claustrophobic.",
              "I'll make sure you stick around.",
              'Let me keep you busy.',
+             "Looks like you're in a sticky situation.",
              'Just try to unravel this.',
              'I want this meeting to stick with you.'],
  'ReOrg': ["You don't like the way I reorganized things!",
@@ -2799,6 +2819,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
           "This'll really make your head spin!",
           "Here's my spin on things.",
           "I'll take you for a spin.",
+          "It's time to take a spin!",
           'How do you like to "spin" your time?',
           "Watch it.  Wouldn't want to spin out of control!",
           "Oh what a spin you're in!",
@@ -2885,7 +2906,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
               "I'll shuffle your accounts around.",
               "You're about to suffer some losses.",
               'This is going to hurt your bottom line.']}
-BuildingWaitingForVictors = ('Waiting for other players...',)
+BuildingWaitingForVictors = ('Waiting for other toons...',)
 ElevatorHopOff = 'Hop off'
 ElevatorStayOff = "If you hop off, you'll need to wait\nfor the elevator to leave or empty."
 ElevatorLeaderOff = 'Only your leader can decide when to hop off.'
@@ -6162,7 +6183,10 @@ SpecialEventMailboxStrings = {1: 'A special item from the Toon Council just for 
  14: 'Here is your Most V.P.s Defeated Tournament prize! Congratulations!',
  15: 'Here is your Operation: Storm Sellbot prize! Congratulations!',
  16: 'Here is your Most C.J.s Defeated Tournament prize! Congratulations!',
- 17: 'Here is your Operation: Lawbots Lose prize! Congratulations!'}
+ 17: 'Here is your Operation: Lawbots Lose prize! Congratulations!',
+ 18: 'Here is your Operation: Crash Cashbots prize! Congratulations!',
+ 19: 'Here is your Operation: Blast Bossbots prize! Congratulations!',
+ 20: 'Here is your Most C.E.O.s Defeated Tournament prize! Congratulations!'}
 RentalHours = 'Hours'
 RentalOf = 'Of'
 RentalCannon = 'Cannons!'
@@ -6274,12 +6298,12 @@ FurnitureNames = {100: 'Armchair',
  1240: "Snorkeler's Table",
  1250: 'Cookie Table',
  1260: 'Bedroom Table',
- 1300: '1000 Bean Bank',
- 1310: '2500 Bean Bank',
- 1320: '5000 Bean Bank',
- 1330: '7500 Bean Bank',
- 1340: '10000 Bean Bank',
- 1350: '12000 Bean Bank',
+ 1300: '20000 Bean Bank',
+ 1310: '25000 Bean Bank',
+ 1320: '30000 Bean Bank',
+ 1330: '35000 Bean Bank',
+ 1340: '40000 Bean Bank',
+ 1350: '45000 Bean Bank',
  1399: 'Telephone',
  1400: 'Cezanne Toon',
  1410: 'Flowers',
@@ -6690,7 +6714,9 @@ SpecialEventNames = {1: 'Generic Award',
  14: 'Most V.P.s Defeated',
  15: 'Operation Storm Sellbot Event',
  16: 'Most C.J.s Defeated',
- 17: 'Operation Lawbots Lose Event'}
+ 17: 'Operation Lawbots Lose Event',
+ 18: 'Operation Blast Bossbots Event',
+ 19: 'Operation Crash Cashbots Event'}
 NewCatalogNotify = 'There are new items available to order at your phone!'
 NewDeliveryNotify = 'A new delivery has just arrived at your mailbox!'
 CatalogNotifyFirstCatalog = 'Your first cattlelog has arrived!  You may use this to order new items for yourself or for your house.'
@@ -6981,6 +7007,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  2320: 'Crunchy Alfredo',
  2321: 'Punchy',
  2322: 'Jester Chester',
+ 2323: 'Loopy Goopy Googlenerd',
  1001: 'Will',
  1002: 'Bill',
  1003: lHQOfficerM,
@@ -7598,7 +7625,7 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  2735: ('The Kaboomery', ''),
  2739: ("Sidesplitter's Mending", ''),
  2740: ('Used Firecrackers', ''),
- 2741: ('', ''),
+ 2741: ("Loopy's Balls", ''),
  2742: ('', ''),
  2743: ('Ragtime Dry Cleaners', ''),
  2744: ('', ''),
@@ -9432,8 +9459,9 @@ BossbotPhase3Speech2 = 'These waiters are toons!'
 BossbotPhase3Speech3 = 'Get them!!!'
 BossbotPhase4Speech1 = 'Hrrmmpph. When I need a job done right...'
 BossbotPhase4Speech2 = "I'll do it myself."
-BossbotRTPhase4Speech1 = 'Good Job! Now squirt the C.E.O. with the water on the tables...'
-BossbotRTPhase4Speech2 = 'or use golf balls to slow him down.'
+BossbotRTPhase4Speech1 = 'Nice! You took out the diners! Use the seltzer bottles to squirt the C.E.O.'
+BossbotRTPhase4Speech2 = 'Use the golf tees to slow down the C.E.O. and weaken his defenses.'
+BossbotRTPhase4Speech3 = 'Powerful shots against the C.E.O., when he is slowed down, have a higher chance to stun him!'
 BossbotPitcherLeave = 'Leave Bottle'
 BossbotPitcherLeaving = 'Leaving Bottle'
 BossbotPitcherAdvice = 'Use the left and right keys to rotate.\nHold down Ctrl increase power.\nRelease Ctrl to fire.'
@@ -9689,7 +9717,7 @@ SillySurgeTerms = {1: 'Amusing Ascent!',
  3: 'Ridiculous Rise!',
  4: 'Giggle Growth!',
  5: 'Funny Fueling!',
- 6: 'Batty Boost!',
+ 6: 'Thundering Thrill!',
  7: 'Crazy Climb!',
  8: 'Jolly Jump!',
  9: 'Loony Lift!',

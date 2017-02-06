@@ -28,16 +28,16 @@ resolution_table = [
 class PickAToonOptions:
 
     def __init__(self):
-        self.optionsOpenSfx = None #base.loadSfx(DMenuResources.Settings_Open) # ALTIS: TODO: Add sound effects
-        self.optionsCloseSfx = None #base.loadSfx(DMenuResources.Settings_Close) # ALTIS: TODO: Add sound effects
+        self.optionsOpenSfx = None # base.loadSfx(DMenuResources.Settings_Open) # ALTIS: TODO: Add sound effects
+        self.optionsCloseSfx = None # base.loadSfx(DMenuResources.Settings_Close) # ALTIS: TODO: Add sound effects
 
     def showOptions(self):
-        #base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
+        # base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
         self.displayOptions()
         zoomIn = (LerpScaleInterval(self.optionsNode, .4, Vec3(1, 1, 1), Vec3(0, 0, 0), blendType = 'easeInOut')).start()
 
     def hideOptions(self):
-        #base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
+        # base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
         zoomOut = (LerpScaleInterval(self.optionsNode, .4, Vec3(0, 0, 0), Vec3(1, 1, 1), blendType = 'easeInOut')).start()
         Sequence (
         Wait(.4),
@@ -80,12 +80,12 @@ class PickAToonOptions:
          guiButton.find('**/QuitBtn_UP')), image3_color = Vec4(0.5, 0.5, 0.5, 0.5), image_scale = (0.7, 1, 1), text = '', text3_fg = (0.5, 0.5, 0.5, 0.75), text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, 0), command = self.__doToggleToonChatSounds)
         self.ToonChatSounds_toggleButton.setScale(0.8)
         self.ToonChatSounds_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Toon Chat Sounds', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, .1))
-        
+
         # Key Remapping
-        self.WASD_Label = DirectLabel(parent=self.optionsNode, relief=None, text='', text_align=TextNode.ACenter, text_scale=0.052, text_wordwrap=16, pos=(0, 0, -0.1))
-        self.WASD_toggleButton = DirectButton(parent=self.optionsNode, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text='', text_scale = 0.052, text_pos=(0, -.02), pos=(0, 0, -0.2), command=self.__doToggleWASD)
-        
-        self.keymapDialogButton = DirectButton(parent=self.optionsNode, relief = None, image = (guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text='Change Keybinds', text_scale=(0.03, 0.05, 1), text_pos = (0, -.02), pos = (0, 0, -0.3), command = self.__openKeyRemapDialog) 
+        self.WASD_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, -0.1))
+        self.WASD_toggleButton = DirectButton(parent = self.optionsNode, relief = None, image = (guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = '', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -0.2), command = self.__doToggleWASD)
+
+        self.keymapDialogButton = DirectButton(parent = self.optionsNode, relief = None, image = (guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Change Keybinds', text_scale = (0.03, 0.05, 1), text_pos = (0, -.02), pos = (0, 0, -0.3), command = self.__openKeyRemapDialog)
         self.keymapDialogButton.setScale(1.55, 1.0, 1.0)
 
         # Aspect Ratio Options
@@ -184,12 +184,12 @@ class PickAToonOptions:
             settings['Widescreen'] = ratio
             self.settingsChanged = 1
             base.updateAspectRatio()
-            
+
     def __doToggleWASD(self):
         messenger.send('wakeup')
         if base.wantCustomControls:
             base.wantCustomControls = False
-            settings['want-Custom-Controls'] = False     
+            settings['want-Custom-Controls'] = False
         else:
             base.wantCustomControls = True
             settings['want-Custom-Controls'] = True
@@ -206,24 +206,24 @@ class PickAToonOptions:
             self.WASD_Label['text'] = 'Custom Keymapping is disabled.'
             self.WASD_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
             self.keymapDialogButton.hide()
-     
+
     def __openKeyRemapDialog(self):
         if base.wantCustomControls:
             self.controlDialog = ControlRemapDialog.ControlRemap()
 
 
 
-            
-            
-            
-            
+
+
+
+
 # I will be revamping the options screen, here is the class for it
 class NewPickAToonOptions:
 
     def __init__(self):
-        self.optionsOpenSfx = None #base.loadSfx(DMenuResources.Settings_Open) # ALTIS: TODO: Add sound effects
-        self.optionsCloseSfx = None #base.loadSfx(DMenuResources.Settings_Close) # ALTIS: TODO: Add sound effects
-        
+        self.optionsOpenSfx = None # base.loadSfx(DMenuResources.Settings_Open) # ALTIS: TODO: Add sound effects
+        self.optionsCloseSfx = None # base.loadSfx(DMenuResources.Settings_Close) # ALTIS: TODO: Add sound effects
+
         self.Music_Label = None
         self.Music_toggleSlider = None
         self.SoundFX_Label = None
@@ -250,17 +250,17 @@ class NewPickAToonOptions:
         self.displaySettingsApiChanged = 0
 
     def showOptions(self):
-        #base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
+        # base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
         self.displayOptions()
-        zoomIn = (LerpScaleInterval(self.optionsNode, .1, Vec3(1, 1, 1), Vec3(0, 0, 0), blendType = 'easeOut')).start()
+        zoomIn = (LerpScaleInterval(self.optionsNode, .1, Vec3(1, 1, 1), Vec3(.9, .9, .9), blendType = 'easeOut')).start()
 
     def hideOptions(self):
-        #base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
+        # base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
         zoomOut = (LerpScaleInterval(self.optionsNode, .1, Vec3(.5, .5, .5), Vec3(1, 1, 1), blendType = 'easeIn')).start()
         Sequence (
         Wait(.1),
         Func(self.delAllOptions)).start()
-        
+
     def displayOptions(self):
         self.optionsNode = aspect2d.attachNewNode('optionsNode')
         self.optionsNode.reparentTo(aspect2d)
@@ -274,40 +274,43 @@ class NewPickAToonOptions:
         self.optionsBox.setPos(0, 0, 0)
         self.optionsBox.setScale(1.3, 1, 1)
         self.optionsBox.reparentTo(self.optionsNode)
-        
+
         self.soundOptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = 'Sound', text_scale = .1, scale = 0.95, command = self.displaySoundOptions)
         self.soundOptionsButton.reparentTo(self.optionsNode)
-        self.soundOptionsButton.setPos(-.6, 0, .7)
+        self.soundOptionsButton.setPos(-.6, 0, .6)
         self.soundOptionsButton.show()
-        
+        self.soundOptionsButton.posInterval(.2, Point3(-.6, 0, .7), blendType = 'easeInOut').start()
+
         self.controlOptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = 'Controls', text_scale = .1, scale = 0.95, command = self.displayControlOptions)
         self.controlOptionsButton.reparentTo(self.optionsNode)
-        self.controlOptionsButton.setPos(0, 0, .7)
+        self.controlOptionsButton.setPos(0, 0, .6)
         self.controlOptionsButton.show()
-        
+        self.controlOptionsButton.posInterval(.2, Point3(0, 0, .7), blendType = 'easeInOut').start()
+
         self.videoOptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = 'Video', text_scale = .1, scale = 0.95, command = self.displayVideoOptions)
         self.videoOptionsButton.reparentTo(self.optionsNode)
-        self.videoOptionsButton.setPos(.6, 0, .7)
+        self.videoOptionsButton.setPos(.6, 0, .6)
         self.videoOptionsButton.show()
-        
+        self.videoOptionsButton.posInterval(.2, Point3(.6, 0, .7), blendType = 'easeInOut').start()
+
         self.displaySoundOptions()
-        
+
     def displaySoundOptions(self):
         self.delSoundOptions()
         self.delControlOptions()
         self.delVideoOptions()
-    
+
         # Music Label
         self.Music_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Music Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.4))
         # Music Slider
         self.Music_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, 0.3),
-                                               value = settings['musicVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doMusicLevel, thumb_geom=(self.guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+                                               value = settings['musicVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doMusicLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.Music_toggleSlider.setScale(0.4, 0.4, 0.4)
         self.Music_toggleSlider.show()
 
         # SFX Slider
         self.SoundFX_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0.0, 0.1),
-                                               value = settings['sfxVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doSfxLevel, thumb_geom=(self.guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+                                               value = settings['sfxVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doSfxLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.SoundFX_toggleSlider.setScale(0.4, 0.4, 0.4)
         # SFX Label
         self.SoundFX_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'SFX Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.2))
@@ -319,22 +322,22 @@ class NewPickAToonOptions:
          self.guiButton.find('**/QuitBtn_UP')), image3_color = Vec4(0.5, 0.5, 0.5, 0.5), image_scale = (0.7, 1, 1), text = '', text3_fg = (0.5, 0.5, 0.5, 0.75), text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.1), command = self.__doToggleToonChatSounds)
         self.ToonChatSounds_toggleButton.setScale(0.8)
         self.ToonChatSounds_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Toon Chat Sounds', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0))
-        
+
         # Set Button Text
         self.__setToonChatSoundsButton()
-        
+
     def displayControlOptions(self):
         self.delSoundOptions()
         self.delControlOptions()
         self.delVideoOptions()
-    
+
         # Key Remapping
-        self.WASD_Label = DirectLabel(parent=self.optionsNode, relief=None, text='', text_align=TextNode.ACenter, text_scale=0.052, text_wordwrap=16, pos=(0, 0, .4))
-        self.WASD_toggleButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text='', text_scale = 0.052, text_pos=(0, -.02), pos=(0, 0, .3), command=self.__doToggleWASD)
-        
-        self.keymapDialogButton = DirectButton(parent=self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text='Change Keybinds', text_scale=(0.03, 0.05, 1), text_pos = (0, -.02), pos = (0, 0, .2), command = self.__openKeyRemapDialog) 
+        self.WASD_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, .4))
+        self.WASD_toggleButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = '', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, .3), command = self.__doToggleWASD)
+
+        self.keymapDialogButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Change Keybinds', text_scale = (0.03, 0.05, 1), text_pos = (0, -.02), pos = (0, 0, .2), command = self.__openKeyRemapDialog)
         self.keymapDialogButton.setScale(1.55, 1.0, 1.0)
-        
+
         # Set Button Text
         self.__setWASDButton()
 
@@ -342,7 +345,7 @@ class NewPickAToonOptions:
         self.delSoundOptions()
         self.delControlOptions()
         self.delVideoOptions()
-        
+
         # Aspect Ratio Options
         self.AspectRatioList = DirectOptionMenu(relief = None, parent = self.optionsNode, text_align = TextNode.ACenter, items = GraphicsOptions.AspectRatioLabels, command = self.__doWidescreen, text_scale = .6,
         popupMarker_pos = (-1, 0, 0),
@@ -356,55 +359,58 @@ class NewPickAToonOptions:
         self.AspectRatioList.set(base.Widescreen)
         self.Widescreen_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Aspect Ratio', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, .4))
 
-        self.DisplaySettings_Label = DirectLabel(parent=self.optionsNode, relief=None, text='', text_align=TextNode.ACenter, text_scale=0.052, text_wordwrap=16, pos=(0, 0, .2))
-        self.DisplaySettingsButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image3_color=Vec4(0.5, 0.5, 0.5, 0.5), image_scale=(0.7, 1, 1), text=TTLocalizer.OptionsPageChange, text3_fg=(0.5, 0.5, 0.5, 0.75), text_scale=0.052, text_pos=(0, -.02), pos=(0, 0, .1), command=self.__doDisplaySettings)
-        
-        self.fov_Label = DirectLabel(parent=self.optionsNode, relief=None, text='Field of view', text_align=TextNode.ACenter, text_scale = 0.052, text_wordwrap=16, pos=(0, 0, 0))
+        self.DisplaySettings_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, .2))
+        self.DisplaySettingsButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image3_color = Vec4(0.5, 0.5, 0.5, 0.5), image_scale = (0.7, 1, 1), text = TTLocalizer.OptionsPageChange, text3_fg = (0.5, 0.5, 0.5, 0.75), text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, .1), command = self.__doDisplaySettings)
 
-        self.fov_toggleSlider = DirectSlider(parent=self.optionsNode, pos=(0, 0, -.1),
-                                               value=settings['fieldofview'], pageSize=5, range=(30, 120), command=self.__doFovLevel, thumb_geom=(self.guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+        self.fov_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Field of view', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, 0))
+
+        self.fov_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, -.1),
+                                               value = settings['fieldofview'], pageSize = 5, range = (30, 120), command = self.__doFovLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.fov_toggleSlider.setScale(0.25)
-        self.fov_resetButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text='Reset FOV', text_scale=0.052, text_pos = (0, -.02), pos=(0, 0, -.2), command=self.__resetFov)
-        self.fovsliderText = OnscreenText('0.0', scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
+        self.fov_resetButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Reset FOV', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.2), command = self.__resetFov)
+        self.fovsliderText = OnscreenText('0.0', scale = .3, pos = (0, .1), fg = (1, 1, 1, 1), style = 3)
         self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
+        self.animations_Label = DirectLabel(parent=self.optionsNode, relief=None, text='', text_align=TextNode.ACenter, text_scale=0.052, text_wordwrap=16, pos=(0, 0, -.3))
+        self.animations_toggleButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text='', text_scale=0.052, text_pos=(0, -.02), pos=(0, 0, -.4), command=self.__doToggleAnimations)
         self.__doFovLevel()
         self.__setDisplaySettings()
+        self.__setAnimationsButton()
         # TODO: Add more graphics options like Resolution, and more graphics options like in POTCO to allow changing quality of textures, etc.
-        
+
     def delSoundOptions(self):
         if self.Music_Label:
             self.Music_Label.destroy()
             self.Music_Label = None
-        
+
         if self.Music_toggleSlider:
             self.Music_toggleSlider.destroy()
             self.Music_toggleSlider = None
-        
+
         if self.SoundFX_Label:
             self.SoundFX_Label.destroy()
             self.SoundFX_Label = None
-        
+
         if self.SoundFX_toggleSlider:
             self.SoundFX_toggleSlider.destroy()
             self.SoundFX_toggleSlider = None
-        
+
         if self.ToonChatSounds_Label:
             self.ToonChatSounds_Label.destroy()
             self.ToonChatSounds_Label = None
-        
+
         if self.ToonChatSounds_toggleButton:
             self.ToonChatSounds_toggleButton.destroy()
             self.ToonChatSounds_toggleButton = None
-    
+
     def delControlOptions(self):
         if self.WASD_Label:
             self.WASD_Label.destroy()
             self.WASD_Label = None
-        
+
         if self.WASD_toggleButton:
             self.WASD_toggleButton.destroy()
             self.WASD_toggleButton = None
-        
+
         if self.keymapDialogButton:
             self.keymapDialogButton.destroy()
             self.keymapDialogButton = None
@@ -413,19 +419,19 @@ class NewPickAToonOptions:
         if self.Widescreen_Label:
             self.Widescreen_Label.destroy()
             self.Widescreen_Label = None
-            
+
         if self.AspectRatioList:
             self.AspectRatioList.destroy()
             self.AspectRatioList = None
-            
+
         if self.DisplaySettings_Label:
             self.DisplaySettings_Label.destroy()
             self.DisplaySettings_Label = None
-            
+
         if self.DisplaySettingsButton:
             self.DisplaySettingsButton.destroy()
             self.DisplaySettingsButton = None
-            
+
         if self.fov_toggleSlider:
             self.fov_toggleSlider.destroy()
             self.fov_toggleSlider = None
@@ -433,15 +439,15 @@ class NewPickAToonOptions:
             self.fov_Label = None
             self.fov_resetButton.destroy()
             self.fov_resetButton = None
-        
+
     def delAllOptions(self):
         self.delSoundOptions()
         self.delControlOptions()
         self.delVideoOptions()
-    
+
         self.optionsBox.destroy()
         del self.optionsBox
-        
+
         self.optionsNode.removeNode()
         del self.optionsNode
 
@@ -494,12 +500,12 @@ class NewPickAToonOptions:
             settings['Widescreen'] = ratio
             self.settingsChanged = 1
             base.updateAspectRatio()
-            
+
     def __doToggleWASD(self):
         messenger.send('wakeup')
         if base.wantCustomControls:
             base.wantCustomControls = False
-            settings['want-Custom-Controls'] = False     
+            settings['want-Custom-Controls'] = False
         else:
             base.wantCustomControls = True
             settings['want-Custom-Controls'] = True
@@ -516,11 +522,11 @@ class NewPickAToonOptions:
             self.WASD_Label['text'] = 'Custom Keymapping is disabled.'
             self.WASD_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
             self.keymapDialogButton.hide()
-     
+
     def __openKeyRemapDialog(self):
         if base.wantCustomControls:
             self.controlDialog = ControlRemapDialog.ControlRemap()
-            
+
     def __doDisplaySettings(self):
         if self.displaySettings == None:
             self.displaySettings = DisplaySettingsDialog.DisplaySettingsDialog()
@@ -551,16 +557,32 @@ class NewPickAToonOptions:
         settings = {'screensize': screensize, 'api': api}
         text = TTLocalizer.OptionsPageDisplaySettings % settings
         self.DisplaySettings_Label['text'] = text
-        
+
     def __doFovLevel(self):
         fov = self.fov_toggleSlider['value']
         settings['fieldofview'] = fov
-        base.camLens.setMinFov(fov/(4./3.))
+        base.camLens.setMinFov(fov / (4. / 3.))
         dec = Decimal(fov)
         self.fovsliderText['text'] = str(round(fov, 1))
-        
+
     def __resetFov(self):
         self.fov_toggleSlider['value'] = 52
         settings['fieldofview'] = 52
-        base.camLens.setMinFov(52/(4./3.))
+        base.camLens.setMinFov(52 / (4. / 3.))
         self.fovsliderText['text'] = str(52)
+
+    def __doToggleAnimations(self):
+        if settings['smoothanimations'] == True:
+            settings['smoothanimations'] = False
+        else:
+            settings['smoothanimations'] = True
+        self.settingsChanged = 1
+        self.__setAnimationsButton()
+		
+    def __setAnimationsButton(self):
+        if settings['smoothanimations'] == True:
+            self.animations_Label['text'] = 'Smooth Animations ON'
+            self.animations_toggleButton['text'] = 'Turn Off\n\n(REQUIRES RESTART)'
+        else:
+            self.animations_Label['text'] = 'Smooth Animations OFF'
+            self.animations_toggleButton['text'] = 'Turn On\n\n(REQUIRES RESTART)'

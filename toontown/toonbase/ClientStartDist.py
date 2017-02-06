@@ -34,7 +34,7 @@ key = 'g89a1hU0acBrlcru'
 #config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.2.4]
+window-title Project Altis [ALPHA 1.4.2]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -199,7 +199,7 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.2.4
+server-version TTPA-Alpha-1.4.2
 shard-low-pop 50
 shard-mid-pop 150
 

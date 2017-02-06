@@ -31,8 +31,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         self.touchedBossSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_sandbag.ogg')
         self.touchedBossSoundInterval = SoundInterval(self.touchedBossSfx, duration=0.8)
         self.lerpInterval = None
-        return
-
+        
     def disable(self):
         self.cleanup()
         self.stopSmooth()
@@ -43,6 +42,7 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
             return
         else:
             self.cleanedUp = 1
+        
         self.demand('Off')
         self.detachNode()
         self.toMagnetSoundInterval.finish()
@@ -54,7 +54,6 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         del self.hitBossSoundInterval
         del self.touchedBossSoundInterval
         self.boss = None
-        return
 
     def setupPhysics(self, name):
         an = ActorNode('%s-%s' % (name, self.doId))
@@ -209,7 +208,6 @@ class DistributedCashbotBossObject(DistributedSmoothNode.DistributedSmoothNode, 
         if self.lerpInterval:
             self.lerpInterval.finish()
             self.lerpInterval = None
-        return
 
     def exitOff(self):
         self.reparentTo(render)

@@ -13,6 +13,7 @@ class NewsManagerAI(DistributedObjectAI):
         self.holidayList = []
         self.weeklyHolidays = WEEKLY_HOLIDAYS
         self.yearlyHolidays = YEARLY_HOLIDAYS
+        self.oncelyHolidays = ONCELY_HOLIDAYS
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -24,42 +25,78 @@ class NewsManagerAI(DistributedObjectAI):
             self.air.suitInvasionManager.notifyInvasionBulletin(avatar.getDoId())
         if self.air.holidayManager.isHolidayRunning(MORE_XP_HOLIDAY):
             self.sendUpdateToAvatarId(avatar.getDoId(), 'setMoreXpHolidayOngoing', [])
+        if self.air.holidayManager.isHolidayRunning(TROLLEY_HOLIDAY):
+            self.sendUpdateToAvatarId(avatar.getDoId(), 'holidayNotify', [])
+        if self.air.holidayManager.isHolidayRunning(CIRCUIT_RACING_EVENT):
+            self.sendUpdateToAvatarId(avatar.getDoId(), 'startHoliday', [CIRCUIT_RACING_EVENT])
+        if self.air.holidayManager.isHolidayRunning(HYDRANT_ZERO_HOLIDAY):
+            self.sendUpdateToAvatarId(avatar.getDoId(), 'startHoliday', [HYDRANT_ZERO_HOLIDAY])
 
     def setPopulation(self, todo0):
         pass
 
-    def setBingoWin(self, todo0):
-        pass
+    def setBingoWin(self, avatar, zoneId):
+        self.sendUpdateToAvatarId(avatar.getDoId(), 'setBingoWin', [zoneId])
 
     def setBingoStart(self):
-        pass
+        self.sendUpdate('setBingoStart', [])
+    
+    def setBingoOngoing(self):
+        self.sendUpdate('setBingoOngoing', [])
 
     def setBingoEnd(self):
-        pass
+        self.sendUpdate('setBingoEnd', [])
 
     def setCircuitRaceStart(self):
-        pass
+        self.sendUpdate('setCircuitRaceStart', [])
+        
+    def setCircuitRaceOngoing(self):
+        self.sendUpdate('setCircuitRaceOngoing', [])
 
     def setCircuitRaceEnd(self):
-        pass
+        self.sendUpdate('setCircuitRaceEnd', [])
 
     def setTrolleyHolidayStart(self):
-        pass
+        self.sendUpdate('setTrolleyHolidayStart', [])
+        
+    def setTrolleyHolidayOngoing(self):
+        self.sendUpdate('setTrolleyHolidayOngoing', [])
 
     def setTrolleyHolidayEnd(self):
-        pass
+        self.sendUpdate('setTrolleyHolidayEnd', [])
 
     def setTrolleyWeekendStart(self):
-        pass
+        self.sendUpdate('setTrolleyWeekendStart', [])
+        
+    def setTrolleyWeekendOngoing(self):
+        self.sendUpdate('setTrolleyWeekendOngoing', [])
 
     def setTrolleyWeekendEnd(self):
-        pass
+        self.sendUpdate('setTrolleyWeekendEnd', [])
 
     def setRoamingTrialerWeekendStart(self):
-        pass
+        self.sendUpdate('setRoamingTrialerWeekendStart', [])
+    
+    def setRoamingTrialerWeekendOngoing(self):
+        self.sendUpdate('setRoamingTrialerWeekendOngoing', [])
 
     def setRoamingTrialerWeekendEnd(self):
-        pass
+        self.sendUpdate('setRoamingTrialerWeekendEnd', [])
+    
+    def setSellbotNerfHolidayStart(self):
+        self.sendUpdate('setSellbotNerfHolidayStart', [])
+        
+    def setSellbotNerfHolidayEnd(self):
+        self.sendUpdate('setSellbotNerfHolidayEnd', [])
+    
+    def setMoreXpHolidayStart(self):
+        self.sendUpdate('setMoreXpHolidayStart', [])
+        
+    def setMoreXpHolidayOngoing(self):
+        self.sendUpdate('setMoreXpHolidayOngoing', [])
+        
+    def setMoreXpHolidayEnd(self):
+        self.sendUpdate('setMoreXpHolidayEnd', [])
 
     def setInvasionStatus(self, msgType, cogType, numRemaining, skeleton):
         self.sendUpdate('setInvasionStatus', args=[msgType, cogType, numRemaining, skeleton])
@@ -68,7 +105,7 @@ class NewsManagerAI(DistributedObjectAI):
         self.sendUpdate('setHolidayIdList', holidays)
 
     def holidayNotify(self):
-        pass
+        self.sendUpdate('holidayNotify', [])
 
     def d_setWeeklyCalendarHolidays(self, weeklyHolidays):
         self.sendUpdate('setWeeklyCalendarHolidays', [weeklyHolidays])
@@ -82,39 +119,30 @@ class NewsManagerAI(DistributedObjectAI):
     def getYearlyCalendarHolidays(self):
         return self.yearlyHolidays
 
-    def setOncelyCalendarHolidays(self, todo0):
-        pass
+    def setOncelyCalendarHolidays(self, oncelyHolidays):
+        self.sendUpdate('setOncelyCalendarHolidays', [oncelyHolidays])
 
     def getOncelyCalendarHolidays(self):
-        return []
+        return self.oncelyHolidays
 
-    def setRelativelyCalendarHolidays(self, todo0):
-        pass
+    def setRelativelyCalendarHolidays(self, relatHolidays):
+        self.sendUpdate('setRelativelyCalendarHolidays', [relatHolidays])
 
     def getRelativelyCalendarHolidays(self):
         return []
 
-    def setMultipleStartHolidays(self, todo0):
-        pass
+    def setMultipleStartHolidays(self, multiHolidays):
+        self.sendUpdate('setMultipleStartHolidays', [multiHolidays])
 
     def getMultipleStartHolidays(self):
         return []
-        
-    def setMoreXpHolidayStart(self):
-        self.sendUpdate('setMoreXpHolidayStart', [])
-        
-    def setMoreXpHolidayOngoing(self):
-        self.sendUpdate('setMoreXpHolidayOngoing', [])
-        
-    def setMoreXpHolidayEnd(self):
-        self.sendUpdate('setMoreXpHolidayEnd', [])
 
     def sendSystemMessage(self, message, style):
         self.sendUpdate('sendSystemMessage', [message, style])
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def startHoliday(holidayId):
-    simbase.air.newsManager.b_setHolidayIdList([holidayId])
+    simbase.air.newsManager.setHolidayIdList([holidayId])
     return 'Successfully set holiday to %d.' % (holidayId)
     
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])

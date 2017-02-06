@@ -724,13 +724,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         avatar = None
         if doId in self.doId2do:
             teleportNotify.debug('found friend %s in doId2do' % doId)
-            avatar = self.doId2do[doId]
+            return self.doId2do[doId]
         elif self.cache.contains(doId):
             teleportNotify.debug('found friend %s in cache' % doId)
-            avatar = self.cache.dict[doId]
+            return self.cache.dict[doId]
         elif self.playerFriendsManager.getAvHandleFromId(doId):
             teleportNotify.debug('found friend %s in playerFriendsManager' % doId)
-            avatar = base.cr.playerFriendsManager.getAvHandleFromId(doId)
+            return base.cr.playerFriendsManager.getAvHandleFromId(doId)
         else:
             self.notify.warning("Don't know who friend %s is." % doId)
             return
@@ -811,7 +811,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             petAvatar.delete()
             if callback:
                 callback()
-            
             if self._proactiveLeakChecks:
                 petAvatar.detectLeaks()
 
@@ -870,7 +869,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def handleFriendOnline(self, doId, commonChatFlags, whitelistChatFlags):
         self.notify.debug('Friend %d now online. common=%d whitelist=%d' % (doId, commonChatFlags, whitelistChatFlags))
         if doId not in self.friendsOnline:
-            self.friendsOnline[doId] = self.identifyFriend(doId)
+            self.friendsOnline[doId] = self.identifyAvatar(doId)
             messenger.send('friendOnline', [doId, commonChatFlags, whitelistChatFlags])
             if not self.friendsOnline[doId]:
                 self.friendPendingChatSettaFriendsManagerngs[doId] = (commonChatFlags, whitelistChatFlags)

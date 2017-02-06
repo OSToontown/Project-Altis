@@ -183,12 +183,14 @@ def chooseSoundCloseShot(sounds, targets, openDuration, openName, attackDuration
     return track
 
 
-def chooseThrowShot(throws, suitThrowsDict, attackDuration):
+def chooseThrowShot(throws, suitThrowsDict, attackDuration, enterDuration=0, exitDuration=0):
+    enterShot = chooseNPCEnterShot(throws, enterDuration)
     openShot = chooseThrowOpenShot(throws, suitThrowsDict, attackDuration)
     openDuration = openShot.getDuration()
     openName = openShot.getName()
+    exitShot = chooseNPCExitShot(throws, exitDuration)
     closeShot = chooseThrowCloseShot(throws, suitThrowsDict, openDuration, openName, attackDuration)
-    track = Sequence(openShot, closeShot)
+    track = Sequence(enterShot, openShot, closeShot, exitShot)
     return track
 
 

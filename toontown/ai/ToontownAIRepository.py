@@ -29,6 +29,7 @@ from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 from toontown.dna.DNAParser import loadDNAFileAI
 from toontown.estate.EstateManagerAI import EstateManagerAI
+from toontown.fishing.BingoHolidayMgrAI import BingoHolidayMgrAI
 from toontown.hood import BRHoodAI
 from toontown.hood import BossbotHQAI
 from toontown.hood import CashbotHQAI
@@ -43,6 +44,8 @@ from toontown.hood import OZHoodAI
 from toontown.hood import SellbotHQAI
 from toontown.hood import TTHoodAI
 from toontown.hood import ZoneUtil
+from toontown.minigame.TrolleyHolidayMgrAI import TrolleyHolidayMgrAI
+from toontown.minigame.TrolleyWeekendMgrAI import TrolleyWeekendMgrAI
 from toontown.pets.PetManagerAI import PetManagerAI
 from toontown.safezone.SafeZoneManagerAI import SafeZoneManagerAI
 from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
@@ -54,7 +57,7 @@ from toontown.events.CharityScreenAI import CharityScreenAI
 
 class ToontownAIRepository(ToontownInternalRepository):
 
-    def __init__(self, baseChannel, stateServerChannel, districtName):
+    def __init__(self, baseChannel, stateServerChannel, districtName, startTime = 6):
         ToontownInternalRepository.__init__(self, baseChannel, stateServerChannel, 
             dcSuffix='AI')
 
@@ -71,6 +74,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.mintMgr = None
         self.lawOfficeMgr = None
         self.countryClubMgr = None
+        self.startTime = startTime
 
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
@@ -125,7 +129,11 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
         self.trashcanZeroMgr.generateWithRequired(2)
         self.dialogueManager = DialogueManagerAI(self)
+        self.bingoHolidayMgr = BingoHolidayMgrAI(self)
+        self.trolleyHolidayMgr = TrolleyHolidayMgrAI(self)
+        self.trolleyWeekendMgr = TrolleyWeekendMgrAI(self)
         self.holidayManager = HolidayManagerAI(self)
+        
         
         if self.wantFishing:
             self.fishManager = FishManagerAI(self)
@@ -136,8 +144,8 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.catalogManager = CatalogManagerAI(self)
             self.catalogManager.generateWithRequired(2)
             self.popularItemManager = PopularItemManagerAI(self)
-            self.deliveryManager = self.generateGlobalObject(
-                OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
+            self.deliveryManager = self.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
+            self.mailManager = self.generateGlobalObject(OTP_DO_ID_TOONTOWN_MAIL_MANAGER, 'DistributedMailManager')
         
         if self.wantPets:
             self.petMgr = PetManagerAI(self)
@@ -145,8 +153,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.wantParties:
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)
-            self.globalPartyMgr = self.generateGlobalObject(
-                OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
+            self.globalPartyMgr = self.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
                 
         if self.wantCharityScreen:
             self.charityCounter = CharityScreenAI(self)
@@ -244,6 +251,9 @@ class ToontownAIRepository(ToontownInternalRepository):
 
     def decrementPopulation(self):
         self.districtStats.b_setAvatarCount(self.districtStats.getAvatarCount() - 1)
+
+    def setHour(self, hour):
+        pass # Todo: Hour on district page
 
     def allocateZone(self):
         return self.zoneAllocator.allocate()
