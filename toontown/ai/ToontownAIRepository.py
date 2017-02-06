@@ -43,6 +43,7 @@ from toontown.hood import OZHoodAI
 from toontown.hood import SellbotHQAI
 from toontown.hood import TTHoodAI
 from toontown.hood import ZoneUtil
+from toontown.minigame.TrolleyHolidayMgrAI import TrolleyHolidayMgrAI
 from toontown.pets.PetManagerAI import PetManagerAI
 from toontown.safezone.SafeZoneManagerAI import SafeZoneManagerAI
 from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
@@ -126,6 +127,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trashcanZeroMgr.generateWithRequired(2)
         self.dialogueManager = DialogueManagerAI(self)
         self.holidayManager = HolidayManagerAI(self)
+        self.trolleyHolidayMgr = TrolleyHolidayMgrAI(self)
         
         if self.wantFishing:
             self.fishManager = FishManagerAI(self)
