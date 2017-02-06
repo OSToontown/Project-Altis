@@ -313,7 +313,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
     def __secrets(self):
         messenger.send('wakeup')
-        ToontownFriendSecret.showFriendSecret(ToontownFriendSecret.AvatarSecret)
+        ToontownFriendSecret.showFriendSecret()
 
     def __newFriend(self):
         messenger.send('wakeup')

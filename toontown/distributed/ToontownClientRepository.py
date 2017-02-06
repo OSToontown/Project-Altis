@@ -55,6 +55,7 @@ from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
 from toontown.dmenu import DMenuScreen
+from toontown.friends import ToontownFriendSecret
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     SupportTutorial = 1

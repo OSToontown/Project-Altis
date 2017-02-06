@@ -510,3 +510,14 @@ AccessInvalid = 3
 AvatarPendingCreate = -1
 AvatarSlotUnavailable = -2
 AvatarSlotAvailable = -3
+
+TF_CODE_EXPIRE = 172800 # How long the code lasts for, 2 days
+TF_COOLDOWN = 86400
+TF_MAX_TRIES = 5
+TF_UNKNOWN_CODE = 0
+TF_SELF_CODE = 2
+TF_FRIENDS_FULL_LOCAL = 3
+TF_FRIENDS_FULL_TARGET = 4
+TF_ALREADY_FRIENDS = 5
+TF_SUCCESS = 6
+TF_CALM_DOWN_PLEASE = 7 # if you are going way too fast

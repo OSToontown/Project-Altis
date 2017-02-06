@@ -200,6 +200,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
+        self.trueFriends = []
+        self.trueFriendRequests = (0, 0)
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -554,14 +556,47 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getFriendsList(self):
         return self.friendsList
 
-    def extendFriendsList(self, friendId, friendCode):
-        for i in xrange(len(self.friendsList)):
-            friendPair = self.friendsList[i]
-            if friendPair[0] == friendId:
-                self.friendsList[i] = (friendId, friendCode)
-                return
+    def setTrueFriends(self, trueFriends):
+        self.trueFriends = trueFriends
 
-        self.friendsList.append((friendId, friendCode))
+    def d_setTrueFriends(self, trueFriends):
+        self.sendUpdate('setTrueFriends', [trueFriends])
+
+    def b_setTrueFriends(self, trueFriends):
+        self.setTrueFriends(trueFriends)
+        self.d_setTrueFriends(trueFriends)
+    
+    def isTrueFriends(self, avId):
+        return avId in self.trueFriends
+    
+    def addTrueFriend(self, avId):
+        if avId in self.trueFriends:
+            return
+        
+        self.trueFriends.append(avId)
+        self.b_setTrueFriends(self.trueFriends)
+  
+    def getTrueFriends(self, trueFriends):
+        return self.trueFriends
+       
+    def setTrueFriendRequest(self, tfRequest):
+        self.trueFriendRequest = tfRequest
+
+    def d_setTrueFriendRequest(self, tfRequest):
+        self.sendUpdate('setTrueFriendRequest', [tfRequest])
+
+    def b_setTrueFriendRequest(self, tfRequest):
+        self.setTrueFriendRequest(tfRequest)
+        self.d_setTrueFriendRequest(tfRequest)
+
+    def getTrueFriendRequest(self):
+        return self.trueFriendRequests
+
+    def extendFriendsList(self, friendId):
+        if friendId in self.friendsList:
+            return
+
+        self.friendsList.append(friendId)
         self.air.questManager.toonMadeFriend(self)
 
         if self.air.wantAchievements:

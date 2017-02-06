@@ -186,6 +186,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
+        self.trueFriends = []
 
     def disable(self):
         for soundSequence in self.soundSequenceList:
@@ -2843,6 +2844,13 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         }]
         base.cr.playGame.getPlace().fsm.forceTransition('teleportOut', requestStatus)
 
+
+    def setTrueFriends(self, trueFriends):
+        Avatar.reconsiderAllUnderstandable()
+        self.trueFriends = trueFriends
+
+    def isTrueFriends(self, doId):
+        return doId in self.trueFriends
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def zone(zoneId):

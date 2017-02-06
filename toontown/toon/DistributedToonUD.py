@@ -546,3 +546,7 @@ class DistributedToonUD(DistributedObjectUD):
 
     def setAchievements(self, achievements):
         pass
+
+    def setTrueFriends(self, trueFriends):
+        pass
+    
