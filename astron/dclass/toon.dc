@@ -2777,7 +2777,7 @@ dclass DistributedLift : DistributedEntity {
 };
 
 dclass DistributedDoorEntity : DistributedEntity {
-  setLocksState(uint16) required broadcast ram;
+  setLocksState(uint16[]) required broadcast ram;
   setDoorState(uint8, int32) required broadcast ram;
   requestOpen() airecv clsend;
 };
