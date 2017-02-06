@@ -83,7 +83,6 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
           'died',
           'teleportOut']),
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
-        return
 
     def load(self):
         BattlePlace.BattlePlace.load(self)
@@ -125,7 +124,6 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         self._telemLimiter.destroy()
         del self._telemLimiter
         BattlePlace.BattlePlace.exit(self)
-        return
 
     def enterBattle(self, event):
         mult = 1

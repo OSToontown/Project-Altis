@@ -21,7 +21,6 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity, BarrelBase.
         self.gagNode = None
         self.gagModel = None
         self.barrel = None
-        return
 
     def disable(self):
         BasicEntities.DistributedNodePathEntity.disable(self)
@@ -29,7 +28,6 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity, BarrelBase.
         if self.animTrack:
             self.animTrack.pause()
             self.animTrack = None
-        return
 
     def generate(self):
         BasicEntities.DistributedNodePathEntity.generate(self)
@@ -42,7 +40,6 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity, BarrelBase.
             self.barrel.removeNode()
             del self.barrel
             self.barrel = None
-        return
 
     def announceGenerate(self):
         BasicEntities.DistributedNodePathEntity.announceGenerate(self)
