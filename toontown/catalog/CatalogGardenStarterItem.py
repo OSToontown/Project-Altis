@@ -97,4 +97,3 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         if self.confirmGarden:
             self.confirmGarden.cleanup()
             self.confirmGarden = None
-        return

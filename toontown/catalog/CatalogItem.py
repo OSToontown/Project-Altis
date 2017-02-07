@@ -1,12 +1,9 @@
-from pandac.PandaModules import *
-from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownGlobals
+import sys, types
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
-import types
-import sys
-
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 
 CatalogReverseType = None
 CatalogItemVersion = 8
@@ -40,7 +37,6 @@ class CatalogItem:
             self.decodeDatagram(*args, **kw)
         else:
             self.makeNewItem(*args, **kw)
-        return
 
     def isAward(self):
         result = self.specialEventId != 0
@@ -321,7 +317,7 @@ class CatalogItem:
         dg.addUint8(self.specialEventId)
 
     def getTypeCode(self):
-        import CatalogItemTypes
+        from toontown.catalog import CatalogItemTypes
         return CatalogItemTypes.CatalogItemTypes[self.__class__]
 
     def applyColor(self, model, colorDesc):
@@ -345,8 +341,6 @@ class CatalogItem:
                     matches.getPath(i).setColorScale(color, 1)
                     if needsAlpha:
                         matches.getPath(i).setTransparency(1)
-
-        return
 
     def makeFrame(self):
         from direct.gui.DirectGui import DirectFrame
@@ -415,7 +409,6 @@ def encodeCatalogItem(dg, item, store):
             item.giftCode = 0
         dg.addUint8(item.giftCode)
     item.encodeDatagram(dg, store)
-    return
 
 
 def decodeCatalogItem(di, versionNumber, store):
