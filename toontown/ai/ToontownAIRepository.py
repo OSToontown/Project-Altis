@@ -77,6 +77,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.countryClubMgr = None
         self.startTime = startTime
 
+        import pymongo
+        
+        # Mongo stuff to store seperate database things
+        self.dbConn = pymongo.MongoClient(config.GetString('mongodb-url', 'localhost'))
+        self.dbGlobalCursor = self.dbConn.altis
+        self.dbCursor = self.dbGlobalCursor['air-%d' % self.ourChannel]
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
         self.zoneDataStore = AIZoneDataStore()
@@ -94,6 +100,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
+        self.wantGardening = self.config.GetBool('want-gardening', True)
         self.cogSuitMessageSent = False
         self.weatherCycleDuration = self.config.GetInt('weather-cycle-duration', 100)
 

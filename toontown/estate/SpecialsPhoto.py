@@ -1,8 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.fishing import FishGlobals
-from toontown.estate import GardenGlobals
+import GardenGlobals
 from direct.actor import Actor
 import random
 
@@ -15,7 +15,8 @@ class DirectRegion(NodePath):
 
     def destroy(self):
         self.unload()
-        self.parent = None
+        self._parent = None
+        return
 
     def setBounds(self, *bounds):
         self.bounds = bounds
@@ -98,7 +99,7 @@ class SpecialsPhoto(NodePath):
         self.type = None
         del self.soundTrack
         del self.track
-        self.parent = None
+        self._parent = None
 
     def update(self, type):
         self.type = type
@@ -124,9 +125,12 @@ class SpecialsPhoto(NodePath):
         rotate = pitch.attachNewNode('rotate')
         scale = rotate.attachNewNode('scale')
         actor.reparentTo(scale)
-        bMin, bMax = actor.getTightBounds()
-        center = (bMin + bMax) / 2.0
-        actor.setPos(-center[0], -center[1], -center[2])
+        if actor.getTightBounds():
+            bMin, bMax = actor.getTightBounds()
+            center = (bMin + bMax) / 2.0
+            actor.setPos(-center[0], -center[1], -center[2])
+        else:
+            actor.setPos(0, 0, 0)
         pitch.setY(2.5)
         return frame
 
