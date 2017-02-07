@@ -814,7 +814,7 @@ class DeleteAvatarFSM(GetAvatarsFSM):
                 estateId,
                 self.csm.air.dclassesByName['DistributedEstateAI'],
                 {'setSlot%dToonId' % index: [0],
-                 'setSlot%dItems' % index: [[]]}
+                 'setSlot%dGarden' % index: [[]]}
             )
 
         self.csm.air.dbInterface.updateObject(
