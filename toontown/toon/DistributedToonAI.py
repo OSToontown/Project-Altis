@@ -3466,9 +3466,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.gardenSpecials.append((index, newCount))
                 self.gardenSpecials.sort()
                 self.b_setGardenSpecials(self.gardenSpecials)
-                return
-
+                return 1
         self.notify.warning("removing garden item %d that toon doesn't have" % index)
+        return 0
 
     def b_setFlowerCollection(self, speciesList, varietyList):
         self.setFlowerCollection(speciesList, varietyList)
@@ -5430,3 +5430,8 @@ def globalTeleport():
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def catalog():
     simbase.air.catalogManager.deliverCatalogFor(spellbook.getTarget())
+    
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
+def shovelSkill(skill):
+    target = spellbook.getTarget()
+    target.b_setShovelSkill(skill)

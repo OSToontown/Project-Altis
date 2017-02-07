@@ -331,9 +331,9 @@ class Garden:
         if not av:
             return
             
-        bonus = [-1] * 7
-        for track in xrange(7):
-            for level in xrange(8):#7
+        bonus = [-1] * 8
+        for track in xrange(8):
+            for level in xrange(8):
                 if not self.hasTree(track, level):
                     break
                     
