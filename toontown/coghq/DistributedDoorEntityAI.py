@@ -15,7 +15,6 @@ class Lock(DistributedDoorEntityBase.LockBase, DirectObject.DirectObject, FourSt
         self.door = door
         self.stateIndex = 0
         self.lockIndex = lockIndex
-        self.stateIndex = lockIndex
         FourStateAI.FourStateAI.__init__(self, self.stateNames, durations=self.stateDurations)
         self.unlockEvent = None
         self.setUnlockEvent(event)
@@ -38,6 +37,12 @@ class Lock(DistributedDoorEntityBase.LockBase, DirectObject.DirectObject, FourSt
         self.unlockEvent = self.door.getOutputEventName(event)
         if self.unlockEvent:
             self.accept(self.unlockEvent, self.setIsUnlocked)
+            
+    def setStateIndex(self, stateIndex):
+        self.setLockState(stateIndex)
+        
+    def getStateIndex(self):
+        return self.stateIndex
 
     def distributeStateChange(self):
         self.door.sendLocksState()
@@ -48,6 +53,9 @@ class Lock(DistributedDoorEntityBase.LockBase, DirectObject.DirectObject, FourSt
             self.door.locking()
 
     def setLockState(self, stateIndex):
+        if not hasattr(self, 'stateIndex'):
+            self.notify.debug("No State Index Defined!")
+            self.stateIndex = 0
         if self.stateIndex != stateIndex:
             self.fsm.request(self.states[stateIndex])
 
@@ -79,9 +87,9 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
         DistributedEntityAI.DistributedEntityAI.delete(self)
 
     def getLocksState(self):
-        stateBits = 0
+        stateBits = [3, 3, 3]
         if hasattr(self, 'locks'):
-            stateBits = self.locks[0].getLockState() & 15 | self.locks[1].getLockState() << 4 & 240 | self.locks[2].getLockState() << 8 & 3840
+            stateBits = [self.locks[0].getLockState(), self.locks[1].getLockState(), self.locks[2].getLockState()]
         return stateBits
 
     def sendLocksState(self):

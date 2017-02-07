@@ -36,7 +36,6 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
         self.isPushing = 0
         self.creakSound = loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_crate_effort.ogg')
         self.pushSound = loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_crate_sliding.ogg')
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -198,8 +197,7 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
             self.sendUpdate('requestPush', [self.crateSide])
         else:
             self.notify.debug("didn't send request")
-        return
-
+            
     def __listenForCancelEvents(self, on):
         self.notify.debug('%s, __listenForCancelEvents(%s)' % (self.doId, on))
         if on:
@@ -224,7 +222,6 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
             self.moveTrack = None
         self.moveTrack = Parallel(Sequence(LerpPosInterval(self, T_PUSH, endPos, startPos=startPos, fluid=1)), SoundInterval(self.creakSound, node=self), SoundInterval(self.pushSound, node=self, duration=T_PUSH, volume=0.2))
         self.moveTrack.start()
-        return
 
     def __moveAvTo(self, avId, startPos, endPos):
         if self.avMoveTrack:
@@ -242,7 +239,6 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
             avMoveTrack.append(Sequence(LerpPosInterval(av, T_PUSH, toonOffset, startPos=toonOffset, other=self)))
             self.avMoveTrack = avMoveTrack
             self.avMoveTrack.start()
-        return
 
     def __resetStick(self):
         self.notify.debug('__resetStick')
@@ -263,7 +259,6 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
         self.crateNormal = None
         self.isLocalToon = 0
         self.stuckToCrate = 0
-        return
 
     def playCrushMovie(self, crusherId, axis):
         self.notify.debug('playCrushMovie')
@@ -297,4 +292,3 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
             self.crushTrack = None
         self.crushTrack = Sequence(LerpScaleInterval(self, tSquash, VBase3(1.2, 1.2, 0.25), blendType='easeInOut'), LerpColorScaleInterval(self, 2.0, VBase4(1, 1, 1, 0), blendType='easeInOut'), Wait(2.0), LerpScaleInterval(self, 0.1, VBase3(1, 1, 1), blendType='easeInOut'), LerpColorScaleInterval(self, 0.1, VBase4(1, 1, 1, 0), blendType='easeInOut'))
         self.crushTrack.start()
-        return

@@ -495,9 +495,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setTalk(self, fromAV, fromAC, avatarName, chat, mods, flags):
         timestamp = time.strftime('%m-%d-%Y %H:%M:%S', time.localtime())
         if fromAV == 0:
-            print ':%s: setTalk: %r, %r, %r' % (timestamp, self.doId, self.name, chat)
+            self.notify.debug(':%s: setTalk: %r, %r, %r' % (timestamp, self.doId, self.name, chat))
         else:
-            print ':%s: setTalk: %r, %r, %r' % (timestamp, fromAV, avatarName, chat)
+            self.notify.debug(':%s: setTalk: %r, %r, %r' % (timestamp, fromAV, avatarName, chat))
 
         if base.cr.avatarFriendsManager.checkIgnored(fromAV):
             self.d_setWhisperIgnored(fromAV)
@@ -2767,6 +2767,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.gmIcon.detachNode()
             del self.gmIcon
             
+    def setWarningCount(self, count):
+        pass
+            
     def _startZombieCheck(self):
         self._lastZombieContext = None
         self._zombieCheckSerialGen = SerialNumGen(random.randrange(1 << 31))
@@ -2865,3 +2868,12 @@ def disableGC():
 @magicWord(category=CATEGORY_CREATIVE)
 def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
+    
+@magicWord(category=CATEGORY_CREATIVE)
+def sleep():
+    if not base.localAvatar.neverSleep:
+        base.localAvatar.disableSleeping()
+        return "Sleeping has been deactivated for the current session."
+    else:
+        base.localAvatar.enableSleeping()
+        return "Sleeping has been activated for the current session."

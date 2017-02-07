@@ -24,11 +24,11 @@ model-cache-textures #f
 default-model-extension .bam
 
 # Performance
-smooth-enable-prediction 1
+smooth-enable-prediction 0
 smooth-enable-smoothing 1
-smooth-lag 0.4
-smooth-max-future 0.4
-smooth-min-suggest-resync 15
+smooth-lag 0.1
+smooth-max-future 0.1
+smooth-min-suggest-resync 1
 
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0

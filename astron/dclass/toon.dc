@@ -1143,6 +1143,7 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
+  setWarningCount(uint8) ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -1972,17 +1973,22 @@ dclass NewsManager : DistributedObject {
   setPopulation(uint32) broadcast ram;
   setBingoWin(uint32) broadcast ram;
   setBingoStart() broadcast;
+  setBingoOngoing() broadcast;
   setBingoEnd() broadcast;
   setCircuitRaceStart() broadcast;
+  setCircuitRaceOngoing() broadcast;
   setCircuitRaceEnd() broadcast;
   setTrolleyHolidayStart() broadcast;
+  setTrolleyHolidayOngoing() broadcast;
   setTrolleyHolidayEnd() broadcast;
   setTrolleyWeekendStart() broadcast;
+  setTrolleyWeekendOngoing() broadcast;
   setTrolleyWeekendEnd() broadcast;
   setMoreXpHolidayStart() broadcast;
   setMoreXpHolidayOngoing() broadcast;
   setMoreXpHolidayEnd() broadcast;
   setRoamingTrialerWeekendStart() broadcast;
+  setRoamingTrialerWeekendOngoing() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8, string, uint32, uint8) broadcast;
   setHolidayIdList(uint32[]) broadcast ram;
@@ -2777,7 +2783,7 @@ dclass DistributedLift : DistributedEntity {
 };
 
 dclass DistributedDoorEntity : DistributedEntity {
-  setLocksState(uint16) required broadcast ram;
+  setLocksState(uint16[]) required broadcast ram;
   setDoorState(uint8, int32) required broadcast ram;
   requestOpen() airecv clsend;
 };

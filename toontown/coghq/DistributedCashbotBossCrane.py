@@ -78,7 +78,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.magnetSoundInterval = Parallel(SoundInterval(self.magnetOnSfx), Sequence(Wait(0.5), Func(base.playSfx, self.magnetLoopSfx, looping=1)))
         self.craneMoveSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_elevator_up_down.ogg')
         self.fadeTrack = None
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -137,7 +136,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.state != 'Off':
             self.demand('Off')
         self.boss = None
-        return
 
     def accomodateToon(self, toon):
         origScale = self.controlModel.getSz()
@@ -202,7 +200,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.toon:
             self.ignore(self.toon.uniqueName('disable'))
         self.toon = None
-        return
 
     def __watchJoystick(self, task):
         self.toon.setPosHpr(self.controls, 0, 0, 0, 0, 0, 0)
@@ -300,7 +297,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cable.getChildren().detach()
         self.topLink.getChildren().detach()
         self.gripper = None
-        return
 
     def makeSpline(self):
         rope = Rope.Rope()
@@ -349,8 +345,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.magnetShadow = None
             self.craneShadow = None
         taskMgr.remove(self.shadowName)
-        return
-
+        
     def __followShadow(self, task):
         p = self.magnet.getPos(self.boss.geom)
         self.magnetShadow.setPos(p[0], p[1], self.shadowOffset)
@@ -410,7 +405,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         NametagGlobals.setForceOnscreenChat(True)
         self.arrowVert = 0
         self.arrowHorz = 0
-        return
 
     def __disableControlInterface(self):
         self.__turnOffMagnet()
@@ -431,31 +425,26 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         NametagGlobals.setForceOnscreenChat(False)
         taskMgr.remove('watchCraneControls')
         self.__setMoveSound(None)
-        return
 
     def __displayCraneAdvice(self, task):
         if self.craneAdviceLabel == None:
             self.craneAdviceLabel = DirectLabel(text=TTLocalizer.CashbotCraneAdvice, text_fg=VBase4(1, 1, 1, 1), text_align=TextNode.ACenter, relief=None, pos=(0, 0, 0.69), scale=0.1)
-        return
 
     def __cleanupCraneAdvice(self):
         if self.craneAdviceLabel:
             self.craneAdviceLabel.destroy()
             self.craneAdviceLabel = None
         taskMgr.remove(self.craneAdviceName)
-        return
 
     def __displayMagnetAdvice(self, task):
         if self.magnetAdviceLabel == None:
             self.magnetAdviceLabel = DirectLabel(text=TTLocalizer.CashbotMagnetAdvice, text_fg=VBase4(1, 1, 1, 1), text_align=TextNode.ACenter, relief=None, pos=(0, 0, 0.55), scale=0.1)
-        return
 
     def __cleanupMagnetAdvice(self):
         if self.magnetAdviceLabel:
             self.magnetAdviceLabel.destroy()
             self.magnetAdviceLabel = None
         taskMgr.remove(self.magnetAdviceName)
-        return
 
     def __watchControls(self, task):
         if self.arrowHorz or self.arrowVert:
@@ -602,7 +591,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             l.detachNode()
 
         self.lightning = None
-        return
 
     def __flickerLightning(self, task):
         for l in self.lightning:
@@ -643,7 +631,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.rotateSpeed = obj.craneRotateSpeed
         if self.avId == localAvatar.doId and not self.magnetOn:
             self.releaseObject()
-        return
 
     def dropObject(self, obj):
         if obj.lerpInterval:
@@ -659,7 +646,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.handler.setDynamicFrictionCoef(self.emptyFrictionCoef)
             self.slideSpeed = self.emptySlideSpeed
             self.rotateSpeed = self.emptyRotateSpeed
-        return
 
     def releaseObject(self):
         if self.heldObject:
@@ -881,7 +867,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.trigger.unstash()
             self.accept(self.triggerEvent, self.__hitTrigger)
         self.avId = 0
-        return
 
     def __allowDetect(self, task):
         if self.fadeTrack:
@@ -902,7 +887,6 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.controlModel.clearTransparency()
         self.trigger.stash()
         self.ignore(self.triggerEvent)
-        return
 
     def enterMovie(self):
         self.__activatePhysics()

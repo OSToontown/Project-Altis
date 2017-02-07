@@ -1,19 +1,14 @@
-from pandac.PandaModules import *
-from toontown.toonbase.ToontownGlobals import *
+import random
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-import random
-from otp.level import DistributedLevel
-from direct.directnotify import DirectNotifyGlobal
-from toontown.coghq import FactoryBase
-from toontown.coghq import FactoryEntityCreator
-from toontown.coghq import FactorySpecs
-from otp.level import LevelSpec
-from otp.level import LevelConstants
-from toontown.toonbase import TTLocalizer
-from toontown.coghq import FactoryCameraViews
 from direct.controls.ControlManager import CollisionHandlerRayStart
 from otp.ai.MagicWordGlobal import *
+from otp.level import DistributedLevel, LevelSpec, LevelConstants
+from direct.directnotify import DirectNotifyGlobal
+from toontown.coghq import FactoryBase, FactoryCameraViews, FactoryEntityCreator, FactorySpecs
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase.ToontownGlobals import *
 from toontown.nametag.NametagGlobals import *
 from toontown.chat.ChatGlobals import CFThought, CFTimeout
 
@@ -66,7 +61,6 @@ class DistributedFactory(DistributedLevel.DistributedLevel, FactoryBase.FactoryB
         if av is None:
             return
         base.localAvatar.setSystemMessage(avId, TTLocalizer.ForemanConfrontedMsg % av.getName())
-        return
 
     def setDefeated(self):
         self.notify.info('setDefeated')
