@@ -822,12 +822,10 @@ class CodesTabPage(DirectFrame):
         self._parent = parent
         DirectFrame.__init__(self, parent=self._parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
         self.load()
-        return
 
     def destroy(self):
         self._parent = None
         DirectFrame.destroy(self)
-        return
 
     def load(self):
         cdrGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_sbk_codeRedemptionGui')
@@ -855,7 +853,6 @@ class CodesTabPage(DirectFrame):
         closeButtonGui.removeNode()
         cdrGui.removeNode()
         submitButtonGui.removeNode()
-        return
 
     def enter(self):
         self.show()
@@ -886,7 +883,6 @@ class CodesTabPage(DirectFrame):
         self.closeButton = None
         del self.successSfx
         del self.failureSfx
-        return
 
     def __submitCode(self, input = None):
         if input == None:
@@ -899,9 +895,8 @@ class CodesTabPage(DirectFrame):
             base.cr.codeRedemptionMgr.redeemCode(input, self.__getCodeResult)
         self.codeInput.enterText('')
         self.__disableCodeEntry()
-        return
 
-    def __getCodeResult(self, result):
+    def __getCodeResult(self, result, awardMgrResult = None):
         self.notify.debug('result = %s' % result)
         self.__enableCodeEntry()
         if result == 0:

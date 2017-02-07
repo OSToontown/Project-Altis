@@ -3832,6 +3832,7 @@ dclass NonRepeatableRandomSourceClient {
 
 dclass TTCodeRedemptionMgr : DistributedObject, NonRepeatableRandomSourceClient {
   giveAwardToToonResult(uint32, uint32);
+  deliverItem(uint32, uint32, blob) airecv;
   redeemCode(uint32, char [0-256]) airecv clsend;
   redeemCodeAiToUd(DoId, uint32, string);
   redeemCodeResultUdToAi(uint32, uint32, uint32, uint32) airecv;
