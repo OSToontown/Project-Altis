@@ -120,7 +120,7 @@ def gardenGrowFlowers():
         flower.update()
         i += 1
             
-    return '%d disgusting flowers grown' % i
+    return 'Grew %d Flowers' % i
     
 @magicWord(category=CATEGORY_PROGRAMMER)
 def gardenPickAll():
@@ -140,5 +140,5 @@ def gardenPickAll():
             flower.removeItem(1)
             i += 1
             
-    return '%d disgusting flowers picked' % i
+    return 'Picked %d Flowers' % i
     

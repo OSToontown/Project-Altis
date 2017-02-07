@@ -78,7 +78,7 @@ class DistributedGagTreeAI(DistributedPlantBaseAI):
                 self.b_setWilted(1)
                 continue
             
-            self.accept(self.getEventName('going-down', 1), self.ignoreAll)
+            self.accept(self.getEventName('gardenDestroy', 1), self.ignoreAll)
             self.accept(self.getEventName('remove', track * 7 + value), self.calcDependencies)
             
     def getEventName(self, string, typeIndex=None):
@@ -95,7 +95,7 @@ class DistributedGagTreeAI(DistributedPlantBaseAI):
         mdata[self.treeIndex] = [self.typeIndex, self.waterLevel, self.lastCheck, self.getGrowthLevel(), self.lastHarvested]
         self.mgr.data['trees'] = mdata
         self.mgr.update()
-        
+
     def isFruiting(self):
         problem = 0
         if self.getWilted():

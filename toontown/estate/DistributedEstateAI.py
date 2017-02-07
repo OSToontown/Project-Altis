@@ -362,6 +362,7 @@ class GardenManager:
             self.gardens[avId] = g
         
     def destroy(self):
+        messenger.send('garden-%d-1-gardenDestroy')
         for garden in self.gardens.values():
             garden.destroy()
             
