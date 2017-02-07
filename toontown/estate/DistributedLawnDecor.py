@@ -338,7 +338,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         shovel.hide()
         moveTrack = self.generateToonMoveTrack(toon)
         digupTrack = self.generateDigupTrack(toon)
-        self.movie = Sequence(self.startCamIval(avId), moveTrack, Func(shovel.show), digupTrack, Func(base.cr.removeObject, self.doId))
+        self.movie = Sequence(self.startCamIval(avId), moveTrack, Func(shovel.show), digupTrack)
         if avId == localAvatar.doId:
             self.movie.append(Func(self.movieDone))
         self.movie.start()

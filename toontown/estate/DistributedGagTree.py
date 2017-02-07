@@ -272,7 +272,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.movie.append(Func(toon.loop, 'neutral'))
         if avId == localAvatar.doId:
             self.movie.append(Func(self.finishInteraction))
-            self.movie.append(Func(self.fadeOut))
             self.movie.append(Func(self.movieDone))
             self.movie.append(Func(self.doResultDialog))
         self.movie.start()
