@@ -309,7 +309,7 @@ def getTreeTypeIndex(track, level):
     return track * 7 + level
 
 
-NUM_GAGS = 7 * 7
+NUM_GAGS = 8 * 7
 for i in xrange(NUM_GAGS):
     track, level = getTreeTrackAndLevel(i)
     if level <= 6:
