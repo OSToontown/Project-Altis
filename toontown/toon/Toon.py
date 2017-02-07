@@ -1,0 +1,5335 @@
+import random
+import types
+from toontown.toon import AccessoryGlobals
+from toontown.toon import Motion
+from toontown.toon import TTEmote
+from toontown.toon import ToonDNA
+from direct.actor import Actor
+from direct.directnotify import DirectNotifyGlobal
+from direct.interval.IntervalGlobal import *
+from toontown.toonbase.ToonPythonUtil import Functor
+from direct.task.Task import Task
+from pandac.PandaModules import *
+from toontown.toon.ToonHead import *
+from otp.avatar import Avatar
+from otp.avatar import Emote
+from otp.avatar.Avatar import teleportNotify
+from otp.otpbase import OTPGlobals
+from otp.otpbase import OTPLocalizer
+from toontown.battle import SuitBattleGlobals
+from toontown.chat.ChatGlobals import *
+from toontown.distributed import DelayDelete
+from toontown.effects import DustCloud
+from toontown.effects import Wake
+from toontown.hood import ZoneUtil
+from toontown.nametag.NametagGlobals import *
+from toontown.suit import SuitDNA
+from toontown.suit import Suit
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals
+
+def teleportDebug(requestStatus, msg, onlyIfToAv = True):
+    if teleportNotify.getDebug():
+        teleport = 'teleport'
+        if 'how' in requestStatus and requestStatus['how'][:len(teleport)] == teleport:
+            if not onlyIfToAv or 'avId' in requestStatus and requestStatus['avId'] > 0:
+                teleportNotify.debug(msg)
+
+SLEEP_STRING = TTLocalizer.ToonSleepString
+DogDialogueArray = []
+CatDialogueArray = []
+HorseDialogueArray = []
+RabbitDialogueArray = []
+MouseDialogueArray = []
+DuckDialogueArray = []
+MonkeyDialogueArray = []
+BearDialogueArray = []
+PigDialogueArray = []
+DeerDialogueArray = []
+LegsAnimDict = {}
+TorsoAnimDict = {}
+HeadAnimDict = {}
+Preloaded = {}
+Phase3AnimList = (('neutral', 'neutral'), ('run', 'run'))
+Phase3_5AnimList = (('walk', 'walk'),
+ ('teleport', 'teleport'),
+ ('book', 'book'),
+ ('jump', 'jump'),
+ ('running-jump', 'running-jump'),
+ ('jump-squat', 'jump-zstart'),
+ ('jump-idle', 'jump-zhang'),
+ ('jump-land', 'jump-zend'),
+ ('running-jump-squat', 'leap_zstart'),
+ ('running-jump-idle', 'leap_zhang'),
+ ('running-jump-land', 'leap_zend'),
+ ('pushbutton', 'press-button'),
+ ('throw', 'pie-throw'),
+ ('victory', 'victory-dance'),
+ ('sidestep-left', 'sidestep-left'),
+ ('conked', 'conked'),
+ ('cringe', 'cringe'),
+ ('wave', 'wave'),
+ ('shrug', 'shrug'),
+ ('angry', 'angry'),
+ ('tutorial-neutral', 'tutorial-neutral'),
+ ('left-point', 'left-point'),
+ ('right-point', 'right-point'),
+ ('right-point-start', 'right-point-start'),
+ ('give-props', 'give-props'),
+ ('give-props-start', 'give-props-start'),
+ ('right-hand', 'right-hand'),
+ ('right-hand-start', 'right-hand-start'),
+ ('duck', 'duck'),
+ ('sidestep-right', 'jump-back-right'),
+ ('periscope', 'periscope'))
+Phase4AnimList = (('sit', 'sit'),
+ ('sit-start', 'intoSit'),
+ ('swim', 'swim'),
+ ('tug-o-war', 'tug-o-war'),
+ ('sad-walk', 'losewalk'),
+ ('sad-neutral', 'sad-neutral'),
+ ('up', 'up'),
+ ('down', 'down'),
+ ('left', 'left'),
+ ('right', 'right'),
+ ('applause', 'applause'),
+ ('confused', 'confused'),
+ ('bow', 'bow'),
+ ('curtsy', 'curtsy'),
+ ('bored', 'bored'),
+ ('think', 'think'),
+ ('battlecast', 'fish'),
+ ('cast', 'cast'),
+ ('castlong', 'castlong'),
+ ('fish-end', 'fishEND'),
+ ('fish-neutral', 'fishneutral'),
+ ('fish-again', 'fishAGAIN'),
+ ('reel', 'reel'),
+ ('reel-H', 'reelH'),
+ ('reel-neutral', 'reelneutral'),
+ ('pole', 'pole'),
+ ('pole-neutral', 'poleneutral'),
+ ('slip-forward', 'slip-forward'),
+ ('slip-backward', 'slip-backward'),
+ ('catch-neutral', 'gameneutral'),
+ ('catch-run', 'gamerun'),
+ ('catch-eatneutral', 'eat_neutral'),
+ ('catch-eatnrun', 'eatnrun'),
+ ('catch-intro-throw', 'gameThrow'),
+ ('swing', 'swing'),
+ ('pet-start', 'petin'),
+ ('pet-loop', 'petloop'),
+ ('pet-end', 'petend'),
+ ('scientistJealous', 'scientistJealous'),
+ ('scientistEmcee', 'scientistEmcee'),
+ ('scientistWork', 'scientistWork'),
+ ('scientistGame', 'scientistGame'),
+ ('taunt', 'taunt'))
+Phase5AnimList = (('water-gun', 'water-gun'),
+ ('hold-bottle', 'hold-bottle'),
+ ('firehose', 'firehose'),
+ ('spit', 'spit'),
+ ('tickle', 'tickle'),
+ ('smooch', 'smooch'),
+ ('happy-dance', 'happy-dance'),
+ ('sprinkle-dust', 'sprinkle-dust'),
+ ('juggle', 'juggle'),
+ ('climb', 'climb'),
+ ('sound', 'shout'),
+ ('toss', 'toss'),
+ ('hold-magnet', 'hold-magnet'),
+ ('hypnotize', 'hypnotize'),
+ ('struggle', 'struggle'),
+ ('lose', 'lose'),
+ ('melt', 'melt'))
+Phase5_5AnimList = (('takePhone', 'takePhone'),
+ ('phoneNeutral', 'phoneNeutral'),
+ ('phoneBack', 'phoneBack'),
+ ('bank', 'jellybeanJar'),
+ ('callPet', 'callPet'),
+ ('feedPet', 'feedPet'),
+ ('start-dig', 'into_dig'),
+ ('loop-dig', 'loop_dig'),
+ ('water', 'water'))
+Phase6AnimList = (('headdown-putt', 'headdown-putt'),
+ ('into-putt', 'into-putt'),
+ ('loop-putt', 'loop-putt'),
+ ('rotateL-putt', 'rotateL-putt'),
+ ('rotateR-putt', 'rotateR-putt'),
+ ('swing-putt', 'swing-putt'),
+ ('look-putt', 'look-putt'),
+ ('lookloop-putt', 'lookloop-putt'),
+ ('bad-putt', 'bad-putt'),
+ ('badloop-putt', 'badloop-putt'),
+ ('good-putt', 'good-putt'))
+Phase9AnimList = (('push', 'push'),)
+Phase10AnimList = (('leverReach', 'leverReach'), ('leverPull', 'leverPull'), ('leverNeutral', 'leverNeutral'))
+Phase12AnimList = ()
+LegDict = {'s': '/models/char/tt_a_chr_dgs_shorts_legs_',
+           'm': '/models/char/tt_a_chr_dgm_shorts_legs_',
+           'l': '/models/char/tt_a_chr_dgl_shorts_legs_'}
+TorsoDict = {
+    'ss': '/models/char/tt_a_chr_dgs_shorts_torso_',
+    'ms': '/models/char/tt_a_chr_dgm_shorts_torso_',
+    'ls': '/models/char/tt_a_chr_dgl_shorts_torso_',
+    'sd': '/models/char/tt_a_chr_dgs_skirt_torso_',
+    'md': '/models/char/tt_a_chr_dgm_skirt_torso_',
+    'ld': '/models/char/tt_a_chr_dgl_skirt_torso_'}
+
+def loadModels():
+    global Preloaded
+    if not Preloaded:
+        print 'Preloading avatars...'
+
+        def preload(task):
+            for key in LegDict.keys():
+                fileRoot = LegDict[key]
+
+                Preloaded[fileRoot+'-1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
+                Preloaded[fileRoot+'-500'] = loader.loadModel('phase_3' + fileRoot + '500')
+                Preloaded[fileRoot+'-250'] = loader.loadModel('phase_3' + fileRoot + '250')
+
+            for key in TorsoDict.keys():
+                fileRoot = TorsoDict[key]
+
+                Preloaded[fileRoot+'-1000'] = loader.loadModel('phase_3' + fileRoot + '1000')
+
+                if len(key) > 1:
+                    Preloaded[fileRoot+'-500'] = loader.loadModel('phase_3' + fileRoot + '500')
+                    Preloaded[fileRoot+'-250'] = loader.loadModel('phase_3' + fileRoot + '250')
+
+            return task.done
+
+        taskMgr.add(preload, 'preload-avatar')
+
+def loadBasicAnims():
+    loadPhaseAnims()
+
+def unloadBasicAnims():
+    loadPhaseAnims(0)
+
+def loadTutorialBattleAnims():
+    loadPhaseAnims('phase_3.5')
+
+def unloadTutorialBattleAnims():
+    loadPhaseAnims('phase_3.5', 0)
+
+def loadMinigameAnims():
+    loadPhaseAnims('phase_4')
+
+def unloadMinigameAnims():
+    loadPhaseAnims('phase_4', 0)
+
+def loadBattleAnims():
+    loadPhaseAnims('phase_5')
+
+def unloadBattleAnims():
+    loadPhaseAnims('phase_5', 0)
+
+def loadSellbotHQAnims():
+    loadPhaseAnims('phase_9')
+
+def unloadSellbotHQAnims():
+    loadPhaseAnims('phase_9', 0)
+
+def loadCashbotHQAnims():
+    loadPhaseAnims('phase_10')
+
+def unloadCashbotHQAnims():
+    loadPhaseAnims('phase_10', 0)
+
+def loadBossbotHQAnims():
+    loadPhaseAnims('phase_12')
+
+def unloadBossbotHQAnims():
+    loadPhaseAnims('phase_12', 0)
+
+def loadPhaseAnims(phaseStr = 'phase_3', loadFlag = 1):
+    if phaseStr == 'phase_3':
+        animList = Phase3AnimList
+    elif phaseStr == 'phase_3.5':
+        animList = Phase3_5AnimList
+    elif phaseStr == 'phase_4':
+        animList = Phase4AnimList
+    elif phaseStr == 'phase_5':
+        animList = Phase5AnimList
+    elif phaseStr == 'phase_5.5':
+        animList = Phase5_5AnimList
+    elif phaseStr == 'phase_6':
+        animList = Phase6AnimList
+    elif phaseStr == 'phase_9':
+        animList = Phase9AnimList
+    elif phaseStr == 'phase_10':
+        animList = Phase10AnimList
+    elif phaseStr == 'phase_12':
+        animList = Phase12AnimList
+    else:
+        self.notify.error('Unknown phase string %s' % phaseStr)
+    for key in LegDict.keys():
+        for anim in animList:
+            if loadFlag:
+                pass
+            elif anim[0] in LegsAnimDict[key]:
+                if base.localAvatar.style.legs == key:
+                    base.localAvatar.unloadAnims([anim[0]], 'legs', None)
+
+    for key in TorsoDict.keys():
+        for anim in animList:
+            if loadFlag:
+                pass
+            elif anim[0] in TorsoAnimDict[key]:
+                if base.localAvatar.style.torso == key:
+                    base.localAvatar.unloadAnims([anim[0]], 'torso', None)
+
+    for key in HeadDict.keys():
+        if key.find('d') >= 0:
+            for anim in animList:
+                if loadFlag:
+                    pass
+                elif anim[0] in HeadAnimDict[key]:
+                    if base.localAvatar.style.head == key:
+                        base.localAvatar.unloadAnims([anim[0]], 'head', None)
+
+def compileGlobalAnimList():
+    phaseList = [Phase3AnimList,
+     Phase3_5AnimList,
+     Phase4AnimList,
+     Phase5AnimList,
+     Phase5_5AnimList,
+     Phase6AnimList,
+     Phase9AnimList,
+     Phase10AnimList,
+     Phase12AnimList]
+    phaseStrList = ['phase_3',
+     'phase_3.5',
+     'phase_4',
+     'phase_5',
+     'phase_5.5',
+     'phase_6',
+     'phase_9',
+     'phase_10',
+     'phase_12']
+    for animList in phaseList:
+        phaseStr = phaseStrList[phaseList.index(animList)]
+        for key in LegDict.keys():
+            LegsAnimDict.setdefault(key, {})
+            for anim in animList:
+                file = phaseStr + LegDict[key] + anim[1]
+                LegsAnimDict[key][anim[0]] = file
+
+        for key in TorsoDict.keys():
+            TorsoAnimDict.setdefault(key, {})
+            for anim in animList:
+                file = phaseStr + TorsoDict[key] + anim[1]
+                TorsoAnimDict[key][anim[0]] = file
+
+        for key in HeadDict.keys():
+            if key.find('d') >= 0:
+                HeadAnimDict.setdefault(key, {})
+                for anim in animList:
+                    file = phaseStr + HeadDict[key] + anim[1]
+                    HeadAnimDict[key][anim[0]] = file
+
+
+def loadDialog():
+    loadPath = 'phase_3.5/audio/dial/'
+
+    DogDialogueFiles = ('AV_dog_short', 'AV_dog_med', 'AV_dog_long', 'AV_dog_question', 'AV_dog_exclaim', 'AV_dog_howl')
+    global DogDialogueArray
+    for file in DogDialogueFiles:
+        DogDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    catDialogueFiles = ('AV_cat_short', 'AV_cat_med', 'AV_cat_long', 'AV_cat_question', 'AV_cat_exclaim', 'AV_cat_howl')
+    global CatDialogueArray
+    for file in catDialogueFiles:
+        CatDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    horseDialogueFiles = ('AV_horse_short', 'AV_horse_med', 'AV_horse_long', 'AV_horse_question', 'AV_horse_exclaim', 'AV_horse_howl')
+    global HorseDialogueArray
+    for file in horseDialogueFiles:
+        HorseDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    rabbitDialogueFiles = ('AV_rabbit_short', 'AV_rabbit_med', 'AV_rabbit_long', 'AV_rabbit_question', 'AV_rabbit_exclaim', 'AV_rabbit_howl')
+    global RabbitDialogueArray
+    for file in rabbitDialogueFiles:
+        RabbitDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    mouseDialogueFiles = ('AV_mouse_short', 'AV_mouse_med', 'AV_mouse_long', 'AV_mouse_question', 'AV_mouse_exclaim', 'AV_mouse_howl')
+    global MouseDialogueArray
+    for file in mouseDialogueFiles:
+        MouseDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    duckDialogueFiles = ('AV_duck_short', 'AV_duck_med', 'AV_duck_long', 'AV_duck_question', 'AV_duck_exclaim', 'AV_duck_howl')
+    global DuckDialogueArray
+    for file in duckDialogueFiles:
+        DuckDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    monkeyDialogueFiles = ('AV_monkey_short', 'AV_monkey_med', 'AV_monkey_long', 'AV_monkey_question', 'AV_monkey_exclaim', 'AV_monkey_howl')
+    global MonkeyDialogueArray
+    for file in monkeyDialogueFiles:
+        MonkeyDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    bearDialogueFiles = ('AV_bear_short', 'AV_bear_med', 'AV_bear_long', 'AV_bear_question', 'AV_bear_exclaim', 'AV_bear_howl')
+    global BearDialogueArray
+    for file in bearDialogueFiles:
+        BearDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    pigDialogueFiles = ('AV_pig_short', 'AV_pig_med', 'AV_pig_long', 'AV_pig_question', 'AV_pig_exclaim', 'AV_pig_howl')
+    global PigDialogueArray
+    for file in pigDialogueFiles:
+        PigDialogueArray.append(base.loader.loadSfx(loadPath + file + '.ogg'))
+
+    deerDialogueFiles = ('AV_deer_short', 'AV_deer_med', 'AV_deer_long', 'AV_deer_question', 'AV_deer_exclaim', 'AV_deer_howl')
+    global DeerDialogueArray
+    for file in deerDialogueFiles:
+        DeerDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
+
+def unloadDialog():
+    global CatDialogueArray
+    global PigDialogueArray
+    global BearDialogueArray
+    global DuckDialogueArray
+    global RabbitDialogueArray
+    global MouseDialogueArray
+    global DogDialogueArray
+    global HorseDialogueArray
+    global MonkeyDialogueArray
+    global DeerDialogueArray
+    DogDialogueArray = []
+    CatDialogueArray = []
+    HorseDialogueArray = []
+    RabbitDialogueArray = []
+    MouseDialogueArray = []
+    DuckDialogueArray = []
+    MonkeyDialogueArray = []
+    BearDialogueArray = []
+    PigDialogueArray = []
+    DeerDialogueArray = []
+
+
+class Toon(Avatar.Avatar, ToonHead):
+    notify = DirectNotifyGlobal.directNotify.newCategory('Toon')
+    afkTimeout = base.config.GetInt('afk-timeout', 600)
+
+    def __init__(self):
+        try:
+            self.Toon_initialized
+            return
+        except:
+            self.Toon_initialized = 1
+
+        Avatar.Avatar.__init__(self)
+        ToonHead.__init__(self)
+        self.forwardSpeed = 0.0
+        self.rotateSpeed = 0.0
+        self.avatarType = 'toon'
+        self.motion = Motion.Motion(self)
+        self.standWalkRunReverse = None
+        self.playingAnim = None
+        self.soundTeleport = None
+        self.cheesyEffect = ToontownGlobals.CENormal
+        self.effectTrack = None
+        self.emoteTrack = None
+        self.emote = None
+        self.stunTrack = None
+        self.__bookActors = []
+        self.__holeActors = []
+        self.holeClipPath = None
+        self.wake = None
+        self.lastWakeTime = 0
+        self.forceJumpIdle = False
+        self.numPies = 0
+        self.pieType = 0
+        self.pieThrowType = ToontownGlobals.PieThrowArc
+        self.pieModel = None
+        self.__pieModelType = None
+        self.pieScale = 1.0
+        self.hatNodes = []
+        self.glassesNodes = []
+        self.backpackNodes = []
+        self.hat = (0, 0, 0)
+        self.glasses = (0, 0, 0)
+        self.backpack = (0, 0, 0)
+        self.shoes = (0, 0, 0)
+        self.oldStyle = None
+        self.oldDNA = None
+        self.oldEffect = None
+        self.oldHat = None
+        self.oldShoes = None
+        self.isStunned = 0
+        self.isDisguised = 0
+        self.cogHead = 0
+        self.cogLevels = [] 
+        self.uberType = 0
+        self.startingPg = 0
+        self.choiceAlpha = 2
+        self.choiceBeta = 3
+        self.defaultColorScale = None
+        self.jar = None
+        self.setBlend(frameBlend = base.wantSmoothAnims)
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
+        self.setTag('pieCode', str(ToontownGlobals.PieCodeToon))
+        self.setFont(ToontownGlobals.getToonFont())
+        self.soundChatBubble = base.loader.loadSfx('phase_3/audio/sfx/GUI_balloon_popup.ogg')
+        self.swimRunSfx = base.loadSfx('phase_4/audio/sfx/AV_footstep_runloop_water.ogg')
+        self.swimRunLooping = False
+        self.animFSM = ClassicFSM('Toon', [State('off', self.enterOff, self.exitOff),
+         State('neutral', self.enterNeutral, self.exitNeutral),
+         State('victory', self.enterVictory, self.exitVictory),
+         State('Happy', self.enterHappy, self.exitHappy),
+         State('Sad', self.enterSad, self.exitSad),
+         State('Catching', self.enterCatching, self.exitCatching),
+         State('CatchEating', self.enterCatchEating, self.exitCatchEating),
+         State('Sleep', self.enterSleep, self.exitSleep),
+         State('walk', self.enterWalk, self.exitWalk),
+         State('jumpSquat', self.enterJumpSquat, self.exitJumpSquat),
+         State('jump', self.enterJump, self.exitJump),
+         State('jumpAirborne', self.enterJumpAirborne, self.exitJumpAirborne),
+         State('jumpLand', self.enterJumpLand, self.exitJumpLand),
+         State('run', self.enterRun, self.exitRun),
+         State('swim', self.enterSwim, self.exitSwim),
+         State('swimhold', self.enterSwimHold, self.exitSwimHold),
+         State('dive', self.enterDive, self.exitDive),
+         State('cringe', self.enterCringe, self.exitCringe),
+         State('OpenBook', self.enterOpenBook, self.exitOpenBook, ['ReadBook', 'CloseBook']),
+         State('ReadBook', self.enterReadBook, self.exitReadBook),
+         State('CloseBook', self.enterCloseBook, self.exitCloseBook),
+         State('TeleportOut', self.enterTeleportOut, self.exitTeleportOut),
+         State('Died', self.enterDied, self.exitDied),
+         State('PlaygroundDied', self.enterPlaygroundDied, self.exitPlaygroundDied),
+         State('TeleportedOut', self.enterTeleportedOut, self.exitTeleportedOut),
+         State('TeleportIn', self.enterTeleportIn, self.exitTeleportIn),
+         State('Emote', self.enterEmote, self.exitEmote),
+         State('SitStart', self.enterSitStart, self.exitSitStart),
+         State('Sit', self.enterSit, self.exitSit),
+         State('Push', self.enterPush, self.exitPush),
+         State('Squish', self.enterSquish, self.exitSquish),
+         State('FallDown', self.enterFallDown, self.exitFallDown),
+         State('GolfPuttLoop', self.enterGolfPuttLoop, self.exitGolfPuttLoop),
+         State('GolfRotateLeft', self.enterGolfRotateLeft, self.exitGolfRotateLeft),
+         State('GolfRotateRight', self.enterGolfRotateRight, self.exitGolfRotateRight),
+         State('GolfPuttSwing', self.enterGolfPuttSwing, self.exitGolfPuttSwing),
+         State('GolfGoodPutt', self.enterGolfGoodPutt, self.exitGolfGoodPutt),
+         State('GolfBadPutt', self.enterGolfBadPutt, self.exitGolfBadPutt),
+         State('Flattened', self.enterFlattened, self.exitFlattened),
+         State('CogThiefRunning', self.enterCogThiefRunning, self.exitCogThiefRunning),
+         State('ScientistJealous', self.enterScientistJealous, self.exitScientistJealous),
+         State('ScientistEmcee', self.enterScientistEmcee, self.exitScientistEmcee),
+         State('ScientistWork', self.enterScientistWork, self.exitScientistWork),
+         State('ScientistLessWork', self.enterScientistLessWork, self.exitScientistLessWork),
+         State('ScientistPlay', self.enterScientistPlay, self.enterScientistPlay)], 'off', 'off')
+        animStateList = self.animFSM.getStates()
+        self.animFSM.enterInitialState()
+
+    def stopAnimations(self):
+        if hasattr(self, 'animFSM'):
+            if not self.animFSM.isInternalStateInFlux():
+                self.animFSM.request('off')
+            else:
+                self.notify.warning('animFSM in flux, state=%s, not requesting off' % self.animFSM.getCurrentState().getName())
+        else:
+            self.notify.warning('animFSM has been deleted')
+        if self.effectTrack != None:
+            self.effectTrack.finish()
+            self.effectTrack = None
+        if self.emoteTrack != None:
+            self.emoteTrack.finish()
+            self.emoteTrack = None
+        if self.stunTrack != None:
+            self.stunTrack.finish()
+            self.stunTrack = None
+        if self.wake:
+            self.wake.stop()
+            self.wake.destroy()
+            self.wake = None
+        
+        self.cleanupPieModel()
+
+    def delete(self):
+        try:
+            self.Toon_deleted
+            return
+        except:
+            self.Toon_deleted = 1
+            
+        self.stopAnimations()
+        self.rightHands = None
+        self.rightHand = None
+        self.leftHands = None
+        self.leftHand = None
+        self.headParts = None
+        self.torsoParts = None
+        self.hipsParts = None
+        self.legsParts = None
+        self.oldStyle = None
+        self.oldDNA = None
+        self.oldEffect = None
+        self.oldHat = None
+        self.oldShoes = None
+        del self.animFSM
+        for bookActor in self.__bookActors:
+            bookActor.cleanup()
+
+        del self.__bookActors
+        for holeActor in self.__holeActors:
+            holeActor.cleanup()
+
+        del self.__holeActors
+        self.soundTeleport = None
+        self.motion.delete()
+        self.motion = None
+        Avatar.Avatar.cleanup(self)
+        ToonHead.cleanup(self)
+        Avatar.Avatar.delete(self)
+        ToonHead.delete(self)
+
+    def updateToonDNA(self, newDNA, fForce = 0):
+        self.style.gender = newDNA.getGender()
+        oldDNA = self.style
+        if fForce or newDNA.head != oldDNA.head:
+            self.swapToonHead(newDNA.head)
+        
+        if fForce or newDNA.torso != oldDNA.torso:
+            self.swapToonTorso(newDNA.torso, genClothes=0)
+            self.loop('neutral')
+        
+        if fForce or newDNA.legs != oldDNA.legs:
+            self.swapToonLegs(newDNA.legs)
+        
+        self.swapToonColor(newDNA)
+        self.__swapToonClothes(newDNA)
+
+    def setDNAString(self, dnaString):
+        newDNA = ToonDNA.ToonDNA()
+        newDNA.makeFromNetString(dnaString)
+        if len(newDNA.torso) < 2:
+            self.sendLogSuspiciousEvent('nakedToonDNA %s was requested' % newDNA.torso)
+            newDNA.torso = newDNA.torso + 's'
+        self.setDNA(newDNA)
+        self.setBlend(frameBlend = base.wantSmoothAnims)
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
+
+    def setDNA(self, dna):
+        if hasattr(self, 'isDisguised'):
+            if self.isDisguised:
+                return
+        
+        if self.style:
+            self.updateToonDNA(dna)
+        else:
+            self.style = dna
+            self.generateToon()
+            self.initializeDropShadow()
+            self.initializeNametag3d()
+
+    def parentToonParts(self):
+        if self.hasLOD():
+            for lodName in self.getLODNames():
+                if base.config.GetBool('want-new-anims', 1):
+                    if not self.getPart('torso', lodName).find('**/def_head').isEmpty():
+                        self.attach('head', 'torso', 'def_head', lodName)
+                    else:
+                        self.attach('head', 'torso', 'joint_head', lodName)
+                else:
+                    self.attach('head', 'torso', 'joint_head', lodName)
+                self.attach('torso', 'legs', 'joint_hips', lodName)
+
+        else:
+            self.attach('head', 'torso', 'joint_head')
+            self.attach('torso', 'legs', 'joint_hips')
+
+    def unparentToonParts(self):
+        if self.hasLOD():
+            for lodName in self.getLODNames():
+                self.getPart('head', lodName).reparentTo(self.getLOD(lodName))
+                self.getPart('torso', lodName).reparentTo(self.getLOD(lodName))
+                self.getPart('legs', lodName).reparentTo(self.getLOD(lodName))
+
+        else:
+            self.getPart('head').reparentTo(self.getGeomNode())
+            self.getPart('torso').reparentTo(self.getGeomNode())
+            self.getPart('legs').reparentTo(self.getGeomNode())
+
+    def setLODs(self):
+        self.setLODNode()
+        levelOneIn = base.config.GetInt('lod1-in', 20)
+        levelOneOut = base.config.GetInt('lod1-out', 0)
+        levelTwoIn = base.config.GetInt('lod2-in', 80)
+        levelTwoOut = base.config.GetInt('lod2-out', 20)
+        levelThreeIn = base.config.GetInt('lod3-in', 280)
+        levelThreeOut = base.config.GetInt('lod3-out', 80)
+        self.addLOD(1000, levelOneIn, levelOneOut)
+        self.addLOD(500, levelTwoIn, levelTwoOut)
+        self.addLOD(250, levelThreeIn, levelThreeOut)
+
+    def generateToon(self):
+        self.setLODs()
+        self.generateToonLegs()
+        self.generateToonHead()
+        self.generateToonTorso()
+        self.generateToonColor()
+        self.parentToonParts()
+        self.rescaleToon()
+        self.resetHeight()
+        self.setupToonNodes()
+        self.setBlend(frameBlend = base.wantSmoothAnims)
+        self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
+
+    def setupToonNodes(self):
+        rightHand = NodePath('rightHand')
+        self.rightHand = None
+        self.rightHands = []
+        leftHand = NodePath('leftHand')
+        self.leftHands = []
+        self.leftHand = None
+        for lodName in self.getLODNames():
+            hand = self.getPart('torso', lodName).find('**/joint_Rhold')
+            if base.config.GetBool('want-new-anims', 1):
+                if not self.getPart('torso', lodName).find('**/def_joint_right_hold').isEmpty():
+                    hand = self.getPart('torso', lodName).find('**/def_joint_right_hold')
+            else:
+                hand = self.getPart('torso', lodName).find('**/joint_Rhold')
+            self.rightHands.append(hand)
+            rightHand = rightHand.instanceTo(hand)
+            if base.config.GetBool('want-new-anims', 1):
+                if not self.getPart('torso', lodName).find('**/def_joint_left_hold').isEmpty():
+                    hand = self.getPart('torso', lodName).find('**/def_joint_left_hold')
+            else:
+                hand = self.getPart('torso', lodName).find('**/joint_Lhold')
+            self.leftHands.append(hand)
+            leftHand = leftHand.instanceTo(hand)
+            if self.rightHand == None:
+                self.rightHand = rightHand
+            if self.leftHand == None:
+                self.leftHand = leftHand
+
+        self.headParts = self.findAllMatches('**/__Actor_head')
+        self.legsParts = self.findAllMatches('**/__Actor_legs')
+        self.hipsParts = self.legsParts.findAllMatches('**/joint_hips')
+        self.torsoParts = self.hipsParts.findAllMatches('**/__Actor_torso')
+
+    def initializeBodyCollisions(self, collIdStr):
+        Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
+        if not self.ghostMode:
+            self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
+
+    def getBookActors(self):
+        if self.__bookActors:
+            return self.__bookActors
+        bookActor = Actor.Actor('phase_3.5/models/props/book-mod', {'book': 'phase_3.5/models/props/book-chan'})
+        bookActor2 = Actor.Actor(other=bookActor)
+        bookActor3 = Actor.Actor(other=bookActor)
+        self.__bookActors = [bookActor, bookActor2, bookActor3]
+        hands = self.getRightHands()
+        for bookActor, hand in zip(self.__bookActors, hands):
+            bookActor.reparentTo(hand)
+            bookActor.hide()
+
+        return self.__bookActors
+
+    def getHoleActors(self):
+        if self.__holeActors:
+            return self.__holeActors
+        holeActor = Actor.Actor('phase_3.5/models/props/portal-mod', {'hole': 'phase_3.5/models/props/portal-chan'})
+        holeActor2 = Actor.Actor(other=holeActor)
+        holeActor3 = Actor.Actor(other=holeActor)
+        self.__holeActors = [holeActor, holeActor2, holeActor3]
+        for ha in self.__holeActors:
+            if hasattr(self, 'uniqueName'):
+                holeName = self.uniqueName('toon-portal')
+            else:
+                holeName = 'toon-portal'
+            ha.setName(holeName)
+
+        return self.__holeActors
+
+    def rescaleToon(self):
+        animalStyle = self.style.getAnimal()
+        bodyScale = ToontownGlobals.toonBodyScales[animalStyle]
+        headScale = ToontownGlobals.toonHeadScales[animalStyle]
+        self.setAvatarScale(bodyScale)
+        for lod in self.getLODNames():
+            self.getPart('head', lod).setScale(headScale)
+
+    def getBodyScale(self):
+        animalStyle = self.style.getAnimal()
+        bodyScale = ToontownGlobals.toonBodyScales[animalStyle]
+        return bodyScale
+
+    def resetHeight(self):
+        if hasattr(self, 'style') and self.style:
+            animal = self.style.getAnimal()
+            bodyScale = ToontownGlobals.toonBodyScales[animal]
+            headScale = ToontownGlobals.toonHeadScales[animal][2]
+            shoulderHeight = ToontownGlobals.legHeightDict[self.style.legs] * bodyScale + ToontownGlobals.torsoHeightDict[self.style.torso] * bodyScale
+            height = shoulderHeight + ToontownGlobals.headHeightDict[self.style.head] * headScale
+            self.shoulderHeight = shoulderHeight
+            if self.cheesyEffect == ToontownGlobals.CEBigToon or self.cheesyEffect == ToontownGlobals.CEBigWhite:
+                height *= ToontownGlobals.BigToonScale
+            elif self.cheesyEffect == ToontownGlobals.CESmallToon:
+                height *= ToontownGlobals.SmallToonScale
+            self.setHeight(height)
+
+    def generateToonLegs(self, copy = 1):
+        global Preloaded
+        legStyle = self.style.legs
+        filePrefix = LegDict.get(legStyle)
+        if filePrefix is None:
+            self.notify.error('unknown leg style: %s' % legStyle)
+        self.loadModel(Preloaded[filePrefix+'-1000'], 'legs', '1000', True)
+        self.loadModel(Preloaded[filePrefix+'-500'], 'legs', '500', True)
+        self.loadModel(Preloaded[filePrefix+'-250'], 'legs', '250', True)
+        if not copy:
+            self.showPart('legs', '1000')
+            self.showPart('legs', '500')
+            self.showPart('legs', '250')
+        self.loadAnims(LegsAnimDict[legStyle], 'legs', '1000')
+        self.loadAnims(LegsAnimDict[legStyle], 'legs', '500')
+        self.loadAnims(LegsAnimDict[legStyle], 'legs', '250')
+        self.findAllMatches('**/boots_short').stash()
+        self.findAllMatches('**/boots_long').stash()
+        self.findAllMatches('**/shoes').stash()
+
+    def swapToonLegs(self, legStyle, copy = 1):
+        self.unparentToonParts()
+        self.removePart('legs', '1000')
+        self.removePart('legs', '500')
+        self.removePart('legs', '250')
+        # Bugfix: Until upstream Panda3D includes this, we have to do it here.
+        if 'legs' in self._Actor__commonBundleHandles:
+            del self._Actor__commonBundleHandles['legs']
+        self.style.legs = legStyle
+        self.generateToonLegs(copy)
+        self.generateToonColor()
+        self.parentToonParts()
+        self.rescaleToon()
+        self.resetHeight()
+        del self.shadowJoint
+        self.initializeDropShadow()
+        self.initializeNametag3d()
+
+    def generateToonTorso(self, copy = 1, genClothes = 1):
+        global Preloaded
+        torsoStyle = self.style.torso
+        filePrefix = TorsoDict.get(torsoStyle)
+        if filePrefix is None:
+            self.notify.error('unknown torso style: %s' % torsoStyle)
+        self.loadModel(Preloaded[filePrefix+'-1000'], 'torso', '1000', True)
+        if len(torsoStyle) == 1:
+            self.loadModel(Preloaded[filePrefix+'-1000'], 'torso', '500', True)
+            self.loadModel(Preloaded[filePrefix+'-1000'], 'torso', '250', True)
+        else:
+            self.loadModel(Preloaded[filePrefix+'-500'], 'torso', '500', True)
+            self.loadModel(Preloaded[filePrefix+'-250'], 'torso', '250', True)
+        if not copy:
+            self.showPart('torso', '1000')
+            self.showPart('torso', '500')
+            self.showPart('torso', '250')
+        self.loadAnims(TorsoAnimDict[torsoStyle], 'torso', '1000')
+        self.loadAnims(TorsoAnimDict[torsoStyle], 'torso', '500')
+        self.loadAnims(TorsoAnimDict[torsoStyle], 'torso', '250')
+        if genClothes == 1 and not len(torsoStyle) == 1:
+            self.generateToonClothes()
+
+    def swapToonTorso(self, torsoStyle, copy = 1, genClothes = 1):
+        self.unparentToonParts()
+        self.removePart('torso', '1000')
+        self.removePart('torso', '500')
+        self.removePart('torso', '250')
+        # Bugfix: Until upstream Panda3D includes this, we have to do it here.
+        if 'torso' in self._Actor__commonBundleHandles:
+            del self._Actor__commonBundleHandles['torso']
+        self.style.torso = torsoStyle
+        self.generateToonTorso(copy, genClothes)
+        self.generateToonColor()
+        self.parentToonParts()
+        self.rescaleToon()
+        self.resetHeight()
+        self.setupToonNodes()
+        self.generateBackpack()
+
+    def generateToonHead(self, copy = 1):
+        headHeight = ToonHead.generateToonHead(self, copy, self.style, ('1000', '500', '250'))
+        if self.style.getAnimal() == 'dog':
+            self.loadAnims(HeadAnimDict[self.style.head], 'head', '1000')
+            self.loadAnims(HeadAnimDict[self.style.head], 'head', '500')
+            self.loadAnims(HeadAnimDict[self.style.head], 'head', '250')
+
+    def swapToonHead(self, headStyle, copy = 1):
+        self.stopLookAroundNow()
+        self.eyelids.request('open')
+        self.unparentToonParts()
+        self.removePart('head', '1000')
+        self.removePart('head', '500')
+        self.removePart('head', '250')
+        # Bugfix: Until upstream Panda3D includes this, we have to do it here.
+        if 'head' in self._Actor__commonBundleHandles:
+            del self._Actor__commonBundleHandles['head']
+        self.style.head = headStyle
+        self.generateToonHead(copy)
+        self.generateToonColor()
+        self.parentToonParts()
+        self.rescaleToon()
+        self.resetHeight()
+        self.eyelids.request('open')
+        self.startLookAround()
+
+    def generateToonColor(self):
+        ToonHead.generateToonColor(self, self.style)
+        armColor = self.style.getArmColor()
+        gloveColor = self.style.getGloveColor()
+        legColor = self.style.getLegColor()
+        for lodName in self.getLODNames():
+            torso = self.getPart('torso', lodName)
+            if len(self.style.torso) == 1:
+                parts = torso.findAllMatches('**/torso*')
+                parts.setColor(armColor)
+            for pieceName in ('arms', 'neck'):
+                piece = torso.find('**/' + pieceName)
+                piece.setColor(armColor)
+
+            hands = torso.find('**/hands')
+            hands.setColor(gloveColor)
+            legs = self.getPart('legs', lodName)
+            for pieceName in ('legs', 'feet'):
+                piece = legs.find('**/%s;+s' % pieceName)
+                piece.setColor(legColor)
+
+        if self.cheesyEffect == ToontownGlobals.CEGreenToon:
+            self.reapplyCheesyEffect()
+
+    def swapToonColor(self, dna):
+        self.setStyle(dna)
+        self.generateToonColor()
+
+    def __swapToonClothes(self, dna):
+        self.setStyle(dna)
+        self.generateToonClothes(fromNet=1)
+
+    def sendLogSuspiciousEvent(self, msg):
+        pass
+
+    def generateToonClothes(self, fromNet = 0):
+        swappedTorso = 0
+        if self.hasLOD():
+            if self.style.getGender() == 'f' and fromNet == 0:
+                try:
+                    bottomPair = ToonDNA.GirlBottoms[self.style.botTex]
+                except:
+                    bottomPair = ToonDNA.GirlBottoms[0]
+
+                if len(self.style.torso) < 2:
+                    self.sendLogSuspiciousEvent('nakedToonDNA %s was requested' % self.style.torso)
+                    return 0
+                elif self.style.torso[1] == 's' and bottomPair[1] == ToonDNA.SKIRT:
+                    self.swapToonTorso(self.style.torso[0] + 'd', genClothes=0)
+                    swappedTorso = 1
+                elif self.style.torso[1] == 'd' and bottomPair[1] == ToonDNA.SHORTS:
+                    self.swapToonTorso(self.style.torso[0] + 's', genClothes=0)
+                    swappedTorso = 1
+            try:
+                texName = ToonDNA.Shirts[self.style.topTex]
+            except:
+                texName = ToonDNA.Shirts[0]
+
+            shirtTex = loader.loadTexture(texName, okMissing=True)
+            if shirtTex is None:
+                self.sendLogSuspiciousEvent('failed to load texture %s' % texName)
+                shirtTex = loader.loadTexture(ToonDNA.Shirts[0])
+            shirtTex.setMinfilter(Texture.FTLinearMipmapLinear)
+            shirtTex.setMagfilter(Texture.FTLinear)
+            try:
+                shirtColor = ToonDNA.ClothesColors[self.style.topTexColor]
+            except:
+                shirtColor = ToonDNA.ClothesColors[0]
+
+            try:
+                texName = ToonDNA.Sleeves[self.style.sleeveTex]
+            except:
+                texName = ToonDNA.Sleeves[0]
+
+            sleeveTex = loader.loadTexture(texName, okMissing=True)
+            if sleeveTex is None:
+                self.sendLogSuspiciousEvent('failed to load texture %s' % texName)
+                sleeveTex = loader.loadTexture(ToonDNA.Sleeves[0])
+            sleeveTex.setMinfilter(Texture.FTLinearMipmapLinear)
+            sleeveTex.setMagfilter(Texture.FTLinear)
+            try:
+                sleeveColor = ToonDNA.ClothesColors[self.style.sleeveTexColor]
+            except:
+                sleeveColor = ToonDNA.ClothesColors[0]
+
+            if self.style.getGender() == 'm':
+                try:
+                    texName = ToonDNA.BoyShorts[self.style.botTex]
+                except:
+                    texName = ToonDNA.BoyShorts[0]
+
+            else:
+                try:
+                    texName = ToonDNA.GirlBottoms[self.style.botTex][0]
+                except:
+                    texName = ToonDNA.GirlBottoms[0][0]
+
+            bottomTex = loader.loadTexture(texName, okMissing=True)
+            if bottomTex is None:
+                self.sendLogSuspiciousEvent('failed to load texture %s' % texName)
+                if self.style.getGender() == 'm':
+                    bottomTex = loader.loadTexture(ToonDNA.BoyShorts[0])
+                else:
+                    bottomTex = loader.loadTexture(ToonDNA.GirlBottoms[0][0])
+            bottomTex.setMinfilter(Texture.FTLinearMipmapLinear)
+            bottomTex.setMagfilter(Texture.FTLinear)
+            try:
+                bottomColor = ToonDNA.ClothesColors[self.style.botTexColor]
+            except:
+                bottomColor = ToonDNA.ClothesColors[0]
+
+            darkBottomColor = bottomColor * 0.5
+            darkBottomColor.setW(1.0)
+            for lodName in self.getLODNames():
+                thisPart = self.getPart('torso', lodName)
+                top = thisPart.find('**/torso-top')
+                top.setTexture(shirtTex, 1)
+                top.setColor(shirtColor)
+                sleeves = thisPart.find('**/sleeves')
+                sleeves.setTexture(sleeveTex, 1)
+                sleeves.setColor(sleeveColor)
+                bottoms = thisPart.findAllMatches('**/torso-bot')
+                for bottomNum in xrange(0, bottoms.getNumPaths()):
+                    bottom = bottoms.getPath(bottomNum)
+                    bottom.setTexture(bottomTex, 1)
+                    bottom.setColor(bottomColor)
+
+                caps = thisPart.findAllMatches('**/torso-bot-cap')
+                caps.setColor(darkBottomColor)
+
+        return swappedTorso
+
+    def generateHat(self, fromRTM = False):
+        hat = self.getHat()
+        if hat[0] >= len(ToonDNA.HatModels):
+            self.sendLogSuspiciousEvent('tried to put a wrong hat idx %d' % hat[0])
+            return
+        if len(self.hatNodes) > 0:
+            for hatNode in self.hatNodes:
+                hatNode.removeNode()
+
+            self.hatNodes = []
+        self.showEars()
+        if hat[0] != 0:
+            hatGeom = loader.loadModel(ToonDNA.HatModels[hat[0]], okMissing=True)
+            if hatGeom:
+                if hat[0] == 54:
+                    self.hideEars()
+                if hat[1] != 0:
+                    texName = ToonDNA.HatTextures[hat[1]]
+                    tex = loader.loadTexture(texName, okMissing=True)
+                    if tex is None:
+                        self.sendLogSuspiciousEvent('failed to load texture %s' % texName)
+                    else:
+                        tex.setMinfilter(Texture.FTLinearMipmapLinear)
+                        tex.setMagfilter(Texture.FTLinear)
+                        hatGeom.setTexture(tex, 1)
+                if fromRTM:
+                    reload(AccessoryGlobals)
+                transOffset = None
+                if AccessoryGlobals.ExtendedHatTransTable.get(hat[0]):
+                    transOffset = AccessoryGlobals.ExtendedHatTransTable[hat[0]].get(self.style.head[:2])
+                if transOffset is None:
+                    transOffset = AccessoryGlobals.HatTransTable.get(self.style.head[:2])
+                    if transOffset is None:
+                        return
+                hatGeom.setPos(transOffset[0][0], transOffset[0][1], transOffset[0][2])
+                hatGeom.setHpr(transOffset[1][0], transOffset[1][1], transOffset[1][2])
+                hatGeom.setScale(transOffset[2][0], transOffset[2][1], transOffset[2][2])
+                headNodes = self.findAllMatches('**/__Actor_head')
+                for headNode in headNodes:
+                    hatNode = headNode.attachNewNode('hatNode')
+                    self.hatNodes.append(hatNode)
+                    hatGeom.instanceTo(hatNode)
+
+    def generateGlasses(self, fromRTM = False):
+        glasses = self.getGlasses()
+        if glasses[0] >= len(ToonDNA.GlassesModels):
+            self.sendLogSuspiciousEvent('tried to put a wrong glasses idx %d' % glasses[0])
+            return
+        if len(self.glassesNodes) > 0:
+            for glassesNode in self.glassesNodes:
+                glassesNode.removeNode()
+
+            self.glassesNodes = []
+        self.showEyelashes()
+        if glasses[0] != 0:
+            glassesGeom = loader.loadModel(ToonDNA.GlassesModels[glasses[0]], okMissing=True)
+            if glassesGeom:
+                if glasses[0] in [15, 16]:
+                    self.hideEyelashes()
+                if glasses[1] != 0:
+                    texName = ToonDNA.GlassesTextures[glasses[1]]
+                    tex = loader.loadTexture(texName, okMissing=True)
+                    if tex is None:
+                        self.sendLogSuspiciousEvent('failed to load texture %s' % texName)
+                    else:
+                        tex.setMinfilter(Texture.FTLinearMipmapLinear)
+                        tex.setMagfilter(Texture.FTLinear)
+                        glassesGeom.setTexture(tex, 1)
+                if fromRTM:
+                    reload(AccessoryGlobals)
+                transOffset = None
+                if AccessoryGlobals.ExtendedGlassesTransTable.get(glasses[0]):
+                    transOffset = AccessoryGlobals.ExtendedGlassesTransTable[glasses[0]].get(self.style.head[:2])
+                if transOffset is None:
+                    transOffset = AccessoryGlobals.GlassesTransTable.get(self.style.head[:2])
+                    if transOffset is None:
+                        return
+                glassesGeom.setPos(transOffset[0][0], transOffset[0][1], transOffset[0][2])
+                glassesGeom.setHpr(transOffset[1][0], transOffset[1][1], transOffset[1][2])
+                glassesGeom.setScale(transOffset[2][0], transOffset[2][1], transOffset[2][2])
+                headNodes = self.findAllMatches('**/__Actor_head')
+                for headNode in headNodes:
+                    glassesNode = headNode.attachNewNode('glassesNode')
+                    self.glassesNodes.append(glassesNode)
+                    glassesGeom.instanceTo(glassesNode)
+
+    def generateBackpack(self, fromRTM = False):
+        backpack = self.getBackpack()
+        if backpack[0] >= len(ToonDNA.BackpackModels):
+            self.sendLogSuspiciousEvent('tried to put a wrong backpack idx %d' % backpack[0])
+            return
+        if len(self.backpackNodes) > 0:
+            for backpackNode in self.backpackNodes:
+                backpackNode.removeNode()
+
+            self.backpackNodes = []
+        if backpack[0] != 0:
+            geom = loader.loadModel(ToonDNA.BackpackModels[backpack[0]], okMissing=True)
+            if geom:
+                if backpack[1] != 0:
+                    texName = ToonDNA.BackpackTextures[backpack[1]]
+                    tex = loader.loadTexture(texName, okMissing=True)
+                    if tex is None:
+                        self.sendLogSuspiciousEvent('failed to load texture %s' % texName)
+                    else:
+                        tex.setMinfilter(Texture.FTLinearMipmapLinear)
+                        tex.setMagfilter(Texture.FTLinear)
+                        geom.setTexture(tex, 1)
+                if fromRTM:
+                    reload(AccessoryGlobals)
+                transOffset = None
+                if AccessoryGlobals.ExtendedBackpackTransTable.get(backpack[0]):
+                    transOffset = AccessoryGlobals.ExtendedBackpackTransTable[backpack[0]].get(self.style.torso[:1])
+                if transOffset is None:
+                    transOffset = AccessoryGlobals.BackpackTransTable.get(self.style.torso[:1])
+                    if transOffset is None:
+                        return
+                geom.setPos(transOffset[0][0], transOffset[0][1], transOffset[0][2])
+                geom.setHpr(transOffset[1][0], transOffset[1][1], transOffset[1][2])
+                geom.setScale(transOffset[2][0], transOffset[2][1], transOffset[2][2])
+                nodes = self.findAllMatches('**/def_joint_attachFlower')
+                for node in nodes:
+                    theNode = node.attachNewNode('backpackNode')
+                    self.backpackNodes.append(theNode)
+                    geom.instanceTo(theNode)
+
+    def generateShoes(self):
+        shoes = self.getShoes()
+        if shoes[0] >= len(ToonDNA.ShoesModels):
+            self.sendLogSuspiciousEvent('tried to put a wrong shoes idx %d' % shoes[0])
+            return
+        self.findAllMatches('**/feet;+s').stash()
+        self.findAllMatches('**/boots_short;+s').stash()
+        self.findAllMatches('**/boots_long;+s').stash()
+        self.findAllMatches('**/shoes;+s').stash()
+        geoms = self.findAllMatches('**/%s;+s' % ToonDNA.ShoesModels[shoes[0]])
+        for geom in geoms:
+            geom.unstash()
+
+        if shoes[0] != 0:
+            for geom in geoms:
+                texName = ToonDNA.ShoesTextures[shoes[1]]
+                if self.style.legs == 'l' and shoes[0] == 3:
+                    texName = texName[:-4] + 'LL.jpg'
+                tex = loader.loadTexture(texName, okMissing=True)
+                if tex is None:
+                    self.sendLogSuspiciousEvent('failed to load texture %s' % texName)
+                else:
+                    tex.setMinfilter(Texture.FTLinearMipmapLinear)
+                    tex.setMagfilter(Texture.FTLinear)
+                    geom.setTexture(tex, 1)
+
+    def generateToonAccessories(self):
+        self.generateHat()
+        self.generateGlasses()
+        self.generateBackpack()
+        self.generateShoes()
+
+    def setHat(self, hatIdx, textureIdx, colorIdx, fromRTM = False):
+        self.hat = (hatIdx, textureIdx, colorIdx)
+        self.generateHat(fromRTM=fromRTM)
+
+    def getHat(self):
+        return self.hat
+
+    def setGlasses(self, glassesIdx, textureIdx, colorIdx, fromRTM = False):
+        self.glasses = (glassesIdx, textureIdx, colorIdx)
+        self.generateGlasses(fromRTM=fromRTM)
+
+    def getGlasses(self):
+        return self.glasses
+
+    def setBackpack(self, backpackIdx, textureIdx, colorIdx, fromRTM = False):
+        self.backpack = (backpackIdx, textureIdx, colorIdx)
+        self.generateBackpack(fromRTM=fromRTM)
+
+    def getBackpack(self):
+        return self.backpack
+
+    def setShoes(self, shoesIdx, textureIdx, colorIdx):
+        self.shoes = (shoesIdx, textureIdx, colorIdx)
+        self.generateShoes()
+
+    def getShoes(self):
+        return self.shoes
+
+    def getDialogueArray(self):
+        animalType = self.style.getType()
+        if self.isDisguised or self.cogHead:
+            dialogueArray = Suit.SuitDialogArray
+        else:
+            if animalType == 'dog':
+                dialogueArray = DogDialogueArray
+            elif animalType == 'cat':
+                dialogueArray = CatDialogueArray
+            elif animalType == 'horse':
+                dialogueArray = HorseDialogueArray
+            elif animalType == 'mouse':
+                dialogueArray = MouseDialogueArray
+            elif animalType == 'rabbit':
+                dialogueArray = RabbitDialogueArray
+            elif animalType == 'duck':
+                dialogueArray = DuckDialogueArray
+            elif animalType == 'monkey':
+                dialogueArray = MonkeyDialogueArray
+            elif animalType == 'bear':
+                dialogueArray = BearDialogueArray
+            elif animalType == 'pig':
+                dialogueArray = PigDialogueArray
+            elif animalType == 'deer':
+                dialogueArray = DeerDialogueArray
+            else:
+                dialogueArray = None
+        return dialogueArray
+
+    def getShadowJoint(self):
+        if hasattr(self, 'shadowJoint'):
+            return self.shadowJoint
+        shadowJoint = NodePath('shadowJoint')
+        for lodName in self.getLODNames():
+            joint = self.getPart('legs', lodName).find('**/joint_shadow')
+            shadowJoint = shadowJoint.instanceTo(joint)
+
+        self.shadowJoint = shadowJoint
+        return shadowJoint
+
+    def getNametagJoints(self):
+        joints = []
+        for lodName in self.getLODNames():
+            bundle = self.getPartBundle('legs', lodName)
+            joint = bundle.findChild('joint_nameTag')
+            if joint:
+                joints.append(joint)
+
+        return joints
+
+    def getRightHands(self):
+        return self.rightHands
+
+    def getLeftHands(self):
+        return self.leftHands
+
+    def getHeadParts(self):
+        return self.headParts
+
+    def getHipsParts(self):
+        return self.hipsParts
+
+    def getTorsoParts(self):
+        return self.torsoParts
+
+    def getLegsParts(self):
+        return self.legsParts
+
+    def findSomethingToLookAt(self):
+        if self.randGen.random() < 0.1 or not hasattr(self, 'cr'):
+            x = self.randGen.choice((-0.8,
+             -0.5,
+             0,
+             0.5,
+             0.8))
+            y = self.randGen.choice((-0.5,
+             0,
+             0.5,
+             0.8))
+            self.lerpLookAt(Point3(x, 1.5, y), blink=1)
+            return
+        nodePathList = []
+        for id, obj in self.cr.doId2do.items():
+            if hasattr(obj, 'getStareAtNodeAndOffset') and obj != self:
+                node, offset = obj.getStareAtNodeAndOffset()
+                if node.getY(self) > 0.0:
+                    nodePathList.append((node, offset))
+
+        if nodePathList:
+            nodePathList.sort(lambda x, y: cmp(x[0].getDistance(self), y[0].getDistance(self)))
+            if len(nodePathList) >= 2:
+                if self.randGen.random() < 0.9:
+                    chosenNodePath = nodePathList[0]
+                else:
+                    chosenNodePath = nodePathList[1]
+            else:
+                chosenNodePath = nodePathList[0]
+            self.lerpLookAt(chosenNodePath[0].getPos(self), blink=1)
+        else:
+            ToonHead.findSomethingToLookAt(self)
+
+    def setForceJumpIdle(self, value):
+        self.forceJumpIdle = value
+
+    def setupPickTrigger(self):
+        Avatar.Avatar.setupPickTrigger(self)
+        torso = self.getPart('torso', '1000')
+        if torso == None:
+            return 0
+        self.pickTriggerNp.reparentTo(torso)
+        size = self.style.getTorsoSize()
+        if size == 'short':
+            self.pickTriggerNp.setPosHprScale(0, 0, 0.5, 0, 0, 0, 1.5, 1.5, 2)
+        elif size == 'medium':
+            self.pickTriggerNp.setPosHprScale(0, 0, 0.5, 0, 0, 0, 1, 1, 2)
+        else:
+            self.pickTriggerNp.setPosHprScale(0, 0, 1, 0, 0, 0, 1, 1, 2)
+        return 1
+
+    def showBooks(self):
+        for bookActor in self.getBookActors():
+            bookActor.show()
+
+    def hideBooks(self):
+        for bookActor in self.getBookActors():
+            bookActor.hide()
+
+    def getWake(self):
+        if not self.wake:
+            self.wake = Wake.Wake(render, self)
+        return self.wake
+
+    def getJar(self):
+        if not self.jar:
+            self.jar = loader.loadModel('phase_5.5/models/estate/jellybeanJar')
+            self.jar.setP(290.0)
+            self.jar.setY(0.5)
+            self.jar.setZ(0.5)
+            self.jar.setScale(0.0)
+        return self.jar
+
+    def removeJar(self):
+        if self.jar:
+            self.jar.removeNode()
+            self.jar = None
+
+    def setSpeed(self, forwardSpeed, rotateSpeed):
+        self.forwardSpeed = forwardSpeed
+        self.rotateSpeed = rotateSpeed
+        action = None
+        if self.standWalkRunReverse != None:
+            if forwardSpeed >= ToontownGlobals.RunCutOff:
+                action = OTPGlobals.RUN_INDEX
+            elif forwardSpeed > ToontownGlobals.WalkCutOff:
+                action = OTPGlobals.WALK_INDEX
+            elif forwardSpeed < -ToontownGlobals.WalkCutOff:
+                action = OTPGlobals.REVERSE_INDEX
+            elif rotateSpeed != 0.0:
+                action = OTPGlobals.WALK_INDEX
+            else:
+                action = OTPGlobals.STAND_INDEX
+            anim, rate = self.standWalkRunReverse[action]
+            self.motion.enter()
+            self.motion.setState(anim, rate)
+            if anim != self.playingAnim:
+                self.playingAnim = anim
+                self.playingRate = rate
+                self.stop()
+                self.loop(anim)
+                self.setPlayRate(rate, anim)
+                if self.isDisguised:
+                    rightHand = self.suit.rightHand
+                    numChildren = rightHand.getNumChildren()
+                    if numChildren > 0:
+                        anim = 'tray-' + anim
+                        if anim == 'tray-run':
+                            anim = 'tray-walk'
+                    self.suit.stop()
+                    self.suit.loop(anim)
+                    self.suit.setPlayRate(rate, anim)
+            elif rate != self.playingRate:
+                self.playingRate = rate
+                if not self.isDisguised:
+                    self.setPlayRate(rate, anim)
+                else:
+                    self.suit.setPlayRate(rate, anim)
+            showWake, wakeWaterHeight = ZoneUtil.getWakeInfo()
+            if showWake and self.getZ(render) < wakeWaterHeight and abs(forwardSpeed) > ToontownGlobals.WalkCutOff:
+                currT = globalClock.getFrameTime()
+                deltaT = currT - self.lastWakeTime
+                if action == OTPGlobals.RUN_INDEX and deltaT > ToontownGlobals.WakeRunDelta or deltaT > ToontownGlobals.WakeWalkDelta:
+                    self.getWake().createRipple(wakeWaterHeight, rate=1, startFrame=4)
+                    self.lastWakeTime = currT
+                    if not self.swimRunLooping:
+                        base.playSfx(self.swimRunSfx, node=self, looping=1)
+                    self.lastWakeTime = currT
+                    self.swimRunLooping = True
+            else:
+                self.stopSwimRunSfx()
+        return action
+
+    def stopSwimRunSfx(self):
+        if self.swimRunLooping:
+            self.swimRunSfx.stop()
+            self.swimRunLooping = False
+
+    def enterOff(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.setActiveShadow(0)
+        self.playingAnim = None
+
+    def exitOff(self):
+        pass
+
+    def enterNeutral(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        anim = 'neutral'
+        self.pose(anim, int(self.getNumFrames(anim) * self.randGen.random()))
+        self.loop(anim, restart=0)
+        self.setPlayRate(animMultiplier, anim)
+        self.playingAnim = anim
+        self.setActiveShadow(1)
+
+    def exitNeutral(self):
+        self.stop()
+
+    def enterVictory(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        anim = 'victory'
+        frame = int(ts * self.getFrameRate(anim) * animMultiplier)
+        self.pose(anim, frame)
+        self.loop('victory', restart=0)
+        self.setPlayRate(animMultiplier, 'victory')
+        self.playingAnim = anim
+        self.setActiveShadow(0)
+
+    def exitVictory(self):
+        self.stop()
+
+    def enterHappy(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.playingAnim = None
+        self.playingRate = None
+        self.standWalkRunReverse = (('neutral', 1.0),
+         ('walk', 1.0),
+         ('run', 1.0),
+         ('walk', -1.0))
+        self.setSpeed(self.forwardSpeed, self.rotateSpeed)
+        self.setActiveShadow(1)
+
+    def exitHappy(self):
+        self.standWalkRunReverse = None
+        self.stop()
+        self.motion.exit()
+
+    def enterSad(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.playingAnim = 'sad'
+        self.playingRate = None
+        self.standWalkRunReverse = (('sad-neutral', 1.0),
+         ('sad-walk', 1.2),
+         ('sad-walk', 1.2),
+         ('sad-walk', -1.0))
+        self.setSpeed(0, 0)
+        Emote.globalEmote.disableBody(self, 'toon, enterSad')
+        self.setActiveShadow(1)
+        if self.isLocal():
+            self.controlManager.disableAvatarJump()
+
+    def exitSad(self):
+        self.standWalkRunReverse = None
+        self.stop()
+        self.motion.exit()
+        Emote.globalEmote.releaseBody(self, 'toon, exitSad')
+        if self.isLocal():
+            self.controlManager.enableAvatarJump()
+
+    def enterCatching(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.playingAnim = None
+        self.playingRate = None
+        self.standWalkRunReverse = (('catch-neutral', 1.0),
+         ('catch-run', 1.0),
+         ('catch-run', 1.0),
+         ('catch-run', -1.0))
+        self.setSpeed(self.forwardSpeed, self.rotateSpeed)
+        self.setActiveShadow(1)
+
+    def exitCatching(self):
+        self.standWalkRunReverse = None
+        self.stop()
+        self.motion.exit()
+
+    def enterCatchEating(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.playingAnim = None
+        self.playingRate = None
+        self.standWalkRunReverse = (('catch-eatneutral', 1.0),
+         ('catch-eatnrun', 1.0),
+         ('catch-eatnrun', 1.0),
+         ('catch-eatnrun', -1.0))
+        self.setSpeed(self.forwardSpeed, self.rotateSpeed)
+        self.setActiveShadow(0)
+
+    def exitCatchEating(self):
+        self.standWalkRunReverse = None
+        self.stop()
+        self.motion.exit()
+
+    def enterWalk(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('walk')
+        self.setPlayRate(animMultiplier, 'walk')
+        self.setActiveShadow(1)
+
+    def exitWalk(self):
+        self.stop()
+
+    def getJumpDuration(self):
+        if self.playingAnim == 'neutral':
+            return self.getDuration('jump', 'legs')
+        else:
+            return self.getDuration('running-jump', 'legs')
+
+    def enterJump(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if self.playingAnim == 'neutral':
+            anim = 'jump'
+        else:
+            anim = 'running-jump'
+        self.playingAnim = anim
+        self.setPlayRate(animMultiplier, anim)
+        self.play(anim)
+        self.setActiveShadow(1)
+
+    def exitJump(self):
+        self.stop()
+        self.playingAnim = 'neutral'
+
+    def enterJumpSquat(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if self.playingAnim == 'neutral':
+            anim = 'jump-squat'
+        else:
+            anim = 'running-jump-squat'
+        self.playingAnim = anim
+        self.setPlayRate(animMultiplier, anim)
+        self.play(anim)
+        self.setActiveShadow(1)
+
+    def exitJumpSquat(self):
+        self.stop()
+        self.playingAnim = 'neutral'
+
+    def enterJumpAirborne(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if self.playingAnim == 'neutral' or self.forceJumpIdle:
+            anim = 'jump-idle'
+        else:
+            anim = 'running-jump-idle'
+        self.playingAnim = anim
+        self.setPlayRate(animMultiplier, anim)
+        self.loop(anim)
+        self.setActiveShadow(1)
+
+    def exitJumpAirborne(self):
+        self.stop()
+        self.playingAnim = 'neutral'
+
+    def enterJumpLand(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if self.playingAnim == 'running-jump-idle':
+            anim = 'running-jump-land'
+            skipStart = 0.2
+        else:
+            anim = 'jump-land'
+            skipStart = 0.0
+        self.playingAnim = anim
+        self.setPlayRate(animMultiplier, anim)
+        self.play(anim)
+        self.setActiveShadow(1)
+
+    def exitJumpLand(self):
+        self.stop()
+        self.playingAnim = 'neutral'
+
+    def enterRun(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('run')
+        self.setPlayRate(animMultiplier, 'run')
+        Emote.globalEmote.disableBody(self, 'toon, enterRun')
+        self.setActiveShadow(1)
+
+    def exitRun(self):
+        self.stop()
+        Emote.globalEmote.releaseBody(self, 'toon, exitRun')
+
+    def enterSwim(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.stopSwimRunSfx()
+        Emote.globalEmote.disableAll(self, 'enterSwim')
+        self.playingAnim = 'swim'
+        self.loop('swim')
+        self.setPlayRate(animMultiplier, 'swim')
+        self.getGeomNode().setP(-89.0)
+        self.dropShadow.hide()
+        if self.isLocal():
+            self.book.obscureButton(1) #this hides stickerbook when in water
+            self.useSwimControls()
+        self.nametag3d.setPos(0, -2, 1)
+        self.startBobSwimTask()
+        self.setActiveShadow(0)
+
+    def enterCringe(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('cringe')
+        self.getGeomNode().setPos(0, 0, -2)
+        self.setPlayRate(animMultiplier, 'swim')
+
+    def exitCringe(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.stop()
+        self.getGeomNode().setPos(0, 0, 0)
+        self.playingAnim = 'neutral'
+        self.setPlayRate(animMultiplier, 'swim')
+
+    def enterDive(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('swim')
+        if hasattr(self.getGeomNode(), 'setPos'):
+            self.getGeomNode().setPos(0, 0, -2)
+            self.setPlayRate(animMultiplier, 'swim')
+            self.setActiveShadow(0)
+            self.dropShadow.hide()
+            self.nametag3d.setPos(0, -2, 1)
+
+    def exitDive(self):
+        self.stop()
+        self.getGeomNode().setPos(0, 0, 0)
+        self.playingAnim = 'neutral'
+        self.dropShadow.show()
+        self.nametag3d.setPos(0, 0, self.height + 0.5)
+
+    def enterSwimHold(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.getGeomNode().setPos(0, 0, -2)
+        self.nametag3d.setPos(0, -2, 1)
+        self.pose('swim', 55)
+
+    def exitSwimHold(self):
+        self.stop()
+        self.getGeomNode().setPos(0, 0, 0)
+        self.playingAnim = 'neutral'
+        self.dropShadow.show()
+        self.nametag3d.setPos(0, 0, self.height + 0.5)
+
+    def exitSwim(self):
+        self.stop()
+        self.playingAnim = 'neutral'
+        self.stopBobSwimTask()
+        self.getGeomNode().setPosHpr(0, 0, 0, 0, 0, 0)
+        self.dropShadow.show()
+        if self.isLocal():
+            self.useWalkControls()
+            self.book.obscureButton(False) #this unhides stickerbook
+        self.nametag3d.setPos(0, 0, self.height + 0.5)
+        Emote.globalEmote.releaseAll(self, 'exitSwim')
+
+    def startBobSwimTask(self):
+        if getattr(self, 'swimBob', None):
+            self.swimBob.finish()
+            self.swimBob = None
+        self.nametag3d.setZ(5.0)
+        geomNode = self.getGeomNode()
+        geomNode.setZ(4.0)
+        self.swimBob = Sequence(
+            geomNode.posInterval(1, Point3(0, -3, 3), startPos=Point3(0, -3, 4), blendType='easeInOut'),
+            geomNode.posInterval(1, Point3(0, -3, 4), startPos=Point3(0, -3, 3), blendType='easeInOut'))
+        self.swimBob.loop()
+
+    def stopBobSwimTask(self):
+        swimBob = getattr(self, 'swimBob', None)
+        if swimBob:
+            swimBob.finish()
+        self.getGeomNode().setPos(0, 0, 0)
+        self.nametag3d.setZ(1.0)
+
+    def enterOpenBook(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableAll(self, 'enterOpenBook')
+        self.playingAnim = 'openBook'
+        self.stopLookAround()
+        self.lerpLookAt(Point3(0, 1, -2))
+        bookTracks = Parallel()
+        for bookActor in self.getBookActors():
+            bookTracks.append(ActorInterval(bookActor, 'book', startTime=1.2, endTime=1.5))
+
+        bookTracks.append(ActorInterval(self, 'book', startTime=1.2, endTime=1.5))
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('openBook')
+        else:
+            trackName = 'openBook'
+        self.track = Sequence(Func(self.showBooks), bookTracks, Wait(0.1), name=trackName)
+        if callback:
+            self.track.setDoneEvent(self.track.getName())
+            self.acceptOnce(self.track.getName(), callback, extraArgs)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def exitOpenBook(self):
+        self.playingAnim = 'neutralob'
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        
+        self.hideBooks()
+        self.startLookAround()
+        Emote.globalEmote.releaseAll(self, 'exitOpenBook')
+
+    def enterReadBook(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableBody(self, 'enterReadBook')
+        self.playingAnim = 'readBook'
+        self.stopLookAround()
+        self.lerpLookAt(Point3(0, 1, -2))
+        self.showBooks()
+        for bookActor in self.getBookActors():
+            bookActor.pingpong('book', fromFrame=38, toFrame=118)
+
+        self.pingpong('book', fromFrame=38, toFrame=118)
+        self.setActiveShadow(0)
+
+    def exitReadBook(self):
+        self.playingAnim = 'neutralrb'
+        self.hideBooks()
+        for bookActor in self.getBookActors():
+            bookActor.stop()
+
+        self.startLookAround()
+        Emote.globalEmote.releaseBody(self, 'exitReadBook')
+
+    def enterCloseBook(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableAll(self, 'enterCloseBook')
+        self.playingAnim = 'closeBook'
+        bookTracks = Parallel()
+        for bookActor in self.getBookActors():
+            bookTracks.append(ActorInterval(bookActor, 'book', startTime=4.96, endTime=6.5))
+
+        bookTracks.append(ActorInterval(self, 'book', startTime=4.96, endTime=6.5))
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('closeBook')
+        else:
+            trackName = 'closeBook'
+        self.track = Sequence(Func(self.showBooks), bookTracks, Func(self.hideBooks), name=trackName)
+        if callback:
+            self.track.setDoneEvent(self.track.getName())
+            self.acceptOnce(self.track.getName(), callback, extraArgs)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def exitCloseBook(self):
+        self.playingAnim = 'neutralcb'
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        
+        Emote.globalEmote.releaseAll(self, 'exitCloseBook')
+        
+    def getSoundTeleport(self):
+        if not self.soundTeleport:
+            self.soundTeleport = base.loader.loadSfx('phase_3.5/audio/sfx/AV_teleport.ogg')
+        return self.soundTeleport
+
+    def getTeleportOutTrack(self, autoFinishTrack = 1):
+
+        def showHoles(holes, hands):
+            for hole, hand in zip(holes, hands):
+                hole.reparentTo(hand)
+
+        def reparentHoles(holes, toon):
+            holes[0].reparentTo(toon)
+            holes[1].detachNode()
+            holes[2].detachNode()
+            holes[0].setBin('shadow', 0)
+            holes[0].setDepthTest(0)
+            holes[0].setDepthWrite(0)
+
+        def cleanupHoles(holes):
+            holes[0].detachNode()
+            holes[0].clearBin()
+            holes[0].clearDepthTest()
+            holes[0].clearDepthWrite()
+
+        holes = self.getHoleActors()
+        hands = self.getRightHands()
+        holeTrack = Track((0.0, Func(showHoles, holes, hands)), (0.5, SoundInterval(self.getSoundTeleport(), node=self)), (1.708, Func(reparentHoles, holes, self)), (3.4, Func(cleanupHoles, holes)))
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('teleportOut')
+        else:
+            trackName = 'teleportOut'
+        track = Parallel(holeTrack, name=trackName, autoFinish=autoFinishTrack)
+        for hole in holes:
+            track.append(ActorInterval(hole, 'hole', duration=3.4))
+
+        track.append(ActorInterval(self, 'teleport', duration=3.4))
+        return track
+
+    def startQuestMap(self):
+        pass
+
+    def stopQuestMap(self):
+        pass
+
+    def enterTeleportOut(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        name = self.name
+        if hasattr(self, 'doId'):
+            name += '-' + str(self.doId)
+        self.notify.debug('enterTeleportOut %s' % name)
+        if self.ghostMode or self.isDisguised:
+            if callback:
+                callback(*extraArgs)
+            return
+        self.playingAnim = 'teleport'
+        Emote.globalEmote.disableAll(self, 'enterTeleportOut')
+        if self.isLocal():
+            autoFinishTrack = 0
+        else:
+            autoFinishTrack = 1
+        self.track = self.getTeleportOutTrack(autoFinishTrack)
+        self.track.setDoneEvent(self.track.getName())
+        self.acceptOnce(self.track.getName(), self.finishTeleportOut, [callback, extraArgs])
+        holeClip = PlaneNode('holeClip')
+        self.holeClipPath = self.attachNewNode(holeClip)
+        self.getGeomNode().setClipPlane(self.holeClipPath)
+        self.nametag3d.setClipPlane(self.holeClipPath)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def finishTeleportOut(self, callback = None, extraArgs = []):
+        name = self.name
+        if hasattr(self, 'doId'):
+            name += '-' + str(self.doId)
+        self.notify.debug('finishTeleportOut %s' % name)
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        if hasattr(self, 'animFSM'):
+            self.animFSM.request('TeleportedOut')
+        if callback:
+            callback(*extraArgs)
+
+    def exitTeleportOut(self):
+        name = self.name
+        if hasattr(self, 'doId'):
+            name += '-' + str(self.doId)
+       
+        self.notify.debug('exitTeleportOut %s' % name)
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            self.track = None
+        
+        geomNode = self.getGeomNode()
+        if geomNode and not geomNode.isEmpty():
+            self.getGeomNode().clearClipPlane()
+       
+        if self.nametag3d and not self.nametag3d.isEmpty():
+            self.nametag3d.clearClipPlane()
+        
+        if self.holeClipPath:
+            self.holeClipPath.removeNode()
+            self.holeClipPath = None
+        
+        Emote.globalEmote.releaseAll(self, 'exitTeleportOut')
+        if self and not self.isEmpty():
+            self.show()
+
+    def enterTeleportedOut(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.setActiveShadow(0)
+
+    def exitTeleportedOut(self):
+        pass
+
+    def getDiedInterval(self, autoFinishTrack = 1):
+        sound = loader.loadSfx('phase_5/audio/sfx/ENC_Lose.ogg')
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('died')
+        else:
+            trackName = 'died'
+        ival = Sequence(Func(Emote.globalEmote.disableBody, self), Func(self.sadEyes), Func(self.blinkEyes), Track((0, ActorInterval(self, 'lose')), (2, SoundInterval(sound, node=self)), (5.333, self.scaleInterval(1.5, VBase3(0.01, 0.01, 0.01), blendType='easeInOut'))), Func(self.detachNode), Func(self.setScale, 1, 1, 1), Func(self.normalEyes), Func(self.blinkEyes), Func(Emote.globalEmote.releaseBody, self), name=trackName, autoFinish=autoFinishTrack)
+        return ival
+
+    def enterDied(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if self.ghostMode:
+            if callback:
+                callback(*extraArgs)
+        if self.isDisguised:
+            self.takeOffSuit()
+        self.playingAnim = 'lose'
+        Emote.globalEmote.disableAll(self, 'enterDied')
+        if self.isLocal():
+            autoFinishTrack = 0
+        else:
+            autoFinishTrack = 1
+        if hasattr(self, 'jumpLandAnimFixTask') and self.jumpLandAnimFixTask:
+            self.jumpLandAnimFixTask.remove()
+            self.jumpLandAnimFixTask = None
+        self.track = self.getDiedInterval(autoFinishTrack)
+        if callback:
+            self.track = Sequence(self.track, Func(callback, *extraArgs), autoFinish=autoFinishTrack)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def finishDied(self, callback = None, extraArgs = []):
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        if hasattr(self, 'animFSM'):
+            self.animFSM.request('TeleportedOut')
+        if callback:
+            callback(*extraArgs)
+
+    def exitDied(self):
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        Emote.globalEmote.releaseAll(self, 'exitDied')
+        self.show()
+
+    def getPlaygroundDiedInterval(self, autoFinishTrack = 1):
+        sound = loader.loadSfx('phase_5/audio/sfx/ENC_Lose.ogg')
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('playgroundDied')
+        else:
+            trackName = 'playgroundDied'
+        ival = Sequence(Func(self.sadEyes), Func(self.blinkEyes), Track((0, ActorInterval(self, 'lose', startFrame=0, endFrame=89)), (2, Func(base.playSfx, sound, node=self))), Func(self.blinkEyes), Func(self.normalEyes), name=trackName, autoFinish=autoFinishTrack)
+        return ival
+
+    def enterPlaygroundDied(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if self.ghostMode:
+            if callback:
+                callback(*extraArgs)
+            return
+        if self.isDisguised:
+            self.takeOffSuit()
+        self.playingAnim = 'lose'
+        Emote.globalEmote.disableAll(self, 'enterPlaygroundDied')
+        if self.isLocal():
+            autoFinishTrack = 0
+        else:
+            autoFinishTrack = 1
+        if hasattr(self, 'jumpLandAnimFixTask') and self.jumpLandAnimFixTask:
+            self.jumpLandAnimFixTask.remove()
+            self.jumpLandAnimFixTask = None
+        self.track = self.getPlaygroundDiedInterval(autoFinishTrack)
+        if callback:
+            self.track = Sequence(self.track, Func(callback, *extraArgs), autoFinish=autoFinishTrack)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def finishPlaygroundDied(self, callback = None, extraArgs = []):
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        if callback:
+            callback(*extraArgs)
+
+    def exitPlaygroundDied(self):
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        Emote.globalEmote.releaseAll(self, 'exitPlaygroundDied')
+
+    def getTeleportInTrack(self):
+        hole = self.getHoleActors()[0]
+        hole.setBin('shadow', 0)
+        hole.setDepthTest(0)
+        hole.setDepthWrite(0)
+        holeTrack = Sequence()
+        holeTrack.append(Func(hole.reparentTo, self))
+        pos = Point3(0, -2.4, 0)
+        holeTrack.append(Func(hole.setPos, self, pos))
+        holeTrack.append(ActorInterval(hole, 'hole', startTime=3.4, endTime=3.1))
+        holeTrack.append(Wait(0.6))
+        holeTrack.append(ActorInterval(hole, 'hole', startTime=3.1, endTime=3.4))
+
+        def restoreHole(hole):
+            hole.setPos(0, 0, 0)
+            hole.detachNode()
+            hole.clearBin()
+            hole.clearDepthTest()
+            hole.clearDepthWrite()
+
+        holeTrack.append(Func(restoreHole, hole))
+        toonTrack = Sequence(Wait(0.3), Func(self.getGeomNode().show), Func(self.nametag3d.show), ActorInterval(self, 'jump', startTime=0.45))
+        if hasattr(self, 'uniqueName'):
+            trackName = self.uniqueName('teleportIn')
+        else:
+            trackName = 'teleportIn'
+        return Parallel(holeTrack, toonTrack, name=trackName)
+
+    def enterTeleportIn(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if self.ghostMode or self.isDisguised:
+            if callback:
+                callback(*extraArgs)
+            return
+        self.show()
+        self.playingAnim = 'teleport'
+        Emote.globalEmote.disableAll(self, 'enterTeleportIn')
+        self.pose('teleport', self.getNumFrames('teleport') - 1)
+        self.getGeomNode().hide()
+        self.nametag3d.hide()
+        self.track = self.getTeleportInTrack()
+        if callback:
+            self.track.setDoneEvent(self.track.getName())
+            self.acceptOnce(self.track.getName(), callback, extraArgs)
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def exitTeleportIn(self):
+        self.playingAnim = None
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        if not self.ghostMode and not self.isDisguised:
+            self.getGeomNode().show()
+            self.nametag3d.show()
+        Emote.globalEmote.releaseAll(self, 'exitTeleportIn')
+
+    def enterSitStart(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableBody(self)
+        self.playingAnim = 'sit-start'
+        if self.isLocal():
+            self.track = Sequence(ActorInterval(self, 'sit-start'), Func(self.b_setAnimState, 'Sit', animMultiplier))
+        else:
+            self.track = Sequence(ActorInterval(self, 'sit-start'))
+        self.track.start(ts)
+        self.setActiveShadow(0)
+
+    def exitSitStart(self):
+        self.playingAnim = 'neutral'
+        if self.track != None:
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        Emote.globalEmote.releaseBody(self)
+
+    def enterSit(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableBody(self)
+        self.playingAnim = 'sit'
+        self.loop('sit')
+        self.setActiveShadow(0)
+
+    def exitSit(self):
+        self.playingAnim = 'neutral'
+        Emote.globalEmote.releaseBody(self)
+
+    def enterSleep(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.stopLookAround()
+        self.stopBlink()
+        self.closeEyes()
+        self.lerpLookAt(Point3(0, 1, -4))
+        self.loop('neutral')
+        self.setPlayRate(animMultiplier * 0.4, 'neutral')
+        self.setChatAbsolute(SLEEP_STRING, CFThought)
+        if self == base.localAvatar:
+            self.notify.debug('Adding timeout task to Toon.')
+            taskMgr.doMethodLater(self.afkTimeout, self.__handleAfkTimeout, self.uniqueName('afkTimeout'))
+        self.setActiveShadow(0)
+
+    def __handleAfkTimeout(self, task):
+        self.notify.debug('Handling timeout task on Toon.')
+        self.ignore('wakeup')
+        self.takeOffSuit()
+        base.cr.playGame.getPlace().fsm.request('final')
+        self.b_setAnimState('TeleportOut', 1, self.__handleAfkExitTeleport, [0])
+        return Task.done
+
+    def __handleAfkExitTeleport(self, requestStatus):
+        self.notify.info('closing shard...')
+        base.cr.gameFSM.request('closeShard', ['afkTimeout'])
+
+    def exitSleep(self):
+        taskMgr.remove(self.uniqueName('afkTimeout'))
+        self.startLookAround()
+        self.openEyes()
+        self.startBlink()
+        if config.GetBool('stuck-sleep-fix', 1):
+            doClear = SLEEP_STRING in (self.nametag.getChatText(), self.nametag.getStompChatText())
+        else:
+            doClear = self.nametag.getChatText() == SLEEP_STRING
+        if doClear:
+            self.clearChat()
+        self.lerpLookAt(Point3(0, 1, 0), time=0.25)
+        self.stop()
+
+    def enterPush(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableBody(self)
+        self.playingAnim = 'push'
+        self.track = Sequence(ActorInterval(self, 'push'))
+        self.track.loop()
+        self.setActiveShadow(1)
+
+    def exitPush(self):
+        self.playingAnim = 'neutral'
+        if self.track != None:
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        Emote.globalEmote.releaseBody(self)
+
+    def enterEmote(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if len(extraArgs) > 0:
+            emoteIndex = extraArgs[0]
+        else:
+            return
+        self.playingAnim = None
+        self.playingRate = None
+        self.standWalkRunReverse = (('neutral', 1.0),
+         ('walk', 1.0),
+         ('run', 1.0),
+         ('walk', -1.0))
+        self.setSpeed(self.forwardSpeed, self.rotateSpeed)
+        if self.isLocal() and emoteIndex != Emote.globalEmote.EmoteSleepIndex:
+            if self.sleepFlag:
+                self.b_setAnimState('Happy', self.animMultiplier)
+            self.wakeUp()
+        duration = 0
+        self.emoteTrack, duration = Emote.globalEmote.doEmote(self, emoteIndex, ts)
+        self.setActiveShadow(1)
+
+    def doEmote(self, emoteIndex, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        if not self.isLocal():
+            if base.cr.avatarFriendsManager.checkIgnored(self.doId):
+                return
+        duration = 0
+        if self.isLocal():
+            self.wakeUp()
+            if self.hasTrackAnimToSpeed():
+                self.trackAnimToSpeed(None)
+        self.emoteTrack, duration = Emote.globalEmote.doEmote(self, emoteIndex, ts)
+
+    def __returnToLastAnim(self, task):
+        if self.playingAnim:
+            self.loop(self.playingAnim)
+        elif self.hp > 0:
+            self.loop('neutral')
+        else:
+            self.loop('sad-neutral')
+        return Task.done
+
+    def __finishEmote(self, task):
+        if self.isLocal():
+            if self.hp > 0:
+                self.b_setAnimState('Happy')
+            else:
+                self.b_setAnimState('Sad')
+        return Task.done
+
+    def exitEmote(self):
+        self.stop()
+        if self.emoteTrack != None:
+            self.emoteTrack.finish()
+            self.emoteTrack = None
+        taskMgr.remove(self.taskName('finishEmote'))
+
+    def enterSquish(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableAll(self)
+        sound = loader.loadSfx('phase_9/audio/sfx/toon_decompress.ogg')
+        lerpTime = 0.1
+        node = self.getGeomNode().getChild(0)
+        origScale = node.getScale()
+        self.track = Sequence(LerpScaleInterval(node, lerpTime, VBase3(2, 2, 0.025), blendType='easeInOut'), Wait(1.0), Parallel(Sequence(Wait(0.4), LerpScaleInterval(node, lerpTime, VBase3(1.4, 1.4, 1.4), blendType='easeInOut'), LerpScaleInterval(node, lerpTime / 2.0, VBase3(0.8, 0.8, 0.8), blendType='easeInOut'), LerpScaleInterval(node, lerpTime / 3.0, origScale, blendType='easeInOut')), ActorInterval(self, 'jump', startTime=0.2), SoundInterval(sound)))
+        self.track.start(ts)
+        self.setActiveShadow(1)
+
+    def exitSquish(self):
+        self.playingAnim = 'neutral'
+        if self.track != None:
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        Emote.globalEmote.releaseAll(self)
+
+    def enterFallDown(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.playingAnim = 'fallDown'
+        Emote.globalEmote.disableAll(self)
+        self.track = Sequence(ActorInterval(self, 'slip-backward'), name='fallTrack')
+        if callback:
+            self.track.setDoneEvent(self.track.getName())
+            self.acceptOnce(self.track.getName(), callback, extraArgs)
+        self.track.start(ts)
+
+    def exitFallDown(self):
+        self.playingAnim = 'neutral'
+        if self.track != None:
+            self.ignore(self.track.getName())
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        Emote.globalEmote.releaseAll(self)
+
+    def stunToon(self, ts = 0, callback = None, knockdown = 0):
+        if not self.isStunned:
+            if self.stunTrack:
+                self.stunTrack.finish()
+                self.stunTrack = None
+
+            def setStunned(stunned):
+                self.isStunned = stunned
+                if self == base.localAvatar:
+                    messenger.send('toonStunned-' + str(self.doId), [self.isStunned])
+
+            node = self.getGeomNode()
+            lerpTime = 0.5
+            down = self.doToonColorScale(VBase4(1, 1, 1, 0.6), lerpTime)
+            up = self.doToonColorScale(VBase4(1, 1, 1, 0.9), lerpTime)
+            clear = self.doToonColorScale(self.defaultColorScale, lerpTime)
+            track = Sequence(Func(setStunned, 1), down, up, down, up, down, up, down, clear, Func(self.restoreDefaultColorScale), Func(setStunned, 0))
+            if knockdown:
+                self.stunTrack = Parallel(ActorInterval(self, animName='slip-backward'), track)
+            else:
+                self.stunTrack = track
+            self.stunTrack.start()
+
+    def getPieces(self, *pieces):
+        results = []
+        for lodName in self.getLODNames():
+            for partName, pieceNames in pieces:
+                part = self.getPart(partName, lodName)
+                if part:
+                    if type(pieceNames) == types.StringType:
+                        pieceNames = (pieceNames,)
+                    for pieceName in pieceNames:
+                        npc = part.findAllMatches('**/%s;+s' % pieceName)
+                        for i in xrange(npc.getNumPaths()):
+                            results.append(npc[i])
+
+        return results
+
+    def applyCheesyEffect(self, effect, lerpTime = 0):
+        if self.effectTrack != None:
+            self.effectTrack.finish()
+            self.effectTrack = None
+        if self.cheesyEffect != effect:
+            oldEffect = self.cheesyEffect
+            self.cheesyEffect = effect
+            if oldEffect == ToontownGlobals.CENormal:
+                self.effectTrack = self.__doCheesyEffect(effect, lerpTime)
+            elif effect == ToontownGlobals.CENormal:
+                self.effectTrack = self.__undoCheesyEffect(oldEffect, lerpTime)
+            else:
+                self.effectTrack = Sequence(self.__undoCheesyEffect(oldEffect, lerpTime / 2.0), self.__doCheesyEffect(effect, lerpTime / 2.0))
+            if self.effectTrack:
+                self.effectTrack.start()
+
+    def reapplyCheesyEffect(self, lerpTime = 0):
+        if self.effectTrack != None:
+            self.effectTrack.finish()
+            self.effectTrack = None
+        effect = self.cheesyEffect
+        self.effectTrack = Sequence(self.__undoCheesyEffect(effect, 0), self.__doCheesyEffect(effect, lerpTime))
+        self.effectTrack.start()
+
+    def clearCheesyEffect(self, lerpTime = 0):
+        self.applyCheesyEffect(ToontownGlobals.CENormal, lerpTime=lerpTime)
+        if self.effectTrack != None:
+            self.effectTrack.finish()
+            self.effectTrack = None
+
+    def __doHeadScale(self, scale, lerpTime):
+        if scale == None:
+            scale = ToontownGlobals.toonHeadScales[self.style.getAnimal()]
+        
+        track = Parallel()
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to scale Toon!")
+            return track
+        if not self.headParts:
+            return track
+        
+        for hi in xrange(self.headParts.getNumPaths()):
+            head = self.headParts[hi]
+            track.append(LerpScaleInterval(head, lerpTime, scale, blendType='easeInOut'))
+
+        return track
+
+    def __doLegsScale(self, scale, lerpTime):
+        if scale == None:
+            scale = 1
+            invScale = 1
+        else:
+            invScale = 1.0 / scale
+        track = Parallel()
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to scale Toon!")
+            return track
+        if not self.legsParts:
+            return track
+        for li in xrange(self.legsParts.getNumPaths()):
+            legs = self.legsParts[li]
+            torso = self.torsoParts[li]
+            track.append(LerpScaleInterval(legs, lerpTime, scale, blendType='easeInOut'))
+            track.append(LerpScaleInterval(torso, lerpTime, invScale, blendType='easeInOut'))
+
+        return track
+
+    def __doToonScale(self, scale, lerpTime):
+        if scale == None:
+            scale = 1
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to scale Toon!")
+            return
+        node = self.getGeomNode().getChild(0)
+        track = Sequence(Parallel(LerpHprInterval(node, lerpTime, Vec3(0.0, 0.0, 0.0), blendType='easeInOut'), LerpScaleInterval(node, lerpTime, scale, blendType='easeInOut')), Func(self.resetHeight))
+        return track
+
+    def doToonColorScale(self, scale, lerpTime, keepDefault = 0):
+        if keepDefault:
+            self.defaultColorScale = scale
+        if scale == None:
+            scale = VBase4(1, 1, 1, 1)
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to colorscale Toon!")
+            return
+        node = self.getGeomNode()
+        caps = self.getPieces(('torso', 'torso-bot-cap'))
+        track = Sequence()
+        track.append(Func(node.setTransparency, 1))
+        if scale[3] != 1:
+            for cap in caps:
+                track.append(HideInterval(cap))
+
+        track.append(LerpColorScaleInterval(node, lerpTime, scale, blendType='easeInOut'))
+        if scale[3] == 1:
+            track.append(Func(node.clearTransparency))
+            for cap in caps:
+                track.append(ShowInterval(cap))
+
+        elif scale[3] == 0:
+            track.append(Func(node.clearTransparency))
+        return track
+
+    def __doPumpkinHeadSwitch(self, lerpTime, toPumpkin):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toPumpkin:
+            track.append(Func(self.stopBlink))
+            track.append(Func(self.closeEyes))
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            def hideParts():
+                self.notify.debug('hideParts')
+                for head in self.headParts:
+                    for p in head.getChildren():
+                        if hasattr(self, 'pumpkins') and not self.pumpkins.hasPath(p):
+                            p.hide()
+                            p.setTag('pumpkin', 'enabled')
+
+            track.append(Func(hideParts))
+            track.append(Func(self.enablePumpkins, True))
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            def showHiddenParts():
+                self.notify.debug('showHiddenParts')
+                for head in self.headParts:
+                    for p in head.getChildren():
+                        if not self.pumpkins.hasPath(p) and p.getTag('pumpkin') == 'enabled':
+                            p.show()
+                            p.setTag('pumpkin', 'disabled')
+
+            track.append(Func(showHiddenParts))
+            track.append(Func(self.enablePumpkins, False))
+            track.append(Func(self.startBlink))
+        return track
+		
+    def __doWireFrame(self):
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to wireframe Toon!")
+            return
+        node = self.getGeomNode()
+        track = Sequence()
+        track.append(Func(node.setRenderModeWireframe))
+        return track
+		
+    def __doUnWireFrame(self):
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to unwireframe Toon!")
+            return
+        node = self.getGeomNode()
+        track = Sequence()
+        track.append(Func(node.setRenderModeFilled))
+        return track
+
+    def __doSnowManHeadSwitch(self, lerpTime, toSnowMan):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toSnowMan:
+            track.append(Func(self.stopBlink))
+            track.append(Func(self.closeEyes))
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            def hideParts():
+                self.notify.debug('HidePaths')
+                for hi in xrange(self.headParts.getNumPaths()):
+                    head = self.headParts[hi]
+                    parts = head.getChildren()
+                    for pi in xrange(parts.getNumPaths()):
+                        p = parts[pi]
+                        if not p.isHidden():
+                            p.hide()
+                            p.setTag('snowman', 'enabled')
+
+            track.append(Func(hideParts))
+            track.append(Func(self.enableSnowMen, True))
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            def showHiddenParts():
+                self.notify.debug('ShowHiddenPaths')
+                for hi in xrange(self.headParts.getNumPaths()):
+                    head = self.headParts[hi]
+                    parts = head.getChildren()
+                    for pi in xrange(parts.getNumPaths()):
+                        p = parts[pi]
+                        if not self.snowMen.hasPath(p) and p.getTag('snowman') == 'enabled':
+                            p.show()
+                            p.setTag('snowman', 'disabled')
+
+            track.append(Func(showHiddenParts))
+            track.append(Func(self.enableSnowMen, False))
+            track.append(Func(self.startBlink))
+        return track
+
+    def __doYesMan(self, lerpTime, toYesMan):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toYesMan:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('ym')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doDownsizer(self, lerpTime, toDownsizer):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toDownsizer:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('ds')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doMoverShaker(self, lerpTime, toMoverShaker):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toMoverShaker:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('ms')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doBigCheese(self, lerpTime, toBigCheese):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toBigCheese:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('tbc')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doGladHander(self, lerpTime, toGladHander):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toGladHander:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('gh')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doMingler(self, lerpTime, toMingler):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toMingler:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('m')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doFlunky(self, lerpTime, toFlunky):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toFlunky:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('f')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doTelemarketer(self, lerpTime, toTelemarketer):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toTelemarketer:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('tm')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doLoanShark(self, lerpTime, toLoanShark):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toLoanShark:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('ls')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doBigWig(self, lerpTime, toBigWig):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toBigWig:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('bw')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doMicroManager(self, lerpTime, toMicroManager):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toMicroManager:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('mm')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doBigFish(self, lerpTime, toBigFish):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toBigFish:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('bfh')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doCorporateRaider(self, lerpTime, toCorporateRaider):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toCorporateRaider:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('cr')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doHeadHoncho(self, lerpTime, toHeadHoncho):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toHeadHoncho:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('hho')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doDoubleTalker(self, lerpTime, toDoubleTalker):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toDoubleTalker:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('dt')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doTwoFace(self, lerpTime, toTwoFace):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toTwoFace:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('tf')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doConArtist(self, lerpTime, toConArtist):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toConArtist:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('ca')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doConnoisseur(self, lerpTime, toConnoisseur):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toConnoisseur:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('cn')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doSwindler(self, lerpTime, toSwindler):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toSwindler:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('sw')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doMiddleman(self, lerpTime, toMiddleman):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toMiddleman:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('mdm')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doToxicManager(self, lerpTime, toToxicManager):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toToxicManager:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('txm')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doMagnate(self, lerpTime, toMagnate):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toMagnate:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('mg')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doLegalEagle(self, lerpTime, toLegalEagle):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toLegalEagle:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('le')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doRobberBaron(self, lerpTime, toRobberBaron):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toRobberBaron:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('rb')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doColdCaller(self, lerpTime, toColdCaller):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toColdCaller:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('cc')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doShortChange(self, lerpTime, toShortChange):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toShortChange:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('sc')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doBloodsucker(self, lerpTime, toBloodsucker):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toBloodsucker:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('b')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doNameDropper(self, lerpTime, toNameDropper):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toNameDropper:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('nd')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doHeadHunter(self, lerpTime, toHeadHunter):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toHeadHunter:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('hh')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doHollywood(self, lerpTime, toHollywood):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toHollywood:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('mh')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doPencilPusher(self, lerpTime, toPencilPusher):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toPencilPusher:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('p')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doMoneyBags(self, lerpTime, toMoneyBags):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toMoneyBags:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('mb')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doSpinDoctor(self, lerpTime, toSpinDoctor):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toSpinDoctor:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('sd')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doAmbulanceChaser(self, lerpTime, toAmbulanceChaser):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toAmbulanceChaser:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('ac')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doNumberCruncher(self, lerpTime, toNumberCruncher):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toNumberCruncher:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('nc')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doPennyPincher(self, lerpTime, toPennyPincher):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toPennyPincher:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('pp')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doTightwad(self, lerpTime, toTightwad):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toTightwad:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('tw')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doBeanCounter(self, lerpTime, toBeanCounter):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toBeanCounter:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('bc')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doBackStabber(self, lerpTime, toBackStabber):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toBackStabber:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('bs')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doBottomFeeder(self, lerpTime, toBottomFeeder):
+        node = self.getGeomNode()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=0)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        dust = getDustCloudIval()
+        track = Sequence()
+        if toBottomFeeder:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.putOnSuit('bf')
+        else:
+            if lerpTime > 0.0:
+                track.append(Func(dust.start))
+                track.append(Wait(0.5))
+            else:
+                dust.finish()
+
+            self.takeOffSuit()
+        return track
+
+    def __doGreenToon(self, lerpTime, toGreen):
+        track = Sequence()
+        greenTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+        if toGreen:
+            skinGreen = VBase4(76 / 255.0, 240 / 255.0, 84 / 255.0, 1)
+            muzzleGreen = VBase4(4 / 255.0, 205 / 255.0, 90 / 255.0, 1)
+            gloveGreen = VBase4(14 / 255.0, 173 / 255.0, 40 / 255.0, 1)
+            greenTrack.append(self.__colorToonSkin(skinGreen, lerpTime))
+            greenTrack.append(self.__colorToonEars(skinGreen, muzzleGreen, lerpTime))
+            greenTrack.append(self.__colorScaleToonMuzzle(muzzleGreen, lerpTime))
+            greenTrack.append(self.__colorToonGloves(gloveGreen, lerpTime))
+        else:
+            greenTrack.append(self.__colorToonSkin(None, lerpTime))
+            greenTrack.append(self.__colorToonEars(None, None, lerpTime))
+            greenTrack.append(self.__colorScaleToonMuzzle(None, lerpTime))
+            greenTrack.append(self.__colorToonGloves(None, lerpTime))
+        track.append(greenTrack)
+        return track
+        
+    def __colorToonSkin(self, color, lerpTime):
+        track = Sequence()
+        colorTrack = Parallel()
+        torsoPieces = self.getPieces(('torso', ('arms', 'neck')))
+        legPieces = self.getPieces(('legs', ('legs', 'feet')))
+        headPieces = self.getPieces(('head', '*head*'))
+        if color == None:
+            armColor = self.style.getArmColor()
+            legColor = self.style.getLegColor()
+            headColor = self.style.getHeadColor()
+        else:
+            armColor = color
+            legColor = color
+            headColor = color
+        for piece in torsoPieces:
+            colorTrack.append(Func(piece.setColor, armColor))
+
+        for piece in legPieces:
+            colorTrack.append(Func(piece.setColor, legColor))
+
+        for piece in headPieces:
+            if 'hatNode' not in str(piece) and 'glassesNode' not in str(piece):
+                colorTrack.append(Func(piece.setColor, headColor))
+
+        track.append(colorTrack)
+        return track
+
+    def __colorToonEars(self, color, colorScale, lerpTime):
+        track = Sequence()
+        earPieces = self.getPieces(('head', '*ear*'))
+        if len(earPieces) == 0:
+            return track
+        colorTrack = Parallel()
+        if earPieces[0].hasColor():
+            if color == None:
+                headColor = self.style.getHeadColor()
+            else:
+                headColor = color
+            for piece in earPieces:
+                colorTrack.append(Func(piece.setColor, headColor))
+
+        else:
+            if colorScale == None:
+                colorScale = VBase4(1, 1, 1, 1)
+            for piece in earPieces:
+                colorTrack.append(Func(piece.setColorScale, colorScale))
+
+        track.append(colorTrack)
+        return track
+
+    def __colorScaleToonMuzzle(self, scale, lerpTime):
+        track = Sequence()
+        colorTrack = Parallel()
+        muzzlePieces = self.getPieces(('head', '*muzzle*'))
+        if scale == None:
+            scale = VBase4(1, 1, 1, 1)
+        for piece in muzzlePieces:
+            colorTrack.append(Func(piece.setColorScale, scale))
+
+        track.append(colorTrack)
+        return track
+
+    def __colorToonGloves(self, color, lerpTime):
+        track = Sequence()
+        colorTrack = Parallel()
+        glovePieces = self.getPieces(('torso', '*hands*'))
+        if color == None:
+            for piece in glovePieces:
+                colorTrack.append(Func(piece.clearColor))
+
+        else:
+            for piece in glovePieces:
+                colorTrack.append(Func(piece.setColor, color))
+
+        track.append(colorTrack)
+        return track
+
+    def __doBigAndWhite(self, color, scale, lerpTime):
+        track = Parallel()
+        track.append(self.__doToonColor(color, lerpTime))
+        track.append(self.__doToonScale(scale, lerpTime))
+        return track
+
+    def __doVirtual(self):
+        track = Parallel()
+        track.append(self.__doToonColor(VBase4(0.25, 0.25, 1.0, 1), 0.0))
+        self.setPartsAdd(self.getHeadParts())
+        self.setPartsAdd(self.getTorsoParts())
+        self.setPartsAdd(self.getHipsParts())
+        self.setPartsAdd(self.getLegsParts())
+        return track
+
+    def __doUnVirtual(self):
+        track = Parallel()
+        track.append(self.__doToonColor(None, 0.0))
+        self.setPartsNormal(self.getHeadParts(), 1)
+        self.setPartsNormal(self.getTorsoParts(), 1)
+        self.setPartsNormal(self.getHipsParts(), 1)
+        self.setPartsNormal(self.getLegsParts(), 1)
+        return track
+
+    def setPartsAdd(self, parts):
+        actorCollection = parts
+        for thingIndex in range(0, actorCollection.getNumPaths()):
+            thing = actorCollection[thingIndex]
+            if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
+                thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
+                thing.setDepthWrite(False)
+                self.setBin('fixed', 1)
+
+    def setPartsNormal(self, parts, alpha = 0):
+        actorCollection = parts
+        for thingIndex in range(0, actorCollection.getNumPaths()):
+            thing = actorCollection[thingIndex]
+            if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
+                thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MNone))
+                thing.setDepthWrite(True)
+                self.setBin('default', 0)
+                if alpha:
+                    thing.setTransparency(1)
+                    thing.setBin('transparent', 0)
+
+    def __doToonGhostColorScale(self, scale, lerpTime, keepDefault = 0):
+        if keepDefault:
+            self.defaultColorScale = scale
+        if scale == None:
+            scale = VBase4(1, 1, 1, 1)
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to ghostify Toon!")
+            return
+        node = self.getGeomNode()
+        caps = self.getPieces(('torso', 'torso-bot-cap'))
+        track = Sequence()
+        track.append(Func(node.setTransparency, 1))
+        track.append(ShowInterval(node))
+        if scale[3] != 1:
+            for cap in caps:
+                track.append(HideInterval(cap))
+
+        track.append(LerpColorScaleInterval(node, lerpTime, scale, blendType='easeInOut'))
+        if scale[3] == 1:
+            track.append(Func(node.clearTransparency))
+            for cap in caps:
+                track.append(ShowInterval(cap))
+
+        elif scale[3] == 0:
+            track.append(Func(node.clearTransparency))
+            track.append(HideInterval(node))
+        return track
+
+    def restoreDefaultColorScale(self):
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to restore color to Toon!")
+            return
+        node = self.getGeomNode()
+        if node:
+            if self.defaultColorScale:
+                node.setColorScale(self.defaultColorScale)
+                if self.defaultColorScale[3] != 1:
+                    node.setTransparency(1)
+                else:
+                    node.clearTransparency()
+            else:
+                node.clearColorScale()
+                node.clearTransparency()
+
+    def __doToonColor(self, color, lerpTime):
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to color Toon!")
+            return
+        node = self.getGeomNode()
+        if color == None:
+            return Func(node.clearColor)
+        else:
+            return Func(node.setColor, color, 1)
+        return
+
+    def __doPartsColorScale(self, scale, lerpTime):
+        if scale == None:
+            scale = VBase4(1, 1, 1, 1)
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to colorscale parts!")
+            return
+        node = self.getGeomNode()
+        pieces = self.getPieces(('torso', ('arms', 'neck')), ('legs', ('legs', 'feet')), ('head', '+GeomNode'))
+        track = Sequence()
+        track.append(Func(node.setTransparency, 1))
+        for piece in pieces:
+            if piece.getName()[:7] == 'muzzle-' and piece.getName()[-8:] != '-neutral':
+                continue
+            track.append(ShowInterval(piece))
+
+        p1 = Parallel()
+        for piece in pieces:
+            if piece.getName()[:7] == 'muzzle-' and piece.getName()[-8:] != '-neutral':
+                continue
+            p1.append(LerpColorScaleInterval(piece, lerpTime, scale, blendType='easeInOut'))
+
+        track.append(p1)
+        if scale[3] == 1:
+            track.append(Func(node.clearTransparency))
+        elif scale[3] == 0:
+            track.append(Func(node.clearTransparency))
+            for piece in pieces:
+                if piece.getName()[:7] == 'muzzle-' and piece.getName()[-8:] != '-neutral':
+                    continue
+                track.append(HideInterval(piece))
+
+        self.generateHat()
+        self.generateGlasses()
+        return track
+
+    def __doRogerDog(self, lerpTime, toRoger):
+        track = Sequence()
+        rogerTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toRoger:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('dll', 'ls', 'l', 'm', 19, 0, 21, 8, 4, 0, 4, 0, 7, 15)
+            rogerTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                rogerTrack.append(Func(self.animFSM.request, 'off'))
+                rogerTrack.append(Func(self.animFSM.request, state))
+            rogerTrack.append(Func(self.nametag.setText, 'Roger Dog'))
+            rogerTrack.append(Func(self.setHat, 24, 0, 0))
+        else:
+            rogerTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                rogerTrack.append(Func(self.animFSM.request, 'off'))
+                rogerTrack.append(Func(self.animFSM.request, state))
+            rogerTrack.append(Func(self.nametag.setText, self.nametag.name))
+            rogerTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            rogerTrack.append(Func(self.generateToonAccessories))
+        track.append(rogerTrack)
+        return track
+
+    def __doFlippy(self, lerpTime, toFlippy):
+        track = Sequence()
+        flippyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toFlippy:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('dss', 'ms', 'm', 'm', 17, 0, 17, 17, 3, 3, 3, 3, 7, 2)
+            flippyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                flippyTrack.append(Func(self.animFSM.request, 'off'))
+                flippyTrack.append(Func(self.animFSM.request, state))
+            flippyTrack.append(Func(self.nametag.setText, 'Flippy'))
+        else:
+            flippyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                flippyTrack.append(Func(self.animFSM.request, 'off'))
+                flippyTrack.append(Func(self.animFSM.request, state))
+            flippyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            flippyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            flippyTrack.append(Func(self.generateToonAccessories))
+        track.append(flippyTrack)
+        return track
+
+    def __doSurlee(self, lerpTime, toSurlee):
+        track = Sequence()
+        surleeTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toSurlee:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('pls', 'ls', 'l', 'm', 9, 0, 9, 9, 98, 27, 86, 27, 38, 27)
+            surleeTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                surleeTrack.append(Func(self.animFSM.request, 'off'))
+                surleeTrack.append(Func(self.animFSM.request, state))
+            surleeTrack.append(Func(self.nametag.setText, 'Doctor Surlee'))
+        else:
+            surleeTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                surleeTrack.append(Func(self.animFSM.request, 'off'))
+                surleeTrack.append(Func(self.animFSM.request, state))
+            surleeTrack.append(Func(self.nametag.setText, self.nametag.name))
+            surleeTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            surleeTrack.append(Func(self.generateToonAccessories))
+        track.append(surleeTrack)
+        return track
+
+    def __doDimm(self, lerpTime, toDimm):
+        track = Sequence()
+        dimmTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toDimm:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('fll', 'ss', 's', 'm', 15, 0, 15, 15, 99, 27, 86, 27, 39, 27)
+            dimmTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                dimmTrack.append(Func(self.animFSM.request, 'off'))
+                dimmTrack.append(Func(self.animFSM.request, state))
+            dimmTrack.append(Func(self.nametag.setText, 'Doctor Dimm'))
+        else:
+            dimmTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                dimmTrack.append(Func(self.animFSM.request, 'off'))
+                dimmTrack.append(Func(self.animFSM.request, state))
+            dimmTrack.append(Func(self.nametag.setText, self.nametag.name))
+            dimmTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            dimmTrack.append(Func(self.generateToonAccessories))
+        track.append(dimmTrack)
+        return track
+
+    def __doAlecTinn(self, lerpTime, toAlecTinn):
+        track = Sequence()
+        alecTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toAlecTinn:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('cll', 'ls', 'l', 'm', 2, 0, 2, 2, 14, 9, 10, 9, 1, 14)
+            alecTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                alecTrack.append(Func(self.animFSM.request, 'off'))
+                alecTrack.append(Func(self.animFSM.request, state))
+            alecTrack.append(Func(self.nametag.setText, 'Alec Tinn'))
+        else:
+            alecTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                alecTrack.append(Func(self.animFSM.request, 'off'))
+                alecTrack.append(Func(self.animFSM.request, state))
+            alecTrack.append(Func(self.nametag.setText, self.nametag.name))
+            alecTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            alecTrack.append(Func(self.generateToonAccessories))
+        track.append(alecTrack)
+        return track
+
+    def __doSlappy(self, lerpTime, toSlappy):
+        track = Sequence()
+        slappyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toSlappy:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('fls', 'ms', 'l', 'm', 14, 0, 14, 14, 152, 27, 139, 27, 59, 27)
+            slappyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                slappyTrack.append(Func(self.animFSM.request, 'off'))
+                slappyTrack.append(Func(self.animFSM.request, state))
+            slappyTrack.append(Func(self.nametag.setText, 'Slappy'))
+        else:
+            slappyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                slappyTrack.append(Func(self.animFSM.request, 'off'))
+                slappyTrack.append(Func(self.animFSM.request, state))
+            slappyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            slappyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            slappyTrack.append(Func(self.generateToonAccessories))
+        track.append(slappyTrack)
+        return track
+
+    def __doTutorialTom(self, lerpTime, toTom):
+        track = Sequence()
+        tomTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toTom:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('dls', 'ms', 'm', 'm', 7, 0, 7, 7, 2, 6, 2, 6, 2, 16)
+            tomTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                tomTrack.append(Func(self.animFSM.request, 'off'))
+                tomTrack.append(Func(self.animFSM.request, state))
+            tomTrack.append(Func(self.nametag.setText, 'Tutorial Tom'))
+        else:
+            tomTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                tomTrack.append(Func(self.animFSM.request, 'off'))
+                tomTrack.append(Func(self.animFSM.request, state))
+            tomTrack.append(Func(self.nametag.setText, self.nametag.name))
+            tomTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            tomTrack.append(Func(self.generateToonAccessories))
+        track.append(tomTrack)
+        return track
+
+    def __doLilOldman(self, lerpTime, toOldman):
+        track = Sequence()
+        oldmanTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toOldman:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('rll', 'ls', 'm', 'm', 21, 0, 21, 21, 1, 5, 1, 5, 1, 9)
+            oldmanTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                oldmanTrack.append(Func(self.animFSM.request, 'off'))
+                oldmanTrack.append(Func(self.animFSM.request, state))
+            oldmanTrack.append(Func(self.nametag.setText, 'Lil Oldman'))
+        else:
+            oldmanTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                oldmanTrack.append(Func(self.animFSM.request, 'off'))
+                oldmanTrack.append(Func(self.animFSM.request, state))
+            oldmanTrack.append(Func(self.nametag.setText, self.nametag.name))
+            oldmanTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            oldmanTrack.append(Func(self.generateToonAccessories))
+        track.append(oldmanTrack)
+        return track
+
+    def __doKion(self, lerpTime, toKion):
+        track = Sequence()
+        kionTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toKion:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('cls', 'ms', 'm', 'm', 2, 0, 2, 2, 14, 9, 10, 9, 1, 14)
+            kionTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                kionTrack.append(Func(self.animFSM.request, 'off'))
+                kionTrack.append(Func(self.animFSM.request, state))
+            kionTrack.append(Func(self.nametag.setText, 'Kion'))
+        else:
+            kionTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                kionTrack.append(Func(self.animFSM.request, 'off'))
+                kionTrack.append(Func(self.animFSM.request, state))
+            kionTrack.append(Func(self.nametag.setText, self.nametag.name))
+            kionTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            kionTrack.append(Func(self.generateToonAccessories))
+        track.append(kionTrack)
+        return track
+
+    def __doSqueaky(self, lerpTime, toSqueaky):
+        track = Sequence()
+        squeakyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toSqueaky:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('mss', 'ms', 'm', 'm', 2, 0, 2, 2, 14, 9, 10, 9, 1, 14)
+            squeakyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                squeakyTrack.append(Func(self.animFSM.request, 'off'))
+                squeakyTrack.append(Func(self.animFSM.request, state))
+            squeakyTrack.append(Func(self.nametag.setText, 'Squeaky'))
+        else:
+            squeakyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                squeakyTrack.append(Func(self.animFSM.request, 'off'))
+                squeakyTrack.append(Func(self.animFSM.request, state))
+            squeakyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            squeakyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            squeakyTrack.append(Func(self.generateToonAccessories))
+        track.append(squeakyTrack)
+        return track
+
+    def __doFreddy(self, lerpTime, toFreddy):
+        track = Sequence()
+        freddyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toFreddy:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('rss', 'ls', 'l', 'm', 17, 0, 17, 17, 1, 6, 1, 6, 1, 1)
+            freddyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                freddyTrack.append(Func(self.animFSM.request, 'off'))
+                freddyTrack.append(Func(self.animFSM.request, state))
+            freddyTrack.append(Func(self.nametag.setText, 'Fisherman Freddy'))
+        else:
+            freddyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                freddyTrack.append(Func(self.animFSM.request, 'off'))
+                freddyTrack.append(Func(self.animFSM.request, state))
+            freddyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            freddyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            freddyTrack.append(Func(self.generateToonAccessories))
+        track.append(freddyTrack)
+        return track
+
+    def __doBilly(self, lerpTime, toBilly):
+        track = Sequence()
+        billyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toBilly:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('dls', 'ls', 'l', 'm', 10, 0, 10, 10, 1, 9, 1, 9, 1, 10)
+            billyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                billyTrack.append(Func(self.animFSM.request, 'off'))
+                billyTrack.append(Func(self.animFSM.request, state))
+            billyTrack.append(Func(self.nametag.setText, 'Fisherman Billy'))
+        else:
+            billyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                billyTrack.append(Func(self.animFSM.request, 'off'))
+                billyTrack.append(Func(self.animFSM.request, state))
+            billyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            billyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            billyTrack.append(Func(self.generateToonAccessories))
+        track.append(billyTrack)
+        return track
+
+    def __doDroopy(self, lerpTime, toDroopy):
+        track = Sequence()
+        droopyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toDroopy:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('cll', 'ls', 'm', 'm', 9, 0, 9, 9, 1, 1, 1, 1, 0, 13)
+            droopyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                droopyTrack.append(Func(self.animFSM.request, 'off'))
+                droopyTrack.append(Func(self.animFSM.request, state))
+            droopyTrack.append(Func(self.nametag.setText, 'Fisherman Droopy'))
+        else:
+            droopyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                droopyTrack.append(Func(self.animFSM.request, 'off'))
+                droopyTrack.append(Func(self.animFSM.request, state))
+            droopyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            droopyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            droopyTrack.append(Func(self.generateToonAccessories))
+        track.append(droopyTrack)
+        return track
+
+    def __doPunchy(self, lerpTime, toPunchy):
+        track = Sequence()
+        punchyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toPunchy:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('fsl', 'ss', 'l', 'm', 21, 0, 21, 21, 1, 5, 1, 5, 0, 12)
+            punchyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                punchyTrack.append(Func(self.animFSM.request, 'off'))
+                punchyTrack.append(Func(self.animFSM.request, state))
+            punchyTrack.append(Func(self.nametag.setText, 'Fisherman Punchy'))
+        else:
+            punchyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                punchyTrack.append(Func(self.animFSM.request, 'off'))
+                punchyTrack.append(Func(self.animFSM.request, state))
+            punchyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            punchyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            punchyTrack.append(Func(self.generateToonAccessories))
+        track.append(punchyTrack)
+        return track
+
+    def __doFurball(self, lerpTime, toFurball):
+        track = Sequence()
+        furballTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toFurball:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('cls', 'ms', 'm', 'm', 3, 0, 3, 3, 0, 27, 0, 27, 0, 17)
+            furballTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                furballTrack.append(Func(self.animFSM.request, 'off'))
+                furballTrack.append(Func(self.animFSM.request, state))
+            furballTrack.append(Func(self.nametag.setText, 'Fisherman Furball'))
+        else:
+            furballTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                furballTrack.append(Func(self.animFSM.request, 'off'))
+                furballTrack.append(Func(self.animFSM.request, state))
+            furballTrack.append(Func(self.nametag.setText, self.nametag.name))
+            furballTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            furballTrack.append(Func(self.generateToonAccessories))
+        track.append(furballTrack)
+        return track
+
+    def __doBarney(self, lerpTime, toBarney):
+        track = Sequence()
+        barneyTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toBarney:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('cls', 'ms', 'l', 'm', 4, 0, 4, 4, 1, 11, 1, 11, 0, 19)
+            barneyTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                barneyTrack.append(Func(self.animFSM.request, 'off'))
+                barneyTrack.append(Func(self.animFSM.request, state))
+            barneyTrack.append(Func(self.nametag.setText, 'Fisherman Barney'))
+        else:
+            barneyTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                barneyTrack.append(Func(self.animFSM.request, 'off'))
+                barneyTrack.append(Func(self.animFSM.request, state))
+            barneyTrack.append(Func(self.nametag.setText, self.nametag.name))
+            barneyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            barneyTrack.append(Func(self.generateToonAccessories))
+        track.append(barneyTrack)
+        return track
+
+    def __doPete(self, lerpTime, toPete):
+        track = Sequence()
+        peteTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toPete:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('cll', 'ms', 'l', 'm', 18, 0, 18, 18, 0, 4, 0, 4, 1, 15)
+            peteTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                peteTrack.append(Func(self.animFSM.request, 'off'))
+                peteTrack.append(Func(self.animFSM.request, state))
+            peteTrack.append(Func(self.nametag.setText, 'Professor Pete'))
+        else:
+            peteTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                peteTrack.append(Func(self.animFSM.request, 'off'))
+                peteTrack.append(Func(self.animFSM.request, state))
+            peteTrack.append(Func(self.nametag.setText, self.nametag.name))
+            peteTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            peteTrack.append(Func(self.generateToonAccessories))
+        track.append(peteTrack)
+        return track
+
+    def __doLouis(self, lerpTime, toLouis):
+        track = Sequence()
+        louisTrack = Parallel()
+
+        def getDustCloudIval():
+            dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
+            dustCloud.setBillboardAxis(2.0)
+            dustCloud.setZ(3)
+            dustCloud.setScale(0.4)
+            dustCloud.createTrack()
+            return Sequence(Func(dustCloud.reparentTo, self), dustCloud.track, Func(dustCloud.destroy), name='dustCloadIval')
+
+        if lerpTime > 0.0:
+            dust = getDustCloudIval()
+            track.append(Func(dust.start))
+            track.append(Wait(0.5))
+            
+        if toLouis:
+            self.oldStyle = self.style.clone()
+            self.oldHat = self.hat
+            dna = ToonDNA.ToonDNA()
+            dna.newToonFromProperties('fss', 'ss', 'l', 'm', 12, 0, 12, 12, 1, 5, 1, 5, 1, 12)
+            louisTrack.append(Func(self.updateToonDNA, dna, True))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                louisTrack.append(Func(self.animFSM.request, 'off'))
+                louisTrack.append(Func(self.animFSM.request, state))
+            louisTrack.append(Func(self.nametag.setText, 'Loony Louis'))
+        else:
+            louisTrack.append(Func(self.updateToonDNA, self.oldStyle))
+            if hasattr(self, 'animFSM'):
+                state = self.animFSM.getCurrentState()
+                louisTrack.append(Func(self.animFSM.request, 'off'))
+                louisTrack.append(Func(self.animFSM.request, state))
+            louisTrack.append(Func(self.nametag.setText, self.nametag.name))
+            louisTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
+            louisTrack.append(Func(self.generateToonAccessories))
+        track.append(louisTrack)
+        return track
+
+    def __doCheesyEffect(self, effect, lerpTime):
+        if effect == ToontownGlobals.CEBigHead:
+            return self.__doHeadScale(2.5, lerpTime)
+        elif effect == ToontownGlobals.CESmallHead:
+            return self.__doHeadScale(0.5, lerpTime)
+        elif effect == ToontownGlobals.CEBigLegs:
+            return self.__doLegsScale(1.4, lerpTime)
+        elif effect == ToontownGlobals.CESmallLegs:
+            return self.__doLegsScale(0.6, lerpTime)
+        elif effect == ToontownGlobals.CEBigToon:
+            return self.__doToonScale(ToontownGlobals.BigToonScale, lerpTime)
+        elif effect == ToontownGlobals.CESmallToon:
+            return self.__doToonScale(ToontownGlobals.SmallToonScale, lerpTime)
+        elif effect == ToontownGlobals.CETinyToon:
+            return self.__doToonScale(ToontownGlobals.TinyToonScale, lerpTime)
+        elif effect == ToontownGlobals.CEGiantToon:
+            return self.__doToonScale(ToontownGlobals.GiantToonScale, lerpTime)
+        elif effect == ToontownGlobals.CEBeanToon:
+            return self.__doToonScale(ToontownGlobals.BeanToonScale, lerpTime)
+        elif effect == ToontownGlobals.CEFlatPortrait:
+            return self.__doToonScale(VBase3(1, 0.05, 1), lerpTime)
+        elif effect == ToontownGlobals.CEFlatProfile:
+            return self.__doToonScale(VBase3(0.05, 1, 1), lerpTime)
+        elif effect == ToontownGlobals.CETransparent:
+            return self.doToonColorScale(VBase4(1, 1, 1, 0.6), lerpTime, keepDefault=1)
+        elif effect == ToontownGlobals.CENoColor:
+            return self.__doToonColor(VBase4(1, 1, 1, 1), lerpTime)
+        elif effect == ToontownGlobals.CEInvisible:
+            return self.__doPartsColorScale(VBase4(1, 1, 1, 0), lerpTime)
+        elif effect == ToontownGlobals.CEPumpkin:
+            return self.__doPumpkinHeadSwitch(lerpTime, toPumpkin=True)
+        elif effect == ToontownGlobals.CEBigWhite:
+            return self.__doBigAndWhite(VBase4(1, 1, 1, 1), ToontownGlobals.BigToonScale, lerpTime)
+        elif effect == ToontownGlobals.CESnowMan:
+            return self.__doSnowManHeadSwitch(lerpTime, toSnowMan=True)
+        elif effect == ToontownGlobals.CEYesMan:
+            return self.__doYesMan(lerpTime, toYesMan=True)
+        elif effect == ToontownGlobals.CEDownsizer:
+            return self.__doDownsizer(lerpTime, toDownsizer=True)
+        elif effect == ToontownGlobals.CEMoverShaker:
+            return self.__doMoverShaker(lerpTime, toMoverShaker=True)
+        elif effect == ToontownGlobals.CEBigCheese:
+            return self.__doBigCheese(lerpTime, toBigCheese=True)
+        elif effect == ToontownGlobals.CEGladHander:
+            return self.__doGladHander(lerpTime, toGladHander=True)
+        elif effect == ToontownGlobals.CEMingler:
+            return self.__doMingler(lerpTime, toMingler=True)
+        elif effect == ToontownGlobals.CEFlunky:
+            return self.__doFlunky(lerpTime, toFlunky=True)
+        elif effect == ToontownGlobals.CETelemarketer:
+            return self.__doTelemarketer(lerpTime, toTelemarketer=True)
+        elif effect == ToontownGlobals.CELoanShark:
+            return self.__doLoanShark(lerpTime, toLoanShark=True)
+        elif effect == ToontownGlobals.CEBigWig:
+            return self.__doBigWig(lerpTime, toBigWig=True)
+        elif effect == ToontownGlobals.CEMicroManager:
+            return self.__doMicroManager(lerpTime, toMicroManager=True)
+        elif effect == ToontownGlobals.CEBigFish:
+            return self.__doBigFish(lerpTime, toBigFish=True)
+        elif effect == ToontownGlobals.CECorporateRaider:
+            return self.__doCorporateRaider(lerpTime, toCorporateRaider=True)
+        elif effect == ToontownGlobals.CEHeadHoncho:
+            return self.__doHeadHoncho(lerpTime, toHeadHoncho=True)
+        elif effect == ToontownGlobals.CEDoubleTalker:
+            return self.__doDoubleTalker(lerpTime, toDoubleTalker=True)
+        elif effect == ToontownGlobals.CETwoFace:
+            return self.__doTwoFace(lerpTime, toTwoFace=True)
+        elif effect == ToontownGlobals.CEConArtist:
+            return self.__doConArtist(lerpTime, toConArtist=True)
+        elif effect == ToontownGlobals.CEConnoisseur:
+            return self.__doConnoisseur(lerpTime, toConnoisseur=True)
+        elif effect == ToontownGlobals.CESwindler:
+            return self.__doSwindler(lerpTime, toSwindler=True)
+        elif effect == ToontownGlobals.CEMiddleman:
+            return self.__doMiddleman(lerpTime, toMiddleman=True)
+        elif effect == ToontownGlobals.CEToxicManager:
+            return self.__doToxicManager(lerpTime, toToxicManager=True)
+        elif effect == ToontownGlobals.CEMagnate:
+            return self.__doMagnate(lerpTime, toMagnate=True)
+        elif effect == ToontownGlobals.CELegalEagle:
+            return self.__doLegalEagle(lerpTime, toLegalEagle=True)
+        elif effect == ToontownGlobals.CERobberBaron:
+            return self.__doRobberBaron(lerpTime, toRobberBaron=True)
+        elif effect == ToontownGlobals.CEColdCaller:
+            return self.__doColdCaller(lerpTime, toColdCaller=True)
+        elif effect == ToontownGlobals.CEShortChange:
+            return self.__doShortChange(lerpTime, toShortChange=True)
+        elif effect == ToontownGlobals.CEBloodsucker:
+            return self.__doBloodsucker(lerpTime, toBloodsucker=True)
+        elif effect == ToontownGlobals.CENameDropper:
+            return self.__doNameDropper(lerpTime, toNameDropper=True)
+        elif effect == ToontownGlobals.CEHeadHunter:
+            return self.__doHeadHunter(lerpTime, toHeadHunter=True)
+        elif effect == ToontownGlobals.CEHollywood:
+            return self.__doHollywood(lerpTime, toHollywood=True)
+        elif effect == ToontownGlobals.CEPencilPusher:
+            return self.__doPencilPusher(lerpTime, toPencilPusher=True)
+        elif effect == ToontownGlobals.CEMoneyBags:
+            return self.__doMoneyBags(lerpTime, toMoneyBags=True)
+        elif effect == ToontownGlobals.CESpinDoctor:
+            return self.__doSpinDoctor(lerpTime, toSpinDoctor=True)
+        elif effect == ToontownGlobals.CEAmbulanceChaser:
+            return self.__doAmbulanceChaser(lerpTime, toAmbulanceChaser=True)
+        elif effect == ToontownGlobals.CENumberCruncher:
+            return self.__doNumberCruncher(lerpTime, toNumberCruncher=True)
+        elif effect == ToontownGlobals.CEPennyPincher:
+            return self.__doPennyPincher(lerpTime, toPennyPincher=True)
+        elif effect == ToontownGlobals.CETightwad:
+            return self.__doTightwad(lerpTime, toTightwad=True)
+        elif effect == ToontownGlobals.CEBeanCounter:
+            return self.__doBeanCounter(lerpTime, toBeanCounter=True)
+        elif effect == ToontownGlobals.CEBackStabber:
+            return self.__doBackStabber(lerpTime, toBackStabber=True)
+        elif effect == ToontownGlobals.CEBottomFeeder:
+            return self.__doBottomFeeder(lerpTime, toBottomFeeder=True)
+        elif effect == ToontownGlobals.CEGreenToon:
+            return self.__doGreenToon(lerpTime, toGreen=True)
+        elif effect == ToontownGlobals.CERogerDog:
+            return self.__doRogerDog(lerpTime, toRoger=True)
+        elif effect == ToontownGlobals.CEFlippy:
+            return self.__doFlippy(lerpTime, toFlippy=True)
+        elif effect == ToontownGlobals.CESurlee:
+            return self.__doSurlee(lerpTime, toSurlee=True)
+        elif effect == ToontownGlobals.CEDimm:
+            return self.__doDimm(lerpTime, toDimm=True)
+        elif effect == ToontownGlobals.CEAlecTinn:
+            return self.__doAlecTinn(lerpTime, toAlecTinn=True)
+        elif effect == ToontownGlobals.CESlappy:
+            return self.__doSlappy(lerpTime, toSlappy=True)
+        elif effect == ToontownGlobals.CETutorialTom:
+            return self.__doTutorialTom(lerpTime, toTom=True)
+        elif effect == ToontownGlobals.CEOldman:
+            return self.__doLilOldman(lerpTime, toOldman=True)
+        elif effect == ToontownGlobals.CEKion:
+            return self.__doKion(lerpTime, toKion=True)
+        elif effect == ToontownGlobals.CESqueaky:
+            return self.__doSqueaky(lerpTime, toSqueaky=True)
+        elif effect == ToontownGlobals.CEFreddy:
+            return self.__doFreddy(lerpTime, toFreddy=True)
+        elif effect == ToontownGlobals.CEBilly:
+            return self.__doBilly(lerpTime, toBilly=True)
+        elif effect == ToontownGlobals.CEDroopy:
+            return self.__doDroopy(lerpTime, toDroopy=True)
+        elif effect == ToontownGlobals.CEPunchy:
+            return self.__doPunchy(lerpTime, toPunchy=True)
+        elif effect == ToontownGlobals.CEFurball:
+            return self.__doFurball(lerpTime, toFurball=True)
+        elif effect == ToontownGlobals.CEBarney:
+            return self.__doBarney(lerpTime, toBarney=True)
+        elif effect == ToontownGlobals.CEPete:
+            return self.__doPete(lerpTime, toPete=True)
+        elif effect == ToontownGlobals.CELouis:
+            return self.__doLouis(lerpTime, toLouis=True)
+        elif effect == ToontownGlobals.CEVirtual:
+            return self.__doVirtual()
+        elif effect == ToontownGlobals.CEGhost:
+            alpha = 0.25
+            if base.localAvatar.getAdminAccess() < self.adminAccess:
+                alpha = 0
+            return Sequence(self.__doToonGhostColorScale(VBase4(1, 1, 1, alpha), lerpTime, keepDefault=1), Func(self.nametag3d.hide))
+        elif effect == ToontownGlobals.CEWire:
+            return self.__doWireFrame()
+        return Sequence()
+
+    def __undoCheesyEffect(self, effect, lerpTime):
+        if effect == ToontownGlobals.CEBigHead:
+            return self.__doHeadScale(None, lerpTime)
+        elif effect == ToontownGlobals.CESmallHead:
+            return self.__doHeadScale(None, lerpTime)
+        if effect == ToontownGlobals.CEBigLegs:
+            return self.__doLegsScale(None, lerpTime)
+        elif effect == ToontownGlobals.CESmallLegs:
+            return self.__doLegsScale(None, lerpTime)
+        elif effect == ToontownGlobals.CEBigToon:
+            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CESmallToon:
+            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CETinyToon:
+            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CEGiantToon:
+            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CEBeanToon:
+            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CEFlatPortrait:
+            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CEFlatProfile:
+            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CETransparent:
+            return self.doToonColorScale(None, lerpTime, keepDefault=1)
+        elif effect == ToontownGlobals.CENoColor:
+            return self.__doToonColor(None, lerpTime)
+        elif effect == ToontownGlobals.CEInvisible:
+            return self.__doPartsColorScale(None, lerpTime)
+        elif effect == ToontownGlobals.CEPumpkin:
+            return self.__doPumpkinHeadSwitch(lerpTime, toPumpkin=False)
+        elif effect == ToontownGlobals.CEBigWhite:
+            return self.__doBigAndWhite(None, None, lerpTime)
+        elif effect == ToontownGlobals.CESnowMan:
+            return self.__doSnowManHeadSwitch(lerpTime, toSnowMan=False)
+        elif effect == ToontownGlobals.CEYesMan:
+            return self.__doYesMan(lerpTime, toYesMan=False)
+        elif effect == ToontownGlobals.CEDownsizer:
+            return self.__doDownsizer(lerpTime, toDownsizer=False)
+        elif effect == ToontownGlobals.CEMoverShaker:
+            return self.__doMoverShaker(lerpTime, toMoverShaker=False)
+        elif effect == ToontownGlobals.CEBigCheese:
+            return self.__doBigCheese(lerpTime, toBigCheese=False)
+        elif effect == ToontownGlobals.CEGladHander:
+            return self.__doGladHander(lerpTime, toGladHander=False)
+        elif effect == ToontownGlobals.CEMingler:
+            return self.__doMingler(lerpTime, toMingler=False)
+        elif effect == ToontownGlobals.CEFlunky:
+            return self.__doFlunky(lerpTime, toFlunky=False)
+        elif effect == ToontownGlobals.CETelemarketer:
+            return self.__doTelemarketer(lerpTime, toTelemarketer=False)
+        elif effect == ToontownGlobals.CELoanShark:
+            return self.__doLoanShark(lerpTime, toLoanShark=False)
+        elif effect == ToontownGlobals.CEBigWig:
+            return self.__doBigWig(lerpTime, toBigWig=False)
+        elif effect == ToontownGlobals.CEMicroManager:
+            return self.__doMicroManager(lerpTime, toMicroManager=False)
+        elif effect == ToontownGlobals.CEBigFish:
+            return self.__doBigFish(lerpTime, toBigFish=False)
+        elif effect == ToontownGlobals.CECorporateRaider:
+            return self.__doCorporateRaider(lerpTime, toCorporateRaider=False)
+        elif effect == ToontownGlobals.CEHeadHoncho:
+            return self.__doHeadHoncho(lerpTime, toHeadHoncho=False)
+        elif effect == ToontownGlobals.CEDoubleTalker:
+            return self.__doDoubleTalker(lerpTime, toDoubleTalker=False)
+        elif effect == ToontownGlobals.CETwoFace:
+            return self.__doTwoFace(lerpTime, toTwoFace=False)
+        elif effect == ToontownGlobals.CEConArtist:
+            return self.__doConArtist(lerpTime, toConArtist=False)
+        elif effect == ToontownGlobals.CEConnoisseur:
+            return self.__doConnoisseur(lerpTime, toConnoisseur=False)
+        elif effect == ToontownGlobals.CESwindler:
+            return self.__doSwindler(lerpTime, toSwindler=False)
+        elif effect == ToontownGlobals.CEMiddleman:
+            return self.__doMiddleman(lerpTime, toMiddleman=False)
+        elif effect == ToontownGlobals.CEToxicManager:
+            return self.__doToxicManager(lerpTime, toToxicManager=False)
+        elif effect == ToontownGlobals.CEMagnate:
+            return self.__doMagnate(lerpTime, toMagnate=False)
+        elif effect == ToontownGlobals.CELegalEagle:
+            return self.__doLegalEagle(lerpTime, toLegalEagle=False)
+        elif effect == ToontownGlobals.CERobberBaron:
+            return self.__doRobberBaron(lerpTime, toRobberBaron=False)
+        elif effect == ToontownGlobals.CEColdCaller:
+            return self.__doColdCaller(lerpTime, toColdCaller=False)
+        elif effect == ToontownGlobals.CEShortChange:
+            return self.__doShortChange(lerpTime, toShortChange=False)
+        elif effect == ToontownGlobals.CEBloodsucker:
+            return self.__doBloodsucker(lerpTime, toBloodsucker=False)
+        elif effect == ToontownGlobals.CENameDropper:
+            return self.__doNameDropper(lerpTime, toNameDropper=False)
+        elif effect == ToontownGlobals.CEHeadHunter:
+            return self.__doHeadHunter(lerpTime, toHeadHunter=False)
+        elif effect == ToontownGlobals.CEHollywood:
+            return self.__doHollywood(lerpTime, toHollywood=False)
+        elif effect == ToontownGlobals.CEPencilPusher:
+            return self.__doPencilPusher(lerpTime, toPencilPusher=False)
+        elif effect == ToontownGlobals.CEMoneyBags:
+            return self.__doMoneyBags(lerpTime, toMoneyBags=False)
+        elif effect == ToontownGlobals.CESpinDoctor:
+            return self.__doSpinDoctor(lerpTime, toSpinDoctor=False)
+        elif effect == ToontownGlobals.CEAmbulanceChaser:
+            return self.__doAmbulanceChaser(lerpTime, toAmbulanceChaser=False)
+        elif effect == ToontownGlobals.CENumberCruncher:
+            return self.__doNumberCruncher(lerpTime, toNumberCruncher=False)
+        elif effect == ToontownGlobals.CEPennyPincher:
+            return self.__doPennyPincher(lerpTime, toPennyPincher=False)
+        elif effect == ToontownGlobals.CETightwad:
+            return self.__doTightwad(lerpTime, toTightwad=False)
+        elif effect == ToontownGlobals.CEBeanCounter:
+            return self.__doBeanCounter(lerpTime, toBeanCounter=False)
+        elif effect == ToontownGlobals.CEBackStabber:
+            return self.__doBackStabber(lerpTime, toBackStabber=False)
+        elif effect == ToontownGlobals.CEBottomFeeder:
+            return self.__doBottomFeeder(lerpTime, toBottomFeeder=False)
+        elif effect == ToontownGlobals.CEGreenToon:
+            return self.__doGreenToon(lerpTime, toGreen=False)
+        elif effect == ToontownGlobals.CERogerDog:
+            return self.__doRogerDog(lerpTime, toRoger=False)
+        elif effect == ToontownGlobals.CEFlippy:
+            return self.__doFlippy(lerpTime, toFlippy=False)
+        elif effect == ToontownGlobals.CESurlee:
+            return self.__doSurlee(lerpTime, toSurlee=False)
+        elif effect == ToontownGlobals.CEDimm:
+            return self.__doDimm(lerpTime, toDimm=False)
+        elif effect == ToontownGlobals.CEAlecTinn:
+            return self.__doAlecTinn(lerpTime, toAlecTinn=False)
+        elif effect == ToontownGlobals.CESlappy:
+            return self.__doSlappy(lerpTime, toSlappy=False)
+        elif effect == ToontownGlobals.CETutorialTom:
+            return self.__doTutorialTom(lerpTime, toTom=False)
+        elif effect == ToontownGlobals.CEOldman:
+            return self.__doLilOldman(lerpTime, toOldman=False)
+        elif effect == ToontownGlobals.CEKion:
+            return self.__doKion(lerpTime, toKion=False)
+        elif effect == ToontownGlobals.CESqueaky:
+            return self.__doSqueaky(lerpTime, toSqueaky=False)
+        elif effect == ToontownGlobals.CEFreddy:
+            return self.__doFreddy(lerpTime, toFreddy=False)
+        elif effect == ToontownGlobals.CEBilly:
+            return self.__doBilly(lerpTime, toBilly=False)
+        elif effect == ToontownGlobals.CEDroopy:
+            return self.__doDroopy(lerpTime, toDroopy=False)
+        elif effect == ToontownGlobals.CEPunchy:
+            return self.__doPunchy(lerpTime, toPunchy=False)
+        elif effect == ToontownGlobals.CEFurball:
+            return self.__doFurball(lerpTime, toFurball=False)
+        elif effect == ToontownGlobals.CEBarney:
+            return self.__doBarney(lerpTime, toBarney=False)
+        elif effect == ToontownGlobals.CEPete:
+            return self.__doPete(lerpTime, toPete=False)
+        elif effect == ToontownGlobals.CELouis:
+            return self.__doLouis(lerpTime, toLouis=False)
+        elif effect == ToontownGlobals.CEVirtual:
+            return self.__doUnVirtual()
+        elif effect == ToontownGlobals.CEGhost:
+            return Sequence(Func(self.nametag3d.show), self.__doToonGhostColorScale(None, lerpTime, keepDefault=1))
+        elif effect == ToontownGlobals.CEWire:
+            return self.__doUnWireFrame()
+        return Sequence()
+
+            
+    def putOnSuit(self, suitType, setDisplayName = True, rental = False):
+        if self.isDisguised:
+            self.takeOffSuit()
+        if launcher and not launcher.getPhaseComplete(5):
+            return
+        from toontown.suit import Suit
+        deptIndex = suitType
+        suit = Suit.Suit()
+        dna = SuitDNA.SuitDNA()
+        if rental == True:
+            if SuitDNA.suitDepts[deptIndex] == 's':
+                suitType = 'cc'
+            elif SuitDNA.suitDepts[deptIndex] == 'm':
+                suitType = 'sc'
+            elif SuitDNA.suitDepts[deptIndex] == 'l':
+                suitType = 'bf'
+            elif SuitDNA.suitDepts[deptIndex] == 'c':
+                suitType = 'f'
+            elif SuitDNA.suitDepts[deptIndex] == 'g':
+                suitType = 'ca'
+            else:
+                self.notify.warning('Suspicious: Incorrect rental suit department requested')
+                suitType = 'cc'
+        dna.newSuit(suitType)
+        suit.setStyle(dna)
+        suit.isDisguised = 1
+        suit.generateSuit()
+        suit.initializeDropShadow()
+        suit.setPos(self.getPos())
+        suit.setHpr(self.getHpr())
+        '''for part in suit.getHeadParts():
+            part.hide()
+
+        suitHeadNull = suit.find('**/joint_head')
+        toonHead = self.getPart('head', '1000')'''
+        Emote.globalEmote.disableAll(self)
+        toonGeom = self.getGeomNode()
+        toonGeom.hide()
+        '''worldScale = toonHead.getScale(render)
+        self.headOrigScale = toonHead.getScale()
+        headPosNode = hidden.attachNewNode('headPos')
+        toonHead.reparentTo(headPosNode)
+        toonHead.setPos(0, 0, 0.2
+        headPosNode.reparentTo(suitHeadNull)
+        headPosNode.setScale(render, worldScale)'''
+        suitGeom = suit.getGeomNode()
+        suitGeom.reparentTo(self)
+        if rental == True:
+            suit.makeRentalSuit(SuitDNA.suitDepts[deptIndex])
+        self.suit = suit
+        self.suitGeom = suitGeom
+        self.setHeight(suit.getHeight())
+        self.nametag3d.setPos(0, 0, self.height + 1.3)
+        if self.isLocal():
+            if hasattr(self, 'book'):
+                self.book.obscureButton(1)
+            self.oldForward = ToontownGlobals.ToonForwardSpeed
+            self.oldReverse = ToontownGlobals.ToonReverseSpeed
+            self.oldRotate = ToontownGlobals.ToonRotateSpeed
+            ToontownGlobals.ToonForwardSpeed = ToontownGlobals.SuitWalkSpeed
+            ToontownGlobals.ToonReverseSpeed = ToontownGlobals.SuitWalkSpeed
+            ToontownGlobals.ToonRotateSpeed = ToontownGlobals.ToonRotateSlowSpeed
+            if self.hasTrackAnimToSpeed():
+                self.stopTrackAnimToSpeed()
+                self.startTrackAnimToSpeed()
+            self.controlManager.disableAvatarJump()
+            indices = range(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1)
+            customIndices = OTPLocalizer.SCMenuCustomCogIndices[suitType]
+            indices += range(customIndices[0], customIndices[1] + 1)
+            self.chatMgr.chatInputSpeedChat.addCogMenu(indices)
+        self.suit.loop('neutral')
+        self.isDisguised = 1
+        self.setFont(ToontownGlobals.getSuitFont())
+        if setDisplayName:
+            if hasattr(base, 'idTags') and base.idTags:
+                name = self.getAvIdName()
+            else:
+                name = self.getName()
+            suitDept = SuitDNA.suitDepts.index(SuitDNA.getSuitDept(suitType))
+            suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
+            print self.cogLevels
+            self.nametag.setText(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
+             'dept': suitName,
+             'level': self.cogLevels[suitDept] + 1})
+            self.nametag.setWordWrap(9.0)
+
+    def takeOffSuit(self):
+        if not self.isDisguised:
+            return
+        suitType = self.suit.style.name
+        '''toonHeadNull = self.find('**/1000/**/def_head')
+        if not toonHeadNull:
+            toonHeadNull = self.find('**/1000/**/joint_head')
+        toonHead = self.getPart('head', '1000')
+        toonHead.reparentTo(toonHeadNull)
+        toonHead.setScale(self.headOrigScale)
+        toonHead.setPos(0, 0, 0)
+        headPosNode = self.suitGeom.find('**/headPos')
+        headPosNode.removeNode()'''
+        self.suitGeom.reparentTo(self.suit)
+        self.resetHeight()
+        self.nametag3d.setPos(0, 0, self.height + 0.5)
+        toonGeom = self.getGeomNode()
+        toonGeom.show()
+        Emote.globalEmote.releaseAll(self)
+        self.isDisguised = 0
+        self.setFont(ToontownGlobals.getToonFont())
+        self.nametag.setWordWrap(None)
+        if hasattr(base, 'idTags') and base.idTags:
+            name = self.getAvIdName()
+        else:
+            name = self.getName()
+        self.setDisplayName(name)
+        if self.isLocal():
+            if hasattr(self, 'book'):
+                self.book.obscureButton(0)
+            ToontownGlobals.ToonForwardSpeed = self.oldForward
+            ToontownGlobals.ToonReverseSpeed = self.oldReverse
+            ToontownGlobals.ToonRotateSpeed = self.oldRotate
+            if self.hasTrackAnimToSpeed():
+                self.stopTrackAnimToSpeed()
+                self.startTrackAnimToSpeed()
+            del self.oldForward
+            del self.oldReverse
+            del self.oldRotate
+            self.controlManager.enableAvatarJump()
+            self.chatMgr.chatInputSpeedChat.removeCogMenu()
+        self.suit.delete()
+        del self.suit
+        del self.suitGeom
+
+    def makeWaiter(self):
+        if not self.isDisguised:
+            return
+        self.suit.makeWaiter(self.suitGeom)
+
+    def getPieModel(self):
+        from toontown.toonbase import ToontownBattleGlobals
+        from toontown.battle import BattleProps
+        if self.pieModel != None and self.__pieModelType != self.pieType:
+            self.pieModel.detachNode()
+            self.pieModel = None
+        if self.pieModel == None:
+            self.__pieModelType = self.pieType
+            pieName = ToontownBattleGlobals.pieNames[self.pieType]
+            self.pieModel = BattleProps.globalPropPool.getProp(pieName)
+            self.pieScale = self.pieModel.getScale()
+        return self.pieModel
+
+    def getPresentPieInterval(self, x, y, z, h):
+        from toontown.toonbase import ToontownBattleGlobals
+        from toontown.battle import BattleProps
+        from toontown.battle import MovieUtil
+        pie = self.getPieModel()
+        pieName = ToontownBattleGlobals.pieNames[self.pieType]
+        pieType = BattleProps.globalPropPool.getPropType(pieName)
+        animPie = Sequence()
+        pingpongPie = Sequence()
+        if pieType == 'actor':
+            animPie = ActorInterval(pie, pieName, startFrame=0, endFrame=31)
+            pingpongPie = Func(pie.pingpong, pieName, fromFrame=32, toFrame=47)
+        partName = None
+        if self.playingAnim != 'neutral':
+            partName = 'torso'
+        track = Sequence(Func(self.setPosHpr, x, y, z, h, 0, 0), Func(pie.reparentTo, self.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), Parallel(pie.scaleInterval(1, self.pieScale, startScale=MovieUtil.PNT3_NEARZERO), ActorInterval(self, 'throw', startFrame=0, endFrame=31, partName=partName), animPie), Func(self.pingpong, 'throw', fromFrame=32, toFrame=45, partName=partName), pingpongPie)
+        return track
+
+    def getTossPieInterval(self, x, y, z, h, power, throwType, beginFlyIval = Sequence()):
+        from toontown.toonbase import ToontownBattleGlobals
+        from toontown.battle import BattleProps
+        pie = self.getPieModel()
+        flyPie = pie.copyTo(NodePath('a'))
+        pieName = ToontownBattleGlobals.pieNames[self.pieType]
+        pieType = BattleProps.globalPropPool.getPropType(pieName)
+        animPie = Sequence()
+        if pieType == 'actor':
+            animPie = ActorInterval(pie, pieName, startFrame=48)
+        sound = loader.loadSfx('phase_3.5/audio/sfx/AA_pie_throw_only.ogg')
+        if throwType == ToontownGlobals.PieThrowArc:
+            t = power / 100.0
+            dist = 100 - 70 * t
+            time = 1 + 0.5 * t
+            proj = ProjectileInterval(None, startPos=Point3(0, 0, 0),
+                                      endPos=Point3(0, dist, 0), duration=time)
+            relVel = proj.startVel
+        elif throwType == ToontownGlobals.PieThrowLinear:
+            magnitude = power / 2. + 25
+ 
+            relVel = Vec3(0, 1, 0.25)
+            relVel.normalize()
+            relVel *= magnitude
+
+        def getVelocity(toon = self, relVel = relVel):
+            return render.getRelativeVector(toon, relVel)
+        partName = None
+        oldanim = self.playingAnim
+        if self.playingAnim != 'neutral':
+            partName = 'torso'
+        toss = Track((0, Sequence(Func(self.setPosHpr, x, y, z, h, 0, 0), Func(pie.reparentTo, self.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), Parallel(ActorInterval(self, 'throw', startFrame=48, partName=partName), animPie), Func(self.loop, oldanim))), (16.0 / 24.0, Func(pie.detachNode)))
+        fly = Track((14.0 / 24.0, SoundInterval(sound, node=self)), (16.0 / 24.0, Sequence(Func(flyPie.reparentTo, render), Func(flyPie.setScale, self.pieScale), Func(flyPie.setPosHpr, self, 0.52, 0.97, 2.24, 89.42, -10.56, 87.94), beginFlyIval, ProjectileInterval(flyPie, startVel=getVelocity, duration=3), Func(flyPie.detachNode))))
+        return (toss, fly, flyPie)
+
+    def getPieSplatInterval(self, x, y, z, pieCode):
+        from toontown.toonbase import ToontownBattleGlobals
+        from toontown.battle import BattleProps
+        pieName = ToontownBattleGlobals.pieNames[self.pieType]
+        splatName = 'splat-%s' % pieName
+        if pieName == 'wedding-cake':
+            splatName = 'splat-birthday-cake'
+        if pieName == 'lawbook':
+            splatName = 'dust'
+        splat = BattleProps.globalPropPool.getProp(splatName)
+        splat.setBillboardPointWorld(2)
+        color = ToontownGlobals.PieCodeColors.get(pieCode)
+        if color:
+            splat.setColor(*color)
+        vol = 1.0
+        if pieName == 'lawbook':
+            sound = loader.loadSfx('phase_11/audio/sfx/LB_evidence_miss.ogg')
+            vol = 0.25
+        else:
+            sound = loader.loadSfx('phase_4/audio/sfx/AA_wholepie_only.ogg')
+        ival = Parallel(Func(splat.reparentTo, render), Func(splat.setPos, x, y, z), SoundInterval(sound, node=splat, volume=vol), Sequence(ActorInterval(splat, splatName), Func(splat.detachNode)))
+        return ival
+
+    def cleanupPieModel(self):
+        if self.pieModel != None:
+            self.pieModel.detachNode()
+            self.pieModel = None
+
+    def getFeedPetIval(self):
+        return Sequence(ActorInterval(self, 'feedPet'), Func(self.animFSM.request, 'neutral'))
+
+    def getScratchPetIval(self):
+        return Sequence(ActorInterval(self, 'pet-start'), ActorInterval(self, 'pet-loop'), ActorInterval(self, 'pet-end'))
+
+    def getCallPetIval(self):
+        return ActorInterval(self, 'callPet')
+
+    def enterGolfPuttLoop(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('loop-putt')
+
+    def exitGolfPuttLoop(self):
+        self.stop()
+
+    def enterGolfRotateLeft(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('rotateL-putt')
+
+    def exitGolfRotateLeft(self):
+        self.stop()
+
+    def enterGolfRotateRight(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('rotateR-putt')
+
+    def exitGolfRotateRight(self):
+        self.stop()
+
+    def enterGolfPuttSwing(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('swing-putt')
+
+    def exitGolfPuttSwing(self):
+        self.stop()
+
+    def enterGolfGoodPutt(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('good-putt', restart=0)
+
+    def exitGolfGoodPutt(self):
+        self.stop()
+
+    def enterGolfBadPutt(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('badloop-putt', restart=0)
+
+    def exitGolfBadPutt(self):
+        self.stop()
+
+    def enterFlattened(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        Emote.globalEmote.disableAll(self)
+        sound = loader.loadSfx('phase_9/audio/sfx/toon_decompress.ogg')
+        lerpTime = 0.1
+        node = self.getGeomNode().getChild(0)
+        self.origScale = node.getScale()
+        self.track = Sequence(LerpScaleInterval(node, lerpTime, VBase3(2, 2, 0.025), blendType='easeInOut'))
+        self.track.start(ts)
+        self.setActiveShadow(1)
+
+    def exitFlattened(self):
+        self.playingAnim = 'neutral'
+        if self.track != None:
+            self.track.finish()
+            DelayDelete.cleanupDelayDeletes(self.track)
+            self.track = None
+        node = self.getGeomNode().getChild(0)
+        node.setScale(self.origScale)
+        Emote.globalEmote.releaseAll(self)
+
+    def enterCogThiefRunning(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.playingAnim = None
+        self.playingRate = None
+        self.standWalkRunReverse = (('neutral', 1.0),
+         ('run', 1.0),
+         ('run', 1.0),
+         ('run', -1.0))
+        self.setSpeed(self.forwardSpeed, self.rotateSpeed)
+        self.setActiveShadow(1)
+
+    def exitCogThiefRunning(self):
+        self.standWalkRunReverse = None
+        self.stop()
+        self.motion.exit()
+
+    def enterScientistJealous(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('scientistJealous')
+
+    def exitScientistJealous(self):
+        self.stop()
+
+    def enterScientistEmcee(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('scientistEmcee')
+
+    def exitScientistEmcee(self):
+        self.stop()
+
+    def enterScientistWork(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('scientistWork')
+
+    def exitScientistWork(self):
+        self.stop()
+
+    def enterScientistLessWork(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('scientistWork', fromFrame=319, toFrame=619)
+
+    def exitScientistLessWork(self):
+        self.stop()
+
+    def enterScientistPlay(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
+        self.loop('scientistGame')
+
+    def exitScientistPlay(self):
+        self.stop()
+
+
+loadModels()
+compileGlobalAnimList()
