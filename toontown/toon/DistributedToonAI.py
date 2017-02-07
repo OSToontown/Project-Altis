@@ -4416,6 +4416,52 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
         
+    def setWarningCount(self, count):   
+        if 0 > count:
+            count = 0
+            
+        self.warningCount = count
+        
+    def getWarningCount(self):
+        return self.warningCount
+        
+    def doWarningBan(self, msg):
+        if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+            simbase.air.banManager.ban(self.doId, msg)
+        
+    def incrementWarningCount(self):
+        self.b_setWarningCount(int(self.getWarningCount()) + 1)
+        
+    def decrementWarningCount(self):
+        count = int(self.getWarningCount()) - 1
+        if 0 > count:
+            count = 0
+
+        self.b_setWarningCount(count)
+        del count
+  
+    def checkWarningCount(self, noBan = False):
+        if self.warningCount >= 3:
+            self.setWarningCount(0)
+            self.d_setWarningCount(0)
+            if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS and not noBan:
+                self.doWarningBan("Three Strikes You're Out! - Auto Ban Manager")
+                return
+        
+    def d_setWarningCount(self, count):
+        if 0 > count:
+            count = 0
+    
+        self.sendUpdate("setWarningCount", [count])
+        
+    def b_setWarningCount(self, count, noBan = False):
+        if 0 > count:
+            count = 0
+        
+        self.checkWarningCount(noBan)
+        self.setWarningCount(count)
+        self.d_setWarningCount(count)
+        
     def magicTeleportResponse(self, requesterId, hoodId):
         toon = self.air.doId2do.get(requesterId)
         if toon:

@@ -139,6 +139,9 @@ class NewsManagerAI(DistributedObjectAI):
 
     def sendSystemMessage(self, message, style):
         self.sendUpdate('sendSystemMessage', [message, style])
+        
+    def sendSystemMessageToAvatar(self, avatar, message, style):
+        self.sendUpdateToAvatarId(avatar.getDoId(), 'sendSystemMessage', [message, style])
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def startHoliday(holidayId):

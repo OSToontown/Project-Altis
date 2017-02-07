@@ -1143,6 +1143,7 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
+  setWarningCount(uint8) ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {

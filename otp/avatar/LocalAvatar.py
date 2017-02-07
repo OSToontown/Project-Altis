@@ -1001,7 +1001,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastMoved = globalClock.getFrameTime()
         if self.sleepFlag:
             self.sleepFlag = 0
-        return
 
     def gotoSleep(self):
         if self.neverSleep:

@@ -495,9 +495,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setTalk(self, fromAV, fromAC, avatarName, chat, mods, flags):
         timestamp = time.strftime('%m-%d-%Y %H:%M:%S', time.localtime())
         if fromAV == 0:
-            print ':%s: setTalk: %r, %r, %r' % (timestamp, self.doId, self.name, chat)
+            self.notify.debug(':%s: setTalk: %r, %r, %r' % (timestamp, self.doId, self.name, chat))
         else:
-            print ':%s: setTalk: %r, %r, %r' % (timestamp, fromAV, avatarName, chat)
+            self.notify.debug(':%s: setTalk: %r, %r, %r' % (timestamp, fromAV, avatarName, chat))
 
         if base.cr.avatarFriendsManager.checkIgnored(fromAV):
             self.d_setWhisperIgnored(fromAV)
@@ -2766,6 +2766,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'gmIcon') and self.gmIcon:
             self.gmIcon.detachNode()
             del self.gmIcon
+            
+    def setWarningCount(self, count):
+        pass
             
     def _startZombieCheck(self):
         self._lastZombieContext = None
