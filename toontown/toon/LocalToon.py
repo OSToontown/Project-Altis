@@ -1289,7 +1289,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__gardeningGui:
             return
         gardenGuiCard = loader.loadModel('phase_5.5/models/gui/planting_gui')
-        self.__gardeningGui = DirectFrame(relief=None, geom=gardenGuiCard, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(-1.2, 0, 0.5), scale=1.0)
+        self.__gardeningGui = DirectFrame(parent = base.a2dTopLeft, relief=None, geom=gardenGuiCard, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(0.15, 0, -0.5), scale=1.0)
         self.__gardeningGui.setName('gardeningFrame')
         self.__gardeningGuiFake = DirectFrame(relief=None, geom=None, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(-1.2, 0, 0.5), scale=1.0)
         self.__gardeningGuiFake.setName('gardeningFrameFake')
