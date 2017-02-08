@@ -37,7 +37,6 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
     def redeemCodeAiToUd(self, avId, context, code):
         if code in self.__altnames:
             if str(self.__altnames[code]) in self.__codes:
-                self.notify.info(code)
                 code = str(self.__altnames[code])
             
         if code not in self.__codes.keys():
