@@ -1,6 +1,5 @@
 from toontown.catalog import CatalogItem
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals, TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 LoyaltyEmoteItems = (20, 21, 22, 23, 24)
@@ -47,9 +46,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         return ToontownGlobals.P_ItemAvailable
 
     def getPicture(self, avatar):
-        from toontown.toon import Toon
-        from toontown.toon import ToonHead
-        from toontown.toon import TTEmote
+        from toontown.toon import Toon, ToonHead, TTEmote
         from otp.avatar import Emote
         self.hasPicture = True
         if self.emoteIndex in Emote.globalEmote.getHeadEmotes():
@@ -74,9 +71,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         return (model, track)
 
     def changeIval(self, volume):
-        from toontown.toon import Toon
-        from toontown.toon import ToonHead
-        from toontown.toon import TTEmote
+        from toontown.toon import Toon, ToonHead, TTEmote
         from otp.avatar import Emote
         self.volume = volume
         if not hasattr(self, 'pictureToon'):
@@ -98,7 +93,6 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         self.pictureToon.emote = None
         self.pictureToon.delete()
         self.pictureToon = None
-        return
 
     def output(self, store = -1):
         return 'CatalogEmoteItem(%s%s)' % (self.emoteIndex, self.formatOptionalData(store))

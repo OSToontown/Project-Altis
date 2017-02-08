@@ -239,7 +239,6 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             model.setColorScale(color, 1)
             if needsAlpha:
                 model.setTransparency(1)
-        return
 
     def loadModel(self):
         modelPath = self.getFilename()
@@ -361,7 +360,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         return modelPath
 
     def getColor(self):
-        return None
+        pass
 
     def compareTo(self, other):
         return self.accessoryType - other.accessoryType

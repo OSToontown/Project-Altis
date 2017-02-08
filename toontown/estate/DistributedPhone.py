@@ -136,7 +136,6 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
          (self.model.find('**/CurveNode7'), (0, 0, 0))))
         self.cord.reparentTo(self.model)
         self.cord.node().setBounds(BoundingSphere(Point3(-1.0, -3.2, 2.6), 2.0))
-        return
 
     def disable(self):
         self.notify.debug('disable')
@@ -154,7 +153,6 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
             self.freeAvatar()
         self.ignoreAll()
         DistributedFurnitureItem.DistributedFurnitureItem.disable(self)
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -254,7 +252,6 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
 
         else:
             self.notify.warning('unknown mode in setMovie: %s' % mode)
-        return
 
     def __showPhoneGui(self):
         if self.toonScale:
@@ -276,7 +273,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.sendUpdate('requestPurchaseMessage', [context, blob, optional])
 
     def requestGiftPurchase(self, item, targetDoID, callback, optional = -1):
-        print 'in the client phone'
+        self.notify.debug("Requesting Gift Purchase!")
         blob = item.getBlob(store=CatalogItem.Customization)
         context = self.getCallbackContext(callback, [item])
         self.sendUpdate('requestGiftPurchaseMessage', [context, targetDoID, blob, optional])
@@ -291,7 +288,6 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.phoneDialog.cleanup()
         self.phoneDialog = None
         self.freeAvatar()
-        return
 
     def takePhoneInterval(self, toon):
         torso = TextEncoder.upper(toon.style.torso[0])
@@ -381,4 +377,3 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
 
         ringIval = Parallel(Func(base.playSfx, self.ringSfx), shakeSeq, Func(phone.setR, 0))
         self.playInterval(ringIval, 0.0, None)
-        return

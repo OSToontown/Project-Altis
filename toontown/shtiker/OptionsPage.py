@@ -822,12 +822,10 @@ class CodesTabPage(DirectFrame):
         self._parent = parent
         DirectFrame.__init__(self, parent=self._parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
         self.load()
-        return
 
     def destroy(self):
         self._parent = None
         DirectFrame.destroy(self)
-        return
 
     def load(self):
         cdrGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_sbk_codeRedemptionGui')
@@ -855,7 +853,6 @@ class CodesTabPage(DirectFrame):
         closeButtonGui.removeNode()
         cdrGui.removeNode()
         submitButtonGui.removeNode()
-        return
 
     def enter(self):
         self.show()
@@ -886,7 +883,6 @@ class CodesTabPage(DirectFrame):
         self.closeButton = None
         del self.successSfx
         del self.failureSfx
-        return
 
     def __submitCode(self, input = None):
         if input == None:
@@ -899,31 +895,49 @@ class CodesTabPage(DirectFrame):
             base.cr.codeRedemptionMgr.redeemCode(input, self.__getCodeResult)
         self.codeInput.enterText('')
         self.__disableCodeEntry()
-        return
 
-    def __getCodeResult(self, result):
+    def __getCodeResult(self, result, awardMgrResult = 0):
         self.notify.debug('result = %s' % result)
         self.__enableCodeEntry()
         if result == 0:
             self.resultPanel['image'] = self.resultPanelSuccessGui
             self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
-        elif result == 1:
+        elif result == 1 or result == 3:
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultInvalidCode
         elif result == 2:
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultExpiredCode
-        elif result == 3:
-            self.resultPanel['image'] = self.resultPanelErrorGui
         elif result == 4:
             self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyRedeemed
+            if awardMgrResult == 0:
+                self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
+            elif awardMgrResult == 1 and awardMgrResult == 2 and awardMgrResult == 15 or awardMgrResult == 16:
+                self.resultPanel['text'] = TTLocalizer.CdrResultUnknownError
+            elif awardMgrResult == 3 or awardMgrResult == 4:
+                self.resultPanel['text'] = TTLocalizer.CdrResultMailboxFull
+            elif awardMgrResult == 5 or awardMgrResult == 10:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInMailbox
+            elif awardMgrResult == 6 and awardMgrResult == 7 or awardMgrResult == 11:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInQueue
+            elif awardMgrResult == 8:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInCloset
+            elif awardMgrResult == 9:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyBeingWorn
+            elif awardMgrResult == 12 and awardMgrResult == 13 or awardMgrResult == 14:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyReceived
+            elif awardMgrResult == 16:
+                self.resultPanel['text'] = TTLocalizer.CdrResultClosetFull
+            elif awardMgrResult == 17:
+                self.resultPanel['text'] = TTLocalizer.CdrResultTrunkFull
+            
         elif result == 5:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultNotReady
+            self.resultPanel['text'] = TTLocalizer.CdrResultTooManyFails
+            self.__disableCodeEntry()
         elif result == 6:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultNotEligible
+            self.resultPanel['text'] = TTLocalizer.CdrResultServiceUnavailable
+            self.__disableCodeEntry()
+        
         if result == 0:
             self.successSfx.play()
         else:
