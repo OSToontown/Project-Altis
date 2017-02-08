@@ -1923,3 +1923,20 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 self.canEarnAchievements = True
 
         DistributedToon.DistributedToon.setAchievements(self, achievements)
+        
+    def getPetId(self):
+        return self.petId
+
+    def hasPet(self):
+        return self.petId != 0
+
+    def getPetDNA(self):
+        if self.hasPet():
+            pet = base.cr.identifyFriend(self.petId)
+            return pet.style if pet else None
+        return None
+
+    def setPetId(self, petId):
+        self.petId = petId
+        if self.isLocal():
+            base.cr.addPetToFriendsMap()
