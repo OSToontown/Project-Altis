@@ -15,7 +15,8 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
         DistributedObjectGlobalUD.__init__(self, air)
 
         # Store codes to result
-        self.__codes = {'sillysurges': CatalogClothingItem(1753, 0), 'supersurprise': CatalogBeanItem(500), 'greengift': CatalogGardenStarterItem()}
+        self.__codes = {'sillymeter': CatalogClothingItem(1753, 0), 'sweet': CatalogBeanItem(12000), 'greengift': CatalogGardenStarterItem()}
+        self.__altnames = {'silly meter': 'sillymeter', 'green gift': 'greengift'}
         
     def giveAwardToToon(self, avId, code, context):
         item = CatalogInvalidItem()
@@ -25,7 +26,7 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
            
         if isinstance(item, CatalogInvalidItem):
             self.notify.warning("A invalid item was going to be delivered for redeeming a code! The delivery has been cancelled!")
-            self.d_redeemCodeResultUdToAi(avId, context, TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven, 0)
+            self.d_redeemCodeResultUdToAi(avId, context, TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven, 1)
             return
             
         item = item.getBlob(store=CatalogItem.Customization)
@@ -34,6 +35,11 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
 
 
     def redeemCodeAiToUd(self, avId, context, code):
+        if code in self.__altnames:
+            if str(self.__altnames[code]) in self.__codes:
+                self.notify.info(code)
+                code = str(self.__altnames[code])
+            
         if code not in self.__codes.keys():
             # Recieved an invalid code from AI, Deny redeem request.
             self.d_redeemCodeResultUdToAi(avId, context, TTCodeRedemptionConsts.RedeemErrors.CodeDoesntExist, 0)

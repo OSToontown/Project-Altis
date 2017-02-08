@@ -896,29 +896,48 @@ class CodesTabPage(DirectFrame):
         self.codeInput.enterText('')
         self.__disableCodeEntry()
 
-    def __getCodeResult(self, result, awardMgrResult = None):
+    def __getCodeResult(self, result, awardMgrResult = 0):
         self.notify.debug('result = %s' % result)
         self.__enableCodeEntry()
         if result == 0:
             self.resultPanel['image'] = self.resultPanelSuccessGui
             self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
-        elif result == 1:
+        elif result == 1 or result == 3:
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultInvalidCode
         elif result == 2:
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultExpiredCode
-        elif result == 3:
-            self.resultPanel['image'] = self.resultPanelErrorGui
         elif result == 4:
             self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyRedeemed
+            if awardMgrResult == 0:
+                self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
+            elif awardMgrResult == 1 and awardMgrResult == 2 and awardMgrResult == 15 or awardMgrResult == 16:
+                self.resultPanel['text'] = TTLocalizer.CdrResultUnknownError
+            elif awardMgrResult == 3 or awardMgrResult == 4:
+                self.resultPanel['text'] = TTLocalizer.CdrResultMailboxFull
+            elif awardMgrResult == 5 or awardMgrResult == 10:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInMailbox
+            elif awardMgrResult == 6 and awardMgrResult == 7 or awardMgrResult == 11:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInQueue
+            elif awardMgrResult == 8:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInCloset
+            elif awardMgrResult == 9:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyBeingWorn
+            elif awardMgrResult == 12 and awardMgrResult == 13 or awardMgrResult == 14:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyReceived
+            elif awardMgrResult == 16:
+                self.resultPanel['text'] = TTLocalizer.CdrResultClosetFull
+            elif awardMgrResult == 17:
+                self.resultPanel['text'] = TTLocalizer.CdrResultTrunkFull
+            
         elif result == 5:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultNotReady
+            self.resultPanel['text'] = TTLocalizer.CdrResultTooManyFails
+            self._CodesTabPage__disableCodeEntry()
         elif result == 6:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultNotEligible
+            self.resultPanel['text'] = TTLocalizer.CdrResultServiceUnavailable
+            self._CodesTabPage__disableCodeEntry()
+        
         if result == 0:
             self.successSfx.play()
         else:
