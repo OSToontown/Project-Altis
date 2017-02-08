@@ -20,6 +20,10 @@ class DistributedGardenBox(DistributedLawnDecor.DistributedLawnDecor):
         self.plantingGuiDoneEvent = 'plantingGuiDone'
         self.defaultModel = 'phase_5.5/models/estate/planterC'
 
+    def announceGenerate(self):
+        self.notify.debug('announceGenerate')
+        DistributedLawnDecor.DistributedLawnDecor.announceGenerate(self)
+
     def doModelSetup(self):
         if self.typeIndex == GardenGlobals.BOX_THREE:
             self.defaultModel = 'phase_5.5/models/estate/planterA'

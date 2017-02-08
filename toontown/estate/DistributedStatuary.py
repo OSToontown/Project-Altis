@@ -37,7 +37,6 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         attrib = GardenGlobals.PlantAttributes[self.typeIndex]
         self.stick2Ground()
 
-
     def setTypeIndex(self, typeIndex):
         self.typeIndex = typeIndex
         self.name = GardenGlobals.PlantAttributes[typeIndex]['name']

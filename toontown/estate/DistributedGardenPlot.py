@@ -1,9 +1,8 @@
-import DistributedLawnDecor
+from toontown.estate import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
 from direct.interval.IntervalGlobal import *
-from DistributedGardenBox import DistributedGardenBox
-import GardenGlobals
+from toontown.estate import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
 from toontown.estate import PlantTreeGUI
@@ -15,7 +14,6 @@ import types
 
 class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGardenPlot')
-    deferFor = 2
 
     def __init__(self, cr):
         DistributedLawnDecor.DistributedLawnDecor.__init__(self, cr)
@@ -109,7 +107,10 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         return plantText
 
     def canBePlanted(self):
-        return base.localAvatar.doId == self.getOwnerId()
+        retval = True
+        if not base.localAvatar.doId == self.getOwnerId():
+            retval = False
+        return retval
 
     def plantSomething(self):
         whatCanBePlanted = GardenGlobals.whatCanBePlanted(self.ownerIndex, self.plot)
@@ -353,25 +354,3 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.stick2Ground()
         else:
             DistributedLawnDecor.DistributedLawnDecor.makeMovieNode(self)
-
-    def setBoxDoId(self, boxId, index):
-        self.index = index
-        if boxId in base.cr.doId2do:
-            self.setBox(base.cr.doId2do[boxId])
-        else:
-            self.acceptOnce('generate-%d' % boxId, self.setBox)
-
-    def setBox(self, box):
-        x = GardenGlobals.FLOWER_POS[box.typeIndex][self.index]
-
-        self.setPos(0, 0, 0)
-        self.reparentTo(box)
-        self.setZ(1.2)
-        self.setX(x)
-
-    def stick2Ground(self, *args, **kwargs):
-        plotType = GardenGlobals.whatCanBePlanted(self.ownerIndex, self.plot)
-        if plotType == GardenGlobals.FLOWER_TYPE:
-            return
-
-        return DistributedLawnDecor.DistributedLawnDecor.stick2Ground(self, *args, **kwargs)

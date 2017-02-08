@@ -13,7 +13,6 @@ INVALID_TYPE = -1
 GAG_TREE_TYPE = 0
 FLOWER_TYPE = 1
 STATUARY_TYPE = 2
-TOON_STATUARY_TYPE = 3
 WATERING_CAN_SMALL = 0
 WATERING_CAN_MEDIUM = 1
 WATERING_CAN_LARGE = 2
@@ -309,7 +308,7 @@ def getTreeTypeIndex(track, level):
     return track * 7 + level
 
 
-NUM_GAGS = 8 * 7
+NUM_GAGS = 7 * 7
 for i in xrange(NUM_GAGS):
     track, level = getTreeTrackAndLevel(i)
     if level <= 6:
@@ -1149,7 +1148,6 @@ estatePlots = (plots0,
 BOX_ONE = 1
 BOX_TWO = 2
 BOX_THREE = 3
-FLOWER_POS = (None, (0,), (-1.5, 1.5), (-3.5, 0, 3.5))
 flowerBoxes0 = ((-62.5,
   -52.5,
   182.0,

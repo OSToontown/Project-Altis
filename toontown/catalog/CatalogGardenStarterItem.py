@@ -31,12 +31,14 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
 
     def recordPurchase(self, avatar, optional):
         if avatar:
+
             estate = simbase.air.estateManager.toon2estate.get(avatar)
             if estate:
                 estate.placeStarterGarden(avatar.doId)
                 av = simbase.air.doId2do.get(avatar)
                 if av:
                     av.b_setGardenStarted(1)
+
             else:
                 print 'starter garden-- something not there'
         return ToontownGlobals.P_ItemAvailable
@@ -100,3 +102,5 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         if self.confirmGarden:
             self.confirmGarden.cleanup()
             self.confirmGarden = None
+
+        return

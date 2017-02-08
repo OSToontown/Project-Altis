@@ -147,12 +147,6 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             self.nodePath = None
         taskMgr.remove(self.uniqueName('adjust tree'))
         return
-    
-    def setEstate(self, estate):
-        self.estate = estate
-    
-    def getEstate(self):
-        return self.estate
 
     def setPos(self, x, y, z):
         DistributedNode.DistributedNode.setPos(self, x, y, z)
@@ -340,6 +334,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         digupTrack = self.generateDigupTrack(toon)
         self.movie = Sequence(self.startCamIval(avId), moveTrack, Func(shovel.show), digupTrack)
         if avId == localAvatar.doId:
+            self.expectingReplacement = 1
             self.movie.append(Func(self.movieDone))
         self.movie.start()
 
