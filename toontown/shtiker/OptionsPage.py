@@ -933,10 +933,10 @@ class CodesTabPage(DirectFrame):
             
         elif result == 5:
             self.resultPanel['text'] = TTLocalizer.CdrResultTooManyFails
-            self._CodesTabPage__disableCodeEntry()
+            self.__disableCodeEntry()
         elif result == 6:
             self.resultPanel['text'] = TTLocalizer.CdrResultServiceUnavailable
-            self._CodesTabPage__disableCodeEntry()
+            self.__disableCodeEntry()
         
         if result == 0:
             self.successSfx.play()
