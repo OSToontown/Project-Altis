@@ -1,6 +1,11 @@
+import time
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectGlobalAI import DistributedObjectGlobalAI
+from toontown.catalog import CatalogItem
+from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
+from toontown.catalog.CatalogClothingItem import CatalogClothingItem
 from toontown.coderedemption import TTCodeRedemptionConsts
+from toontown.toonbase import ToontownGlobals
 
 class TTCodeRedemptionMgrAI(DistributedObjectGlobalAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("TTCodeRedemptionMgrAI")
@@ -18,9 +23,46 @@ class TTCodeRedemptionMgrAI(DistributedObjectGlobalAI):
 
     def giveAwardToToonResult(self, todo0, todo1):
         pass
+        
+    def deliverItem(self, avId, context, item):
+        if avId not in self.air.doId2do.keys():
+            return 
 
+        av = self.air.doId2do[avId]
+        
+        item = CatalogItem.getItem(item)
+        
+        if isinstance(item, CatalogInvalidItem):
+            self.notify.warning("A invalid item was going to be delivered for redeeming a code! The delivery has been cancelled!")
+            self.d_redeemCodeResult(avId, context, TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven, 1)
+            return
+            
+        if len(av.mailboxContents) + len(av.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
+            self.notify.debug("Avatar %d's mailbox is full! Not delivering item!" % (avId))
+            self.d_redeemCodeResult(avId, context, TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven, 3)
+            return
+            
+        if isinstance(item, CatalogClothingItem):
+            if av.isClosetFull():
+                self.notify.debug("Avatar %d's closet is full! Not delivering item!" % (avId))
+                self.d_redeemCodeResult(avId, context, TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven, 16)
+                return
+            
+        if item.reachedPurchaseLimit(av):
+            self.notify.debug("Avatar %d already has reward! Not delivering item!" % (avId))
+            self.d_redeemCodeResult(avId, context, TTCodeRedemptionConsts.RedeemErrors.AwardCouldntBeGiven, 14)
+            return
+    
+        item.deliveryDate = int(time.time() / 60) + 1 
+        av.onOrder.append(item)
+        av.b_setDeliverySchedule(av.onOrder)
+
+        self.d_redeemCodeResult(avId, context, TTCodeRedemptionConsts.RedeemErrors.Success, 0)
+        
     def redeemCode(self, context, code):
         avId = self.__getSender()
+        
+        code = str(code).lower() #Using str() to prevent any possible crashes. 
 
         if not avId:
             # got an invalid avatar id!
@@ -32,7 +74,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectGlobalAI):
                 0)
 
             return
-
+        
         self.redeemCodeAiToUd(avId, context, code)
 
     def redeemCodeAiToUd(self, avId, context, code):

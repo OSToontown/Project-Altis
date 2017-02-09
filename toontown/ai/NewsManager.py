@@ -430,6 +430,9 @@ class NewsManager(DistributedObject.DistributedObject):
 
     def setTrolleyWeekendStart(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.TrolleyWeekendStart)
+      
+    def setTrolleyWeekendOngoing(self):
+        pass
 
     def setTrolleyWeekendEnd(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.TrolleyWeekendEnd)

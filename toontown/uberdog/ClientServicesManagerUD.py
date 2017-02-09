@@ -814,7 +814,7 @@ class DeleteAvatarFSM(GetAvatarsFSM):
                 estateId,
                 self.csm.air.dclassesByName['DistributedEstateAI'],
                 {'setSlot%dToonId' % index: [0],
-                 'setSlot%dItems' % index: [[]]}
+                 'setSlot%dGarden' % index: [[]]}
             )
 
         self.csm.air.dbInterface.updateObject(
@@ -1130,7 +1130,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = 'VhgdThjgoNI0SAbfeSjcyxo9iSyghKSh43ZMidFI'
+        self.key = '74Ce9b90fd8d802f229F76aBaccEd22433C8702f'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)

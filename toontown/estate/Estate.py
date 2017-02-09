@@ -98,7 +98,6 @@ class Estate(Place.Place):
         del self.fsm
         self.fog = None
         Place.Place.unload(self)
-        return
 
     def enter(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -128,7 +127,6 @@ class Estate(Place.Place):
             self.loader.enterAnimatedProps(i)
 
         self.loader.geom.reparentTo(render)
-        # The client April Toons Manager is currently broken, so we have to do this hacky thing instead. :(
         #if hasattr(base.cr, 'aprilToonsMgr'):
             #if self.isEventActive(AprilToonsGlobals.EventEstateGravity):
                 #base.localAvatar.startAprilToonsControls()
@@ -198,14 +196,12 @@ class Estate(Place.Place):
             taskMgr.add(self.__checkToonUnderwater, 'estate-check-toon-underwater')
         if hasattr(self, 'petTutorial') and self.petTutorial is not None:
             self.petTutorial.destroy()
-        return
 
     def petTutorialDone(self):
         self.ignore(self.petTutorialDoneEvent)
         self.petTutorial.destroy()
         self.petTutorial = None
         self.fsm.request('walk', [1])
-        return
 
     def enterMailbox(self):
         Place.Place.enterPurchase(self)
@@ -278,7 +274,6 @@ class Estate(Place.Place):
         else:
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent, [self.doneStatus])
-        return
 
     def goHomeFailed(self, task):
         self.notifyUserGoHomeFailed()

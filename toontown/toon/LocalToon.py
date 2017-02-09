@@ -1289,7 +1289,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__gardeningGui:
             return
         gardenGuiCard = loader.loadModel('phase_5.5/models/gui/planting_gui')
-        self.__gardeningGui = DirectFrame(relief=None, geom=gardenGuiCard, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(-1.2, 0, 0.5), scale=1.0)
+        self.__gardeningGui = DirectFrame(parent = base.a2dTopLeft, relief=None, geom=gardenGuiCard, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(0.15, 0, -0.5), scale=1.0)
         self.__gardeningGui.setName('gardeningFrame')
         self.__gardeningGuiFake = DirectFrame(relief=None, geom=None, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(-1.2, 0, 0.5), scale=1.0)
         self.__gardeningGuiFake.setName('gardeningFrameFake')
@@ -1923,3 +1923,20 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 self.canEarnAchievements = True
 
         DistributedToon.DistributedToon.setAchievements(self, achievements)
+        
+    def getPetId(self):
+        return self.petId
+
+    def hasPet(self):
+        return self.petId != 0
+
+    def getPetDNA(self):
+        if self.hasPet():
+            pet = base.cr.identifyFriend(self.petId)
+            return pet.style if pet else None
+        return None
+
+    def setPetId(self, petId):
+        self.petId = petId
+        if self.isLocal():
+            base.cr.addPetToFriendsMap()

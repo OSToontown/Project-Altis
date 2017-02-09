@@ -58,6 +58,10 @@ if 'tpmsgs' not in settings:
     settings['tpmsgs'] = True
 if 'friendstatusmsgs' not in settings:
     settings['friendstatusmsgs'] = True
+if 'doorkey' not in settings:
+    settings['doorkey'] = False
+if 'interactkey' not in settings:
+    settings['interactkey'] = False
 settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
@@ -68,8 +72,8 @@ loadPrcFileData('Settings: sfxVol', 'audio-master-sfx-volume %s' % settings['sfx
 loadPrcFileData('Settings: loadDisplay', 'load-display %s' % settings['loadDisplay'])
 loadPrcFileData('Settings: toonChatSounds', 'toon-chat-sounds %s' % settings['toonChatSounds'])
 
-'''loadDisplay = settings.get('loadDisplay', 'pandagl')
-loadPrcFileData('', 'load-display' % settings['loadDisplay'])'''
+loadDisplay = settings.get('loadDisplay', 'pandagl')
+loadPrcFileData('', 'load-display %s' % settings['loadDisplay'])
 
 import os
 import time

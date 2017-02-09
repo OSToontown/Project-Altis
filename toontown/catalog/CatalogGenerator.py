@@ -512,7 +512,7 @@ MonthlySchedule = ((7,
    CatalogGardenItem(104, 1),
    CatalogToonStatueItem(105, endPoseIndex=108),
    #CatalogRentalItem(1, 2880, 1000), # TODO
-   #CatalogGardenStarterItem(), # TODO
+   CatalogGardenStarterItem(), # TODO
    CatalogNametagItem(100),
    CatalogNametagItem(0),
    CatalogClothingItem(1608, 0, 0),
@@ -1713,15 +1713,12 @@ class CatalogGenerator:
             return ''
         else:
             return '(%0.2f, %0.2f, %0.2f)' % (color[0], color[1], color[2])
-        return
 
     def __determineSeries(self, seriesDict, weeklist):
         for week in weeklist:
             if isinstance(week, types.IntType):
                 series = (week - 1) / ToontownGlobals.CatalogNumWeeksPerSeries + 1
                 seriesDict[series] = None
-
-        return
 
     def __formatWeeklist(self, weeklist):
         str = ''
@@ -1784,8 +1781,6 @@ class CatalogGenerator:
                 for i in item:
                     self.__recordScheduleItem(sched, None, weekCode, i)
 
-        return
-
     def __recordScheduleItem(self, sched, weekCode, maybeWeekCode, item):
         if item not in sched:
             sched[item] = [[], []]
@@ -1793,4 +1788,3 @@ class CatalogGenerator:
             sched[item][0].append(weekCode)
         if maybeWeekCode != None:
             sched[item][1].append(maybeWeekCode)
-        return

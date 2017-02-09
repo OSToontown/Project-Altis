@@ -22,7 +22,6 @@ class CrusherCellAI(ActiveCellAI.ActiveCellAI):
             if ent:
                 self.crushers.append(entId)
                 self.accept(ent.crushMsg, self.doCrush)
-        return
 
     def unregisterCrusher(self, entId):
         if entId in self.crushers:
@@ -32,7 +31,6 @@ class CrusherCellAI(ActiveCellAI.ActiveCellAI):
             ent = self.level.entities.get(entId, None)
             if ent:
                 self.ignore(ent.crushMsg)
-        return
 
     def registerCrushable(self, entId):
         if entId not in self.crushables:
@@ -52,12 +50,9 @@ class CrusherCellAI(ActiveCellAI.ActiveCellAI):
                 else:
                     self.notify.warning("couldn't find crushable object %d" % self.occupantId)
 
-        return
-
     def updateCrushables(self):
         for id in self.crushables:
             crushable = self.level.entities.get(id, None)
             if crushable:
                 crushable.updateGrid()
 
-        return

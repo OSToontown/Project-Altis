@@ -119,7 +119,7 @@ speedChatStyles = (
         (210 / 255.0, 200 / 255.0, 180 / 255.0)
     )
 )
-PageMode = PythonUtil.Enum('Options, Codes, Special')
+PageMode = PythonUtil.Enum('Options, Codes')
 
 
 class OptionsPage(ShtikerPage.ShtikerPage):
@@ -130,11 +130,9 @@ class OptionsPage(ShtikerPage.ShtikerPage):
 
         self.optionsTabPage = None
         self.codesTabPage = None
-        self.specialOptionsTabPage = None
         self.title = None
         self.optionsTab = None
         self.codesTab = None
-        self.specialOptionsTab = None
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
@@ -143,8 +141,6 @@ class OptionsPage(ShtikerPage.ShtikerPage):
         self.optionsTabPage.hide()
         self.codesTabPage = CodesTabPage(self)
         self.codesTabPage.hide()
-        self.specialOptionsTabPage = SpecialOptionsTabPage(self)
-        self.specialOptionsTabPage.hide()
 
         self.title = DirectLabel(
             parent=self, relief=None, text=TTLocalizer.OptionsPageTitle,
@@ -173,18 +169,10 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035),
             image_color=normalColor, image1_color=clickColor,
             image2_color=rolloverColor, image3_color=diabledColor,
-            text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode,
-            extraArgs=[PageMode.Codes], pos=(-0.12, 0, 0.77))
-        self.specialOptionsTab = DirectButton(
-            parent=self, relief=None, text=TTLocalizer.OptionsPageSpecial,
-            text_scale=TTLocalizer.OPoptionsTab, text_align=TextNode.ALeft,
-            text_pos=(0.027, 0.0, 0.0),
-            image=gui.find('**/tabs/polySurface2'), image_pos=(0.12, 1, -0.91),
-            image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035),
-            image_color=normalColor, image1_color=clickColor,
-            image2_color=rolloverColor, image3_color=diabledColor,
-            text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode,
-            extraArgs=[PageMode.Special], pos=(0.42, 0, 0.77))
+            text_fg=Vec4(0.2, 0.1, 0, 1), 
+            #command=self.setMode,
+            #extraArgs=[PageMode.Codes],
+            pos=(-0.12, 0, 0.77))
         gui.removeNode()
 
     def enter(self):
@@ -195,7 +183,6 @@ class OptionsPage(ShtikerPage.ShtikerPage):
     def exit(self):
         self.optionsTabPage.exit()
         self.codesTabPage.exit()
-        self.specialOptionsTabPage.exit()
         
         ShtikerPage.ShtikerPage.exit(self)
 
@@ -219,10 +206,6 @@ class OptionsPage(ShtikerPage.ShtikerPage):
         if self.codesTab is not None:
             self.codesTab.destroy()
             self.codesTab = None
-        
-        if self.specialOptionsTab is not None:
-            self.specialOptionsTab.destroy()
-            self.specialOptionsTab = None
 
         ShtikerPage.ShtikerPage.unload(self)
 
@@ -241,24 +224,12 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             self.optionsTabPage.enter()
             self.codesTab['state'] = DGG.NORMAL
             self.codesTabPage.exit()
-            self.specialOptionsTab['state'] = DGG.NORMAL
-            self.specialOptionsTabPage.exit()
         elif mode == PageMode.Codes:
             self.title['text'] = TTLocalizer.CdrPageTitle
             self.optionsTab['state'] = DGG.NORMAL
             self.optionsTabPage.exit()
-            self.specialOptionsTab['state'] = DGG.NORMAL
-            self.specialOptionsTabPage.exit()
             self.codesTab['state'] = DGG.DISABLED
             self.codesTabPage.enter()
-        elif mode == PageMode.Special:
-            self.title['text'] = TTLocalizer.OptionsPageSpecial
-            self.optionsTab['state'] = DGG.NORMAL
-            self.optionsTabPage.exit()
-            self.codesTab['state'] = DGG.NORMAL
-            self.codesTabPage.exit()
-            self.specialOptionsTab['state'] = DGG.DISABLED
-            self.specialOptionsTabPage.enter()
 
 class OptionsTabPage(DirectFrame):
     notify = directNotify.newCategory('OptionsTabPage')
@@ -272,7 +243,8 @@ class OptionsTabPage(DirectFrame):
         self.currentSizeIndex = None
 
         DirectFrame.__init__(self, parent=self._parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
-
+        self.scrollFrame = DirectScrolledFrame(parent=self, frameSize=(0, 1.5, -1.2, 0), pos=(-0.75, 1, 0.52),
+                                       canvasSize=(0, 1, -7, 0), frameColor=(0, 0, 0, 0))
         self.load()
 
     def destroy(self):
@@ -292,53 +264,134 @@ class OptionsTabPage(DirectFrame):
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         circleModel = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_nameShop')
         titleHeight = 0.61
-        textStartHeight = 0.45
+        textStartHeight = -0.21
         textRowHeight = 0.145
-        leftMargin = -0.72
-        buttonbase_xcoord = 0.35
-        buttonbase_ycoord = 0.45
+        leftMargin = 0
+        buttonbase_xcoord = 1.1
+        buttonbase_ycoord = -0.21
         button_image_scale = (0.7, 1, 1)
         button_textpos = (0, -0.02)
         options_text_scale = 0.052
         disabled_arrow_color = Vec4(0.6, 0.6, 0.6, 1.0)
         self.speed_chat_scale = 0.055
-        self.Music_Label = DirectLabel(parent=self, relief=None, text=TTLocalizer.OptionsPageMusic, text_align=TextNode.ALeft, text_scale=options_text_scale, pos=(leftMargin, 0, textStartHeight))
-        self.SoundFX_Label = DirectLabel(parent=self, relief=None, text=TTLocalizer.OptionsPageSFX, text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight))
-        self.Friends_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - 3 * textRowHeight))
-        self.Whispers_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - 4 * textRowHeight))
-        self.DisplaySettings_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=10, pos=(leftMargin, 0, textStartHeight - 5 * textRowHeight))
-        self.SpeedChatStyle_Label = DirectLabel(parent=self, relief=None, text=TTLocalizer.OptionsPageSpeedChatStyleLabel, text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=10, pos=(leftMargin, 0, textStartHeight - 6 * textRowHeight))
-        self.ToonChatSounds_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=15, pos=(leftMargin, 0, textStartHeight - 2 * textRowHeight + 0.025))
+        self.Music_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text=TTLocalizer.OptionsPageMusic, text_align=TextNode.ALeft, text_scale=options_text_scale, pos=(leftMargin, 0, textStartHeight))
+        self.SoundFX_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text=TTLocalizer.OptionsPageSFX, text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight))
+        self.Friends_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - 3 * textRowHeight))
+        self.Whispers_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - 4 * textRowHeight))
+        self.DisplaySettings_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=10, pos=(leftMargin, 0, textStartHeight - 5 * textRowHeight))
+        self.SpeedChatStyle_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text=TTLocalizer.OptionsPageSpeedChatStyleLabel, text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=10, pos=(leftMargin, 0, textStartHeight - 6 * textRowHeight))
+        self.ToonChatSounds_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=15, pos=(leftMargin, 0, textStartHeight - 2 * textRowHeight + 0.025))
         self.ToonChatSounds_Label.setScale(0.9)
-        self.Music_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord),
+        self.Music_toggleSlider = DirectSlider(self.scrollFrame.getCanvas(), pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord),
                                                value=settings['musicVol']*100, pageSize=5, range=(0, 100), command=self.__doMusicLevel,
                                                thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
         self.Music_toggleSlider.setScale(0.25)
-        self.SoundFX_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight),
+        self.SoundFX_toggleSlider = DirectSlider(self.scrollFrame.getCanvas(), pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight),
                                                value=settings['sfxVol']*100, pageSize=5, range=(0, 100), command=self.__doSfxLevel,
                                                thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
         self.SoundFX_toggleSlider.setScale(0.25)
-        self.Friends_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 3), command=self.__doToggleAcceptFriends)
-        self.Whispers_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 4), command=self.__doToggleAcceptWhispers)
-        self.DisplaySettingsButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image3_color=Vec4(0.5, 0.5, 0.5, 0.5), image_scale=button_image_scale, text=TTLocalizer.OptionsPageChange, text3_fg=(0.5, 0.5, 0.5, 0.75), text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 5), command=self.__doDisplaySettings)
-        self.speedChatStyleLeftArrow = DirectButton(parent=self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
+        self.Friends_toggleButton = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 3), command=self.__doToggleAcceptFriends)
+        self.Whispers_toggleButton = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 4), command=self.__doToggleAcceptWhispers)
+        self.DisplaySettingsButton = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image3_color=Vec4(0.5, 0.5, 0.5, 0.5), image_scale=button_image_scale, text=TTLocalizer.OptionsPageChange, text3_fg=(0.5, 0.5, 0.5, 0.75), text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 5), command=self.__doDisplaySettings)
+        self.speedChatStyleLeftArrow = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
          gui.find('**/Horiz_Arrow_DN'),
          gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), scale=(-1.0, 1.0, 1.0), pos=(0.25, 0, buttonbase_ycoord - textRowHeight * 6), command=self.__doSpeedChatStyleLeft)
-        self.speedChatStyleRightArrow = DirectButton(parent=self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
+         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), scale=(-1.0, 1.0, 1.0), pos=(.9, 0, buttonbase_ycoord - textRowHeight * 6), command=self.__doSpeedChatStyleLeft)
+        self.speedChatStyleRightArrow = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
          gui.find('**/Horiz_Arrow_DN'),
          gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), pos=(0.65, 0, buttonbase_ycoord - textRowHeight * 6), command=self.__doSpeedChatStyleRight)
-        self.ToonChatSounds_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'),
+         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), pos=(1.3, 0, buttonbase_ycoord - textRowHeight * 6), command=self.__doSpeedChatStyleRight)
+        self.ToonChatSounds_toggleButton = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'),
          guiButton.find('**/QuitBtn_DN'),
          guiButton.find('**/QuitBtn_RLVR'),
          guiButton.find('**/QuitBtn_UP')), image3_color=Vec4(0.5, 0.5, 0.5, 0.5), image_scale=button_image_scale, text='', text3_fg=(0.5, 0.5, 0.5, 0.75), text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 2 + 0.025), command=self.__doToggleToonChatSounds)
         self.ToonChatSounds_toggleButton.setScale(0.8)
         self.speedChatStyleText = SpeedChat.SpeedChat(name='OptionsPageStyleText', structure=[2000], backgroundModelName='phase_3/models/gui/ChatPanel', guiModelName='phase_3.5/models/gui/speedChatGui')
         self.speedChatStyleText.setScale(self.speed_chat_scale)
-        self.speedChatStyleText.setPos(0.37, 0, buttonbase_ycoord - textRowHeight * 6 + 0.03)
-        self.speedChatStyleText.reparentTo(self, DGG.FOREGROUND_SORT_INDEX)
-        self.exitButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=1.15, text=TTLocalizer.OptionsPageExitToontown, text_scale=options_text_scale, text_pos=button_textpos, textMayChange=0, pos=(0.45, 0, -0.6), command=self.__handleExitShowWithConfirm)
+        self.speedChatStyleText.setPos(1.1, 0, buttonbase_ycoord - textRowHeight * 6 + 0.03)
+        self.speedChatStyleText.reparentTo(self.scrollFrame.getCanvas(), DGG.FOREGROUND_SORT_INDEX)
+        self.exitButton = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=1.15, text=TTLocalizer.OptionsPageExitToontown, text_scale=options_text_scale, text_pos=button_textpos, textMayChange=0, pos=(1.1, 0, -.1), command=self.__handleExitShowWithConfirm)
+        # DOOR KEY
+        self.doorKey_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.9))
+        self.doorKey_toggleButton = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.9),
+                                              command=self.__doToggleDoorKey)
+        # Former Advanced Options
+        self.WASD_Label = DirectLabel(parent=self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - 8 * textRowHeight))
+        self.WASD_toggleButton = DirectButton(parent=self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 8), command=self.__doToggleWASD)
+        self.keymapDialogButton = DirectButton(parent=self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='Change Keybinds', text_scale=(0.03, 0.05, 1), text_pos=button_textpos, pos=(buttonbase_xcoord + 0.0, 0.0, buttonbase_ycoord - textRowHeight * 8.5), command=self.__openKeyRemapDialog) 
+        self.keymapDialogButton.setScale(1.55*.9, .9, .9)
+        self.newGui_Label = DirectLabel(parent=self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 1.8))
+        self.newGui_toggleButton = DirectButton(parent=self.scrollFrame.getCanvas(), relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.8),
+                                              command=self.__doToggleNewGui)
+        self.fov_Label = DirectLabel(parent=self.scrollFrame.getCanvas(), relief=None, text='Field of view', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight - 1.2))
+
+        self.fov_toggleSlider = DirectSlider(parent=self.scrollFrame.getCanvas(), pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.2),
+                                               value=settings['fieldofview'], pageSize=5, range=(30, 120), command=self.__doFovLevel,
+                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+        self.fov_toggleSlider.setScale(0.25)
+        self.fov_resetButton = DirectButton(parent=self.scrollFrame.getCanvas(), relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='Reset FOV', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.3), command=self.__resetFov)
+        self.fovsliderText = OnscreenText("0.0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
+        self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
+        
+        self.meterMode_Label = DirectLabel(parent=self.scrollFrame.getCanvas(), relief=None, text='Nametag Laff Display Mode', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight - 1.4))
+
+        self.meterMode_toggleSlider = DirectSlider(parent=self.scrollFrame.getCanvas(), pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.4),
+                                               value=settings['health-meter-mode'], pageSize=1, range=(0, 2), command=self.__doMeterMode,
+                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
+        self.meterMode_toggleSlider.setScale(0.25)
+        self.meterModesliderText = OnscreenText("0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
+        self.meterModesliderText.reparentTo(self.meterMode_toggleSlider.thumb)
+        self.animations_Label = DirectLabel(parent=self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 1.5))
+        self.animations_toggleButton = DirectButton(parent=self.scrollFrame.getCanvas(), relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.5),
+                                              command=self.__doToggleAnimations)
+        self.tpMessages_Label = DirectLabel(parent=self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 1.6))
+        self.tpMessages_toggleButton = DirectButton(parent=self.scrollFrame.getCanvas(), relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.6),
+                                              command=self.__doToggleTpMessages)
+
+        self.friendMessages_Label = DirectLabel(parent=self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 1.7))
+        self.friendMessages_toggleButton = DirectButton(parent=self.scrollFrame.getCanvas(), relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.7),
+                                              command=self.__doToggleFriendMessages)    
+        self.interactKey_Label = DirectLabel(self.scrollFrame.getCanvas(), relief=None, text='', text_align=TextNode.ALeft,
+                                      text_scale=options_text_scale, text_wordwrap=16,
+                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 1.9))
+        self.interactKey_toggleButton = DirectButton(self.scrollFrame.getCanvas(), relief=None, image=(
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
+                                              text_pos=button_textpos,
+                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 1.9),
+                                              command=self.__doToggleInteractKey)
+        guiButton.removeNode()
+        circleModel.removeNode()
         guiButton.removeNode()
         gui.removeNode()
 
@@ -350,9 +403,17 @@ class OptionsTabPage(DirectFrame):
         self.__setAcceptWhispersButton()
         self.__setDisplaySettings()
         self.__setToonChatSoundsButton()
+        self.__setWASDButton()
+        self.__setNewGuiButton()
+        self.__doFovLevel()
+        self.__setAnimationsButton()
+        self.__setTpMessagesButton()
+        self.__setFriendMessagesButton()
+        self.__setInteractKey()
         self.speedChatStyleText.enter()
         self.speedChatStyleIndex = base.localAvatar.getSpeedChatStyleIndex()
         self.updateSpeedChatStyle()
+        self.__setDoorKey()
         if self._parent.book.safeMode:
             self.exitButton.hide()
         else:
@@ -380,6 +441,8 @@ class OptionsTabPage(DirectFrame):
         self.DisplaySettingsButton.destroy()
         self.speedChatStyleLeftArrow.destroy()
         self.speedChatStyleRightArrow.destroy()
+        self.doorKey_Label.destroy()
+        self.doorKey_toggleButton.destroy()
         del self.exitButton
         del self.SoundFX_Label
         del self.Music_Label
@@ -392,9 +455,31 @@ class OptionsTabPage(DirectFrame):
         del self.Whispers_toggleButton
         del self.speedChatStyleLeftArrow
         del self.speedChatStyleRightArrow
+        del self.doorKey_Label
+        del self.doorKey_toggleButton
+        self.WASD_Label.destroy()
+        del self.WASD_Label
+        self.WASD_toggleButton.destroy()
+        del self.WASD_toggleButton
+        self.keymapDialogButton.destroy()
+        del self.keymapDialogButton
+        self.fov_toggleSlider.destroy()
+        del self.fov_toggleSlider
+        self.fov_resetButton.destroy()
+        del self.fov_resetButton
+        self.fov_Label.destroy()
+        del self.fov_Label
+        self.animations_Label.destroy()
+        del self.animations_Label
+        self.animations_toggleButton.destroy()
+        del self.animations_toggleButton
         self.speedChatStyleText.exit()
         self.speedChatStyleText.destroy()
         del self.speedChatStyleText
+        self.interactKey_toggleButton.destroy()
+        self.interactKey_Label.destroy()
+        del self.interactKey_toggleButton
+        del self.interactKey_Label
         self.currentSizeIndex = None
 
     def __doMusicLevel(self):
@@ -529,7 +614,7 @@ class OptionsTabPage(DirectFrame):
         colorName = SCStaticTextTerminal.SCStaticTextTerminal(nameKey)
         self.speedChatStyleText.append(colorName)
         self.speedChatStyleText.finalize()
-        self.speedChatStyleText.setPos(0.445 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0, self.speedChatStyleText.getPos()[2])
+        self.speedChatStyleText.setPos(1.1 - self.speedChatStyleText.getWidth() * self.speed_chat_scale / 2, 0, self.speedChatStyleText.getPos()[2])
         if self.speedChatStyleIndex > 0:
             self.speedChatStyleLeftArrow['state'] = DGG.NORMAL
         else:
@@ -564,259 +649,25 @@ class OptionsTabPage(DirectFrame):
             base.cr._userLoggingOut = True
             messenger.send(self._parent.doneEvent)
 
-
-class CodesTabPage(DirectFrame):
-    notify = directNotify.newCategory('CodesTabPage')
-
-    def __init__(self, parent = aspect2d):
-        self._parent = parent
-        DirectFrame.__init__(self, parent=self._parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
-        self.load()
-        return
-
-    def destroy(self):
-        self._parent = None
-        DirectFrame.destroy(self)
-        return
-
-    def load(self):
-        cdrGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_sbk_codeRedemptionGui')
-        instructionGui = cdrGui.find('**/tt_t_gui_sbk_cdrPresent')
-        flippyGui = cdrGui.find('**/tt_t_gui_sbk_cdrFlippy')
-        codeBoxGui = cdrGui.find('**/tt_t_gui_sbk_cdrCodeBox')
-        self.resultPanelSuccessGui = cdrGui.find('**/tt_t_gui_sbk_cdrResultPanel_success')
-        self.resultPanelFailureGui = cdrGui.find('**/tt_t_gui_sbk_cdrResultPanel_failure')
-        self.resultPanelErrorGui = cdrGui.find('**/tt_t_gui_sbk_cdrResultPanel_error')
-        self.successSfx = base.loadSfx('phase_3.5/audio/sfx/tt_s_gui_sbk_cdrSuccess.ogg')
-        self.failureSfx = base.loadSfx('phase_3.5/audio/sfx/tt_s_gui_sbk_cdrFailure.ogg')
-        self.instructionPanel = DirectFrame(parent=self, relief=None, image=instructionGui, image_scale=0.8, text=TTLocalizer.CdrInstructions, text_pos=TTLocalizer.OPCodesInstructionPanelTextPos, text_align=TextNode.ACenter, text_scale=TTLocalizer.OPCodesResultPanelTextScale, text_wordwrap=TTLocalizer.OPCodesInstructionPanelTextWordWrap, pos=(-0.429, 0, -0.05))
-        self.codeBox = DirectFrame(parent=self, relief=None, image=codeBoxGui, pos=(0.433, 0, 0.35))
-        self.flippyFrame = DirectFrame(parent=self, relief=None, image=flippyGui, pos=(0.44, 0, -0.353))
-        self.codeInput = DirectEntry(parent=self.codeBox, relief=DGG.GROOVE, scale=0.08, pos=(-0.33, 0, -0.006), borderWidth=(0.05, 0.05), frameColor=((1, 1, 1, 1), (1, 1, 1, 1), (0.5, 0.5, 0.5, 0.5)), state=DGG.NORMAL, text_align=TextNode.ALeft, text_scale=TTLocalizer.OPCodesInputTextScale, width=10.5, numLines=1, focus=1, backgroundFocus=0, cursorKeys=1, text_fg=(0, 0, 0, 1), suppressMouse=1, autoCapitalize=0, command=self.__submitCode)
-        submitButtonGui = loader.loadModel('phase_3/models/gui/quit_button')
-        self.submitButton = DirectButton(parent=self, relief=None, image=(submitButtonGui.find('**/QuitBtn_UP'),
-         submitButtonGui.find('**/QuitBtn_DN'),
-         submitButtonGui.find('**/QuitBtn_RLVR'),
-         submitButtonGui.find('**/QuitBtn_UP')), image3_color=Vec4(0.5, 0.5, 0.5, 0.5), image_scale=1.15, state=DGG.NORMAL, text=TTLocalizer.NameShopSubmitButton, text_scale=TTLocalizer.OPCodesSubmitTextScale, text_align=TextNode.ACenter, text_pos=TTLocalizer.OPCodesSubmitTextPos, text3_fg=(0.5, 0.5, 0.5, 0.75), textMayChange=0, pos=(0.45, 0.0, 0.0896), command=self.__submitCode)
-        self.resultPanel = DirectFrame(parent=self, relief=None, image=self.resultPanelSuccessGui, text='', text_pos=TTLocalizer.OPCodesResultPanelTextPos, text_align=TextNode.ACenter, text_scale=TTLocalizer.OPCodesResultPanelTextScale, text_wordwrap=TTLocalizer.OPCodesResultPanelTextWordWrap, pos=(-0.42, 0, -0.0567))
-        self.resultPanel.hide()
-        closeButtonGui = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
-        self.closeButton = DirectButton(parent=self.resultPanel, pos=(0.296, 0, -0.466), relief=None, state=DGG.NORMAL, image=(closeButtonGui.find('**/CloseBtn_UP'), closeButtonGui.find('**/CloseBtn_DN'), closeButtonGui.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1), command=self.__hideResultPanel)
-        closeButtonGui.removeNode()
-        cdrGui.removeNode()
-        submitButtonGui.removeNode()
-        return
-
-    def enter(self):
-        self.show()
-        localAvatar.chatMgr.fsm.request('otherDialog')
-        self.codeInput['focus'] = 1
-        self.codeInput.enterText('')
-        self.__enableCodeEntry()
-
-    def exit(self):
-        self.resultPanel.hide()
-        self.hide()
-        localAvatar.chatMgr.fsm.request('mainMenu')
-
-    def unload(self):
-        self.instructionPanel.destroy()
-        self.instructionPanel = None
-        self.codeBox.destroy()
-        self.codeBox = None
-        self.flippyFrame.destroy()
-        self.flippyFrame = None
-        self.codeInput.destroy()
-        self.codeInput = None
-        self.submitButton.destroy()
-        self.submitButton = None
-        self.resultPanel.destroy()
-        self.resultPanel = None
-        self.closeButton.destroy()
-        self.closeButton = None
-        del self.successSfx
-        del self.failureSfx
-        return
-
-    def __submitCode(self, input = None):
-        if input == None:
-            input = self.codeInput.get()
-        self.codeInput['focus'] = 1
-        if input == '':
-            return
-        messenger.send('wakeup')
-        if hasattr(base.cr, 'codeRedemptionMgr'):
-            base.cr.codeRedemptionMgr.redeemCode(input, self.__getCodeResult)
-        self.codeInput.enterText('')
-        self.__disableCodeEntry()
-        return
-
-    def __getCodeResult(self, result):
-        self.notify.debug('result = %s' % result)
-        self.__enableCodeEntry()
-        if result == 0:
-            self.resultPanel['image'] = self.resultPanelSuccessGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
-        elif result == 1:
-            self.resultPanel['image'] = self.resultPanelFailureGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultInvalidCode
-        elif result == 2:
-            self.resultPanel['image'] = self.resultPanelFailureGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultExpiredCode
-        elif result == 3:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-        elif result == 4:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyRedeemed
-        elif result == 5:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultNotReady
-        elif result == 6:
-            self.resultPanel['image'] = self.resultPanelErrorGui
-            self.resultPanel['text'] = TTLocalizer.CdrResultNotEligible
-        if result == 0:
-            self.successSfx.play()
+    def __doToggleDoorKey(self):
+        if settings['doorkey'] == True:
+            settings['doorkey'] = False
+            base.localAvatar.setSystemMessage(0, 'Door Entering Hotkey is DISABLED!')
         else:
-            self.failureSfx.play()
-        self.resultPanel.show()
-
-    def __hideResultPanel(self):
-        self.resultPanel.hide()
-
-    def __disableCodeEntry(self):
-        self.codeInput['state'] = DGG.DISABLED
-        self.submitButton['state'] = DGG.DISABLED
-
-    def __enableCodeEntry(self):
-        self.codeInput['state'] = DGG.NORMAL
-        self.codeInput['focus'] = 1
-        self.submitButton['state'] = DGG.NORMAL
-
-class SpecialOptionsTabPage(DirectFrame):
-    notify = directNotify.newCategory('SpecialOptionsTabPage')
-
-    def __init__(self, parent = aspect2d):
-        self._parent = parent
-        self.currentSizeIndex = None
-
-        DirectFrame.__init__(self, parent=self._parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
-
-        self.load()
-
-    def destroy(self):
-        self._parent = None
-
-        DirectFrame.destroy(self)
-        
-    def load(self):
-        guiButton = loader.loadModel('phase_3/models/gui/quit_button')
-        circleModel = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_nameShop')
-        gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
-        titleHeight = 0.61
-        textStartHeight = 0.45
-        textRowHeight = 0.145
-        leftMargin = -0.72
-        buttonbase_xcoord = 0.35
-        buttonbase_ycoord = 0.45
-        button_image_scale = (0.7, 1, 1)
-        button_textpos = (0, -0.02)
-        options_text_scale = 0.052
-        disabled_arrow_color = Vec4(0.6, 0.6, 0.6, 1.0)
-        self.speed_chat_scale = 0.055    
-        self.WASD_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight))
-        self.WASD_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight), command=self.__doToggleWASD)
-        self.keymapDialogButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='Change Keybinds', text_scale=(0.03, 0.05, 1), text_pos=button_textpos, pos=(buttonbase_xcoord + 0.0, 0.0, buttonbase_ycoord), command=self.__openKeyRemapDialog) 
-        self.keymapDialogButton.setScale(1.55, 1.0, 1.0)
-        self.newGui_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
-                                      text_scale=options_text_scale, text_wordwrap=16,
-                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.1))
-        self.newGui_toggleButton = DirectButton(parent=self, relief=None, image=(
-        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
-                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
-                                              text_pos=button_textpos,
-                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.1),
-                                              command=self.__doToggleNewGui)
-        self.fov_Label = DirectLabel(parent=self, relief=None, text='Field of view', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.2))
-
-        self.fov_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.3),
-                                               value=settings['fieldofview'], pageSize=5, range=(30, 120), command=self.__doFovLevel,
-                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
-        self.fov_toggleSlider.setScale(0.25)
-        self.fov_resetButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='Reset FOV', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.4), command=self.__resetFov)
-        self.fovsliderText = OnscreenText("0.0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
-        self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
-        
-        self.meterMode_Label = DirectLabel(parent=self, relief=None, text='Nametag Laff Display Mode\n(May take a few seconds to update)', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.5))
-
-        self.meterMode_toggleSlider = DirectSlider(parent=self, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.6),
-                                               value=settings['health-meter-mode'], pageSize=1, range=(0, 2), command=self.__doMeterMode,
-                                               thumb_geom=(guiButton.find('**/QuitBtn_UP')), thumb_relief=None, thumb_geom_scale=1)
-        self.meterMode_toggleSlider.setScale(0.25)
-        self.meterModesliderText = OnscreenText("0", scale=.3, pos=(0, .1), fg=(1, 1, 1, 1), style = 3)
-        self.meterModesliderText.reparentTo(self.meterMode_toggleSlider.thumb)
-        self.animations_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
-                                      text_scale=options_text_scale, text_wordwrap=16,
-                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.7))
-        self.animations_toggleButton = DirectButton(parent=self, relief=None, image=(
-        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
-                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
-                                              text_pos=button_textpos,
-                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.7),
-                                              command=self.__doToggleAnimations)
-        self.tpMessages_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
-                                      text_scale=options_text_scale, text_wordwrap=16,
-                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.8))
-        self.tpMessages_toggleButton = DirectButton(parent=self, relief=None, image=(
-        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
-                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
-                                              text_pos=button_textpos,
-                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.8),
-                                              command=self.__doToggleTpMessages)     
-
-        self.friendMessages_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft,
-                                      text_scale=options_text_scale, text_wordwrap=16,
-                                      pos=(leftMargin, 0, textStartHeight - textRowHeight - 0.9))
-        self.friendMessages_toggleButton = DirectButton(parent=self, relief=None, image=(
-        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
-                                              image_scale=button_image_scale, text='', text_scale=options_text_scale,
-                                              text_pos=button_textpos,
-                                              pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight - 0.9),
-                                              command=self.__doToggleFriendMessages)              
-        guiButton.removeNode()
-        circleModel.removeNode()
-
-    def enter(self):
-        self.show()
-        self.settingsChanged = 0
-        self.__setWASDButton()
-        self.__setNewGuiButton()
-        self.__doFovLevel()
-        self.__setAnimationsButton()
-        self.__setTpMessagesButton()
-        self.__setFriendMessagesButton()
-
-    def exit(self):
-        self.ignoreAll()
-        self.hide()
-
-    def unload(self):
-        self.WASD_Label.destroy()
-        del self.WASD_Label
-        self.WASD_toggleButton.destroy()
-        del self.WASD_toggleButton
-        self.keymapDialogButton.destroy()
-        del self.keymapDialogButton
-        self.fov_toggleSlider.destroy()
-        del self.fov_toggleSlider
-        self.fov_resetButton.destroy()
-        del self.fov_resetButton
-        self.fov_Label.destroy()
-        del self.fov_Label
-        self.animations_Label.destroy()
-        del self.animations_Label
-        self.animations_toggleButton.destroy()
-        del self.animations_toggleButton
-
+            settings['doorkey'] = True
+            base.localAvatar.setSystemMessage(0, 'Door Entering Hotkey is ENABLED!')
+        self.settingsChanged = 1
+        self.__setDoorKey()
+        base.toggleDoorKey()
+		
+    def __setDoorKey(self):
+        if settings['doorkey'] == True:
+            self.doorKey_Label['text'] = 'Door Entering Hotkey is ENABLED'
+            self.doorKey_toggleButton['text'] = 'Turn Off'
+        else:
+            self.doorKey_Label['text'] = 'Door Entering Hotkey is DISABLED'
+            self.doorKey_toggleButton['text'] = 'Turn On'
+            
     def __doToggleNewGui(self):
         FeatureComingSoonDialog.FeatureComingSoonDialog()
         #if settings['newGui'] == True:
@@ -827,7 +678,7 @@ class SpecialOptionsTabPage(DirectFrame):
         #    base.localAvatar.setSystemMessage(0, 'New Battle GUI is toggled for activation, log back in to see effects.')
         #self.settingsChanged = 1
         #self.__setNewGuiButton()
-		
+        
     def __setNewGuiButton(self):
         if settings['newGui'] == True:
             self.newGui_Label['text'] = 'Using the New Battle GUI.'
@@ -900,7 +751,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.settingsChanged = 1
         self.__setAnimationsButton()
         #base.toggleSmoothAnimations() TODO:
-		
+        
     def __setAnimationsButton(self):
         if settings['smoothanimations'] == True:
             self.animations_Label['text'] = 'Smooth Animations ON'
@@ -919,7 +770,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.settingsChanged = 1
         self.__setTpMessagesButton()
         base.toggleTpMsgs()
-		
+        
     def __setTpMessagesButton(self):
         if settings['tpmsgs'] == True:
             self.tpMessages_Label['text'] = 'Teleport messages are enabled!'
@@ -938,7 +789,7 @@ class SpecialOptionsTabPage(DirectFrame):
         self.settingsChanged = 1
         self.__setFriendMessagesButton()
         base.toggleTpMsgs()
-		
+        
     def __setFriendMessagesButton(self):
         if settings['friendstatusmsgs'] == True:
             self.friendMessages_Label['text'] = 'Friend status messages are enabled!'
@@ -946,3 +797,163 @@ class SpecialOptionsTabPage(DirectFrame):
         else:
             self.friendMessages_Label['text'] = 'Friend status messages are disabled!'
             self.friendMessages_toggleButton['text'] = 'Turn On'
+                                                                                              
+    def __doToggleInteractKey(self):                                                              
+        if settings['interactkey'] == True:                                                       
+            settings['interactkey'] = False                                                       
+            base.localAvatar.setSystemMessage(0, 'NPC Interact Hotkey is DISABLED!')         
+        else:                                                                                 
+            settings['interactkey'] = True                                                        
+            base.localAvatar.setSystemMessage(0, 'NPC Interact Hotkey is ENABLED!')          
+        self.settingsChanged = 1                                                              
+        self.__setInteractKey()                                                                   
+        base.toggleDoorKey()                                                                  
+                                                                                              
+    def __setInteractKey(self):                                                                   
+        if settings['interactkey'] == True:                                                       
+            self.interactKey_Label['text'] = 'NPC Interact Hotkey is ENABLED'                    
+            self.interactKey_toggleButton['text'] = 'Turn Off'                                    
+        else:                                                                                 
+            self.interactKey_Label['text'] = 'NPC Interact Hotkey is DISABLED'                   
+            self.interactKey_toggleButton['text'] = 'Turn On'                                                                                                                 
+            
+class CodesTabPage(DirectFrame):
+    notify = directNotify.newCategory('CodesTabPage')
+
+    def __init__(self, parent = aspect2d):
+        self._parent = parent
+        DirectFrame.__init__(self, parent=self._parent, relief=None, pos=(0.0, 0.0, 0.0), scale=(1.0, 1.0, 1.0))
+        self.load()
+
+    def destroy(self):
+        self._parent = None
+        DirectFrame.destroy(self)
+
+    def load(self):
+        cdrGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_sbk_codeRedemptionGui')
+        instructionGui = cdrGui.find('**/tt_t_gui_sbk_cdrPresent')
+        flippyGui = cdrGui.find('**/tt_t_gui_sbk_cdrFlippy')
+        codeBoxGui = cdrGui.find('**/tt_t_gui_sbk_cdrCodeBox')
+        self.resultPanelSuccessGui = cdrGui.find('**/tt_t_gui_sbk_cdrResultPanel_success')
+        self.resultPanelFailureGui = cdrGui.find('**/tt_t_gui_sbk_cdrResultPanel_failure')
+        self.resultPanelErrorGui = cdrGui.find('**/tt_t_gui_sbk_cdrResultPanel_error')
+        self.successSfx = base.loadSfx('phase_3.5/audio/sfx/tt_s_gui_sbk_cdrSuccess.ogg')
+        self.failureSfx = base.loadSfx('phase_3.5/audio/sfx/tt_s_gui_sbk_cdrFailure.ogg')
+        self.instructionPanel = DirectFrame(parent=self, relief=None, image=instructionGui, image_scale=0.8, text=TTLocalizer.CdrInstructions, text_pos=TTLocalizer.OPCodesInstructionPanelTextPos, text_align=TextNode.ACenter, text_scale=TTLocalizer.OPCodesResultPanelTextScale, text_wordwrap=TTLocalizer.OPCodesInstructionPanelTextWordWrap, pos=(-0.429, 0, -0.05))
+        self.codeBox = DirectFrame(parent=self, relief=None, image=codeBoxGui, pos=(0.433, 0, 0.35))
+        self.flippyFrame = DirectFrame(parent=self, relief=None, image=flippyGui, pos=(0.44, 0, -0.353))
+        self.codeInput = DirectEntry(parent=self.codeBox, relief=DGG.GROOVE, scale=0.08, pos=(-0.33, 0, -0.006), borderWidth=(0.05, 0.05), frameColor=((1, 1, 1, 1), (1, 1, 1, 1), (0.5, 0.5, 0.5, 0.5)), state=DGG.NORMAL, text_align=TextNode.ALeft, text_scale=TTLocalizer.OPCodesInputTextScale, width=10.5, numLines=1, focus=1, backgroundFocus=0, cursorKeys=1, text_fg=(0, 0, 0, 1), suppressMouse=1, autoCapitalize=0, command=self.__submitCode)
+        submitButtonGui = loader.loadModel('phase_3/models/gui/quit_button')
+        self.submitButton = DirectButton(parent=self, relief=None, image=(submitButtonGui.find('**/QuitBtn_UP'),
+         submitButtonGui.find('**/QuitBtn_DN'),
+         submitButtonGui.find('**/QuitBtn_RLVR'),
+         submitButtonGui.find('**/QuitBtn_UP')), image3_color=Vec4(0.5, 0.5, 0.5, 0.5), image_scale=1.15, state=DGG.NORMAL, text=TTLocalizer.NameShopSubmitButton, text_scale=TTLocalizer.OPCodesSubmitTextScale, text_align=TextNode.ACenter, text_pos=TTLocalizer.OPCodesSubmitTextPos, text3_fg=(0.5, 0.5, 0.5, 0.75), textMayChange=0, pos=(0.45, 0.0, 0.0896), command=self.__submitCode)
+        self.resultPanel = DirectFrame(parent=self, relief=None, image=self.resultPanelSuccessGui, text='', text_pos=TTLocalizer.OPCodesResultPanelTextPos, text_align=TextNode.ACenter, text_scale=TTLocalizer.OPCodesResultPanelTextScale, text_wordwrap=TTLocalizer.OPCodesResultPanelTextWordWrap, pos=(-0.42, 0, -0.0567))
+        self.resultPanel.hide()
+        closeButtonGui = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
+        self.closeButton = DirectButton(parent=self.resultPanel, pos=(0.296, 0, -0.466), relief=None, state=DGG.NORMAL, image=(closeButtonGui.find('**/CloseBtn_UP'), closeButtonGui.find('**/CloseBtn_DN'), closeButtonGui.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1), command=self.__hideResultPanel)
+        closeButtonGui.removeNode()
+        cdrGui.removeNode()
+        submitButtonGui.removeNode()
+
+    def enter(self):
+        self.show()
+        localAvatar.chatMgr.fsm.request('otherDialog')
+        self.codeInput['focus'] = 1
+        self.codeInput.enterText('')
+        self.__enableCodeEntry()
+
+    def exit(self):
+        self.resultPanel.hide()
+        self.hide()
+        localAvatar.chatMgr.fsm.request('mainMenu')
+
+    def unload(self):
+        self.instructionPanel.destroy()
+        self.instructionPanel = None
+        self.codeBox.destroy()
+        self.codeBox = None
+        self.flippyFrame.destroy()
+        self.flippyFrame = None
+        self.codeInput.destroy()
+        self.codeInput = None
+        self.submitButton.destroy()
+        self.submitButton = None
+        self.resultPanel.destroy()
+        self.resultPanel = None
+        self.closeButton.destroy()
+        self.closeButton = None
+        del self.successSfx
+        del self.failureSfx
+
+    def __submitCode(self, input = None):
+        if input == None:
+            input = self.codeInput.get()
+        self.codeInput['focus'] = 1
+        if input == '':
+            return
+        messenger.send('wakeup')
+        if hasattr(base.cr, 'codeRedemptionMgr'):
+            base.cr.codeRedemptionMgr.redeemCode(input, self.__getCodeResult)
+        self.codeInput.enterText('')
+        self.__disableCodeEntry()
+
+    def __getCodeResult(self, result, awardMgrResult = 0):
+        self.notify.debug('result = %s' % result)
+        self.__enableCodeEntry()
+        if result == 0:
+            self.resultPanel['image'] = self.resultPanelSuccessGui
+            self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
+        elif result == 1 or result == 3:
+            self.resultPanel['image'] = self.resultPanelFailureGui
+            self.resultPanel['text'] = TTLocalizer.CdrResultInvalidCode
+        elif result == 2:
+            self.resultPanel['image'] = self.resultPanelFailureGui
+            self.resultPanel['text'] = TTLocalizer.CdrResultExpiredCode
+        elif result == 4:
+            self.resultPanel['image'] = self.resultPanelErrorGui
+            if awardMgrResult == 0:
+                self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
+            elif awardMgrResult == 1 and awardMgrResult == 2 and awardMgrResult == 15 or awardMgrResult == 16:
+                self.resultPanel['text'] = TTLocalizer.CdrResultUnknownError
+            elif awardMgrResult == 3 or awardMgrResult == 4:
+                self.resultPanel['text'] = TTLocalizer.CdrResultMailboxFull
+            elif awardMgrResult == 5 or awardMgrResult == 10:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInMailbox
+            elif awardMgrResult == 6 and awardMgrResult == 7 or awardMgrResult == 11:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInQueue
+            elif awardMgrResult == 8:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyInCloset
+            elif awardMgrResult == 9:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyBeingWorn
+            elif awardMgrResult == 12 and awardMgrResult == 13 or awardMgrResult == 14:
+                self.resultPanel['text'] = TTLocalizer.CdrResultAlreadyReceived
+            elif awardMgrResult == 16:
+                self.resultPanel['text'] = TTLocalizer.CdrResultClosetFull
+            elif awardMgrResult == 17:
+                self.resultPanel['text'] = TTLocalizer.CdrResultTrunkFull
+            
+        elif result == 5:
+            self.resultPanel['text'] = TTLocalizer.CdrResultTooManyFails
+            self.__disableCodeEntry()
+        elif result == 6:
+            self.resultPanel['text'] = TTLocalizer.CdrResultServiceUnavailable
+            self.__disableCodeEntry()
+        
+        if result == 0:
+            self.successSfx.play()
+        else:
+            self.failureSfx.play()
+        self.resultPanel.show()
+
+    def __hideResultPanel(self):
+        self.resultPanel.hide()
+
+    def __disableCodeEntry(self):
+        self.codeInput['state'] = DGG.DISABLED
+        self.submitButton['state'] = DGG.DISABLED
+
+    def __enableCodeEntry(self):
+        self.codeInput['state'] = DGG.NORMAL
+        self.codeInput['focus'] = 1
+        self.submitButton['state'] = DGG.NORMAL

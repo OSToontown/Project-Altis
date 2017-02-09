@@ -1,7 +1,8 @@
+from panda3d.core import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject, PythonUtil
-from pandac.PandaModules import *
+from toontown.catalog import CatalogItem
 from toontown.parties import PartyGlobals
 from toontown.parties.InviteInfo import InviteInfoBase
 from toontown.parties.PartyGlobals import InviteStatus
@@ -10,7 +11,6 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.parties.InviteVisual import InviteVisual
-import CatalogItem
 from toontown.toonbase.ToonPythonUtil import StackTrace
 
 class MailboxScreen(DirectObject.DirectObject):
@@ -32,8 +32,7 @@ class MailboxScreen(DirectObject.DirectObject):
         self.dialogBox = None
         self.load()
         self.hide()
-        return
-
+        
     def show(self):
         self.frame.show()
         self.__showCurrentItem()
@@ -130,8 +129,7 @@ class MailboxScreen(DirectObject.DirectObject):
         self.partyInviteVisual.stash()
         if self.avatar:
             self.avatar.applyCheesyEffect(ToontownGlobals.CENormal)
-        return
-
+        
     def unload(self):
         if self.avatar:
             self.avatar.reconsiderCheesyEffect()
@@ -154,7 +152,6 @@ class MailboxScreen(DirectObject.DirectObject):
                 item.acceptItemCleanup()
 
         self.ignoreAll()
-        return
 
     def justExit(self):
         self.__acceptExit()
@@ -192,7 +189,6 @@ class MailboxScreen(DirectObject.DirectObject):
             self.__showCurrentItem()
             item = self.items[self.itemIndex]
             item.acceptItem(self.mailbox, self.acceptingIndex, self.__acceptItemCallback)
-        return
 
     def __handleDiscard(self, buttonValue = None):
         if self.acceptingIndex != None:
@@ -208,7 +204,6 @@ class MailboxScreen(DirectObject.DirectObject):
             self.__showCurrentItem()
             item = self.items[self.itemIndex]
             item.discardItem(self.mailbox, self.acceptingIndex, self.__discardItemCallback)
-        return
 
     def __discardItemCallback(self, retcode, item, index):
         if not hasattr(self, 'frame'):
@@ -222,7 +217,6 @@ class MailboxScreen(DirectObject.DirectObject):
             callback = self.__incIndexRemoveDialog
             self.dialogBox = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=item.getDiscardItemErrorText(retcode), text_wordwrap=15, command=callback)
             self.dialogBox.show()
-        return
 
     def __makeDiscardInterface(self):
         if self.itemIndex >= 0 and self.itemIndex < len(self.items):
@@ -269,20 +263,17 @@ class MailboxScreen(DirectObject.DirectObject):
             callback = self.__incIndexRemoveDialog
             self.dialogBox = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=item.getAcceptItemErrorText(retcode), text_wordwrap=15, command=callback)
             self.dialogBox.show()
-        return
 
     def __acceptError(self, buttonValue = None):
         self.dialogBox.cleanup()
         self.dialogBox = None
         self.__showCurrentItem()
-        return
 
     def __incIndexRemoveDialog(self, junk = 0):
         self.__incIndex()
         self.dialogBox.cleanup()
         self.dialogBox = None
         self.__showCurrentItem()
-        return
 
     def __incIndex(self, junk = 0):
         self.itemIndex += 1
@@ -301,12 +292,10 @@ class MailboxScreen(DirectObject.DirectObject):
             return
         self.itemCountLabel['text'] = (self.__getNumberOfItemsText(),)
         self.__showCurrentItem()
-        return
 
     def __refreshItems(self):
         self.acceptingIndex = None
         self.__updateItems()
-        return
 
     def __updateItems(self):
         if self.dialogBox:
@@ -322,7 +311,6 @@ class MailboxScreen(DirectObject.DirectObject):
             return
         self.itemCountLabel['text'] = (self.__getNumberOfItemsText(),)
         self.__showCurrentItem()
-        return
 
     def __getNumberOfItemsText(self):
         if len(self.items) == 1:
@@ -349,7 +337,6 @@ class MailboxScreen(DirectObject.DirectObject):
             if isinstance(self.currentItem, CatalogItem.CatalogItem):
                 self.currentItem.cleanupPicture()
             self.currentItem = None
-        return
 
     def checkFamily(self, doId):
         for familyMember in base.cr.avList:
@@ -476,7 +463,6 @@ class MailboxScreen(DirectObject.DirectObject):
             self.nextButton['state'] = DGG.NORMAL
         else:
             self.nextButton['state'] = DGG.DISABLED
-        return
 
     def __nextItem(self):
         messenger.send('wakeup')

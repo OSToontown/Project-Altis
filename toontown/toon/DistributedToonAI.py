@@ -125,6 +125,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.cogLevel = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogRadar = [0, 0, 0, 0, 0]
+        self.trackBonusLevel = [0] * 9
         self.cogIndex = -1
         self.disguisePageFlag = 0
         self.sosPageFlag = 0
@@ -3465,9 +3466,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.gardenSpecials.append((index, newCount))
                 self.gardenSpecials.sort()
                 self.b_setGardenSpecials(self.gardenSpecials)
-                return
-
+                return 1
         self.notify.warning("removing garden item %d that toon doesn't have" % index)
+        return 0
 
     def b_setFlowerCollection(self, speciesList, varietyList):
         self.setFlowerCollection(speciesList, varietyList)
@@ -4416,6 +4417,52 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
         
+    def setWarningCount(self, count):   
+        if 0 > count:
+            count = 0
+            
+        self.warningCount = count
+        
+    def getWarningCount(self):
+        return self.warningCount
+        
+    def doWarningBan(self, msg):
+        if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+            simbase.air.banManager.ban(self.doId, msg)
+        
+    def incrementWarningCount(self):
+        self.b_setWarningCount(int(self.getWarningCount()) + 1)
+        
+    def decrementWarningCount(self):
+        count = int(self.getWarningCount()) - 1
+        if 0 > count:
+            count = 0
+
+        self.b_setWarningCount(count)
+        del count
+  
+    def checkWarningCount(self, noBan = False):
+        if self.warningCount >= 3:
+            self.setWarningCount(0)
+            self.d_setWarningCount(0)
+            if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS and not noBan:
+                self.doWarningBan("Three Strikes You're Out! - Auto Ban Manager")
+                return
+        
+    def d_setWarningCount(self, count):
+        if 0 > count:
+            count = 0
+    
+        self.sendUpdate("setWarningCount", [count])
+        
+    def b_setWarningCount(self, count, noBan = False):
+        if 0 > count:
+            count = 0
+        
+        self.checkWarningCount(noBan)
+        self.setWarningCount(count)
+        self.d_setWarningCount(count)
+        
     def magicTeleportResponse(self, requesterId, hoodId):
         toon = self.air.doId2do.get(requesterId)
         if toon:
@@ -5179,7 +5226,7 @@ def trackBonus(trackIndex):
     invoker = spellbook.getInvoker()
     if not 0 <= trackIndex < 8:
         return 'Invalid track index!'
-    trackBonusLevel = [0] * 8
+    trackBonusLevel = [0] * 9
     trackBonusLevel[trackIndex] = 6
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
@@ -5429,3 +5476,8 @@ def globalTeleport():
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def catalog():
     simbase.air.catalogManager.deliverCatalogFor(spellbook.getTarget())
+    
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
+def shovelSkill(skill):
+    target = spellbook.getTarget()
+    target.b_setShovelSkill(skill)
