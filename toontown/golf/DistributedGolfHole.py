@@ -1,5 +1,6 @@
 import math, random, time
-from panda3d.core import TextNode, BitMask32, Point3, Vec3, Vec4, deg2Rad, Mat3, NodePath, VBase4, OdeTriMeshData, OdeTriMeshGeom, OdeRayGeom, CollisionTraverser, CollisionSegment, CollisionNode, CollisionHandlerQueue
+from panda3d.core import TextNode, BitMask32, Point3, Vec3, Vec4, deg2Rad, Mat3, NodePath, VBase4, CollisionTraverser, CollisionSegment, CollisionNode, CollisionHandlerQueue
+from panda3d.ode import OdeTriMeshData, OdeTriMeshGeom, OdeRayGeom
 from direct.actor import Actor
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
