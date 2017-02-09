@@ -1,11 +1,9 @@
 from math import *
-import math
-import random, time
-from toontown.golf import BuildGeometry
+import random, time, math
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
-from pandac.PandaModules import *
-from toontown.golf import PhysicsWorldBase
+from toontown.golf import PhysicsWorldBase, BuildGeometry
 from toontown.toonbase import ToontownGlobals
 
 class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, PhysicsWorldBase.PhysicsWorldBase):
@@ -17,7 +15,6 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
         self.commonHoldData = None
         self.storeAction = None
         self.holdingUpObjectData = 0
-        return
 
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
@@ -36,7 +33,6 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
     def createCommonObject(self, type, pos, hpr, sizeX = 0, sizeY = 0, moveDistance = 0):
         commonObjectDatam = PhysicsWorldBase.PhysicsWorldBase.createCommonObject(self, type, None, pos, hpr, sizeX, sizeY, moveDistance)
         self.sendUpdate('clientCommonObject', commonObjectDatam)
-        return
 
     def updateCommonObjects(self):
         self.sendUpdate('setCommonObjects', [self.getCommonObjectData()])
@@ -45,7 +41,6 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
         self.performReadyAction()
         self.storeAction = None
         self.commonHoldData = None
-        return
 
     def upSetCommonObjects(self, objectData):
         self.holdingUpObjectData = 1

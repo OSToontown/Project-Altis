@@ -883,17 +883,17 @@ class Toon(Avatar.Avatar, ToonHead):
             torso = self.getPart('torso', lodName)
             if len(self.style.torso) == 1:
                 parts = torso.findAllMatches('**/torso*')
-                parts.setColor(armColor)
+                parts.setColor(*armColor)
             for pieceName in ('arms', 'neck'):
                 piece = torso.find('**/' + pieceName)
-                piece.setColor(armColor)
+                piece.setColor(*armColor)
 
             hands = torso.find('**/hands')
-            hands.setColor(gloveColor)
+            hands.setColor(*gloveColor)
             legs = self.getPart('legs', lodName)
             for pieceName in ('legs', 'feet'):
                 piece = legs.find('**/%s;+s' % pieceName)
-                piece.setColor(legColor)
+                piece.setColor(*legColor)
 
         if self.cheesyEffect == ToontownGlobals.CEGreenToon:
             self.reapplyCheesyEffect()
@@ -3746,14 +3746,14 @@ class Toon(Avatar.Avatar, ToonHead):
             legColor = color
             headColor = color
         for piece in torsoPieces:
-            colorTrack.append(Func(piece.setColor, armColor))
+            colorTrack.append(Func(piece.setColor, *armColor))
 
         for piece in legPieces:
-            colorTrack.append(Func(piece.setColor, legColor))
+            colorTrack.append(Func(piece.setColor, *legColor))
 
         for piece in headPieces:
             if 'hatNode' not in str(piece) and 'glassesNode' not in str(piece):
-                colorTrack.append(Func(piece.setColor, headColor))
+                colorTrack.append(Func(piece.setColor, *headColor))
 
         track.append(colorTrack)
         return track
@@ -3770,13 +3770,13 @@ class Toon(Avatar.Avatar, ToonHead):
             else:
                 headColor = color
             for piece in earPieces:
-                colorTrack.append(Func(piece.setColor, headColor))
+                colorTrack.append(Func(piece.setColor, *headColor))
 
         else:
             if colorScale == None:
                 colorScale = VBase4(1, 1, 1, 1)
             for piece in earPieces:
-                colorTrack.append(Func(piece.setColorScale, colorScale))
+                colorTrack.append(Func(piece.setColorScale, *colorScale))
 
         track.append(colorTrack)
         return track

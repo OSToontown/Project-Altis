@@ -1,9 +1,11 @@
-import random
-from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
+from panda3d.core import *
+from panda3d.direct import *
+import ast, colorsys, random
 from otp.avatar import AvatarDNA
+
 notify = directNotify.newCategory('ToonDNA')
 mergeMATTailor = config.GetBool('want-mat-all-tailors', 0)
 toonSpeciesTypes = ['d',
@@ -1969,72 +1971,72 @@ def getAllBottoms(gender, output = 'both'):
     return bottoms
 
 
-allColorsList = [VBase4(1.0, 1.0, 1.0, 1.0),
- VBase4(0.96875, 0.691406, 0.699219, 1.0),
- VBase4(0.933594, 0.265625, 0.28125, 1.0),
- VBase4(0.863281, 0.40625, 0.417969, 1.0),
- VBase4(0.710938, 0.234375, 0.4375, 1.0),
- VBase4(0.570312, 0.449219, 0.164062, 1.0),
- VBase4(0.640625, 0.355469, 0.269531, 1.0),
- VBase4(0.996094, 0.695312, 0.511719, 1.0),
- VBase4(0.832031, 0.5, 0.296875, 1.0),
- VBase4(0.992188, 0.480469, 0.167969, 1.0),
- VBase4(0.996094, 0.898438, 0.320312, 1.0),
- VBase4(0.996094, 0.957031, 0.597656, 1.0),
- VBase4(0.855469, 0.933594, 0.492188, 1.0),
- VBase4(0.550781, 0.824219, 0.324219, 1.0),
- VBase4(0.242188, 0.742188, 0.515625, 1.0),
- VBase4(0.304688, 0.96875, 0.402344, 1.0),
- VBase4(0.433594, 0.90625, 0.835938, 1.0),
- VBase4(0.347656, 0.820312, 0.953125, 1.0),
- VBase4(0.191406, 0.5625, 0.773438, 1.0),
- VBase4(0.558594, 0.589844, 0.875, 1.0),
- VBase4(0.285156, 0.328125, 0.726562, 1.0),
- VBase4(0.460938, 0.378906, 0.824219, 1.0),
- VBase4(0.546875, 0.28125, 0.75, 1.0),
- VBase4(0.726562, 0.472656, 0.859375, 1.0),
- VBase4(0.898438, 0.617188, 0.90625, 1.0),
- VBase4(0.7, 0.7, 0.8, 1.0),
- VBase4(0.3, 0.3, 0.35, 1.0),
- VBase4(0.891, 0.439, 0.698, 1.0),
- VBase4(0.741, 0.873, 0.957, 1.0),
- VBase4(0.641, 0.857, 0.673, 1.0),
- VBase4(0.039, 0.862, 0.654, 1.0),
- VBase4(0.196, 0.725, 0.714, 1.0),
- VBase4(0.984, 0.537, 0.396, 1.0),
- VBase4(0.968, 0.749, 0.349, 1.0),
- VBase4(0.658, 0.175, 0.258, 1.0),
- VBase4(0.411, 0.644, 0.282, 1.0),
- VBase4(0.325, 0.407, 0.601, 1.0),
- VBase4(0.235, 0.573, 0.984, 1.0),
- VBase4(0.0, 0.635294, 0.258823, 1.0),
- VBase4(0.674509, 0.925490, 1.0, 1.0),
- VBase4(0.988235, 0.894117, 0.745098, 1.0),
- VBase4(0.749019, 1.0, 0.847058, 1.0),
- VBase4(0.470588, 0.443137, 0.447058, 1.0),
- VBase4(0.996078, 0.254901, 0.392156, 1.0),
- VBase4(0.811764, 0.709803, 0.231372, 1.0),
- VBase4(0.749019, 0.756862, 0.760784, 1.0),
- VBase4(1.0, 0.639215, 0.262745, 1.0),
- VBase4(0.0, 0.403921, 0.647058, 1.0),
- VBase4(0.862745, 0.078431, 0.235294, 1.0),
- VBase4(0.0, 0.635294, 0.513725, 1.0),
- VBase4(0.803921, 0.498039, 0.196078, 1.0),
- VBase4(0.70, 0.52, 0.75, 1.0),
- VBase4(1.0, 0, 1.0, 1.0),
- VBase4(0.5764, 0.4392, 0.8588, 1.0),
- VBase4(1.0, 1.0, 0.94117, 1.0),
- VBase4(0.9333, 0.8235, 0.9333, 1.0),
- VBase4(0.0, 1.0, 0.4980, 1.0),
- VBase4(0.8549, 0.6470, 0.1254, 1.0),
- VBase4(1.0, 0.59607, 0.0705, 1.0),
- VBase4(0.8039, 0.6862, 0.5843, 1.0),
- VBase4(0.2196, 0.5568, 0.5568, 1.0),
- VBase4(0.7764, 0.4431, 0.4431, 1.0),
- VBase4(0.8901, 0.8117, 0.3411, 1.0),
- VBase4(0.4117, 0.4117, 0.4117, 1.0),
- VBase4(1.0, 0.8431, 0.0, 1.0),
- VBase4(0.9333, 0.7882, 0.0, 1.0)]
+allColorsList = [(1.0, 1.0, 1.0, 1.0),
+ (0.96875, 0.691406, 0.699219, 1.0),
+ (0.933594, 0.265625, 0.28125, 1.0),
+ (0.863281, 0.40625, 0.417969, 1.0),
+ (0.710938, 0.234375, 0.4375, 1.0),
+ (0.570312, 0.449219, 0.164062, 1.0),
+ (0.640625, 0.355469, 0.269531, 1.0),
+ (0.996094, 0.695312, 0.511719, 1.0),
+ (0.832031, 0.5, 0.296875, 1.0),
+ (0.992188, 0.480469, 0.167969, 1.0),
+ (0.996094, 0.898438, 0.320312, 1.0),
+ (0.996094, 0.957031, 0.597656, 1.0),
+ (0.855469, 0.933594, 0.492188, 1.0),
+ (0.550781, 0.824219, 0.324219, 1.0),
+ (0.242188, 0.742188, 0.515625, 1.0),
+ (0.304688, 0.96875, 0.402344, 1.0),
+ (0.433594, 0.90625, 0.835938, 1.0),
+ (0.347656, 0.820312, 0.953125, 1.0),
+ (0.191406, 0.5625, 0.773438, 1.0),
+ (0.558594, 0.589844, 0.875, 1.0),
+ (0.285156, 0.328125, 0.726562, 1.0),
+ (0.460938, 0.378906, 0.824219, 1.0),
+ (0.546875, 0.28125, 0.75, 1.0),
+ (0.726562, 0.472656, 0.859375, 1.0),
+ (0.898438, 0.617188, 0.90625, 1.0),
+ (0.7, 0.7, 0.8, 1.0),
+ (0.3, 0.3, 0.35, 1.0),
+ (0.891, 0.439, 0.698, 1.0),
+ (0.741, 0.873, 0.957, 1.0),
+ (0.641, 0.857, 0.673, 1.0),
+ (0.039, 0.862, 0.654, 1.0),
+ (0.196, 0.725, 0.714, 1.0),
+ (0.984, 0.537, 0.396, 1.0),
+ (0.968, 0.749, 0.349, 1.0),
+ (0.658, 0.175, 0.258, 1.0),
+ (0.411, 0.644, 0.282, 1.0),
+ (0.325, 0.407, 0.601, 1.0),
+ (0.235, 0.573, 0.984, 1.0),
+ (0.0, 0.635294, 0.258823, 1.0),
+ (0.674509, 0.925490, 1.0, 1.0),
+ (0.988235, 0.894117, 0.745098, 1.0),
+ (0.749019, 1.0, 0.847058, 1.0),
+ (0.470588, 0.443137, 0.447058, 1.0),
+ (0.996078, 0.254901, 0.392156, 1.0),
+ (0.811764, 0.709803, 0.231372, 1.0),
+ (0.749019, 0.756862, 0.760784, 1.0),
+ (1.0, 0.639215, 0.262745, 1.0),
+ (0.0, 0.403921, 0.647058, 1.0),
+ (0.862745, 0.078431, 0.235294, 1.0),
+ (0.0, 0.635294, 0.513725, 1.0),
+ (0.803921, 0.498039, 0.196078, 1.0),
+ (0.70, 0.52, 0.75, 1.0),
+ (1.0, 0, 1.0, 1.0),
+ (0.5764, 0.4392, 0.8588, 1.0),
+ (1.0, 1.0, 0.94117, 1.0),
+ (0.9333, 0.8235, 0.9333, 1.0),
+ (0.0, 1.0, 0.4980, 1.0),
+ (0.8549, 0.6470, 0.1254, 1.0),
+ (1.0, 0.59607, 0.0705, 1.0),
+ (0.8039, 0.6862, 0.5843, 1.0),
+ (0.2196, 0.5568, 0.5568, 1.0),
+ (0.7764, 0.4431, 0.4431, 1.0),
+ (0.8901, 0.8117, 0.3411, 1.0),
+ (0.4117, 0.4117, 0.4117, 1.0),
+ (1.0, 0.8431, 0.0, 1.0),
+ (0.9333, 0.7882, 0.0, 1.0)]
 defaultBoyColorList = [0,
  1,
  2,
@@ -2165,8 +2167,8 @@ defaultGirlColorList = [0,
  62,
  63,
  64]
-allColorsListApproximations = map(lambda x: VBase4(round(x[0], 3), round(x[1], 3), round(x[2], 3), round(x[3], 3)), allColorsList)
-allowedColors = set(map(lambda x: allColorsListApproximations[x], set([0] + defaultBoyColorList + defaultGirlColorList + [64])))
+
+defaultColorList = allColorsList
 HatModels = [None,
  'phase_4/models/accessories/tt_m_chr_avt_acc_hat_baseball',
  'phase_4/models/accessories/tt_m_chr_avt_acc_hat_safari',
@@ -2609,10 +2611,10 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         string = 'type = toon\n'
         string = string + 'gender = %s\n' % self.gender
         string = string + 'head = %s, torso = %s, legs = %s\n' % (self.head, self.torso, self.legs)
-        string = string + 'arm color = %d\n' % self.armColor
-        string = string + 'glove color = %d\n' % self.gloveColor
-        string = string + 'leg color = %d\n' % self.legColor
-        string = string + 'head color = %d\n' % self.headColor
+        string = string + 'arm color = %s\n' % (self.armColor,)
+        string = string + 'glove color = %s\n' % (self.gloveColor,)
+        string = string + 'leg color = %s\n' % (self.legColor,)
+        string = string + 'head color = %s\n' % (self.headColor,)
         string = string + 'top texture = %d\n' % self.topTex
         string = string + 'top texture color = %d\n' % self.topTexColor
         string = string + 'sleeve texture = %d\n' % self.sleeveTex
@@ -2646,10 +2648,13 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             dg.addUint8(self.sleeveTexColor)
             dg.addUint8(self.botTex)
             dg.addUint8(self.botTexColor)
-            dg.addUint8(self.armColor)
-            dg.addUint8(self.gloveColor)
-            dg.addUint8(self.legColor)
-            dg.addUint8(self.headColor)
+            self.armColor = self.checkIsDefaultColor(self.armColor)
+            self.gloveColor = self.checkIsDefaultColor(self.gloveColor)
+            self.legColor = self.checkIsDefaultColor(self.legColor)
+            self.headColor = self.checkIsDefaultColor(self.headColor)
+            for colors in (self.armColor, self.gloveColor, self.legColor, self.headColor):
+                for color in colors[:-1]:
+                    dg.addFloat64(color)
         elif self.type == 'u':
             notify.error('undefined avatar')
         else:
@@ -2659,8 +2664,6 @@ class ToonDNA(AvatarDNA.AvatarDNA):
     def isValidNetString(self, string):
         dg = PyDatagram(string)
         dgi = PyDatagramIterator(dg)
-        if dgi.getRemainingSize() != 15:
-            return False
         type = dgi.getFixedString(1)
         if type not in ('t',):
             return False
@@ -2684,10 +2687,10 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         sleeveTexColor = dgi.getUint8()
         botTex = dgi.getUint8()
         botTexColor = dgi.getUint8()
-        armColor = dgi.getUint8()
-        gloveColor = dgi.getUint8()
-        legColor = dgi.getUint8()
-        headColor = dgi.getUint8()
+        armColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+        gloveColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+        legColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+        headColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
         if topTex >= len(Shirts):
             return False
         if topTexColor >= len(ClothesColors):
@@ -2704,15 +2707,22 @@ class ToonDNA(AvatarDNA.AvatarDNA):
                 return False
         if botTexColor >= len(ClothesColors):
             return False
-        if armColor >= len(allColorsList):
+        if not self.checkColor(armColor):
             return False
-        if gloveColor != 0:
+        if not self.checkColor(gloveColor):
             return False
-        if legColor >= len(allColorsList):
+        if not self.checkColor(legColor):
             return False
-        if headColor >= len(allColorsList):
+        if not self.checkColor(headColor):
             return False
         return True
+
+    def checkColor(self, color):
+        if color in allColorsList: # Color is a default one
+            return True
+        
+        hsv = colorsys.rgb_to_hsv(color[0], color[1], color[2])
+        return 0.25 <= hsv[1] <= 0.8 and 0.4 <= hsv[2] <= 0.8
 
     def makeFromNetString(self, string):
         dg = PyDatagram(string)
@@ -2736,10 +2746,23 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.sleeveTexColor = dgi.getUint8()
             self.botTex = dgi.getUint8()
             self.botTexColor = dgi.getUint8()
-            self.armColor = dgi.getUint8()
-            self.gloveColor = dgi.getUint8()
-            self.legColor = dgi.getUint8()
-            self.headColor = dgi.getUint8()
+            try:
+                self.armColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+                self.gloveColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+                self.legColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+                self.headColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+            except:
+                # Outdated toon color, will need to convert to new format
+                self.notify.info("Outdated Toon color format! Converting to new format...")
+                self.armColor = dgi.getUint8()
+                self.gloveColor = dgi.getUint8()
+                self.legColor = dgi.getUint8()
+                self.headColor = dgi.getUint8()
+                self.armColor = allColorsList[self.armColor]
+                self.gloveColor = allColorsList[self.gloveColor]
+                self.legColor = allColorsList[self.legColor]
+                self.headColor = allColorsList[self.headColor]
+                
         else:
             notify.error('unknown avatar type: ', self.type)
         return None
@@ -2768,13 +2791,20 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.botTex = 0
             self.botTexColor = 0
             if color == None:
-                color = self.defaultColor()
+                color = 1 # If for some reason there is no color, gg, and set it to 1
+            color = self.checkIsDefaultColor(color)
             self.armColor = color
             self.legColor = color
             self.headColor = color
             self.gloveColor = 0
         else:
             notify.error("tuple must be in format ('%s', '%s', '%s', '%s')")
+            
+    def checkIsDefaultColor(self, color):
+        if isinstance(color, int):
+            return defaultColorList[color]
+        else:
+            return color
 
     def newToonFromProperties(self, head, torso, legs, gender, armColor, gloveColor, legColor, headColor, topTexture, topTextureColor, sleeveTexture, sleeveTextureColor, bottomTexture, bottomTextureColor):
         self.type = 't'
@@ -2782,10 +2812,10 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         self.torso = torso
         self.legs = legs
         self.gender = gender
-        self.armColor = armColor
-        self.gloveColor = gloveColor
-        self.legColor = legColor
-        self.headColor = headColor
+        self.armColor = self.checkIsDefaultColor(armColor)
+        self.gloveColor = self.checkIsDefaultColor(gloveColor)
+        self.legColor = self.checkIsDefaultColor(legColor)
+        self.headColor = self.checkIsDefaultColor(headColor)
         self.topTex = topTexture
         self.topTexColor = topTextureColor
         self.sleeveTex = sleeveTexture
@@ -2803,13 +2833,13 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         if gender:
             self.gender = gender
         if armColor:
-            self.armColor = armColor
+            self.armColor = self.checkIsDefaultColor(armColor)
         if gloveColor:
-            self.gloveColor = gloveColor
+            self.gloveColor = self.checkIsDefaultColor(gloveColor)
         if legColor:
-            self.legColor = legColor
+            self.legColor = self.checkIsDefaultColor(legColor)
         if headColor:
-            self.headColor = headColor
+            self.headColor = self.checkIsDefaultColor(headColor)
         if topTexture:
             self.topTex = topTexture
         if topTextureColor:
@@ -2869,7 +2899,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.sleeveTexColor = sleeveColor
             self.botTex = bottom
             self.botTexColor = bottomColor
-            color = generator.choice(defaultBoyColorList)
+            color = generator.choice(defaultColorList)
             self.armColor = color
             self.legColor = color
             self.headColor = color
@@ -2885,11 +2915,11 @@ class ToonDNA(AvatarDNA.AvatarDNA):
                 bottom, bottomColor = getRandomBottom(gender, generator=generator, girlBottomType=SHORTS)
             self.botTex = bottom
             self.botTexColor = bottomColor
-            color = generator.choice(defaultGirlColorList)
+            color = generator.choice(defaultColorList)
             self.armColor = color
             self.legColor = color
             self.headColor = color
-        self.gloveColor = 0
+        self.gloveColor = self.checkIsDefaultColor(0)
 
     def asTuple(self):
         return (self.head,
@@ -2988,28 +3018,16 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             notify.error('unknown clothing type: ', self.torso[1])
 
     def getArmColor(self):
-        try:
-            return allColorsList[self.armColor]
-        except:
-            return allColorsList[0]
-
+        return self.armColor
+    
     def getLegColor(self):
-        try:
-            return allColorsList[self.legColor]
-        except:
-            return allColorsList[0]
+        return self.legColor
 
     def getHeadColor(self):
-        try:
-            return allColorsList[self.headColor]
-        except:
-            return allColorsList[0]
+        return self.headColor
 
     def getGloveColor(self):
-        try:
-            return allColorsList[self.gloveColor]
-        except:
-            return allColorsList[0]
+        return self.gloveColor
 
     def getBlackColor(self):
         try:

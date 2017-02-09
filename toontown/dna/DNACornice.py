@@ -22,8 +22,14 @@ class DNACornice(DNAGroup.DNAGroup):
     def getCode(self):
         return self.code
         
+    def setCode(self, code):
+        self.code = str(code)
+        
     def getColor(self):
         return self.color
+        
+    def setColor(self, color):
+        self.color = LVector4f(int(color))
 
     def makeFromDGI(self, dgi, store):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi, store)
