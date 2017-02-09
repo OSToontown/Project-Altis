@@ -102,12 +102,12 @@ class ColorShop(StateData.StateData):
         self.pickButton.bind(DGG.B1RELEASE, self.__stopPickColor)
         self.pickSelector = OnscreenImage(parent=self.pickerFrame, image = "phase_3/maps/picker_selector.png", scale = 0.05)
         self.pickSelector.setTransparency(TransparencyAttrib.MAlpha)
+        self.rgbDisplay = OnscreenText(parent = self.pickerFrame, pos = (0, .6), scale = 0.1, style = 3, align = TextNode.ACenter)
         self.partsFrame = DirectFrame(parent=self.pickerFrame, image=shuffleFrame, image_scale=halfButtonInvertScale, relief=None, pos=(0, 0, -0.75), hpr=(0, 0, -2), scale=0.9, frameColor=(1, 1, 1, 1), text=TTLocalizer.ColorShopToon, text_scale=0.0625, text_pos=(-0.001, -0.015), text_fg=(1, 1, 1, 1))
         self.partLButton = DirectButton(parent=self.partsFrame, relief=None, image=shuffleImage, image_scale=halfButtonScale, image1_scale=halfButtonHoverScale, image2_scale=halfButtonHoverScale, pos=(-0.2, 0, 0), state=DGG.DISABLED, command=self.__swapPart, extraArgs=[-1])
         self.partRButton = DirectButton(parent=self.partsFrame, relief=None, image=shuffleImage, image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.__swapPart, extraArgs=[1])
         self.parentFrame.hide()
         self.pickerFrame.hide()
-        self.pickSelector.hide()
         self.shuffleFetchMsg = 'ColorShopShuffle'
         self.shuffleButton = ShuffleButton.ShuffleButton(self, self.shuffleFetchMsg)
 
@@ -131,6 +131,7 @@ class ColorShop(StateData.StateData):
         self.pickerButton.destroy()
         self.basicButton.destroy()
         self.pickSelector.destroy()
+        self.rgbDisplay.destroy()
         self.hueSlider.destroy()
         self.pickButton.destroy()
         self.partsFrame.destroy()
@@ -153,6 +154,7 @@ class ColorShop(StateData.StateData):
         del self.pickerButton
         del self.basicButton
         del self.pickSelector
+        del self.rgbDisplay
         del self.hueSlider
         del self.pickButton
         del self.partsFrame
@@ -213,6 +215,8 @@ class ColorShop(StateData.StateData):
         y = self.calcRelative(y, 0.0, 1.0, 0.4, 0.8)
         rgb = colorsys.hsv_to_rgb(self.hueSlider['value'], x, y) + (1,)
         rgb = tuple([float('%.2f' % x) for x in rgb])
+        
+        self.rgbDisplay['text'] = ("RGB: %s %s %s" % (rgb[0] * 255, rgb[1] * 255, rgb[2] * 255))
 
         if self.partChoice in (0, 1):
             self.dna.headColor = rgb
