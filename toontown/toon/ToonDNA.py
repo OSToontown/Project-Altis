@@ -2746,10 +2746,22 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.sleeveTexColor = dgi.getUint8()
             self.botTex = dgi.getUint8()
             self.botTexColor = dgi.getUint8()
-            self.armColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
-            self.gloveColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
-            self.legColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
-            self.headColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+            try:
+                self.armColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+                self.gloveColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+                self.legColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+                self.headColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
+            except:
+                # Outdated toon color, will need to convert to new format
+                self.armColor = dgi.getUint8()
+                self.gloveColor = dgi.getUint8()
+                self.legColor = dgi.getUint8()
+                self.headColor = dgi.getUint8()
+                self.armColor = allColorsList[self.armColor]
+                self.gloveColor = allColorsList[self.gloveColor]
+                self.legColor = allColorsList[self.legColor]
+                self.headColor = allColorsList[self.headColor]
+                
         else:
             notify.error('unknown avatar type: ', self.type)
         return None
