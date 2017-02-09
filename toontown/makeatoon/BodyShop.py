@@ -187,12 +187,6 @@ class BodyShop(StateData.StateData):
         elif gender == 'm':
             length = len(ToonDNA.toonTorsoTypes[:3])
             torsoOffset = 0
-            if self.dna.armColor not in ToonDNA.defaultColorList:
-                self.dna.armColor = ToonDNA.defaultColorList[0]
-            if self.dna.legColor not in ToonDNA.defaultColorList:
-                self.dna.legColor = ToonDNA.defaultColorList[0]
-            if self.dna.headColor not in ToonDNA.defaultColorList:
-                self.dna.headColor = ToonDNA.defaultColorList[0]
             if self.toon.style.topTex not in ToonDNA.MakeAToonBoyShirts:
                 randomShirt = ToonDNA.getRandomTop(gender, ToonDNA.MAKE_A_TOON)
                 shirtTex, shirtColor, sleeveTex, sleeveColor = randomShirt
@@ -210,12 +204,6 @@ class BodyShop(StateData.StateData):
                 torsoOffset = 3
             else:
                 torsoOffset = 0
-        if self.dna.armColor not in ToonDNA.defaultColorList:
-            self.dna.armColor = ToonDNA.defaultColorList[0]
-        if self.dna.legColor not in ToonDNA.defaultColorList:
-            self.dna.legColor = ToonDNA.defaultColorList[0]
-        if self.dna.headColor not in ToonDNA.defaultColorList:
-            self.dna.headColor = ToonDNA.defaultColorList[0]
             if self.toon.style.topTex not in ToonDNA.MakeAToonGirlShirts:
                 randomShirt = ToonDNA.getRandomTop(gender, ToonDNA.MAKE_A_TOON)
                 shirtTex, shirtColor, sleeveTex, sleeveColor = randomShirt

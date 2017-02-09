@@ -446,12 +446,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def verifyDNA(self):
         valid = True
-        if self.isPlayerControlled():
-            if self.dna.gloveColor != 0:
-                self.dna.gloveColor = 0
-                valid = False
-            if not valid:
-                self.b_setDNAString(self.dna.makeNetString())
+        if not valid:
+            self.b_setDNAString(self.dna.makeNetString())
         return valid
 
     def getDNAString(self):
@@ -4909,7 +4905,10 @@ def badName():
     """
     target = spellbook.getTarget()
     _name = target.getName()
-    colorString = TTLocalizer.NumToColor[target.dna.headColor]
+    try:
+        colorString = TTLocalizer.NumToColor[target.dna.headColor]
+    except:
+        colorString = "Colorful"
     animalType = TTLocalizer.AnimalToSpecies[target.dna.getAnimal()]
     target.b_setName(colorString + ' ' + animalType)
     target.sendUpdate('WishNameState', ['REJECTED'])

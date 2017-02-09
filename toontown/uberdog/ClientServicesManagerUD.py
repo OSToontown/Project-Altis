@@ -590,7 +590,10 @@ class CreateAvatarFSM(OperationFSM):
     def enterCreateAvatar(self):
         dna = ToonDNA()
         dna.makeFromNetString(self.dna)
-        colorString = TTLocalizer.NumToColor[dna.headColor]
+        try:
+            colorString = TTLocalizer.NumToColor[dna.headColor]
+        except:
+            colorString = "Colorful"
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
 		
