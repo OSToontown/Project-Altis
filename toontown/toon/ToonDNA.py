@@ -2753,6 +2753,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
                 self.headColor = (dgi.getFloat64(), dgi.getFloat64(), dgi.getFloat64(), 1.0)
             except:
                 # Outdated toon color, will need to convert to new format
+                self.notify.info("Outdated Toon color format! Converting to new format...")
                 self.armColor = dgi.getUint8()
                 self.gloveColor = dgi.getUint8()
                 self.legColor = dgi.getUint8()
