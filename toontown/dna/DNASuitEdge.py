@@ -15,9 +15,15 @@ class DNASuitEdge(object):
 
     def getEndPoint(self):
         return self.endpt
+        
+    def setEndPoint(self, endpt):
+        self.endpt = endpt
 
     def getStartPoint(self):
         return self.startpt
+        
+    def setStartPoint(self, startpt):
+        self.startpt = startpt
 
     def getZoneId(self):
         return self.zoneId

@@ -1,16 +1,13 @@
+import math, random, time
+from panda3d.core import *
 from direct.distributed import DistributedObject
-from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
-from math import *
-import math
-from direct.fsm.FSM import FSM
-from toontown.toonbase import ToonPythonUtil as PythonUtil
-from direct.task import Task
 from direct.distributed.ClockDelta import *
-from toontown.golf import BuildGeometry
-from toontown.golf import GolfGlobals
-import random, time
+from direct.directnotify import DirectNotifyGlobal
+from direct.fsm.FSM import FSM
+from direct.task import Task
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from toontown.golf import BuildGeometry, GolfGlobals
 
 def scalp(vec, scal):
     vec0 = vec[0] * scal
@@ -20,7 +17,7 @@ def scalp(vec, scal):
 
 
 def length(vec):
-    return sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2)
+    return math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2)
 
 
 class PhysicsWorldBase:

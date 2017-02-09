@@ -16,6 +16,9 @@ class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
         DNALandmarkBuilding.DNALandmarkBuilding.__del__(self)
         del self.animName
         
+    def setAnimName(self, name):
+        self.animName = str(name)
+        
     def getAnimName(self):
         return self.animName
         

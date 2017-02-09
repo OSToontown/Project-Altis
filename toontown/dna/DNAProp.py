@@ -26,6 +26,9 @@ class DNAProp(DNANode.DNANode):
         
     def getColor(self):
         return self.color
+        
+    def setColor(self, color):
+        self.color = LVector4f(int(color))
 
     def makeFromDGI(self, dgi, store):
         DNANode.DNANode.makeFromDGI(self, dgi, store)
