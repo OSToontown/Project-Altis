@@ -18,12 +18,7 @@ class ColorShop(StateData.StateData):
         self.colorAll = 1
 
     def getGenderColorList(self, dna):
-        if self.dna.getGender() == 'm':
-            colorList = ToonDNA.defaultBoyColorList
-        else:
-            colorList = ToonDNA.defaultGirlColorList
-
-        return colorList
+        return ToonDNA.defaultColorList
 
     def enter(self, toon, shopsVisited = []):
         base.disableMouse()

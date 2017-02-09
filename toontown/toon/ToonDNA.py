@@ -2165,8 +2165,10 @@ defaultGirlColorList = [0,
  62,
  63,
  64]
+
+defaultColorList = defaultBoyColorList
 allColorsListApproximations = map(lambda x: VBase4(round(x[0], 3), round(x[1], 3), round(x[2], 3), round(x[3], 3)), allColorsList)
-allowedColors = set(map(lambda x: allColorsListApproximations[x], set([0] + defaultBoyColorList + defaultGirlColorList + [64])))
+allowedColors = set(map(lambda x: allColorsListApproximations[x], set([0] + defaultColorList + [64])))
 HatModels = [None,
  'phase_4/models/accessories/tt_m_chr_avt_acc_hat_baseball',
  'phase_4/models/accessories/tt_m_chr_avt_acc_hat_safari',
@@ -2869,7 +2871,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             self.sleeveTexColor = sleeveColor
             self.botTex = bottom
             self.botTexColor = bottomColor
-            color = generator.choice(defaultBoyColorList)
+            color = generator.choice(defaultColorList)
             self.armColor = color
             self.legColor = color
             self.headColor = color
@@ -2885,7 +2887,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
                 bottom, bottomColor = getRandomBottom(gender, generator=generator, girlBottomType=SHORTS)
             self.botTex = bottom
             self.botTexColor = bottomColor
-            color = generator.choice(defaultGirlColorList)
+            color = generator.choice(defaultColorList)
             self.armColor = color
             self.legColor = color
             self.headColor = color

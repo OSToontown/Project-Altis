@@ -5052,63 +5052,29 @@ def dna(part, value):
         return 'Legs set to: ' + dna.legs
 
     if part == 'headcolor':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains black parts!'
-        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains white parts!'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            return 'Invalid male head color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            return 'Invalid female head color index: ' + str(value)
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid head color index: ' + str(value)
         dna.headColor = value
         invoker.b_setDNAString(dna.makeNetString())
         return 'Head color index set to: ' + str(dna.headColor)
 
     if part == 'armcolor':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains black parts!'
-        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains white parts!'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            return 'Invalid male arm color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            return 'Invalid female arm color index: ' + str(value)
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid arm color index: ' + str(value)
         dna.armColor = value
         invoker.b_setDNAString(dna.makeNetString())
         return 'Arm color index set to: ' + str(dna.armColor)
 
     if part == 'legcolor':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains black parts!'
-        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains white parts!'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            return 'Invalid male leg color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            return 'Invalid female leg color index: ' + str(value)
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid leg color index: ' + str(value)
         dna.legColor = value
         invoker.b_setDNAString(dna.makeNetString())
         return 'Leg color index set to: ' + str(dna.legColor)
 
     if part == 'color':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            if (value != 0x1a) and (value != 0x00):
-                return 'Invalid male color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            if (value != 0x1a) and (value != 0x00):
-                return 'Invalid female color index: ' + str(value)
-        if (value == 0x1a) and (dna.getAnimal() != 'cat'):
-            return 'Invalid color index for species: ' + dna.getAnimal()
-        if (value == 0x00) and (dna.getAnimal() != 'bear'):
-            return 'Invalid color index for species: ' + dna.getAnimal()
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid color index: ' + str(value)
         dna.headColor = value
         dna.armColor = value
         dna.legColor = value
