@@ -230,7 +230,7 @@ class Garden:
             if plot not in self.objects:
                 return
                 
-            plot.requestDelete()
+            plot.slete()
             self.objects.remove(plot)
             
         flower = DistributedFlowerAI(self)
@@ -457,8 +457,8 @@ class DistributedEstateAI(DistributedObjectAI):
             for target in self.targets:
                 target.requestDelete()
            
-            for pet in self.pets:
-                pet.requestDelete()
+        for pet in self.pets:
+            pet.requestDelete(pet.doId)
 
         if self.treasurePlanner:
             self.treasurePlanner.stop()
@@ -557,6 +557,11 @@ class DistributedEstateAI(DistributedObjectAI):
 
         self.air.dbInterface.queryObject(self.air.dbId, owner.DISLid,
             callback=_queryAccount)
+        
+    def destroyPets(self, owner):
+        for pet in self.pets:
+            if self.air.doId2do.get(owner) == pet.ownerId:
+                pet.requestDelete(pet.doId)
 
     def requestServerTime(self):
         self.sendUpdateToAvatarId(self.air.getAvatarIdFromSender(), 'setServerTime', [

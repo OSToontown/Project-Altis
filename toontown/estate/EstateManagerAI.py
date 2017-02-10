@@ -403,6 +403,7 @@ class EstateManagerAI(DistributedObjectAI):
     def _unmapFromEstate(self, toon):
         estate = self.toon2estate.get(toon)
         if not estate: return
+        estate.destroyPets(toon)
         del self.toon2estate[toon]
 
         try:
