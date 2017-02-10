@@ -33,7 +33,6 @@ class TTCodeRedemptionMgrUD(DistributedObjectGlobalUD):
            
         self.sendUpdate('deliverItem', [avId, context, item])
 
-
     def redeemCodeAiToUd(self, avId, context, code):
         if code in self.__altnames:
             if str(self.__altnames[code]) in self.__codes:

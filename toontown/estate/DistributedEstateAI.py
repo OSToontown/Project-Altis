@@ -540,7 +540,7 @@ class DistributedEstateAI(DistributedObjectAI):
                     pet.setGender(gender)
                     pet.setLastSeenTimestamp(lastSeenTimestamp)
                     pet.setTrickAptitudes(trickAptitudes)
-                    pet.generateWithRequired(self.zoneId)
+                    pet.generateWithRequiredAndId(petId, self.air.districtId, self.zoneId)
 
                     # store the pet do's for use later...
                     self.pets.append(pet)
@@ -829,6 +829,7 @@ class DistributedEstateAI(DistributedObjectAI):
             self.sendUpdate('awardedTrophy', [avId])
         
         av.b_setGardenTrophies(range(len(collection) // 10))
+
     def awardedTrophy(self, todo0):
         pass
 

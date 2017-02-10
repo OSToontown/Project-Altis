@@ -1571,14 +1571,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     continue
             return quest
 
-        return
-
     def hasQuest(self, questId, visitNpcId = None, rewardId = None):
         if self.getQuest(questId, visitNpcId=visitNpcId, rewardId=rewardId) == None:
             return False
         else:
             return True
-        return
 
     def removeQuest(self, id, visitNpcId = None):
         index = -1
@@ -1701,7 +1698,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     taskMgr.doMethodLater(duration, self.__undoCheesyEffect, taskName)
                 else:
                     self.__undoCheesyEffect(None)
-        return
 
     def getCheesyEffect(self):
         return (self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime)

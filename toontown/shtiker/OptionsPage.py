@@ -169,10 +169,8 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035),
             image_color=normalColor, image1_color=clickColor,
             image2_color=rolloverColor, image3_color=diabledColor,
-            text_fg=Vec4(0.2, 0.1, 0, 1), 
-            #command=self.setMode,
-            #extraArgs=[PageMode.Codes],
-            pos=(-0.12, 0, 0.77))
+            text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode,
+            extraArgs=[PageMode.Codes], pos=(-0.12, 0, 0.77))
         gui.removeNode()
 
     def enter(self):
@@ -893,10 +891,12 @@ class CodesTabPage(DirectFrame):
         if input == '':
             return
         messenger.send('wakeup')
-        if hasattr(base.cr, 'codeRedemptionMgr'):
+        if base.config.GetBool('want-code-redemption', True) and hasattr(base.cr, 'codeRedemptionMgr'):
             base.cr.codeRedemptionMgr.redeemCode(input, self.__getCodeResult)
-        self.codeInput.enterText('')
-        self.__disableCodeEntry()
+            self.codeInput.enterText('')
+            self.__disableCodeEntry()
+        else:
+            self.__getCodeResult(6, 0)
 
     def __getCodeResult(self, result, awardMgrResult = 0):
         self.notify.debug('result = %s' % result)
