@@ -237,7 +237,7 @@ def gardenFlowerAll(species=49, variety=0):
 def allGardenSpecials():
     av = spellbook.getTarget()
     av.gardenSpecials = []
-    for x in (100, 101, 103, 105, 106, 107, 108, 130, 131, 135):
+    for x in (100, 101, 103, 105, 106, 107, 108, 109, 130, 131, 135):
         av.addGardenItem(x, 99)
     return "Gave all gardenSpecials"
     

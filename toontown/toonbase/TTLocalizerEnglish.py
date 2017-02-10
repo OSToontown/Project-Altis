@@ -8951,10 +8951,11 @@ StatuaryToon = 'Toon Statue'
 StatuaryToonWave = 'Toon Wave Statue'
 StatuaryToonVictory = 'Toon Victory Statue'
 StatuaryToonCrossedArms = 'Toon Authority Statue'
-StatuaryToonThinking = 'Toon Embrace Statue'
+StatuaryToonThinking = 'Toon :thinking: Statue'
 StatuaryMeltingSnowman = 'Melting Snowman'
 StatuaryMeltingSnowDoodle = 'Melting SnowDoodle'
 StatuaryGardenAccelerator = 'Insta-Grow Fertilizer'
+StatuaryGazebo = "Gazebo"
 AnimatedStatuaryFlappyCog = 'Flappy Cog'
 FlowerColorStrings = ['Red',
  'Orange',
