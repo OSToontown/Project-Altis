@@ -712,7 +712,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toonId = self.toon.getDoId()
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        if hasattr(TTLocalizer, line[2]):
+            chatString = getattr(TTLocalizer, line[2])
+        else:
+            chatString = "You should NOT see this string. Contact a developer if you do."
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setPageChat, toonId, 0, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -720,7 +723,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         lineLength = len(line)
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        if hasattr(TTLocalizer, line[2]):
+            chatString = getattr(TTLocalizer, line[2])
+        else:
+            chatString = "You should NOT see this string. Contact a developer if you do."
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -728,7 +734,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         lineLength = len(line)
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        if hasattr(TTLocalizer, line[2]):
+            chatString = getattr(TTLocalizer, line[2])
+        else:
+            chatString = "You should NOT see this string. Contact a developer if you do."
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         if len(dialogueList) > 0:
             dialogue = dialogueList[0]
@@ -743,8 +752,14 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
         localizerAvatarName = toAvatar.getName().capitalize()
-        toAvatarName = eval('TTLocalizer.' + localizerAvatarName)
-        chatString = eval('TTLocalizer.' + line[3])
+        if hasattr(TTLocalizer, localizerAvatarName):
+            toAvatarName = getattr(TTLocalizer, localizerAvatarName)
+        else:
+            toAvatarName = "TheErrorThatSpeaksInErrors"
+        if hasattr(TTLocalizer, line[3]):
+            chatString = getattr(TTLocalizer, line[3])
+        else:
+            chatString = "%s: You should NOT see this string. Contact a developer if you do."
         chatString = chatString.replace('%s', toAvatarName)
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[4:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
@@ -754,9 +769,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         avatarName = line[1]
         avatar = self.getVar(avatarName)
         if self.toon.getStyle().gender == 'm':
-            chatString = eval('TTLocalizer.' + line[2] % 'Mickey')
+            chatString = getattr(TTLocalizer, line[2]) % 'Mickey'
         else:
-            chatString = eval('TTLocalizer.' + line[2] % 'Minnie')
+            chatString =  getattr(TTLocalizer, line[2]) % 'Minnie'
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -769,9 +784,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         localizerAvatarName = toAvatar.getName().capitalize()
         toAvatarName = eval('TTLocalizer.' + localizerAvatarName)
         if self.toon.getStyle().gender == 'm':
-            chatString = eval('TTLocalizer.' + line[3] % 'Mickey')
+            chatString = getattr(TTLocalizer, line[3]) % 'Mickey'
         else:
-            chatString = eval('TTLocalizer.' + line[3] % 'Minnie')
+            chatString =  getattr(TTLocalizer, line[3]) % 'Minnie'
         chatString = chatString.replace('%s', toAvatarName)
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[4:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
