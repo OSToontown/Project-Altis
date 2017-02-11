@@ -93,7 +93,7 @@ BoardOfficeRoomName2RoomId = invertDict(BoardOfficeRoomId2RoomName)
 BoardOfficeEntranceIDs = (0,)
 BoardOfficeMiddleRoomIDs = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18)
 BoardOfficeFinalRoomIDs = (19, 20, 21, 22, 23, 24, 25, 26, 27)
-BoardOfficeConnectorRooms = ('phase_10/models/cashbotHQ/connector_7cubeL2', 'phase_10/models/cashbotHQ/connector_7cubeR2')
+BoardOfficeConnectorRooms = ('phase_14/models/boardbotHQ/BD_connector_7cubeL2', 'phase_14/models/boardbotHQ/BD_connector_7cubeLR')
 BoardOfficeSpecModules = {}
 for roomName, roomId in BoardOfficeRoomName2RoomId.items():
     BoardOfficeSpecModules[roomId] = locals()[roomName]

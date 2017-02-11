@@ -6,19 +6,15 @@ class DistributedBoardOfficeSuit(DistributedFactorySuit.DistributedFactorySuit):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBoardOfficeSuit')
 	
     def renameBoss(self):
-        if self.getStyleDept() == TTLocalizer.Cashbot:
-           name = TTLocalizer.Supervisor
-        else:
-           name = TTLocalizer.President
         if self.getSkeleRevives() > 0:
-            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': name,
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': TTLocalizer.BoardExecutive,
              'dept': self.getStyleDept(),
              'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)}
-            self.setName(name)
+            self.setName(TTLocalizer.BoardExecutive)
             self.setDisplayName(nameInfo)
         else:
-            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': name,
+            nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': TTLocalizer.BoardExecutive,
              'dept': self.getStyleDept(),
              'level': self.getActualLevel()}
-            self.setName(name)
+            self.setName(TTLocalizer.BoardExecutive)
             self.setDisplayName(nameInfo)

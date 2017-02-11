@@ -4,7 +4,8 @@ suitTrackIndex = {
 's' : 3,
 'm' : 2,
 'l' : 1,
-'c' : 0
+'c' : 0,
+'g' : 4
 }
 
 class CogSuitManagerAI:
@@ -12,7 +13,7 @@ class CogSuitManagerAI:
         self.air = air
 
     def recoverPart(self, toon, factoryType, suitTrack, zoneId, toons):
-        recoveredParts = [0, 0, 0, 0]
+        recoveredParts = [0, 0, 0, 0, 0]
         parts = toon.getCogParts()
         suitTrack = suitTrackIndex[suitTrack]
         if CogDisguiseGlobals.isSuitComplete(parts, suitTrack):

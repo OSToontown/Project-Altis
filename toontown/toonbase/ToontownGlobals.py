@@ -311,7 +311,7 @@ BoardOfficeNumFloors = {BoardOfficeIntA: 20,
  BoardOfficeIntC: 20}
 BoardOfficeCogLevel = 10
 BoardOfficeSkelecogLevel = 11
-BoardOfficeBossLevel = 12
+BoardOfficeBossLevel = 20
 BoardOfficeNumBattles = {BoardOfficeIntA: 4,
  BoardOfficeIntB: 6,
  BoardOfficeIntC: 8}
