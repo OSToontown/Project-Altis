@@ -1,28 +1,18 @@
-import copy
+import copy, os, re, sys, token, tokenize
+from StringIO import StringIO
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
-from direct.showbase import AppRunnerGlobal
-from direct.showbase import DirectObject
-from toontown.toonbase import ToonPythonUtil as PythonUtil
-import os
-from pandac.PandaModules import *
-import re
-import sys
-import token
-import tokenize
-from toontown.quest import BlinkingArrows
-from StringIO import StringIO
-
+from direct.showbase import AppRunnerGlobal, DirectObject
 from otp.speedchat import SpeedChatGlobals
 from toontown.ai import DistributedBlackCatMgr
-from toontown.char import Char
-from toontown.char import CharDNA
+from toontown.char import Char, CharDNA
 from toontown.chat.ChatGlobals import *
-from toontown.suit import Suit
-from toontown.suit import SuitDNA
+from toontown.suit import Suit, SuitDNA
 from toontown.toon import ToonHeadFrame
-from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import TTLocalizer, ToontownBattleGlobals
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from toontown.quest import BlinkingArrows
 from toontown.questscripts import TTQUESTS
 
 
@@ -153,7 +143,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         self.chapterDict = {}
         self.timeoutTrack = None
         self.currentTrack = None
-        return
 
     def getVar(self, varName):
         if varName in self.privateVarDict:
@@ -165,7 +154,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             return None
         else:
             notify.error('Variable not defined: %s' % varName)
-        return None
 
     def delVar(self, varName):
         if varName in self.privateVarDict:
@@ -196,7 +184,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         del self.toon
         del self.npc
         del self.timeoutTrack
-        return
 
     def __unloadChar(self, char):
         char.removeActive()
@@ -482,7 +469,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         if timeoutList:
             self.timeoutTrack = Sequence(*timeoutList)
         self.playNextChapter('start')
-        return
 
     def closePreviousChapter(self, iList):
         trackList = self.chapterDict.setdefault(self.currentEvent, [])
@@ -513,7 +499,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             dialogue = None
         self.setVar(varName, dialogue)
-        return
 
     def parseLoadCCDialogue(self, line):
         token, varName, filenameTemplate = line
@@ -527,7 +512,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             dialogue = None
         self.setVar(varName, dialogue)
-        return
 
     def parseLoadChar(self, line):
         token, name, charType = line
