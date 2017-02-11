@@ -1133,7 +1133,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = '74Ce9b90fd8d802f229F76aBaccEd22433C8702f'
+        self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
