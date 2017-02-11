@@ -169,7 +169,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035),
             image_color=normalColor, image1_color=clickColor,
             image2_color=rolloverColor, image3_color=diabledColor,
-            #Don't modify the below. I added checks below. (I'M LOOKING AT YOU DREW!)
+            #Don't modify the below. I added checks further below. (I'M LOOKING AT YOU DREW!)
             text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode,
             extraArgs=[PageMode.Codes], pos=(-0.12, 0, 0.77))
         gui.removeNode()
