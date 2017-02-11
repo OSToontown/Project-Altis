@@ -771,7 +771,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         if self.toon.getStyle().gender == 'm':
             chatString = getattr(TTLocalizer, line[2]) % 'Mickey'
         else:
-            chatString =  getattr(TTLocalizer, line[2]) % 'Minnie'
+            chatString = getattr(TTLocalizer, line[2]) % 'Minnie'
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
 
