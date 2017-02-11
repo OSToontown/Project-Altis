@@ -2056,7 +2056,7 @@ RewardPanelMeritBarLabels = ['Stock Options',
  'Gears']
 RewardPanelMeritAlert = 'Ready for promotion!'
 RewardPanelCogPart = 'You gained a Cog disguise part!'
-RewardPanelPromotion = 'Ready for promotion in %s  track!'
+RewardPanelPromotion = 'Ready for a %s promotion!'
 RewardPanelSkip = 'Skip'
 CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
  ('Big head', 'you will have a big head'),

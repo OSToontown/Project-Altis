@@ -754,7 +754,7 @@ class BoardOfficeLayout:
             if battleRoomIds is not None:
                 break
 
-            BoardOfficeLayout.notify.info('could not find a valid set of battle rooms, trying again')
+            BoardOfficeLayout.notify.info('numBattlesLeft = ' + str(numBattlesLeft) + ' allBattleRoomIds = ' + str(allBattleRoomIds))
 
         middleRoomIds.extend(battleRoomIds)
         middleRoomsLeft -= len(battleRoomIds)
@@ -823,7 +823,8 @@ class BoardOfficeLayout:
             baseIndex += 1
             newNumBattlesLeft = numBattlesLeft - BoardOfficeRoomSpecs.middleRoomId2numBattles[nextRoomId]
             if newNumBattlesLeft < 0:
-                continue
+                self.notify.info('newNumBattlesLeft is less than 0!')
+                return chosenBattleRooms
             elif newNumBattlesLeft == 0:
                 chosenBattleRooms.append(nextRoomId)
                 return chosenBattleRooms
