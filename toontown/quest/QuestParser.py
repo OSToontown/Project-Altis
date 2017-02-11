@@ -782,7 +782,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
         localizerAvatarName = toAvatar.getName().capitalize()
-        toAvatarName = eval('TTLocalizer.' + localizerAvatarName)
+        if hasattr(TTLocalizer, localizerAvatarName):
+            toAvatarName = getattr(TTLocalizer, localizerAvatarName)
+        else:
+            toAvatarName = "TheErrorThatSpeaksInErrors"
         if self.toon.getStyle().gender == 'm':
             chatString = getattr(TTLocalizer, line[3]) % 'Mickey'
         else:
