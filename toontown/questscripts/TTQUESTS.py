@@ -564,4 +564,27 @@ CHAT_CONFIRM npc QuestScript150_4 1
 UPON_TIMEOUT HIDE_FRIENDS_LIST
 UPON_TIMEOUT ARROWS_OFF
 FINISH_QUEST_MOVIE
+
+# First Task: Assign Visit to Jester Chester
+ID quest_assign_600
+PLAY_ANIM npc "wave" 1
+CHAT npc QuestScript600_1
+LOAD_IMAGE logo "phase_3/maps/toontown-logo.png"
+REPARENTTO logo aspect2d
+POSHPRSCALE logo -0.4 7 0 0 0 0 0 0 0
+LERP_SCALE logo 0.4 0.2 0.2 0.5
+WAIT 1.5
+LOOP_ANIM npc "neutral"
+LERP_SCALE logo 0 0 0 0.5
+WAIT 0.5
+FUNCTION logo "destroy"
+CLEAR_CHAT npc
+CHAT_CONFIRM npc QuestScript600_2
+CHAT_CONFIRM npc QuestScript600_3
+CHAT_CONFIRM npc QuestScript600_4
+CHAT_CONFIRM npc QuestScript600_5
+PLAY_ANIM npc "wave" 1
+CHAT_CONFIRM npc QuestScript600_6
+LOOP_ANIM npc "neutral"
+FINISH_QUEST_MOVIE
 '''

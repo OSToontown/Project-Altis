@@ -5557,6 +5557,13 @@ QuestScript150_1 = 'Great work!\x07Toontown is more fun when you have friends!'
 QuestScript150_2 = 'To make friends, find another player, and use the New Friend button.'
 QuestScript150_3 = 'Once you have made a friend, come back here.'
 QuestScript150_4 = 'Some tasks are too difficult to do alone!'
+QuestScript600_1 = "Welcome to Toontown Project Altis!"
+QuestScript600_2 = "There are many shop keepers out there who will require your help."
+QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
+QuestScript600_4 = "Jester Chester can help you get used to this habbit."
+QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
+QuestScript600_6 = "Have fun in Toontown Project Altis!"
+
 MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'

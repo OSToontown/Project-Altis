@@ -2539,7 +2539,7 @@ QuestDict = {
 	   2322,
 	   NA,
 	   601,
-	   TTLocalizer.QuestDialogDict[600]),
+       DefaultDialog),
  601: (TT_TIER,
        Start,
 	   (CogQuest,

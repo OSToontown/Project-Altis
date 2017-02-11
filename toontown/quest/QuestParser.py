@@ -14,6 +14,7 @@ from toontown.toonbase import TTLocalizer, ToontownBattleGlobals
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.quest import BlinkingArrows
 from toontown.questscripts import TTQUESTS
+from direct.gui.DirectGui import *
 
 
 notify = DirectNotifyGlobal.directNotify.newCategory('QuestParser')
@@ -317,6 +318,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             if self.isLocalToon:
                 if command == 'LOAD':
                     self.parseLoad(line)
+                elif command == 'LOAD_IMAGE':
+                    self.parseLoadImage(line)
                 elif command == 'LOAD_SFX':
                     self.parseLoadSfx(line)
                 elif command == 'LOAD_DIALOGUE':
@@ -483,6 +486,15 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             node = loader.loadModel(modelPath.replace('"', '')).find('**/' + subNodeName)
         else:
             notify.error('invalid parseLoad command')
+        self.setVar(varName, node)
+        
+    def parseLoadImage(self, line):
+        if len(line) == 3:
+            token, varName, imagePath = line
+            node = OnscreenImage(image = imagePath.replace('"', ''))
+            node.setTransparency(1)
+        else:
+            notify.error('invalid parseLoadImage command')
         self.setVar(varName, node)
 
     def parseLoadSfx(self, line):
