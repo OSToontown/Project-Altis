@@ -458,7 +458,7 @@ class DistributedEstateAI(DistributedObjectAI):
                 target.requestDelete()
            
         for pet in self.pets:
-            pet.requestDelete(pet.doId)
+            pet.requestDelete()
 
         if self.treasurePlanner:
             self.treasurePlanner.stop()
@@ -558,10 +558,10 @@ class DistributedEstateAI(DistributedObjectAI):
         self.air.dbInterface.queryObject(self.air.dbId, owner.DISLid,
             callback=_queryAccount)
         
-    def destroyPets(self, owner):
+    def destroyPet(self, owner):
         for pet in self.pets:
-            if self.air.doId2do.get(owner) == pet.ownerId:
-                pet.requestDelete(pet.doId)
+            if owner == self.air.doId2do.get(pet.ownerId):
+                pet.requestDelete()
 
     def requestServerTime(self):
         self.sendUpdateToAvatarId(self.air.getAvatarIdFromSender(), 'setServerTime', [
