@@ -483,7 +483,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ADMIN_ACCESS', 0)
+        access = self.account.get('ACCESS_LEVEL', 0)
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
