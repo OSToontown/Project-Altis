@@ -668,7 +668,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toonId = self.toon.getDoId()
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        if hasattr(TTLocalizer, line[2]):
+            chatString = getattr(TTLocalizer, line[2])
+        else:
+            chatString = "You should NOT see this string. Contact a developer if you do."
         chatFlags = CFSpeech | CFTimeout
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         if extraChatFlags:
