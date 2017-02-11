@@ -573,7 +573,6 @@ LOAD_IMAGE logo "phase_3/maps/toontown-logo.png"
 REPARENTTO logo aspect2d
 POSHPRSCALE logo -0.4 7 0 0 0 0 0 0 0
 LERP_SCALE logo 0.4 0.2 0.2 0.5
-WAIT 1.5
 LOOP_ANIM npc "neutral"
 LERP_SCALE logo 0 0 0 0.5
 WAIT 0.5
