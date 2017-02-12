@@ -276,6 +276,7 @@ class PickAToon(DirectObject):
     def unload(self):
         taskMgr.remove('turnHead')
         cleanupDialog('globalDialog')
+        self.ignoreAll()
         self.background2d.removeNode()
         del self.background2d
         self.patNode.removeNode()
