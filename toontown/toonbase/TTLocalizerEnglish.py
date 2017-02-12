@@ -5661,6 +5661,7 @@ RentalTypeName = 'Rental Item'
 GardenStarterTypeName = 'Gardening Kit'
 NametagTypeName = 'Name tag'
 AccessoryTypeName = 'Accessory'
+InteriorLayoutTypeName = "Interior Layout"
 CatalogItemTypeNames = {0: 'INVALID_ITEM',
  1: FurnitureTypeName,
  2: ChatTypeName,
@@ -5680,7 +5681,9 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  16: NametagTypeName,
  17: 'TOON_STATUE',
  18: 'ANIMATED FURNITURE',
- 19: AccessoryTypeName}
+ 19: AccessoryTypeName,
+ 20: InteriorLayoutTypeName}
+InteriorLayoutNames = ["Default Layout", "Layout 2", "Layout 3", "Layout 4"]
 HatStylesDescriptions = {'hbb1': 'Green Baseball Cap',
  'kmh1': 'Mouskateer',
  'hbb2': 'Blue Baseball Cap',

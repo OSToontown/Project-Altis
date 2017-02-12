@@ -20,6 +20,7 @@ from toontown.catalog.CatalogRentalItem import CatalogRentalItem
 from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem
 from toontown.catalog.CatalogNametagItem import CatalogNametagItem
 from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
+from toontown.catalog.CatalogInteriorLayoutItem import CatalogInteriorLayoutItem
 from direct.actor import Actor
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -514,6 +515,8 @@ MonthlySchedule = ((7,
    CatalogToonStatueItem(105, endPoseIndex=108),
    #CatalogRentalItem(1, 2880, 1000), # TODO
    CatalogGardenStarterItem(),
+   CatalogInteriorLayoutItem(0),
+   CatalogInteriorLayoutItem(1),
    CatalogNametagItem(100),
    CatalogNametagItem(0),
    CatalogClothingItem(1608, 0, 0),
