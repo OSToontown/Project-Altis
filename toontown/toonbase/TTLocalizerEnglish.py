@@ -8975,6 +8975,7 @@ StatuaryToonThinking = 'Toon Embrace Statue'
 StatuaryMeltingSnowman = 'Melting Snowman'
 StatuaryMeltingSnowDoodle = 'Melting SnowDoodle'
 StatuaryGardenAccelerator = 'Insta-Grow Fertilizer'
+StatuaryGazebo = 'Gazebo'
 AnimatedStatuaryFlappyCog = 'Flappy Cog'
 FlowerColorStrings = ['Red',
  'Orange',
