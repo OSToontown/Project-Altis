@@ -75,6 +75,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.lawOfficeMgr = None
         self.countryClubMgr = None
         self.startTime = startTime
+        self.isRaining = False
 
         import pymongo
         

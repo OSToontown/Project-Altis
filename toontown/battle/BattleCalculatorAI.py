@@ -644,7 +644,7 @@ class BattleCalculatorAI:
         self.notify.debug('__addWetSuitInfo: currWetSuits -> %s' % repr(self.currentlyWetSuits))
 			
     def __isWet(self, suit):
-        if suit in self.currentlyWetSuits:
+        if suit in self.currentlyWetSuits or simbase.air.isRaining == True:
             return 1
         else:
             return 0
