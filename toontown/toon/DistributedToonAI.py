@@ -3638,7 +3638,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          (7, 2),
          (100, 1),
          (101, 3),
-         (102, 1)])
+         (102, 1),
+         (109, 1)])
 
     def reqUseSpecial(self, special):
         return  # TODO/gardening

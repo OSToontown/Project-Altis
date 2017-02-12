@@ -345,11 +345,21 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
         accString = AvTrackAccStrings[track]
         if (organicBonus or propBonus) and track == LURE_TRACK:
             accString = TTLocalizer.BattleGlobalLureAccMedium
-        self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailData % {'accuracy': accString,
-         'damageString': self.getToonupDmgStr(track, level),
-         'damage': damage,
-         'bonus': damageBonusStr,
-         'singleOrGroup': self.getSingleGroupStr(track, level)})
+        if track == SQUIRT_TRACK:
+            self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailDataExtra % {'accuracy': accString,
+             'damageString': self.getToonupDmgStr(track, level),
+             'damage': damage,
+             'bonus': damageBonusStr,
+             'singleOrGroup': self.getSingleGroupStr(track, level),
+             'extra': self.getExtraText(track, level)})
+            self.detailCreditLabel.setPos(-0.22, 0, -0.39625)
+        else:
+            self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailData % {'accuracy': accString,
+             'damageString': self.getToonupDmgStr(track, level),
+             'damage': damage,
+             'bonus': damageBonusStr,
+             'singleOrGroup': self.getSingleGroupStr(track, level)})
+            self.detailCreditLabel.setPos(-0.22, 0, -0.365)
         if self.itemIsCredit(track, level):
             mult = self.__battleCreditMultiplier
             if self.__respectInvasions:
@@ -1211,6 +1221,10 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
             return TTLocalizer.InventoryAffectsAllCogs
         else:
             return TTLocalizer.InventoryAffectsOneCog
+			
+    def getExtraText(self, track, level):
+        if track == SQUIRT_TRACK:
+           return TTLocalizer.InventorySquirtRoundsString % BattleGlobals.NumRoundsWet[level]
 
     def getToonupDmgStr(self, track, level):
         if track == HEAL_TRACK:

@@ -483,7 +483,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ADMIN_ACCESS', 0)
+        access = self.account.get('ACCESS_LEVEL', 0)
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
@@ -1133,7 +1133,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = '74Ce9b90fd8d802f229F76aBaccEd22433C8702f'
+        self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
