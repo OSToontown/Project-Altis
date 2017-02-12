@@ -963,6 +963,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.moveTrack = moveTrack
         self.moveTrack.start()
         self.storeInterval(self.moveTrack, 'moveTrack')
+        pass
 
     def interruptMove(self):
         if self.moveTrack and self.moveTrack.isPlaying():
@@ -1544,4 +1545,8 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             attackBelts.append(seq)
         
         self.notify.debug('attackBelts duration= %.2f' % attackBelts.getDuration())
+        if index:
+            self.ANIM_PLAYRATE = 1.5
+        else:
+            self.ANIM_PLAYRATE = 1.25
         self.doAnimate(attackBelts, now=1, raised=1)
