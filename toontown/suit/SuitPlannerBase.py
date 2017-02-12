@@ -1,9 +1,9 @@
 from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
-from toontown.hood import ZoneUtil
-from toontown.toonbase import ToontownGlobals
+from toontown.hood import ZoneUtil, HoodUtil
+from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals
 from toontown.building import SuitBuildingGlobals
-from toontown.dna.DNAParser import DNASuitPoint, DNAStorage, loadDNAFileAI
+from toontown.dna.DNAParser import DNASuitPoint, DNAStorage, DNAInteractiveProp, loadDNAFileAI
 
 class SuitPlannerBase:
     notify = directNotify.newCategory('SuitPlannerBase')
@@ -572,6 +572,25 @@ class SuitPlannerBase:
             elif vg.getNumBattleCells() > 1:
                 self.notify.warning('multiple battle cells for zone: %d' % zoneId)
                 self.battlePosDict[zoneId] = vg.getBattleCell(0).getPos()
+                
+            if True:
+                for i in range(vg.getNumChildren()):
+                    childDnaGroup = vg.at(i)
+                    if isinstance(childDnaGroup, DNAInteractiveProp):
+                        self.notify.debug('got interactive prop %s' % childDnaGroup)
+                        battleCellId = childDnaGroup.getCellId()
+                        if battleCellId == -1:
+                            self.notify.warning('interactive prop %s  at %s not associated with a a battle' % (childDnaGroup, zoneId))
+                        elif battleCellId == 0:
+                            if self.cellToGagBonusDict.has_key(zoneId):
+                                self.notify.error('FIXME battle cell at zone %s has two props %s %s linked to it' % (zoneId, self.cellToGagBonusDict[zoneId], childDnaGroup))
+                            else:
+                                name = childDnaGroup.getName()
+                                propType = HoodUtil.calcPropType(name)
+                                if propType in ToontownBattleGlobals.PropTypeToTrackBonus:
+                                    trackBonus = ToontownBattleGlobals.PropTypeToTrackBonus[propType]
+                                    self.cellToGagBonusDict[zoneId] = trackBonus
+
         self.dnaStore.resetDNAGroups()
         self.dnaStore.resetDNAVisGroups()
         self.dnaStore.resetDNAVisGroupsAI()

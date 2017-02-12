@@ -4,6 +4,7 @@ from toontown.estate import FlowerBase
 from toontown.estate import GardenGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
+from toontown.estate.DistributedGardenBox import DistributedGardenBox
 
 DIRT_AS_WATER_INDICATOR = True
 DIRT_MOUND_HEIGHT = 0.3
@@ -34,6 +35,9 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
     def setTypeIndex(self, typeIndex):
         DistributedPlantBase.DistributedPlantBase.setTypeIndex(self, typeIndex)
         self.setSpecies(typeIndex)
+
+    def getTypeIndex(self):
+        return self.typeIndex
 
     def showWiltOrBloom(self):
         if not self.model:
@@ -86,11 +90,11 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         messenger.send('wakeup')
         fullName = GardenGlobals.getFlowerVarietyName(self.species, self.variety)
         if self.isWilted():
-            self.confirmDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=TTLocalizer.ConfirmWiltedFlower % {'plant': fullName}, command=self.confirmCallback)
+            self.confirmDialog = TTDialog.TTDialog(style = TTDialog.YesNo, text = TTLocalizer.ConfirmWiltedFlower % {'plant': fullName}, command = self.confirmCallback)
         elif not self.isFruiting():
-            self.confirmDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=TTLocalizer.ConfirmUnbloomingFlower % {'plant': fullName}, command=self.confirmCallback)
+            self.confirmDialog = TTDialog.TTDialog(style = TTDialog.YesNo, text = TTLocalizer.ConfirmUnbloomingFlower % {'plant': fullName}, command = self.confirmCallback)
         elif base.localAvatar.isFlowerBasketFull():
-            self.confirmDialog = TTDialog.TTDialog(style=TTDialog.CancelOnly, text=TTLocalizer.ConfirmBasketFull, command=self.confirmCallback)
+            self.confirmDialog = TTDialog.TTDialog(style = TTDialog.CancelOnly, text = TTLocalizer.ConfirmBasketFull, command = self.confirmCallback)
         else:
             shovel = base.localAvatar.shovel
             skill = base.localAvatar.shovelSkill
@@ -104,9 +108,9 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
                     text = (TTLocalizer.ConfirmMaxedSkillFlower % {'plant': fullName},)
                 else:
                     text = TTLocalizer.ConfirmSkillupFlower % {'plant': fullName}
-                self.confirmDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=text, command=self.confirmCallback)
+                self.confirmDialog = TTDialog.TTDialog(style = TTDialog.YesNo, text = text, command = self.confirmCallback)
             else:
-                self.confirmDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=TTLocalizer.ConfirmNoSkillupFlower % {'plant': fullName}, command=self.confirmCallback)
+                self.confirmDialog = TTDialog.TTDialog(style = TTDialog.YesNo, text = TTLocalizer.ConfirmNoSkillupFlower % {'plant': fullName}, command = self.confirmCallback)
         self.confirmDialog.show()
         base.localAvatar.setInGardenAction(self)
         base.cr.playGame.getPlace().detectedGardenPlotUse()
@@ -136,12 +140,21 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         if self.model:
             self.adjustWaterIndicator()
 
+    def getWaterLevel(self):
+        return self.waterLevel
+
     def setGrowthLevel(self, growthLevel):
         origGrowthLevel = self.growthLevel
         self.growthLevel = growthLevel
         if origGrowthLevel > -1:
             self.loadModel()
             self.makeMovieNode()
+
+        if hasattr(self, '_boxDoId'):
+            self.setBoxDoId(*self._boxDoId)
+
+    def getGrowthLevel(self):
+        return self.growthLevel
 
     def makeMovieNode(self):
         self.movieNode = self.rotateNode.attachNewNode('moviePos')
@@ -182,7 +195,7 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         self.startInteraction()
         flowerName = GardenGlobals.getFlowerVarietyName(self.species, self.variety)
         stringToShow = TTLocalizer.getResultPlantedSomethingSentence(flowerName)
-        self.resultDialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=stringToShow, command=self.resultsCallback)
+        self.resultDialog = TTDialog.TTDialog(style = TTDialog.Acknowledge, text = stringToShow, command = self.resultsCallback)
 
     def resultsCallback(self, value):
         self.notify.debug('value=%d' % value)
@@ -190,3 +203,13 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
+
+    def setBoxDoId(self, boxId, index):
+        self._boxDoId = (boxId, index)
+        box = base.cr.doId2do[boxId]
+        x = GardenGlobals.FLOWER_POS[box.typeIndex][index]
+
+        self.setPos(0, 0, 0)
+        self.reparentTo(box)
+        self.setZ(1.5)
+        self.setX(x)

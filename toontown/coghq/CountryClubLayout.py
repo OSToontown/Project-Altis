@@ -265,8 +265,6 @@ class CountryClubLayout:
         else:
             return
 
-        return
-
     def __str__(self):
         return 'CountryClubLayout: id=%s, layoutIndex=%s, floor=%s, numRooms=%s, numBattles=%s' % (self.countryClubId,
          self.layoutIndex,

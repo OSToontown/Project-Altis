@@ -1,19 +1,16 @@
+from panda3d.core import * 
 from direct.interval.IntervalGlobal import Sequence, Func, Wait, LerpColorScaleInterval, Parallel
 from direct.distributed import DistributedObject
+from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
+from direct.fsm.FSM import FSM
+from direct.gui.DirectGui import *
 from direct.task.Task import Task
-from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.distributed import DelayDelete
 from toontown.distributed.DelayDeletable import DelayDeletable
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
-from direct.gui.DirectGui import *
-from direct.distributed.ClockDelta import *
-from direct.fsm.FSM import FSM
-from toontown.golf import GolfGlobals
-from toontown.golf import GolfScoreBoard
-from toontown.golf import GolfRewardDialog
+from toontown.toonbase import ToontownGlobals, TTLocalizer
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from toontown.golf import GolfGlobals, GolfScoreBoard, GolfRewardDialog
 from toontown.toon import ToonHeadFrame
 
 class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDeletable):
@@ -53,7 +50,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.scoreBoard = None
         self.exit = False
         self.drivingToons = []
-        return
 
     def generate(self):
         self.notify.debug('GOLF COURSE: generate, %s' % self.getTitle())
@@ -81,7 +77,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.__delayDelete:
             self.__delayDelete.destroy()
             self.__delayDelete = None
-        return
 
     def delete(self):
         self.ignore('clientCleanup')
@@ -103,8 +98,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             av = base.cr.doId2do.get(avId)
             if av:
                 av.show()
-
-        return
 
     def load(self):
         self.music = base.loader.loadMusic('phase_6/audio/bgm/GZ_PlayGolf.ogg')
@@ -236,8 +229,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 elif not self.avIdList[x] == self.localAvId:
                     y += 1
 
-        return
-
     def enterJoin(self):
         self.sendUpdate('setAvatarJoined', [])
 
@@ -284,7 +275,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.hasLocalToon:
             messenger.send('leavingGolf')
             self._destroyDelayDelete()
-        return
 
     def exitCleanup(self):
         pass
@@ -332,8 +322,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             av = base.cr.doId2do.get(self.curHoleDoId)
             if av:
                 return av.currentGolfer
-        else:
-            return None
         return None
 
     def getStrokesForCurHole(self, avId):
@@ -394,7 +382,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.rewardIval:
             self.rewardIval.pause()
             self.rewardIval = None
-        return
 
     def updateScoreBoard(self):
         if self.scoreBoard:

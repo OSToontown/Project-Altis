@@ -58,7 +58,11 @@ class PickAToon(DirectObject):
         self.selectedToon = 0
         self.doneEvent = doneEvent
         self.jumpIn = None
-
+        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
+        self.background2d.setScale(2, 1, 1)
+        self.background2d.setBin('background', 1)
+        self.background2d.setTransparency(1)
+        self.background2d.setColorScale(.6, .1, .1, 0)
         # self.optionsMgr = PickAToonOptions.PickAToonOptions()
         self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
         self.shardPicker = ShardPicker.ShardPicker()
@@ -272,6 +276,8 @@ class PickAToon(DirectObject):
     def unload(self):
         taskMgr.remove('turnHead')
         cleanupDialog('globalDialog')
+        self.background2d.removeNode()
+        del self.background2d
         self.patNode.removeNode()
         del self.patNode
         self.patNode2d.removeNode()
@@ -360,12 +366,14 @@ class PickAToon(DirectObject):
             self.deleteButton.hide()
             
     def showQuitConfirmation(self):
+        LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .5), startColorScale = Vec4(.6, .1, .1, 0)).start()
         self.quitConfirmation.showConf()
             
     def doQuitFunc(self):
         base.exitFunc()
         
     def doCancelQuitFunc(self):
+        LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, 0), startColorScale = Vec4(.6, .1, .1, .5)).start()
         self.quitConfirmation.hideConf()
         self.optionsButton.show()
         self.shardsButton.show()

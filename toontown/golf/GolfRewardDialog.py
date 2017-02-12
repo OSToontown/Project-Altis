@@ -1,12 +1,12 @@
-from pandac.PandaModules import *
-from toontown.toonbase.ToonBaseGlobal import *
+from math import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
-from direct.directnotify import DirectNotifyGlobal
-from math import *
 from direct.distributed.ClockDelta import *
+from direct.directnotify import DirectNotifyGlobal
 from toontown.golf import GolfGlobals
 from toontown.shtiker.GolfPage import GolfTrophy
+from toontown.toonbase.ToonBaseGlobal import *
 
 class GolfRewardDialog:
     notify = directNotify.newCategory('GolfRewardDialog')

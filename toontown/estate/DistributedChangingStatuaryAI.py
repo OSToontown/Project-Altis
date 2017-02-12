@@ -4,6 +4,5 @@ from toontown.estate.DistributedStatuaryAI import DistributedStatuaryAI
 class DistributedChangingStatuaryAI(DistributedStatuaryAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedChangingStatuaryAI")
 
-    def setGrowthLevel(self, todo0):
+    def setGrowthLevel(self, growthLevel):
         pass
-

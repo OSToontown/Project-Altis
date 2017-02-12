@@ -174,7 +174,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.place = None
         base.cr.playGame.setPlace(self.place)
         base.cr.cache.flush()
-        return
 
     def handleEstateDone(self, doneStatus = None):
         if not doneStatus:
@@ -199,7 +198,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             self.fsm.request('quietZone', [doneStatus])
         else:
             self.notify.error('Exited hood with unexpected mode %s' % how)
-        return
 
     def enterHouse(self, requestStatus):
         ownerId = requestStatus.get('ownerId')
@@ -217,7 +215,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def handleHouseDone(self, doneStatus = None):
         if not doneStatus:
@@ -236,7 +233,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             self.fsm.request('quietZone', [doneStatus])
         else:
             self.notify.error('Exited hood with unexpected mode %s' % how)
-        return
 
     def handleQuietZoneDone(self):
         status = self.quietZoneStateData.getRequestStatus()
@@ -250,7 +246,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
                 return 0
         else:
             self.notify.warning("We aren't in an estate")
-        return
 
     def setHouse(self, houseId):
         try:
@@ -260,8 +255,7 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             self.notify.debug("can't find house: %d" % houseId)
 
     def startCloudPlatforms(self):
-        return
-        if len(self.clouds):
+        if hasattr(self, 'clouds') and len(self.clouds):
             self.cloudTrack = self.__cloudTrack()
             self.cloudTrack.loop()
 
@@ -270,7 +264,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             self.cloudTrack.pause()
             del self.cloudTrack
             self.cloudTrack = None
-        return
 
     def __cloudTrack(self):
         track = Parallel()

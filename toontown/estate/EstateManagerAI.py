@@ -259,8 +259,10 @@ class LoadEstateFSM(FSM):
 
         # A houseFSM just finished! Let's see if all of them are done:
         if all(houseFSM.done for houseFSM in self.houseFSMs):
-            #self.demand('LoadPets')
-            self.demand('Finished')
+            if simbase.config.GetBool('want-pets', True):
+                self.demand('LoadPets')
+            else:
+                self.demand('Finished')
 
     def enterLoadPets(self):
         self.petFSMs = []
@@ -440,7 +442,6 @@ class EstateManagerAI(DistributedObjectAI):
 
         # Free estate's zone:
         self.air.deallocateZone(estate.zoneId)
-        del self.zoneId2owner[estate.zoneId]
         
     def _sendToonsToPlayground(self, estate, reason):
         for toon in self.estate2toons.get(estate, []):

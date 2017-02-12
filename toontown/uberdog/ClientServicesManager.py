@@ -39,7 +39,7 @@ class ClientServicesManager(DistributedObjectGlobal):
             # the request was successful, set the login cookie and login.
             cookie = response['additional']
 
-        key = 'VhgdThjgoNI0SAbfeSjcyxo9iSyghKSh43ZMidFI'
+        key = '74Ce9b90fd8d802f229F76aBaccEd22433C8702f'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
 

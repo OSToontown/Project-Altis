@@ -80,7 +80,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.lastPowerFired = 0
         self.moveSound = None
         self.releaseTrack = None
-        return
 
     def disable(self):
         DistributedObject.DistributedObject.disable(self)
@@ -97,7 +96,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.fireTrack.finish()
             self.fireTrack = None
         self.cleanupIntervals()
-        return
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
@@ -114,7 +112,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.powerBar.destroy()
         self.powerBar = None
         self.pitcherMoveSfx.stop()
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -461,7 +458,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         else:
             self.allowLocalRequestControl = True
         self.avId = 0
-        return
 
     def exitFree(self):
         pass
@@ -569,7 +565,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
                 if toon:
                     toon.wrtReparentTo(render)
             self.releaseTrack.start()
-        return
 
     def safeBossToFinalBattleMode(self):
         if self.boss:
@@ -660,7 +655,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.arrowVert = 0
         self.arrowHorz = 0
         self.powerBar.show()
-        return
 
     def __disableControlInterface(self):
         if self.closeButton:
@@ -687,26 +681,22 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.__killUpdateKeyPressRateTask()
             self.keyTTL = []
         self.__setMoveSound(None)
-        return
 
     def __displayPitcherAdvice(self, task):
         if self.pitcherAdviceLabel == None:
             self.pitcherAdviceLabel = DirectLabel(text=TTLocalizer.BossbotPitcherAdvice, text_fg=VBase4(1, 1, 1, 1), text_align=TextNode.ACenter, relief=None, pos=(0, 0, 0.69), scale=0.1)
-        return
 
     def __cleanupPitcherAdvice(self):
         if self.pitcherAdviceLabel:
             self.pitcherAdviceLabel.destroy()
             self.pitcherAdviceLabel = None
         taskMgr.remove(self.pitcherAdviceName)
-        return
 
     def showExiting(self):
         if self.closeButton:
             self.closeButton.destroy()
             self.closeButton = DirectLabel(relief=None, text=TTLocalizer.BossbotPitcherLeaving, pos=(1.05, 0, -0.88), text_pos=(0, 0), text_scale=0.06, text_fg=VBase4(1, 1, 1, 1))
         self.__cleanupPitcherAdvice()
-        return
 
     def __exitPitcher(self):
         self.showExiting()
@@ -947,7 +937,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.aimStart = time
         messenger.send('wakeup')
         taskMgr.add(self.__updateWaterPower, self.waterPowerTaskName)
-        return
 
     def __endFireWater(self):
         if self.aimStart == None:
@@ -989,7 +978,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.d_firingWater(origin, target)
         self.fireWater(origin, target)
         self.resetPowerBar()
-        return
 
     def __updateWaterPower(self, task):
         if not self.powerBar:

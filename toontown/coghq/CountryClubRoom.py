@@ -20,7 +20,6 @@ class CountryClubRoom(DirectObject.DirectObject):
             self.setGeom(loadFunc(path))
         self.localToonFSM = ClassicFSM.ClassicFSM('CountryClubRoomLocalToonPresent', [State.State('off', self.enterLtOff, self.exitLtOff, ['notPresent']), State.State('notPresent', self.enterLtNotPresent, self.exitLtNotPresent, ['present']), State.State('present', self.enterLtPresent, self.exitLtPresent, ['notPresent'])], 'notPresent', 'notPresent')
         self.localToonFSM.enterInitialState()
-        return
 
     def delete(self):
         del self.localToonFSM
@@ -42,7 +41,6 @@ class CountryClubRoom(DirectObject.DirectObject):
             import pdb
             pdb.set_trace()
         self.__geom = geom
-        return
 
     def getGeom(self):
         return self.__geom
@@ -82,7 +80,6 @@ class CountryClubRoom(DirectObject.DirectObject):
         tempNode.setH(newTempNodeH)
         geom.wrtReparentTo(otherGeom.getParent())
         tempNode.removeNode()
-        return
 
     def getFloorCollName(self):
         return '%s%s' % (CountryClubRoom.FloorCollPrefix, self.roomNum)

@@ -21,6 +21,9 @@ class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
         
     def getCellId(self):
         return self.cellId
+        
+    def setCellId(self, cellId):
+        self.cellId = int(cellId)
 
     def traverse(self, nodePath, dnaStorage):
         node = None

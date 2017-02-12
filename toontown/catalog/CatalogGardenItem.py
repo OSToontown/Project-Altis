@@ -80,7 +80,6 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
         CatalogItem.CatalogItem.cleanupPicture(self)
         self.model.detachNode()
         self.model = None
-        return
 
     def output(self, store = -1):
         return 'CatalogGardenItem(%s%s)' % (self.gardenIndex, self.formatOptionalData(store))

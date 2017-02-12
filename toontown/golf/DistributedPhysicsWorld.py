@@ -1,20 +1,16 @@
+import random, time, math
+from panda3d.core import *
 from direct.distributed import DistributedObject
+from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
-from math import *
-import math
+from direct.interval.SoundInterval import SoundInterval
 from direct.fsm.FSM import FSM
-from toontown.minigame import ArrowKeys
-from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.showutil import Rope
 from direct.task import Task
-from direct.distributed.ClockDelta import *
-from toontown.golf import BuildGeometry
-from toontown.golf import GolfGlobals
-from toontown.golf import PhysicsWorldBase
-import random, time
-from direct.interval.SoundInterval import SoundInterval
+from toontown.minigame import ArrowKeys
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from toontown.golf import BuildGeometry, GolfGlobals, PhysicsWorldBase
 
 def scalp(vec, scal):
     vec0 = vec[0] * scal
@@ -24,7 +20,7 @@ def scalp(vec, scal):
 
 
 def length(vec):
-    return sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2)
+    return math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2)
 
 
 class DistributedPhysicsWorld(DistributedObject.DistributedObject, PhysicsWorldBase.PhysicsWorldBase):
@@ -52,7 +48,6 @@ class DistributedPhysicsWorld(DistributedObject.DistributedObject, PhysicsWorldB
             sfxPair[1].finish()
 
         self.physicsSfxDict = None
-        return
 
     def clientCommonObject(self, type, commonId, pos, hpr, sizeX, sizeY, moveDistance):
         data = self.createCommonObject(type, commonId, pos, hpr, sizeX, sizeY, moveDistance)

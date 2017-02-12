@@ -24,7 +24,7 @@ class ItemsPage(ShtikerPage.ShtikerPage):
         matGui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         self.nametagStyle_label = DirectLabel(parent=self, relief=None, text=TTLocalizer.ItemsPageNametagStyle, text_align=TextNode.ALeft, text_scale=0.054, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight * 0.145))
-        self.nametagStyle_name = DirectLabel(self, relief=None, text='Preview', scale=0.06, text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145))
+        self.nametagStyle_preview = DirectLabel(self, relief=None, text='Preview', scale=0.06, text_align = TextNode.ACenter text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145))
         self.nametagStyle_leftButton = DirectButton(self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
          gui.find('**/Horiz_Arrow_DN'),
          gui.find('**/Horiz_Arrow_Rllvr'),
@@ -41,8 +41,8 @@ class ItemsPage(ShtikerPage.ShtikerPage):
             self.title.removeNode()
         self.nametagStyle_label.destroy()
         del self.nametagStyle_label
-        self.nametagStyle_name.destroy()
-        del self.nametagStyle_name
+        self.nametagStyle_preview.destroy()
+        del self.nametagStyle_preview
         self.nametagStyle_leftButton.destroy()
         del self.nametagStyle_leftButton
         self.nametagStyle_rightButton.destroy()
@@ -58,8 +58,12 @@ class ItemsPage(ShtikerPage.ShtikerPage):
             base.localAvatar.requestNametagStyle(base.localAvatar.nametagStyles[self.nametagStyle_index])
     
     def __updateNametagStyle(self):
-        self.nametagStyle_name['text_font'] = ToontownGlobals.getNametagFont(base.localAvatar.nametagStyles[self.nametagStyle_index])
-        nametagCount = len(base.localAvatar.nametagStyles)
+        self.nametagStyle_preview['text_font'] = ToontownGlobals.getNametagFont(base.localAvatar.nametagStyles[self.nametagStyle_index])
+        nametagCount = len(base.localAvatar.nametagStyles)            
+        if nametagCount == 0:
+            self.nametagStyle_rightButton.hide()
+            self.nametagStyle_leftButton.hide()
+            
         if self.nametagStyle_index >= (nametagCount - 1):
             self.nametagStyle_rightButton.hide()
         else:
@@ -69,10 +73,6 @@ class ItemsPage(ShtikerPage.ShtikerPage):
             self.nametagStyle_leftButton.hide()
         else:
             self.nametagStyle_leftButton.show()
-            
-        if nametagCount == 0:
-            self.nametagStyle_rightButton.hide()
-            self.nametagStyle_leftButton.hide()
     
     def __changeNametagStyle(self, val):
         self.nametagStyle_index += val

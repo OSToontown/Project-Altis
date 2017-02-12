@@ -505,8 +505,9 @@ class BattleCalculatorAI:
                             else:
                                 attackDamage = atkHp * 2
                     if atkTrack == THROW:
-                        tgtPos = self.battle.activeSuits.index(targetList[currTarget])
-                        attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
+                        if self.__suitIsLured(targetId):
+                            tgtPos = self.battle.activeSuits.index(targetList[currTarget])
+                            attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
                 elif atkTrack == FIRE:
                     suit = self.battle.findSuit(targetId)
                     if suit:

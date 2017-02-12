@@ -87,22 +87,7 @@ namespace discordCSBOT
 
             _bot.UserJoined += (s, e) =>
             {
-                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"joined the server", "#42f46b");
-                foreach (var word in blacklist)
-                {
-                    try
-                    {
-                        if (e.User.Name.Contains(word))
-                        {
-                            e.Server.Ban(e.User);
-                        }
-                    }
-                    catch
-                    {
-
-                    }
-                }
-                
+                SendWebhookUser(e.User.Name, e.User.AvatarUrl, $"joined the server", "#42f46b");               
             };
 
             _bot.UserLeft += (s, e) =>
