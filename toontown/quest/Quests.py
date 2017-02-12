@@ -7723,7 +7723,7 @@ QuestDict = {
 		 ToontownGlobals.MinniesMelodyland,
 		 10,
 		 37,
-		 Medium,
+		 Easy,
 		 Any),
 		4404,
 		Same,
