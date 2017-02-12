@@ -340,7 +340,8 @@ class DMenuScreen(DirectObject):
         self.buttonInAnimation()
 
     def playGame(self):
-        self.ignoreAll()
+        self.ignore('doQuitGame')
+        self.ignore('doCancelQuitGame')
         if self.fadeOut is not None:
             self.fadeOut.finish()
             self.fadeOut = None
