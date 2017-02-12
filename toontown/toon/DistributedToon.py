@@ -2251,8 +2251,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         
     def setNametagStyles(self, nametagStyles):
         self.nametagStyles = nametagStyles
-        if self == base.localAvatar:
-            messenger.send('refreshNametagStyle')
     
     def requestNametagStyle(self, nametagStyle):
         if nametagStyle not in self.nametagStyles:
@@ -2260,6 +2258,18 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         
         self.sendUpdate('requestNametagStyle', [nametagStyle])
 
+    def getFishingRods(self):
+        return self.fishingRods
+        
+    def setFishingRods(self, fishingRods):
+        self.fishingRods = fishingRods
+        
+    def requestFishingRod(self, rodId):
+        if rodId not in self.fishingRods:
+            return
+            
+        self.sendUpdate('requestFishingRod', [rodId])
+        
     def getAvIdName(self):
         paidStr = PythonUtil.choice(self.getGameAccess() == OTPGlobals.AccessFull, 'P', 'F')
         return '%s\n%s (%s)' % (self.getName(), self.doId, paidStr)

@@ -496,6 +496,9 @@ class DistributedToonUD(DistributedObjectUD):
     def setNametagStyles(self, todo):
         pass
 
+    def setFishingRods(self, rods):
+        pass
+        
     def setMail(self, todo0):
         pass
 
