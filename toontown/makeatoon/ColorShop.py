@@ -247,10 +247,14 @@ class ColorShop(StateData.StateData):
         choice = (self.headChoice + offset) % length
         self.__updateScrollButtons(choice, length, self.allLButton, self.allRButton)
         self.__swapHeadColor(offset)
-        oldArmColorIndex = colorList.index(self.toon.style.armColor)
-        oldLegColorIndex = colorList.index(self.toon.style.legColor)
-        self.__swapArmColor(choice - oldArmColorIndex)
-        self.__swapLegColor(choice - oldLegColorIndex)
+        try:
+            oldArmColorIndex = colorList.index(self.toon.style.armColor)
+            oldLegColorIndex = colorList.index(self.toon.style.legColor)
+            self.__swapArmColor(choice - oldArmColorIndex)
+            self.__swapLegColor(choice - oldLegColorIndex)
+        except:
+            self.__swapArmColor(offset)
+            self.__swapLegColor(offset)			
 
     def __swapHeadColor(self, offset):
         colorList = self.getGenderColorList(self.dna)
