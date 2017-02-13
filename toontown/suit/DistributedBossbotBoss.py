@@ -963,7 +963,6 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.moveTrack = moveTrack
         self.moveTrack.start()
         self.storeInterval(self.moveTrack, 'moveTrack')
-        pass
 
     def interruptMove(self):
         if self.moveTrack and self.moveTrack.isPlaying():

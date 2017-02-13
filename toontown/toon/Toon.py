@@ -9,7 +9,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToonPythonUtil import Functor
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toon.ToonHead import *
 from otp.avatar import Avatar
 from otp.avatar import Emote
@@ -4677,12 +4677,6 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doToonScale(ToontownGlobals.BigToonScale, lerpTime)
         elif effect == ToontownGlobals.CESmallToon:
             return self.__doToonScale(ToontownGlobals.SmallToonScale, lerpTime)
-        elif effect == ToontownGlobals.CETinyToon:
-            return self.__doToonScale(ToontownGlobals.TinyToonScale, lerpTime)
-        elif effect == ToontownGlobals.CEGiantToon:
-            return self.__doToonScale(ToontownGlobals.GiantToonScale, lerpTime)
-        elif effect == ToontownGlobals.CEBeanToon:
-            return self.__doToonScale(ToontownGlobals.BeanToonScale, lerpTime)
         elif effect == ToontownGlobals.CEFlatPortrait:
             return self.__doToonScale(VBase3(1, 0.05, 1), lerpTime)
         elif effect == ToontownGlobals.CEFlatProfile:
@@ -4699,124 +4693,6 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doBigAndWhite(VBase4(1, 1, 1, 1), ToontownGlobals.BigToonScale, lerpTime)
         elif effect == ToontownGlobals.CESnowMan:
             return self.__doSnowManHeadSwitch(lerpTime, toSnowMan=True)
-        elif effect == ToontownGlobals.CEYesMan:
-            return self.__doYesMan(lerpTime, toYesMan=True)
-        elif effect == ToontownGlobals.CEDownsizer:
-            return self.__doDownsizer(lerpTime, toDownsizer=True)
-        elif effect == ToontownGlobals.CEMoverShaker:
-            return self.__doMoverShaker(lerpTime, toMoverShaker=True)
-        elif effect == ToontownGlobals.CEBigCheese:
-            return self.__doBigCheese(lerpTime, toBigCheese=True)
-        elif effect == ToontownGlobals.CEGladHander:
-            return self.__doGladHander(lerpTime, toGladHander=True)
-        elif effect == ToontownGlobals.CEMingler:
-            return self.__doMingler(lerpTime, toMingler=True)
-        elif effect == ToontownGlobals.CEFlunky:
-            return self.__doFlunky(lerpTime, toFlunky=True)
-        elif effect == ToontownGlobals.CETelemarketer:
-            return self.__doTelemarketer(lerpTime, toTelemarketer=True)
-        elif effect == ToontownGlobals.CELoanShark:
-            return self.__doLoanShark(lerpTime, toLoanShark=True)
-        elif effect == ToontownGlobals.CEBigWig:
-            return self.__doBigWig(lerpTime, toBigWig=True)
-        elif effect == ToontownGlobals.CEMicroManager:
-            return self.__doMicroManager(lerpTime, toMicroManager=True)
-        elif effect == ToontownGlobals.CEBigFish:
-            return self.__doBigFish(lerpTime, toBigFish=True)
-        elif effect == ToontownGlobals.CECorporateRaider:
-            return self.__doCorporateRaider(lerpTime, toCorporateRaider=True)
-        elif effect == ToontownGlobals.CEHeadHoncho:
-            return self.__doHeadHoncho(lerpTime, toHeadHoncho=True)
-        elif effect == ToontownGlobals.CEDoubleTalker:
-            return self.__doDoubleTalker(lerpTime, toDoubleTalker=True)
-        elif effect == ToontownGlobals.CETwoFace:
-            return self.__doTwoFace(lerpTime, toTwoFace=True)
-        elif effect == ToontownGlobals.CEConArtist:
-            return self.__doConArtist(lerpTime, toConArtist=True)
-        elif effect == ToontownGlobals.CEConnoisseur:
-            return self.__doConnoisseur(lerpTime, toConnoisseur=True)
-        elif effect == ToontownGlobals.CESwindler:
-            return self.__doSwindler(lerpTime, toSwindler=True)
-        elif effect == ToontownGlobals.CEMiddleman:
-            return self.__doMiddleman(lerpTime, toMiddleman=True)
-        elif effect == ToontownGlobals.CEToxicManager:
-            return self.__doToxicManager(lerpTime, toToxicManager=True)
-        elif effect == ToontownGlobals.CEMagnate:
-            return self.__doMagnate(lerpTime, toMagnate=True)
-        elif effect == ToontownGlobals.CELegalEagle:
-            return self.__doLegalEagle(lerpTime, toLegalEagle=True)
-        elif effect == ToontownGlobals.CERobberBaron:
-            return self.__doRobberBaron(lerpTime, toRobberBaron=True)
-        elif effect == ToontownGlobals.CEColdCaller:
-            return self.__doColdCaller(lerpTime, toColdCaller=True)
-        elif effect == ToontownGlobals.CEShortChange:
-            return self.__doShortChange(lerpTime, toShortChange=True)
-        elif effect == ToontownGlobals.CEBloodsucker:
-            return self.__doBloodsucker(lerpTime, toBloodsucker=True)
-        elif effect == ToontownGlobals.CENameDropper:
-            return self.__doNameDropper(lerpTime, toNameDropper=True)
-        elif effect == ToontownGlobals.CEHeadHunter:
-            return self.__doHeadHunter(lerpTime, toHeadHunter=True)
-        elif effect == ToontownGlobals.CEHollywood:
-            return self.__doHollywood(lerpTime, toHollywood=True)
-        elif effect == ToontownGlobals.CEPencilPusher:
-            return self.__doPencilPusher(lerpTime, toPencilPusher=True)
-        elif effect == ToontownGlobals.CEMoneyBags:
-            return self.__doMoneyBags(lerpTime, toMoneyBags=True)
-        elif effect == ToontownGlobals.CESpinDoctor:
-            return self.__doSpinDoctor(lerpTime, toSpinDoctor=True)
-        elif effect == ToontownGlobals.CEAmbulanceChaser:
-            return self.__doAmbulanceChaser(lerpTime, toAmbulanceChaser=True)
-        elif effect == ToontownGlobals.CENumberCruncher:
-            return self.__doNumberCruncher(lerpTime, toNumberCruncher=True)
-        elif effect == ToontownGlobals.CEPennyPincher:
-            return self.__doPennyPincher(lerpTime, toPennyPincher=True)
-        elif effect == ToontownGlobals.CETightwad:
-            return self.__doTightwad(lerpTime, toTightwad=True)
-        elif effect == ToontownGlobals.CEBeanCounter:
-            return self.__doBeanCounter(lerpTime, toBeanCounter=True)
-        elif effect == ToontownGlobals.CEBackStabber:
-            return self.__doBackStabber(lerpTime, toBackStabber=True)
-        elif effect == ToontownGlobals.CEBottomFeeder:
-            return self.__doBottomFeeder(lerpTime, toBottomFeeder=True)
-        elif effect == ToontownGlobals.CEGreenToon:
-            return self.__doGreenToon(lerpTime, toGreen=True)
-        elif effect == ToontownGlobals.CERogerDog:
-            return self.__doRogerDog(lerpTime, toRoger=True)
-        elif effect == ToontownGlobals.CEFlippy:
-            return self.__doFlippy(lerpTime, toFlippy=True)
-        elif effect == ToontownGlobals.CESurlee:
-            return self.__doSurlee(lerpTime, toSurlee=True)
-        elif effect == ToontownGlobals.CEDimm:
-            return self.__doDimm(lerpTime, toDimm=True)
-        elif effect == ToontownGlobals.CEAlecTinn:
-            return self.__doAlecTinn(lerpTime, toAlecTinn=True)
-        elif effect == ToontownGlobals.CESlappy:
-            return self.__doSlappy(lerpTime, toSlappy=True)
-        elif effect == ToontownGlobals.CETutorialTom:
-            return self.__doTutorialTom(lerpTime, toTom=True)
-        elif effect == ToontownGlobals.CEOldman:
-            return self.__doLilOldman(lerpTime, toOldman=True)
-        elif effect == ToontownGlobals.CEKion:
-            return self.__doKion(lerpTime, toKion=True)
-        elif effect == ToontownGlobals.CESqueaky:
-            return self.__doSqueaky(lerpTime, toSqueaky=True)
-        elif effect == ToontownGlobals.CEFreddy:
-            return self.__doFreddy(lerpTime, toFreddy=True)
-        elif effect == ToontownGlobals.CEBilly:
-            return self.__doBilly(lerpTime, toBilly=True)
-        elif effect == ToontownGlobals.CEDroopy:
-            return self.__doDroopy(lerpTime, toDroopy=True)
-        elif effect == ToontownGlobals.CEPunchy:
-            return self.__doPunchy(lerpTime, toPunchy=True)
-        elif effect == ToontownGlobals.CEFurball:
-            return self.__doFurball(lerpTime, toFurball=True)
-        elif effect == ToontownGlobals.CEBarney:
-            return self.__doBarney(lerpTime, toBarney=True)
-        elif effect == ToontownGlobals.CEPete:
-            return self.__doPete(lerpTime, toPete=True)
-        elif effect == ToontownGlobals.CELouis:
-            return self.__doLouis(lerpTime, toLouis=True)
         elif effect == ToontownGlobals.CEVirtual:
             return self.__doVirtual()
         elif effect == ToontownGlobals.CEGhost:

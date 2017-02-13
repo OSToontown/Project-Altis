@@ -293,6 +293,8 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDoorKey = settings.get('doorkey', False)
         
         self.wantInteractKey = settings.get('interactkey', False)
+        
+        self.accept('f4', self.toggleNametags)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -370,6 +372,28 @@ class ToonBase(OTPBase.OTPBase):
             aspect2d.show()
         else:
             aspect2d.hide()
+            
+
+    def toggleNametags(self):
+        nametags3d = render.findAllMatches('**/nametag3d')
+        nametags2d = render2d.findAllMatches('**/Nametag2d')
+        hide = False
+        for nametag in nametags2d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
+        for nametag in nametags2d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
 
     def takeScreenShot(self):
         if not os.path.exists(TTLocalizer.ScreenshotPath):
