@@ -41,7 +41,7 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
         pass
         
     def enterSunny(self):
-        pass
+        simbase.air.isRaining = False
         
     def exitSunny(self):
-        pass
+        simbase.air.isRaining = True

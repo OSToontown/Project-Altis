@@ -82,7 +82,7 @@ class DNAStorage(object):
         self.textures[name] = texture
 
     def findTexture(self, name):
-        if self.textures.has_key(name):
+        if name in self.textures:
             return self.textures[name]
 
     def resetTextures(self):
@@ -93,7 +93,7 @@ class DNAStorage(object):
         self.fontFilenames[code] = filename
 
     def findFont(self, code):
-        if self.fonts.has_key(code):
+        if code in self.fonts:
             return self.fonts[code]
 
     def resetFonts(self):
@@ -101,7 +101,7 @@ class DNAStorage(object):
         self.fontFilenames = {}
 
     def storeCatalogCode(self, category, code):
-        if not self.catalogCodes.has_key(category):
+        if not category in self.catalogCodes:
             self.catalogCodes[category] = []
         
         self.catalogCodes[category].append(code)
@@ -226,7 +226,7 @@ class DNAStorage(object):
         return self.blockNumbers[index]
 
     def getZoneFromBlockNumber(self, blockNumber):
-        if self.blockZones.has_key(blockNumber):
+        if blockNumber in self.blockZones:
             return self.blockZones[blockNumber]
 
     def resetBlockNumbers(self):
@@ -265,7 +265,7 @@ class DNAStorage(object):
         if not startPoint or not endPoint:
             print "DNAStorage: Attempted to add edge with unknown startPoint(%s) and/or endPoint(%s)" % (startIndex, endIndex)
 
-        if not self.suitEdges.has_key(startIndex):
+        if not startIndex in self.suitEdges:
             self.suitEdges[startIndex] = []
         
         self.suitEdges[startIndex].append(DNASuitEdge.DNASuitEdge(startPoint, endPoint, zoneId))
@@ -366,7 +366,7 @@ class DNAStorage(object):
     def getAdjacentPoints(self, point):
         path = DNASuitPath.DNASuitPath()
         startIndex = point.getIndex()
-        if not self.suitEdges.has_key(startIndex):
+        if not startIndex in self.suitEdges:
             return path
 
         for edge in self.suitEdges[startIndex]:
