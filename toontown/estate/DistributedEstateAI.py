@@ -21,7 +21,10 @@ from toontown.estate.DistributedToonStatuaryAI import DistributedToonStatuaryAI
 from toontown.estate.DistributedChangingStatuaryAI import DistributedChangingStatuaryAI
 from toontown.estate.DistributedAnimatedStatuaryAI import DistributedAnimatedStatuaryAI
 from toontown.distributed import ToontownInternalRepository
-# planted, waterLevel, lastCheck, growthLevel, optional
+
+from toontown.parties import DistributedPartyJukebox40ActivityAI, DistributedPartyTrampolineActivityAI
+
+
 NULL_PLANT = [-1, -1, 0, 0, 0]
 NULL_TREES = [NULL_PLANT] * 8
 NULL_FLOWERS = [NULL_PLANT] * 10
@@ -388,11 +391,18 @@ class DistributedEstateAI(DistributedObjectAI):
         self.pond = None
         self.spots = []
         
+        self.jukebox = None
+        
         self.targets = []
         self.pets = []
         self.owner = None
         self.gardenManager = GardenManager(self)
         self.pendingGardens = {}
+        
+    # if i dont do this the jukebox will have a fuckin mental breakdown
+    @property
+    def hostId(self):
+        return 1000000001
         
     def generate(self):
         DistributedObjectAI.generate(self)
@@ -433,6 +443,18 @@ class DistributedEstateAI(DistributedObjectAI):
 
         self.createTreasurePlanner()
         
+        self.jukebox = DistributedPartyJukebox40ActivityAI.DistributedPartyJukebox40ActivityAI(self.air, self.doId, (0, 0, 0, 0))
+        self.jukebox.generateWithRequired(self.zoneId)
+        self.jukebox.sendUpdate('setX', [118])
+        self.jukebox.sendUpdate('setY', [-18])
+        self.jukebox.sendUpdate('setH', [-80])
+        
+        self.trampoline = DistributedPartyTrampolineActivityAI.DistributedPartyTrampolineActivityAI(self.air, self.doId, (0, 0, 0, 0))
+        self.trampoline.generateWithRequired(self.zoneId)
+        self.trampoline.sendUpdate('setX', [-130])
+        self.trampoline.sendUpdate('setY', [27])
+        self.trampoline.sendUpdate('setH', [80])
+        
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
         self.sendUpdate('setIdList', [self.toons])
@@ -459,7 +481,10 @@ class DistributedEstateAI(DistributedObjectAI):
            
             for pet in self.pets:
                 pet.requestDelete()
-
+                
+        if self.jukebox:
+            self.jukebox.requestDelete()
+            
         if self.treasurePlanner:
             self.treasurePlanner.stop()
         if self.gardenManager:
