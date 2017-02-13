@@ -1,5 +1,5 @@
 from direct.task.Task import Task
-from pandac.PandaModules import VBase4, PandaNode
+from panda3d.core import VBase4, PandaNode
 from toontown.margins.MarginVisible import MarginVisible
 from toontown.nametag import NametagGlobals
 from toontown.nametag.Nametag2d import Nametag2d
@@ -29,6 +29,7 @@ class NametagGroup:
         self.wordWrap = 8
         self.chatWordWrap = 12
         self.text = ''
+        self.name = ''
         self.chatPages = []
         self.chatPageIndex = 0
         self.chatTimeoutTask = None
