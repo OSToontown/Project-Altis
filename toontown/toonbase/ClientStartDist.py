@@ -34,7 +34,7 @@ key = 'g89a1hU0acBrlcru'
 #config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.6.0]
+window-title Project Altis [ALPHA 1.6.1]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -59,11 +59,11 @@ model-cache-textures #f
 default-model-extension .bam
 
 # Performance
-smooth-enable-prediction 1
+smooth-enable-prediction 0
 smooth-enable-smoothing 1
-smooth-lag 0.4
-smooth-max-future 0.4
-smooth-min-suggest-resync 15
+smooth-lag 0.1
+smooth-max-future 0.1
+smooth-min-suggest-resync 1
 
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0
@@ -199,7 +199,7 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.6.0
+server-version TTPA-Alpha-1.6.1
 shard-low-pop 50
 shard-mid-pop 150
 
