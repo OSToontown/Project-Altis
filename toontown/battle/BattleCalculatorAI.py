@@ -494,7 +494,7 @@ class BattleCalculatorAI:
                 if attack[TOON_TRACK_COL] == NPCSOS and lureDidDamage != 1 or attack[TOON_TRACK_COL] == PETSOS:
                     attackDamage = atkHp
                     if atkTrack == ZAP:
-                        if self.__isWet(targetId) == 1:
+                        if self.__isWet(targetId) or self.__isRaining(toon):
                             if random.randint(0,99) <= InstaKillChance[atkLevel]:
                                 suit = self.battle.findSuit(targetId)
                                 if suit.getHP() > 500:
@@ -536,7 +536,7 @@ class BattleCalculatorAI:
                 elif atkTrack == ZAP:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
-                    if self.__isWet(targetId) == 1:
+                    if self.__isWet(targetId) or self.__isRaining(self.battle.getToon(toonId)):
                         if random.randint(0,99) <= InstaKillChance[atkLevel]:
                             suit = self.battle.findSuit(targetId)
                             if suit.getHP() > 500:
@@ -644,11 +644,23 @@ class BattleCalculatorAI:
         self.notify.debug('__addWetSuitInfo: currWetSuits -> %s' % repr(self.currentlyWetSuits))
 			
     def __isWet(self, suit):
-        if suit in self.currentlyWetSuits or simbase.air.isRaining == True:
-            return 1
+        if suit in self.currentlyWetSuits:
+            return True
         else:
-            return 0
-
+            return False
+			
+    def __isRaining(self, toon):
+        if simbase.air.isRaining == True and self.checkIfStreetZone(toon):
+            return True
+        else:
+            return False
+	   
+    def checkIfStreetZone(self, toon):
+        if ZoneUtil.getWhereName(toon.zoneId, True) == 'street':
+            return True
+        else:
+            return False
+    
     def __attackDamageForTgt(self, attack, tgtPos, suit = 0):
         if suit:
             return attack[SUIT_HP_COL][tgtPos]
