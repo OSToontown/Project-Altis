@@ -28,13 +28,13 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         ShtikerPage.ShtikerPage.load(self)
         gui = loader.loadModel('phase_9/models/gui/cog_disguises')
         icons = loader.loadModel('phase_3/models/gui/cog_icons')
-        self.frame = DirectFrame(parent=self, relief=None, scale=0.47, pos=(0.02, 1, 0))
+        self.frame = DirectFrame(parent=self, relief=None, scale=0.47, pos=(0.1, 1, 0))
         self.bkgd = DirectFrame(parent=self.frame, geom=gui.find('**/base'), relief=None, scale=(0.98, 1, 1))
         self.bkgd.setTextureOff(1)
         self.buttons = []
         self.pageFrame = DirectFrame(parent=self.frame, relief=None)
         self.xOffset = 0.4
-        self.deptLabel = DirectLabel(parent=self.frame, text='', text_font=ToontownGlobals.getSuitFont(), text_scale=TTLocalizer.DPdeptLabel, text_pos=(-0.1, 0.8))
+        self.deptLabel = DirectLabel(parent=self.frame, text='', text_font=ToontownGlobals.getSuitFont(), text_style=3, text_fg=(1,1,1,1), text_scale=TTLocalizer.DPdeptLabel, text_pos=(-0.1, 0.8))
         DirectFrame(parent=self.frame, relief=None, geom=gui.find('**/pipe_frame'))
         self.tube = DirectFrame(parent=self.frame, relief=None, geom=gui.find('**/tube'))
         DirectFrame(parent=self.frame, relief=None, geom=gui.find('**/robot/face'))
