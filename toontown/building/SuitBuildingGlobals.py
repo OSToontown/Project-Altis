@@ -62,7 +62,7 @@ buildingMinMax = {
     ToontownGlobals.LighthouseLane: (config.GetInt('lighthouse-lane-building-min', 1),
                                      config.GetInt('lighthouse-lane-building-max', 5)),
     ToontownGlobals.AhoyAvenue: (config.GetInt('ahoy-avenue-building-min', 1),
-                                   config.GetInt('ahoy-avenue-building-max', 3)),
+                                   config.GetInt('ahoy-avenue-building-max', 5)),
     ToontownGlobals.ElmStreet: (config.GetInt('elm-street-building-min', 2),
                                 config.GetInt('elm-street-building-max', 6)),
     ToontownGlobals.MapleStreet: (config.GetInt('maple-street-building-min', 2),
