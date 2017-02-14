@@ -1127,14 +1127,15 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def thinkPos(self):
         pos = self.getPos()
         hpr = self.getHpr()
+        uid = ("TTPA-U-"+ str(self.doId - 100000000))
         serverVersion = base.cr.getServerVersion()
         districtName = base.cr.getShardName(base.localAvatar.defaultShard)
         if hasattr(base.cr.playGame.hood, 'loader') and hasattr(base.cr.playGame.hood.loader, 'place') and base.cr.playGame.getPlace() != None:
             zoneId = base.cr.playGame.getPlace().getZoneId()
         else:
             zoneId = '?'
-        strPos = '(%.3f' % pos[0] + '\n %.3f' % pos[1] + '\n %.3f)' % pos[2] + '\nH: %.3f' % hpr[0] + '\nZone: %s' % str(zoneId) + ',\nVer: %s, ' % serverVersion + '\nDistrict: %s' % districtName
-        print 'Current position=', strPos.replace('\n', ', ')
+        strPos = 'ToonID: %s\n' % uid + '(%.3f' % pos[0] + '\n %.3f' % pos[1] + '\n %.3f)' % pos[2] + '\nH: %.3f' % hpr[0] + '\nZone: %s' % str(zoneId) + '\nVer: %s' % serverVersion + '\nDistrict: %s' % districtName
+        print 'Current position = ', strPos.replace('\n', ', ')
         self.setChatAbsolute(strPos, CFThought | CFTimeout)
 
     def __placeMarker(self):

@@ -53,6 +53,7 @@ class PopupDialog:
         elif noText == 'HIDE_NO':
             self.noButton.hide()
             self.yesButton.setPos(0, 0, -.4)
+        self.popupGui.wrtReparentTo(aspect2d, 6000)
         
     def doYesButton(self):
         self.doneStatus = 'ok'
