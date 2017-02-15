@@ -24,6 +24,10 @@ from toontown.distributed import ToontownInternalRepository
 
 from toontown.parties import DistributedPartyJukebox40ActivityAI, DistributedPartyTrampolineActivityAI
 
+from DistributedCannonAI import *
+from DistributedTargetAI import *
+import CannonGlobals
+
 
 NULL_PLANT = [-1, -1, 0, 0, 0]
 NULL_TREES = [NULL_PLANT] * 8
@@ -394,6 +398,8 @@ class DistributedEstateAI(DistributedObjectAI):
         self.jukebox = None
         self.trampolines = []
         self.targets = []
+        self.cannons = []
+        self.target = None
         self.pets = []
         self.owner = None
         self.gardenManager = GardenManager(self)
@@ -463,6 +469,17 @@ class DistributedEstateAI(DistributedObjectAI):
         trampoline2.sendUpdate('setH', [80])
         self.trampolines.append(trampoline2)
         
+        self.target = DistributedTargetAI(self.air)
+        self.target.generateWithRequired(self.zoneId)
+        self.target.setPosition(0, 0, 40)
+        for drop in CannonGlobals.cannonDrops:
+            cannon = DistributedCannonAI(self.air)
+            cannon.setEstateId(self.doId)
+            cannon.setTargetId(self.target.doId)
+            cannon.setPosHpr(*drop)
+            #cannon.generateWithRequired(self.zoneId) Disable for now, will finish cannons when home
+            self.cannons.append(cannon)
+        self.b_setClouds(True)
         
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -490,7 +507,12 @@ class DistributedEstateAI(DistributedObjectAI):
            
             for pet in self.pets:
                 pet.requestDelete()
-                
+        self.b_setClouds(False)
+        if self.target:
+            self.target.requestDelete()
+            
+        for cannon in self.cannons:
+            cannon.requestDelete()
         if self.jukebox:
             self.jukebox.requestDelete()
         for trampoline in self.trampolines:
