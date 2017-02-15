@@ -25,7 +25,7 @@ from toontown.battle import SuitBattleGlobals
 from toontown.catalog import CatalogAccessoryItem
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogItemList
-from toontown.chat import ResistanceChat
+from toontown.chat import ResistanceChat, BlackListData
 from toontown.coghq import CogDisguiseGlobals
 from toontown.estate import FlowerBasket
 from toontown.estate import FlowerCollection
@@ -76,6 +76,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
      ToontownGlobals.FT_Leg: (CogDisguiseGlobals.leftLegIndex, CogDisguiseGlobals.rightLegIndex),
      ToontownGlobals.FT_Arm: (CogDisguiseGlobals.leftArmIndex, CogDisguiseGlobals.rightArmIndex),
      ToontownGlobals.FT_Torso: (CogDisguiseGlobals.torsoIndex,)}
+    Blacklist = BlackListData.BLACKLIST
     lastFlagAvTime = globalClock.getFrameTime()
     flagCounts = {}
     WantTpTrack = simbase.config.GetBool('want-tptrack', False)
@@ -4169,11 +4170,53 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setName(newName)
 
     def setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                DistributedPlayerAI.DistributedPlayerAI.setName(self, colorString + ' ' + animalType)
+                return
+        
+        
         DistributedPlayerAI.DistributedPlayerAI.setName(self, name)
         if self.WantOldGMNameBan:
             if self.isGenerated():
                 self._checkOldGMName()
         #self._updateGMName()
+        
+    def d_setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                DistributedPlayerAI.DistributedPlayerAI.d_setName(self, colorString + ' ' + animalType)
+                return
+                
+        DistributedPlayerAI.DistributedPlayerAI.d_setName(self, name)
+        
+    def b_setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                self.setName(colorString + ' ' + animalType)
+                self.d_setName(colorString + ' ' + animalType)
+                return
+                
+        self.setName(name)
+        self.d_setName(name)
 
     def _checkOldGMName(self):
         if '$' in set(self.name):

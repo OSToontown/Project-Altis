@@ -124,7 +124,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 self.notify.warning('avId =%d does not exist')
 
         self.scoreBoard = GolfScoreBoard.GolfScoreBoard(self)
-        toonPanelsStart = 0.3
+        toonPanelsStart = -.2
         whichToon = 0
         color = 0
         tpDiff = -0.45

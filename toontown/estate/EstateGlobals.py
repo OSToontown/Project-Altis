@@ -1,1 +1,0 @@
-JUKE_BOX_POSITION = ()
