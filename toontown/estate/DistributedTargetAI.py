@@ -1,30 +1,50 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from panda3d.core import *
+import CannonGlobals
 
 class DistributedTargetAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTargetAI")
 
-    def setPosition(self, todo0, todo1, todo2):
+    def __init__(self, air):
+        DistributedObjectAI.__init__(self.air)
+        self.position = None
+        
+    def announceGenerate(self):
+        DistributedObjectAI.announceGenerate(self)
+        taskMgr.doMethodLater(CannonGlobals.GAME_DELAY, self.startGame, 'startGameTask')
+    
+    def startGame(self):
+        pass
+        
+    def endGame(self):
+        pass
+    
+    def setPosition(self, x, y, z):
+        self.sendUpdate('setPosition', [x, y, z])
+        self.position = Point3(x, y, z)
+    
+    def getPosition(self):
+        return self.position
+
+    def setState(self, enabled, score, time):
         pass
 
-    def setState(self, todo0, todo1, todo2):
+    def setReward(self, reward):
         pass
 
-    def setReward(self, todo0):
+    def setResult(self, avId):
         pass
 
-    def setResult(self, todo0):
+    def setBonus(self, bonus):
         pass
 
-    def setBonus(self, todo0):
+    def setCurPinballScore(self, avId, score, multiplier):
         pass
 
-    def setCurPinballScore(self, todo0, todo1, todo2):
+    def setPinballHiScorer(self, name):
         pass
 
-    def setPinballHiScorer(self, todo0):
-        pass
-
-    def setPinballHiScore(self, todo0):
+    def setPinballHiScore(self, score):
         pass
 
