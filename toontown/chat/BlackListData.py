@@ -1,5 +1,8 @@
 BLACKLIST = [
+    'null',
     'kill yourself',
+    'fist me daddy',
+    "don't flex",
     'go die',
     'fuck',
     'fucker',
@@ -10,4 +13,8 @@ BLACKLIST = [
     'cum',
     'cumming',
     'cumwad',
+    'nigga',
+    'niggas',
+    'nigger',
+    'niggers',
 ]
