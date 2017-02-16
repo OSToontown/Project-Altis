@@ -1,8 +1,10 @@
 from direct.gui.DirectGui import *
 from panda3d.core import *
+from panda3d.direct import *
 from toontown.toonbase.ToontownBattleGlobals import *
 from toontown.toon import InventoryBase
 from toontown.toonbase import TTLocalizer
+from toontown.battle import BattleGlobals
 from toontown.quest import BlinkingArrows
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -296,11 +298,30 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         for x in xrange(8):
             self.accept('alt-%d' % (x), self.doTab, extraArgs=[
                 x])
+				
+        self.accept('wheel_up', self.incrementTab, extraArgs=[1])
+        self.accept('wheel_down', self.incrementTab, extraArgs=[-1])
+		
+    def incrementTab(self, index):
+        trackAccess = base.localAvatar.getTrackAccess()
+        list = []
+        for x in xrange(len(trackAccess)):
+            if trackAccess[x]:
+                list.append(x)
+        try:
+            try:
+                currIndex = list.index(self.activeTab)
+            except:
+                return
+            self.activeTab = list[currIndex+index]
+            self.doTab(self.activeTab)
+        except:
+            pass
 		
     def doTab(self, index):
         trackAccess = base.localAvatar.getTrackAccess()
         if not trackAccess[index]:
-            return
+           return
         
         self.activeTab = index
         for track in xrange(len(self.trackRows)):
@@ -382,7 +403,10 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         self.detailAmountLabel.configure(text=TTLocalizer.InventoryDetailAmount % {'numItems': self.numItem(track, level),
          'maxItems': self.getMax(track, level)})
         self.detailDataLabel.show()
-        damage = getAvPropDamage(track, level, self.toon.experience.getExp(track))
+        if track == LURE_TRACK:
+            damage = BattleGlobals.NumRoundsLured[level]
+        else:
+            damage = getAvPropDamage(track, level, self.toon.experience.getExp(track))
         organicBonus = self.toon.checkGagBonus(track, level)
         propBonus = self.checkPropBonus(track)
         damageBonusStr = ''
@@ -399,17 +423,22 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
                 damageBonus += getDamageBonus(damage)
             if damageBonus:
                 damageBonusStr = TTLocalizer.InventoryDamageBonus % damageBonus
-        
         accString = AvTrackAccStrings[track]
         if (organicBonus or propBonus) and track == LURE_TRACK:
             accString = TTLocalizer.BattleGlobalLureAccMedium
-        
-        self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailData % {'accuracy': accString,
-            'damageString': self.getToonupDmgStr(track, level),
-            'damage': damage,
-            'bonus': damageBonusStr,
-            'singleOrGroup': self.getSingleGroupStr(track, level)})
-        
+        if track == SQUIRT_TRACK:
+            self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailDataExtra % {'accuracy': accString,
+             'damageString': self.getToonupDmgStr(track, level),
+             'damage': damage,
+             'bonus': damageBonusStr,
+             'singleOrGroup': self.getSingleGroupStr(track, level),
+             'extra': self.getExtraText(track, level)})
+        else:
+            self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailData % {'accuracy': accString,
+             'damageString': self.getToonupDmgStr(track, level),
+             'damage': damage,
+             'bonus': damageBonusStr,
+             'singleOrGroup': self.getSingleGroupStr(track, level)})
         if self.itemIsCredit(track, level):
             mult = self.__battleCreditMultiplier
             if self.__respectInvasions:
@@ -1284,6 +1313,10 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
             return TTLocalizer.InventoryAffectsAllCogs
         else:
             return TTLocalizer.InventoryAffectsOneCog
+			
+    def getExtraText(self, track, level):
+        if track == SQUIRT_TRACK:
+           return TTLocalizer.InventorySquirtRoundsString % BattleGlobals.NumRoundsWet[level]
 
     def getToonupDmgStr(self, track, level):
         if track == HEAL_TRACK:
