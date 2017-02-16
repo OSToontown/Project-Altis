@@ -69,10 +69,7 @@ class TownBattle(StateData.StateData):
         self.runPanel = TTDialog.TTDialog(dialogName='TownBattleRunPanel', text=TTLocalizer.TownBattleRun, style=TTDialog.TwoChoice, command=self.__handleRunPanelDone)
         self.runPanel.hide()
         self.attackPanelDoneEvent = 'attack-panel-done'
-        if settings['newGui'] == True:
-            self.attackPanel = TownBattleAttackPanelNEW.TownBattleAttackPanelNEW(self.attackPanelDoneEvent)
-        else:
-            self.attackPanel = TownBattleAttackPanel.TownBattleAttackPanel(self.attackPanelDoneEvent)
+        self.attackPanel = TownBattleAttackPanel.TownBattleAttackPanel(self.attackPanelDoneEvent)
         self.waitPanelDoneEvent = 'wait-panel-done'
         self.waitPanel = TownBattleWaitPanel.TownBattleWaitPanel(self.waitPanelDoneEvent)
         self.chooseCogPanelDoneEvent = 'choose-cog-panel-done'
@@ -80,10 +77,7 @@ class TownBattle(StateData.StateData):
         self.chooseToonPanelDoneEvent = 'choose-toon-panel-done'
         self.chooseToonPanel = TownBattleChooseAvatarPanel.TownBattleChooseAvatarPanel(self.chooseToonPanelDoneEvent, 1)
         self.SOSPanelDoneEvent = 'SOS-panel-done'
-        if settings['newGui'] == True:
-            self.SOSPanel = TownBattleSOSPanelNEW.TownBattleSOSPanelNEW(self.SOSPanelDoneEvent)
-        else:
-            self.SOSPanel = TownBattleSOSPanel.TownBattleSOSPanel(self.SOSPanelDoneEvent)
+        self.SOSPanel = TownBattleSOSPanel.TownBattleSOSPanel(self.SOSPanelDoneEvent)
         self.SOSPetSearchPanelDoneEvent = 'SOSPetSearch-panel-done'
         self.SOSPetSearchPanel = TownBattleSOSPetSearchPanel.TownBattleSOSPetSearchPanel(self.SOSPetSearchPanelDoneEvent)
         self.SOSPetInfoPanelDoneEvent = 'SOSPetInfo-panel-done'
@@ -224,7 +218,11 @@ class TownBattle(StateData.StateData):
         self.notify.debug('enterPanels() num: %d localNum: %d' % (num, localNum))
         for toonPanel in self.toonPanels:
             toonPanel.hide()
-            toonPanel.setPos(0, 0, -0.9)
+            if settings['newGui'] == True:
+                z = -0.3
+            else:
+                z = -0.9
+            toonPanel.setPos(0, 0, z)
 
         if num == 1:
             self.toonPanels[0].setX(self.oddPos[1])

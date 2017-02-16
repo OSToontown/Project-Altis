@@ -62,7 +62,6 @@ if 'doorkey' not in settings:
     settings['doorkey'] = False
 if 'interactkey' not in settings:
     settings['interactkey'] = False
-settings['newGui'] = False # Force this to be false
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])
