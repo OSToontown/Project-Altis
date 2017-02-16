@@ -297,7 +297,7 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
 
         for x in xrange(8):
             self.accept('alt-%d' % (x), self.doTab, extraArgs=[
-                x])
+                x - 1])
 				
         self.accept('wheel_up', self.incrementTab, extraArgs=[1])
         self.accept('wheel_down', self.incrementTab, extraArgs=[-1])
@@ -340,7 +340,7 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         
         for x in xrange(6):
             self.accept('control-%d' % (x), self.__handleSelection, extraArgs=[
-                self.activeTab, x])
+                self.activeTab, x - 1])
 
     def __handleSelection(self, track, level):
         if self.activateMode == 'purchaseDelete' or self.activateMode == 'bookDelete' or self.activateMode == 'storePurchaseDelete':
