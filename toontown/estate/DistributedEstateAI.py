@@ -23,11 +23,12 @@ from toontown.estate.DistributedAnimatedStatuaryAI import DistributedAnimatedSta
 from toontown.distributed import ToontownInternalRepository
 
 from toontown.parties import DistributedPartyJukebox40ActivityAI, DistributedPartyTrampolineActivityAI
+from toontown.safezone import DistributedTreasureAI
 
 from DistributedCannonAI import *
 from DistributedTargetAI import *
 import CannonGlobals
-
+import random
 
 NULL_PLANT = [-1, -1, 0, 0, 0]
 NULL_TREES = [NULL_PLANT] * 8
@@ -395,11 +396,15 @@ class DistributedEstateAI(DistributedObjectAI):
         self.pond = None
         self.spots = []
         
+        # Estate Update Stuff
         self.jukebox = None
         self.trampolines = []
         self.targets = []
         self.cannons = []
         self.target = None
+        self.treasures = []
+        self.treasureIds = []
+        
         self.pets = []
         self.owner = None
         self.gardenManager = GardenManager(self)
@@ -477,9 +482,32 @@ class DistributedEstateAI(DistributedObjectAI):
             cannon.setEstateId(self.doId)
             cannon.setTargetId(self.target.doId)
             cannon.setPosHpr(*drop)
-            #cannon.generateWithRequired(self.zoneId) Disable for now, will finish cannons when home
+            cannon.generateWithRequired(self.zoneId)
             self.cannons.append(cannon)
         self.b_setClouds(True)
+        doIds = []
+        for i in range(40):
+            x = random.randint(100, 300) - 200
+            y = random.randint(100, 300) - 200
+            treasure = DistributedTreasureAI.DistributedTreasureAI(self.air, self, 8, x, y, 35)
+            treasure.generateWithRequired(self.zoneId)
+            self.treasures.append(treasure)
+            doIds.append(treasure.doId)
+        self.setTreasureIds(doIds)
+        
+    def grabAttempt(self, avId, treasureId):
+        av = self.air.doId2do.get(avId)
+        if not av:
+            return
+            
+        treasure = self.air.doId2do.get(treasureId)
+        if av.getMaxHp() != av.getHp():
+            av.toonUp(15) # Give alot of hp since they are pretty hard to hit ;)
+            treasure.d_setGrab(avId)
+            treasure.requestDelete()
+            
+        else:
+            treasure.d_setReject()
         
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -502,11 +530,16 @@ class DistributedEstateAI(DistributedObjectAI):
                 spot.requestDelete()
             self.spots = []
             
-            for target in self.targets:
-                target.requestDelete()
-           
-            for pet in self.pets:
-                pet.requestDelete()
+        for treasure in self.treasures:
+            if not treasure.isDeleted():
+                treasure.requestDelete()
+            
+        for target in self.targets:
+            target.requestDelete()
+       
+        for pet in self.pets:
+            pet.requestDelete()
+            
         self.b_setClouds(False)
         if self.target:
             self.target.requestDelete()
@@ -515,13 +548,16 @@ class DistributedEstateAI(DistributedObjectAI):
             cannon.requestDelete()
         if self.jukebox:
             self.jukebox.requestDelete()
+            
         for trampoline in self.trampolines:
             trampoline.requestDelete()
             
         if self.treasurePlanner:
             self.treasurePlanner.stop()
+            
         if self.gardenManager:
             self.gardenManager.destroy()
+            
         self.requestDelete()
 
     def setEstateReady(self):
@@ -546,8 +582,9 @@ class DistributedEstateAI(DistributedObjectAI):
     def setClosestHouse(self, todo0):
         pass
 
-    def setTreasureIds(self, todo0):
-        pass
+    def setTreasureIds(self, doIds):
+        self.treasureIds = doIds
+        self.sendUpdate("setTreasureIds", [doIds])
         
     def createTreasurePlanner(self):
         treasureType, healAmount, spawnPoints, spawnRate, maxTreasures = TreasureGlobals.SafeZoneTreasureSpawns[ToontownGlobals.MyEstate]

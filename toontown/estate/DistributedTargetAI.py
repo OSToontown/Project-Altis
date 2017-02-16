@@ -32,7 +32,7 @@ class DistributedTargetAI(DistributedObjectAI):
         self.setState(self.isActive, self.level, self.timeLeft)
         self.sendUpdate("setState", self.getState())
         
-        # End game after 20 seconds
+        # End game after 40 seconds
         taskMgr.doMethodLater(CannonGlobals.CANNON_TIMEOUT, self.endGame, 'endGameTask')
         return task.done
         
@@ -87,7 +87,6 @@ class DistributedTargetAI(DistributedObjectAI):
         finalScore = score * multiplier
         # Set the players score in the dict
         self.playerScores[avId] = finalScore
-        
         # Check if the score is greater than high score
         if finalScore > self.highScore:
             # If so, set the new high score

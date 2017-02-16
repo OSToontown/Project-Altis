@@ -8,6 +8,7 @@ TreasureMM = 4
 TreasureDL = 5
 TreasureOZ = 6
 TreasureE  = 7
+TreasureETargetGame = 8 # Just for a special sound effect during target game
 
 TreasureModels = {
     TreasureTT: (
@@ -41,6 +42,10 @@ TreasureModels = {
     TreasureE: (
         'phase_5.5/models/props/popsicle_treasure',
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
+    ),
+    TreasureETargetGame: (
+        'phase_5.5/models/props/popsicle_treasure',
+        'phase_5/audio/sfx/tt_s_ara_cfg_propellerBreaks.ogg',
     ),
 }
 
