@@ -296,7 +296,7 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         self.doTab(self.activeTab)
 
         for x in xrange(8):
-            self.accept('alt-%d' % (x+1), self.doTab, extraArgs=[
+            self.accept('alt-%d' % (x), self.doTab, extraArgs=[
                 x])
 				
         self.accept('wheel_up', self.incrementTab, extraArgs=[1])
