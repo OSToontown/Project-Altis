@@ -4575,7 +4575,7 @@ def allSummons():
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str])
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
 def maxToon(missingTrack=None):
     """
     Max the target's stats for end-level gameplay.
