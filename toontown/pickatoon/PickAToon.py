@@ -385,6 +385,7 @@ class PickAToon(DirectObject):
         return self.selectedToon
 
     def __handleDelete(self, position):
+        self.selectToon(position)
         av = [x for x in self.avatarList if x.position == position][0]
 
         def diagDone():
