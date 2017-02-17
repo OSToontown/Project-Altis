@@ -24,8 +24,12 @@ from toontown.nametag import NametagGlobals
 
 class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBase')
-    camPos = ToontownBattleGlobals.BattleCamDefaultPos
-    camHpr = ToontownBattleGlobals.BattleCamDefaultHpr
+    if settings['newGui'] == True:
+        camPos = ToontownBattleGlobals.BattleCamDefaultPos1
+        camHpr = ToontownBattleGlobals.BattleCamDefaultHpr1
+    else:
+        camPos = ToontownBattleGlobals.BattleCamDefaultPos2
+        camHpr = ToontownBattleGlobals.BattleCamDefaultHpr2
     camFov = ToontownBattleGlobals.BattleCamDefaultFov
     camMenuFov = ToontownBattleGlobals.BattleCamMenuFov
     camJoinPos = ToontownBattleGlobals.BattleCamJoinPos

@@ -1123,7 +1123,7 @@ QuestDialogDict = {160: {GREETING: '',
  4210: {GREETING: '',
         QUEST: "Thank you. That's a big help.\x07Let's see...Fiddles: 2\x07All done! Off you go!_where_",
         COMPLETE: "Great work, _avName_.\x07I'm sure I'll get to the bottom of these thefts now.\x07Why don't you get to the bottom of this!"},
- 4211: {QUEST: 'We know it\'s a pain to go from Minnie\'s Melodyland and Sellbot HQ and back.\x07_toNpcName_ has a job for you to earn your early teleportation access._where_'},
+ 4211: {QUEST: 'We know it\'s a pain to go from Minnie\'s Melodyland and Sellbot HQ and back.\x07_toNpcName_ has a job for you to earn your early teleportation access.\x07Soprano Street is a newly built street which can be found at the end of Tenor Terrace._where_'},
  4212: {QUEST: "You need teleportation access?\x07Well, I want you to do a few favors for me.\x07First, can you reduce the Boardbot population on this street?",
         INCOMPLETE_PROGRESS: 'Still no customers. But keep it up!'},
  4213: {QUEST: "As my second request, a bunch of the pesky Middlemen disturb my private business.\x07Can you reduce the amount of them on this street?",
@@ -1178,7 +1178,7 @@ QuestDialogDict = {160: {GREETING: '',
         QUEST: "The pitch of the town is nearly perfect!\x07Just a few 7+ Cogs on Tenor Terrace will do it!\x07I believe you can do it!",
         LEAVING: 'Good-bye, good-bye, goooooooood-bye!!!',
         COMPLETE: "This pitch...\x07IT'S PERRRRRRRRRRRRRRRRRRRRRRRFECT!!!!"},
- 4236: {QUEST: "The melody around here is decreasing and _toNpcName_ needs your help getting it back._where_"},
+ 4236: {QUEST: "The melody around here is decreasing and _toNpcName_ needs your help getting it back.\x07Soprano Street is a newly built street which can be found at the end of Tenor Terrace._where_"},
  4237: {GREETING: '',
         QUEST: "The melody of Minnie's Melodyland is decreasing!\x07The Cogs around here tend to take away many of my music notes!\x07My notes specifically provide the melody around here, and it'd be tragic to lose that strong melody.\x07Please get some back before this whole town loses its melody!",
         LEAVING: '',
@@ -3952,6 +3952,7 @@ LauncherVerifyPhase = 'Updating Project Altis...'
 LoadingDownloadWatcherUpdate = 'Loading %s'
 AvatarChoiceMakeAToon = 'Make A\nToon'
 AvatarChoicePlayThisToon = 'Play\nThis Toon'
+AvatarChoiceSelectThisToon = 'Select\nThis Toon'
 AvatarChoiceSubscribersOnly = 'Subscribe'
 AvatarChoiceDelete = 'Delete'
 AvatarChoiceDeleteConfirm = 'This will delete %s forever.'
@@ -8356,6 +8357,8 @@ TipDict = {TIP_NONE: ('',),
                'Pet Shops get new Doodles to sell every day.',
                'Visit the Pet Shops every day to see what new Doodles they have.',
                'Different neighborhoods have different Doodles offered for adoption.',
+               'When using the new battle GUI, you can press Alt + a number to change tracks, and Ctrl + a number to select a gag!',
+               'When using the new battle GUI, you can use the mousewheel to swap between tracks.',
                'Goofy Speedway has six different race tracks. '),
  TIP_STREET: ('There are five types of Cogs: Lawbots, Cashbots, Sellbots, Bossbots, and Boardbots.',
               'Each Gag Track has different amounts of accuracy and damage.',

@@ -25,42 +25,32 @@ class DMenuCredits:
         self.extremelylargecredits = '''
 \1orangeText\1Credits\2
 
-\1orangeText\1Directors\2
-Drew
-Dubito
+\1orangeText\1Management Team\2
+Bethy / Limey Mouse | Director
+Remot | Internal Staff Manager
+Smirky Bumberpop | External Community Manager
+Loopy Goopy Googlenerd | Content Director
+Judge | Investor
+Drew | Technical Team Lead
 
-\1orangeText\1Assistant Director\2
-Bethy / Limey Mouse
-
-\1orangeText\1Investor\2
-Judge
-
-\1orangeText\1Content Director\2
-LoopyGoopyG
-
-\1orangeText\1Developers\2
-Sir Tubby Cheezyfish | Lead Developer
-Drew | Game Developer
-Alice | Web Developer
+\1orangeText\1Technical Team\2
+Sir Tubby Cheezyfish | Lead Game Developer
 Barks | Game Developer
 Dan | Game Developer
 Malverde | Game Developer
+Alice | Web Developer
 Xanon | Web Developer
 
-\1orangeText\1Artists\2
+\1orangeText\1Creative Team\2
 Bethy / Limey Mouse | Lead Artist
 Old Geezer | Modeller | Composer
 Maddie | Texture Artist
 VoidPoro | Texture Artist
 Pascal | Modeller
 
-\1orangeText\1Community Managers\2
-Smirky Bumberpop | External Community Manager
-Remot | Noted | Internal Staff Manager
-
 \1orangeText\1Contributors\2
 Dank Mickey | Former Developer | Boardbot Development
-Josh Zimmer | Former developer | One of the founders
+Josh Zimmer | Former Developer
 Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
 Aura | Pick-A-Toon Concept / Inspiration
 
@@ -70,6 +60,8 @@ Chandler | DNA Parser | Safely disclosing security issues
 Developers of Panda3D
 Developers of Astron
 Toontown Rewritten | Reviving the sprit of Toontown
+
+\1orangeText\1A very special thank you to Dubito, without you, this project would never have gotten off the ground. Thank you for all the hard work you have put in! - The Altis Team\2
 '''
 
         self.text = OnscreenText(text = self.extremelylargecredits, style = 3, fg = (1, 1, 1, 1), align = TextNode.ACenter, scale = 0.08, wordwrap = 30, parent = aspect2d)

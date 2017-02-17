@@ -2722,7 +2722,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return True
         
         hsv = colorsys.rgb_to_hsv(color[0], color[1], color[2])
-        return 0.25 <= hsv[1] <= 0.8 and 0.4 <= hsv[2] <= 0.8
+        return 0.1 <= hsv[1] <= 0.9 and 0.2 <= hsv[2] <= 0.9
 
     def makeFromNetString(self, string):
         dg = PyDatagram(string)

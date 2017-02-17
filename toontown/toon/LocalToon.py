@@ -42,6 +42,7 @@ from toontown.shtiker import FishPage
 from toontown.shtiker import GardenPage
 from toontown.shtiker import GolfPage
 from toontown.shtiker import InventoryPageOLD
+from toontown.shtiker import InventoryPageNEW
 from toontown.shtiker import KartPage
 from toontown.shtiker import MapPage
 from toontown.shtiker import NPCFriendPage
@@ -360,7 +361,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.mapPage = MapPage.MapPage()
         self.mapPage.load()
         self.book.addPage(self.mapPage, pageName=TTLocalizer.MapPageTitle)
-        self.invPage = InventoryPageOLD.InventoryPageOLD()
+        if settings['newGui'] == False:
+            self.invPage = InventoryPageOLD.InventoryPageOLD()
+        else:
+            self.invPage = InventoryPageNEW.InventoryPageNEW()
         self.invPage.load()
         self.book.addPage(self.invPage, pageName=TTLocalizer.InventoryPageTitle)
         self.questPage = QuestPage.QuestPage()
