@@ -25,8 +25,6 @@ class DMenuCredits:
         self.extremelylargecredits = '''
 \1orangeText\1Credits\2
 
-\1orangeText\1A very special thank you to Dubito, without you, this project would never have gotten off the ground. Thank you for all the hard work you have put in! - The Altis Team\2
-
 \1orangeText\1Management Team\2
 Bethy / Limey Mouse | Director
 Remot | Internal Staff Manager
@@ -62,6 +60,8 @@ Chandler | DNA Parser | Safely disclosing security issues
 Developers of Panda3D
 Developers of Astron
 Toontown Rewritten | Reviving the sprit of Toontown
+
+\1orangeText\1A very special thank you to Dubito, without you, this project would never have gotten off the ground. Thank you for all the hard work you have put in! - The Altis Team\2
 '''
 
         self.text = OnscreenText(text = self.extremelylargecredits, style = 3, fg = (1, 1, 1, 1), align = TextNode.ACenter, scale = 0.08, wordwrap = 30, parent = aspect2d)
