@@ -12,7 +12,6 @@ class StreamerMode(DirectObject):
     
     def stop(self):
         self.ignore("updateDistrictName")
-        DirectObject.destroy(self)
         
     def updateDistrictName(self):
         name = base.cr.getShardName(base.localAvatar.defaultShard)
