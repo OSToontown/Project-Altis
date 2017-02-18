@@ -42,6 +42,7 @@ from toontown.shtiker import FishPage
 from toontown.shtiker import GardenPage
 from toontown.shtiker import GolfPage
 from toontown.shtiker import InventoryPageOLD
+from toontown.shtiker import InventoryPageNEW
 from toontown.shtiker import KartPage
 from toontown.shtiker import MapPage
 from toontown.shtiker import NPCFriendPage
@@ -360,7 +361,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.mapPage = MapPage.MapPage()
         self.mapPage.load()
         self.book.addPage(self.mapPage, pageName=TTLocalizer.MapPageTitle)
-        self.invPage = InventoryPageOLD.InventoryPageOLD()
+        if settings['newGui'] == False:
+            self.invPage = InventoryPageOLD.InventoryPageOLD()
+        else:
+            self.invPage = InventoryPageNEW.InventoryPageNEW()
         self.invPage.load()
         self.book.addPage(self.invPage, pageName=TTLocalizer.InventoryPageTitle)
         self.questPage = QuestPage.QuestPage()
@@ -1127,14 +1131,15 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def thinkPos(self):
         pos = self.getPos()
         hpr = self.getHpr()
+        uid = ("TTPA-U-"+ str(self.doId - 100000000))
         serverVersion = base.cr.getServerVersion()
         districtName = base.cr.getShardName(base.localAvatar.defaultShard)
         if hasattr(base.cr.playGame.hood, 'loader') and hasattr(base.cr.playGame.hood.loader, 'place') and base.cr.playGame.getPlace() != None:
             zoneId = base.cr.playGame.getPlace().getZoneId()
         else:
             zoneId = '?'
-        strPos = '(%.3f' % pos[0] + '\n %.3f' % pos[1] + '\n %.3f)' % pos[2] + '\nH: %.3f' % hpr[0] + '\nZone: %s' % str(zoneId) + ',\nVer: %s, ' % serverVersion + '\nDistrict: %s' % districtName
-        print 'Current position=', strPos.replace('\n', ', ')
+        strPos = 'ToonID: %s\n' % uid + '(%.3f' % pos[0] + '\n %.3f' % pos[1] + '\n %.3f)' % pos[2] + '\nH: %.3f' % hpr[0] + '\nZone: %s' % str(zoneId) + '\nVer: %s' % serverVersion + '\nDistrict: %s' % districtName
+        print 'Current position = ', strPos.replace('\n', ', ')
         self.setChatAbsolute(strPos, CFThought | CFTimeout)
 
     def __placeMarker(self):

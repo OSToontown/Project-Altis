@@ -22,6 +22,9 @@ class DNAFlatBuilding(DNANode.DNANode):
 
     def getWidth(self):
         return self.width
+        
+    def setWidth(self, width):
+        self.width = int(width)
 
     def makeFromDGI(self, dgi, store):
         DNANode.DNANode.makeFromDGI(self, dgi, store)

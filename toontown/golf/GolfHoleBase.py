@@ -144,7 +144,6 @@ class GolfHoleBase:
         self.recording = None
         self.avRecording = None
         self.llv = None
-        return
 
     def initRecord(self):
         del self.recording
@@ -465,7 +464,6 @@ class GolfHoleBase:
                 self.ballFirstTouchedHoleFrame = 0
             if self.ballLastTouchedGrass > self.frame:
                 self.ballLastTouchedGrass = 0
-        return
 
     def processRecording(self, errorMult = 1.0):
         self.notify.debug('processRecording')

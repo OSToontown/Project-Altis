@@ -202,7 +202,7 @@ class DNALoader(object):
         vfs = VirtualFileSystem.getGlobalPtr()
         vfs.resolveFilename(_file, "")
         if not vfs.exists(_file):
-            raise DNAError.DNAError("Unable to open dna")
+            raise DNAError.DNAError("Unable to open DNA file '%s'" % (str(_file)))
         dnaData = vfs.readFile(_file, True)
 
         self.curStore = store

@@ -45,7 +45,7 @@ BossbotHQCameraNear = 1.0
 SpeedwayCameraFar = 8000.0
 SpeedwayCameraNear = 1.0
 MaxMailboxContents = 30
-MaxHouseItems = 45
+MaxHouseItems = 100
 MaxAccessories = 50
 ExtraDeletedItems = 5
 DeletedItemLifetime = 7 * 24 * 60
@@ -190,7 +190,7 @@ LullabyLane = 9100
 PajamaPlace = 9200
 ToonHall = 2513
 HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
- DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane),
+ DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
@@ -1684,7 +1684,7 @@ BossbotBossDifficultySettings = [(8,
   9,
   22,
   29)]
-BossbotBossDamageMultipliers = [1, 1.5, 1.5, 1.75, 2]
+BossbotBossDamageMultipliers = [1, 1.1, 1.25, 1.4, 1.6]
 BossbotRollSpeedMax = 22
 BossbotRollSpeedMin = 7.5
 BossbotTurnSpeedMax = 60

@@ -19,8 +19,14 @@ class DNALandmarkBuilding(DNANode.DNANode):
         del self.code
         del self.wallColor
         
+    def setCode(self, code):
+        self.code = str(code)
+        
     def getCode(self):
         return self.code
+        
+    def setWallColor(self, color):
+        self.wallColor = LVector4f(int(color))
         
     def getWallColor(self):
         return self.wallColor
