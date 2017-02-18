@@ -293,6 +293,8 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDoorKey = settings.get('doorkey', False)
         
         self.wantInteractKey = settings.get('interactkey', False)
+        
+        self.streamerMode = settings.get('streamerMode', False)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
