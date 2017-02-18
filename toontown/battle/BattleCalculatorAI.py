@@ -93,6 +93,12 @@ class BattleCalculatorAI:
             return (1, 95)
         if atkTrack == FIRE:
             return (1, 95)
+        if atkTrack == ZAP:
+            for tgt in atkTargets:
+                if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
+                    return (1, 95)
+                else:
+                    continue
         if atkTrack == TRAP:
             if debug:
                 self.notify.debug('Attack is a trap, so it hits regardless')
