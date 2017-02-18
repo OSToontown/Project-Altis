@@ -65,6 +65,7 @@ smooth-lag 0.1
 smooth-max-future 0.1
 smooth-min-suggest-resync 1
 
+
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0
 
@@ -88,6 +89,8 @@ sync-video #f
 texture-power-2 none
 gl-check-errors #f
 garbage-collect-states #f
+loader-num-threads 100
+preload-textures #t
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
