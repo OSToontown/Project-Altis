@@ -169,6 +169,13 @@ class BattleCalculatorAI:
             elif treebonus or propBonus:
                 self.notify.debug('using oragnic OR prop bonus lure accuracy')
                 propAcc = AvLureBonusAccuracy[atkLevel]
+        if atkTrack == ZAP:
+            for tgt in atkTargets:
+                if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
+                    propAcc += 20
+                    break
+                else:
+                    continue
         attackAcc = propAcc + trackExp + tgtDef
         currAtk = self.toonAtkOrder.index(attackIndex)
         if currAtk > 0 and atkTrack != HEAL:
@@ -397,6 +404,7 @@ class BattleCalculatorAI:
         attack = self.battle.toonAttacks[toonId]
         targetList = self.__createToonTargetList(toonId)
         atkHit, atkAcc = self.__calcToonAtkHit(toonId, targetList)
+        print atkAcc
         atkTrack, atkLevel, atkHp = self.__getActualTrackLevelHp(attack)
         if not atkHit and atkTrack != HEAL:
             return

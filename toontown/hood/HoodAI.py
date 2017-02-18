@@ -205,6 +205,6 @@ class HoodAI:
             
     def createRain(self):
         for zoneId in self.getZoneTable():
-            self.rainMgr = DistributedRainManagerAI.DistributedRainManagerAI(self.air)
+            self.rainMgr = DistributedRainManagerAI.DistributedRainManagerAI(self.air, zoneId)
             self.rainMgr.generateWithRequired(zoneId)
             self.notify.info('Rain Manager turned on for zone ' + str(zoneId))
