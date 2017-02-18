@@ -404,7 +404,6 @@ class BattleCalculatorAI:
         attack = self.battle.toonAttacks[toonId]
         targetList = self.__createToonTargetList(toonId)
         atkHit, atkAcc = self.__calcToonAtkHit(toonId, targetList)
-        print atkAcc
         atkTrack, atkLevel, atkHp = self.__getActualTrackLevelHp(attack)
         if not atkHit and atkTrack != HEAL:
             return
