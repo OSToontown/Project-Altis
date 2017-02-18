@@ -40,7 +40,7 @@ while True:
     InvasionsPerDay = 72.0      # How many invasions a day per district
     BaseInvasionChance = InvasionsPerDay/ChecksPerDay
     
-    safeHarbor = {'Sillyham', 'Gigglyham'}
+    safeHarbor = {'Sillyham', 'Geezer Gorge'}
     superDistricts = {'Nutty River', 'Nuttyboro'}
     
     
