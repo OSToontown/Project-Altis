@@ -2938,6 +2938,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
          self.botTexColor)
 
     def getType(self):
+
         if self.type == 't':
             type = self.getAnimal()
         else:
@@ -2945,6 +2946,8 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         return type
 
     def getAnimal(self):
+        if not hasattr(self, 'head'):
+            self.head = ['d']
         if self.head[0] == 'd':
             return 'dog'
         elif self.head[0] == 'c':
