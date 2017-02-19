@@ -6,7 +6,8 @@ Created on Feb 19, 2017
 # this is like the 6th time im doing this pls
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from panda3d.core import Multifile, Filename, VirtualFileSystem
-import fnmatch, os, yaml
+import fnmatch, os
+from toontown.pandautils import yaml
 
 SupportedExtensions = ('.jpg', '.png', '.rgb', '.rgba', '.ogg', '.ttf')
 DefaultPhases = (3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13)
