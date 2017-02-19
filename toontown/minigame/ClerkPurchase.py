@@ -17,7 +17,10 @@ class ClerkPurchase(PurchaseBase):
     def load(self):
         purchaseModels = loader.loadModel('phase_4/models/gui/gag_shop_purchase_gui')
         PurchaseBase.load(self, purchaseModels)
-        self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.71, 0, -0.045), image=(purchaseModels.find('**/PurchScrn_BTN_UP'), purchaseModels.find('**/PurchScrn_BTN_DN'), purchaseModels.find('**/PurchScrn_BTN_RLVR')), text=TTLocalizer.GagShopDoneShopping, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), command=self.__handleBackToPlayground)
+        if settings['newGui'] == True:
+            self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.5, 0, -0.6), image=(purchaseModels.find('**/PurchScrn_BTN_UP'), purchaseModels.find('**/PurchScrn_BTN_DN'), purchaseModels.find('**/PurchScrn_BTN_RLVR')), text=TTLocalizer.GagShopDoneShopping, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), command=self.__handleBackToPlayground)
+        else:
+            self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.71, 0, -0.045), image=(purchaseModels.find('**/PurchScrn_BTN_UP'), purchaseModels.find('**/PurchScrn_BTN_DN'), purchaseModels.find('**/PurchScrn_BTN_RLVR')), text=TTLocalizer.GagShopDoneShopping, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), command=self.__handleBackToPlayground)
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.reparentTo(self.frame)
         self.timer.posInTopRightCorner()
