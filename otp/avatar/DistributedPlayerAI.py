@@ -75,7 +75,7 @@ class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.Pl
         self.air.incrementPopulation()
 
     def decrementPopulation(self):
-        simbase.air.decrementPopulation()
+        self.air.decrementPopulation()
 
     def b_setChat(self, chatString, chatFlags):
         self.setChat(chatString, chatFlags)
