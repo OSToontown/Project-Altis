@@ -82,20 +82,20 @@ CashbotMintRoomId2RoomName = {0: 'CashbotMintEntrance_Action00',
  16: 'CashbotMintPipeRoom_Battle00',
  17: 'CashbotMintStomperAlley_Action00',
  18: 'CashbotMintStomperAlley_Action01',
- 19: 'CashbotMintBoilerRoom_Battle01',
- 20: 'CashbotMintControlRoom_Battle00',
- 21: 'CashbotMintDuctRoom_Battle01',
- 22: 'CashbotMintGearRoom_Battle01',
- 23: 'CashbotMintLavaRoomFoyer_Battle01',
- 24: 'CashbotMintOilRoom_Battle00',
- 25: 'CashbotMintLobby_Battle01',
- 26: 'CashbotMintPaintMixerReward_Battle00',
- 27: 'CashbotMintPipeRoom_Battle01',
- 28: 'CashbotMintBoomerangRoom_Battle00'}
+ 19: 'CashbotMintBoomerangRoom_Battle00',
+ 20: 'CashbotMintBoilerRoom_Battle01',
+ 21: 'CashbotMintControlRoom_Battle00',
+ 22: 'CashbotMintDuctRoom_Battle01',
+ 23: 'CashbotMintGearRoom_Battle01',
+ 24: 'CashbotMintLavaRoomFoyer_Battle01',
+ 25: 'CashbotMintOilRoom_Battle00',
+ 26: 'CashbotMintLobby_Battle01',
+ 27: 'CashbotMintPaintMixerReward_Battle00',
+ 28: 'CashbotMintPipeRoom_Battle01'}
 CashbotMintRoomName2RoomId = invertDict(CashbotMintRoomId2RoomName)
 CashbotMintEntranceIDs = (0,)
-CashbotMintMiddleRoomIDs = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 28)
-CashbotMintFinalRoomIDs = (19, 20, 21, 22, 23, 24, 25, 26, 27)
+CashbotMintMiddleRoomIDs = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19)
+CashbotMintFinalRoomIDs = (20, 21, 22, 23, 24, 25, 26, 27, 28)
 CashbotMintConnectorRooms = ('phase_10/models/cashbotHQ/connector_7cubeL2', 'phase_10/models/cashbotHQ/connector_7cubeR2')
 CashbotMintSpecModules = {}
 for roomName, roomId in CashbotMintRoomName2RoomId.items():
