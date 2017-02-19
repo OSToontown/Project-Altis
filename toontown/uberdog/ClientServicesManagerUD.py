@@ -229,7 +229,7 @@ class LocalAccountDB(AccountDB):
         # add type a name
         self.notify.info("adding name from %s : %s" %(avId, name))
         try:
-            nameCheck = httplib.HTTPConnection('zoid.servehttp.com:8000')
+            nameCheck = httplib.HTTPConnection('projectaltis.com')
             nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
             print json.loads(nameCheck.getresponse().read())
         except:
@@ -240,7 +240,7 @@ class LocalAccountDB(AccountDB):
         # check type a name
         self.notify.info("debug: checking name from %s" %(avId))
         try:
-            nameCheck = httplib.HTTPConnection('zoid.servehttp.com:8000')
+            nameCheck = httplib.HTTPConnection('projectaltis.com')
             nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
             print(resp)
