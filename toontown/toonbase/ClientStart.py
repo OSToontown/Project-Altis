@@ -74,14 +74,16 @@ loadPrcFileData('Settings: loadDisplay', 'load-display %s' % settings['loadDispl
 loadPrcFileData('Settings: toonChatSounds', 'toon-chat-sounds %s' % settings['toonChatSounds'])
 
 vfs = VirtualFileSystem.getGlobalPtr()
+DefaultPhases = (3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13)
 import glob
 print("Loading Default Pack...")
 for file in glob.glob('resources/default/*.mf'):
-    mf = Multifile()
-    mf.openReadWrite(Filename(file))
-    names = mf.getSubfileNames()
-    vfs.mount(mf, Filename('/'), 0)
-    print('Successfully Mounted:' + file)
+    if float(file.replace('.mf', '').replace('resources/default\phase_', '')) in DefaultPhases:
+        mf = Multifile()
+        mf.openReadWrite(Filename(file))
+        names = mf.getSubfileNames()
+        vfs.mount(mf, Filename('/'), 0)
+        print('Successfully Mounted:' + file)
 print("Default Pack Loaded!")
 from toontown.toonbase.ContentPackManager import ContentPackManager
 __builtin__.ContentPackMgr = ContentPackManager()
