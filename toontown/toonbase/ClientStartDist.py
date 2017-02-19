@@ -244,7 +244,7 @@ for file in glob.glob('resources/default/*.mf'):
     mf.openReadWrite(Filename(file))
     names = mf.getSubfileNames()
     vfs.mount(mf, Filename('/'), 0)
-    print('Successfully Mounted:' + file[13:])
+    print('Successfully Mounted:' + file)
 print("Default Pack Loaded!")
 
 for line in io.readlines():

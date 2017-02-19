@@ -73,6 +73,20 @@ loadPrcFileData('Settings: sfxVol', 'audio-master-sfx-volume %s' % settings['sfx
 loadPrcFileData('Settings: loadDisplay', 'load-display %s' % settings['loadDisplay'])
 loadPrcFileData('Settings: toonChatSounds', 'toon-chat-sounds %s' % settings['toonChatSounds'])
 
+vfs = VirtualFileSystem.getGlobalPtr()
+import glob
+print("Loading Default Pack...")
+for file in glob.glob('resources/default/*.mf'):
+    mf = Multifile()
+    mf.openReadWrite(Filename(file))
+    names = mf.getSubfileNames()
+    vfs.mount(mf, Filename('/'), 0)
+    print('Successfully Mounted:' + file)
+print("Default Pack Loaded!")
+from toontown.toonbase.ContentPackManager import ContentPackManager
+__builtin__.ContentPackMgr = ContentPackManager()
+ContentPackMgr.loadAll()
+
 loadDisplay = settings.get('loadDisplay', 'pandagl')
 loadPrcFileData('', 'load-display %s' % settings['loadDisplay'])
 
