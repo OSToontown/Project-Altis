@@ -2275,7 +2275,8 @@ GlassesTextures = [None,
  'phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask2.jpg',
  'phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask4.jpg',
  'phase_4/maps/tt_t_chr_avt_acc_msk_masqueradeTypeMask5.jpg',
- 'phase_4/maps/tt_t_chr_avt_acc_msk_eyepatchGems.jpg']
+ 'phase_4/maps/tt_t_chr_avt_acc_msk_eyepatchGems.jpg',
+ 'phase_4/maps/tt_t_chr_avt_acc_msk_eyepatchlime.jpg']
 BackpackModels = [None,
  'phase_4/models/accessories/tt_m_chr_avt_acc_pac_backpack',
  'phase_4/models/accessories/tt_m_chr_avt_acc_pac_batWings',
@@ -2463,7 +2464,8 @@ GlassesStyles = {'none': [0, 0, 0],
  'gdk1': [8, 0, 0],
  'gag1': [21, 0, 0],
  'ghw1': [20, 0, 0],
- 'ghw2': [20, 4, 0]}
+ 'ghw2': [20, 4, 0],
+ 'ghw3': [20, 5, 0]}
 BackpackStyles = {'none': [0, 0, 0],
  'bpb1': [1, 0, 0],
  'bpb2': [1, 1, 0],

@@ -5790,6 +5790,7 @@ GlassesStylesDescriptions = {'grd1': 'Round Glasses',
  'gsr1': 'Square Frame Glasses',
  'ghw1': 'Skull Eyepatch',
  'ghw2': 'Gem Eyepatch',
+ 'ghw3': "Limey's Eyepatch",
  'gag1': 'Alien Eyes by Alexandra'}
 BackpackStylesDescriptions = {'bpb1': 'Blue Backpack',
  'bpb2': 'Orange Backpack',
