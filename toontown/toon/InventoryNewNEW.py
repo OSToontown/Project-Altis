@@ -313,7 +313,10 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
                 currIndex = list.index(self.activeTab)
             except:
                 return
-            self.activeTab = list[currIndex+index]
+            newIndex = currIndex + index
+            if newIndex >= 8:
+                newIndex = list[0]
+            self.activeTab = list[newIndex]
             self.doTab(self.activeTab)
         except:
             pass
