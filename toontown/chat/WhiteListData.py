@@ -9762,7 +9762,6 @@ WHITELIST = [
     'danield',
     'daniels',
     'danish',
-    'danke',
     'danny',
     'dans',
     'dante',

@@ -404,7 +404,6 @@ class BattleCalculatorAI:
         attack = self.battle.toonAttacks[toonId]
         targetList = self.__createToonTargetList(toonId)
         atkHit, atkAcc = self.__calcToonAtkHit(toonId, targetList)
-        print atkAcc
         atkTrack, atkLevel, atkHp = self.__getActualTrackLevelHp(attack)
         if not atkHit and atkTrack != HEAL:
             return
@@ -664,9 +663,12 @@ class BattleCalculatorAI:
             return False
 	   
     def checkIfStreetZone(self, toon):
-        if ZoneUtil.getWhereName(toon.zoneId, True) == 'street':
-            return True
-        else:
+	try:
+            if ZoneUtil.getWhereName(toon.zoneId, True) == 'street':
+                return True
+            else:
+                return False
+	except:
             return False
     
     def __attackDamageForTgt(self, attack, tgtPos, suit = 0):
