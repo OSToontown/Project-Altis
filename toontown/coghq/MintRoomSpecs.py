@@ -2,6 +2,7 @@ from toontown.toonbase.ToonPythonUtil import invertDict
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import NullCogs
 from toontown.coghq import CashbotMintBoilerRoom_Battle00_Cogs
+from toontown.coghq import CashbotMintBoomerangRoom_Battle00_Cogs
 from toontown.coghq import CashbotMintBoilerRoom_Battle01_Cogs
 from toontown.coghq import CashbotMintControlRoom_Battle00_Cogs
 from toontown.coghq import CashbotMintDuctRoom_Battle00_Cogs
@@ -24,6 +25,7 @@ from toontown.coghq import CashbotMintStomperAlley_Action01
 from toontown.coghq import CashbotMintEntrance_Action00
 from toontown.coghq import CashbotMintBoilerRoom_Action00
 from toontown.coghq import CashbotMintBoilerRoom_Battle00
+from toontown.coghq import CashbotMintBoomerangRoom_Battle00
 from toontown.coghq import CashbotMintDuctRoom_Action00
 from toontown.coghq import CashbotMintDuctRoom_Battle00
 from toontown.coghq import CashbotMintGearRoom_Action00
@@ -88,10 +90,11 @@ CashbotMintRoomId2RoomName = {0: 'CashbotMintEntrance_Action00',
  24: 'CashbotMintOilRoom_Battle00',
  25: 'CashbotMintLobby_Battle01',
  26: 'CashbotMintPaintMixerReward_Battle00',
- 27: 'CashbotMintPipeRoom_Battle01'}
+ 27: 'CashbotMintPipeRoom_Battle01',
+ 28: 'CashbotMintBoomerangRoom_Battle00'}
 CashbotMintRoomName2RoomId = invertDict(CashbotMintRoomId2RoomName)
 CashbotMintEntranceIDs = (0,)
-CashbotMintMiddleRoomIDs = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18)
+CashbotMintMiddleRoomIDs = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 28)
 CashbotMintFinalRoomIDs = (19, 20, 21, 22, 23, 24, 25, 26, 27)
 CashbotMintConnectorRooms = ('phase_10/models/cashbotHQ/connector_7cubeL2', 'phase_10/models/cashbotHQ/connector_7cubeR2')
 CashbotMintSpecModules = {}
@@ -100,6 +103,7 @@ for roomName, roomId in CashbotMintRoomName2RoomId.items():
 
 CogSpecModules = {'CashbotMintBoilerRoom_Battle00': CashbotMintBoilerRoom_Battle00_Cogs,
  'CashbotMintBoilerRoom_Battle01': CashbotMintBoilerRoom_Battle01_Cogs,
+ 'CashbotMintBoomerangRoom_Battle00': CashbotMintBoomerangRoom_Battle00_Cogs,
  'CashbotMintControlRoom_Battle00': CashbotMintControlRoom_Battle00_Cogs,
  'CashbotMintDuctRoom_Battle00': CashbotMintDuctRoom_Battle00_Cogs,
  'CashbotMintDuctRoom_Battle01': CashbotMintDuctRoom_Battle01_Cogs,
