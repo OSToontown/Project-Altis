@@ -95,11 +95,11 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
 
     def handleWatering(self):
         self.startInteraction()
-        self.sendUpdate('waterPlant')
+        self.sendUpdate('waterPlant', [])
 
     def __handleWatering(self, plantToWaterId):
         if plantToWaterId == self.doId:
-            self.sendUpdate('waterPlant')
+            self.sendUpdate('waterPlant', [])
         else:
             self.notify.debug('not sending water plant')
 

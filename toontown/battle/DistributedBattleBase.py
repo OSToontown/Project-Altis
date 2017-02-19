@@ -24,8 +24,12 @@ from toontown.nametag import NametagGlobals
 
 class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBase')
-    camPos = ToontownBattleGlobals.BattleCamDefaultPos
-    camHpr = ToontownBattleGlobals.BattleCamDefaultHpr
+    if settings['newGui'] == True:
+        camPos = ToontownBattleGlobals.BattleCamDefaultPos1
+        camHpr = ToontownBattleGlobals.BattleCamDefaultHpr1
+    else:
+        camPos = ToontownBattleGlobals.BattleCamDefaultPos2
+        camHpr = ToontownBattleGlobals.BattleCamDefaultHpr2
     camFov = ToontownBattleGlobals.BattleCamDefaultFov
     camMenuFov = ToontownBattleGlobals.BattleCamMenuFov
     camJoinPos = ToontownBattleGlobals.BattleCamJoinPos
@@ -310,22 +314,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def setBattleCellId(self, battleCellId):
         pass
-    
-    def getInteractiveProp(self):
-        if config.GetBool('want-anim-props', True):
-            if self.interactiveProp:
-                return self.interactiveProp
-            elif base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader'):
-                loader = base.cr.playGame.hood.loader
-
-                if hasattr(loader, 'getInteractiveProp'):
-                    self.interactiveProp = base.cr.playGame.hood.loader.getInteractiveProp(self.zoneId)
-
-                    return self.interactiveProp
-                
-        return None
  
-
     def setInteractivePropTrackBonus(self, trackBonus):
         self.interactivePropTrackBonus = trackBonus
 
@@ -952,7 +941,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             return self.cr.doId2do[toonId]
         else:
             self.notify.warning('getToon() - toon: %d not in repository!' % toonId)
-            return None
         return None
 
     def d_toonRequestJoin(self, toonId, pos):

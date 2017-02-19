@@ -1,7 +1,4 @@
-class DistributedCashbotBossTreasureAI:
-    pass
-
-'''from toontown.safezone import DistributedSZTreasureAI
+from toontown.safezone import DistributedSZTreasureAI
 
 class DistributedCashbotBossTreasureAI(DistributedSZTreasureAI.DistributedSZTreasureAI):
 
@@ -49,4 +46,4 @@ class DistributedCashbotBossTreasureAI(DistributedSZTreasureAI.DistributedSZTrea
         self.d_setFinalPosition(x, y, z)
 
     def d_setFinalPosition(self, x, y, z):
-        self.sendUpdate('setFinalPosition', [x, y, z])'''
+        self.sendUpdate('setFinalPosition', [x, y, z])

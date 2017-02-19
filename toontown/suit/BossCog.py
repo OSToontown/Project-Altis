@@ -24,10 +24,12 @@ ModelDict = {'s': 'phase_9/models/char/sellbotBoss',
  'c': 'phase_12/models/char/bossbotBoss'}
 AnimList = ('Ff_speech', 'ltTurn2Wave', 'wave', 'Ff_lookRt', 'turn2Fb', 'Ff_neutral', 'Bb_neutral', 'Ff2Bb_spin', 'Bb2Ff_spin', 'Fb_neutral', 'Bf_neutral', 'Fb_firstHit', 'Fb_downNeutral', 'Fb_downHit', 'Fb_fall', 'Fb_down2Up', 'Fb_downLtSwing', 'Fb_downRtSwing', 'Fb_DownThrow', 'Fb_UpThrow', 'Fb_jump', 'golf_swing')
 
+
 class BossCog(Avatar.Avatar):
     notify = DirectNotifyGlobal.directNotify.newCategory('BossCog')
     healthColors = Suit.Suit.healthColors
     healthGlowColors = Suit.Suit.healthGlowColors
+    ANIM_PLAYRATE = 1
 
     def __init__(self):
         Avatar.Avatar.__init__(self)
@@ -428,7 +430,7 @@ class BossCog(Avatar.Avatar):
             self.currentAnimIval.finish()
         
         self.currentAnimIval = ival
-        self.currentAnimIval.start()
+        self.currentAnimIval.start(playRate=self.ANIM_PLAYRATE)
         self.nowRaised = raised
         self.nowForward = forward
         self.nowHappy = happy

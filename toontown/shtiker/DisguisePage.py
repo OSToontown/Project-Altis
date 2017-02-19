@@ -27,31 +27,14 @@ class DisguisePage(ShtikerPage.ShtikerPage):
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
         gui = loader.loadModel('phase_9/models/gui/cog_disguises')
-        self.frame = DirectFrame(parent=self, relief=None, scale=0.47, pos=(0.02, 1, 0))
+        icons = loader.loadModel('phase_3/models/gui/cog_icons')
+        self.frame = DirectFrame(parent=self, relief=None, scale=0.47, pos=(0.1, 1, 0))
         self.bkgd = DirectFrame(parent=self.frame, geom=gui.find('**/base'), relief=None, scale=(0.98, 1, 1))
         self.bkgd.setTextureOff(1)
-        self.tabs = []
+        self.buttons = []
         self.pageFrame = DirectFrame(parent=self.frame, relief=None)
-        for dept in SuitDNA.suitDepts:
-            if dept == 'c':
-                tabIndex = 1
-                textPos = (1.57, 0.75)
-            elif dept == 'l':
-                tabIndex = 2
-                textPos = (1.57, 0.12)
-            elif dept == 'm':
-                tabIndex = 3
-                textPos = (1.57, -0.47)
-            elif dept == 's':
-                tabIndex = 4
-                textPos = (1.57, -1.05)
-            pageGeom = gui.find('**/page%d' % tabIndex)
-            tabGeom = gui.find('**/tab%d' % tabIndex)
-            tab = DirectButton(parent=self.pageFrame, relief=None, geom=tabGeom, geom_color=DeptColors[tabIndex - 1], text=SuitDNA.suitDeptFullnames[dept], text_font=ToontownGlobals.getSuitFont(), text_pos=textPos, text_roll=-90, text_scale=TTLocalizer.DPtab, text_align=TextNode.ACenter, text1_fg=Vec4(1, 0, 0, 1), text2_fg=Vec4(0.5, 0.4, 0.4, 1), text3_fg=Vec4(0.4, 0.4, 0.4, 1), command=self.doTab, extraArgs=[len(self.tabs)], pressEffect=0)
-            self.tabs.append(tab)
-            page = DirectFrame(parent=tab, relief=None, geom=pageGeom)
-
-        self.deptLabel = DirectLabel(parent=self.frame, text='', text_font=ToontownGlobals.getSuitFont(), text_scale=TTLocalizer.DPdeptLabel, text_pos=(-0.1, 0.8))
+        self.xOffset = 0.4
+        self.deptLabel = DirectLabel(parent=self.frame, text='', text_font=ToontownGlobals.getSuitFont(), text_style=3, text_fg=(1,1,1,1), text_scale=TTLocalizer.DPdeptLabel, text_pos=(-0.1, 0.8))
         DirectFrame(parent=self.frame, relief=None, geom=gui.find('**/pipe_frame'))
         self.tube = DirectFrame(parent=self.frame, relief=None, geom=gui.find('**/tube'))
         DirectFrame(parent=self.frame, relief=None, geom=gui.find('**/robot/face'))
@@ -84,10 +67,12 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         self.meterFace = DirectLabel(parent=self.frame, relief=None, geom=meterFace, color=self.meterColor, pos=(0.455, 0.0, 0.04))
         self.meterFaceHalf1 = DirectLabel(parent=self.frame, relief=None, geom=meterFaceHalf, color=self.meterActiveColor, pos=(0.455, 0.0, 0.04))
         self.meterFaceHalf2 = DirectLabel(parent=self.frame, relief=None, geom=meterFaceHalf, color=self.meterColor, pos=(0.455, 0.0, 0.04))
+        for dept in xrange(len(SuitDNA.suitDepts)):
+            button = DirectButton(parent=self.frame, relief=None, pos=(-1 + self.xOffset * dept, 0, 1.05), image=icons.find(SuitDNA.suitDeptModelPaths[dept]), image_scale=0.25, image2_color=(1, 1, 1, 0.75), command = self.doTab, extraArgs=[dept])
+            self.buttons.append(button)
         self.frame.hide()
         self.activeTab = 3
         self.updatePage()
-        return
 
     def unload(self):
         ShtikerPage.ShtikerPage.unload(self)
@@ -162,16 +147,6 @@ class DisguisePage(ShtikerPage.ShtikerPage):
 
     def doTab(self, index):
         self.activeTab = index
-        self.tabs[index].reparentTo(self.pageFrame)
-        for i in xrange(len(self.tabs)):
-            tab = self.tabs[i]
-            if i == index:
-                tab['text0_fg'] = (1, 0, 0, 1)
-                tab['text2_fg'] = (1, 0, 0, 1)
-            else:
-                tab['text0_fg'] = (0, 0, 0, 1)
-                tab['text2_fg'] = (0.5, 0.4, 0.4, 1)
-
         self.bkgd.setColor(DeptColors[index])
         self.deptLabel['text'] = (SuitDNA.suitDeptFullnames[SuitDNA.suitDepts[index]],)
         cogIndex = base.localAvatar.cogTypes[index] + SuitDNA.suitsPerDept * index

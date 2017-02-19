@@ -7,6 +7,7 @@ from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed import DistributedObjectAI
 from direct.task import Task
 from otp.ai.AIBaseGlobal import *
+from otp.ai.MagicWordGlobal import *
 from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
 from toontown.building import HQBuildingAI
@@ -146,6 +147,26 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        5,
        6),
       []],
+     [1400, #Ahoy Avenue
+      8,
+      20,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (40,
+       0,
+       0,
+       50,
+       10),
+      (4, 5, 6),
+      []],
      [3100, #Walrus Way
       8,
       20,
@@ -262,11 +283,34 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (15,
+      (40,
+       40,
+       0,
+       0,
+       20),
+      (5,
+       6,
+       7,
+       8),
+      []],
+     [4400, # Soprano Street
+      8,
+      20,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
        10,
-       0,
-       0,
-       75),
+       40,
+       60,
+       80),
+      (5,
+       5,
+       5,
+       5,
+       80),
       (5,
        6,
        7,
@@ -597,7 +641,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 bldg.setSuitPlannerExt(self)
             for currBlock in animBldgBlocks:
                 bldg = self.buildingMgr.getBuilding(currBlock)
-                bldg.setSuitPlannerExt(self)
+                if bldg is not None:
+                    bldg.setSuitPlannerExt(self)
         self.dnaStore.resetBlockNumbers()
         self.initBuildingsAndPoints()
         numSuits = simbase.config.GetInt('suit-count', -1)
@@ -1380,7 +1425,19 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             if hasattr(toon, 'doId'):
                 toon.b_setBattleId(toonId)
         pos = self.battlePosDict[canonicalZoneId]
-        interactivePropTrackBonus = -1
+        interactivePropTrackBonus = 2
+        
+        if simbase.config.GetBool('props-buff-battles', True) and self.cellToGagBonusDict.has_key(canonicalZoneId):
+            tentativeBonusTrack = self.cellToGagBonusDict[canonicalZoneId]
+            trackToHolidayDict = {
+                ToontownBattleGlobals.SQUIRT_TRACK: ToontownGlobals.HYDRANTS_BUFF_BATTLES,
+                ToontownBattleGlobals.THROW_TRACK: ToontownGlobals.MAILBOXES_BUFF_BATTLES,
+                ToontownBattleGlobals.HEAL_TRACK: ToontownGlobals.TRASHCANS_BUFF_BATTLES }
+            if tentativeBonusTrack in trackToHolidayDict:
+                holidayId = trackToHolidayDict[tentativeBonusTrack]
+                if simbase.air.holidayManager.isHolidayRunning(holidayId) and simbase.air.holidayManager.getCurPhase(holidayId) >= 1:
+                    interactivePropTrackBonus = tentativeBonusTrack
+        
         self.battleMgr.newBattle(
             zoneId, zoneId, pos, suit, toonId, self.__battleFinished,
             self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_SMAX],
@@ -1505,3 +1562,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             track = SuitDNA.suitDepts[SuitBattleGlobals.pickFromFreqList(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_TRACK])]
         self.notify.debug('pickLevelTypeAndTrack: %s %s %s' % (level, type, track))
         return (level, type, track)
+        
+@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int, int, int])
+def spawnCog(name, level, revives = 0, skelecog = 0, waiter = 0):
+    av = spellbook.getInvoker()
+    zoneId = av.getLocation()[1]
+    sp = simbase.air.suitPlanners.get(zoneId - (zoneId % 100))
+    pointmap = sp.streetPointList
+    sp.createNewSuit([], pointmap, suitName=name, suitLevel=level, skelecog=skelecog, revives=revives, waiter=waiter)
+    return "Spawned %s in current zone." % name

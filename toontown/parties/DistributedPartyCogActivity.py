@@ -1,9 +1,9 @@
 from direct.distributed.ClockDelta import globalClockDelta
 from pandac.PandaModules import Point3
 from toontown.toonbase import TTLocalizer
-from toontown.parties import PartyGlobals
+import PartyGlobals
 from DistributedPartyTeamActivity import DistributedPartyTeamActivity
-from toontown.parties.PartyCogActivity import PartyCogActivity
+from PartyCogActivity import PartyCogActivity
 
 class DistributedPartyCogActivity(DistributedPartyTeamActivity):
     notify = directNotify.newCategory('DistributedPartyCogActivity')
@@ -23,7 +23,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
 
     def announceGenerate(self):
         DistributedPartyTeamActivity.announceGenerate(self)
-        for i in xrange(len(self.toonIds)):
+        for i in range(len(self.toonIds)):
             for toonId in self.toonIds[i]:
                 toon = base.cr.doId2do.get(toonId, None)
                 if toon:
@@ -73,6 +73,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
     def pieHitsToon(self, toonId, timestamp, x, y, z):
         if toonId not in self.toonIds:
             return
+        
         self.view.pieHitsToon(toonId, timestamp, Point3(x, y, z))
 
     def d_broadcastPieHitsToon(self, toonId, timestamp, pos):
@@ -89,6 +90,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
     def pieHitsCog(self, toonId, timestamp, hitCogNum, x, y, z, direction, part):
         if toonId not in self.toonIds:
             return
+        
         if toonId != base.localAvatar.doId:
             self.view.pieHitsCog(timestamp, hitCogNum, Point3(x, y, z), direction, part)
 
@@ -118,7 +120,6 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         team = self.getTeam(toonId)
         if toon is not None and self.view is not None:
             self.view.handleToonJoined(toon, team)
-        return
 
     def handleToonExited(self, toonId):
         toon = base.cr.doId2do.get(toonId, None)
@@ -127,7 +128,6 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         if self.view is not None:
             self.view.handleToonExited(toon)
         DistributedPartyTeamActivity.handleToonExited(self, toonId)
-        return
 
     def handleToonShifted(self, toonId):
         toon = base.cr.doId2do.get(toonId, None)
@@ -135,7 +135,6 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
             return
         if self.view is not None:
             self.view.handleToonShifted(toon)
-        return
 
     def handleToonSwitchedTeams(self, toonId):
         DistributedPartyTeamActivity.handleToonSwitchedTeams(self, toonId)
@@ -144,12 +143,10 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
             return
         if self.view is not None:
             self.view.handleToonSwitchedTeams(toon)
-        return
 
     def handleToonDisabled(self, toonId):
         if self.view is not None:
             self.view.handleToonDisabled(toonId)
-        return
 
     def startWaitForEnough(self):
         DistributedPartyTeamActivity.startWaitForEnough(self)

@@ -122,15 +122,16 @@ class pymover(FSM):
     def walkToPoint(self, target):
         try:
             here = self.pet.getPos()
+
+            dist = Vec3(here - target).length()
+
+            self.__seq = Sequence(Func(self.pet.lookAt, target),
+                                  Func(self.pet.setP, 0),
+                                  self.pet.posInterval(dist/self.fwdSpeed, target),
+                                  Func(self.__stateComplete)).start()
         except:
             return # For some reason it still tries to do it so lest just hackily do this since it crashes districts
-        dist = Vec3(here - target).length()
-
-        self.__seq = Sequence(Func(self.pet.lookAt, target),
-                              Func(self.pet.setP, 0),
-                              self.pet.posInterval(dist/self.fwdSpeed, target),
-                              Func(self.__stateComplete)).start()
-
+            
     def exitWander(self):
         if self.__seq:
             self.__seq.pause()

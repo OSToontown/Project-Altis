@@ -1,10 +1,9 @@
+from panda3d.core import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from direct.showbase import DirectObject
-from toontown.catalog import CatalogItem
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
+from toontown.catalog import CatalogItem
+from toontown.toonbase import ToontownGlobals, TTLocalizer
 from toontown.toontowngui import TTDialog
 
 NUM_ITEMS_SHOWN = 15
@@ -41,7 +40,6 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
         rolloverButton = buttonModels.find('**/InventoryButtonRollover')
         exitButton = DirectButton(parent=self.panel, relief=None, pos=(0, 0, -0.7), text=TTLocalizer.MessagePickerCancel, text_scale=TTLocalizer.CCIPexitButton, text_pos=(-0.005, -0.01), text_fg=Vec4(1, 1, 1, 1), textMayChange=0, image=(upButton, downButton, rolloverButton), image_scale=1.1, image_color=(0, 0.6, 1, 1), command=self.__handleCancel)
         buttonModels.removeNode()
-        return
 
     def hide(self):
         base.transitions.noTransitions()
@@ -62,7 +60,6 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
             self.confirmDelete.cleanup()
             del self.confirmDelete
             self.confirmDelete = None
-        return
 
     def makeMessageButton(self, name, number, *extraArgs):
         msg = extraArgs[0][0][number]
@@ -89,4 +86,3 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
             self.doneCallback('pick', base.localAvatar.customMessages.index(msg))
         else:
             self.show()
-        return

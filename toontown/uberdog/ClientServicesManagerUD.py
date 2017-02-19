@@ -506,7 +506,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ADMIN_ACCESS', 0)
+        access = self.account.get('ACCESS_LEVEL', 0)
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
@@ -613,7 +613,10 @@ class CreateAvatarFSM(OperationFSM):
     def enterCreateAvatar(self):
         dna = ToonDNA()
         dna.makeFromNetString(self.dna)
-        colorString = TTLocalizer.NumToColor[dna.headColor]
+        try:
+            colorString = TTLocalizer.NumToColor[dna.headColor]
+        except:
+            colorString = "Colorful"
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
 		
@@ -837,7 +840,7 @@ class DeleteAvatarFSM(GetAvatarsFSM):
                 estateId,
                 self.csm.air.dclassesByName['DistributedEstateAI'],
                 {'setSlot%dToonId' % index: [0],
-                 'setSlot%dItems' % index: [[]]}
+                 'setSlot%dGarden' % index: [[]]}
             )
 
         self.csm.air.dbInterface.updateObject(
@@ -1153,7 +1156,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = 'VhgdThjgoNI0SAbfeSjcyxo9iSyghKSh43ZMidFI'
+        self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)

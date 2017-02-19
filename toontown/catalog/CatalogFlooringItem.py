@@ -105,7 +105,6 @@ class CatalogFlooringItem(CatalogSurfaceItem):
                 return CT_WHITE
         else:
             return CT_WHITE
-        return
 
     def decodeDatagram(self, di, versionNumber, store):
         CatalogAtticItem.CatalogAtticItem.decodeDatagram(self, di, versionNumber, store)
@@ -118,7 +117,6 @@ class CatalogFlooringItem(CatalogSurfaceItem):
         else:
             self.colorIndex = None
         wtype = FlooringTypes[self.patternIndex]
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)

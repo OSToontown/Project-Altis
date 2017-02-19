@@ -42,6 +42,7 @@ from toontown.shtiker import FishPage
 from toontown.shtiker import GardenPage
 from toontown.shtiker import GolfPage
 from toontown.shtiker import InventoryPageOLD
+from toontown.shtiker import InventoryPageNEW
 from toontown.shtiker import KartPage
 from toontown.shtiker import MapPage
 from toontown.shtiker import NPCFriendPage
@@ -54,6 +55,7 @@ from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
+import StreamerMode
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -177,6 +179,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.physControls.event.addAgainPattern('again%in')
         self.oldPos = None
         self.questMap = None
+        self.streamerMode = None
         self.prevToonIdx = 0
 
     def setDNA(self, dna):
@@ -323,6 +326,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__piePowerMeter:
             self.__piePowerMeter.destroy()
             self.__piePowerMeter = None
+        if self.streamerMode:
+            self.streamerMode.stop()
+            del self.streamerMode
         taskMgr.remove('unlockGardenButtons')
         if self.__lerpFurnitureButton:
             self.__lerpFurnitureButton.finish()
@@ -360,7 +366,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.mapPage = MapPage.MapPage()
         self.mapPage.load()
         self.book.addPage(self.mapPage, pageName=TTLocalizer.MapPageTitle)
-        self.invPage = InventoryPageOLD.InventoryPageOLD()
+        if settings['newGui'] == False:
+            self.invPage = InventoryPageOLD.InventoryPageOLD()
+        else:
+            self.invPage = InventoryPageNEW.InventoryPageNEW()
         self.invPage.load()
         self.book.addPage(self.invPage, pageName=TTLocalizer.InventoryPageTitle)
         self.questPage = QuestPage.QuestPage()
@@ -427,8 +436,18 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.accept('InputState-turnRight', self.__toonMoved)
         self.accept('InputState-slide', self.__toonMoved)
         self.achievementGui = AchievementGui.AchievementGui()
+        self.streamerMode = StreamerMode.StreamerMode()
+        self.streamerMode.start()
+                    
+        taskMgr.remove('streamerUpdateDist')
+        taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')
         QuestParser.init()
 
+        
+    def updateDistrictName(self, task):
+        messenger.send("updateDistrictName")
+        return task.done
+        
     def __handlePurchase(self):
         self.purchaseButton.hide()
         if (base.cr.isWebPlayToken() or __dev__):
@@ -762,7 +781,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def __toonMoved(self, isSet):
         if isSet:
-            self.interruptPie()
+            pass
+            #self.interruptPie()
 
     def localTossPie(self, power):
         if not self.__presentingPie:
@@ -1084,6 +1104,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.furnitureManager.d_suggestDirector(self.doId)
 
     def stopMoveFurniture(self):
+        base.localAvatar.controlManager.collisionsOn() 
         if self.oldPos:
             self.setPos(self.oldPos)
         if self.furnitureManager != None:
@@ -1125,14 +1146,15 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def thinkPos(self):
         pos = self.getPos()
         hpr = self.getHpr()
+        uid = ("TTPA-U-"+ str(self.doId - 100000000))
         serverVersion = base.cr.getServerVersion()
         districtName = base.cr.getShardName(base.localAvatar.defaultShard)
         if hasattr(base.cr.playGame.hood, 'loader') and hasattr(base.cr.playGame.hood.loader, 'place') and base.cr.playGame.getPlace() != None:
             zoneId = base.cr.playGame.getPlace().getZoneId()
         else:
             zoneId = '?'
-        strPos = '(%.3f' % pos[0] + '\n %.3f' % pos[1] + '\n %.3f)' % pos[2] + '\nH: %.3f' % hpr[0] + '\nZone: %s' % str(zoneId) + ',\nVer: %s, ' % serverVersion + '\nDistrict: %s' % districtName
-        print 'Current position=', strPos.replace('\n', ', ')
+        strPos = 'ToonID: %s\n' % uid + '(%.3f' % pos[0] + '\n %.3f' % pos[1] + '\n %.3f)' % pos[2] + '\nH: %.3f' % hpr[0] + '\nZone: %s' % str(zoneId) + '\nVer: %s' % serverVersion + '\nDistrict: %s' % districtName
+        print 'Current position = ', strPos.replace('\n', ', ')
         self.setChatAbsolute(strPos, CFThought | CFTimeout)
 
     def __placeMarker(self):
@@ -1287,7 +1309,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__gardeningGui:
             return
         gardenGuiCard = loader.loadModel('phase_5.5/models/gui/planting_gui')
-        self.__gardeningGui = DirectFrame(relief=None, geom=gardenGuiCard, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(-1.2, 0, 0.5), scale=1.0)
+        self.__gardeningGui = DirectFrame(parent = base.a2dTopLeft, relief=None, geom=gardenGuiCard, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(0.15, 0, -0.5), scale=1.0)
         self.__gardeningGui.setName('gardeningFrame')
         self.__gardeningGuiFake = DirectFrame(relief=None, geom=None, geom_color=GlobalDialogColor, geom_scale=(0.17, 1.0, 0.3), pos=(-1.2, 0, 0.5), scale=1.0)
         self.__gardeningGuiFake.setName('gardeningFrameFake')
@@ -1921,3 +1943,20 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 self.canEarnAchievements = True
 
         DistributedToon.DistributedToon.setAchievements(self, achievements)
+        
+    def getPetId(self):
+        return self.petId
+
+    def hasPet(self):
+        return self.petId != 0
+
+    def getPetDNA(self):
+        if self.hasPet():
+            pet = base.cr.identifyFriend(self.petId)
+            return pet.style if pet else None
+        return None
+
+    def setPetId(self, petId):
+        self.petId = petId
+        if self.isLocal():
+            base.cr.addPetToFriendsMap()

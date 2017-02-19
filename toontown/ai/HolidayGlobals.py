@@ -1,6 +1,7 @@
 from toontown.toonbase.ToontownGlobals import *
 # [Holiday, Weekday]
 WEEKLY_HOLIDAYS = [
+    [TROLLEY_HOLIDAY, 3] # Thursday
 ]
 
 # [Holiday, begin[Month, Day, Hour, Minute], end[Month, Day, Hour, Minute]]

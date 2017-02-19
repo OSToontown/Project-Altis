@@ -16,7 +16,7 @@ appearSoundFiles = ('MG_tag_1.ogg', 'LB_receive_evidence.ogg', 'm_match_trumpet.
 hitSoundFiles = ('AA_sound_Opera_Singer_Cog_Glass.ogg',)
 tSound = 2.45
 tSuitReact = 2.8
-DISTANCE_TO_WALK_BACK = MovieUtil.SUIT_LURE_DISTANCE * 0.75
+DISTANCE_TO_WALK_BACK = MovieUtil.SUIT_LURE_DISTANCE * -0.75
 TIME_TO_WALK_BACK = 0.5
 if DISTANCE_TO_WALK_BACK == 0:
     TIME_TO_WALK_BACK = 0
@@ -619,7 +619,10 @@ def __doOpera(sound, delay, toon, targets, level):
     tracks.append(megaphoneTrack)
     toonTrack = __createToonInterval(sound, delay, toon, operaInstrument=instrument)
     tracks.append(toonTrack)
-    soundEffect = globalBattleSoundCache.getSound(soundFiles[level])
+    if toon.nametag.getText() == 'Obligatory Unicorn' and toon == sound['npc']:
+        soundEffect = globalBattleSoundCache.getSound('AA_squeeeeeal.ogg')
+    else:
+        soundEffect = globalBattleSoundCache.getSound(soundFiles[level])
     if soundEffect:
         delayTime = delay + tSound - 0.3
         if hasLuredSuits:

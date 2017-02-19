@@ -34,7 +34,7 @@ key = 'g89a1hU0acBrlcru'
 #config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.3.0]
+window-title Project Altis [ALPHA 1.6.3]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -59,11 +59,12 @@ model-cache-textures #f
 default-model-extension .bam
 
 # Performance
-smooth-enable-prediction 1
+smooth-enable-prediction 0
 smooth-enable-smoothing 1
-smooth-lag 0.4
-smooth-max-future 0.4
-smooth-min-suggest-resync 15
+smooth-lag 0.1
+smooth-max-future 0.1
+smooth-min-suggest-resync 1
+
 
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0
@@ -88,6 +89,8 @@ sync-video #f
 texture-power-2 none
 gl-check-errors #f
 garbage-collect-states #f
+loader-num-threads 100
+preload-textures #t
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
@@ -199,9 +202,9 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.3.0
-shard-low-pop 50
-shard-mid-pop 150
+server-version TTPA-Alpha-1.6.3
+shard-low-pop 100
+shard-mid-pop 200
 
 # DC File
 dc-file config/toon.dc
@@ -210,7 +213,6 @@ dc-file config/toon.dc
 model-path /
 
 # Core features:
-want-pets #t
 want-pets #t
 want-parties #f
 want-cogdominiums #t
@@ -236,7 +238,6 @@ io = StringIO.StringIO(config)
 
 vfs = VirtualFileSystem.getGlobalPtr()
 import glob
-print("No Content Packs Detected!")
 print("Loading Default Pack...")
 for file in glob.glob('resources/default/*.mf'):
     mf = Multifile()
