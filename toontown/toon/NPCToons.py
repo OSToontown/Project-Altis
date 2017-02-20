@@ -12285,7 +12285,7 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  3135: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
  2208: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
  5124: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
- #3308: (100, 0, 0, 5),
+ 3308: (100, 0, 0, 5),
  2003: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, -1, 0, 5),
  2126: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.HEAL_TRACK, 0, 3),
  4007: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.TRAP_TRACK, 0, 3),
