@@ -118,13 +118,14 @@ def __doSuitFires(fires):
             showSuitCannon = 0
         else:
             suitList.remove(fire['target'][i]['suit'])
-        tracks = __throwPie(fire, i, delay, hitCount, showSuitCannon)
-        i = i + 1
-        if tracks:
-            for track in tracks:
-                toonTracks.append(track)
+        for x in xrange(len(fire['target'])):
+            tracks = __throwPie(fire, i, delay, hitCount, showSuitCannon)
+            i = i + 1
+            if tracks:
+                for track in tracks:
+                    toonTracks.append(track)
 
-        delay = delay + TOON_THROW_DELAY
+            delay = delay + TOON_THROW_DELAY
 
     return toonTracks
 
