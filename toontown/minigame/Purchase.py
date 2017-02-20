@@ -92,10 +92,10 @@ class Purchase(PurchaseBase):
          (0, 1, 2, 3))
         layout = layoutList[numAvs]
         if settings['newGui']:
-            headFramePosList = (Vec3(-1, 0, 0.35),
+            headFramePosList = (Vec3(-1.5, 0, 0.35),
              Vec3(-0.5, 0, 0.35),
              Vec3(0.5, 0, 0.35),
-             Vec3(1, 0, 0.35))
+             Vec3(1.5, 0, 0.35))
         else:
             headFramePosList = (Vec3(0.105, 0, -0.384),
              Vec3(0.105, 0, -0.776),
