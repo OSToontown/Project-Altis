@@ -104,6 +104,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
         self.trackBonusLevel = [-1, -1, -1, -1, -1, -1, -1, -1]
+        self.inventoryNetString = None
         self.savedCheesyEffect = ToontownGlobals.CENormal
         self.savedCheesyHoodId = 0
         self.savedCheesyExpireTime = 0
@@ -321,12 +322,13 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setInventory(self, inventoryNetString):
         if not self.inventory:
-            if settings['newGui'] == False:
-                self.inventory = InventoryNewOLD.InventoryNewOLD(self, inventoryNetString)
-            else:
-                self.inventory = InventoryNewNEW.InventoryNewNEW(self, inventoryNetString)
+            self.inventory = InventoryNewOLD.InventoryNewOLD(self, inventoryNetString)
         self.inventory.updateInvString(inventoryNetString)
+        self.inventoryString = inventoryNetString
 		
+    def getInventory(self):
+        return self.inventoryString
+
     def notifyExpReward(self, level, type):
         if type == 0:
             self.setSystemMessage(0, TTLocalizer.ExpHPReward % (level+1), WTSystem)
