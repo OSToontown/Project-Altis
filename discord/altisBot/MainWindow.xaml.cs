@@ -47,7 +47,7 @@ namespace discordCSBOT
         public async void startBot()
         {
             _bot = new DiscordClient();
-            await _bot.Connect("MjY3MDE4ODkzNzMyNzQxMTIw.C1GIdw.W46npMbaOd3k-vyaClwym_QI39Q", TokenType.Bot);
+            await _bot.Connect("MjgyOTUwNDU3MDA4MzI0NjEw.C4t9qw.NNLDoRXZ6gC-jeS1yr23au9B0mk", TokenType.Bot);
             List<string> blacklist = File.ReadAllLines(@"blacklist.txt").ToList();
             // Setup Commands
             _bot.UsingCommands(cmd =>
