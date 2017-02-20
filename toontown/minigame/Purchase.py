@@ -64,14 +64,24 @@ class Purchase(PurchaseBase):
         wainTex = loader.loadTexture('phase_%s/maps/wall_paper_b4.jpg' % interiorPhase)
         self.wb.setTexture(wainTex, 100)
         self.wb.setColorScale(0.473, 0.675, 0.488, 1.0)
-        self.playAgain = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.5), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
-         purchaseModels.find('**/PurchScrn_BTN_DN'),
-         purchaseModels.find('**/PurchScrn_BTN_RLVR'),
-         purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopPlayAgain, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handlePlayAgain)
-        self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.8), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
-         purchaseModels.find('**/PurchScrn_BTN_DN'),
-         purchaseModels.find('**/PurchScrn_BTN_RLVR'),
-         purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopBackToPlayground, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handleBackToPlayground)
+        if settings['newGui']:
+            self.playAgain = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.5), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
+             purchaseModels.find('**/PurchScrn_BTN_DN'),
+             purchaseModels.find('**/PurchScrn_BTN_RLVR'),
+             purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopPlayAgain, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handlePlayAgain)
+            self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.8), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
+             purchaseModels.find('**/PurchScrn_BTN_DN'),
+             purchaseModels.find('**/PurchScrn_BTN_RLVR'),
+             purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopBackToPlayground, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handleBackToPlayground)
+        else:
+            self.playAgain = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.24), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
+             purchaseModels.find('**/PurchScrn_BTN_DN'),
+             purchaseModels.find('**/PurchScrn_BTN_RLVR'),
+             purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopPlayAgain, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handlePlayAgain)
+            self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.045), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
+             purchaseModels.find('**/PurchScrn_BTN_DN'),
+             purchaseModels.find('**/PurchScrn_BTN_RLVR'),
+             purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopBackToPlayground, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handleBackToPlayground)
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.hide()
         self.timer.posInTopRightCorner()
