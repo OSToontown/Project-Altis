@@ -55,7 +55,7 @@ Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
 Aura | Pick-A-Toon Concept / Inspiration
 
 \1orangeText\1Special thanks to\2
-Toontown Infinite | Various Resources
+Toontown Infinite | Various Resources and concept for the new battle GUI
 Chandler | DNA Parser | Safely disclosing security issues
 Developers of Panda3D
 Developers of Astron
