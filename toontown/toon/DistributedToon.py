@@ -1680,6 +1680,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
         if hasattr(self, 'gmIcon') and self.gmIcon and self.trophyStar:
             self.trophyStar.setZ(5)
+            
     def __starSpin(self, task):
         now = globalClock.getFrameTime()
         r = now * self.trophyStarSpeed % 360.0
