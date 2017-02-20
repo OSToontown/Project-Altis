@@ -818,6 +818,7 @@ from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
 from toontown.betaevent import DistributedEvent/AI
 from toontown.betaevent import DistributedBetaEvent/AI
+from toontown.betaevent import DistributedBetaEventTTC/AI
 from toontown.weather import DistributedWeatherCycle/AI
 from toontown.weather import DistributedWeatherStorm/AI
 from toontown.club import DistributedToonClub/AI
@@ -3982,6 +3983,9 @@ dclass DistributedEvent : DistributedObject {
 };
 
 dclass DistributedBetaEvent : DistributedEvent {
+};
+
+dclass DistributedBetaEventTTC : DistributedEvent {
 };
 dclass CharityScreen : DistributedObject {
    start() broadcast;

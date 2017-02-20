@@ -28,6 +28,17 @@ class DistributedEventAI(DistributedObjectAI, FSM):
     def getState(self):
         return self.state
         
+        
+        
+@magicWord(category=CATEGORY_PROGRAMMER, types=[str])
+def betaeventttc(state):
+    invoker = spellbook.getInvoker()
+    invasion = simbase.air.betaEventTTC
+    invasion.b_setState(state)
+   
+    return 'betaevent state set to %s.' % state
+
+        
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str])
 def betaevent(state):
     invoker = spellbook.getInvoker()

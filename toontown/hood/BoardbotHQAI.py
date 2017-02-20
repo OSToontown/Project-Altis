@@ -6,6 +6,7 @@ from toontown.hood import CogHQAI
 from toontown.suit import DistributedCashbotBossAI
 from toontown.suit import DistributedSuitPlannerAI
 from toontown.toonbase import ToontownGlobals
+from toontown.betaevent import DistributedBetaEventAI
 
 class BoardbotHQAI(CogHQAI.CogHQAI):
     
@@ -30,6 +31,9 @@ class BoardbotHQAI(CogHQAI.CogHQAI):
             self.createBoardOfficeBoardingParty()
         if simbase.config.GetBool('want-suit-planners', True):
             self.createSuitPlanners()
+        self.event = DistributedBetaEventAI.DistributedBetaEventAI(self.air)
+        self.event.generateWithRequired(self.zoneId)
+        self.event.start()
 
     def createBoardOfficeElevators(self):
         destZones = (

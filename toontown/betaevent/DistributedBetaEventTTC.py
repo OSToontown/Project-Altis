@@ -49,18 +49,26 @@ class DistributedBetaEventTTC(DistributedEvent):
     def delete(self):
         DistributedEvent.delete(self)
         self.prepostera.delete()
-            
+        
     def enterPreEvent(self, timestamp):
-        # If for some reason the cog lab is loaded, unload       
         pass
     
     def exitPreEvent(self):
         pass
+            
+    def enterEvent(self, timestamp):
+        Sequence(
+                 Func(self.toonTalk, "Helloooooooo Toontown!", self.prepostera),
+                 Wait(4),
+                 Func(self.toonTalk, "We gathered you all here today...", self.prepostera),
+                 Wait(4),
+                 Func(self.toonTalk, "To announce the reconstruction and opening of...", self.prepostera),
+                 Wait(5),
+                 Func(self.toonTalk, "Loony La...", self.prepostera),
+                 Wait(3),
+                 Func(self.toonTalk, "It seems like Doctor Dimm is trying to reach me...", self.prepostera)).start()
     
-    def enterGotoHq(self, timestamp):
-        self.prepostera.animFSM.request('TeleportOut')
-    
-    def exitGotoHq(self):
+    def exitEvent(self):
         pass
 
     def enterCogTv(self, timestamp):
@@ -74,6 +82,13 @@ class DistributedBetaEventTTC(DistributedEvent):
         pass
     
     def exitCogTv(self):
+        pass
+    
+    
+    def enterGotoHq(self, timestamp):
+        self.prepostera.animFSM.request('TeleportOut')
+    
+    def exitGotoHq(self):
         pass
     
     def toonTalk(self, phrase, toon):

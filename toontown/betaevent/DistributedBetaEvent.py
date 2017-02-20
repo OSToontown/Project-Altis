@@ -21,12 +21,6 @@ class DistributedBetaEvent(DistributedEvent):
         self.cr = cr
         self.spark = loader.loadSfx('phase_11/audio/sfx/LB_sparks_1.ogg') # i think this could be used somewhere
         
-        # The toon version of Looney Labs - Before it gets taken over
-        self.toonLabs = None
-        
-        # The cog version of Looney Labs - After it gets taken over
-        self.cogLabs = None
-
         # Create prepostera
         self.prepostera = Toon.Toon()
         self.prepostera.setName('Professor Prepostera')
@@ -91,60 +85,12 @@ class DistributedBetaEvent(DistributedEvent):
         DistributedEvent.delete(self)
         self.prepostera.delete()
             
-    def enterPreEvent(self, timestamp):
-        # If for some reason the cog lab is loaded, unload
-        if self.cogLabs:
-            self.cogLabs.removeNode()
-            self.cogLabs = None
-        
-        # Load the toon lab if its not already loaded incase a new player enters
-        if not self.toonLabs:
-            self.loadToonLab()
-       
-        
-    def exitPreEvent(self):
-        pass
+    def enterStartBd(self, timestamp):
+        self.prepostera.animFSM.request('TeleportIn')
     
-    def enterAnnouncement(self, timestamp):
-        """
-        Announcing looney labs's renovation
-        """
-        # If for some reason the cog lab is loaded, unload
-        if self.cogLabs:
-            self.cogLabs.removeNode()
-            self.cogLabs = None
-        
-        # Load the toon lab if its not already loaded incase a new player enters
-        if not self.toonLabs:
-            self.loadToonLab()
-        
-        Sequence(
-                    Func(self.prepostera.setChatAbsolute, 'Greetings Toons of the world!', CFSpeech|CFTimeout),
-                    Wait(3),
-                    Func(self.prepostera.setChatAbsolute, 'Today, we are proud to announce...', CFSpeech|CFTimeout),
-                    Wait(3),
-                    Func(self.prepostera.setChatAbsolute, 'The renovation and public opening of...', CFSpeech|CFTimeout),
-                    Wait(4),
-                    Func(self.prepostera.setChatAbsolute, 'Looney Labs!', CFSpeech|CFTimeout),
-                    Wait(2),
-                 ).start()
-        
-    def exitAnnouncement(self):
+    def exitStartBd(self):
         pass
 
-    def enterCogTv(self, timestamp):
-        # Todo: Make the models and make the tv code.
-        '''
-        self.cogTvModel = None
-        self.cogTvModel.setPosHpr(0, 0, 0, 0, 0, 0) 
-        self.cogTv = CogTV.CogTV
-        self.cogTv.setScreen("Introduction")
-        '''
-        pass
-    
-    def exitCogTv(self):
-        pass
-    
     def enterCogInvade(self, timestamp):
         self.headHoncho1.setPosHpr(0, 0, 0, 0, 0, 0)
         self.headHoncho1.show()
@@ -168,7 +114,7 @@ class DistributedBetaEvent(DistributedEvent):
         self.middleman1.show()
         self.middleman2.show()
         Sequence(
-                 Func(self.headHoncho1.setChatAbsolute, 'I hear you are opening Looney Labs...', CFSpeech|CFTimeout),
+                 Func(self.headHoncho1.setChatAbsolute, 'I hear you wanted to open Loony Labs...', CFSpeech|CFTimeout),
                  Wait(4),
                  Parallel(
                           self.middleman1.beginSupaFlyMove(Vec3(-8, -4, 1), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
@@ -180,28 +126,14 @@ class DistributedBetaEvent(DistributedEvent):
                                 Func(self.middleman1.loop, 'walk'),
                                 self.middleman1.hprInterval(2, VBase3(-90, 0, 0)),
                                 Func(self.middleman1.loop, 'neutral')),
-                          Func(self.headHoncho1.setChatAbsolute, "Well let's see about that", CFSpeech|CFTimeout))
+                          Func(self.headHoncho1.setChatAbsolute, "How well did that go for you?", CFSpeech|CFTimeout))
                  ).start()
                  
     def exitCogTalk(self):
         pass
     
     def enterCogTakeover(self, timestamp):
-        """
-        Cogs take over looney labs
-        - Fade screen to black
-        - Delete looney labs model and replace it with the Cog version of looney labs
-        - AI will create suit planner
-        - Screen unfades
-        """
-        # Unload the toon labs if its loaded
-        if self.toonLabs:
-            self.toonLabs.removeNode()
-            self.toonLabs = None
-        
-        # Load the cog lab if its not already loaded incase a new player enters
-        if not self.cogLabs:
-            self.loadCogLab()
+        pass
     
     def exitCogTakeover(self):
         pass
@@ -217,24 +149,4 @@ class DistributedBetaEvent(DistributedEvent):
     def toonTalk(self, phrase, toon):
         toon.setChatAbsolute(phrase, CFSpeech|CFTimeout)
         
-    def loadToonLab(self):
-        # After the model is loaded, spawn it in
-        def spawnToonLab(*args):
-            self.toonLabs = args[0]
-            self.toonLabs.reparentTo(render)
-            self.toonLabs.setPos(0, -140, -60.3)
-        
-        # Asynchronously load the model to not lag the game
-        asyncloader.loadModel('phase_14/models/looneylabs/temp_observatory', callback = spawnToonLab) # TODO: Models
-        pass
-        
-    def loadCogLab(self):
-        # After the model is loaded, spawn it in
-        def spawnCogLab(*args):
-            self.cogLabs = args[0]
-            self.cogLabs.reparentTo(render)
-        
-        # Asynchronously load the model to not lag the game
-        #asyncloader.loadModel('phase_14/models/looneylabs/looney_labs_cog', callback = spawnCogLab) # TODO: Models
-        pass
         

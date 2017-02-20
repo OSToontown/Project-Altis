@@ -79,6 +79,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.boardofficeMgr = None
         self.startTime = startTime
         self.isRaining = False
+        self.betaEventTTC = None
+        self.betaEventBDHQ = None
 
         import pymongo
         

@@ -9,6 +9,7 @@ class DistributedBetaEventAI(DistributedEventAI):
     def __init__(self, air):
         DistributedEventAI.__init__(self, air)
         self.air = air
+        self.air.betaEventBDHQ = self
 
     def start(self):
         DistributedEventAI.start(self)
@@ -19,24 +20,12 @@ class DistributedBetaEventAI(DistributedEventAI):
             if str(doId)[:2] == '10':
                 player = simbase.air.doId2do.get(doId)
                 player.d_setSystemMessage(0, text)
-
-    def enterPreEvent(self):
-        pass
-
-    def exitPreEvent(self):
+                
+    def enterStartBd(self):
         pass
     
-    def enterAnnouncement(self):
-        pass
-    
-    def exitAnnouncement(self):
-        pass
-        
-    def enterCogTv(self):
-        pass
-        
-    def exitCogTv(self):
-        pass
+    def exitStartBd(self):
+        pass    
     
     def enterCogInvade(self):
         pass
