@@ -79,7 +79,7 @@ class TownBattleAttackPanel(StateData.StateData):
         elif viaKeyboard is True:
             pass
         else:
-            self.notify.error("An item we don't have: track %s level %s was selected." % [track, level])
+            self.notify.warning("An item we don't have: track %s level %s was selected." % [track, level])
 
     def __handleHide(self):
         if AttackPanelHidden:
