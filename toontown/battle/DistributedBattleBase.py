@@ -83,7 +83,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.adjustFsm = ClassicFSM.ClassicFSM('Adjust', [State.State('Adjusting', self.enterAdjusting, self.exitAdjusting, ['NotAdjusting']), State.State('NotAdjusting', self.enterNotAdjusting, self.exitNotAdjusting, ['Adjusting'])], 'NotAdjusting', 'NotAdjusting')
         self.adjustFsm.enterInitialState()
         self.interactiveProp = None
-        self.fireCount = 0
 
     def uniqueBattleName(self, name):
         DistributedBattleBase.id += 1
@@ -1486,9 +1485,3 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def getCollisionName(self):
         return 'enter' + self.lockoutNodePath.getName()
-
-    def setFireCount(self, amount):
-        self.fireCount = amount
-
-    def getFireCount(self):
-        return self.fireCount
