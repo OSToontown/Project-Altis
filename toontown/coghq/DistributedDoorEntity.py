@@ -1,17 +1,11 @@
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
+from direct.fsm import FourState, ClassicFSM, State
+from otp.level import DistributedEntity, VisibilityBlocker, BasicEntities
 from toontown.coghq import DistributedDoorEntityBase
-from direct.fsm import FourState
-from direct.fsm import ClassicFSM
-from otp.level import DistributedEntity
-from toontown.toonbase import TTLocalizer
-from otp.level import BasicEntities
-from direct.fsm import State
-from otp.level import VisibilityBlocker
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 
 class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.LockBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedDoorEntityLock')
@@ -25,6 +19,7 @@ class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.L
         self.leftNodePath = leftNodePath
         self.rightNodePath = rightNodePath
         self.stateIndex = stateIndex
+        self.states = []
         FourState.FourState.__init__(self, self.stateNames, self.stateDurations)
 
     def delete(self):
@@ -48,10 +43,13 @@ class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.L
 
     def setLockState(self, stateIndex):
         if not hasattr(self, 'stateIndex'):
-            self.notify.warning("No State Index Defined!")
-            return
-        if getattr(self, 'stateIndex') != stateIndex:
+            self.notify.debug("No State Index Defined!")
+            self.stateIndex = 0
+        if self.stateIndex != stateIndex:
             state = self.states.get(stateIndex)
+            if state is None:
+                self.notify.warning("A State was not initlized when trying to be called!")
+                return
             if state is not None:
                 self.fsm.request(state)
 
@@ -85,8 +83,8 @@ class DistributedDoorEntityLock(FourState.FourState, DistributedDoorEntityBase.L
         self.setTrack(Sequence(Wait(beat * 2), Parallel(SoundInterval(unlockSfx, node=self.door.node, volume=0.8), 
             SoundInterval(slideSfx, node=self.door.node, volume=0.8), Sequence(HideInterval(self.lockedNodePath), 
                 ShowInterval(self.leftNodePath), ShowInterval(self.rightNodePath), Parallel(LerpPosInterval(nodePath=self.leftNodePath, 
-                    other=self.lockedNodePath, duration=beat * 16, pos=self.slideLeft, blendType='easeOut'), LerpPosInterval(nodePath=self.rightNodePath, 
-                    other=self.lockedNodePath, duration=beat * 16, pos=self.slideRight, blendType='easeOut')), HideInterval(self.leftNodePath), 
+                    other=self.lockedNodePath, duration=beat * 16.0, pos=self.slideLeft, blendType='easeOut'), LerpPosInterval(nodePath=self.rightNodePath, 
+                    other=self.lockedNodePath, duration=beat * 16.0, pos=self.slideRight, blendType='easeOut')), HideInterval(self.leftNodePath), 
                 HideInterval(self.rightNodePath)))))
 
     def enterState4(self):
@@ -202,9 +200,15 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
         messenger.send(self.getOutputEventName(), [not isOn])
 
     def setLocksState(self, stateBits):
-        lock0 = stateBits & 15
-        lock1 = (stateBits & 240) >> 4
-        lock2 = (stateBits & 3840) >> 8
+        if len(stateBits) >= 3:
+            lock0 = stateBits[0]
+            lock1 = stateBits[1]
+            lock2 = stateBits[2]
+        else:
+            lock0 = 3
+            lock1 = 3
+            lock2 = 3
+        self.notify.debug("%d, %d, %d" % (lock0, lock1, lock2))
         if self.isGenerated():
             self.locks[0].setLockState(lock0)
             self.locks[1].setLockState(lock1)
@@ -269,8 +273,6 @@ class DistributedDoorEntity(DistributedEntity.DistributedEntity, FourState.FourS
             del self.initialLock0StateIndex
             del self.initialLock1StateIndex
             del self.initialLock2StateIndex
-            
-            self.notify.info(str(self.locks))
 
             door = doorway.find('doortop')
             if door.isEmpty():

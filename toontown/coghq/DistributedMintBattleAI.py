@@ -51,10 +51,9 @@ class DistributedMintBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI)
         self.bossDefeated = 1
         self.level.setVictors(self.activeToons[:])
         self.timer.startCallback(BUILDING_REWARD_TIMEOUT, self.serverRewardDone)
-        return None
 
     def exitMintReward(self):
-        return None
+        pass
 
     def enterResume(self):
         DistributedLevelBattleAI.DistributedLevelBattleAI.enterResume(self)

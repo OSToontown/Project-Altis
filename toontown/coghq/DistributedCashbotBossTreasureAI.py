@@ -3,6 +3,7 @@ from toontown.safezone import TreasureGlobals
 
 class DistributedCashbotBossTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
 
+
     def __init__(self, air, boss, goon, style, fx, fy, fz):
         pos = goon.getPos()
         type = TreasureGlobals.SafeZoneTreasureSpawns[style][0]
@@ -57,4 +58,3 @@ class DistributedCashbotBossTreasureAI(DistributedTreasureAI.DistributedTreasure
 
     def d_setFinalPosition(self, x, y, z):
         self.sendUpdate('setFinalPosition', [x, y, z])
-

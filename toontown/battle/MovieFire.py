@@ -34,8 +34,10 @@ def doFires(fires):
         return (None, None)
 
     suitFiresDict = {}
+    i = 0
     for fire in fires:
-        suitId = fire['target']['suit'].doId
+        suitId = fire['target'][i]['suit'].doId
+        i = i + 1
         if suitId in suitFiresDict:
             suitFiresDict[suitId].append(fire)
         else:
@@ -53,16 +55,18 @@ def doFires(fires):
     totalHitDict = {}
     singleHitDict = {}
     groupHitDict = {}
-
+    
+    i = 0
     for fire in fires:
-        suitId = fire['target']['suit'].doId
+        suitId = fire['target'][i]['suit'].doId
         if 1:
-            if fire['target']['hp'] > 0:
+            if fire['target'][i]['hp'] > 0:
                 addHit(singleHitDict, suitId, 1)
                 addHit(totalHitDict, suitId, 1)
             else:
                 addHit(singleHitDict, suitId, 0)
                 addHit(totalHitDict, suitId, 0)
+            i = i + 1
 
     notify.debug('singleHitDict = %s' % singleHitDict)
     notify.debug('groupHitDict = %s' % groupHitDict)
@@ -92,24 +96,30 @@ def __doSuitFires(fires):
     toonTracks = Parallel()
     delay = 0.0
     hitCount = 0
+    i = 0
     for fire in fires:
-        if fire['target']['hp'] > 0:
+        if fire['target'][i]['hp'] > 0:
             hitCount += 1
+            i = i + 1
         else:
             break
 
     suitList = []
+    i = 0
     for fire in fires:
-        if fire['target']['suit'] not in suitList:
-            suitList.append(fire['target']['suit'])
+        if fire['target'][i]['suit'] not in suitList:
+            suitList.append(fire['target'][i]['suit'])
+        i = i + 1
 
+    i = 0
     for fire in fires:
         showSuitCannon = 1
-        if fire['target']['suit'] not in suitList:
+        if fire['target'][i]['suit'] not in suitList:
             showSuitCannon = 0
         else:
-            suitList.remove(fire['target']['suit'])
-        tracks = __throwPie(fire, delay, hitCount, showSuitCannon)
+            suitList.remove(fire['target'][i]['suit'])
+        tracks = __throwPie(fire, i, delay, hitCount, showSuitCannon)
+        i = i + 1
         if tracks:
             for track in tracks:
                 toonTracks.append(track)
@@ -227,12 +237,13 @@ def __getSoundTrack(level, hitSuit, node = None):
     return throwTrack
 
 
-def __throwPie(throw, delay, hitCount, showCannon = 1):
+def __throwPie(throw, i, delay, hitCount, showCannon = 1):
     toon = throw['toon']
     if 'npc' in throw:
         toon = throw['npc']
     hpbonus = throw['hpbonus']
     target = throw['target']
+    target = target[i]
     suit = target['suit']
     hp = target['hp']
     kbbonus = target['kbbonus']
@@ -328,7 +339,7 @@ def __throwPie(throw, delay, hitCount, showCannon = 1):
         soundCogPanic = base.loader.loadSfx('phase_5/audio/sfx/ENC_cogafssm.ogg')
         playSoundCogPanic = SoundInterval(soundCogPanic, node=cannonHolder)
         reactIval = Parallel(ActorInterval(suit, 'pie-small-react'), Sequence(Wait(0.0), LerpPosInterval(cannonHolder, 2.0, posFinal, startPos=posInit, blendType='easeInOut'), Parallel(LerpHprInterval(barrel, 0.6, Point3(0, 45, 0), startHpr=Point3(0, 90, 0), blendType='easeIn'), playSoundCannonAdjust), Wait(2.0), Parallel(LerpHprInterval(barrel, 0.6, Point3(0, 90, 0), startHpr=Point3(0, 45, 0), blendType='easeIn'), playSoundCannonAdjust), LerpPosInterval(cannonHolder, 1.0, posInit, startPos=posFinal, blendType='easeInOut')), Sequence(Wait(0.0), Parallel(ActorInterval(suit, 'flail'), suit.scaleInterval(1.0, suitScale), LerpPosInterval(suit, 0.25, Point3(0, -1.0, 0.0)), Sequence(Wait(0.25), Parallel(playSoundCogPanic, LerpPosInterval(suit, 1.5, Point3(0, -deep, 0.0), blendType='easeIn')))), Wait(2.5), Parallel(playSoundBomb, playSoundFly, Sequence(Func(smoke.show), Parallel(LerpScaleInterval(smoke, 0.5, 3), LerpColorScaleInterval(smoke, 0.5, Vec4(2, 2, 2, 0))), Func(smoke.hide)), Sequence(Func(kapow.show),
-ActorInterval(kapow, 'kapow'), Func(kapow.hide)), LerpPosInterval(suit, 3.0, Point3(0, 150.0, 0.0)), suit.scaleInterval(3.0, 0.01)), Func(suit.hide)))
+        ActorInterval(kapow, 'kapow'), Func(kapow.hide)), LerpPosInterval(suit, 3.0, Point3(0, 150.0, 0.0)), suit.scaleInterval(3.0, 0.01)), Func(suit.hide)))
         if hitCount == 1:
             sival = Sequence(Parallel(reactIval, MovieUtil.createSuitStunInterval(suit, 0.3, 1.3)), Wait(0.0), Func(cannonHolder.remove))
         else:

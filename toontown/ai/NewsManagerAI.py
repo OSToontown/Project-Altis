@@ -25,6 +25,8 @@ class NewsManagerAI(DistributedObjectAI):
             self.air.suitInvasionManager.notifyInvasionBulletin(avatar.getDoId())
         if self.air.holidayManager.isHolidayRunning(MORE_XP_HOLIDAY):
             self.sendUpdateToAvatarId(avatar.getDoId(), 'setMoreXpHolidayOngoing', [])
+        if self.air.holidayManager.isHolidayRunning(TROLLEY_HOLIDAY):
+            self.sendUpdateToAvatarId(avatar.getDoId(), 'holidayNotify', [])
         if self.air.holidayManager.isHolidayRunning(CIRCUIT_RACING_EVENT):
             self.sendUpdateToAvatarId(avatar.getDoId(), 'startHoliday', [CIRCUIT_RACING_EVENT])
         if self.air.holidayManager.isHolidayRunning(HYDRANT_ZERO_HOLIDAY):
@@ -65,6 +67,9 @@ class NewsManagerAI(DistributedObjectAI):
 
     def setTrolleyWeekendStart(self):
         self.sendUpdate('setTrolleyWeekendStart', [])
+        
+    def setTrolleyWeekendOngoing(self):
+        self.sendUpdate('setTrolleyWeekendOngoing', [])
 
     def setTrolleyWeekendEnd(self):
         self.sendUpdate('setTrolleyWeekendEnd', [])
@@ -134,6 +139,9 @@ class NewsManagerAI(DistributedObjectAI):
 
     def sendSystemMessage(self, message, style):
         self.sendUpdate('sendSystemMessage', [message, style])
+        
+    def sendSystemMessageToAvatar(self, avatar, message, style):
+        self.sendUpdateToAvatarId(avatar.getDoId(), 'sendSystemMessage', [message, style])
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def startHoliday(holidayId):

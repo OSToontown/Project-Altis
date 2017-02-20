@@ -5,7 +5,9 @@ from toontown.estate.DistributedMailboxAI import DistributedMailboxAI
 from toontown.building import DoorTypes
 from toontown.catalog.CatalogItemList import CatalogItemList
 from otp.ai.MagicWordGlobal import *
+from toontown.estate import HouseGlobals
 from toontown.catalog.CatalogFurnitureItem import *
+from toontown.estate.DistributedGardenAI import DistributedGardenAI
 from toontown.catalog.CatalogItem import Customization, WindowPlacement, Location
 
 class DistributedHouseAI(DistributedObjectAI):
@@ -22,6 +24,7 @@ class DistributedHouseAI(DistributedObjectAI):
         self.housePos = 0
         self.gender = 1
         self.isInteriorInitialized = 1
+        self.garden = None
 
         self.atticItems = CatalogItemList(store=Customization)
         self.interiorItems = CatalogItemList(store=Customization)
@@ -60,8 +63,11 @@ class DistributedHouseAI(DistributedObjectAI):
             self.interior.initialize()
             self.b_setInteriorInitialized(1)
 
-        self.sendUpdate('setHouseReady', [])
+        if self.air.wantGardening:
+            self.garden = DistributedGardenAI(self.air)
+            self.garden.generateWithRequired(self.zoneId)
 
+        self.sendUpdate('setHouseReady', [])
 
     def delete(self):
         self.door.requestDelete()
@@ -69,6 +75,10 @@ class DistributedHouseAI(DistributedObjectAI):
         self.interior.requestDelete()
         if self.avatarId:
             self.mailbox.requestDelete()
+
+        if self.garden:
+            self.garden.requestDelete()
+        
         self.air.deallocateZone(self.interiorZone)
         DistributedObjectAI.delete(self)
 
@@ -105,7 +115,7 @@ class DistributedHouseAI(DistributedObjectAI):
         self.sendUpdate('setGardenPos', [pos])
 
     def b_setGardenPos(self, pos):
-        self.setGardenPow(pos)
+        self.setGardenPos(pos)
         self.d_setGardenPos(pos)
 
     def getGardenPos(self):
@@ -290,6 +300,7 @@ class DistributedHouseAI(DistributedObjectAI):
                         break
         else:
             self.atticItems.append(item)
+        
         self.d_setAtticItems(self.atticItems.getBlob())
         self.d_setInteriorItems(self.interiorItems.getBlob())
         self.interior.furnitureManager.loadFromHouse()
@@ -305,3 +316,14 @@ class DistributedHouseAI(DistributedObjectAI):
         self.atticWallpaper.append(item)
         self.d_setAtticWallpaper(self.atticWallpaper.getBlob())
         self.interior.furnitureManager.loadFromHouse()
+        
+    def placeStarterGarden(self):
+        av = self.air.doId2do.get(self.avatarId)
+        if not av:
+            return
+        
+        # Check if they already have a garden
+        if av.getGardenStart():
+            self.notify.warning("%s started a garden, but they already had one!" % self.avatarId)
+            return
+        pass # TODO

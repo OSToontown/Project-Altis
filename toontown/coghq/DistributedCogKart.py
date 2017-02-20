@@ -26,7 +26,6 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
         self.leftDoor = None
         self.rightDoor = None
         self.fillSlotTrack = None
-        return
 
     def generate(self):
         DistributedElevatorExt.DistributedElevatorExt.generate(self)
@@ -71,7 +70,6 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
     def setBldgDoId(self, bldgDoId):
         self.bldg = None
         self.setupElevatorKart()
-        return
 
     def setupElevatorKart(self):
         collisionRadius = ElevatorConstants.ElevatorData[self.type]['collRadius']
@@ -235,7 +233,6 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
             track.start()
             self.fillSlotTrack = track
             self.boardedAvIds[avId] = None
-        return
 
     def generateToonJumpTrack(self, av, seatIndex):
         av.pose('sit', 47)
@@ -320,7 +317,6 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
                 del self.boardedAvIds[avId]
         else:
             self.notify.warning('toon: ' + str(avId) + " doesn't exist, and" + ' cannot exit the elevator!')
-        return
 
     def generateToonReverseJumpTrack(self, av, seatIndex):
         self.notify.debug('av.getH() = %s' % av.getH())

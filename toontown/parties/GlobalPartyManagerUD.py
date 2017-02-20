@@ -350,8 +350,11 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
 
         # now format the pubPartyInfo
         actIds = []
-        for activity in self.id2Party[partyId]['activities']:
-            actIds.append(activity[0])
+        try:
+            for activity in self.id2Party[partyId]['activities']:
+                actIds.append(activity[0])
+        except:
+            pass
         info = [party['shardId'], party['zoneId'], party['numGuests'], party['hostName'], actIds, 0]
         hostId = self.id2Party[party['partyId']]['hostId']
         # send update to client's gate

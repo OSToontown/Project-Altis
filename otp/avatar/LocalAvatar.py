@@ -612,7 +612,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             camera.setPos(savePos)
             camera.setHpr(saveHpr)
             taskMgr.remove('posCamera')
-            self.cameraLerp = LerpPosHprInterval(camera, time, Point3(x, y, z), Point3(h, p, r), other=self, name='posCamera')
+            self.cameraLerp = LerpPosHprInterval(camera, time, Point3(x, y, z), Point3(h, p, r), other=self, blendType = 'easeInOut', name='posCamera')
             self.cameraLerp.start()
 
     def getClampedAvatarHeight(self):
@@ -1001,7 +1001,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastMoved = globalClock.getFrameTime()
         if self.sleepFlag:
             self.sleepFlag = 0
-        return
 
     def gotoSleep(self):
         if self.neverSleep:
@@ -1187,12 +1186,14 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
                 self.oldFriendsList.append(doId)
                 return
         if friend != None:
-            self.setSystemMessage(doId, OTPLocalizer.WhisperFriendComingOnline % friend.getName())
+            if base.wantFriendStatusMessagse:
+                self.setSystemMessage(doId, OTPLocalizer.WhisperFriendComingOnline % friend.getName())
 
     def __friendOffline(self, doId):
         friend = base.cr.identifyFriend(doId)
         if friend != None:
-            self.setSystemMessage(0, OTPLocalizer.WhisperFriendLoggedOut % friend.getName())
+            if base.wantFriendStatusMessagse:
+                self.setSystemMessage(0, OTPLocalizer.WhisperFriendLoggedOut % friend.getName())
 
     def __playerOnline(self, playerId):
         playerInfo = base.cr.playerFriendsManager.playerId2Info[playerId]

@@ -32,23 +32,44 @@ class DNAStreet(DNANode.DNANode):
     def getCode(self):
         return self.code
         
+    def setCode(self, code):
+        self.code = str(code)
+        
     def getStreetTexture(self):
         return self.streetTexture
+        
+    def setStreetTexture(self, texture):
+        self.streetTexture = str(texture)
         
     def getSidewalkTexture(self):
         return self.sideWalkTexture
         
+    def setSidewalkTexture(self, texture):
+        self.sideWalkTexture = str(texture)
+        
     def getCurbTexture(self):
         return self.curbTexture
+        
+    def setCurbTexture(self, texture):
+        self.curbTexture = str(texture)
         
     def getStreetColor(self):
         return self.streetColor
         
+    def setStreetColor(self, color):
+        self.streetColor = LVector4f(int(color))
+        
     def getSidewalkColor(self):
         return self.sidewalkColor
         
+    def setSidewalkColor(self, color):
+        self.sidewalkColor = LVector4f(int(color))
+        
     def getCurbColor(self):
         return self.curbColor
+        
+    def setCurbColor(self, color):
+        self.curbColor = LVector4f(int(color))
 
     def makeFromDGI(self, dgi, store):
         DNANode.DNANode.makeFromDGI(self, dgi, store)

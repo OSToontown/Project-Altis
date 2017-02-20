@@ -52,7 +52,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def announceGenerate(self):
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
-        base.cr.forbidCheesyEffects(1)
         self.setName(TTLocalizer.CashbotBossName)
         nameInfo = TTLocalizer.BossCogNameWithDept % {'name': self.name,
          'dept': SuitDNA.getDeptFullname(self.style.dept)}
@@ -91,7 +90,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def disable(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.disable(self)
-        base.cr.forbidCheesyEffects(0)
         self.demand('Off')
         self.unloadEnvironment()
         self.__cleanupResistanceToon()
@@ -872,11 +870,13 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.storeInterval(seq, intervalName)
         self.__showResistanceToon(False)
         taskMgr.add(self.__doPhysics, self.uniqueName('physics'), priority=25)
+        base.playMusic(self.battleThreeMusic, looping=1, volume=0.9)
 
     def __beginBattleThree(self):
         intervalName = 'PrepareBattleThreeMovie'
         self.clearInterval(intervalName)
         self.doneBarrier('PrepareBattleThree')
+        self.battleThreeMusic.stop()
 
     def exitPrepareBattleThree(self):
         intervalName = 'PrepareBattleThreeMovie'

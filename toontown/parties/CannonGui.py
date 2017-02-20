@@ -20,7 +20,6 @@ class CannonGui(DirectObject):
         self.downPressed = 0
         self.__aimPad = None
         self.__timerPad = None
-        return
 
     def load(self):
         if self.__loaded:
@@ -46,7 +45,6 @@ class CannonGui(DirectObject):
         bindButton(self.leftButton, self.__leftPressed, self.__leftReleased)
         bindButton(self.rightButton, self.__rightPressed, self.__rightReleased)
         self.__loaded = True
-        return
 
     def unload(self):
         self.ignoreAll()

@@ -44,7 +44,6 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
             self.boss.heldObject = None
             self.avoidHelmet = 1
             self.boss.waitForNextHelmet()
-        return
 
     def requestInitial(self):
         avId = self.air.getAvatarIdFromSender()
