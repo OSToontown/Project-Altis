@@ -42,6 +42,7 @@ from toontown.shtiker import FishPage
 from toontown.shtiker import GardenPage
 from toontown.shtiker import GolfPage
 from toontown.shtiker import InventoryPageOLD
+from toontown.shtiker import InventoryPageNEW
 from toontown.shtiker import KartPage
 from toontown.shtiker import MapPage
 from toontown.shtiker import NPCFriendPage
@@ -54,6 +55,7 @@ from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
+import StreamerMode
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -177,6 +179,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.physControls.event.addAgainPattern('again%in')
         self.oldPos = None
         self.questMap = None
+        self.streamerMode = None
         self.prevToonIdx = 0
 
     def setDNA(self, dna):
@@ -323,6 +326,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__piePowerMeter:
             self.__piePowerMeter.destroy()
             self.__piePowerMeter = None
+        if self.streamerMode:
+            self.streamerMode.stop()
+            del self.streamerMode
         taskMgr.remove('unlockGardenButtons')
         if self.__lerpFurnitureButton:
             self.__lerpFurnitureButton.finish()
@@ -427,8 +433,18 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.accept('InputState-turnRight', self.__toonMoved)
         self.accept('InputState-slide', self.__toonMoved)
         self.achievementGui = AchievementGui.AchievementGui()
+        self.streamerMode = StreamerMode.StreamerMode()
+        self.streamerMode.start()
+                    
+        taskMgr.remove('streamerUpdateDist')
+        taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')
         QuestParser.init()
 
+        
+    def updateDistrictName(self, task):
+        messenger.send("updateDistrictName")
+        return task.done
+        
     def __handlePurchase(self):
         self.purchaseButton.hide()
         if (base.cr.isWebPlayToken() or __dev__):

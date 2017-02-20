@@ -4589,7 +4589,7 @@ def allSummons():
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str])
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
 def maxToon(missingTrack=None):
     """
     Max the target's stats for end-level gameplay.
@@ -4714,7 +4714,7 @@ def unlocks():
 
     return 'Unlocked teleport access, emotions, and pet trick phrases!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int, str])
+@magicWord(category=CATEGORY_MODERATOR, types=[int, str])
 def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
@@ -4736,7 +4736,7 @@ def sos(count, name):
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
 def unites(value=32767):
     """
     Restock all resistance messages.
@@ -4746,7 +4746,7 @@ def unites(value=32767):
     invoker.restockAllResistanceMessages(value)
     return 'Restocked %d unites!' % value
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
 def fires(count):
     """
     Modifies the invoker's pink slip count.

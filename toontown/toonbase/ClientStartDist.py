@@ -34,7 +34,7 @@ key = 'g89a1hU0acBrlcru'
 #config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.6.1]
+window-title Project Altis [ALPHA 1.6.3]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -202,9 +202,9 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.6.1
-shard-low-pop 50
-shard-mid-pop 150
+server-version TTPA-Alpha-1.6.3
+shard-low-pop 100
+shard-mid-pop 200
 
 # DC File
 dc-file config/toon.dc
@@ -213,7 +213,6 @@ dc-file config/toon.dc
 model-path /
 
 # Core features:
-want-pets #t
 want-pets #t
 want-parties #f
 want-cogdominiums #t
@@ -239,15 +238,7 @@ io = StringIO.StringIO(config)
 
 vfs = VirtualFileSystem.getGlobalPtr()
 import glob
-print("No Content Packs Detected!")
-print("Loading Default Pack...")
-for file in glob.glob('resources/default/*.mf'):
-    mf = Multifile()
-    mf.openReadWrite(Filename(file))
-    names = mf.getSubfileNames()
-    vfs.mount(mf, Filename('/'), 0)
-    print('Successfully Mounted:' + file[13:])
-print("Default Pack Loaded!")
+
 
 for line in io.readlines():
     # check if the current line is a comment...

@@ -202,7 +202,7 @@ def doEffect(textId, speakingToon, nearbyToons):
             recolorToons.append(i)
     i = Parallel(
         ParticleInterval(effect, speakingToon, worldRelative=0, duration=3, cleanup=True),
-        Sequence(Wait(0.2), recolorToons),
+        #Sequence(Wait(0.2), recolorToons),
         autoFinish=1
     )
     i.start()

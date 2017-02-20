@@ -169,6 +169,13 @@ class BattleCalculatorAI:
             elif treebonus or propBonus:
                 self.notify.debug('using oragnic OR prop bonus lure accuracy')
                 propAcc = AvLureBonusAccuracy[atkLevel]
+        if atkTrack == ZAP:
+            for tgt in atkTargets:
+                if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
+                    propAcc += 20
+                    break
+                else:
+                    continue
         attackAcc = propAcc + trackExp + tgtDef
         currAtk = self.toonAtkOrder.index(attackIndex)
         if currAtk > 0 and atkTrack != HEAL:
@@ -497,8 +504,8 @@ class BattleCalculatorAI:
                         if self.__isWet(targetId) or self.__isRaining(toon):
                             if random.randint(0,99) <= InstaKillChance[atkLevel]:
                                 suit = self.battle.findSuit(targetId)
-                                if suit.getHP() > 500:
-                                    attackDamage = 500
+                                if suit.getHP() > 350:
+                                    attackDamage = 350
                                 else:
                                     suit.b_setSkeleRevives(0)
                                     attackDamage = suit.getHP()
@@ -656,9 +663,12 @@ class BattleCalculatorAI:
             return False
 	   
     def checkIfStreetZone(self, toon):
-        if ZoneUtil.getWhereName(toon.zoneId, True) == 'street':
-            return True
-        else:
+	try:
+            if ZoneUtil.getWhereName(toon.zoneId, True) == 'street':
+                return True
+            else:
+                return False
+	except:
             return False
     
     def __attackDamageForTgt(self, attack, tgtPos, suit = 0):

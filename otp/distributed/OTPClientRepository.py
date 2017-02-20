@@ -1479,7 +1479,13 @@ class OTPClientRepository(ClientRepositoryBase):
         
         localAvatar.setLeftDistrict()
         self.removeShardInterest(self._handleOldShardGone)
-
+        taskMgr.remove('streamerUpdateDist')
+        taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')
+        
+    def updateDistrictName(self, task):
+        messenger.send("updateDistrictName")
+        return task.done
+        
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def _handleOldShardGone(self):
         self.gameFSM.request('waitOnEnterResponses', self._switchShardParams)

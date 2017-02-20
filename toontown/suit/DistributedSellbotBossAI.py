@@ -19,6 +19,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     hitCountDamage = 35
     numPies = 50
     blacklistedFriends = [91917, 3308]
+    aprilToonsFriends = [91918]
 
     def __init__(self, air):
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
@@ -29,6 +30,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.recoverRate = 0
         self.recoverStartTime = 0
         self.nerfed = ToontownGlobals.SELLBOT_NERF_HOLIDAY in simbase.air.holidayManager.currentHolidays
+        if not ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays:
+            self.blacklistedFriends.append(self.aprilToonsFriends)
 
     def delete(self):
         return DistributedBossCogAI.DistributedBossCogAI.delete(self)
