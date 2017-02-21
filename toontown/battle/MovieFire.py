@@ -35,9 +35,17 @@ def doFires(fires):
 
     suitFiresDict = {}
     i = 0
+    try:
+        attempt = fires[0]['target'][i]['suit']
+        doAdd = True
+    except:
+        doAdd = False
     for fire in fires:
-        suitId = fire['target'][i]['suit'].doId
-        i = i + 1
+        if doAdd:
+            suitId = fire['target'][i]['suit'].doId
+            i = i + 1
+        else:
+            suitId = fire['target']['suit'].doId
         if suitId in suitFiresDict:
             suitFiresDict[suitId].append(fire)
         else:
@@ -58,15 +66,26 @@ def doFires(fires):
     
     i = 0
     for fire in fires:
-        suitId = fire['target'][i]['suit'].doId
+        if doAdd:
+            suitId = fire['target'][i]['suit'].doId
+        else:
+            suitId = fire['target']['suit'].doId
         if 1:
-            if fire['target'][i]['hp'] > 0:
-                addHit(singleHitDict, suitId, 1)
-                addHit(totalHitDict, suitId, 1)
+            if doAdd:
+                if fire['target'][i]['hp'] > 0:
+                    addHit(singleHitDict, suitId, 1)
+                    addHit(totalHitDict, suitId, 1)
+                else:
+                    addHit(singleHitDict, suitId, 0)
+                    addHit(totalHitDict, suitId, 0)
+                i = i + 1
             else:
-                addHit(singleHitDict, suitId, 0)
-                addHit(totalHitDict, suitId, 0)
-            i = i + 1
+                if fire['target']['hp'] > 0:
+                    addHit(singleHitDict, suitId, 1)
+                    addHit(totalHitDict, suitId, 1)
+                else:
+                    addHit(singleHitDict, suitId, 0)
+                    addHit(totalHitDict, suitId, 0)
 
     notify.debug('singleHitDict = %s' % singleHitDict)
     notify.debug('groupHitDict = %s' % groupHitDict)
@@ -97,30 +116,57 @@ def __doSuitFires(fires):
     delay = 0.0
     hitCount = 0
     i = 0
+    try:
+        attempt = fires[0]['target'][i]['suit']
+        doAdd = True
+    except:
+        doAdd = False
     for fire in fires:
-        if fire['target'][i]['hp'] > 0:
-            hitCount += 1
-            i = i + 1
+        if doAdd:
+            if fire['target'][i]['hp'] > 0:
+                hitCount += 1
+                i = i + 1
+            else:
+                break
         else:
-            break
+            if fire['target']['hp'] > 0:
+                hitCount += 1
+            else:
+                break
 
     suitList = []
     i = 0
     for fire in fires:
-        if fire['target'][i]['suit'] not in suitList:
-            suitList.append(fire['target'][i]['suit'])
-        i = i + 1
+        if doAdd:
+            if fire['target'][i]['suit'] not in suitList:
+                suitList.append(fire['target'][i]['suit'])
+            i = i + 1
+        else:
+            if fire['target']['suit'] not in suitList:
+                suitList.append(fire['target']['suit'])
 
     i = 0
     for fire in fires:
         showSuitCannon = 1
-        if fire['target'][i]['suit'] not in suitList:
-            showSuitCannon = 0
+        if doAdd:
+            if fire['target'][i]['suit'] not in suitList:
+                showSuitCannon = 0
+            else:
+                suitList.remove(fire['target'][i]['suit'])
+            for x in xrange(len(fire['target'])):
+                tracks = __throwPie(fire, i, delay, hitCount, showSuitCannon)
+                i = i + 1
+                if tracks:
+                    for track in tracks:
+                        toonTracks.append(track)
+
+                delay = delay + TOON_THROW_DELAY
         else:
-            suitList.remove(fire['target'][i]['suit'])
-        for x in xrange(len(fire['target'])):
+            if fire['target']['suit'] not in suitList:
+                showSuitCannon = 0
+            else:
+                suitList.remove(fire['target']['suit'])
             tracks = __throwPie(fire, i, delay, hitCount, showSuitCannon)
-            i = i + 1
             if tracks:
                 for track in tracks:
                     toonTracks.append(track)
@@ -244,7 +290,10 @@ def __throwPie(throw, i, delay, hitCount, showCannon = 1):
         toon = throw['npc']
     hpbonus = throw['hpbonus']
     target = throw['target']
-    target = target[i]
+    try:
+        target = target[i]
+    except:
+        pass
     suit = target['suit']
     hp = target['hp']
     kbbonus = target['kbbonus']
