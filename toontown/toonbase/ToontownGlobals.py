@@ -744,10 +744,28 @@ CashbotBossBattleOnePosHpr = (120,
  90,
  0,
  0)
+CashbotBossBattleTwoPosHpr = (120,
+ -315,
+ 0,
+ 180,
+ 0,
+ 0)
 CashbotRTBattleOneStartPosHpr = (94,
  -220,
  0,
  110,
+ 0,
+ 0)
+CashbotRTBattleTwoStartPosHpr = (120, 
+ -260, 
+ 0.025,
+ 0,
+ 0,
+ 0)
+CashbotRTBattleTwoEndPosHpr = (120, 
+ -290, 
+ 0.025,
+ 0,
  0,
  0)
 CashbotBossBattleThreePosHpr = (120,

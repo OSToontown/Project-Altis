@@ -1253,6 +1253,9 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
     def updateInvString(self, invString):
         InventoryBase.InventoryBase.updateInvString(self, invString)
         self.updateGUI()
+		
+    def getInvString(self):
+        InventoryBase.InventoryBase.getInvString(self)
 
     def updateButton(self, track, level):
         button = self.buttons[track][level]
