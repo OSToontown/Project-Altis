@@ -36,9 +36,9 @@ class DistributedBetaEventTTC(DistributedEvent):
         self.prepostera.head = self.prepostera.find('**/__Actor_head')
         self.prepostera.initializeBodyCollisions('toon')
 
-        base.musicManager.stopAllSounds()
+        #base.musicManager.stopAllSounds()
         self.toonMusic = loader.loadMusic('phase_14/audio/bgm/tt2_ambient_1.mp3') # Placeholder
-        base.playMusic(self.toonMusic, looping = 1)
+        #base.playMusic(self.toonMusic, looping = 1)
 
     def announceGenerate(self):
         DistributedEvent.announceGenerate(self)
