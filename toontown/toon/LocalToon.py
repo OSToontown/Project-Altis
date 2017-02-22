@@ -53,6 +53,7 @@ from toontown.shtiker import ShtikerBook
 from toontown.shtiker import SuitPage
 from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
+from toontown.shtiker import ItemsPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
 import StreamerMode
@@ -385,6 +386,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.fishPage.setAvatar(self)
         self.fishPage.load()
         self.book.addPage(self.fishPage, pageName=TTLocalizer.FishPageTitle)
+        self.itemsPage = ItemsPage.ItemsPage()
+        self.itemsPage.load()
+        self.book.addPage(self.itemsPage, pageName = TTLocalizer.ItemsPageTitle)
         if base.wantAchievements:
             self.achievementsPage = AchievementsPage.AchievementsPage()
             self.achievementsPage.setAvatar(self)
