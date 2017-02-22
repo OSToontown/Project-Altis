@@ -2239,7 +2239,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'nametagStyle'):
             return self.nametagStyle
 
-        return 0
+        return 1
 
     def setNametagStyle(self, nametagStyle):
         if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
