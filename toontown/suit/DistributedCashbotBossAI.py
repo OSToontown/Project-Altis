@@ -419,11 +419,10 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.__resetBattleThreeObjects()
         
     def __donePrepareBattleTwo(self, avIds):
-        self.b_setState('BattleTwo')
+        self.b_setState('PrepareBattleThree')
 
     def exitPrepareBattleTwo(self):
         self.ignoreBarrier(self.barrier)
-        self.__deleteBattleThreeObjects()
         
     def enterBattleTwo(self):
         if self.battleA:
