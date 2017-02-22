@@ -44,7 +44,7 @@ class DistributedBetaEventTTC(DistributedEvent):
         DistributedEvent.announceGenerate(self)
         
     def start(self):
-        pass
+        self.prepostera.setChatAbsolute("If you don't see me in the future, call 911, because that would mean Drew probably killed me.", CFThought)
 
     def delete(self):
         DistributedEvent.delete(self)
