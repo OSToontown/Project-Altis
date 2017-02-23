@@ -12268,6 +12268,7 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  4119: (ToontownBattleGlobals.SOUND_TRACK, 5, 80, 5),
  91917: (ToontownBattleGlobals.SOUND_TRACK, 6, 900, 5),
  91918: (ToontownBattleGlobals.SOUND_TRACK, 6, 150, 5),
+ 1415: (ToontownBattleGlobals.SOUND_TRACK, 5, 0, 0),
  4219: (ToontownBattleGlobals.SOUND_TRACK, 5, 50, 4),
  4115: (ToontownBattleGlobals.SOUND_TRACK, 5, 40, 3),
  5012: (ToontownBattleGlobals.THROW_TRACK, 6, 132, 5),
