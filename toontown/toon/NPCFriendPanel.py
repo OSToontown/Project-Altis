@@ -166,7 +166,7 @@ class NPCFriendCard(DirectFrame):
                 sosText = self.sosTracks[track]
             try:
                 if track == 100:
-                    color = (0.8,1,1,1)
+                    color = (0.8,0.5,0.5,1)
                 elif track == ToontownBattleGlobals.NPC_RESTOCK_GAGS:
                     if level == -1:
                         color = (1,1,1,1)
