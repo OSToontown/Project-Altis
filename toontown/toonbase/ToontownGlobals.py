@@ -194,7 +194,7 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
- DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
+ DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
