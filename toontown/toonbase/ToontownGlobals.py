@@ -186,6 +186,7 @@ SopranoStreet = 4400
 ElmStreet = 5100
 MapleStreet = 5200
 OakStreet = 5300
+RoseValley = 5400
 LullabyLane = 9100
 PajamaPlace = 9200
 ToonHall = 2513
@@ -193,7 +194,7 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
- DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
+ DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
