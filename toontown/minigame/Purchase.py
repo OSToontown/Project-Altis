@@ -64,11 +64,11 @@ class Purchase(PurchaseBase):
         wainTex = loader.loadTexture('phase_%s/maps/wall_paper_b4.jpg' % interiorPhase)
         self.wb.setTexture(wainTex, 100)
         self.wb.setColorScale(0.473, 0.675, 0.488, 1.0)
-        self.playAgain = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.5), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
+        self.playAgain = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.24), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
          purchaseModels.find('**/PurchScrn_BTN_DN'),
          purchaseModels.find('**/PurchScrn_BTN_RLVR'),
          purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopPlayAgain, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handlePlayAgain)
-        self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.8), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
+        self.backToPlayground = DirectButton(parent=self.frame, relief=None, scale=1.04, pos=(0.72, 0, -0.045), image=(purchaseModels.find('**/PurchScrn_BTN_UP'),
          purchaseModels.find('**/PurchScrn_BTN_DN'),
          purchaseModels.find('**/PurchScrn_BTN_RLVR'),
          purchaseModels.find('**/PurchScrn_BTN_UP')), text=TTLocalizer.GagShopBackToPlayground, text_fg=(0, 0.1, 0.7, 1), text_scale=0.05, text_pos=(0, 0.015, 0), image3_color=Vec4(0.6, 0.6, 0.6, 1), text3_fg=Vec4(0, 0, 0.4, 1), command=self.__handleBackToPlayground)
@@ -91,16 +91,10 @@ class Purchase(PurchaseBase):
          (0, 1, 3),
          (0, 1, 2, 3))
         layout = layoutList[numAvs]
-        if settings['newGui']:
-            headFramePosList = (Vec3(-1, 0, 0.35),
-             Vec3(-0.5, 0, 0.35),
-             Vec3(0.5, 0, 0.35),
-             Vec3(1, 0, 0.35))
-        else:
-            headFramePosList = (Vec3(0.105, 0, -0.384),
-             Vec3(0.105, 0, -0.776),
-             Vec3(0.85, 0, -0.555),
-             Vec3(-0.654, 0, -0.555))
+        headFramePosList = (Vec3(0.105, 0, -0.384),
+         Vec3(0.105, 0, -0.776),
+         Vec3(0.85, 0, -0.555),
+         Vec3(-0.654, 0, -0.555))
         AVID_INDEX = 0
         LAYOUT_INDEX = 1
         TOON_INDEX = 2

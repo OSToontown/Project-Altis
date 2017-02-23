@@ -367,10 +367,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.mapPage = MapPage.MapPage()
         self.mapPage.load()
         self.book.addPage(self.mapPage, pageName=TTLocalizer.MapPageTitle)
-        if settings['newGui'] == False:
-            self.invPage = InventoryPageOLD.InventoryPageOLD()
-        else:
-            self.invPage = InventoryPageNEW.InventoryPageNEW()
+        self.invPage = InventoryPageOLD.InventoryPageOLD()
         self.invPage.load()
         self.book.addPage(self.invPage, pageName=TTLocalizer.InventoryPageTitle)
         self.questPage = QuestPage.QuestPage()

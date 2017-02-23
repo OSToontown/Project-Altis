@@ -148,28 +148,31 @@ class PickAToon(DirectObject):
         gui = asyncloader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui2 = asyncloader.loadModel('phase_3/models/gui/quit_button')
         newGui = asyncloader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui')
+        matGui = asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
+        shuffleUp = matGui.find('**/tt_t_gui_mat_shuffleUp')
+        shuffleDown = matGui.find('**/tt_t_gui_mat_shuffleDown')
 
         self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon, scale = TTLocalizer.ACtitle, parent = hidden, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.82))
 
         # Quit Button
         quitHover = gui.find('**/QuitBtn_RLVR')
         self.quitHover = quitHover
-        self.quitButton = DirectButton(image = (quitHover, quitHover, quitHover), relief = None, text = TTLocalizer.AvatarChooserQuit, text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = TTLocalizer.ACquitButtonPos, text_scale = TTLocalizer.ACquitButton, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, pos = (1.08, 0, -0.907), command = self.quitGame)
+        self.quitButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = TTLocalizer.AvatarChooserQuit, text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.quitGame)
         self.quitButton.reparentTo(base.a2dBottomLeft)
         self.quitButton.setPos(0.25, 0, 0.075)
 
         # Options Button
-        self.optionsButton = DirectButton(image = (quitHover, quitHover, quitHover), relief = None, text = 'Options', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = TTLocalizer.ACquitButtonPos, text_scale = TTLocalizer.ACquitButton, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, pos = (1.08, 0, -0.907), command = self.openOptions)
+        self.optionsButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Options', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.openOptions)
         self.optionsButton.reparentTo(base.a2dBottomRight)
         self.optionsButton.setPos(-0.25, 0, 0.075)
 
         # Shard Selector Button
-        self.shardsButton = DirectButton(image = (quitHover, quitHover, quitHover), relief = None, text = 'Districts', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = TTLocalizer.ACquitButtonPos, text_scale = 0.08, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, pos = (1.08, 0, -0.907), command = self.openShardPicker)
+        self.shardsButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Districts', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.openShardPicker)
         self.shardsButton.reparentTo(base.a2dBottomLeft)
         self.shardsButton.setPos(0.25, 0, 0.2)
         
         # Classic Screen Button
-        self.classicButton = DirectButton(image = (quitHover, quitHover, quitHover), relief = None, text = 'Classic', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = TTLocalizer.ACquitButtonPos, text_scale = 0.08, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.05, pos = (1.08, 0, -0.907), command = self.toggleClassic)
+        self.classicButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Classic', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.toggleClassic)
         self.classicButton.reparentTo(base.a2dTopRight)
         self.classicButton.setPos(-0.25, 0, -0.2)
 
@@ -182,7 +185,7 @@ class PickAToon(DirectObject):
                                  pos = (-.1, -.1), scale = .075, text = '', shadow = (0, 0, 0, 1), fg = COLORS[self.selectedToon])
 
         # DMENU Pat Screen Stuff
-        self.play = DirectButton(relief = None, image = (quitHover, quitHover, quitHover), text = 'PLAY THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.045, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.4, pos = (0, 0, -0.90), command = self.playGame, parent = self.patNode2d)
+        self.play = DirectButton(relief = None, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'PLAY THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.045, scale = 1.4, pos = (0, 0, -0.90), command = self.playGame, parent = self.patNode2d)
 
         self.toon = Toon.Toon()
         self.toon.setPosHpr(-46, 0, 8.1, 90, 0, 0)
