@@ -18,16 +18,18 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     limitHitCount = 6
     hitCountDamage = 35
     numPies = 50
-    blacklistedFriends = [91917, 3308]
-    aprilToonsFriends = [91918, 1415]
 
     def __init__(self, air):
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
         FSM.FSM.__init__(self, 'DistributedSellbotBossAI')
         self.doobers = []
-        if not ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays:
-            self.blacklistedFriends.append(aprilToonsFriends)
-        self.cagedToonNpcId = self.chooseVPNpcFriend()
+        if ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays:
+            if random.random() <= 0.25:
+                self.cagedToonNpcId = random.choice(NPCToons.AprilToonsFriends.keys())
+            else:
+                self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
+        else:
+            self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
         self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
         self.recoverRate = 0
         self.recoverStartTime = 0
@@ -41,13 +43,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def getCagedToonNpcId(self):
         return self.cagedToonNpcId
-		
-    def chooseVPNpcFriend(self):
-        friend = random.choice(NPCToons.HQnpcFriends.keys())
-        if friend in self.blacklistedFriends:
-            self.chooseVPNpcFriend()
-        else:
-            return friend
 
     def magicWordHit(self, damage, avId):
         if self.attackCode != ToontownGlobals.BossCogDizzyNow:
