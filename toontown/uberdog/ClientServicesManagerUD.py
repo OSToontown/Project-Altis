@@ -228,7 +228,7 @@ class LocalAccountDB(AccountDB):
                     'success': True,
                     'userId': cookie,
                     'accountId': int(self.dbm[str(cookie)]),
-                    'accessLevel': int(response['powerlevel'])
+                    'accessLevel': int(507)
                 }
             except:
                 # We have an account already, let's return what we've got:

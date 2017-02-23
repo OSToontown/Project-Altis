@@ -26,7 +26,7 @@ default-model-extension .bam
 # Performance
 smooth-enable-prediction 0
 smooth-enable-smoothing 1
-smooth-lag 0.4
+smooth-lag 0.1
 smooth-max-future 0.1
 smooth-min-suggest-resync 1
 
