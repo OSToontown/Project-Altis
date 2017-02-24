@@ -4010,16 +4010,16 @@ AchievementsPageTitle = 'Achievements'
 StatsPageTitle = "Toon Stats"
 
 StatsList = [
-"Cogs Defeated: %(cogs)s",
-"Buildings Saved: %(bldgs)s",
-"Friends made: %(friendsMade)s",
-"Current Friends: %(currFriends)s",
-"Tasks Completed: %(tasks)s",
-"VPs defeated %(vp)s"
-"CFOs defeated %(cfo)s"
-"CJs defeated %(cj)s"
-"CEOs defeated %(ceo)s",
-"Times went sad: %(sad)s"
+"Cogs Defeated: %s",
+"Buildings Saved: %s",
+"Friends made: %s",
+"Current Friends: %s",
+"Tasks Completed: %s",
+"VPs defeated: %s",
+"CFOs defeated: %s",
+"CJs defeated: %s",
+"CEOs defeated: %s",
+"Times went sad: %s"
 ]
 
 NPCFriendPageTitle = 'SOS Toons'
