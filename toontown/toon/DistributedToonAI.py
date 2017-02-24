@@ -202,6 +202,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
+        self.stats = [0] * 10
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)

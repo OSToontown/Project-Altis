@@ -188,6 +188,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
+        self.stats = [0] * 10
 
     def disable(self):
         for soundSequence in self.soundSequenceList:
