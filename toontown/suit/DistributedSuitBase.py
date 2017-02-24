@@ -74,7 +74,7 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         if self.getSkeleRevives() > 0:
             nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': self.name,
              'dept': self.getStyleDept(),
-             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)}
+             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix % (self.getSkeleRevives() + 1))}
             self.setDisplayName(nameInfo)
         else:
             nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': self.name,
@@ -360,6 +360,17 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         SuitBase.SuitBase.setSkelecog(self, flag)
         if flag:
             Suit.Suit.makeSkeleton(self)
+            self.setName(TTLocalizer.Skeleton)
+            if self.getSkeleRevives() > 0:
+                nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': self.name,
+                 'dept': self.getStyleDept(),
+                 'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix % (self.getSkeleRevives() + 1))}
+                self.setDisplayName(nameInfo)
+            else:
+                nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': self.name,
+                 'dept': self.getStyleDept(),
+                 'level': self.getActualLevel()}
+                self.setDisplayName(nameInfo)
 
     def setWaiter(self, flag):
         SuitBase.SuitBase.setWaiter(self, flag)

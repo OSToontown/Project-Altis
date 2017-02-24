@@ -91,7 +91,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
         if self.getSkeleRevives() > 0:
             nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': TTLocalizer.Foreman,
              'dept': self.getStyleDept(),
-             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)}
+             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix % (self.getSkeleRevives() + 1))}
             self.setName(TTLocalizer.Foreman)
             self.setDisplayName(nameInfo)
         else:
