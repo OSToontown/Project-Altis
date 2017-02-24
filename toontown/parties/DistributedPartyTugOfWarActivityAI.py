@@ -21,14 +21,24 @@ class DistributedPartyTugOfWarActivityAI(DistributedPartyTeamActivityAI):
     def getDuration(self):
         return PartyGlobals.TugOfWarDuration
 
-    def reportKeyRateForce(self, todo0, todo1):
+    def reportKeyRateForce(self, rate, force):
+        av = self._getCaller()
+        if not av:
+            self.notify.warning("Caller for report key rate doesnt exist!")
+            return
+        avId = av.doId
+        if not (avId in self.toonIds[0] and avId not in self.toonIds[1]):
+            self.notify.warning("%d called for report key force, but is not playing!")
+            return
+        self.forces[avId] = force
+        self.updateToonKeyRate(avId, keyRate)
+
+    def reportFallIn(self, team):
         pass
 
-    def reportFallIn(self, todo0):
-        pass
-
-    def updateToonKeyRate(self, todo0, todo1):
-        pass
+    def updateToonKeyRate(self, avId, keyRate):
+        self.sendUpdate('updateToonKeyRate', [avId, keyRate])
+        self.d_updateToonPositions()
 
     def d_updateToonPositions(self):
         pass
