@@ -844,6 +844,12 @@ class Suit(Avatar.Avatar):
         for partNum in xrange(0, parts.getNumPaths()):
             bb = parts.getPath(partNum)
             bb.setTwoSided(1)
+
+        self.setName(TTLocalizer.Skeleton)
+        nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': self.name,
+         'dept': self.getStyleDept(),
+         'level': self.getActualLevel()}
+        self.setDisplayName(nameInfo)
         self.leftHand = self.find('**/joint_Lhold')
         self.rightHand = self.find('**/joint_Rhold')
         self.shadowJoint = self.find('**/joint_shadow')

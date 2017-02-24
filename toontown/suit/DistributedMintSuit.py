@@ -13,7 +13,7 @@ class DistributedMintSuit(DistributedFactorySuit.DistributedFactorySuit):
         if self.getSkeleRevives() > 0:
             nameInfo = TTLocalizer.SuitBaseNameWithLevel % {'name': name,
              'dept': self.getStyleDept(),
-             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix  % (self.getSkeleRevives() + 1))}
+             'level': '%s%s' % (self.getActualLevel(), TTLocalizer.SkeleRevivePostFix)}
             self.setName(name)
             self.setDisplayName(nameInfo)
         else:

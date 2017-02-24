@@ -110,7 +110,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         return self.maxSkeleRevives
 
     def useSkeleRevive(self):
-        self.b_setSkeleRevives(self.skeleRevives - 1)
+        self.skeleRevives -= 1
         self.currHP = self.maxHP
         self.reviveFlag = 1
 

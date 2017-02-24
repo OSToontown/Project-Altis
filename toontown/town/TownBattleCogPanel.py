@@ -95,7 +95,7 @@ class TownBattleCogPanel(DirectFrame):
 
     def setLevelText(self, hp, revives = 0):
         if revives > 0:
-            self.healthText['text'] = TTLocalizer.DisguisePageCogLevel % str(hp) + TTLocalizer.SkeleRevivePostFix % (revives + 1)
+            self.healthText['text'] = TTLocalizer.DisguisePageCogLevel % str(hp) + TTLocalizer.SkeleRevivePostFix
         else:
             self.healthText['text'] = TTLocalizer.DisguisePageCogLevel % str(hp)
 
