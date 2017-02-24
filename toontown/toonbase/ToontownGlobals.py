@@ -1772,3 +1772,17 @@ BMovementSpeedMultiplier = 1.3
 
 BGagAccuracy = 1
 BGagAccuracyMultiplier = 1.3
+
+# Toon Stats
+
+STATS_COGS = 0
+STATS_BLDGS = 1
+STATS_FRIENDS = 2
+STATS_CURR_FRIENDS = 3
+STATS_TASKS = 4
+STATS_VP = 5
+STATS_CFO = 6
+STATS_CJ = 7
+STATS_CEO = 8
+STATS_SAD = 9
+

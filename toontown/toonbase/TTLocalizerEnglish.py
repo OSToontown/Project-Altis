@@ -4005,6 +4005,23 @@ InventoryPagePluralPoints = 'You will get a new\n%(trackName)s gag when you\nget
 InventoryPageSinglePoint = 'You will get a new\n%(trackName)s gag when you\nget %(numPoints)s more %(trackName)s point.'
 InventoryPageNoAccess = 'You do not have access to the %s track yet.'
 AchievementsPageTitle = 'Achievements'
+
+# Stats Page
+StatsPageTitle = "Toon Stats"
+
+StatsList = [
+"Cogs Defeated: %(cogs)s",
+"Buildings Saved: %(bldgs)s",
+"Friends made: %(friendsMade)s",
+"Current Friends: %(currFriends)s",
+"Tasks Completed: %(tasks)s",
+"VPs defeated %(vp)s"
+"CFOs defeated %(cfo)s"
+"CJs defeated %(cj)s"
+"CEOs defeated %(ceo)s",
+"Times went sad: %(sad)s"
+]
+
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'
