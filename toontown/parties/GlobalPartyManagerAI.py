@@ -10,7 +10,7 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
     def announceGenerate(self):
         DistributedObjectGlobalAI.announceGenerate(self)
         # Inform the UD that we as an AI have started up
-        self.uberdogUp = False
+        self.uberdogUp = True
         self.sendUpdate('partyManagerAIHello', [simbase.air.partyManager.doId])
 
     def startHeartbeat(self):
