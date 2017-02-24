@@ -4426,6 +4426,30 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return 1
 
         return 0
+        
+    def b_setStats(self, stats):
+        self.d_setStats(stats)
+        self.setStats(stats)
+
+    def d_setStats(self, stats):
+        self.sendUpdate('setStats', [stats])
+
+    def setStats(self, stats):
+        self.stats = stats
+    
+    def getStats(self):
+        return self.stats
+    
+    def getStat(self, stat):
+        return self.stats[stat]
+    
+    def addStat(self, stat, amount = 1):
+        if amount <= 0:
+            return
+
+        self.stats[stat] += amount
+        self.d_setStats(self.stats)
+    
 
     def addBuff(self, id, duration):
         buffCount = len(self.buffs)

@@ -2812,6 +2812,15 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setAchievements(self, achievements):
         self.achievements = achievements
         messenger.send(localAvatar.uniqueName('achievementsChange'))
+        
+    def setStats(self, stats):
+        self.stats = stats
+    
+    def getStats(self):
+        return self.stats
+        
+    def getStat(self, stat):
+        return self.stats[stat]
 
     def setBuffs(self, buffs):
         self.buffs = buffs
