@@ -388,12 +388,14 @@ class DMenuScreen(DirectObject):
             self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
             
     def showQuitConfirmation(self):
+        LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .5), startColorScale = Vec4(1, 1, 1, .2)).start()
         self.quitConfirmation.showConf()
 
     def doQuitFunc(self):
         base.exitFunc()
         
     def doCancelQuitFunc(self):
+        LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, .2), startColorScale = Vec4(.6, .1, .1, .5)).start()
         self.buttonInAnimation()
         self.quitConfirmation.hideConf()
         
