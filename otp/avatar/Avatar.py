@@ -252,17 +252,11 @@ class Avatar(Actor, ShadowCaster):
         return self.avatarType
 
     def setName(self, name):
-        if hasattr(self, 'isDisguised'):
-            if self.isDisguised:
-                return
         self.name = name
         if hasattr(self, 'nametag'):
             self.setNametagWithTag(name)
 
     def setDisplayName(self, str):
-        if hasattr(self, 'isDisguised'):
-            if self.isDisguised:
-                return
         self.setNametagWithTag(str)
         
     def setNametagWithTag(self, name = None):
