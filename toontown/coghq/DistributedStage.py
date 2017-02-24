@@ -25,7 +25,6 @@ class DistributedStage(DistributedObject.DistributedObject):
         self.titleText = OnscreenText.OnscreenText('', fg=self.titleColor, shadow=(0, 0, 0, 1), font=ToontownGlobals.getSuitFont(), pos=(0, -0.5), scale=0.1, drawOrder=0, mayChange=1)
         self.titleSequence = None
         self.pendingZoneChange = 0
-        return
 
     def generate(self):
         self.notify.debug('generate: %s' % self.doId)
@@ -39,7 +38,6 @@ class DistributedStage(DistributedObject.DistributedObject):
         self.curToonRoomNum = None
         base.localAvatar.setCameraCollisionsCanMove(1)
         self.accept('SOSPanelEnter', self.handleSOSPanel)
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -119,7 +117,6 @@ class DistributedStage(DistributedObject.DistributedObject):
                 else:
                     self.camEnterRoom(roomNum)
                     print collEntry
-                    print
 
         self.accept('on-floor', handleCameraRayFloorCollision)
         if bboard.has('stageRoom'):
@@ -139,7 +136,6 @@ class DistributedStage(DistributedObject.DistributedObject):
         self.accept('takingScreenshot', self.handleScreenshot)
         base.transitions.irisIn()
         taskMgr.doMethodLater(0.25, self._delayedInit, 'delayedInit')
-        return
 
     def _delayedInit(self, taskFooler = 0):
         self.camEnterRoom(0)
@@ -251,7 +247,6 @@ class DistributedStage(DistributedObject.DistributedObject):
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         DistributedObject.DistributedObject.delete(self)
@@ -289,7 +284,6 @@ class DistributedStage(DistributedObject.DistributedObject):
             self.titleSequence = None
             self.titleSequence = Sequence(Func(self.showTitleText), Wait(3.1), LerpColorScaleInterval(self.titleText, duration=0.5, colorScale=Vec4(1, 1, 1, 0.0)), Func(self.hideTitleText))
             self.titleSequence.start()
-        return
 
     def showTitleText(self):
         if self.titleText:

@@ -52,7 +52,7 @@ class DMenuScreen(DirectObject):
         DirectObject.__init__(self)
         base.cr.DMENU_SCREEN = self
         self.seq = None
-        self.isSeqPlaying = False # .isPlaying() doesnt want to work
+        self.isBananaPlaying = False # .isPlaying() doesnt want to work
         base.cr.avChoice = None
 
         fadeSequence = Sequence(
@@ -66,7 +66,7 @@ class DMenuScreen(DirectObject):
         self.background2d.setScale(2, 1, 1)
         self.background2d.setBin('background', 1)
         self.background2d.setTransparency(1)
-        self.background2d.setColorScale(1, 1, 1, .5)
+        self.background2d.setColorScale(1, 1, 1, .2)
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
         self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
@@ -108,7 +108,7 @@ class DMenuScreen(DirectObject):
         thermometerMesh.setTexProjector(thermometerMesh.findTextureStage('default'), thermometerLocator, self.sillyMeter)
 
         self.sillyMeter.loop('phaseOne', partName = 'meter')
-        self.sillyMeter.setBlend(frameBlend = True)
+        self.sillyMeter.setBlend(frameBlend = base.wantSmoothAnims)
 
         self.surlee = Toon.Toon()
         self.surlee.setName('Doctor Surlee')
@@ -199,7 +199,7 @@ class DMenuScreen(DirectObject):
             mpos = base.mouseWatcherNode.getMouse()
 
             def setPlayingStatus(status):
-                self.isSeqPlaying = status
+                self.isBananaPlaying = status
 
             self.ray.setFromLens(base.camNode, mpos.getX(), mpos.getY())
             self.bananaClicker.traverse(render)
@@ -220,7 +220,7 @@ class DMenuScreen(DirectObject):
                         Func(setPlayingStatus, False)
                     )
 
-                    if not self.isSeqPlaying:
+                    if not self.isBananaPlaying:
                         self.seq.start()
 
     def skyTrack(self, task):
@@ -340,7 +340,8 @@ class DMenuScreen(DirectObject):
         self.buttonInAnimation()
 
     def playGame(self):
-        self.ignoreAll()
+        self.ignore('doQuitGame')
+        self.ignore('doCancelQuitGame')
         if self.fadeOut is not None:
             self.fadeOut.finish()
             self.fadeOut = None
@@ -349,7 +350,7 @@ class DMenuScreen(DirectObject):
         Sequence(
             Func(self.doPlayButton),
             Wait(1),
-            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .5)),
+            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .2)),
             # Func(self.murder),
             Func(self.enterGame)).start()
             # Func(base.transitions.fadeIn, 1)).start()
@@ -387,12 +388,14 @@ class DMenuScreen(DirectObject):
             self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
             
     def showQuitConfirmation(self):
+        LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .5), startColorScale = Vec4(1, 1, 1, .2)).start()
         self.quitConfirmation.showConf()
 
     def doQuitFunc(self):
         base.exitFunc()
         
     def doCancelQuitFunc(self):
+        LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, .2), startColorScale = Vec4(.6, .1, .1, .5)).start()
         self.buttonInAnimation()
         self.quitConfirmation.hideConf()
         

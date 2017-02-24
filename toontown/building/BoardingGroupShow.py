@@ -117,7 +117,6 @@ class BoardingGroupShow:
             if self.dustCloudIval:
                 self.dustCloudIval.finish()
                 self.dustCloudIval = None
-            return
 
         def getDustCloudIval():
             cleanupDustCloudIval()

@@ -132,4 +132,3 @@ class DistributedMintRoomAI(DistributedLevelAI.DistributedLevelAI, MintRoomBase.
                 mint.allToonsGone()
             else:
                 self.notify.warning('no mint %s in allToonsGone' % self.mintDoId)
-        return

@@ -211,7 +211,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         elif typeIndex == 207:
             self.toon.pose('bored', 96)
         elif typeIndex == 208:
-            self.toon.pose('think', 59)
+            self.toon.pose('think', 40)
 
     def poseToonFromSpecialsIndex(self, specialsIndex):
         if specialsIndex == 105:
@@ -221,4 +221,4 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         elif specialsIndex == 107:
             self.toon.pose('bored', 96)
         elif specialsIndex == 108:
-            self.toon.pose('think', 59)
+            self.toon.pose('think', 40)

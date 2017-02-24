@@ -46,6 +46,9 @@ class DistributedPartyCogActivityAI(DistributedPartyTeamActivityAI):
         self.cogDistances[hitCogNum] = bound(self.cogDistances[hitCogNum] + direction * mult, -1.0, 1.0)
         self.d_setCogDistances()
 
+    def pieThrow(self, toonId, timestamp, h, x, y, z, power):
+        self.sendUpdate('pieThrow', [toonId, timestamp, h, x, y, z, power])
+
     def startActive(self, data):
         self.cogDistances = [0, 0, 0]
         self.scores = {}

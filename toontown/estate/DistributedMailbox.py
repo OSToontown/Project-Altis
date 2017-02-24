@@ -93,7 +93,6 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         self.mailboxSphereEvent = None
         self.mailboxSphereEnterEvent = None
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def setHouseId(self, houseId):
         DistributedMailbox.notify.debug('setHouseId( houseId=%d )' % houseId)

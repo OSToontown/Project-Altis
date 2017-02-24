@@ -15,6 +15,9 @@ set /P DISTRICT_NAME="District name (DEFAULT: Nuttyboro): " || ^
 set DISTRICT_NAME=Nuttyboro
 set /P BASE_CHANNEL="Base channel (DEFAULT: 401000000): " || ^
 set BASE_CHANNEL=401000000
+
+set /P START_TIME="START TIME(DEFAULT : 6): " || ^
+set START_TIME=6
 title %DISTRICT_NAME%
 
 echo ===============================
@@ -32,5 +35,5 @@ echo ===============================
 %PPYTHON_PATH% -m toontown.ai.ServiceStart --base-channel %BASE_CHANNEL% ^
                --max-channels %MAX_CHANNELS% --stateserver %STATESERVER% ^
                --astron-ip %ASTRON_IP% --eventlogger-ip %EVENTLOGGER_IP% ^
-               --district-name "%DISTRICT_NAME%"
+               --district-name "%DISTRICT_NAME%" --start-time "%START_TIME%"
 goto main

@@ -194,7 +194,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                pass
             else:
                 level = suit['level']
-                toonExp += level * 5
+                toonExp += int(level * 2.5)
         currToonExp = toon.getToonExp()
         toon.b_setToonExp(currToonExp + toonExp)
         toon.b_setExperience(toon.experience.makeNetString())
@@ -212,3 +212,6 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
             # Looks like the toon wasnt too helpful...
             else:
                 BattleExperienceAINotify.debug('toon=%d unhelpful not getting killed cog quest credit' % toon.doId)
+        else:
+            simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
+            simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)

@@ -35,7 +35,7 @@ class Avatar(Actor, ShadowCaster):
             self.Avatar_initialized = 1
 
         Actor.__init__(self, None, None, other, flattenable=0, setFinal=1)
-        self.setBlend(frameBlend = True)
+        self.setBlend(frameBlend = base.wantSmoothAnims)
         self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
         ShadowCaster.__init__(self)
         self.name = ''
@@ -252,17 +252,11 @@ class Avatar(Actor, ShadowCaster):
         return self.avatarType
 
     def setName(self, name):
-        if hasattr(self, 'isDisguised'):
-            if self.isDisguised:
-                return
         self.name = name
         if hasattr(self, 'nametag'):
             self.setNametagWithTag(name)
 
     def setDisplayName(self, str):
-        if hasattr(self, 'isDisguised'):
-            if self.isDisguised:
-                return
         self.setNametagWithTag(str)
         
     def setNametagWithTag(self, name = None):

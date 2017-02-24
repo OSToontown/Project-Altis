@@ -25,6 +25,7 @@ class DMenuQuit(DirectObject):
         zoomIn = (LerpScaleInterval(self.confNode, .4, Vec3(1, 1, 1), Vec3(0, 0, 0), blendType = 'easeInOut')).start()
 
     def hideConf(self):
+        base.transitions.noFade()
         # base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
         zoomOut = (LerpScaleInterval(self.confNode, .4, Vec3(0, 0, 0), Vec3(1, 1, 1), blendType = 'easeInOut')).start()
         Sequence (
@@ -33,8 +34,8 @@ class DMenuQuit(DirectObject):
 
     def displayConfirmation(self):
         self.confNode = aspect2d.attachNewNode('confNode')
-        self.confNode.reparentTo(aspect2d)
-
+        self.confNode.reparentTo(aspect2d, 4000)
+        base.transitions.fadeScreen(0.5)
         gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
         shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')

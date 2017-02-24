@@ -6,11 +6,15 @@ from direct.gui import DirectGui
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
 from direct.fsm import State
+from direct.actor.Actor import Actor
 from toontown.coghq import FactoryExterior
 from toontown.coghq import FactoryInterior
 from toontown.coghq import SellbotHQExterior
 from toontown.coghq import SellbotHQBossBattle
 from pandac.PandaModules import DecalEffect, NodePath
+from direct.interval.IntervalGlobal import *
+from direct.interval.LerpInterval import LerpHprInterval
+from panda3d.core import Vec3
 
 aspectSF = 0.7227
 
@@ -34,6 +38,12 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.cogHQLobbyModelPath = 'phase_9/models/cogHQ/SellbotHQLobby'
         self.factoryExteriorModelPath = 'phase_9/models/cogHQ/SellbotFactoryExterior'
         self.geom = None
+        self.spot1Sequence = None
+        self.spot2Sequence = None
+        self.spot3Sequence = None
+        self.spot4Sequence = None
+        self.spot5Sequence = None
+        self.spot6Sequence = None
 
     def load(self, zoneId):
         CogHQLoader.CogHQLoader.load(self, zoneId)
@@ -50,6 +60,10 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
         zoneId = zoneId - zoneId % 100
         if zoneId == ToontownGlobals.SellbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
+            factoryExteriorPOV = loader.loadModel('phase_9/models/cogHQ/SellbotFactoryExterior')
+            factoryExteriorPOV.reparentTo(self.geom)
+            factoryExteriorPOV.setPosHpr(400.62, -139.52, 15.22, 272.73, 0, 0)
+            factoryExteriorPOV.setScale(0.5)
             dgLinkTunnel = self.geom.find('**/Tunnel1')
             dgLinkTunnel.setName('linktunnel_dg_5316_DNARoot')
             factoryLinkTunnel = self.geom.find('**/Tunnel2')
@@ -88,6 +102,27 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
                 doorFrame.node().setEffect(DecalEffect.make())
                 doorFrame.flattenStrong()
                 door.flattenMedium()
+            self.botcam1 = Actor("phase_9/models/char/BotCam-zero.bam",{"botcamneutral":"phase_9/models/char/BotCam-neutral.bam"})
+            self.bossroom = Actor("phase_9/models/cogHQ/BossRoomPOV.bam")
+            self.botcam1.reparentTo(self.geom)
+            self.botcam1.setPos(-0.01,-39.3,24)
+            self.botcam1.loop('botcamneutral')
+            self.bossroom.reparentTo(self.geom)
+            self.bossroom.setPos(42,25,298)
+            self.bossroom.setScale(0.1)
+            self.spotLights = self.geom.find('**/SpotLights')
+            self.spot1Sequence = Sequence(LerpHprInterval(self.spotLights.find('**/Spot1'), 7, Vec3(0, 1, 10), startHpr=Vec3(0, 1, -5)), LerpHprInterval(self.spotLights.find('**/Spot1'), 7, Vec3(0, 1, -5), startHpr=Vec3(0, 1, 10)))
+            self.spot2Sequence = Sequence(LerpHprInterval(self.spotLights.find('**/Spot2'), 7, Vec3(0, 1, 10), startHpr=Vec3(0, 1, -5)), LerpHprInterval(self.spotLights.find('**/Spot2'), 7, Vec3(0, 1, -5), startHpr=Vec3(0, 1, 10)))
+            self.spot3Sequence = Sequence(LerpHprInterval(self.spotLights.find('**/Spot3'), 7, Vec3(0, 1, 10), startHpr=Vec3(0, 1, -5)), LerpHprInterval(self.spotLights.find('**/Spot3'), 7, Vec3(0, 1, -5), startHpr=Vec3(0, 1, 10)))
+            self.spot4Sequence = Sequence(LerpHprInterval(self.spotLights.find('**/Spot4'), 7, Vec3(0, 1, 10), startHpr=Vec3(0, 1, -5)), LerpHprInterval(self.spotLights.find('**/Spot4'), 7, Vec3(0, 1, -5), startHpr=Vec3(0, 1, 10)))
+            self.spot5Sequence = Sequence(LerpHprInterval(self.spotLights.find('**/Spot5'), 7, Vec3(0, 1, 10), startHpr=Vec3(0, 1, -5)), LerpHprInterval(self.spotLights.find('**/Spot5'), 7, Vec3(0, 1, -5), startHpr=Vec3(0, 1, 10)))
+            self.spot6Sequence = Sequence(LerpHprInterval(self.spotLights.find('**/Spot6'), 7, Vec3(0, 1, 10), startHpr=Vec3(0, 1, -5)), LerpHprInterval(self.spotLights.find('**/Spot6'), 7, Vec3(0, 1, -5), startHpr=Vec3(0, 1, 10)))
+            self.spot1Sequence.loop()
+            self.spot2Sequence.loop()
+            self.spot3Sequence.loop()
+            self.spot4Sequence.loop()
+            self.spot5Sequence.loop()
+            self.spot6Sequence.loop()
             cogSign.removeNode()
             self.geom.flattenMedium()
         elif zoneId == ToontownGlobals.SellbotFactoryExt:
@@ -95,6 +130,11 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             factoryLinkTunnel = self.geom.find('**/tunnel_group2')
             factoryLinkTunnel.setName('linktunnel_sellhq_11000_DNARoot')
             factoryLinkTunnel.find('**/tunnel_sphere').setName('tunnel_trigger')
+            junkyardPOV = loader.loadModel("phase_9/models/cogHQ/SellbotHQExterior")
+            junkyardPOV.reparentTo(self.geom)
+            junkyardPOV.setPos(-200,-635,0)
+            junkyardPOV.setH(-275)
+            junkyardPOV.setScale(0.5)
             cogSignModel = loader.loadModel('phase_4/models/props/sign_sellBotHeadHQ')
             cogSign = cogSignModel.find('**/sign_sellBotHeadHQ').copyTo(NodePath())
             cogSign.flattenStrong()
@@ -155,6 +195,12 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
     def unload(self):
         CogHQLoader.CogHQLoader.unload(self)
         Toon.unloadSellbotHQAnims()
+        self.spot1Sequence.finish()
+        self.spot2Sequence.finish()
+        self.spot3Sequence.finish()
+        self.spot4Sequence.finish()
+        self.spot5Sequence.finish()
+        self.spot6Sequence.finish()
 
     def enterFactoryExterior(self, requestStatus):
         self.placeClass = FactoryExterior.FactoryExterior
@@ -180,3 +226,13 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def getBossPlaceClass(self):
         return SellbotHQBossBattle.SellbotHQBossBattle
+		
+    def enterCogHQBossBattle(self, requestStatus):
+        self.notify.debug('SellbotCogHQLoader.enterCogHQBossBattle')
+        CogHQLoader.CogHQLoader.enterCogHQBossBattle(self, requestStatus)
+        base.cr.forbidCheesyEffects(1)
+
+    def exitCogHQBossBattle(self):
+        self.notify.debug('SellbotCogHQLoader.exitCogHQBossBattle')
+        CogHQLoader.CogHQLoader.exitCogHQBossBattle(self)
+        base.cr.forbidCheesyEffects(0)

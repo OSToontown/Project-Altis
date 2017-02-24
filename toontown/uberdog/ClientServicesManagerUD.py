@@ -150,6 +150,7 @@ class LocalAccountDB(AccountDB):
         return 'APPROVED'
     
     def lookup(self, username, callback):
+        '''
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
         
@@ -209,6 +210,10 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Invalid Cookie Specified!'})
             return
+        '''
+        # TEMP
+        cookie = username
+        # TEMP
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -229,7 +234,7 @@ class LocalAccountDB(AccountDB):
                     'success': True,
                     'userId': cookie,
                     'accountId': int(self.dbm[str(cookie)]),
-                    'accessLevel': int(response['powerlevel'])
+                    'accessLevel': int(507)
                 }
             except:
                 # We have an account already, let's return what we've got:
@@ -489,7 +494,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ADMIN_ACCESS', 0)
+        access = self.account.get('ACCESS_LEVEL', 0)
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
@@ -596,7 +601,10 @@ class CreateAvatarFSM(OperationFSM):
     def enterCreateAvatar(self):
         dna = ToonDNA()
         dna.makeFromNetString(self.dna)
-        colorString = TTLocalizer.NumToColor[dna.headColor]
+        try:
+            colorString = TTLocalizer.NumToColor[dna.headColor]
+        except:
+            colorString = "Colorful"
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
 		
@@ -820,7 +828,7 @@ class DeleteAvatarFSM(GetAvatarsFSM):
                 estateId,
                 self.csm.air.dclassesByName['DistributedEstateAI'],
                 {'setSlot%dToonId' % index: [0],
-                 'setSlot%dItems' % index: [[]]}
+                 'setSlot%dGarden' % index: [[]]}
             )
 
         self.csm.air.dbInterface.updateObject(
@@ -1136,7 +1144,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = 'VhgdThjgoNI0SAbfeSjcyxo9iSyghKSh43ZMidFI'
+        self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)

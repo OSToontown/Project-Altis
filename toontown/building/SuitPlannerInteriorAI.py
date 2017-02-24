@@ -65,7 +65,11 @@ class SuitPlannerInteriorAI:
                 type = self.__genNormalSuitType(level)
                 activeDict = {}
                 activeDict['type'] = type
-                activeDict['track'] = bldgTrack
+                if bldgTrack == 'mixedCogs':
+                    track = random.choice(['c', 'l', 'm', 's', 'g'])
+                else:
+                    track = bldgTrack
+                activeDict['track'] = track
                 activeDict['level'] = level
                 activeDict['revives'] = revives
                 activeDicts.append(activeDict)
@@ -79,7 +83,11 @@ class SuitPlannerInteriorAI:
                 type = self.__genNormalSuitType(level)
                 reserveDict = {}
                 reserveDict['type'] = type
-                reserveDict['track'] = bldgTrack
+                if bldgTrack == 'mixedCogs':
+                    track = random.choice(['c', 'l', 'm', 's', 'g'])
+                else:
+                    track = bldgTrack
+                reserveDict['track'] = track
                 reserveDict['level'] = level
                 reserveDict['revives'] = revives
                 reserveDict['joinChance'] = joinChances[currReserve]

@@ -61,7 +61,6 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def announceGenerate(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
-        base.cr.forbidCheesyEffects(1)
         self.loadEnvironment()
         self.__makeResistanceToon()
         base.localAvatar.chatMgr.chatInputSpeedChat.addCEOMenu()
@@ -120,7 +119,6 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def disable(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.disable(self)
-        base.cr.forbidCheesyEffects(0)
         self.demotedCeo.delete()
         base.cTrav.removeCollider(self.closeBubbleNodePath)
         taskMgr.remove('RecoverSpeedDamage')
@@ -1546,4 +1544,8 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             attackBelts.append(seq)
         
         self.notify.debug('attackBelts duration= %.2f' % attackBelts.getDuration())
+        if index:
+            self.ANIM_PLAYRATE = 1.5
+        else:
+            self.ANIM_PLAYRATE = 1.25
         self.doAnimate(attackBelts, now=1, raised=1)

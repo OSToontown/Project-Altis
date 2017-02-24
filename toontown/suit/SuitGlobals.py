@@ -62,6 +62,6 @@ suitProperties = {
       'mdm': (5.0 / aSize, SuitDNA.boardPolyColor, ['middleman', 'downsizerHat'], '', 6.7),
       'txm': (5.25 / aSize, VBase4(1, 1, .29, 1.0), ['toxicleader'], '', 7.2),
       'mg': (6.5 / aSize, SuitDNA.boardPolyColor, ['legaleagle'], 'magnate.jpg', 7.26),
-      'bfh': (7.8 / cSize, VBase4(1, .3, .3, 1.0), ['bigfish'], '', 10.0),
+      'bfh': (7 / cSize, VBase4(1, .3, .3, 1.0), ['bigfish'], '', 10.0),
       'hho': (7.0 / aSize, SuitDNA.boardPolyColor, ['headhoncho'], 'head-honcho.jpg', 8.23),
 }
