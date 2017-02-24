@@ -5,7 +5,7 @@ from toontown.parties import PartyGlobals
 scoreRef = {'cat': (PartyGlobals.TugOfWarTieReward, PartyGlobals.TugOfWarTieReward),
             0: (PartyGlobals.TugOfWarWinReward, PartyGlobals.TugOfWarLossReward),
             1: (PartyGlobals.TugOfWarLossReward, PartyGlobals.TugOfWarWinReward),
-            2:(PartyGlobals.TugOfWarFallInWinReward, PartyGlobals.TugOfWarFallInLossReward),
+            2: (PartyGlobals.TugOfWarFallInWinReward, PartyGlobals.TugOfWarFallInLossReward),
             3: (PartyGlobals.TugOfWarFallInLossReward, PartyGlobals.TugOfWarFallInWinReward),
            }
 
