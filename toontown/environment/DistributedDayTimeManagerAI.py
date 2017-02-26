@@ -32,7 +32,7 @@ class DistributedDayTimeManagerAI(DistributedWeatherMGRAI):
         self.air.setHour(self.currentHour)
 
         # start the ticking process
-        taskMgr.doMethodLater(self.interval, self.update, 'time-update')
+        taskMgr.doMethodLater(self.interval, self.update, 'time-update-%s' % id(self))
 
     def d_requestUpdate(self):
         self.sendUpdateToAvatarId(self.air.getAvatarIdFromSender(), 'update', [
@@ -61,5 +61,5 @@ class DistributedDayTimeManagerAI(DistributedWeatherMGRAI):
     def stop(self):
         # reset currentHour, and remove time update task
         self.currentHour = 0
-        taskMgr.remove('time-update')
+        taskMgr.remove('time-update-%s' % id(self))
 
