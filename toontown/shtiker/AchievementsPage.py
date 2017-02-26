@@ -5,9 +5,10 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.achievements import AchievementsGlobals
 
-POSITIONS = [(-.45, 0, .3), (-.15, 0, .3), (.15, 0, .3), (.45, 0, .3),
-             (-.45, 0, .0), (-.15, 0, .0), (.15, 0, .0), (.45, 0, .0),
-             (-.45, 0, -.3), (-.15, 0, -.3), (.15, 0, -.3), (.45, 0, -.3)]
+POSITIONS = [(-.45, 0, .45), (-.15, 0, .45), (.15, 0, .45), (.45, 0, .45),
+             (-.45, 0, .15), (-.15, 0, .15), (.15, 0, .15), (.45, 0, .15),
+             (-.45, 0, -.15), (-.15, 0, -.15), (.15, 0, -.15), (.45, 0, -.15),
+             (-.45, 0, -.45), (-.15, 0, -.45), (.15, 0, -.45), (.45, 0, -.45)]
 
 class AchievementsPage(ShtikerPage.ShtikerPage):
 
