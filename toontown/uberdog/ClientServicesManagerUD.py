@@ -1,4 +1,4 @@
-import anydbm
+import semidbm
 import base64
 import hashlib
 import hmac
@@ -29,10 +29,8 @@ if accountDBType == 'remote':
 # developer server:
 minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
-accountServerEndpoint = simbase.config.GetString(
-    'account-server-endpoint', 'https://projectaltis.com/api/')
-accountServerSecret = simbase.config.GetString(
-    'account-server-secret', 'sjHgh43h43ZMcHnJ')
+accountServerEndpoint = simbase.config.GetString('account-server-endpoint', 'https://projectaltis.com/api/')
+accountServerSecret = simbase.config.GetString('account-server-secret', 'sjHgh43h43ZMcHnJ')
 
 http = HTTPClient()
 http.setVerifySsl(0)
@@ -46,7 +44,7 @@ def executeHttpRequest(url, **extras):
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
         request.add_header('X-CSM-' + k, v)
-    
+
     try:
         return urllib2.urlopen(request).read()
     except:
@@ -59,16 +57,17 @@ if blacklist:
 def judgeName(name): #All of this gunction is just fuckrd
     if not name:
         return False
-    
+
     if blacklist:
         for namePart in name.split(' '):
             namePart = namePart.lower()
             if len(namePart) < 1:
                 return False
-            
+
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
+
     # Use Google's API for checking badword list
     return True
 
@@ -78,9 +77,8 @@ class AccountDB:
     def __init__(self, csm):
         self.csm = csm
 
-        filename = simbase.config.GetString(
-            'account-bridge-filename', 'account-bridge')
-        self.dbm = anydbm.open(filename, 'c')
+        filename = simbase.config.GetString('account-bridge-filename', 'account-bridge')
+        self.dbm = semidbm.open(filename, 'c')
 
     def addNameRequest(self, avId, name):
         return 'Success'
@@ -142,17 +140,18 @@ class LocalAccountDB(AccountDB):
         #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
         #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
         return 'Success'
-    
+
     def getNameStatus(self, avId):
         # check type a name
         #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
         #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
         return 'APPROVED'
-    
+
     def lookup(self, username, callback):
+        '''
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
-        
+
         try:
             XXX = httpReq.getresponse().read()
             response = json.loads(XXX)
@@ -162,7 +161,7 @@ class LocalAccountDB(AccountDB):
             return
 
         if response['status'] != 'true':
-            
+
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
@@ -176,7 +175,7 @@ class LocalAccountDB(AccountDB):
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
         sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
-        
+
         try:
             XYZ = sanityChecks.getresponse().read()
             print(str(XYZ))
@@ -191,9 +190,9 @@ class LocalAccountDB(AccountDB):
                 callback({'success': False,
                           'reason': 'Your account is banned from Project Altis!'})
                 return
-        except: 
+        except:
             pass
-                
+
         #if response["statuscheck"] == "false":
         #    callback({'success': False,
         #              'reason': 'Toontown Project Altis is closed until the 20th!'})
@@ -203,6 +202,10 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Invalid Cookie Specified!'})
             return
+        '''
+        # TEMP
+        cookie = username
+        # TEMP
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -212,7 +215,7 @@ class LocalAccountDB(AccountDB):
                 'accountId': 0,
                 'accessLevel': 100
             }
-            
+
             callback(response)
             return response
 
@@ -223,7 +226,7 @@ class LocalAccountDB(AccountDB):
                     'success': True,
                     'userId': cookie,
                     'accountId': int(self.dbm[str(cookie)]),
-                    'accessLevel': int(response['powerlevel'])
+                    'accessLevel': int(507)
                 }
             except:
                 # We have an account already, let's return what we've got:
@@ -233,7 +236,7 @@ class LocalAccountDB(AccountDB):
                     'accountId': int(self.dbm[str(cookie)]),
                     'accessLevel': int(150)
                 }
-            
+
             callback(response)
             return response
 
@@ -483,7 +486,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ADMIN_ACCESS', 0)
+        access = self.account.get('ACCESS_LEVEL', 0)
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
@@ -558,7 +561,7 @@ class CreateAvatarFSM(OperationFSM):
         elif pg ==2:
             for track in tracks:
                 self.trackAccess[track] = 1
-        
+
 
         # Okay, we're good to go, let's query their account.
         self.demand('RetrieveAccount')
@@ -596,7 +599,7 @@ class CreateAvatarFSM(OperationFSM):
             colorString = "Colorful"
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
-		
+
         toonFields = {
             'setName': (name,),
             'WishNameState': ('OPEN',),
@@ -605,7 +608,7 @@ class CreateAvatarFSM(OperationFSM):
             'setDISLid': (self.target,),
             'setUber': (self.uber,)
         }
-		
+
         if self.pg > 0:
             if self.pg == 1:
                 maxMoney = 50
@@ -619,8 +622,8 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 25
                 experience = [600, 800]
-                
-            elif self.pg == 2: 
+
+            elif self.pg == 2:
                 maxMoney = 60
                 maxCarry = 30
                 startingHood = 5000
@@ -634,16 +637,16 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 34
                 experience = [1000, 2400]
-			
+
             exp = Experience()
-            
+
             for i, t in enumerate(self.trackAccess):
                 if t:
                     chosenExp = random.randint(experience[0], experience[1])
                     exp.setExp(i, chosenExp)
 
             toonFields['setExperience'] = (exp.makeNetString(),)
-			
+
             toonFields['setMaxMoney'] = (maxMoney,)
             toonFields['setMaxCarry'] = (maxCarry,)
             toonFields['setTrackAccess'] = (self.trackAccess,)
@@ -656,7 +659,7 @@ class CreateAvatarFSM(OperationFSM):
             toonFields['setHp'] = (hp,)
             toonFields['setMaxHp'] = (hp,)
             toonFields['setTutorialAck'] = (1,)
-				
+
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['DistributedToonUD'],
@@ -877,7 +880,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
     def enterJudgeName(self):
         # Let's see if the name is valid:
         status = judgeName(self.name)
-        
+
         if self.avId and status:
             resp = self.csm.accountDB.addNameRequest(self.avId, self.name)
             if resp != 'Success':
@@ -1133,7 +1136,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = '74Ce9b90fd8d802f229F76aBaccEd22433C8702f'
+        self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
@@ -1197,13 +1200,13 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
     def login(self, cookie, authKey):
         sender = self.air.getMsgSender()
-        
+
         self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
         digest_maker.update(cookie)
-        
+
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
             # recieved a bad authentication key from the client, drop there connection!
             self.killConnection(sender, 'Failed to login, recieved a bad login cookie %s!' % (cookie))

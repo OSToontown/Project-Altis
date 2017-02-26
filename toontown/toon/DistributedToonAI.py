@@ -25,7 +25,7 @@ from toontown.battle import SuitBattleGlobals
 from toontown.catalog import CatalogAccessoryItem
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogItemList
-from toontown.chat import ResistanceChat
+from toontown.chat import ResistanceChat, BlackListData
 from toontown.coghq import CogDisguiseGlobals
 from toontown.estate import FlowerBasket
 from toontown.estate import FlowerCollection
@@ -76,6 +76,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
      ToontownGlobals.FT_Leg: (CogDisguiseGlobals.leftLegIndex, CogDisguiseGlobals.rightLegIndex),
      ToontownGlobals.FT_Arm: (CogDisguiseGlobals.leftArmIndex, CogDisguiseGlobals.rightArmIndex),
      ToontownGlobals.FT_Torso: (CogDisguiseGlobals.torsoIndex,)}
+    Blacklist = BlackListData.BLACKLIST
     lastFlagAvTime = globalClock.getFrameTime()
     flagCounts = {}
     WantTpTrack = simbase.config.GetBool('want-tptrack', False)
@@ -1571,11 +1572,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     continue
             return quest
 
+        return
+
     def hasQuest(self, questId, visitNpcId = None, rewardId = None):
         if self.getQuest(questId, visitNpcId=visitNpcId, rewardId=rewardId) == None:
             return False
         else:
             return True
+        return
 
     def removeQuest(self, id, visitNpcId = None):
         index = -1
@@ -1698,6 +1702,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     taskMgr.doMethodLater(duration, self.__undoCheesyEffect, taskName)
                 else:
                     self.__undoCheesyEffect(None)
+        return
 
     def getCheesyEffect(self):
         return (self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime)
@@ -3634,7 +3639,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          (7, 2),
          (100, 1),
          (101, 3),
-         (102, 1)])
+         (102, 1),
+         (109, 1)])
 
     def reqUseSpecial(self, special):
         return  # TODO/gardening
@@ -4150,11 +4156,53 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setName(newName)
 
     def setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                DistributedPlayerAI.DistributedPlayerAI.setName(self, colorString + ' ' + animalType)
+                return
+        
+        
         DistributedPlayerAI.DistributedPlayerAI.setName(self, name)
         if self.WantOldGMNameBan:
             if self.isGenerated():
                 self._checkOldGMName()
         #self._updateGMName()
+        
+    def d_setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                DistributedPlayerAI.DistributedPlayerAI.d_setName(self, colorString + ' ' + animalType)
+                return
+                
+        DistributedPlayerAI.DistributedPlayerAI.d_setName(self, name)
+        
+    def b_setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                self.setName(colorString + ' ' + animalType)
+                self.d_setName(colorString + ' ' + animalType)
+                return
+                
+        self.setName(name)
+        self.d_setName(name)
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
@@ -4527,7 +4575,7 @@ def allSummons():
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str])
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
 def maxToon(missingTrack=None):
     """
     Max the target's stats for end-level gameplay.
@@ -4652,7 +4700,7 @@ def unlocks():
 
     return 'Unlocked teleport access, emotions, and pet trick phrases!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int, str])
+@magicWord(category=CATEGORY_MODERATOR, types=[int, str])
 def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
@@ -4674,7 +4722,7 @@ def sos(count, name):
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
 def unites(value=32767):
     """
     Restock all resistance messages.
@@ -4684,7 +4732,7 @@ def unites(value=32767):
     invoker.restockAllResistanceMessages(value)
     return 'Restocked %d unites!' % value
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
 def fires(count):
     """
     Modifies the invoker's pink slip count.

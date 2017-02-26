@@ -11,6 +11,8 @@ from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import Movie
 from toontown.battle import MovieUtil
+from toontown.toon import InventoryNewNEW
+from toontown.toon import InventoryNewOLD
 from toontown.suit import Suit
 from direct.actor import Actor
 from toontown.battle import BattleProps
@@ -24,8 +26,6 @@ from toontown.nametag import NametagGlobals
 
 class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBase')
-    camPos = ToontownBattleGlobals.BattleCamDefaultPos
-    camHpr = ToontownBattleGlobals.BattleCamDefaultHpr
     camFov = ToontownBattleGlobals.BattleCamDefaultFov
     camMenuFov = ToontownBattleGlobals.BattleCamMenuFov
     camJoinPos = ToontownBattleGlobals.BattleCamJoinPos
@@ -56,6 +56,12 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.needAdjustTownBattle = 0
         self.streetBattle = 1
         self.levelBattle = 0
+        if settings['newGui'] == True:
+            self.camPos = ToontownBattleGlobals.BattleCamDefaultPos1
+            self.camHpr = ToontownBattleGlobals.BattleCamDefaultHpr1
+        else:
+            self.camPos = ToontownBattleGlobals.BattleCamDefaultPos2
+            self.camHpr = ToontownBattleGlobals.BattleCamDefaultHpr2
         self.localToonFsm = ClassicFSM.ClassicFSM('LocalToon', [State.State('HasLocalToon', self.enterHasLocalToon, self.exitHasLocalToon, ['NoLocalToon', 'WaitForServer']), State.State('NoLocalToon', self.enterNoLocalToon, self.exitNoLocalToon, ['HasLocalToon', 'WaitForServer']), State.State('WaitForServer', self.enterWaitForServer, self.exitWaitForServer, ['HasLocalToon', 'NoLocalToon'])], 'WaitForServer', 'WaitForServer')
         self.localToonFsm.enterInitialState()
         self.fsm = ClassicFSM.ClassicFSM('DistributedBattle', [State.State('Off', self.enterOff, self.exitOff, ['FaceOff',
@@ -79,7 +85,6 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.adjustFsm = ClassicFSM.ClassicFSM('Adjust', [State.State('Adjusting', self.enterAdjusting, self.exitAdjusting, ['NotAdjusting']), State.State('NotAdjusting', self.enterNotAdjusting, self.exitNotAdjusting, ['Adjusting'])], 'NotAdjusting', 'NotAdjusting')
         self.adjustFsm.enterInitialState()
         self.interactiveProp = None
-        self.fireCount = 0
 
     def uniqueBattleName(self, name):
         DistributedBattleBase.id += 1
@@ -1223,6 +1228,10 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         if base.cr.playGame.getPlace() != None:
             base.cr.playGame.getPlace().setState('battle', self.localToonBattleEvent)
             if localAvatar and hasattr(localAvatar, 'inventory') and localAvatar.inventory:
+                if settings['newGui']:
+                    inventoryNetString = localAvatar.getInventory()
+                    localAvatar.inventory = InventoryNewNEW.InventoryNewNEW(localAvatar, inventoryNetString)
+                    localAvatar.inventory.updateInvString(inventoryNetString)
                 localAvatar.inventory.setInteractivePropTrackBonus(self.interactivePropTrackBonus)
         camera.wrtReparentTo(self)
         base.camLens.setMinFov(self.camFov/(4./3.))
@@ -1231,6 +1240,10 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.ignore(self.localToonBattleEvent)
         self.__stopTimer()
         if localAvatar and hasattr(localAvatar, 'inventory') and localAvatar.inventory:
+            if settings['newGui']:
+                inventoryNetString = localAvatar.getInventory()
+                localAvatar.inventory = InventoryNewOLD.InventoryNewOLD(localAvatar, inventoryNetString)
+                localAvatar.inventory.updateInvString(inventoryNetString)
             localAvatar.inventory.setInteractivePropTrackBonus(-1)
         stateName = None
         place = base.cr.playGame.getPlace()
@@ -1482,9 +1495,3 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
 
     def getCollisionName(self):
         return 'enter' + self.lockoutNodePath.getName()
-
-    def setFireCount(self, amount):
-        self.fireCount = amount
-
-    def getFireCount(self):
-        return self.fireCount

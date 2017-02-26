@@ -95,7 +95,7 @@ class ColorShop(StateData.StateData):
         self.legRButton = DirectButton(parent=self.legsFrame, relief=None, image=shuffleImage, image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.__swapLegColor, extraArgs=[1])
         self.pickerButton = DirectButton(parent=self.parentFrame, relief=None, image=(shuffleUp, shuffleDown, shuffleUp), image_scale=(-0.8, 0.6, 0.6), image1_scale=(-0.83, 0.6, 0.6), image2_scale=(-0.83, 0.6, 0.6), text=TTLocalizer.ColorShopPicker, text_font=ToontownGlobals.getInterfaceFont(), text_scale=TTLocalizer.SBshuffleBtn, text_pos=(0, -0.02), text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), pos=(0, 0, -1.15), command=self.popupPickerMenu)
         self.basicButton = DirectButton(parent=self.pickerFrame, relief=None, image=(shuffleUp, shuffleDown, shuffleUp), image_scale=(-0.8, 0.6, 0.6), image1_scale=(-0.83, 0.6, 0.6), image2_scale=(-0.83, 0.6, 0.6), text=TTLocalizer.ColorShopBasic, text_font=ToontownGlobals.getInterfaceFont(), text_scale=TTLocalizer.SBshuffleBtn, text_pos=(0, -0.02), text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), pos=(0, 0, -1.15), command=self.popupBasicMenu)
-        self.pickImage = PNMImage(int((0.8 - 0.25) * 100), int((0.8 - 0.4) * 100))
+        self.pickImage = PNMImage(int((0.9 - 0.1) * 100), int((0.9 - 0.2) * 100))
         self.hueSlider = DirectSlider(parent=self.pickerFrame, relief=None, image='phase_3/maps/picker_hue.jpg', thumb_relief=None, scale=0.3, pos=(0, 0, -.6), image_scale=(1.0, 1.0, 0.1), pageSize=5, orientation=DGG.HORIZONTAL, command=self.__chooseHue)
         self.pickButton = DirectButton(parent=self.pickerFrame, relief=None, image='phase_3/maps/picker_invisible.png', scale=0.5, pos=(0, 0, 0), frameColor=(1, 1, 1, 0.1), pressEffect=0)
         self.pickButton.bind(DGG.B1PRESS, self.__startPickColor)
@@ -247,10 +247,14 @@ class ColorShop(StateData.StateData):
         choice = (self.headChoice + offset) % length
         self.__updateScrollButtons(choice, length, self.allLButton, self.allRButton)
         self.__swapHeadColor(offset)
-        oldArmColorIndex = colorList.index(self.toon.style.armColor)
-        oldLegColorIndex = colorList.index(self.toon.style.legColor)
-        self.__swapArmColor(choice - oldArmColorIndex)
-        self.__swapLegColor(choice - oldLegColorIndex)
+        try:
+            oldArmColorIndex = colorList.index(self.toon.style.armColor)
+            oldLegColorIndex = colorList.index(self.toon.style.legColor)
+            self.__swapArmColor(choice - oldArmColorIndex)
+            self.__swapLegColor(choice - oldLegColorIndex)
+        except:
+            self.__swapArmColor(offset)
+            self.__swapLegColor(offset)			
 
     def __swapHeadColor(self, offset):
         colorList = self.getGenderColorList(self.dna)

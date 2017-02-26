@@ -1,5 +1,5 @@
 import operator, copy, random, time, gc
-from toontown.toon import Experience, InventoryNewOLD, TTEmote, Toon
+from toontown.toon import Experience, InventoryNewOLD, InventoryNewNEW, TTEmote, Toon
 from direct.controls.GravityWalker import GravityWalker
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -104,6 +104,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
         self.trackBonusLevel = [-1, -1, -1, -1, -1, -1, -1, -1]
+        self.inventoryNetString = None
         self.savedCheesyEffect = ToontownGlobals.CENormal
         self.savedCheesyHoodId = 0
         self.savedCheesyExpireTime = 0
@@ -323,7 +324,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if not self.inventory:
             self.inventory = InventoryNewOLD.InventoryNewOLD(self, inventoryNetString)
         self.inventory.updateInvString(inventoryNetString)
+        self.inventoryString = inventoryNetString
 		
+    def getInventory(self):
+        return self.inventoryString
+
     def notifyExpReward(self, level, type):
         if type == 0:
             self.setSystemMessage(0, TTLocalizer.ExpHPReward % (level+1), WTSystem)
@@ -1644,8 +1649,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.trophyStarSpeed != 0:
             taskMgr.remove(self.uniqueName('starSpin'))
             self.trophyStarSpeed = 0
-        if hasattr(self, 'gmIcon') and self.gmIcon:
-            return
         if self.trophyScore >= ToontownGlobals.TrophyStarLevels[4]:
             self.trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
             np = NodePath(self.nametag.getIcon())
@@ -1677,6 +1680,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if self.trophyScore >= ToontownGlobals.TrophyStarLevels[1]:
                 taskMgr.add(self.__starSpin, self.uniqueName('starSpin'))
 
+        if hasattr(self, 'gmIcon') and self.gmIcon and self.trophyStar:
+            self.trophyStar.setZ(5)
+            
     def __starSpin(self, task):
         now = globalClock.getFrameTime()
         r = now * self.trophyStarSpeed % 360.0
@@ -2718,6 +2724,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         iconInfo = [
             (None, None),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_creative', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*')
         ]
@@ -2725,12 +2732,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         #Now we need to caculate our index. 
         if gmType in [275]:
             index = 1
-        elif gmType in [300, 375, 390, 400]:
-            index = 2
-        elif gmType >= 450:
+        elif gmType in [300, 375]:
             index = 3
-        else:
+        elif gmType in [390]:
             index = 2
+        elif gmType >= 400:
+            index = 4
+        else:
+            index = 3
         
         icon = loader.loadModel(iconInfo[index][0])
         self.gmIcon = icon.find(iconInfo[index][1])

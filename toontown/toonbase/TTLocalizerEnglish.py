@@ -110,7 +110,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  5100: ('to', 'on', 'Elm Street'),
  5200: ('to', 'on', 'Maple Street'),
  5300: ('to', 'on', 'Oak Street'),
- 5400: ('to', 'on', 'Rose Valley'),
+ 5400: ('to', 'on', 'Spruce Street'),
  9000: ('to the', 'in the', 'Playground'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
@@ -549,6 +549,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  64: ['Jimmy', 'Jimmys', 'one '],
  65: ['Meatballs', 'Meatballs', 'some '],
  66: ['Rake', 'Rakes', 'a '],
+ 67: ['Sword', 'Swords', 'a '],
  110: ['TIP Clothing Ticket', 'Clothing Tickets', 'a '],
  1000: ['Clothing Ticket', 'Clothing Tickets', 'a '],
  2001: ['Inner Tube', 'Inner Tubes', 'an '],
@@ -853,7 +854,7 @@ QuestDialogDict = {160: {GREETING: '',
  1301: {QUEST: "You just got your first new gag track?\x07Congrats!\x07However, Donald's Dock is not as easy as Toontown Central.\x07Aside from that, I want you to know your way around this place.\x07On this street, Barnacle Boulevard, Bossbots are highly common. Go defeat 6 of them and return back to me once you've done that.",
         LEAVING: '',
         GREETING: ''},
- 1302: {QUEST: "On Seaweed Street, you will find plenty of Cashbots and a small amount of Sellbots.\x07I would like you to defeat 7 Cashbots on Seaweed Street.",
+ 1302: {QUEST: "On Seaweed Street, you will find plenty of Cashbots.\x07I would like you to defeat 7 Cashbots on Seaweed Street.",
         LEAVING: '',
         GREETING: ''},
  1303: {QUEST: "On Lighthouse Lane, Boardbots and Lawbots are highly common.\x07Go defeat 8 Boardbots on that street.",
@@ -862,13 +863,16 @@ QuestDialogDict = {160: {GREETING: '',
  1304: {QUEST: "On Lighthouse Lane, Boardbots and Lawbots are highly common.\x07Go defeat 8 Lawbots on that street.",
         LEAVING: '',
         GREETING: ''},
- 1305: {QUEST: "Now that you know your way around this neighborhood, it's time I give you a new challenge.\x07You've seen the gray buildings on the streets?\x07Those are Cog Buildings.\x07They are really dangerous and they should not be attempted on your own.\x07Try to gather up some friends and take down a 2+ story one here in Donald's Dock.",
+ 1305: {QUEST: "On Ahoy Avenue, Sellbots love to make their sales around there.\x07I'd like you to defeat 8 of them on that street.",
         LEAVING: '',
         GREETING: ''},
- 1306: {QUEST: "I just have one more favor...\x07A Pencil Pusher just came in here and stole my Toenail Clipper!\x07Please get it back so I don't have terrible looking toenails!!!",
+ 1306: {QUEST: "Now that you know your way around this neighborhood, it's time I give you a new challenge.\x07You've seen the gray buildings on the streets?\x07Those are Cog Buildings.\x07They are really dangerous and they should not be attempted on your own.\x07Try to gather up some friends and take down a 2+ story one here in Donald's Dock.",
         LEAVING: '',
         GREETING: ''},
- 1307: {QUEST: "I just have one more favor...\x07A Yesman just came in here and stole my Toenail Clipper!\x07Please get it back so I don't have terrible looking toenails!!!",
+ 1307: {QUEST: "I just have one more favor...\x07A Pencil Pusher just came in here and stole my Toenail Clipper!\x07Please get it back so I don't have terrible looking toenails!!!",
+        LEAVING: '',
+        GREETING: ''},
+ 1308: {QUEST: "I just have one more favor...\x07A Yesman just came in here and stole my Toenail Clipper!\x07Please get it back so I don't have terrible looking toenails!!!",
         LEAVING: '',
         GREETING: ''},
  401: {GREETING: '',
@@ -882,20 +886,22 @@ QuestDialogDict = {160: {GREETING: '',
         LEAVING: "!!!!!",
         GREETING: "AHHH!",
         COMPLETE: "LESS BOARDBOTS MAKES ME LESS ANGRY.\x07TAKE YOUR REWARD AND GET OUT!"},
- 2218: {QUEST: "_toNpcName_ requires some assistance._where_"},
- 2219: {QUEST: "A bunch of Cogs broke in and tossed some of my cans of tuna into the nearest pond.\x07Can you please go find them? They were my only ones!",
-        LEAVING: ''},
- 2220: {QUEST: "Good job on getting those cans of tuna!\x07Now, can you defeat some of the high leveled cogs around here? They scare off my customers.",
-        LEAVING: 'Good Luck!',
-        COMPLETE: "Thank you."},
- 2221: {QUEST: "We really don't know what's up with _toNpcName_._where_"},
- 2222: {QUEST: "I'll tell you what's up!\x07I can't stand Downsizers!\x07Always busting in, downsizing me, making me pocket sized. I'm sick of them!\x07Go defeat 5 of them.",
+ 2218: {QUEST: "_toNpcName_ is giving a lesson on the newly built Ahoy Avenue.\x07Maybe you should tune in?_where_"},
+ 2219: {QUEST: "OK, class.\x07On Barnacle Boulevard, those Bossbots love to roam.\x07On Seaweed Street, the Cashbots love to collect some green.\x07On Lighthouse Lane, the Boardbots and Lawbots love to dictate.\x07However, here on Ahoy Avenue, those Sellbots love to sell.\x07I want you, class, to defeat 10 of the Sellbots around here.",
         LEAVING: '',
-        GREETING: 'What\'s Up, Dock?'},
- 2223: {QUEST: "You know what else I don't like?\x07Backstabbers!\x07Always coming in, making a deal with me, then declining halfway through. I'm sick of them!\x07Go defeat 5 of them.",
+		GREETING: ''},
+ 2220: {QUEST: "OK, class.\x07Here, the Cogs have a range of Level 4 to Level 6.\x07I want you to defeat some of the Cogs Level 5 and up around here.",
         LEAVING: '',
-        GREETING: 'What\'s Up, Dock?',
-        COMPLETE: "Thanks for taking care of my issues."},
+        GREETING: '',
+        COMPLETE: "Great job.\x07You have passed this lesson.\x07Here is a reward..."},
+ 2221: {QUEST: "_toNpcName_ needs a loyal crew to take down those Cogs!_where_"},
+ 2222: {QUEST: "Yarr! Ahoy matey!\x07Them Bossbots are not a fan of us 'ere pirate types.\x07They like to destroy our ships and take our booty!\x07Will ye be apart of me royal crew?\x07Avast!\x07Defeat some of them Bossbots right away!",
+        LEAVING: 'Avast, ye!',
+        GREETING: ''},
+ 2223: {QUEST: "Yarr, them thieving Cogs around 'ere!\x07One of 'em came in and stole me trusty sword!\x07Avast!\x07Ye have to get it back for me!",
+        LEAVING: 'Avast, ye!',
+        GREETING: '',
+        COMPLETE: "Avast!\x07Ye did it!\x07'Ere is a fair share of me pirate booty..."},
  2224: {QUEST: "_toNpcName_ is having some trouble crossing the overseas.\x07Can you go help him?_where_"},
  2225: {QUEST: "Thanks for stopping by. I need your help.\x07The Short Changes here won't let me leave my shop, ever.\x07Could you rid this street of some of them?"},
  2226: {QUEST: "Awesome! Less Short Changes means I can go traveling again!\x07Wait a second, my passport is missing.\x07Yikes! One of the Cashbots that took over my building must've taken it!\x07Can you go recover it? The cog should be on this street.",
@@ -908,7 +914,7 @@ QuestDialogDict = {160: {GREETING: '',
  2231: {QUEST: "Good job recovering those frames.\x07I think you can handle this next job.\x07Awhile back, several Connoisseurs stole my Monocles that the fancy toons like to buy.\x07I don't know what street they may be, but I'm sure they're here in Donald's Dock.",
         COMPLETE: "Thanks for your cooperation."},
  2232: {QUEST: "The seventh inning stretch!\x07You're nearly done. Just visit _toNpcName_ for a close-finishing checkpoint._where_"},
- 2233: {QUEST: "In order to be eligable for a new gag track, you must be able to defeat high leveled cogs.\x07However, I will only make you defeat, at a minimum, level 5 cogs.\x07Go out and defeat 10 of them.",
+ 2233: {QUEST: "In order to be eligible for a new gag track, you must be able to defeat high leveled cogs.\x07However, I will only make you defeat, at a minimum, level 5 cogs.\x07Go out and defeat 10 of them.",
         COMPLETE: "Good job."},
  2201: {QUEST: 'Just starting Gag Training?\x07_toNpcName_ is where you get your first track._where_'},
  2202: {QUEST: "Yes, that's correct. I hand out the first track for your gag training.\x07Normally, the Toon HQs hand out the gag frame tasks, but some shopkeepers, like myself, have been given authority to hand out these kinds of tasks.\x07Anyways, could you possibly reduce the Cashbot population on this street?",
@@ -1117,14 +1123,14 @@ QuestDialogDict = {160: {GREETING: '',
  4210: {GREETING: '',
         QUEST: "Thank you. That's a big help.\x07Let's see...Fiddles: 2\x07All done! Off you go!_where_",
         COMPLETE: "Great work, _avName_.\x07I'm sure I'll get to the bottom of these thefts now.\x07Why don't you get to the bottom of this!"},
- 4211: {QUEST: 'We know it\'s a pain to go from Minnie\'s Melodyland and Sellbot HQ and back.\x07_toNpcName_ has a job for you to earn your early teleportation access._where_'},
+ 4211: {QUEST: 'We know it\'s a pain to go from Minnie\'s Melodyland and Sellbot HQ and back.\x07_toNpcName_ has a job for you to earn your early teleportation access.\x07Soprano Street is a newly built street which can be found at the end of Tenor Terrace._where_'},
  4212: {QUEST: "You need teleportation access?\x07Well, I want you to do a few favors for me.\x07First, can you reduce the Boardbot population on this street?",
         INCOMPLETE_PROGRESS: 'Still no customers. But keep it up!'},
  4213: {QUEST: "As my second request, a bunch of the pesky Middlemen disturb my private business.\x07Can you reduce the amount of them on this street?",
         INCOMPLETE_PROGRESS: "I know twenty is a lot. But I'm sure it's going to pay off in spades."},
  4214: {GREETING: '',
         LEAVING: '',
-        QUEST: "Lastly, I want you to take down a big building on this street.\x07Then you may have teleportation access.",
+        QUEST: "Lastly, I want you to take down several big buildings in this playground.\x07Then you may have teleportation access.",
         INCOMPLETE_PROGRESS: 'Oh, please! Just one little building...',
         COMPLETE: "Amazing job!\x07Here is your reward..."},
  4215: {QUEST: "_toNpcName_ is investigating on the Factory Foreman and needs some assistance._where_"},
@@ -1172,9 +1178,9 @@ QuestDialogDict = {160: {GREETING: '',
         QUEST: "The pitch of the town is nearly perfect!\x07Just a few 7+ Cogs on Tenor Terrace will do it!\x07I believe you can do it!",
         LEAVING: 'Good-bye, good-bye, goooooooood-bye!!!',
         COMPLETE: "This pitch...\x07IT'S PERRRRRRRRRRRRRRRRRRRRRRRFECT!!!!"},
- 4236: {QUEST: "The melody around here is decreasing and _toNpcName_ needs your help getting it back._where_"},
+ 4236: {QUEST: "The melody around here is decreasing and _toNpcName_ needs your help getting it back.\x07Soprano Street is a newly built street which can be found at the end of Tenor Terrace._where_"},
  4237: {GREETING: '',
-        QUEST: "The melody of Minnie's Melodyland is decreasing!\x07The Cogs around here tend to take away the music notes all around the playground, which reduces the melody of this town.\x07Please get some back before this whole town loses its melody!",
+        QUEST: "The melody of Minnie's Melodyland is decreasing!\x07The Cogs around here tend to take away many of my music notes!\x07My notes specifically provide the melody around here, and it'd be tragic to lose that strong melody.\x07Please get some back before this whole town loses its melody!",
         LEAVING: '',
         COMPLETE: "Everything sounds better!"},
  902: {QUEST: '_toNpcName_ needs to see you before giving you your new gag._where_'},
@@ -2005,9 +2011,14 @@ MovieSOSCallHelp = '%s HELP!'
 MovieSOSWhisperHelp = '%s needs help in battle!'
 MovieSOSObserverHelp = 'HELP!'
 MovieNPCSOSGreeting = 'Hi %s! Glad to help!'
+FrumpGreetings = ["I'm all in on this for a small loan of a million jellybeans.", 'Did one of you mention a wall?', "TOGETHER... WE WILL MAKE TOONTOWN GREAT AGAIN!!!", 'This is gonna be yuge.', "They are all filthy cogs, I'm sure some of them are great robots.", 'We are going to build a wall and make Loonyville pay for it!']
 MovieNPCSOSGoodbye = 'See you later!'
 MovieNPCSOSToonsHit = 'Toons Always Hit!'
+MovieNPCSOSToonsHitS = 'Toons Always Hit\nFor One Round!'
+MovieNPCSOSToonsHitP = 'Toons Always Hit\nFor %d Rounds!'
 MovieNPCSOSCogsMiss = 'Cogs Always Miss!'
+MovieNPCSOSCogsMissS = 'Cogs Always Miss\nFor One Round!'
+MovieNPCSOSCogsMissP = 'Cogs Always Miss\n For %d Rounds!'
 MovieNPCSOSRestockGags = 'Restocking %s gags!'
 MovieNPCSOSHeal = 'Heal'
 MovieNPCSOSTrap = 'Trap'
@@ -2807,8 +2818,8 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
            'Easy come, easy go.',
            "Isn't this your last shred of hope?"],
  'SongAndDance': ['Whoa whoa whoa...',
-                  'This maybe cringe-worthy ...',
-                  "Try not to cringe.",
+                  'A-one! A-two! A skiddly-diddly-doo!',
+                  "Don't trip up!",
                   "Think of this as a dance to the death.",
                   "It's like dreaming with your feet.",
                   'Never miss a chance to dance!',
@@ -3946,6 +3957,7 @@ LauncherVerifyPhase = 'Updating Project Altis...'
 LoadingDownloadWatcherUpdate = 'Loading %s'
 AvatarChoiceMakeAToon = 'Make A\nToon'
 AvatarChoicePlayThisToon = 'Play\nThis Toon'
+AvatarChoiceSelectThisToon = 'Select\nThis Toon'
 AvatarChoiceSubscribersOnly = 'Subscribe'
 AvatarChoiceDelete = 'Delete'
 AvatarChoiceDeleteConfirm = 'This will delete %s forever.'
@@ -4495,6 +4507,7 @@ MapPageGoTo = 'Go To\n%s'
 OptionsPageTitle = 'Options'
 OptionsPageSpecial = 'Advanced'
 OptionsTabTitle = 'Options\n& Codes'
+OptionsPagePurchase = 'Subscribe'
 OptionsPageLogout = 'Logout'
 OptionsPageExitToontown = 'Exit Toontown'
 OptionsPageMusic = 'Music:'
@@ -4724,6 +4737,7 @@ InventorySkillCredit = 'Skill credit: %s'
 InventorySkillCreditNone = 'Skill credit: None'
 InventoryDetailAmount = '%(numItems)s / %(maxItems)s'
 InventoryDetailData = 'Accuracy: %(accuracy)s\n%(damageString)s: %(damage)d%(bonus)s\n%(singleOrGroup)s'
+InventoryDetailDataExtra = 'Accuracy: %(accuracy)s\n%(damageString)s: %(damage)d%(bonus)s\n%(singleOrGroup)s\n%(extra)s'
 InventoryTrackExp = '%(curExp)s / %(nextExp)s'
 InventoryUberTrackExp = '%(nextExp)s to Go!'
 InventoryGuestExp = 'Guest Limit'
@@ -4735,6 +4749,7 @@ InventoryAffectsAllCogs = 'Affects: All ' + Cogs
 InventoryHealString = 'Toon-up'
 InventoryDamageString = 'Damage'
 InventoryLureString = 'Rounds active'
+InventorySquirtRoundsString = 'Rounds soaked: %s'
 InventoryBattleMenu = 'BATTLE MENU'
 InventoryRun = 'RUN'
 InventorySOS = 'SOS'
@@ -5557,6 +5572,13 @@ QuestScript150_1 = 'Great work!\x07Toontown is more fun when you have friends!'
 QuestScript150_2 = 'To make friends, find another player, and use the New Friend button.'
 QuestScript150_3 = 'Once you have made a friend, come back here.'
 QuestScript150_4 = 'Some tasks are too difficult to do alone!'
+QuestScript600_1 = "Welcome to Toontown: Project Altis!"
+QuestScript600_2 = "There are many shop keepers out there who will require your help."
+QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
+QuestScript600_4 = "Jester Chester can help you get used to this habbit."
+QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
+QuestScript600_6 = "Have fun in Toontown: Project Altis!"
+
 MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'
@@ -5623,8 +5645,9 @@ ResistanceToonTooLate = "Blast it!  We're too late!"
 CashbotBossDiscoverToons1 = 'Ah-HAH!'
 CashbotBossDiscoverToons2 = 'I thought I smelled something a little toony in here!  Imposters!'
 ResistanceToonKeepHimBusy = "Keep him busy!  I'm going to set a trap!"
-ResistanceToonWatchThis = 'Watch this!'
-CashbotBossGetAwayFromThat = 'Hey!  Get away from that!'
+ResistanceToonFollowHim = 'Come on toons! Follow that bag of bolts!'
+CashbotBossTrapped = "I've got you right where I want you now, toons."
+CashbotBossCogAgain = 'Err, again...'
 ResistanceToonCraneInstructions1 = 'Control a magnet by stepping up to a podium.'
 ResistanceToonCraneInstructions2 = 'Use the arrow keys to move the crane, and press the Ctrl key to grab an object.'
 ResistanceToonCraneInstructions3 = "Grab a safe with a magnet and knock the C.F.O.'s safe-ty helmet off."
@@ -5774,6 +5797,7 @@ GlassesStylesDescriptions = {'grd1': 'Round Glasses',
  'gsr1': 'Square Frame Glasses',
  'ghw1': 'Skull Eyepatch',
  'ghw2': 'Gem Eyepatch',
+ 'ghw3': "Limey's Eyepatch",
  'gag1': 'Alien Eyes by Alexandra'}
 BackpackStylesDescriptions = {'bpb1': 'Blue Backpack',
  'bpb2': 'Orange Backpack',
@@ -7109,6 +7133,26 @@ NPCToonNames = {20000: 'Tutorial Tom',
  1330: 'Porter Hole',
  1331: 'Rudy Rudder',
  1332: 'Shane',
+ 1400: 'Darwin',
+ 1401: 'Sir C. Saw',
+ 1402: 'Helpful Hurley',
+ 1403: 'Chef Shea',
+ 1404: 'Professor Pearl',
+ 1405: 'Greggory Goggles',
+ 1406: 'N.D. Skye',
+ 1407: lHQOfficerM,
+ 1408: lHQOfficerM,
+ 1409: lHQOfficerF,
+ 1410: lHQOfficerF,
+ 1411: 'Crafty Clyde',
+ 1412: 'T. Shirley',
+ 1413: 'Eugene',
+ 1414: 'Captain Cheesy',
+ 1415: 'Smirky Bumberpop',
+ 1416: 'Chef Chip',
+ 1417: 'Postmaster Paul',
+ 1418: 'A.R. Ming',
+ 1419: 'Ree Pare',
  3001: 'Betty Freezes',
  3002: lHQOfficerM,
  3003: lHQOfficerF,
@@ -7348,6 +7392,16 @@ NPCToonNames = {20000: 'Tutorial Tom',
  4333: 'Harry',
  4334: 'Fast Freddie',
  4335: 'Walden',
+ 4400: 'Rocky',
+ 4401: 'Nurse Marie',
+ 4402: 'Tune A. Fish',
+ 4403: 'Leo Pulseman',
+ 4404: 'Remote',
+ 4405: 'Susan Soprano',
+ 4406: 'Kazoo Kid',
+ 4407: 'Annie Airhead',
+ 4408: 'Barry B.',
+ 4409: 'Peter Plunger',
  5001: lHQOfficerM,
  5002: lHQOfficerM,
  5003: lHQOfficerF,
@@ -7555,7 +7609,8 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7007: 'Dewin Tymme',
  7008: 'Ima Cagedtoon',
  7009: 'Jimmy Thelock',
- 91917: 'Prince Frizzy'}
+ 91917: 'Prince Frizzy',
+ 91918: 'Squeaker'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
  2514: ('Toontown Bank', ''),
  2516: ('Toontown School House', ''),
@@ -7733,6 +7788,24 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  1833: ('This Transom Man Custom Tailored Suits', ''),
  1834: ('Rudderly Ridiculous!', ''),
  1835: ('', ''),
+ 1903: ("Darwin's Fishing Rods", ''),
+ 1904: ('Seaside Seasaws', ''),
+ 1905: ('I See Seafood', ''),
+ 1906: ('School of Fish Tutoring', ''),
+ 1908: ('Be Pacific! Customer Support', ''),
+ 1909: ('Goggle Defogers', ''),
+ 1910: ('Island, You Land! Airplanes', ''),
+ 1911: ('Seacastle Contractors', ''),
+ 1912: ('Manatee Shirts', ''),
+ 1913: ('Burger King Crabs', ''),
+ 1914: ("Sailor Don't Sail! Boating Equipment", ''),
+ 1915: ("Salty Smirky's Seriously Salty Seafood Shop", ''),
+ 1922: (lToonHQ, ''),
+ 1924: ("Fish and Chips on Ships", ''),
+ 1925: ('Pelican Package Company', ''),
+ 1926: ('Sad Vacant Building', ''),
+ 1927: ('Swordfish Armor and Weaponry', ''),
+ 1929: ('Flounder and Sink Ship Repair', ''),
  4503: ('Gag Shop', ''),
  4504: ('Toon Headquarters', ''),
  4506: ('Clothing Shop', ''),
@@ -7847,6 +7920,16 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  4871: ("Harry's House of Harmonious Humbuckers", ''),
  4872: ("Fast Freddie's Fretless Fingerboards", ''),
  4873: ('', ''),
+ 4903: ("Rock 'N'Roll Geologists", ''),
+ 4905: ('Pipe Organs Medical Facilities', ''),
+ 4906: ("Remote's Notes", ''),
+ 4907: ('Bass Fishing And Tuning', ''),
+ 4908: ('Soprano Street Pianos', ''),
+ 4909: ('Leo Pulseman', ''),
+ 4910: ('Bagpipe Plumbing Agency', ''),
+ 4911: ('You On Kazoo', ''),
+ 4912: ('Bee Flat Exterminators', ''),
+ 4913: ('The Air Horn Refillery', ''),
  5501: ('Gag Shop', ''),
  5502: (lToonHQ, ''),
  5503: ('Clothing Shop', ''),
@@ -8292,6 +8375,8 @@ TipDict = {TIP_NONE: ('',),
                'Pet Shops get new Doodles to sell every day.',
                'Visit the Pet Shops every day to see what new Doodles they have.',
                'Different neighborhoods have different Doodles offered for adoption.',
+               'When using the new battle GUI, you can press Alt + a number to change tracks, and Ctrl + a number to select a gag!',
+               'When using the new battle GUI, you can use the mousewheel to swap between tracks.',
                'Goofy Speedway has six different race tracks. '),
  TIP_STREET: ('There are five types of Cogs: Lawbots, Cashbots, Sellbots, Bossbots, and Boardbots.',
               'Each Gag Track has different amounts of accuracy and damage.',
@@ -8951,10 +9036,11 @@ StatuaryToon = 'Toon Statue'
 StatuaryToonWave = 'Toon Wave Statue'
 StatuaryToonVictory = 'Toon Victory Statue'
 StatuaryToonCrossedArms = 'Toon Authority Statue'
-StatuaryToonThinking = 'Toon Embrace Statue'
+StatuaryToonThinking = 'Toon Thinking Statue'
 StatuaryMeltingSnowman = 'Melting Snowman'
 StatuaryMeltingSnowDoodle = 'Melting SnowDoodle'
 StatuaryGardenAccelerator = 'Insta-Grow Fertilizer'
+StatuaryGazebo = 'Gazebo'
 AnimatedStatuaryFlappyCog = 'Flappy Cog'
 FlowerColorStrings = ['Red',
  'Orange',

@@ -40,7 +40,7 @@ while True:
     InvasionsPerDay = 72.0      # How many invasions a day per district
     BaseInvasionChance = InvasionsPerDay/ChecksPerDay
     
-    safeHarbor = {'Sillyham', 'Gigglyham'}
+    safeHarbor = {'Sillyham', 'Geezer Gorge'}
     superDistricts = {'Nutty River', 'Nuttyboro'}
     
     
@@ -57,7 +57,7 @@ while True:
         if shard['invasion'] == None:
           if shard['name'] in superDistricts:
             typ = int(float(random.random()) * 5.0)
-            suit = int(float(random.random()) * 4.0) + 4  # Bias the cogs to be big
+            suit = int(float(random.random()) * 4.0)
             client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
             count = count + 1
             print 'Calling invasion for %s with %d,%d'%(shard['name'],typ,suit)

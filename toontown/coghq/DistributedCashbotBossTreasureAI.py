@@ -1,13 +1,24 @@
-from toontown.safezone import DistributedSZTreasureAI
+from toontown.safezone import DistributedTreasureAI
+from toontown.safezone import TreasureGlobals
 
-class DistributedCashbotBossTreasureAI(DistributedSZTreasureAI.DistributedSZTreasureAI):
+class DistributedCashbotBossTreasureAI(DistributedTreasureAI.DistributedTreasureAI):
+
 
     def __init__(self, air, boss, goon, style, fx, fy, fz):
         pos = goon.getPos()
-        DistributedSZTreasureAI.DistributedSZTreasureAI.__init__(self, air, boss, pos[0], pos[1], 0)
+        type = TreasureGlobals.SafeZoneTreasureSpawns[style][0]
+        DistributedTreasureAI.DistributedTreasureAI.__init__(self, air, boss, type, pos[0], pos[1], 0)
         self.goonId = goon.doId
         self.style = style
         self.finalPosition = (fx, fy, fz)
+        
+    def validAvatar(self, av):
+        # Don't allow healing to toons that are at maxHP or are sad
+        if av.getHp() < av.getMaxHp() and av.getHp() > 0:
+            av.toonUp(self.healAmount)
+            return True
+        else:
+            return False
 
     def getGoonId(self):
         return self.goonId

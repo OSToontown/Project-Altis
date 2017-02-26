@@ -18,7 +18,7 @@ class ClientServicesManager(DistributedObjectGlobal):
 
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
-
+        '''
         params = urllib.urlencode({'u': base.launcher.getUsername(), 'p': base.launcher.getPassword()})
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "application/json"}
 
@@ -38,8 +38,9 @@ class ClientServicesManager(DistributedObjectGlobal):
         else:
             # the request was successful, set the login cookie and login.
             cookie = response['additional']
-
-        key = '74Ce9b90fd8d802f229F76aBaccEd22433C8702f'
+        '''
+        cookie = base.launcher.getUsername()
+        key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
 
