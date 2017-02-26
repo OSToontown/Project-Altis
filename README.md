@@ -11,6 +11,7 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 * Loopy Goopy Googlenerd | Content Director
 * Judge | Investor
 * Drew | Technical Team Lead
+
 ### Technical Team
 * Sir Tubby Cheezyfish | Lead Game Developer
 * Barks | Game Developer
@@ -20,17 +21,20 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 * Alice | Web Developer
 * Xanon | Web Developer
 * Ben | Launcher Developer
+
 ### Creative Team
 * Bethy / Limey Mouse | Lead Artist
 * Old Geezer | Modeller | Composer
 * Maddie | Texture Artist
 * VoidPoro | Texture Artist
 * Pascal | Modeller
+
 ### Contributors
 * Dank Mickey | Former Developer | Boardbot Development
 * Josh Zimmer | Former Developer
 * Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
 * Aura | Pick-A-Toon Concept / Inspiration
+
 ### Special Thanks
 * Toontown Infinite | Various Resources
 * Piplup | New battle GUI concept
