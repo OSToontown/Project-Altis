@@ -230,7 +230,7 @@ class Garden:
             if plot not in self.objects:
                 return
                 
-            plot.requestDelete()
+            plot.slete()
             self.objects.remove(plot)
             
         flower = DistributedFlowerAI(self)
@@ -457,8 +457,8 @@ class DistributedEstateAI(DistributedObjectAI):
             for target in self.targets:
                 target.requestDelete()
            
-            for pet in self.pets:
-                pet.requestDelete()
+        for pet in self.pets:
+            pet.requestDelete()
 
         if self.treasurePlanner:
             self.treasurePlanner.stop()
@@ -540,7 +540,7 @@ class DistributedEstateAI(DistributedObjectAI):
                     pet.setGender(gender)
                     pet.setLastSeenTimestamp(lastSeenTimestamp)
                     pet.setTrickAptitudes(trickAptitudes)
-                    pet.generateWithRequired(self.zoneId)
+                    pet.generateWithRequiredAndId(petId, self.air.districtId, self.zoneId)
 
                     # store the pet do's for use later...
                     self.pets.append(pet)
@@ -557,6 +557,11 @@ class DistributedEstateAI(DistributedObjectAI):
 
         self.air.dbInterface.queryObject(self.air.dbId, owner.DISLid,
             callback=_queryAccount)
+        
+    def destroyPet(self, owner):
+        for pet in self.pets:
+            if owner == self.air.doId2do.get(pet.ownerId):
+                pet.requestDelete()
 
     def requestServerTime(self):
         self.sendUpdateToAvatarId(self.air.getAvatarIdFromSender(), 'setServerTime', [
@@ -829,6 +834,7 @@ class DistributedEstateAI(DistributedObjectAI):
             self.sendUpdate('awardedTrophy', [avId])
         
         av.b_setGardenTrophies(range(len(collection) // 10))
+
     def awardedTrophy(self, todo0):
         pass
 
