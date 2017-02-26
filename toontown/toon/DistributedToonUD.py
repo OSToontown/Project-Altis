@@ -1,8 +1,13 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectUD import DistributedObjectUD
+from otp.avatar import DistributedAvatarUD
 
-class DistributedToonUD(DistributedObjectUD):
+class DistributedToonUD(DistributedAvatarUD.DistributedAvatarUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedToonUD")
+    
+    def __init__(self, air):
+        DistributedAvatarUD.DistributedAvatarUD.__init__(self, air)
+        self.air = air
 
     def setDNAString(self, todo0):
         pass
