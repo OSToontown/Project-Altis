@@ -502,7 +502,7 @@ class DistributedEstateAI(DistributedObjectAI):
             
         treasure = self.air.doId2do.get(treasureId)
         if av.getMaxHp() != av.getHp():
-            av.toonUp(15) # Give alot of hp since they are pretty hard to hit ;)
+            av.toonUp(5)
             treasure.d_setGrab(avId)
             treasure.requestDelete()
             
