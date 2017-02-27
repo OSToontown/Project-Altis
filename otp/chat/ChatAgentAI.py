@@ -81,11 +81,4 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         av.b_setWarningCount(count, doBan)
         
     def kickForSpam(self, avatar):
-        datagram = PyDatagram()
-        av = self.air.doId2do.get(avatar)
-        datagram.addServerHeader(
-            av.GetPuppetConnectionChannel(avatar),
-            self.air.ourChannel, CLIENTAGENT_EJECT)
-        datagram.addUint16(155)
-        datagram.addString('You were automatically kicked for chat spam!')
-        self.air.send(datagram)
+        pass

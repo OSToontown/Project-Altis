@@ -29,7 +29,8 @@ class ChatLog(DirectFrame, DirectObject):
             incButton_scale = (1.0, 1.0, -1.0),
             
             items = [],
-            numItemsVisible = 7,
+            numItemsVisible = 6,
+            forceHeight = .04,
             itemFrame_frameSize = (-0.4, 0.4, -0.37, 0.11),
             itemFrame_pos = (0.35, 0, 0.4),
             )

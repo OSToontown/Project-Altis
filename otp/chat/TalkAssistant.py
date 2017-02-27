@@ -336,11 +336,7 @@ class TalkAssistant(DirectObject.DirectObject):
         if reject == 1:
             newMessage.setBody(OTPLocalizer.AntiSpamInChat)
             if senderAvId == localAvatar.doId:
-                self.spamWarning += 1
-                if self.spamWarning == 4: 
-                    base.cr.chatAgent.kickForSpam(localAvatar)
-                else:
-                    localAvatar.setSystemMessage(0, "Spam detected! Please slow down your chat! (Warning %s / 3)" % self.spamWarning)
+                localAvatar.setSystemMessage(0, "Spam detected! Please slow down your chat!")
         if reject != 2:
             isSpam = self.spamDictByDoId.get(senderAvId) and reject
             if not isSpam:
@@ -576,7 +572,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.addToHistoryDoId(newMessage, senderAvId)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
-            base.cr.chatLog.addToLog("%s whispers: %s" %(avatarName, message))
+            base.cr.chatLog.addToLog("%s whispers: %s" %(name, message))
         return error
 
     def receivePlayerWhisperSpeedChat(self, type, messageIndex, senderAvId, name = None):
