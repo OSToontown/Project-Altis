@@ -12304,8 +12304,7 @@ FOnpcFriends = {9310: (ToontownBattleGlobals.LURE_TRACK, 1, 0, 0),
  9301: (ToontownBattleGlobals.HEAL_TRACK, 3, 10, 0),
  9302: (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
  9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2)}
-AprilToonsFriends = {91918: (ToontownBattleGlobals.SOUND_TRACK, 6, 150, 5),
- 1415: (ToontownBattleGlobals.SOUND_TRACK, 5, 0, 0),
+AprilToonsFriends = {1415: (ToontownBattleGlobals.SOUND_TRACK, 5, 0, 0),
  3308: (100, 0, 0, 5)}
 DevFriends = {91917: (ToontownBattleGlobals.SOUND_TRACK, 6, 900, 5),}
 
