@@ -344,7 +344,10 @@ class TalkAssistant(DirectObject.DirectObject):
                 self.historyOpen.append(newMessage)
                 messenger.send('NewOpenMessage', [newMessage])
                 if hasattr(base.cr, 'chatLog'):
-                    base.cr.chatLog.addToLog("%s: %s" %(avatarName, message))
+                    if self.isThought(message):
+                        base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message))
+                    else:
+                        base.cr.chatLog.addToLog("\1playerGreen\1%s\2: %s" %(avatarName, message))
 
             if newMessage.getBody() == OTPLocalizer.AntiSpamInChat:
                 self.spamDictByDoId[senderAvId] = 1
@@ -371,7 +374,7 @@ class TalkAssistant(DirectObject.DirectObject):
             self.addToHistoryDISLId(newMessage, accountId)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
-            base.cr.chatLog.addToLog("%s whispers: %s" %(avatarName, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(avatarName, message))
         return error
 
     def receiveAccountTalk(self, avatarId, avatarName, accountId, accountName, toId, toName, message, scrubbed = 0):
@@ -448,7 +451,7 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyOpen.append(newMessage)
             messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
-            base.cr.chatLog.addToLog("%s thinks: %s" %(avatarName, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message))
         return error
 
     def receiveGameMessage(self, message):
@@ -459,7 +462,7 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyUpdates.append(newMessage)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
-            base.cr.chatLog.addToLog("System Message: %s" %(message))
+            base.cr.chatLog.addToLog("\1playerGreen\1System Message\2: %s" %(message))
         return error
 
     def receiveSystemMessage(self, message):
@@ -470,7 +473,7 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyUpdates.append(newMessage)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
-            base.cr.chatLog.addToLog("System Message: %s" %(message))
+            base.cr.chatLog.addToLog("\1playerGreen\1System Message\2: %s" %(message))
         return error
 
     def receiveDeveloperMessage(self, message):
@@ -553,7 +556,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.addToHistoryDoId(newMessage, senderAvId)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
-            base.cr.chatLog.addToLog("%s: %s" %(name, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s\2: %s" %(name, message))
         return error
 
     def receiveAvatarWhisperSpeedChat(self, type, messageIndex, senderAvId, name = None):
@@ -572,7 +575,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.addToHistoryDoId(newMessage, senderAvId)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
-            base.cr.chatLog.addToLog("%s whispers: %s" %(name, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(name, message))
         return error
 
     def receivePlayerWhisperSpeedChat(self, type, messageIndex, senderAvId, name = None):

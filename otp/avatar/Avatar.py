@@ -574,6 +574,8 @@ class Avatar(Actor, ShadowCaster):
                     else:
                         dialogue = None
                     self.setChatAbsolute(self.__chatMessage, self.__chatFlags, dialogue)
+                    if hasattr(base.cr, 'chatLog'):
+                        base.cr.chatLog.addToLog("\1textShadow\1%s\2: %s" %(self.name, self.__chatMessage.replace('\x07', ' ')))
                     self.__chatSet = 1
                 if pageNumber < self.nametag.getNumChatPages():
                     if (self.__chatAddressee == base.localAvatar.doId) and self.__chatQuitButton:
