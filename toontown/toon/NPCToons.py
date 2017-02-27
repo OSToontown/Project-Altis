@@ -12266,8 +12266,6 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  1323: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
  2308: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 3),
  4119: (ToontownBattleGlobals.SOUND_TRACK, 5, 80, 5),
- 91917: (ToontownBattleGlobals.SOUND_TRACK, 6, 900, 5),
- 91918: (ToontownBattleGlobals.SOUND_TRACK, 6, 150, 5),
  4219: (ToontownBattleGlobals.SOUND_TRACK, 5, 50, 4),
  4115: (ToontownBattleGlobals.SOUND_TRACK, 5, 40, 3),
  5012: (ToontownBattleGlobals.THROW_TRACK, 6, 132, 5),
@@ -12279,13 +12277,12 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxH
  1116: (ToontownBattleGlobals.DROP_TRACK, 5, 170, 5),
  2311: (ToontownBattleGlobals.DROP_TRACK, 5, 110, 4),
  4140: (ToontownBattleGlobals.DROP_TRACK, 5, 90, 3),
- 3137: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
- 4327: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
- 4230: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 0, 4),
- 3135: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
- 2208: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
- 5124: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 0, 4),
- #3308: (100, 0, 0, 5),
+ 4230: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 3, 5),
+ 3137: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 2, 4),
+ 4327: (ToontownBattleGlobals.NPC_COGS_MISS, 0, 1, 3),
+ 2208: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 3, 5),
+ 3135: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 2, 4),
+ 5124: (ToontownBattleGlobals.NPC_TOONS_HIT, 0, 1, 3),
  2003: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, -1, 0, 5),
  2126: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.HEAL_TRACK, 0, 3),
  4007: (ToontownBattleGlobals.NPC_RESTOCK_GAGS, ToontownBattleGlobals.TRAP_TRACK, 0, 3),
@@ -12307,6 +12304,10 @@ FOnpcFriends = {9310: (ToontownBattleGlobals.LURE_TRACK, 1, 0, 0),
  9301: (ToontownBattleGlobals.HEAL_TRACK, 3, 10, 0),
  9302: (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
  9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2)}
+AprilToonsFriends = {91918: (ToontownBattleGlobals.SOUND_TRACK, 6, 150, 5),
+ 1415: (ToontownBattleGlobals.SOUND_TRACK, 5, 0, 0),
+ 3308: (100, 0, 0, 5)}
+DevFriends = {91917: (ToontownBattleGlobals.SOUND_TRACK, 6, 900, 5),}
 
 disabledSosCards = ConfigVariableList('disable-sos-card')
 for npcId in disabledSosCards:
@@ -12318,6 +12319,8 @@ for npcId in disabledSosCards:
 
 npcFriends = dict(HQnpcFriends)
 npcFriends.update(FOnpcFriends)
+npcFriends.update(AprilToonsFriends)
+npcFriends.update(DevFriends)
 
 def getNPCName(npcId):
     if npcId in NPCToonDict:

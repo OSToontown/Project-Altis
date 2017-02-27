@@ -248,6 +248,9 @@ class NewPickAToonOptions:
         self.displaySettingsBorderless = None
         self.displaySettingsApi = None
         self.displaySettingsApiChanged = 0
+        
+        self.animations_Label = None
+        self.animations_toggleButton = None
 
     def showOptions(self):
         # base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
@@ -440,6 +443,12 @@ class NewPickAToonOptions:
             self.fov_resetButton.destroy()
             self.fov_resetButton = None
 
+        if self.animations_Label:
+            self.animations_Label.destroy()
+            self.animations_Label = None
+            self.animations_toggleButton.destroy()
+            self.animations_toggleButton = None
+            
     def delAllOptions(self):
         self.delSoundOptions()
         self.delControlOptions()

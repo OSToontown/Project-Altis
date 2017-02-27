@@ -46,7 +46,7 @@ uberdogs:
     - class: DistributedDeliveryManager
       id: 4683
       anonymous: false
-      
+
     - class: DistributedMailManager
       id: 4690
       anonymous: false
@@ -62,15 +62,14 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 0.0.0.0:7198
-      version: "TTPA-Alpha-1.6.3"
+      version: "TTPA-Alpha-1.6.5"
       client:
        relocate: true
        add_interest: enabled
       channels:
         min: 1000000000
         max: 1000001000
-  
-        
+
     - type: stateserver
       control: 4002
 

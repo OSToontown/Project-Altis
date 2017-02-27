@@ -455,8 +455,10 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         if not self.battleA and self.hasToons() and self.hasToonsAlive():
             self.b_setState(self.postBattleState)
 
-    def invokeSuitPlanner(self, buildingCode, skelecog, skelecogRandom=0):
-        planner = SuitPlannerInteriorAI.SuitPlannerInteriorAI(1, buildingCode, self.dna.dept, self.zoneId)
+    def invokeSuitPlanner(self, buildingCode, skelecog, skelecogRandom=0, dept=None):
+        if dept is None:
+            dept = self.dna.dept
+        planner = SuitPlannerInteriorAI.SuitPlannerInteriorAI(1, buildingCode, dept, self.zoneId)
         planner.respectInvasions = 0
         suits = planner.genFloorSuits(0)
         if skelecog:

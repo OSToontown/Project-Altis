@@ -523,7 +523,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def loadEnvironment(self):
         DistributedBossCog.DistributedBossCog.loadEnvironment(self)
-        self.geom = loader.loadModel('phase_9/models/cogHQ/BossRoomHQ')
+        self.geom = loader.loadModel('phase_9/models/cogHQ/BossRoomPOV')
         self.rampA = self.__findRamp('rampA', '**/west_ramp2')
         self.rampB = self.__findRamp('rampB', '**/west_ramp')
         self.rampC = self.__findRamp('rampC', '**/west_ramp1')

@@ -15,7 +15,7 @@ class Nametag3d(Nametag, Clickable3d):
 
     def __init__(self):
         Nametag.__init__(self)
-        Clickable3d.__init__(self, 'Nametag3d')
+        Clickable3d.__init__(self, 'Nametag3d', self)
 
         self.distance = 0
 
@@ -46,6 +46,10 @@ class Nametag3d(Nametag, Clickable3d):
 
     def getBillboardOffset(self):
         return self.billboardOffset
+
+    def setAvatar(self, avatar):
+        Nametag.setAvatar(self, avatar)
+        Clickable3d.setAvatar(self, avatar)
 
     def doBillboardEffect(self):
         billboardEffect = BillboardEffect.make(
@@ -138,8 +142,8 @@ class Nametag3d(Nametag, Clickable3d):
             reversed=self.chatReversed,
             button=self.chatButton[self.clickState])
         self.chatBalloon.reparentTo(self.contents)
-        
-        
+
+
         # Chat balloon Popup Effect
         # TODO: Anim toggle
         self.chatBalloon.setScale(0, 0, 0)

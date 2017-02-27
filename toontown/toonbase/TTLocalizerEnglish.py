@@ -110,7 +110,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  5100: ('to', 'on', 'Elm Street'),
  5200: ('to', 'on', 'Maple Street'),
  5300: ('to', 'on', 'Oak Street'),
- 5400: ('to', 'on', 'Rose Valley'),
+ 5400: ('to', 'on', 'Spruce Street'),
  9000: ('to the', 'in the', 'Playground'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
@@ -2011,9 +2011,14 @@ MovieSOSCallHelp = '%s HELP!'
 MovieSOSWhisperHelp = '%s needs help in battle!'
 MovieSOSObserverHelp = 'HELP!'
 MovieNPCSOSGreeting = 'Hi %s! Glad to help!'
+FrumpGreetings = ["I'm all in on this for a small loan of a million jellybeans.", 'Did one of you mention a wall?', "TOGETHER... WE WILL MAKE TOONTOWN GREAT AGAIN!!!", 'This is gonna be yuge.', "They are all filthy cogs, I'm sure some of them are great robots.", 'We are going to build a wall and make Loonyville pay for it!']
 MovieNPCSOSGoodbye = 'See you later!'
 MovieNPCSOSToonsHit = 'Toons Always Hit!'
+MovieNPCSOSToonsHitS = 'Toons Always Hit\nFor One Round!'
+MovieNPCSOSToonsHitP = 'Toons Always Hit\nFor %d Rounds!'
 MovieNPCSOSCogsMiss = 'Cogs Always Miss!'
+MovieNPCSOSCogsMissS = 'Cogs Always Miss\nFor One Round!'
+MovieNPCSOSCogsMissP = 'Cogs Always Miss\n For %d Rounds!'
 MovieNPCSOSRestockGags = 'Restocking %s gags!'
 MovieNPCSOSHeal = 'Heal'
 MovieNPCSOSTrap = 'Trap'
@@ -4502,6 +4507,7 @@ MapPageGoTo = 'Go To\n%s'
 OptionsPageTitle = 'Options'
 OptionsPageSpecial = 'Advanced'
 OptionsTabTitle = 'Options\n& Codes'
+OptionsPagePurchase = 'Subscribe'
 OptionsPageLogout = 'Logout'
 OptionsPageExitToontown = 'Exit Toontown'
 OptionsPageMusic = 'Music:'
@@ -5646,8 +5652,9 @@ ResistanceToonTooLate = "Blast it!  We're too late!"
 CashbotBossDiscoverToons1 = 'Ah-HAH!'
 CashbotBossDiscoverToons2 = 'I thought I smelled something a little toony in here!  Imposters!'
 ResistanceToonKeepHimBusy = "Keep him busy!  I'm going to set a trap!"
-ResistanceToonWatchThis = 'Watch this!'
-CashbotBossGetAwayFromThat = 'Hey!  Get away from that!'
+ResistanceToonFollowHim = 'Come on toons! Follow that bag of bolts!'
+CashbotBossTrapped = "I've got you right where I want you now, toons."
+CashbotBossCogAgain = 'Err, again...'
 ResistanceToonCraneInstructions1 = 'Control a magnet by stepping up to a podium.'
 ResistanceToonCraneInstructions2 = 'Use the arrow keys to move the crane, and press the Ctrl key to grab an object.'
 ResistanceToonCraneInstructions3 = "Grab a safe with a magnet and knock the C.F.O.'s safe-ty helmet off."
