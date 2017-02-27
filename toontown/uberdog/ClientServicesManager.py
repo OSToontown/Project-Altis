@@ -103,6 +103,9 @@ class ClientServicesManager(DistributedObjectGlobal):
     def systemMessage(self, message):
         whisper = WhisperPopup(message, OTPGlobals.getInterfaceFont(), WTSystem)
         whisper.manage(base.marginManager)
-
+        
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("System Message: %s" %(message))
+            
         # play the system message sound effect
         base.playSfx(base.loader.loadSfx('phase_3/audio/sfx/clock03.ogg'))

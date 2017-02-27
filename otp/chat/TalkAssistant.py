@@ -30,6 +30,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.lastWhisper = None
         self.SCDecoder = SCDecoders
         self.whiteList = TTWhiteList()
+        self.spamWarning = 0
 
     def clearHistory(self):
         self.historyComplete = []
@@ -334,16 +335,26 @@ class TalkAssistant(DirectObject.DirectObject):
             self.addToHistoryDISLId(newMessage, accountId)
         if reject == 1:
             newMessage.setBody(OTPLocalizer.AntiSpamInChat)
+            if senderAvId == localAvatar.doId:
+                self.spamWarning += 1
+                if self.spamWarning == 4: 
+                    base.cr.chatAgent.kickForSpam(localAvatar)
+                else:
+                    localAvatar.setSystemMessage(0, "Spam detected! Please slow down your chat! (Warning %s / 3)" % self.spamWarning)
         if reject != 2:
             isSpam = self.spamDictByDoId.get(senderAvId) and reject
             if not isSpam:
                 self.historyComplete.append(newMessage)
                 self.historyOpen.append(newMessage)
                 messenger.send('NewOpenMessage', [newMessage])
+                if hasattr(base.cr, 'chatLog'):
+                    base.cr.chatLog.addToLog("%s: %s" %(avatarName, message))
+
             if newMessage.getBody() == OTPLocalizer.AntiSpamInChat:
                 self.spamDictByDoId[senderAvId] = 1
             else:
                 self.spamDictByDoId[senderAvId] = 0
+            
         return error
 
     def receiveWhisperTalk(self, avatarId, avatarName, accountId, accountName, toId, toName, message, scrubbed = 0):
@@ -363,6 +374,8 @@ class TalkAssistant(DirectObject.DirectObject):
         if accountId:
             self.addToHistoryDISLId(newMessage, accountId)
         messenger.send('NewOpenMessage', [newMessage])
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("%s whispers: %s" %(avatarName, message))
         return error
 
     def receiveAccountTalk(self, avatarId, avatarName, accountId, accountName, toId, toName, message, scrubbed = 0):
@@ -438,6 +451,8 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyComplete.append(newMessage)
             self.historyOpen.append(newMessage)
             messenger.send('NewOpenMessage', [newMessage])
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("%s thinks: %s" %(avatarName, message))
         return error
 
     def receiveGameMessage(self, message):
@@ -447,6 +462,8 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyComplete.append(newMessage)
             self.historyUpdates.append(newMessage)
         messenger.send('NewOpenMessage', [newMessage])
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("System Message: %s" %(message))
         return error
 
     def receiveSystemMessage(self, message):
@@ -456,6 +473,8 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyComplete.append(newMessage)
             self.historyUpdates.append(newMessage)
         messenger.send('NewOpenMessage', [newMessage])
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("System Message: %s" %(message))
         return error
 
     def receiveDeveloperMessage(self, message):
@@ -537,6 +556,8 @@ class TalkAssistant(DirectObject.DirectObject):
         self.historyOpen.append(newMessage)
         self.addToHistoryDoId(newMessage, senderAvId)
         messenger.send('NewOpenMessage', [newMessage])
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("%s: %s" %(name, message))
         return error
 
     def receiveAvatarWhisperSpeedChat(self, type, messageIndex, senderAvId, name = None):
@@ -554,6 +575,8 @@ class TalkAssistant(DirectObject.DirectObject):
         self.historyOpen.append(newMessage)
         self.addToHistoryDoId(newMessage, senderAvId)
         messenger.send('NewOpenMessage', [newMessage])
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("%s whispers: %s" %(avatarName, message))
         return error
 
     def receivePlayerWhisperSpeedChat(self, type, messageIndex, senderAvId, name = None):

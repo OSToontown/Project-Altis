@@ -289,6 +289,7 @@ dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256), uint8 chatMode) clsend;
   chatMessageResponse(DoId, string, TalkModification [], uint8 chatMode) airecv;
+  kickForSpam(uint32) airecv clsend;
 };
 
 dclass FriendManager : DistributedObject {

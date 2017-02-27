@@ -55,7 +55,7 @@ from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
-import StreamerMode
+import StreamerMode, ChatLog
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -180,6 +180,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.oldPos = None
         self.questMap = None
         self.streamerMode = None
+        self.chatLog = None
         self.prevToonIdx = 0
 
     def setDNA(self, dna):
@@ -329,6 +330,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.streamerMode:
             self.streamerMode.stop()
             del self.streamerMode
+        if self.chatLog:
+            self.chatLog.stop()
         taskMgr.remove('unlockGardenButtons')
         if self.__lerpFurnitureButton:
             self.__lerpFurnitureButton.finish()
@@ -435,6 +438,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.achievementGui = AchievementGui.AchievementGui()
         self.streamerMode = StreamerMode.StreamerMode()
         self.streamerMode.start()
+        self.chatLog = ChatLog.ChatLog()
+        self.chatLog.reparentTo(base.a2dLeftCenter)
+        self.chatLog.setPos(-1, 0, 0.2)
                     
         taskMgr.remove('streamerUpdateDist')
         taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')
