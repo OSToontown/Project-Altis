@@ -21,7 +21,15 @@ from toontown.estate.DistributedToonStatuaryAI import DistributedToonStatuaryAI
 from toontown.estate.DistributedChangingStatuaryAI import DistributedChangingStatuaryAI
 from toontown.estate.DistributedAnimatedStatuaryAI import DistributedAnimatedStatuaryAI
 from toontown.distributed import ToontownInternalRepository
-# planted, waterLevel, lastCheck, growthLevel, optional
+
+from toontown.parties import DistributedPartyJukebox40ActivityAI, DistributedPartyTrampolineActivityAI
+from toontown.safezone import DistributedTreasureAI
+
+from DistributedCannonAI import *
+from DistributedTargetAI import *
+import CannonGlobals
+import random
+
 NULL_PLANT = [-1, -1, 0, 0, 0]
 NULL_TREES = [NULL_PLANT] * 8
 NULL_FLOWERS = [NULL_PLANT] * 10
@@ -388,11 +396,26 @@ class DistributedEstateAI(DistributedObjectAI):
         self.pond = None
         self.spots = []
 
+        # Estate Update Stuff
+        self.jukebox = None
+        self.trampolines = []
+
         self.targets = []
+        self.cannons = []
+        self.target = None
+        self.treasures = []
+        self.treasureIds = []
+        
         self.pets = []
         self.owner = None
         self.gardenManager = GardenManager(self)
         self.pendingGardens = {}
+
+        
+    # if i dont do this the jukebox will have a fuckin mental breakdown
+    @property
+    def hostId(self):
+        return 1000000001
 
     def generate(self):
         DistributedObjectAI.generate(self)
@@ -432,6 +455,61 @@ class DistributedEstateAI(DistributedObjectAI):
         self.spots.append(spot)
 
         self.createTreasurePlanner()
+        
+        self.jukebox = DistributedPartyJukebox40ActivityAI.DistributedPartyJukebox40ActivityAI(self.air, self.doId, (0, 0, 0, 0))
+        self.jukebox.generateWithRequired(self.zoneId)
+        self.jukebox.sendUpdate('setX', [118])
+        self.jukebox.sendUpdate('setY', [-18])
+        self.jukebox.sendUpdate('setH', [-80])
+        
+        trampoline = DistributedPartyTrampolineActivityAI.DistributedPartyTrampolineActivityAI(self.air, self.doId, (0, 0, 0, 0))
+        trampoline.generateWithRequired(self.zoneId)
+        trampoline.sendUpdate('setX', [-130])
+        trampoline.sendUpdate('setY', [27])
+        trampoline.sendUpdate('setH', [80])
+        self.trampolines.append(trampoline)
+        
+        trampoline2 = DistributedPartyTrampolineActivityAI.DistributedPartyTrampolineActivityAI(self.air, self.doId, (0, 0, 0, 0))
+        trampoline2.generateWithRequired(self.zoneId)
+        trampoline2.sendUpdate('setX', [-104])
+        trampoline2.sendUpdate('setY', [-56])
+        trampoline2.sendUpdate('setH', [80])
+        self.trampolines.append(trampoline2)
+        
+        self.target = DistributedTargetAI(self.air)
+        self.target.generateWithRequired(self.zoneId)
+        self.target.setPosition(0, 0, 40)
+        for drop in CannonGlobals.cannonDrops:
+            cannon = DistributedCannonAI(self.air)
+            cannon.setEstateId(self.doId)
+            cannon.setTargetId(self.target.doId)
+            cannon.setPosHpr(*drop)
+            cannon.generateWithRequired(self.zoneId)
+            self.cannons.append(cannon)
+        self.b_setClouds(True)
+        doIds = []
+        for i in range(40):
+            x = random.randint(100, 300) - 200
+            y = random.randint(100, 300) - 200
+            treasure = DistributedTreasureAI.DistributedTreasureAI(self.air, self, 8, x, y, 35)
+            treasure.generateWithRequired(self.zoneId)
+            self.treasures.append(treasure)
+            doIds.append(treasure.doId)
+        self.setTreasureIds(doIds)
+        
+    def grabAttempt(self, avId, treasureId):
+        av = self.air.doId2do.get(avId)
+        if not av:
+            return
+            
+        treasure = self.air.doId2do.get(treasureId)
+        if av.getMaxHp() != av.getHp():
+            av.toonUp(5)
+            treasure.d_setGrab(avId)
+            treasure.requestDelete()
+            
+        else:
+            treasure.d_setReject()
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -454,17 +532,33 @@ class DistributedEstateAI(DistributedObjectAI):
                 spot.requestDelete()
 
             self.spots = []
-
-            for target in self.targets:
-                target.requestDelete()
-
+            
+        for treasure in self.treasures:
+            if not treasure.isDeleted():
+                treasure.requestDelete()
+            
+        for target in self.targets:
+            target.requestDelete()
+      
         for petId in self.pets:
             # check if the pet has been activated first.
             self.air.getActivated(petId, self.__handleGetPetActivated)
-
+            
+        self.b_setClouds(False)
+        if self.target:
+            self.target.requestDelete()
+            
+        for cannon in self.cannons:
+            cannon.requestDelete()
+        if self.jukebox:
+            self.jukebox.requestDelete()
+            
+        for trampoline in self.trampolines:
+            trampoline.requestDelete()
+            
         if self.treasurePlanner:
             self.treasurePlanner.stop()
-
+            
         if self.gardenManager:
             self.gardenManager.destroy()
 
@@ -492,8 +586,9 @@ class DistributedEstateAI(DistributedObjectAI):
     def setClosestHouse(self, todo0):
         pass
 
-    def setTreasureIds(self, todo0):
-        pass
+    def setTreasureIds(self, doIds):
+        self.treasureIds = doIds
+        self.sendUpdate("setTreasureIds", [doIds])
 
     def createTreasurePlanner(self):
         treasureType, healAmount, spawnPoints, spawnRate, maxTreasures = TreasureGlobals.SafeZoneTreasureSpawns[ToontownGlobals.MyEstate]

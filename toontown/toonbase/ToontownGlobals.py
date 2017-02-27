@@ -1772,3 +1772,5 @@ BMovementSpeedMultiplier = 1.3
 
 BGagAccuracy = 1
 BGagAccuracyMultiplier = 1.3
+                            # 1-default # 2 # 3 # 4
+HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]

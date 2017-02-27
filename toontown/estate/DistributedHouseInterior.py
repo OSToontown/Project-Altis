@@ -14,6 +14,7 @@ from toontown.catalog import CatalogFlooringItem
 from toontown.catalog import CatalogMouldingItem
 from toontown.catalog import CatalogWainscotingItem
 from toontown.dna.DNAParser import DNADoor
+import HouseInteriorGlobals
 
 WindowPlugNames = ('**/windowcut_a*', '**/windowcut_b*', '**/windowcut_c*', '**/windowcut_d*', '**/windowcut_e*', '**/windowcut_f*')
 RoomNames = ('**/group2', '**/group1')
@@ -36,6 +37,7 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         self.houseIndex = 0
         self.interior = None
         self.exteriorWindowsHidden = 0
+        self.interiorLayout = 0
         return
 
     def generate(self):
@@ -56,8 +58,9 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
 
     def setup(self):
         dnaStore = base.cr.playGame.dnaStore
-        self.interior = loader.loadModel('phase_5.5/models/estate/tt_m_ara_int_estateHouseA')
+        self.interior = loader.loadModel(HouseInteriorGlobals.Models[self.getInteriorLayout()])
         self.interior.reparentTo(render)
+        self.roomNames = HouseInteriorGlobals.RoomNames[self.getInteriorLayout()]
         doorModelName = 'door_double_round_ur'
         door = dnaStore.findNode(doorModelName)
         door_origin = self.interior.find('**/door_origin')
@@ -101,9 +104,9 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
 
             return
         numSurfaceTypes = CatalogSurfaceItem.NUM_ST_TYPES
-        numRooms = min(len(self.wallpaper) / numSurfaceTypes, len(RoomNames))
+        numRooms = min(len(self.wallpaper) / numSurfaceTypes, len(self.roomNames))
         for room in xrange(numRooms):
-            roomName = RoomNames[room]
+            roomName = self.roomNames[room]
             roomNode = self.interior.find(roomName)
             if not roomNode.isEmpty():
                 for surface in xrange(numSurfaceTypes):
@@ -176,6 +179,12 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
 
     def setHouseIndex(self, index):
         self.houseIndex = index
+        
+    def setInteriorLayout(self, layoutId):
+        self.interiorLayout = layoutId
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout
 
     def setWallpaper(self, items):
         self.wallpaper = CatalogItemList.CatalogItemList(items, store=CatalogItem.Customization)

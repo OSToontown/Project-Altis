@@ -49,6 +49,7 @@ class DistributedHouseInteriorAI(DistributedObjectAI):
         self.houseIndex = 0
         self.wallpaper = ''
         self.windows = ''
+        self.interiorLayout = 0
 
         self.furnitureManager = DistributedFurnitureManagerAI(self.air, self.house, self)
 
@@ -118,6 +119,19 @@ class DistributedHouseInteriorAI(DistributedObjectAI):
     def getHouseIndex(self):
         return self.houseIndex
 
+    def setInteriorLayout(self, layoutId):
+        self.interiorLayout = layoutId
+
+    def d_setInteriorLayout(self, layoutId):
+        self.sendUpdate('setInteriorLayout', [layoutId])
+
+    def b_setInteriorLayout(self, layoutId):
+        self.setInteriorLayout(layoutId)
+        self.d_setInteriorLayout(layoutId)
+
+    def getInteriorLayout(self):
+        return self.interiorLayout
+        
     def setWallpaper(self, wallpaper):
         self.wallpaper = wallpaper
 

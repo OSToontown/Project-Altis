@@ -25,6 +25,7 @@ class DistributedHouseAI(DistributedObjectAI):
         self.gender = 1
         self.isInteriorInitialized = 1
         self.garden = None
+        self.interiorLayout = 0
 
         self.atticItems = CatalogItemList(store=Customization)
         self.interiorItems = CatalogItemList(store=Customization)
@@ -52,6 +53,7 @@ class DistributedHouseAI(DistributedObjectAI):
         self.interior = DistributedHouseInteriorAI(self.air, self)
         self.interior.setHouseIndex(self.housePos)
         self.interior.setHouseId(self.getDoId())
+        self.interior.setInteriorLayout(self.getInteriorLayout())
         self.interior.generateWithRequired(self.interiorZone)
 
         if self.avatarId:
@@ -243,6 +245,19 @@ class DistributedHouseAI(DistributedObjectAI):
 
     def getInteriorWindows(self):
         return self.interiorWindows.getBlob()
+        
+    def setInteriorLayout(self, layoutId):
+        self.interiorLayout = layoutId
+
+    def d_setInteriorLayout(self, layoutId):
+        self.sendUpdate('setInteriorLayout', [layoutId])
+
+    def b_setInteriorLayout(self, layoutId):
+        self.setInteriorLayout(layoutId)
+        self.d_setInteriorLayout(layoutId)
+
+    def getInteriorLayout(self):
+        return self.interiorLayout
 
     def setDeletedItems(self, deletedItems):
         self.deletedItems = CatalogItemList(deletedItems, store=Customization)

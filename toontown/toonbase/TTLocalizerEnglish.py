@@ -5579,6 +5579,13 @@ QuestScript600_4 = "Jester Chester can help you get used to this habbit."
 QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
 QuestScript600_6 = "Have fun in Toontown: Project Altis!"
 
+QuestScript600_1 = "Welcome to Toontown: Project Altis!"
+QuestScript600_2 = "There are many shop keepers out there who will require your help."
+QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
+QuestScript600_4 = "Jester Chester can help you get used to this habbit."
+QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
+QuestScript600_6 = "Have fun in Toontown: Project Altis!"
+
 MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'
@@ -5677,6 +5684,7 @@ RentalTypeName = 'Rental Item'
 GardenStarterTypeName = 'Gardening Kit'
 NametagTypeName = 'Name tag'
 AccessoryTypeName = 'Accessory'
+InteriorLayoutTypeName = "Interior Layout"
 CatalogItemTypeNames = {0: 'INVALID_ITEM',
  1: FurnitureTypeName,
  2: ChatTypeName,
@@ -5696,7 +5704,9 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  16: NametagTypeName,
  17: 'TOON_STATUE',
  18: 'ANIMATED FURNITURE',
- 19: AccessoryTypeName}
+ 19: AccessoryTypeName,
+ 20: InteriorLayoutTypeName}
+InteriorLayoutNames = ["Default Layout", "Layout 2", "Layout 3", "Layout 4"]
 HatStylesDescriptions = {'hbb1': 'Green Baseball Cap',
  'kmh1': 'Mouskateer',
  'hbb2': 'Blue Baseball Cap',

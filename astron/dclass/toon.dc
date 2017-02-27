@@ -1145,6 +1145,7 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
   setWarningCount(uint8) ownrecv db;
+  setInteriorLayout(uint8 = 0) required ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -1748,6 +1749,7 @@ dclass DistributedHouse : DistributedObject {
   setInteriorInitialized(uint8 initialized = 0) required db;
   setCannonEnabled(uint8) required;
   setHouseReady() broadcast ram;
+  setInteriorLayout(uint8 layoutId = 0) required broadcast db;
 };
 
 dclass DistributedHouseInterior : DistributedObject {
@@ -1755,6 +1757,7 @@ dclass DistributedHouseInterior : DistributedObject {
   setHouseIndex(uint8) required broadcast ram;
   setWallpaper(blob) required broadcast ram;
   setWindows(blob) required broadcast ram;
+  setInteriorLayout(uint8) required broadcast ram;
 };
 
 dclass DistributedGarden : DistributedObject {

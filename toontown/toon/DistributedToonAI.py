@@ -202,6 +202,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
+        self.interiorLayout = 0
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -2074,6 +2075,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getHouseId(self):
         return self.houseId
 
+    def b_setInteriorLayout(self, id):
+        self.setInteriorLayout(id)
+        self.d_setInteriorLayout(id)
+        
+    def d_setInteriorLayout(self, id):
+        self.sendUpdate('setInteriorLayout', [id])
+        
+    def setInteriorLayout(self, id):
+        self.interiorLayout = id
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout
+        
     def setPosIndex(self, index):
         self.posIndex = index
 
