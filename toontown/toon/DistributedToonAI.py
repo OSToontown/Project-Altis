@@ -4735,6 +4735,30 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
+def manualSos(count, npcId):
+    """
+    Modifies the invoker's specified SOS card count.
+    """
+    invoker = spellbook.getInvoker()
+    if not 0 <= count <= 100:
+        return 'Your SOS count must be in range (0-100).'
+    if (count == 0) and (npcId in invoker.NPCFriendsDict):
+        del invoker.NPCFriendsDict[npcId]
+    else:
+        invoker.NPCFriendsDict[npcId] = count
+    invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
+    return "You were given %d SOS cards of toon id %d." % (count, npcId)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[])
+def clearSOS():
+    """
+    Clear's the invoker's SOS card inventory
+    """
+    invoker = spellbook.getInvoker()
+    invoker.b_setNPCFriendsDict({})
+    return "Your sos cards have been cleared!"
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def unites(value=32767):

@@ -163,7 +163,11 @@ class NPCFriendCard(DirectFrame):
             if track == 100:
                 sosText = TTLocalizer.InventoryFire
             else:
-                sosText = self.sosTracks[track]
+                try:
+                    sosText = self.sosTracks[track]
+                except:
+                    sosText = 'UNKNOWN SOS'
+                    fCallable = 0
             try:
                 if track == 100:
                     color = (0.8,0.5,0.5,1)
