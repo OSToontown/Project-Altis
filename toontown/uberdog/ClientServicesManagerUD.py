@@ -241,6 +241,7 @@ class LocalAccountDB(AccountDB):
         try:
             nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
             nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
+            resp = json.loads(nameCheck.getresponse().read())
             status = resp[u"status"]
             if status == -1:
                 state = "REJECTED"
