@@ -4714,8 +4714,8 @@ def unlocks():
 
     return 'Unlocked teleport access, emotions, and pet trick phrases!'
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int, str, int])
-def sos(count, name, manualOverride = 0):
+@magicWord(category=CATEGORY_MODERATOR, types=[int, str])
+def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
     """
@@ -5077,7 +5077,7 @@ def dna(part, value):
     dna.makeFromNetString(invoker.getDNAString())
 
     part = part.lower()
-    if part.endswith('color') or part.endswith('tex') or part.endswith('size'):
+    if part.endswith('tex') or part.endswith('size'):
         value = int(value)
 
     if part == 'gender':
