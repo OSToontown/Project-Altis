@@ -11,7 +11,7 @@ class ChatLog(DirectFrame, DirectObject):
         arrowGui = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_arrow')
         hideImageList = (arrowGui.find('**/tt_t_gui_brd_arrow_up'), arrowGui.find('**/tt_t_gui_brd_arrow_down'), arrowGui.find('**/tt_t_gui_brd_arrow_hover'))
 
-        self.toggleBtn = DirectButton(parent=base.a2dLeftCenter, relief=None, text_pos=(0, 0.15), text_scale=0.06, text_align=TextNode.ALeft, text_fg=Vec4(0, 0, 0, 1), text_shadow=Vec4(1, 1, 1, 1), image=hideImageList, image_scale=(0.35, 1, 0.5), pos=(0.02, 0, 0.45), scale=1.05, command=self.toggle)
+        self.toggleBtn = DirectButton(parent=base.a2dLeftCenter, relief=None, text = ('', 'Toggle Chat Log', 'Toggle Chat Log'), text_pos=(.2, 0), text_scale=0.06, text_align=TextNode.ALeft, text_fg=Vec4(0, 0, 0, 1), text_shadow=Vec4(1, 1, 1, 1), image=hideImageList, image_scale=(0.35, 1, 0.5), pos=(0.02, 0, 0.45), scale=1.05, command=self.toggle)
 
         self.log = DirectScrolledList(parent = self,
             decButton_pos= (0.35, 0, 0.53),
