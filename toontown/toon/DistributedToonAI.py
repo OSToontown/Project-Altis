@@ -4757,7 +4757,7 @@ def clearSOS():
     Clear's the invoker's SOS card inventory
     """
     invoker = spellbook.getInvoker()
-    invoker.d_setNPCFriendsDict({})
+    invoker.b_setNPCFriendsDict({})
     return "Your sos cards have been cleared!"
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
