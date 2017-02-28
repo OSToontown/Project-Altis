@@ -7,7 +7,7 @@ export DYLD_FRAMEWORK_PATH="Frameworks"
 # Define some constants for our AI server:
 MAX_CHANNELS=999999
 STATESERVER=4002
-ASTRON_IP="127.0.0.1:7199"
+ASTRON_IP="127.0.0.1:7100"
 EVENTLOGGER_IP="127.0.0.1:7198"
 
 # Get the user input:
