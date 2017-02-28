@@ -45,6 +45,7 @@ class Estate(Place.Place):
           'trialerFA',
           'doorOut',
           'push',
+          'activity',
           'pet']),
          State.State('stopped', self.enterStopped, self.exitStopped, ['walk', 'teleportOut']),
          State.State('sit', self.enterSit, self.exitSit, ['walk']),
@@ -59,6 +60,7 @@ class Estate(Place.Place):
           'push',
           'pet',
           'DFA',
+          'activity',
           'trialerFA']),
          State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk', 'petTutorial']),
          State.State('teleportOut', self.enterTeleportOut, self.exitTeleportOut, ['teleportIn', 'walk', 'final']),
@@ -73,7 +75,8 @@ class Estate(Place.Place):
          State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
          State.State('trialerFAReject', self.enterTrialerFAReject, self.exitTrialerFAReject, ['walk']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut']),
-         State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk'])], 'init', 'final')
+         State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk']),
+         State.State('activity', self.enterActivity, self.exitActivity, ['walk', 'stopped'])], 'init', 'final')
         self.fsm.enterInitialState()
         self.doneEvent = doneEvent
         self.parentFSMState = parentFSMState
@@ -380,3 +383,15 @@ class Estate(Place.Place):
             self.fog.setColor(Vec4(0.8, 0.8, 0.8, 1.0))
             self.fog.setLinearRange(0.0, 700.0)
             render.setFog(self.fog)
+            
+    def enterActivity(self, setAnimState = True):
+        if setAnimState:
+            base.localAvatar.b_setAnimState('neutral', 1)
+        self.accept('teleportQuery', self.handleTeleportQuery)
+        base.localAvatar.setTeleportAvailable(False)
+        base.localAvatar.laffMeter.start()
+
+    def exitActivity(self):
+        base.localAvatar.setTeleportAvailable(True)
+        self.ignore('teleportQuery')
+        base.localAvatar.laffMeter.stop()

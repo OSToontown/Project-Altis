@@ -229,21 +229,11 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         self.storePurchaseFrame = None
         trashcanGui = loader.loadModel('phase_3/models/gui/trashcan_gui')
         self.deleteEnterButton = DirectButton(parent=self.invFrame, image=(trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'), trashcanGui.find('**/TrashCan_RLVR')), text=('', TTLocalizer.InventoryDelete, TTLocalizer.InventoryDelete), text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), text_scale=0.1, text_pos=(0, -0.1), text_font=getInterfaceFont(), textMayChange=0, relief=None, pos=(-1.3, 0, -0.35), scale=0.70)
-        self.deleteAllButton = DirectButton(parent=self.invFrame, image=(trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'), trashcanGui.find('**/TrashCan_RLVR')), text=('', TTLocalizer.InventoryDeleteAll, TTLocalizer.InventoryDeleteAll), text_fg=(1, 0, 0, 1), text_shadow=(1, 1, 1, 1), text_scale=0.1, text_pos=(0, -0.1), text_font=getInterfaceFont(), textMayChange=0, relief=None, pos=(-0.3, 0, -0.91), scale=0.75, command=self.__zeroInvConfirm)
+        self.deleteAllButton = DirectButton(parent=self.invFrame, image=(trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'), trashcanGui.find('**/TrashCan_RLVR')), text=('', TTLocalizer.InventoryDeleteAll, TTLocalizer.InventoryDeleteAll), text_fg=(1, 0, 0, 1), text_shadow=(1, 1, 1, 1), text_scale=0.1, text_pos=(0, -0.1), text_font=getInterfaceFont(), textMayChange=0, relief=None, pos=(0.55, 0, -1), scale=0.75, command=self.__zeroInvConfirm)
         self.deleteExitButton = DirectButton(parent=self.invFrame, image=(trashcanGui.find('**/TrashCan_OPEN'), trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_RLVR')), text=('', TTLocalizer.InventoryDone, TTLocalizer.InventoryDone), text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), text_scale=0.1, text_pos=(0, -0.1), text_font=getInterfaceFont(), textMayChange=0, relief=None, pos=(-1, 0, -0.35), scale=1.0)
         trashcanGui.removeNode()
         self.deleteHelpText = DirectLabel(parent=self.invFrame, relief=None, pos=(0.272, 0.3, -0.907), text=TTLocalizer.InventoryDeleteHelp, text_fg=(0, 0, 0, 1), text_scale=0.08, textMayChange=0)
         self.deleteHelpText.hide()
-        self.detailFrame = DirectFrame(parent=self.invFrame, relief=None, pos=(1.05, 0, -0.08))
-        self.circleFrame = DirectFrame(parent=self.detailFrame, relief=None, image=self.battleCircle, image_scale=0.25, pos=(0, 0, -0.25))
-        self.detailNameLabel = DirectLabel(parent=self.circleFrame, text='', text_scale=TTLocalizer.INdetailNameLabel, text_fg=(0.05, 0.14, 0.4, 1), scale=0.045, pos=(0, 0, 0.1), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None, image=self.invModels[0][0])
-        self.detailAmountLabel = DirectLabel(parent=self.circleFrame, text='', text_fg=(0.05, 0.14, 0.4, 1), scale=0.04, pos=(0, 0, -0.07), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None)
-        self.detailDataLabel = DirectLabel(parent=self.circleFrame, text='', text_fg=(0.05, 0.14, 0.4, 1), scale=0.03, pos=(0, 0, -0.1), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None)
-        self.detailCreditLabel = DirectLabel(parent=self.circleFrame, text=TTLocalizer.InventorySkillCreditNone, text_fg=(0.05, -0.14, -0.2, 1), scale=0.04, pos=(0, 0, 0.05), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None)
-        self.detailCreditLabel.hide()
-        self.totalLabel = DirectLabel(text='', parent=self.circleFrame, pos=(0, 0, 0.02), scale=0.05, text_fg=(0.05, 0.14, 0.4, 1), text_font=getInterfaceFont(), relief=None)
-        self.dialog = None
-        self.updateTotalPropsText()
         self.trackRows = []
         self.trackTabs = []
         self.trackNameLabels = []
@@ -285,6 +275,18 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         for x in xrange(len(self.trackRows)):
             self.hideTrack(x)
             self.trackRows[x].setBin('gui-popup', 50)
+			
+        self.detailFrame = DirectFrame(parent=self.invFrame, relief=None, pos=(1.05, 0, -0.08))
+        self.circleFrame = DirectFrame(parent=self.detailFrame, relief=None, image=self.battleCircle, image_scale=0.25, pos=(0, 0, -0.25))
+        self.detailNameLabel = DirectLabel(parent=self.circleFrame, text='', text_scale=TTLocalizer.INdetailNameLabel, text_fg=(0.05, 0.14, 0.4, 1), scale=0.045, pos=(0, 0, 0.1), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None, image=self.invModels[0][0])
+        self.detailAmountLabel = DirectLabel(parent=self.circleFrame, text='', text_fg=(0.05, 0.14, 0.4, 1), scale=0.04, pos=(0, 0, -0.07), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None)
+        self.detailDataLabel = DirectLabel(parent=self.circleFrame, text='', text_fg=(0.05, 0.14, 0.4, 1), scale=0.03, pos=(0, 0, -0.1), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None)
+        self.detailCreditLabel = DirectLabel(parent=self.circleFrame, text=TTLocalizer.InventorySkillCreditNone, text_fg=(0.05, -0.14, -0.2, 1), scale=0.04, pos=(0, 0, 0.05), text_font=getInterfaceFont(), text_align=TextNode.ACenter, relief=None)
+        self.detailCreditLabel.hide()
+        self.totalLabel = DirectLabel(text='', parent=self.circleFrame, pos=(0, 0, 0.02), scale=0.05, text_fg=(0.05, 0.14, 0.4, 1), text_font=getInterfaceFont(), relief=None)
+        self.dialog = None
+        self.updateTotalPropsText()
+        self.detailFrame.setBin('gui-popup', 50)
         
         for x in xrange(len(self.trackTabs)):
             self.trackTabs[x].hide()
@@ -313,7 +315,10 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
                 currIndex = list.index(self.activeTab)
             except:
                 return
-            self.activeTab = list[currIndex+index]
+            newIndex = currIndex + index
+            if newIndex >= 8:
+                newIndex = list[0]
+            self.activeTab = list[newIndex]
             self.doTab(self.activeTab)
         except:
             pass
@@ -648,15 +653,15 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
             self.loadPurchaseFrame()
         self.purchaseFrame.show()
         self.invFrame.reparentTo(self.purchaseFrame)
-        self.invFrame.setPos(-0.235, 0, 0.52)
+        self.invFrame.setPos(0, 0, 0.52)
         self.invFrame.setScale(0.81)
-        self.detailFrame.setPos(1.17, 0, -0.02)
+        self.detailFrame.setPos(-1.17, 0, -1)
         self.detailFrame.setScale(1.25)
         self.deleteEnterButton.hide()
-        self.deleteEnterButton.setPos(-0.55, 0, -0.917)
+        self.deleteEnterButton.setPos(-0.55, 0, -1)
         self.deleteEnterButton.setScale(0.75)
         self.deleteExitButton.show()
-        self.deleteExitButton.setPos(-0.55, 0, -0.917)
+        self.deleteExitButton.setPos(-0.55, 0, -1)
         self.deleteExitButton.setScale(0.75)
         self.deleteExitButton['command'] = self.setActivateMode
         self.deleteExitButton['extraArgs'] = [self.previousActivateMode]
@@ -707,15 +712,15 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         
         self.storePurchaseFrame.show()
         self.invFrame.reparentTo(self.storePurchaseFrame)
-        self.invFrame.setPos(-0.23, 0, 0.505)
+        self.invFrame.setPos(0, 0, 0.505)
         self.invFrame.setScale(0.81)
-        self.detailFrame.setPos(1.175, 0, 0)
+        self.detailFrame.setPos(-1.175, 0, -1)
         self.detailFrame.setScale(1.25)
         self.deleteEnterButton.hide()
-        self.deleteEnterButton.setPos(-0.55, 0, -0.91)
+        self.deleteEnterButton.setPos(-0.55, 0, -1)
         self.deleteEnterButton.setScale(0.75)
         self.deleteExitButton.show()
-        self.deleteExitButton.setPos(-0.55, 0, -0.91)
+        self.deleteExitButton.setPos(-0.55, 0, -1)
         self.deleteExitButton.setScale(0.75)
         self.deleteExitButton['command'] = self.setActivateMode
         self.deleteExitButton['extraArgs'] = [self.previousActivateMode]
@@ -750,16 +755,16 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         
         self.storePurchaseFrame.show()
         self.invFrame.reparentTo(self.storePurchaseFrame)
-        self.invFrame.setPos(-0.23, 0, 0.505)
+        self.invFrame.setPos(0, 0, 0.505)
         self.invFrame.setScale(0.81)
-        self.detailFrame.setPos(1.175, 0, 0)
+        self.detailFrame.setPos(-1.175, 0, -1)
         self.detailFrame.setScale(1.25)
         self.deleteAllButton.show()
         self.deleteEnterButton.show()
-        self.deleteEnterButton.setPos(-0.55, 0, -0.91)
+        self.deleteEnterButton.setPos(-0.55, 0, -1)
         self.deleteEnterButton.setScale(0.75)
         self.deleteExitButton.hide()
-        self.deleteExitButton.setPos(-0.55, 0, -0.91)
+        self.deleteExitButton.setPos(-0.55, 0, -1)
         self.deleteExitButton.setScale(0.75)
         for track in xrange(len(Tracks)):
             if self.toon.hasTrackAccess(track):
@@ -816,18 +821,18 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         
         self.purchaseFrame.show()
         self.invFrame.reparentTo(self.purchaseFrame)
-        self.invFrame.setPos(-0.235, 0, 0.52)
+        self.invFrame.setPos(0, 0, 0.52)
         self.invFrame.setScale(0.81)
-        self.detailFrame.setPos(1.17, 0, -0.02)
+        self.detailFrame.setPos(-1.17, 0, -1)
         self.detailFrame.setScale(1.25)
         totalProps = self.totalProps
         maxProps = self.toon.getMaxCarry()
         self.deleteAllButton.show()
         self.deleteEnterButton.show()
-        self.deleteEnterButton.setPos(-0.55, 0, -0.917)
+        self.deleteEnterButton.setPos(-0.55, 0, -1)
         self.deleteEnterButton.setScale(0.75)
         self.deleteExitButton.hide()
-        self.deleteExitButton.setPos(-0.55, 0, -0.917)
+        self.deleteExitButton.setPos(-0.55, 0, -1)
         self.deleteExitButton.setScale(0.75)
         if self.gagTutMode:
             self.deleteAllButton.hide()
@@ -873,18 +878,18 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         
         self.storePurchaseFrame.show()
         self.invFrame.reparentTo(self.storePurchaseFrame)
-        self.invFrame.setPos(-0.23, 0, 0.505)
+        self.invFrame.setPos(0, 0, 0.505)
         self.invFrame.setScale(0.81)
-        self.detailFrame.setPos(1.175, 0, 0)
+        self.detailFrame.setPos(-1.175, 0, -1)
         self.detailFrame.setScale(1.25)
         totalProps = self.totalProps
         maxProps = self.toon.getMaxCarry()
         self.deleteAllButton.show()
         self.deleteEnterButton.show()
-        self.deleteEnterButton.setPos(-0.55, 0, -0.91)
+        self.deleteEnterButton.setPos(-0.55, 0, -1)
         self.deleteEnterButton.setScale(0.75)
         self.deleteExitButton.hide()
-        self.deleteExitButton.setPos(-0.55, 0, -0.91)
+        self.deleteExitButton.setPos(-0.55, 0, -1)
         self.deleteExitButton.setScale(0.75)
         self.deleteEnterButton['command'] = self.setActivateMode
         self.deleteEnterButton['extraArgs'] = ['storePurchaseDelete']
@@ -926,16 +931,16 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         
         self.purchaseFrame.show()
         self.invFrame.reparentTo(self.purchaseFrame)
-        self.invFrame.setPos(-0.235, 0, 0.52)
+        self.invFrame.setPos(0, 0, 0.52)
         self.invFrame.setScale(0.81)
-        self.detailFrame.setPos(1.17, 0, -0.02)
+        self.detailFrame.setPos(-1.17, 0, -1)
         self.detailFrame.setScale(1.25)
         self.deleteAllButton.show()
         self.deleteEnterButton.show()
-        self.deleteEnterButton.setPos(-0.55, 0, -0.917)
+        self.deleteEnterButton.setPos(-0.55, 0, -1)
         self.deleteEnterButton.setScale(0.75)
         self.deleteExitButton.hide()
-        self.deleteExitButton.setPos(-0.55, 0, -0.917)
+        self.deleteExitButton.setPos(-0.55, 0, -1)
         self.deleteExitButton.setScale(0.75)
         if self.gagTutMode:
             self.deleteEnterButton.hide()
@@ -967,9 +972,9 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
             self.loadPurchaseFrame()
         self.purchaseFrame.show()
         self.invFrame.reparentTo(self.purchaseFrame)
-        self.invFrame.setPos(-0.235, 0, 0.52)
+        self.invFrame.setPos(0, 0, 0.52)
         self.invFrame.setScale(0.81)
-        self.detailFrame.setPos(1.17, 0, -0.02)
+        self.detailFrame.setPos(-1.17, 0, -1)
         self.detailFrame.setScale(1.25)
         self.deleteExitButton.hide()
         self.deleteEnterButton.hide()
@@ -1248,6 +1253,9 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
     def updateInvString(self, invString):
         InventoryBase.InventoryBase.updateInvString(self, invString)
         self.updateGUI()
+		
+    def getInvString(self):
+        InventoryBase.InventoryBase.getInvString(self)
 
     def updateButton(self, track, level):
         button = self.buttons[track][level]

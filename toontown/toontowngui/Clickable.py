@@ -5,7 +5,7 @@ from panda3d.core import PandaNode, PGButton, NodePath, MouseWatcherRegion
 
 class Clickable(PandaNode, DirectObject):
 
-    def __init__(self, name):
+    def __init__(self, name, nametag=None):
         PandaNode.__init__(self, name)
         DirectObject.__init__(self)
 
@@ -17,6 +17,8 @@ class Clickable(PandaNode, DirectObject):
             State('inactive', self.enterInactive, self.exitInactive)], 'off', 'off')
         self.fsm.enterInitialState()
 
+        self.nametag = nametag
+        self.avatar = None
         self.active = True
         self.lastClickState = PGButton.SReady
         self.clickState = PGButton.SReady
@@ -53,6 +55,12 @@ class Clickable(PandaNode, DirectObject):
 
     def getUniqueName(self):
         return 'Clickable-%s' % id(self)
+
+    def setAvatar(self, avatar):
+        self.avatar = avatar
+
+    def getAvatar(self):
+        return self.avatar
 
     def setActive(self, active):
         self.active = active

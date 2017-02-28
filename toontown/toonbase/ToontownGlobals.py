@@ -186,6 +186,7 @@ SopranoStreet = 4400
 ElmStreet = 5100
 MapleStreet = 5200
 OakStreet = 5300
+RoseValley = 5400
 LullabyLane = 9100
 PajamaPlace = 9200
 ToonHall = 2513
@@ -193,7 +194,7 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
- DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
+ DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
@@ -744,10 +745,28 @@ CashbotBossBattleOnePosHpr = (120,
  90,
  0,
  0)
+CashbotBossBattleTwoPosHpr = (120,
+ -315,
+ 0,
+ 180,
+ 0,
+ 0)
 CashbotRTBattleOneStartPosHpr = (94,
  -220,
  0,
  110,
+ 0,
+ 0)
+CashbotRTBattleTwoStartPosHpr = (120, 
+ -260, 
+ 0.025,
+ 0,
+ 0,
+ 0)
+CashbotRTBattleTwoEndPosHpr = (120, 
+ -290, 
+ 0.025,
+ 0,
  0,
  0)
 CashbotBossBattleThreePosHpr = (120,
@@ -1753,3 +1772,5 @@ BMovementSpeedMultiplier = 1.3
 
 BGagAccuracy = 1
 BGagAccuracyMultiplier = 1.3
+                            # 1-default # 2 # 3 # 4
+HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]
