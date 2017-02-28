@@ -366,7 +366,7 @@ class SuitPlannerBase:
        6,
 	   7),
       []],
-     [ToontownGlobals.RoseValleu,
+     [ToontownGlobals.RoseValley,
       15,
       30,
       0,
