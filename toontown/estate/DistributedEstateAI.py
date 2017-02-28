@@ -540,9 +540,8 @@ class DistributedEstateAI(DistributedObjectAI):
         for target in self.targets:
             target.requestDelete()
       
-        for petId in self.pets:
-            # check if the pet has been activated first.
-            self.air.getActivated(petId, self.__handleGetPetActivated)
+        for pet in self.pets:
+            pet.requestDelete()
             
         self.b_setClouds(False)
         if self.target:
