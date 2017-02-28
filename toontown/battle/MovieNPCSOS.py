@@ -222,14 +222,22 @@ def __doSmooch(attack, hp = 0):
 def __doToonsHit(attack, level, hp):
     track = __doSprinkle(attack, 'toons', hp)
     pbpText = attack['playByPlayText']
-    pbpTrack = pbpText.getShowInterval(TTLocalizer.MovieNPCSOSToonsHit, track.getDuration())
+    if hp == 1:
+        text = TTLocalizer.MovieNPCSOSToonsHitS
+    else:
+        text = TTLocalizer.MovieNPCSOSToonsHitP % hp
+    pbpTrack = pbpText.getShowInterval(text, track.getDuration())
     return (track, pbpTrack)
 
 
 def __doCogsMiss(attack, level, hp):
     track = __doSprinkle(attack, 'suits', hp)
     pbpText = attack['playByPlayText']
-    pbpTrack = pbpText.getShowInterval(TTLocalizer.MovieNPCSOSCogsMiss, track.getDuration())
+    if hp == 1:
+        text = TTLocalizer.MovieNPCSOSCogsMissS
+    else:
+        text = TTLocalizer.MovieNPCSOSCogsMissP % hp
+    pbpTrack = pbpText.getShowInterval(text, track.getDuration())
     return (track, pbpTrack)
 
 

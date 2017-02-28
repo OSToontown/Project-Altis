@@ -188,6 +188,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
+        self.interiorLayout = 0
 
     def disable(self):
         for soundSequence in self.soundSequenceList:
@@ -1388,6 +1389,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getHouseId(self):
         return self.houseId
+        
+    def b_setInteriorLayout(self, id):
+        self.setInteriorId(id)
+        self.d_setInteriorLayout(id)
+        
+    def d_setInteriorLayout(self, id):
+        self.sendUpdate('setInteriorLayout', [id])
+        
+    def setInteriorLayout(self, id):
+        self.interiorLayout = id
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout
 
     def setPosIndex(self, index):
         self.posIndex = index

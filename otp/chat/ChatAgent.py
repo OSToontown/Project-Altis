@@ -21,6 +21,9 @@ class ChatAgent(DistributedObjectGlobal):
 
     def sendChatMessage(self, message):
         self.sendUpdate('chatMessage', [message, self.chatMode])
+        
+    def kickForSpam(self, av):
+        self.sendUpdate('kickForSpam', [av.doId])
 		
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def chatmode(mode=-1):

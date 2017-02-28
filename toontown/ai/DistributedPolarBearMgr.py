@@ -29,7 +29,6 @@ class DistributedPolarBearMgr(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.announceGenerate(self)
         self.acceptOnce(DistributedPolarBearMgr.ActivateEvent, self.d_requestPolarBearTransformation)
         self.dustCloudIval = None
-        return
         
     def delete(self):
         if self.dustCloudIval:

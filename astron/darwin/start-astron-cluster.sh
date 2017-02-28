@@ -1,3 +1,3 @@
 #!/bin/sh
 cd ..
-./astrond --pretty --loglevel info config/cluster.yml
+./astrondmac --pretty --loglevel info config/darwin/cluster.yml

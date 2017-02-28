@@ -110,7 +110,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  5100: ('to', 'on', 'Elm Street'),
  5200: ('to', 'on', 'Maple Street'),
  5300: ('to', 'on', 'Oak Street'),
- 5400: ('to', 'on', 'Rose Valley'),
+ 5400: ('to', 'on', 'Spruce Street'),
  9000: ('to the', 'in the', 'Playground'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
@@ -2014,7 +2014,11 @@ MovieNPCSOSGreeting = 'Hi %s! Glad to help!'
 FrumpGreetings = ["I'm all in on this for a small loan of a million jellybeans.", 'Did one of you mention a wall?', "TOGETHER... WE WILL MAKE TOONTOWN GREAT AGAIN!!!", 'This is gonna be yuge.', "They are all filthy cogs, I'm sure some of them are great robots.", 'We are going to build a wall and make Loonyville pay for it!']
 MovieNPCSOSGoodbye = 'See you later!'
 MovieNPCSOSToonsHit = 'Toons Always Hit!'
+MovieNPCSOSToonsHitS = 'Toons Always Hit\nFor One Round!'
+MovieNPCSOSToonsHitP = 'Toons Always Hit\nFor %d Rounds!'
 MovieNPCSOSCogsMiss = 'Cogs Always Miss!'
+MovieNPCSOSCogsMissS = 'Cogs Always Miss\nFor One Round!'
+MovieNPCSOSCogsMissP = 'Cogs Always Miss\n For %d Rounds!'
 MovieNPCSOSRestockGags = 'Restocking %s gags!'
 MovieNPCSOSHeal = 'Heal'
 MovieNPCSOSTrap = 'Trap'
@@ -4503,6 +4507,7 @@ MapPageGoTo = 'Go To\n%s'
 OptionsPageTitle = 'Options'
 OptionsPageSpecial = 'Advanced'
 OptionsTabTitle = 'Options\n& Codes'
+OptionsPagePurchase = 'Subscribe'
 OptionsPageLogout = 'Logout'
 OptionsPageExitToontown = 'Exit Toontown'
 OptionsPageMusic = 'Music:'
@@ -5574,6 +5579,13 @@ QuestScript600_4 = "Jester Chester can help you get used to this habbit."
 QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
 QuestScript600_6 = "Have fun in Toontown: Project Altis!"
 
+QuestScript600_1 = "Welcome to Toontown: Project Altis!"
+QuestScript600_2 = "There are many shop keepers out there who will require your help."
+QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
+QuestScript600_4 = "Jester Chester can help you get used to this habbit."
+QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
+QuestScript600_6 = "Have fun in Toontown: Project Altis!"
+
 MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'
@@ -5672,6 +5684,7 @@ RentalTypeName = 'Rental Item'
 GardenStarterTypeName = 'Gardening Kit'
 NametagTypeName = 'Name tag'
 AccessoryTypeName = 'Accessory'
+InteriorLayoutTypeName = "Interior Layout"
 CatalogItemTypeNames = {0: 'INVALID_ITEM',
  1: FurnitureTypeName,
  2: ChatTypeName,
@@ -5691,7 +5704,9 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  16: NametagTypeName,
  17: 'TOON_STATUE',
  18: 'ANIMATED FURNITURE',
- 19: AccessoryTypeName}
+ 19: AccessoryTypeName,
+ 20: InteriorLayoutTypeName}
+InteriorLayoutNames = ["Default Layout", "Layout 2", "Layout 3", "Layout 4"]
 HatStylesDescriptions = {'hbb1': 'Green Baseball Cap',
  'kmh1': 'Mouskateer',
  'hbb2': 'Blue Baseball Cap',

@@ -26,7 +26,7 @@ default-model-extension .bam
 # Performance
 smooth-enable-prediction 0
 smooth-enable-smoothing 1
-smooth-lag 0.4
+smooth-lag 0.1
 smooth-max-future 0.1
 smooth-min-suggest-resync 1
 
@@ -46,7 +46,7 @@ backups-extension .json
 # Server:
 server-timezone EST/EDT/-5
 server-port 7198
-account-bridge-filename astron/databases/account-bridge.db
+account-bridge-filename astron/databases/account-bridge
 
 # Performance:
 sync-video #f
