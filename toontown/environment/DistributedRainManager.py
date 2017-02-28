@@ -113,3 +113,6 @@ class DistributedRainManager(DistributedWeatherMGR):
         self.nextWindTime = now + randNum * 8.0
         return Task.cont
         
+    def spawnLightning(self, x, y):
+        pass
+        

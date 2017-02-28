@@ -780,7 +780,7 @@ class Movie(DirectObject.DirectObject):
         setCapture = 0
         tp = []
         for ta in self.toonAttackDicts:
-            if ta['track'] == track or track == NPCSOS and 'sepcial' in ta:
+            if ta['track'] == track or track == NPCSOS and 'special' in ta:
                 tp.append(ta)
                 if track == SQUIRT:
                     setCapture = 1

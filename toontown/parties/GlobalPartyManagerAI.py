@@ -10,7 +10,7 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
     def announceGenerate(self):
         DistributedObjectGlobalAI.announceGenerate(self)
         # Inform the UD that we as an AI have started up
-        self.uberdogUp = False
+        self.uberdogUp = True
         self.sendUpdate('partyManagerAIHello', [simbase.air.partyManager.doId])
 
     def startHeartbeat(self):
@@ -36,11 +36,14 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
     def sendAddParty(self, avId, partyId, start, end, isPrivate, inviteTheme, activities, decorations, inviteeIds):
         if not self.uberdogUp:
             self.sendUpdateToAvatarId(avId, 'addPartyResponse', [avId, AddPartyErrorCode.DatabaseError])
+            print("Uber dog isnt up, uh oh!")
             return
         self.sendUpdate('addParty', [avId, partyId, start, end, isPrivate, inviteTheme, activities, decorations, inviteeIds])
+        print("Started a party! " + str(avId) + str(partyId) + str(start) + str(end) + str(isPrivate) + str(inviteTheme) + str(activities) + str(decorations) + str(inviteeIds))
         
     def queryPartyForHost(self, hostId):
         self.sendUpdate('queryParty', [hostId])
+        print("Getting host: " + str(hostId))
 
     def d_partyStarted(self, partyId, shardId, zoneId, hostName):
         self.sendUpdate('partyHasStarted', [partyId, shardId, zoneId, hostName])

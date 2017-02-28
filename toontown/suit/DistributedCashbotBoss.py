@@ -39,7 +39,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def __init__(self, cr):
         DistributedBossCog.DistributedBossCog.__init__(self, cr)
-        FSM.FSM.__init__(self, 'DistributedSellbotBoss')
+        FSM.FSM.__init__(self, 'DistributedCashbotBoss')
         self.resistanceToon = None
         self.resistanceToonOnstage = 0
         self.cranes = {}
@@ -96,8 +96,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.fnp.removeNode()
         self.physicsMgr.clearLinearForces()
         self.battleThreeMusic.stop()
-        removeTint = Sequence(LerpColorScaleInterval(render, 0.1, Vec4(1, 1, 1, 1)))
-        removeTint.start()
+        render.setColorScale(Vec4(1, 1, 1, 1))
         self.epilogueMusic.stop()
         base.localAvatar.chatMgr.chatInputSpeedChat.removeCFOMenu()
         if OneBossCog == self:
@@ -375,7 +374,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                             Func(self.__showResistanceToon, False),
                             Sequence(
                                 Func(rToon.animFSM.request, 'run'),
-                                rToon.hprInterval(1, VBase3(180, 0, 0)),
+                                rToon.hprInterval(0.2, VBase3(180, 0, 0)),
                                 Parallel(
                                     Sequence(
                                         rToon.posInterval(1.5, VBase3(109, -294, 0)),
@@ -439,15 +438,9 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             base.camera.posHprInterval(1, Point3(105, -326, 20), VBase3(-45.3, 15, 0), blendType='easeInOut'),
             Func(self.setChatAbsolute, TTL.CashbotBossTrapped, CFSpeech),
             Wait(4),
-            Func(self.clearChat),
-            Func(self.setChatAbsolute, TTL.CashbotBossCogAttack, CFSpeech),
-            Wait(2),
-            Func(self.setChatAbsolute, TTL.CashbotBossCogAgain, CFSpeech),
-            Wait(2),
-            Func(self.clearChat),
             Func(self.getGeomNode().setH, 0),
             Func(self.midCutsceneMusic.stop))
-        return Sequence(Func(base.camera.reparentTo, self), base.camera.posHprInterval(1, Point3(0, -27, 25), VBase3(0, -18, 0), blendType='easeInOut'), track, Func(base.camera.reparentTo, render))
+        return Sequence(Func(base.camera.reparentTo, self), base.camera.posHprInterval(1, Point3(0, -27, 25), VBase3(0, -18, 0), blendType='easeInOut'), track)#, Func(base.camera.reparentTo, render))
 		
     def createWalkInInterval(self):
         retval = Parallel()
@@ -560,7 +553,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(self.midCutsceneMusic.stop),
             Func(self.__showToons),
             Wait(2))
-        return Sequence(Func(base.camera.reparentTo, self), base.camera.posHprInterval(1, Point3(0, -27, 25), VBase3(0, -18, 0), blendType='easeInOut'), track) #Func(base.camera.setPosHpr, 0, -27, 25, 0, -18, 0)
+        return Sequence(Func(base.camera.wrtReparentTo, self), base.camera.posHprInterval(1, Point3(0, -27, 25), VBase3(0, -18, 0), blendType='easeInOut'), track) #Func(base.camera.setPosHpr, 0, -27, 25, 0, -18, 0)
 
     def moveToonsToBattleThreePos(self, toons):
         track = Parallel()
@@ -832,15 +825,15 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def exitPrepareBattleTwo(self):
         intervalName = 'PrepareBattleTwoMovie'
         self.clearInterval(intervalName)
-        self.unstickToons()
-        self.releaseToons()
         NametagGlobals.setWant2dNametags(True)
         ElevatorUtils.closeDoors(self.leftDoor, self.rightDoor, ElevatorConstants.ELEVATOR_CFO)
     
     def enterBattleTwo(self):
+        self.cleanupIntervals()
         self.reparentTo(render)
         self.setPosHpr(*ToontownGlobals.CashbotBossBattleTwoPosHpr)
         self.show()
+        self.releaseToons()
         self.pelvis.setHpr(self.pelvisReversedHpr)
         self.toonsToBattlePosition(self.toonsA, self.battleANode)
         self.toonsToBattlePosition(self.toonsB, self.battleBNode)

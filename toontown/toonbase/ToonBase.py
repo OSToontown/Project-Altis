@@ -235,6 +235,14 @@ class ToonBase(OTPBase.OTPBase):
         orangeText.setTextColor(1.0, 0.65, 0.0, 1)
         orangeText.setTextScale(1.2)
         tpMgr.setProperties('orangeText', orangeText)
+        playerGreen = TextProperties()
+        playerGreen.setTextColor(0.0, 1.0, 0.2, 1.0)
+        playerGreen.setShadow(.01)
+        tpMgr.setProperties('playerGreen', playerGreen)
+        cogGray = TextProperties()
+        cogGray.setTextColor(0.2, 0.2, 0.2, 1.0)
+        cogGray.setShadow(.01)
+        tpMgr.setProperties('cogGray', cogGray)
         del tpMgr
         self.lastScreenShotTime = globalClock.getRealTime()
         self.accept('InputState-forward', self.__walking)
@@ -293,6 +301,8 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDoorKey = settings.get('doorkey', False)
         
         self.wantInteractKey = settings.get('interactkey', False)
+        
+        self.accept('f4', self.toggleNametags)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -370,6 +380,28 @@ class ToonBase(OTPBase.OTPBase):
             aspect2d.show()
         else:
             aspect2d.hide()
+            
+
+    def toggleNametags(self):
+        nametags3d = render.findAllMatches('**/nametag3d')
+        nametags2d = render2d.findAllMatches('**/Nametag2d')
+        hide = False
+        for nametag in nametags2d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
+        for nametag in nametags2d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
 
     def takeScreenShot(self):
         if not os.path.exists(TTLocalizer.ScreenshotPath):
@@ -400,12 +432,23 @@ class ToonBase(OTPBase.OTPBase):
                 strTextLabel = DirectLabel(pos=(0.0, 0.001, 0.9), text=self.screenshotStr, text_scale=0.05, text_fg=VBase4(1.0, 1.0, 1.0, 1.0), text_bg=(0, 0, 0, 0), text_shadow=(0, 0, 0, 1), relief=None)
                 strTextLabel.setBin('gui-popup', 0)
         self.graphicsEngine.renderFrame()
-        self.screenshot(namePrefix=namePrefix, imageComment=ctext + ' ' + self.screenshotStr)
+        screenshot = self.screenshot(namePrefix=namePrefix, imageComment=ctext + ' ' + self.screenshotStr)
         self.lastScreenShotTime = globalClock.getRealTime()
+        pandafile = Filename(str(ExecutionEnvironment.getCwd()) + '/' + str(screenshot))
+        winfile = pandafile.toOsSpecific()
+        screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
+        screenShotNotice.reparentTo(base.a2dBottomCenter)
+        screenShotNotice.setBin('gui-popup', 0)
         if coordOnScreen:
             if strTextLabel is not None:
                 strTextLabel.destroy()
             coordTextLabel.destroy()
+            
+        def clearScreenshotMsg(task):
+            screenShotNotice.destroy()
+            return task.done
+
+        taskMgr.doMethodLater(5.0, clearScreenshotMsg, 'clearScreenshot')
 
     def addScreenshotString(self, str):
         if len(self.screenshotStr):

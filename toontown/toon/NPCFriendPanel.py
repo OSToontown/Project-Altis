@@ -164,6 +164,19 @@ class NPCFriendCard(DirectFrame):
                 sosText = TTLocalizer.InventoryFire
             else:
                 sosText = self.sosTracks[track]
+            try:
+                if track == 100:
+                    color = (0.8,0.5,0.5,1)
+                elif track == ToontownBattleGlobals.NPC_RESTOCK_GAGS:
+                    if level == -1:
+                        color = (1,1,1,1)
+                    else:
+                        color = (ToontownBattleGlobals.TrackColors[level][0], ToontownBattleGlobals.TrackColors[level][1], ToontownBattleGlobals.TrackColors[level][2], 1)
+                else:
+                    color = (ToontownBattleGlobals.TrackColors[track][0], ToontownBattleGlobals.TrackColors[track][1], ToontownBattleGlobals.TrackColors[track][2], 1)
+                self.front['image_color'] = color
+            except:
+                self.front['image_color'] = (1,1,1,1)
             if track == ToontownBattleGlobals.NPC_RESTOCK_GAGS:
                 if level == -1:
                     sosText += ' All'
