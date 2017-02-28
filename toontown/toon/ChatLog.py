@@ -11,17 +11,17 @@ class ChatLog(DirectFrame, DirectObject):
         arrowGui = loader.loadModel('phase_9/models/gui/tt_m_gui_brd_arrow')
         hideImageList = (arrowGui.find('**/tt_t_gui_brd_arrow_up'), arrowGui.find('**/tt_t_gui_brd_arrow_down'), arrowGui.find('**/tt_t_gui_brd_arrow_hover'))
 
-        self.toggleBtn = DirectButton(parent=base.a2dLeftCenter, relief=None, text_pos=(0, 0.15), text_scale=0.06, text_align=TextNode.ALeft, text_fg=Vec4(0, 0, 0, 1), text_shadow=Vec4(1, 1, 1, 1), image=hideImageList, image_scale=(0.35, 1, 0.5), pos=(0.02, 0, 0.45), scale=1.05, command=self.toggle)
+        self.toggleBtn = DirectButton(parent=base.a2dLeftCenter, relief=None, text = ('', 'Toggle Chat Log', 'Toggle Chat Log'), text_pos=(.2, 0), text_scale=0.06, text_align=TextNode.ALeft, text_fg=Vec4(0, 0, 0, 1), text_shadow=Vec4(1, 1, 1, 1), image=hideImageList, image_scale=(0.35, 1, 0.5), pos=(0.025, 0, 0.45), scale=1.05, command=self.toggle)
 
         self.log = DirectScrolledList(parent = self,
-            decButton_pos= (0.35, 0, 0.53),
+            decButton_pos= (0.45, 0, 0.65),
             decButton_image = (gui.find('**/FndsLst_ScrollUp'),
             gui.find('**/FndsLst_ScrollDN'),
             gui.find('**/FndsLst_ScrollUp_Rllvr'),
             gui.find('**/FndsLst_ScrollUp')),
             decButton_relief = None,
             
-            incButton_pos= (0.35, 0, -0.025),
+            incButton_pos= (0.45, 0, -0.1475),
             incButton_image = (gui.find('**/FndsLst_ScrollUp'),
             gui.find('**/FndsLst_ScrollDN'),
             gui.find('**/FndsLst_ScrollUp_Rllvr'),
@@ -30,15 +30,15 @@ class ChatLog(DirectFrame, DirectObject):
             incButton_scale = (1.0, 1.0, -1.0),
             
             itemFrame_geom = (loader.loadModel("phase_3.5/models/gui/frame")),
-            itemFrame_geom_scale = .12,
-            itemFrame_geom_pos = (0, 0, -.15),
+            itemFrame_geom_scale = (.14, 1, .17),
+            itemFrame_geom_pos = (0, 0, -.25),
             itemFrame_relief = None,
             
             items = [],
             numItemsVisible = 6,
-            forceHeight = .062,
-            itemFrame_frameSize = (-0.4, 0.4, -0.37, 0.11),
-            itemFrame_pos = (0.35, 0, 0.4),
+            forceHeight = .1,
+            itemFrame_frameSize = (-0.4, 0.5, -0.4, 0.16),
+            itemFrame_pos = (0.45, 0, 0.5),
             )
         self.isHidden = True
         
@@ -50,7 +50,7 @@ class ChatLog(DirectFrame, DirectObject):
         base.cr.chatLog = None
         
     def addToLog(self, msg):
-        msg = DirectLabel(relief = None, text = msg, text_scale = 0.032, text_pos = (-.35, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 20)
+        msg = DirectLabel(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25)
         self.log.addItem(msg)
         self.log.scrollTo(len(self.log['items']) - 1)
         
