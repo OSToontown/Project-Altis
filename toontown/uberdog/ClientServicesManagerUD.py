@@ -136,19 +136,6 @@ class DeveloperAccountDB(AccountDB):
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-
-    def addNameRequest(self, avId, name):
-        # add type a name
-        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
-        return 'Success'
-    
-    def getNameStatus(self, avId):
-        # check type a name
-        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
-        return 'APPROVED'
-    
     def lookup(self, username, callback):
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
@@ -237,6 +224,39 @@ class LocalAccountDB(AccountDB):
             callback(response)
             return response
 
+
+    def addNameRequest(self, avId, name):
+        # add type a name
+        self.notify.debug("adding name from %s : %s" %(avId, name))
+        try:
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
+        except:
+            self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
+        return 'Success'
+        
+    def getNameStatus(self, avId):
+        # check type a name
+        self.notify.debug("debug: checking name from %s" %(avId))
+        try:
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
+            status = resp[u"status"]
+            if status == -1:
+                state = "REJECTED"
+            elif status == 0:
+                state = "PENDING"
+            elif status == 1:
+                state = "APPROVED"
+            else:
+                self.notify.debug("Get name status for av %s didnt return an expected value, got %s, setting to PENDING" % (avId, str(status)))
+                state = "PENDING"
+        except:
+            self.notify.debug("Get name status failed for av %s, setting to pending" % avId)
+            state = "PENDING"
+        self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
+        return state
+    
 class RemoteAccountDB(AccountDB):
     notify = directNotify.newCategory('RemoteAccountDB')
 

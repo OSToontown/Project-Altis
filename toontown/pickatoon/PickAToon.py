@@ -266,9 +266,13 @@ class PickAToon(DirectObject):
     def showToon(self):
         av = [x for x in self.avatarList if x.position == self.selectedToon][0]
         dna = av.dna
+
         if av.allowedName == 1:
             self.toon.setName(av.name + '\n\1textShadow\1NAME REJECTED!\2')
             self.changeName.show()
+        elif av.wantName != '':
+            self.toon.setName(av.name + '\n\1textShadow\1NAME PENDING!\2')
+            self.changeName.hide()
         else:
             self.toon.setName(av.name)
             self.changeName.hide()
