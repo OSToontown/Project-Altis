@@ -148,7 +148,6 @@ class LocalAccountDB(AccountDB):
         return 'APPROVED'
 
     def lookup(self, username, callback):
-        '''
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
 
@@ -202,10 +201,6 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Invalid Cookie Specified!'})
             return
-        '''
-        # TEMP
-        cookie = username
-        # TEMP
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
