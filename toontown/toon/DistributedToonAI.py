@@ -5077,7 +5077,7 @@ def dna(part, value):
     dna.makeFromNetString(invoker.getDNAString())
 
     part = part.lower()
-    if part.endswith('tex') or part.endswith('size'):
+    if part.endswith('color') or part.endswith('tex') or part.endswith('size'):
         value = int(value)
 
     if part == 'gender':
