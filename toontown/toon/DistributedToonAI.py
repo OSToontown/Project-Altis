@@ -4735,6 +4735,14 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[])
+def clearSOS():
+    """
+    Clear's the invoker's SOS card inventory
+    """
+    invoker.b_setNPCFriendsDict([])
+    return "Your sos cards have been cleared!"
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def unites(value=32767):
