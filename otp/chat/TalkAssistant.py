@@ -344,6 +344,8 @@ class TalkAssistant(DirectObject.DirectObject):
                 self.historyOpen.append(newMessage)
                 messenger.send('NewOpenMessage', [newMessage])
                 if hasattr(base.cr, 'chatLog'):
+                    if base.localAvatar.getAdminAccess() >= 375:
+                        avatarName = "\1WLEnter\1(%s)\2%s" %(accountId, avatarName)
                     if self.isThought(message):
                         base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message))
                     else:
@@ -374,6 +376,9 @@ class TalkAssistant(DirectObject.DirectObject):
             self.addToHistoryDISLId(newMessage, accountId)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
+            if base.localAvatar.getAdminAccess() >= 375:
+                avatarName = "\1WLEnter\1(%s)\2%s" %(accountId, avatarName)
+
             base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(avatarName, message))
         return error
 
@@ -451,6 +456,9 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyOpen.append(newMessage)
             messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
+            if base.localAvatar.getAdminAccess() >= 375:
+                avatarName = "\1WLEnter\1(%s)\2%s" %(accountId, avatarName)
+
             base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message))
         return error
 
@@ -556,6 +564,9 @@ class TalkAssistant(DirectObject.DirectObject):
         self.addToHistoryDoId(newMessage, senderAvId)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
+            if base.localAvatar.getAdminAccess() >= 375:
+                name = "\1WLEnter\1(%s)\2%s" %(senderAvId, name)
+
             base.cr.chatLog.addToLog("\1playerGreen\1%s\2: %s" %(name, message))
         return error
 
@@ -575,6 +586,8 @@ class TalkAssistant(DirectObject.DirectObject):
         self.addToHistoryDoId(newMessage, senderAvId)
         messenger.send('NewOpenMessage', [newMessage])
         if hasattr(base.cr, 'chatLog'):
+            if base.localAvatar.getAdminAccess() >= 375:
+                name = "\1WLEnter\1(%s)\2%s" %(senderAvId, name)
             base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(name, message))
         return error
 
