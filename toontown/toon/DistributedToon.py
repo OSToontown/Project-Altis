@@ -517,8 +517,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 base.cr.ttaFriendsManager.d_sleepAutoReply(fromAV)
        
         newText, scrubbed = self.scrubTalk(chat, mods)
-        self.displayTalk(newText)
+        if base.localAvatar.getAdminAccess() >= 375:
+            if chat != newText:
+                newText = (newText + " \1WLEnter\1(%s)\2" %chat)
         base.talkAssistant.receiveOpenTalk(fromAV, avatarName, fromAC, None, newText)
+        self.displayTalk(newText)
 
     def isAvFriend(self, avId):
         return base.cr.isFriend(avId) or base.cr.playerFriendsManager.isAvatarOwnerPlayerFriend(avId)
