@@ -187,36 +187,39 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         return MovieUtil.createSuitDodgeMultitrack(tDodge, suit, leftSuits, rightSuits)
 		
 def shortCircuitTrack(suit, battle):
-    suitTrack = Sequence()
-    suitPos, suitHpr = battle.getActorPosHpr(suit)
-    suitTrack.append(Wait(0.15))
-    suitTrack.append(Func(MovieUtil.avatarHide, suit))
-    deathSound = base.loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
-    deathSoundTrack = Sequence(Wait(0.5), SoundInterval(deathSound, volume=0.8))
-    BattleParticles.loadParticles()
-    smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
-    singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles=1)
-    smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
-    bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles=30)
-    gearPoint = Point3(suitPos.getX(), suitPos.getY(), suitPos.getZ() + suit.height - 0.2)
-    smallGears.setPos(gearPoint)
-    singleGear.setPos(gearPoint)
-    smallGears.setDepthWrite(False)
-    singleGear.setDepthWrite(False)
-    smallGearExplosion.setPos(gearPoint)
-    bigGearExplosion.setPos(gearPoint)
-    smallGearExplosion.setDepthWrite(False)
-    bigGearExplosion.setDepthWrite(False)
-    explosionTrack = Sequence()
-    explosionTrack.append(MovieUtil.createKapowExplosionTrack(battle, explosionPoint=gearPoint))
-    gears1Track = Sequence(Wait(0.5), ParticleInterval(smallGears, battle, worldRelative=0, duration=1.0, cleanup=True), name='gears1Track')
-    gears2MTrack = Track(
-        (0.1, ParticleInterval(singleGear, battle, worldRelative=0, duration=0.4, cleanup=True)),
-        (0.5, ParticleInterval(smallGearExplosion, battle, worldRelative=0, duration=0.5, cleanup=True)),
-        (0.9, ParticleInterval(bigGearExplosion, battle, worldRelative=0, duration=2.0, cleanup=True)), name='gears2MTrack'
-    )
+    if suit.isHidden():
+        return Sequence()
+    else:
+        suitTrack = Sequence()
+        suitPos, suitHpr = battle.getActorPosHpr(suit)
+        suitTrack.append(Wait(0.15))
+        suitTrack.append(Func(MovieUtil.avatarHide, suit))
+        deathSound = base.loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+        deathSoundTrack = Sequence(Wait(0.5), SoundInterval(deathSound, volume=0.8))
+        BattleParticles.loadParticles()
+        smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
+        singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles=1)
+        smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
+        bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles=30)
+        gearPoint = Point3(suitPos.getX(), suitPos.getY(), suitPos.getZ() + suit.height - 0.2)
+        smallGears.setPos(gearPoint)
+        singleGear.setPos(gearPoint)
+        smallGears.setDepthWrite(False)
+        singleGear.setDepthWrite(False)
+        smallGearExplosion.setPos(gearPoint)
+        bigGearExplosion.setPos(gearPoint)
+        smallGearExplosion.setDepthWrite(False)
+        bigGearExplosion.setDepthWrite(False)
+        explosionTrack = Sequence()
+        explosionTrack.append(MovieUtil.createKapowExplosionTrack(battle, explosionPoint=gearPoint))
+        gears1Track = Sequence(Wait(0.5), ParticleInterval(smallGears, battle, worldRelative=0, duration=1.0, cleanup=True), name='gears1Track')
+        gears2MTrack = Track(
+            (0.1, ParticleInterval(singleGear, battle, worldRelative=0, duration=0.4, cleanup=True)),
+            (0.5, ParticleInterval(smallGearExplosion, battle, worldRelative=0, duration=0.5, cleanup=True)),
+            (0.9, ParticleInterval(bigGearExplosion, battle, worldRelative=0, duration=2.0, cleanup=True)), name='gears2MTrack'
+        )
 
-    return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack)
+        return Parallel(suitTrack, explosionTrack, deathSoundTrack, gears1Track, gears2MTrack)
 
 
 def say(statement):

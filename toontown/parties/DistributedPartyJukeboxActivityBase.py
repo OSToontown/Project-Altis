@@ -8,6 +8,7 @@ from toontown.parties.DistributedPartyActivity import DistributedPartyActivity
 from toontown.parties.PartyGlobals import ActivityIds, ActivityTypes, JUKEBOX_TIMEOUT
 from toontown.parties.PartyGlobals import getMusicRepeatTimes, MUSIC_PATH, sanitizePhase
 from toontown.parties.JukeboxGui import JukeboxGui
+from toontown.estate import DistributedEstate
 
 class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
     notify = directNotify.newCategory('DistributedPartyJukeboxActivityBase')
@@ -30,6 +31,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         DistributedPartyActivity.load(self)
         self.jukebox = Actor('phase_13/models/parties/jukebox_model', {'dance': 'phase_13/models/parties/jukebox_dance'})
         self.jukebox.reparentTo(self.root)
+        self.jukebox.setBlend(frameBlend = base.wantSmoothAnims)
         self.jukebox.loop('dance', fromFrame=0, toFrame=48)
         self.collNode = CollisionNode(self.getCollisionName())
         self.collNode.setCollideMask(ToontownGlobals.CameraBitmask | ToontownGlobals.WallBitmask)
@@ -112,6 +114,8 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         self.__localClearQueuedSong()
 
     def isUserHost(self):
+        if isinstance(self.party, DistributedEstate.DistributedEstate):
+            return False
         return self.party.partyInfo.hostId == base.localAvatar.doId
 
     def d_queuedSongsRequest(self):
@@ -167,7 +171,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
             if self.__checkPartyValidity() and hasattr(base.cr.playGame.getPlace().loader, 'music') and base.cr.playGame.getPlace().loader.music:
                 base.cr.playGame.getPlace().loader.music.stop()
             self.music.setTime(0.0)
-            self.music.setLoopCount(getMusicRepeatTimes(length))
+            self.music.setLoopCount(1)
             self.music.play()
             self.currentSongData = (phase, filename)
 

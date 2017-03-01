@@ -196,6 +196,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         return label
 
     def getDecorationItem(self, decorBase, count = 1):
+        errorIcon = False
         decorationName = TTLocalizer.PartyDecorationNameDict[decorBase.decorId]['editor']
         if count == 1:
             textForDecoration = decorationName
@@ -204,9 +205,18 @@ class EventsPage(ShtikerPage.ShtikerPage):
         assetName = PartyGlobals.DecorationIds.getString(decorBase.decorId)
         if assetName == 'Hydra':
             assetName = 'StageSummer'
-        label = DirectLabel(relief=None, geom=self.decorationModels.find('**/partyDecoration_%s' % assetName), text=textForDecoration, text_scale=TTLocalizer.EPdecorationItemLabel, text_align=TextNode.ACenter, text_pos=(-0.01, -0.43), text_wordwrap=7.0)
-        label['geom_scale'] = (2.6, 0.01, 0.05)
-        label['geom_pos'] = (0.0, 0.0, -0.33)
+        geom = self.decorationModels.find('**/partyDecoration_%s' % assetName)
+        if geom.isEmpty():
+            helpGui = loader.loadModel('phase_3.5/models/gui/tt_m_gui_brd_help')
+            geom = helpGui.find('**/tt_t_gui_brd_helpHover')
+            errorIcon = True
+        label = DirectLabel(relief=None, geom=geom, text=textForDecoration, text_scale=TTLocalizer.EPdecorationItemLabel, text_align=TextNode.ACenter, text_pos=(-0.01, -0.43), text_wordwrap=7.0)
+        if errorIcon:
+            label['geom_scale'] = (2.6, 0.01, 2.6)
+            label['geom_pos'] = (0.0, 0.0, -0.165)
+        else:
+            label['geom_scale'] = (2.6, 0.01, 0.05)
+            label['geom_pos'] = (0.0, 0.0, -0.33)
         return label
 
     def getToonNameFromAvId(self, avId):

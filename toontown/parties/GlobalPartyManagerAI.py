@@ -1,20 +1,49 @@
 from direct.distributed.DistributedObjectGlobalAI import DistributedObjectGlobalAI
 from direct.distributed.PyDatagram import *
 from direct.directnotify.DirectNotifyGlobal import directNotify
+from direct.task import Task
+from PartyGlobals import AddPartyErrorCode
 
 class GlobalPartyManagerAI(DistributedObjectGlobalAI):
     notify = directNotify.newCategory('GlobalPartyManagerAI')
     
     def announceGenerate(self):
         DistributedObjectGlobalAI.announceGenerate(self)
-        # Inform the UD that we as an AI have started up, and tell him the doId of our partymanager, so they can talk
+        # Inform the UD that we as an AI have started up
+        self.uberdogUp = True
         self.sendUpdate('partyManagerAIHello', [simbase.air.partyManager.doId])
 
+    def startHeartbeat(self):
+        taskMgr.remove('noResponseTask')
+        self.uberdogUp = True
+
+    def heartbeat(self, task):
+        self.sendUpdate('heartbeat', [simbase.air.partyManager.doId])
+        return Task.again
+
+    def heartbeatResponse(self):
+        self.uberdogUp = True
+        self.notify.debug('Heartbeat responded!')
+        taskMgr.remove('heartbeatLostTask')
+
+    def reportUdLost(self, task):
+        self.notify.warning('heck!!! party connection to uberdog was lost!')
+        self.uberdogUp = False
+        if task.name == 'noResponseTask':
+            self.startHeartbeat()
+            return Task.done
+
     def sendAddParty(self, avId, partyId, start, end, isPrivate, inviteTheme, activities, decorations, inviteeIds):
+        if not self.uberdogUp:
+            self.sendUpdateToAvatarId(avId, 'addPartyResponse', [avId, AddPartyErrorCode.DatabaseError])
+            print("Uber dog isnt up, uh oh!")
+            return
         self.sendUpdate('addParty', [avId, partyId, start, end, isPrivate, inviteTheme, activities, decorations, inviteeIds])
+        print("Started a party! " + str(avId) + str(partyId) + str(start) + str(end) + str(isPrivate) + str(inviteTheme) + str(activities) + str(decorations) + str(inviteeIds))
         
     def queryPartyForHost(self, hostId):
         self.sendUpdate('queryParty', [hostId])
+        print("Getting host: " + str(hostId))
 
     def d_partyStarted(self, partyId, shardId, zoneId, hostName):
         self.sendUpdate('partyHasStarted', [partyId, shardId, zoneId, hostName])
@@ -46,8 +75,14 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
     def requestPartySlot(self, partyId, avId, gateId):
         pass
 
-    def d_allocIds(self, numIds):
-        self.sendUpdate('allocIds', [numIds])
-        
-    def allocIds(self, numIds):
-        pass
+    def changePrivateRequestAiToUd(self, hostId, partyId, isPrivate):
+        self.sendUpdate('changePrivateRequest', [hostId, partyId, isPrivate])
+
+    def changePartyStatusRequestAiToUd(self, hostId, partyId, newPartyStatus):
+        self.sendUpdate('changePartyStatusRequest', [hostId, partyId, newPartyStatus])
+
+    def respondToInviteAiToUd(self, fromId, todo0, context, inviteKey, inviteStatus):
+        self.sendUpdate('respondToInvite', [fromId, todo0, context, inviteKey, inviteStatus])
+
+    def sendInviteAsReadButNotReplied(self, avId, inviteKey):
+        self.sendUpdate('markInviteAsReadButNotReplied', [avId, inviteKey])

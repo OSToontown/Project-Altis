@@ -23,6 +23,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.musicFile = 'phase_9/audio/bgm/encntr_suit_HQ_nbrhood.ogg'
         self.cogHQExteriorModelPath = 'phase_10/models/cogHQ/CashBotShippingStation'
         self.cogHQLobbyModelPath = 'phase_10/models/cogHQ/VaultLobby'
+        self.zoneVisDict = []
         self.geom = None
 
     def load(self, zoneId):
@@ -78,3 +79,13 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def getBossPlaceClass(self):
         return CashbotHQBossBattle.CashbotHQBossBattle
+		
+    def enterCogHQBossBattle(self, requestStatus):
+        self.notify.debug('CashbotCogHQLoader.enterCogHQBossBattle')
+        CogHQLoader.CogHQLoader.enterCogHQBossBattle(self, requestStatus)
+        base.cr.forbidCheesyEffects(1)
+
+    def exitCogHQBossBattle(self):
+        self.notify.debug('CashbotCogHQLoader.exitCogHQBossBattle')
+        CogHQLoader.CogHQLoader.exitCogHQBossBattle(self)
+        base.cr.forbidCheesyEffects(0)

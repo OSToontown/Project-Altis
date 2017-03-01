@@ -289,6 +289,7 @@ dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256), uint8 chatMode) clsend;
   chatMessageResponse(DoId, string, TalkModification [], uint8 chatMode) airecv;
+  kickForSpam(uint32) airecv clsend;
 };
 
 dclass FriendManager : DistributedObject {
@@ -611,6 +612,7 @@ from toontown.toon import DistributedNPCFisherman/AI
 from toontown.toon import DistributedNPCPartyPerson/AI
 from toontown.toon import DistributedNPCPetclerk/AI
 from toontown.toon import DistributedNPCKartClerk/AI
+from toontown.toon import DistributedNPCLoopyG/AI
 from toontown.building import DistributedKnockKnockDoor/AI
 from toontown.building import DistributedElevator/AI
 from toontown.building import DistributedElevatorFSM/AI
@@ -813,6 +815,10 @@ from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
 from toontown.weather import DistributedWeatherCycle/AI
 from toontown.weather import DistributedWeatherStorm/AI
 from toontown.club import DistributedToonClub/AI
+from toontown.environment import DistributedDayTimeManager/AI
+from toontown.environment import DistributedRainManager/AI
+from toontown.environment import DistributedWeatherMGR/AI
+
 
 struct GiftItem {
   blob Item;
@@ -963,7 +969,7 @@ dclass DistributedToon : DistributedPlayer {
   setMaxCarry(uint8 = 20) required ownrecv db;
   setTrackAccess(uint16[] = [0,0,0,0,1,1,0,0]) required broadcast ownrecv db;
   setTrackProgress(int8 = -1, uint32 = 0) required ownrecv db;
-  setTrackBonusLevel(int8[] = [-1,-1,-1,-1,-1,-1,-1,-1]) required broadcast ownrecv db;
+  setTrackBonusLevel(int8[] = [-1,-1,-1,-1,-1,-1,-1,-1,-1]) required broadcast ownrecv db;
   setInventory(blob = [0*7, 0*7, 0*7, 0*7, 1, 0*6, 1, 0*6, 0*7, 0*7]) required ownrecv db;
   setMaxNPCFriends(uint16 = 16) required ownrecv db;
   setNPCFriendsDict(FriendEntry[] = []) required ownrecv db;
@@ -1127,6 +1133,7 @@ dclass DistributedToon : DistributedPlayer {
   announcePartyStarted(uint64) ownrecv;
   setAchievements(uint16[] = []) required broadcast ownrecv db;
   setNeverStartedPartyRefunded(uint64, int8, uint16) ownrecv;
+  refundParty(uint16) ownrecv airecv ram;
   setModuleInfo(string []) airecv clsend;
   setDISLname(string) ram;
   setDISLid(uint32) ram db airecv;
@@ -1137,6 +1144,8 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
+  setWarningCount(uint8) ownrecv db;
+  setInteriorLayout(uint8 = 0) required ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -1703,17 +1712,17 @@ dclass DistributedEstate : DistributedObject {
   setRentalTimeStamp(uint32 timestamp = 0) required airecv db;
   setRentalType(uint8 type = 0) required airecv db;
   setSlot0ToonId(uint32 toonId = 0) required airecv db;
-  setSlot0Items(lawnItem items[] = []) required airecv db;
+  setSlot0Garden(blob g) required ownrecv db;
   setSlot1ToonId(uint32 toonId = 0) required airecv db;
-  setSlot1Items(lawnItem items[] = []) required airecv db;
+  setSlot1Garden(blob g) required ownrecv db;
   setSlot2ToonId(uint32 toonId = 0) required airecv db;
-  setSlot2Items(lawnItem items[] = []) required airecv db;
+  setSlot2Garden(blob g) required ownrecv db;
   setSlot3ToonId(uint32 toonId = 0) required airecv db;
-  setSlot3Items(lawnItem items[] = []) required airecv db;
+  setSlot3Garden(blob g) required ownrecv db;
   setSlot4ToonId(uint32 toonId = 0) required airecv db;
-  setSlot4Items(lawnItem items[] = []) required airecv db;
+  setSlot4Garden(blob g) required ownrecv db;
   setSlot5ToonId(uint32 toonId = 0) required airecv db;
-  setSlot5Items(lawnItem items[] = []) required airecv db;
+  setSlot5Garden(blob g) required ownrecv db;
   setIdList(uint32 []) broadcast ram;
   completeFlowerSale(uint8) airecv clsend;
   awardedTrophy(uint32) broadcast;
@@ -1740,6 +1749,7 @@ dclass DistributedHouse : DistributedObject {
   setInteriorInitialized(uint8 initialized = 0) required db;
   setCannonEnabled(uint8) required;
   setHouseReady() broadcast ram;
+  setInteriorLayout(uint8 layoutId = 0) required broadcast db;
 };
 
 dclass DistributedHouseInterior : DistributedObject {
@@ -1747,6 +1757,7 @@ dclass DistributedHouseInterior : DistributedObject {
   setHouseIndex(uint8) required broadcast ram;
   setWallpaper(blob) required broadcast ram;
   setWindows(blob) required broadcast ram;
+  setInteriorLayout(uint8) required broadcast ram;
 };
 
 dclass DistributedGarden : DistributedObject {
@@ -1966,17 +1977,22 @@ dclass NewsManager : DistributedObject {
   setPopulation(uint32) broadcast ram;
   setBingoWin(uint32) broadcast ram;
   setBingoStart() broadcast;
+  setBingoOngoing() broadcast;
   setBingoEnd() broadcast;
   setCircuitRaceStart() broadcast;
+  setCircuitRaceOngoing() broadcast;
   setCircuitRaceEnd() broadcast;
   setTrolleyHolidayStart() broadcast;
+  setTrolleyHolidayOngoing() broadcast;
   setTrolleyHolidayEnd() broadcast;
   setTrolleyWeekendStart() broadcast;
+  setTrolleyWeekendOngoing() broadcast;
   setTrolleyWeekendEnd() broadcast;
   setMoreXpHolidayStart() broadcast;
   setMoreXpHolidayOngoing() broadcast;
   setMoreXpHolidayEnd() broadcast;
   setRoamingTrialerWeekendStart() broadcast;
+  setRoamingTrialerWeekendOngoing() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8, string, uint32, uint8) broadcast;
   setHolidayIdList(uint32[]) broadcast ram;
@@ -2411,6 +2427,9 @@ dclass DistributedNPCKartClerk : DistributedNPCToonBase {
   transactionDone() airecv clsend;
 };
 
+dclass DistributedNPCLoopyG : DistributedNPCToon {
+};
+
 dclass DistributedKnockKnockDoor : DistributedAnimatedProp {
 };
 
@@ -2768,7 +2787,7 @@ dclass DistributedLift : DistributedEntity {
 };
 
 dclass DistributedDoorEntity : DistributedEntity {
-  setLocksState(uint16) required broadcast ram;
+  setLocksState(uint16[]) required broadcast ram;
   setDoorState(uint8, int32) required broadcast ram;
   requestOpen() airecv clsend;
 };
@@ -3202,13 +3221,14 @@ dclass DistributedLawbotChair : DistributedObject {
 dclass DistributedLawnDecor : DistributedNode {
   setPlot(int8) required broadcast ram;
   setHeading(int16/10) required broadcast ram;
-  setPosition(int16/10, int16/10, int16/10) required broadcast ram;
   setOwnerIndex(int8) required broadcast ram;
+  setPosition(int16/10, int16/10, int16/10) required broadcast ram;
   plotEntered() airecv clsend;
   removeItem() airecv clsend;
   setMovie(uint8, uint32) broadcast ram;
   movieDone() airecv clsend;
   interactionDenied(uint32) broadcast ram;
+  setBoxDoId(uint32, uint8) broadcast ram;
 };
 
 dclass DistributedGardenPlot : DistributedLawnDecor {
@@ -3256,6 +3276,7 @@ dclass DistributedFlower : DistributedPlantBase {
 dclass DistributedGagTree : DistributedPlantBase {
   setWilted(int8) required broadcast ram;
   requestHarvest() airecv clsend;
+  setFruiting(bool) required broadcast ram;
 };
 
 dclass DistributedTravelGame : DistributedMinigame {
@@ -3702,13 +3723,11 @@ dclass DistributedPartyManager : DistributedObject {
   respondToInviteResponse(uint32, uint16, uint64, int8, uint8) airecv;
 
   changePrivateRequest(uint64, int8) airecv clsend;
-  changePrivateRequestAiToUd(uint32, uint64, int8);
   changePrivateResponseUdToAi(uint32, uint64, int8, int8) airecv;
   changePrivateResponse(uint64, int8, int8);
 
   changePartyStatusRequest(uint64, int8) airecv clsend;
-  changePartyStatusRequestAiToUd(uint32, uint64, int8);
-  changePartyStatusResponseUdToAi(uint32, uint64, int8, int8) airecv;
+  changePartyStatusResponseUdToAi(uint32, uint64, int8, int8, int16) airecv;
   changePartyStatusResponse(uint64, int8, int8, uint16);
 
   partyInfoOfHostRequestAiToUd(uint32, uint32);
@@ -3744,16 +3763,25 @@ dclass DistributedPartyManager : DistributedObject {
 
 
 dclass GlobalPartyManager : DistributedObjectGlobal {
-    partyManagerAIHello(uint32 channel);
-    queryParty(uint32 hostId);
-    addParty(DoId avId, uint64 partyId, string start, string end, int8 isPrivate,
-             int8 inviteTheme, activity [], decoration [], DoIdList inviteeIds);
-    partyHasStarted(uint64 partyId, uint32 shardId, uint32 zoneId, string hostName);
-    toonJoinedParty(uint64 partyId, uint32 avId);
-    toonLeftParty(uint64 partyId, uint32 avId);
-    requestPartySlot(uint64 partyId, uint32 avId, uint32 gateId);
-    partyDone(uint64 partyId);
-    allocIds(uint16 count);
+  partyManagerAIHello(uint32 channel);
+  heartbeat(uint32 channel);
+  heartbeatResponse() airecv;
+  queryParty(uint32 hostId);
+  addParty(DoId avId, uint64 partyId, string start, string end, int8 isPrivate,
+           int8 inviteTheme, activity [], decoration [], DoIdList inviteeIds);
+  partyHasStarted(uint64 partyId, uint32 shardId, uint32 zoneId, string hostName);
+  toonJoinedParty(uint64 partyId, uint32 avId);
+  toonLeftParty(uint64 partyId, uint32 avId);
+  requestPartySlot(uint64 partyId, uint32 avId, uint32 gateId);
+  partyDone(uint64 partyId);
+  allocIds(uint16 count);
+
+  changePrivateRequest(uint32 hostId, uint64 partyId, int8 isPrivate);
+  changePartyStatusRequest(uint32 hostId, uint64 partyId, int8 partyStatus);
+
+  markInviteAsReadButNotReplied(uint32 avId, uint64 inviteKey);
+  respondToInvite(uint32 fromId, uint32 todo0, uint16 context, uint64 inviteKey, uint8 inviteStatus);
+
 };
 
 struct PotentialToon {
@@ -3808,6 +3836,7 @@ dclass NonRepeatableRandomSourceClient {
 
 dclass TTCodeRedemptionMgr : DistributedObject, NonRepeatableRandomSourceClient {
   giveAwardToToonResult(uint32, uint32);
+  deliverItem(uint32, uint32, blob) airecv;
   redeemCode(uint32, char [0-256]) airecv clsend;
   redeemCodeAiToUd(DoId, uint32, string);
   redeemCodeResultUdToAi(uint32, uint32, uint32, uint32) airecv;
@@ -3943,4 +3972,17 @@ dclass DistributedToonClub : DistributedObjectGlobal {
   addMember(uint32) clsend;
   removeMember(uint32);
   setMembers(Member []);
+};
+
+dclass DistributedWeatherMGR : DistributedObject {
+  start() broadcast ram;
+  setState(string, int32) broadcast ram;
+};
+
+dclass DistributedDayTimeManager : DistributedWeatherMGR {
+  update(int8) broadcast ram;
+};
+
+dclass DistributedRainManager : DistributedWeatherMGR {
+  spawnLightning(int16, int16) broadcast ram;
 };

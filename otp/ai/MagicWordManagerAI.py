@@ -6,6 +6,7 @@ from direct.distributed.MsgTypes import *
 from toontown.toon.DistributedToonAI import DistributedToonAI
 import time
 import datetime
+import os
 
 class MagicWordManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("MagicWordManagerAI")
@@ -44,13 +45,18 @@ class MagicWordManagerAI(DistributedObjectAI):
                                   invokerId, invoker.getAdminAccess(),
                                   targetId, target.getAdminAccess(),
                                   word, response)
+
+        if not os.path.exists('logs/mw'):
+            os.makedirs('logs/mw')
+
         with open("logs/mw/magic-words.txt","a") as textFile:
             textFile.write("%s | %s : %s\n" % (now, invokerId, word))
+
         print("%s | %s : %s\n" % (now, invokerId, word))
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def help(wordName=None):
-    print 'help called with %s' % (wordName)    
+    print 'help called with %s' % (wordName)
     if not wordName:
         return "What were you interested getting help for?"
     word = spellbook.words.get(wordName.lower())   # look it up by its lower case value
@@ -63,7 +69,7 @@ def help(wordName=None):
                     return 'Did you mean %s' % (spellbook.words.get(key).name)
         return 'I have no clue what %s is refering to' % (wordName)
     return word.doc
-            
+
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[])
 def words():
     accessLevel = spellbook.getInvoker().getAdminAccess()
@@ -80,4 +86,3 @@ def words():
         return "You are chopped liver"
     else:
         return wordString
-            

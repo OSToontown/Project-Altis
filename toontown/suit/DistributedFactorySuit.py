@@ -42,6 +42,17 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
 
     def generate(self):
         DistributedSuitBase.DistributedSuitBase.generate(self)
+		
+    def enterOff(self, *args):
+        self.hideNametag3d()
+        if not self.subclassManagesParent():
+            self.setParent(ToontownGlobals.SPHidden)
+
+    def exitOff(self):
+        if not self.subclassManagesParent():
+            self.setParent(ToontownGlobals.SPRender)
+        self.showNametag3d()
+        self.loop('neutral', 0)
 
     def setLevelDoId(self, levelDoId):
         self.notify.debug('setLevelDoId(%s)' % levelDoId)

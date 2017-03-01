@@ -13,6 +13,7 @@ INVALID_TYPE = -1
 GAG_TREE_TYPE = 0
 FLOWER_TYPE = 1
 STATUARY_TYPE = 2
+TOON_STATUARY_TYPE = 3
 WATERING_CAN_SMALL = 0
 WATERING_CAN_MEDIUM = 1
 WATERING_CAN_LARGE = 2
@@ -262,6 +263,12 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
        'worldScale': 0.05,
        'varieties': ((1008, 1, 0),),
        'pinballScore': (500, 1)},
+ 209: {'name': TTLocalizer.StatuaryGazebo,
+       'plantType': STATUARY_TYPE,
+       'model': 'phase_4/models/modules/gazebo',
+       'worldScale': 1,
+       'varieties': ((1009, 1, 0),),
+       'pinballScore': (250, 1)},
  230: {'name': TTLocalizer.StatuaryMeltingSnowman,
        'plantType': STATUARY_TYPE,
        'model': 'phase_5.5/models/estate/tt_m_prp_ext_snowman',
@@ -308,7 +315,7 @@ def getTreeTypeIndex(track, level):
     return track * 7 + level
 
 
-NUM_GAGS = 7 * 7
+NUM_GAGS = 8 * 7
 for i in xrange(NUM_GAGS):
     track, level = getTreeTrackAndLevel(i)
     if level <= 6:
@@ -444,6 +451,8 @@ Recipes = {0: {'beans': 'RRR',
         'special': 107},
  1008: {'beans': 'SSSSSSSS',
         'special': 108},
+ 1009: {'beans': 'GGG',
+        'special': 109},
  1030: {'beans': 'S',
         'special': 130},
  1031: {'beans': 'S',
@@ -1148,6 +1157,7 @@ estatePlots = (plots0,
 BOX_ONE = 1
 BOX_TWO = 2
 BOX_THREE = 3
+FLOWER_POS = (None, (0,), (-1.5, 1.5), (-3.5, 0, 3.5))
 flowerBoxes0 = ((-62.5,
   -52.5,
   182.0,
@@ -1427,6 +1437,15 @@ Specials = {0: {'subtype': MAGIC_BEAN_SUBTYPE,
        'isCatalog': True,
        'beanCost': 5000,
        'minSkill': 639},
+ 109: {'subtype': GARDEN_ITEM_SUBTYPE,
+       'photoModel': 'phase_4/models/modules/gazebo',
+       'photoScale': 0.04,
+       'photoPos': (0, 0, -1),
+       'photoName': TTLocalizer.StatuaryGazebo,
+       'description': TTLocalizer.GardenSpecialDiscription,
+       'isCatalog': True,
+       'beanCost': 25,
+       'minSkill': 0},
  130: {'subtype': GARDEN_ITEM_SUBTYPE,
        'photoModel': 'phase_5.5/models/estate/tt_m_prp_ext_snowman_icon',
        'photoScale': 90.0,

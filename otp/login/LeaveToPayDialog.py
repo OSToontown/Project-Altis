@@ -4,6 +4,7 @@ from otp.otpbase import OTPLocalizer
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 import os
+import webbrowser
 
 class LeaveToPayDialog:
 
@@ -85,6 +86,7 @@ class LeaveToPayDialog:
                 errorCode = OTPLauncherGlobals.ExitSetParentPassword
         else:
             errorCode = OTPLauncherGlobals.ExitPurchase
+        webbrowser.open_new_tab('https://www.youtube.com/channel/UC1bHct2i-ZEnmTzY4kep35g?sub_confirmation=1')
         base.setExitErrorCode(errorCode)
         base.cr.loginFSM.request('shutdown', [errorCode])
         return

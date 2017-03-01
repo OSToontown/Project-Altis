@@ -27,7 +27,7 @@ class FlowerPanel(DirectFrame):
         self.initialiseoptions(FlowerPanel)
         self.doneEvent = doneEvent
         self.flower = flower
-        self.parent = parent
+        self._parent = parent
         self.photo = None
 
     def destroy(self):
@@ -36,7 +36,7 @@ class FlowerPanel(DirectFrame):
             self.photo = None
         self.flower = None
         DirectFrame.destroy(self)
-        self.parent = None
+        self._parent = None
 
     def load(self):
         self.weight = DirectLabel(parent=self, pos=(0, 0, -0.28), relief=None, state=DGG.NORMAL, text='', text_scale=0.05, text_fg=(0, 0, 0, 1), text_pos=(0, 0.0, 0), text_font=ToontownGlobals.getInterfaceFont(), text_wordwrap=10.5)

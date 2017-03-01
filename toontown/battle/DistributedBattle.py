@@ -47,15 +47,15 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
 
     def calcInteractiveProp(self):
         if base.config.GetBool('want-anim-props', True):
-             if base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader'):
-                 loader = base.cr.playGame.hood.loader
- 
-                 if hasattr(loader, 'getInteractiveProp'):
-                     prop = self.getInteractiveProp()
-                     self.interactiveProp = base.cr.playGame.hood.loader.getInteractiveProp(self.zoneId)
-                     if prop != self.interactiveProp:
-                         self.notify.warning("Conflicting Interactive Props Found!")
-                         return
+            if base.cr.playGame.hood:
+                loader = base.cr.playGame.hood.loader
+                if hasattr(loader, 'getInteractiveProp'):
+                    self.interactiveProp = loader.getInteractiveProp(self.zoneId)
+                    self.notify.debug('self.interactiveProp = %s' % self.interactiveProp)
+                else:
+                    self.notify.warning('No loader.getInteractiveProp for battle! self.interactiveProp is None')
+            else:
+                self.notify.warning('No hood? self.interactiveProp is None')
 
     def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
         if self.battleCleanedUp():

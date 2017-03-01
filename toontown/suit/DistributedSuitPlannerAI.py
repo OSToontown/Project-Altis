@@ -7,6 +7,7 @@ from direct.directnotify.DirectNotifyGlobal import *
 from direct.distributed import DistributedObjectAI
 from direct.task import Task
 from otp.ai.AIBaseGlobal import *
+from otp.ai.MagicWordGlobal import *
 from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
 from toontown.building import HQBuildingAI
@@ -23,7 +24,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
     CogdoRatio = 0
-    SuitHoodInfo = [[2100, #Silly Street
+    SuitHoodInfo = [[ToontownGlobals.SillyStreet,
       8,
       20,
       0,
@@ -43,7 +44,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        20),
       (2, 3, 4),
       []],
-     [2200, #Loopy Lane
+     [ToontownGlobals.LoopyLane,
       8,
       20,
       0,
@@ -63,7 +64,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        20),
       (1, 2, 3),
       []],
-     [2300, #Punchline Place
+     [ToontownGlobals.PunchlinePlace,
       8,
       20,
       0,
@@ -83,7 +84,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        10),
       (1, 2, 3),
       []],
-     [1100, #Barnacle Boulevard 
+     [ToontownGlobals.BarnacleBoulevard,
       8,
       20,
       0,
@@ -103,7 +104,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        10),
       (2, 3, 4, 5),
       []],
-     [1200, #Seaweed Street
+     [ToontownGlobals.SeaweedStreet,
       8,
       20,
       0,
@@ -123,7 +124,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0),
       (3, 4, 5),
       []],
-     [1300, #Lighthouse Lane
+     [ToontownGlobals.LighthouseLane,
       8,
       20,
       0,
@@ -146,7 +147,27 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        5,
        6),
       []],
-     [3100, #Walrus Way
+     [ToontownGlobals.AhoyAvenue,
+      8,
+      20,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (40,
+       0,
+       0,
+       50,
+       10),
+      (4, 5, 6),
+      []],
+     [ToontownGlobals.WalrusWay,
       8,
       20,
       0,
@@ -166,7 +187,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        20),
       (5, 6, 7, 8),
       []],
-     [3200, #Sleet Street
+     [ToontownGlobals.SleetStreet,
       8,
       20,
       0,
@@ -186,7 +207,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        10),
       (5, 6, 7, 8),
       []],
-     [3300, #Polar Place
+     [ToontownGlobals.PolarPlace,
       8,
       20,
       0,
@@ -206,7 +227,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        5),
       (7, 8, 9),
       []],
-     [4100, #Alto Avenue
+     [ToontownGlobals.AltoAvenue,
       8,
       20,
       0,
@@ -226,7 +247,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0),
       (3, 4, 5),
       []],
-     [4200, #Baritone Boulevard
+     [ToontownGlobals.BaritoneBoulevard,
       8,
       20,
       0,
@@ -249,7 +270,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        6,
        7),
       []],
-     [4300, #Tenor Terrance
+     [ToontownGlobals.TenorTerrace,
       8,
       20,
       0,
@@ -262,17 +283,40 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        40,
        60,
        80),
-      (15,
-       10,
+      (40,
+       40,
        0,
        0,
-       75),
+       20),
       (5,
        6,
        7,
        8),
       []],
-     [5100, #Elm Street
+     [ToontownGlobals.SopranoStreet,
+      8,
+      20,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (5,
+       5,
+       5,
+       5,
+       80),
+      (5,
+       6,
+       7,
+       8),
+      []],
+     [ToontownGlobals.ElmStreet,
       8,
       20,
       0,
@@ -293,10 +337,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
       (2,
 	   3,
 	   4,
-	   5,
-	   6),
+	   5),
       []],
-     [5200, #Maple Street
+     [ToontownGlobals.MapleStreet,
       8,
       20,
       0,
@@ -314,9 +357,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        0,
        10),
-      (4, 5, 6),
+      (3, 4, 5, 6),
       []],
-     [5300, #Oak Street
+     [ToontownGlobals.OakStreet,
       8,
       20,
       0,
@@ -340,7 +383,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        6,
 	   7),
       []],
-     [5400, #Rose Valley
+     [ToontownGlobals.RoseValley,
       8,
       20,
       0,
@@ -354,17 +397,14 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        60,
        80,
        0),
-      (5,
-       5,
-       5,
-       80,
-       5),
-      (4,
-       5,
-       6,
-       7),
+      (40,
+       10,
+       30,
+       10,
+       10),
+      (4, 5, 6),
       []],
-     [9100, #Lullaby Lane
+     [ToontownGlobals.LullabyLane,
       8,
       20,
       0,
@@ -387,7 +427,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        9,
        10),
       []],
-     [9200, #Pajama Place
+     [ToontownGlobals.PajamaPlace,
       8,
       20,
       0,
@@ -410,7 +450,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        8,
        9),
       []],
-    [10000, #Bossbot Country Club 
+    [ToontownGlobals.BossbotHQ,
       8,
       20,
       0,
@@ -430,7 +470,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0),
       (8, 9, 10),
       []],            
-     [11000, #Sellbot Junkyard
+     [ToontownGlobals.SellbotHQ,
       8,
       20,
       0,
@@ -448,9 +488,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        100,
        0),
-      (3, 4, 5, 6),
+      (4, 5, 6, 7),
       []],
-     [11200, #Sellbot Factory Exterior
+     [ToontownGlobals.SellbotFactoryExt,
       8,
       20,
       0,
@@ -468,9 +508,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        100,
        0),
-      (4, 5, 6),
+      (5, 6, 7, 8),
       []],
-     [12000, #Cashbot Trainyard
+     [ToontownGlobals.CashbotHQ,
       8,
       20,
       0,
@@ -490,7 +530,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0),
       (6, 7, 8, 9),
       []],
-     [13000, #Lawbot Courtyard
+     [ToontownGlobals.LawbotHQ,
       8,
       20,
       0,
@@ -522,8 +562,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     SUIT_HOOD_INFO_LVL = 9
     SUIT_HOOD_INFO_HEIGHTS = 10
     MAX_SUIT_TYPES = 6
-    MAX_SUIT_TYPES = 6
-    MAX_SUIT_TYPES_HQ = 6
+    MAX_SUIT_TYPES_HQ = 7
     HQ_SKELE_CHANCE = 0.15
     POP_UPKEEP_DELAY = 10
     POP_ADJUST_DELAY = 200
@@ -597,7 +636,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 bldg.setSuitPlannerExt(self)
             for currBlock in animBldgBlocks:
                 bldg = self.buildingMgr.getBuilding(currBlock)
-                bldg.setSuitPlannerExt(self)
+                if bldg is not None:
+                    bldg.setSuitPlannerExt(self)
         self.dnaStore.resetBlockNumbers()
         self.initBuildingsAndPoints()
         numSuits = simbase.config.GetInt('suit-count', -1)
@@ -1381,6 +1421,18 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 toon.b_setBattleId(toonId)
         pos = self.battlePosDict[canonicalZoneId]
         interactivePropTrackBonus = -1
+        
+        if simbase.config.GetBool('props-buff-battles', True) and self.cellToGagBonusDict.has_key(canonicalZoneId):
+            tentativeBonusTrack = self.cellToGagBonusDict[canonicalZoneId]
+            trackToHolidayDict = {
+                ToontownBattleGlobals.SQUIRT_TRACK: ToontownGlobals.HYDRANTS_BUFF_BATTLES,
+                ToontownBattleGlobals.THROW_TRACK: ToontownGlobals.MAILBOXES_BUFF_BATTLES,
+                ToontownBattleGlobals.HEAL_TRACK: ToontownGlobals.TRASHCANS_BUFF_BATTLES }
+            if tentativeBonusTrack in trackToHolidayDict:
+                holidayId = trackToHolidayDict[tentativeBonusTrack]
+                if simbase.air.holidayManager.isHolidayRunning(holidayId) and simbase.air.holidayManager.getCurPhase(holidayId) >= 1:
+                    interactivePropTrackBonus = tentativeBonusTrack
+        
         self.battleMgr.newBattle(
             zoneId, zoneId, pos, suit, toonId, self.__battleFinished,
             self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_SMAX],
@@ -1490,7 +1542,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             level = random.choice(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL])
         if type is None:
             if ZoneUtil.isCogHQZone(self.zoneId):
-                typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
+                typeChoices = range(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES_HQ) + 1)
                 type = random.choice(typeChoices)
                 if random.random() < self.HQ_SKELE_CHANCE:
                     self.skeleChance = 1
@@ -1505,3 +1557,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             track = SuitDNA.suitDepts[SuitBattleGlobals.pickFromFreqList(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_TRACK])]
         self.notify.debug('pickLevelTypeAndTrack: %s %s %s' % (level, type, track))
         return (level, type, track)
+        
+@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int, int, int])
+def spawnCog(name, level, revives = 0, skelecog = 0, waiter = 0):
+    av = spellbook.getInvoker()
+    zoneId = av.getLocation()[1]
+    sp = simbase.air.suitPlanners.get(zoneId - (zoneId % 100))
+    pointmap = sp.streetPointList
+    sp.createNewSuit([], pointmap, suitName=name, suitLevel=level, skelecog=skelecog, revives=revives, waiter=waiter)
+    return "Spawned %s in current zone." % name

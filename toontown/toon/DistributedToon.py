@@ -1,5 +1,5 @@
 import operator, copy, random, time, gc
-from toontown.toon import Experience, InventoryNewOLD, TTEmote, Toon
+from toontown.toon import Experience, InventoryNewOLD, InventoryNewNEW, TTEmote, Toon
 from direct.controls.GravityWalker import GravityWalker
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -103,6 +103,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cogLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
+        self.trackBonusLevel = [-1, -1, -1, -1, -1, -1, -1, -1]
+        self.inventoryNetString = None
         self.savedCheesyEffect = ToontownGlobals.CENormal
         self.savedCheesyHoodId = 0
         self.savedCheesyExpireTime = 0
@@ -186,6 +188,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
+        self.interiorLayout = 0
 
     def disable(self):
         for soundSequence in self.soundSequenceList:
@@ -322,7 +325,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if not self.inventory:
             self.inventory = InventoryNewOLD.InventoryNewOLD(self, inventoryNetString)
         self.inventory.updateInvString(inventoryNetString)
+        self.inventoryString = inventoryNetString
 		
+    def getInventory(self):
+        return self.inventoryString
+
     def notifyExpReward(self, level, type):
         if type == 0:
             self.setSystemMessage(0, TTLocalizer.ExpHPReward % (level+1), WTSystem)
@@ -495,9 +502,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setTalk(self, fromAV, fromAC, avatarName, chat, mods, flags):
         timestamp = time.strftime('%m-%d-%Y %H:%M:%S', time.localtime())
         if fromAV == 0:
-            print ':%s: setTalk: %r, %r, %r' % (timestamp, self.doId, self.name, chat)
+            self.notify.debug(':%s: setTalk: %r, %r, %r' % (timestamp, self.doId, self.name, chat))
         else:
-            print ':%s: setTalk: %r, %r, %r' % (timestamp, fromAV, avatarName, chat)
+            self.notify.debug(':%s: setTalk: %r, %r, %r' % (timestamp, fromAV, avatarName, chat))
 
         if base.cr.avatarFriendsManager.checkIgnored(fromAV):
             self.d_setWhisperIgnored(fromAV)
@@ -510,8 +517,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 base.cr.ttaFriendsManager.d_sleepAutoReply(fromAV)
        
         newText, scrubbed = self.scrubTalk(chat, mods)
-        self.displayTalk(newText)
+        if base.localAvatar.getAdminAccess() >= 375:
+            if chat != newText:
+                newText = (newText + " \1WLEnter\1(%s)\2" %chat)
         base.talkAssistant.receiveOpenTalk(fromAV, avatarName, fromAC, None, newText)
+        self.displayTalk(newText)
 
     def isAvFriend(self, avId):
         return base.cr.isFriend(avId) or base.cr.playerFriendsManager.isAvatarOwnerPlayerFriend(avId)
@@ -1382,6 +1392,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getHouseId(self):
         return self.houseId
+        
+    def b_setInteriorLayout(self, id):
+        self.setInteriorId(id)
+        self.d_setInteriorLayout(id)
+        
+    def d_setInteriorLayout(self, id):
+        self.sendUpdate('setInteriorLayout', [id])
+        
+    def setInteriorLayout(self, id):
+        self.interiorLayout = id
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout
 
     def setPosIndex(self, index):
         self.posIndex = index
@@ -1643,8 +1666,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.trophyStarSpeed != 0:
             taskMgr.remove(self.uniqueName('starSpin'))
             self.trophyStarSpeed = 0
-        if hasattr(self, 'gmIcon') and self.gmIcon:
-            return
         if self.trophyScore >= ToontownGlobals.TrophyStarLevels[4]:
             self.trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
             np = NodePath(self.nametag.getIcon())
@@ -1676,6 +1697,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if self.trophyScore >= ToontownGlobals.TrophyStarLevels[1]:
                 taskMgr.add(self.__starSpin, self.uniqueName('starSpin'))
 
+        if hasattr(self, 'gmIcon') and self.gmIcon and self.trophyStar:
+            self.trophyStar.setZ(5)
+            
     def __starSpin(self, task):
         now = globalClock.getFrameTime()
         r = now * self.trophyStarSpeed % 360.0
@@ -2098,6 +2122,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return haveRequired
 
     def setTrackBonusLevel(self, trackArray):
+        if len(trackArray) < 8:
+            trackArray = [-1, -1, -1, -1, -1, -1, -1, -1]
+        
         self.trackBonusLevel = trackArray
         if self.inventory:
             self.inventory.updateGUI()
@@ -2714,6 +2741,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         iconInfo = [
             (None, None),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_creative', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*')
         ]
@@ -2721,12 +2749,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         #Now we need to caculate our index. 
         if gmType in [275]:
             index = 1
-        elif gmType in [300, 375, 390, 400]:
-            index = 2
-        elif gmType >= 450:
+        elif gmType in [300, 375]:
             index = 3
-        else:
+        elif gmType in [390]:
             index = 2
+        elif gmType >= 400:
+            index = 4
+        else:
+            index = 3
         
         icon = loader.loadModel(iconInfo[index][0])
         self.gmIcon = icon.find(iconInfo[index][1])
@@ -2766,6 +2796,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'gmIcon') and self.gmIcon:
             self.gmIcon.detachNode()
             del self.gmIcon
+            
+    def setWarningCount(self, count):
+        pass
             
     def _startZombieCheck(self):
         self._lastZombieContext = None
@@ -2865,3 +2898,12 @@ def disableGC():
 @magicWord(category=CATEGORY_CREATIVE)
 def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
+    
+@magicWord(category=CATEGORY_CREATIVE)
+def sleep():
+    if not base.localAvatar.neverSleep:
+        base.localAvatar.disableSleeping()
+        return "Sleeping has been deactivated for the current session."
+    else:
+        base.localAvatar.enableSleeping()
+        return "Sleeping has been activated for the current session."

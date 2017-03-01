@@ -1,6 +1,5 @@
-import copy
-import random
-import time
+import copy, random, time
+from otp.ai.MagicWordGlobal import *
 from toontown.minigame import DistributedCannonGameAI
 from toontown.minigame import DistributedCatchGameAI
 from toontown.minigame import DistributedCogThiefGameAI
@@ -20,7 +19,6 @@ from toontown.minigame import DistributedTugOfWarGameAI
 from toontown.minigame import DistributedTwoDGameAI
 from toontown.minigame import DistributedVineGameAI
 from toontown.minigame import TravelGameGlobals
-from otp.ai.MagicWordGlobal import *
 from toontown.minigame.TempMinigameAI import *
 from toontown.toonbase import ToontownGlobals
 
@@ -62,9 +60,14 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone=None,
         randomList = list(copy.copy(ToontownGlobals.MinigamePlayerMatrix[len(playerArray)]))
         if len(playerArray) > 1:
             randomList = list(copy.copy(ToontownGlobals.MinigameIDs))
-        for gameId in [ToontownGlobals.TravelGameId] + getDisabledMinigames():
-            if gameId in randomList:
-                randomList.remove(gameId)
+        if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.TROLLEY_HOLIDAY):
+            for gameId in getDisabledMinigames():
+                if gameId in randomList:
+                    randomList.remove(gameId)
+        else:
+            for gameId in [ToontownGlobals.TravelGameId] + getDisabledMinigames():
+                if gameId in randomList:
+                    randomList.remove(gameId)
         if previousGameId != ToontownGlobals.NoPreviousGameId:
             if randomList.count(previousGameId) != 0 and len(randomList) > 1:
                 randomList.remove(previousGameId)

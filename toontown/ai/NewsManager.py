@@ -66,6 +66,8 @@ class NewsManager(DistributedObject.DistributedObject):
         return self.population
 
     def sendSystemMessage(self, message, style):
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("\1orangeText\1System Message: %s\2" %(message))
         base.localAvatar.setSystemMessage(style, message)
 
     def setInvasionStatus(self, msgType, suitType, remaining, flags):
@@ -430,6 +432,9 @@ class NewsManager(DistributedObject.DistributedObject):
 
     def setTrolleyWeekendStart(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.TrolleyWeekendStart)
+      
+    def setTrolleyWeekendOngoing(self):
+        pass
 
     def setTrolleyWeekendEnd(self):
         base.localAvatar.setSystemMessage(0, TTLocalizer.TrolleyWeekendEnd)

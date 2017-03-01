@@ -1,11 +1,10 @@
+from panda3d.core import *
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import ToontownGlobals
-from toontown.golf import DistributedGolfHoleAI
-from pandac.PandaModules import *
 from direct.fsm.FSM import FSM
+from toontown.toonbase import ToontownGlobals
+from toontown.golf import DistributedGolfHoleAI, GolfGlobals
 from toontown.ai.ToonBarrier import *
-from toontown.golf import GolfGlobals
 INITIAL = 0
 EXITED = 1
 EXPECTED = 2
@@ -78,7 +77,6 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.drivingToons = []
         self.__barrier = None
         self.winnerByTieBreak = 0
-        return
 
     def initHistory(self):
         for avId in self.avIdList:
@@ -114,7 +112,6 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
             self.__barrier.cleanup()
             self.__barrier = None
         DistributedObjectAI.DistributedObjectAI.delete(self)
-        return
 
     def load(self):
         self.b_setCourseReady()
@@ -262,7 +259,6 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.notify.debugStateCall(self)
         self.__barrier.cleanup()
         self.__barrier = None
-        return
 
     def setAvatarJoined(self):
         avId = self.air.getAvatarIdFromSender()
@@ -315,7 +311,6 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.notify.debugStateCall(self)
         self.__barrier.cleanup()
         self.__barrier = None
-        return
 
     def enterWaitReadyHole(self):
         self.notify.debug('GOLF COURSE: enterWaitReadyHole')
@@ -343,7 +338,6 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         if hasattr(self, '__barrier'):
             self.__barrier.cleanup()
             self.__barrier = None
-        return
 
     def getStillPlayingAvIds(self):
         retval = []
@@ -382,7 +376,6 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
             pass
         else:
             self.startNextHole()
-        return
 
     def exitWaitLeaveHole(self):
         pass
@@ -562,7 +555,6 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
             self.endingHistory[avId][GolfGlobals.ParOrBetterShots] += 1
         if strokes < self.endingHoleBest[avId][holeId] or self.endingHoleBest[avId][holeId] == 0:
             self.endingHoleBest[avId][holeId] = strokes
-        return
 
     def incrementEndingHistory(self, avId, historyIndex):
         if avId in self.endingHistory and historyIndex in GolfGlobals.TrophyRequirements:

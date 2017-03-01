@@ -13,8 +13,8 @@ class ChatBalloon(NodePath):
     TEXT_GLYPH_SCALE = 1
     TEXT_GLYPH_SHIFT = -0.05
 
-    BALLOON_X_PADDING = 0.4
-    BALLOON_Z_PADDING = 0.5
+    BALLOON_X_PADDING = 0.5
+    BALLOON_Z_PADDING = 0.6
 
     BUTTON_SCALE = 6
     BUTTON_SHIFT = (0, 0, 0.6)

@@ -37,6 +37,81 @@ class ToonBase(OTPBase.OTPBase):
 
     def __init__(self):
         OTPBase.OTPBase.__init__(self)
+        # First, build a list of all possible resolutions:
+        self.resList = []
+        displayInfo = self.pipe.getDisplayInformation()
+        for i in xrange(displayInfo.getTotalDisplayModes()):
+            width = displayInfo.getDisplayModeWidth(i)
+            height = displayInfo.getDisplayModeHeight(i)
+            if (width, height) not in self.resList:
+                self.resList.append((width, height))
+
+        # Next, separate the resolutions by their ratio:
+        self.resDict = {}
+        for res in self.resList:
+            ratio = int((float(res[0])/float(res[1])) * 100000) / 100000.0
+            self.resDict.setdefault(ratio, []).append(res)
+
+        # Get the native width, height and ratio:
+        self.nativeWidth = self.pipe.getDisplayWidth()
+        self.nativeHeight = self.pipe.getDisplayHeight()
+        self.nativeRatio = int((float(self.nativeWidth)/float(self.nativeHeight)) * 100000) / 100000.0
+
+        # Finally, choose the best resolution if we're either fullscreen, or
+        # don't have one defined in our preferences:
+        fullscreen = settings.get('fullscreen', False)
+        if ('res' not in settings) or fullscreen:
+            if fullscreen:
+                # If we're fullscreen, we want to fit the entire screen:
+                res = (self.nativeWidth, self.nativeHeight)
+            elif self.nativeRatio not in self.resDict:
+                print "base.resDict does not contain the native resolution: %r" % self.resDict
+                res = (800, 600)
+            elif len(self.resDict[self.nativeRatio]) > 1:
+                # We have resolutions that match our native ratio and fit it!
+                # Let's use one:
+                res = sorted(self.resDict[self.nativeRatio])[0]
+            else:
+                # Okay, we don't have any resolutions that match our native
+                # ratio and fit it. Let's just use one of the second largest
+                # ratio's resolutions:
+                ratios = sorted(self.resDict.keys(), reverse=False)
+                nativeIndex = ratios.index(self.nativeRatio)
+                res = sorted(self.resDict[ratios[nativeIndex - 1]])[0]
+
+            # Store our result:
+            settings['res'] = res
+
+            # Reload the graphics pipe:
+            properties = WindowProperties()
+
+            properties.setSize(res[0], res[1])
+            properties.setFullscreen(fullscreen)
+            properties.setParentWindow(0)
+
+            # Store the window sort for later:
+            sort = self.win.getSort()
+
+            if self.win:
+                currentProperties = WindowProperties(self.win.getProperties())
+                gsg = self.win.getGsg()
+            else:
+                currentProperties = WindowProperties.getDefault()
+                gsg = None
+            newProperties = WindowProperties(currentProperties)
+            newProperties.addProperties(properties)
+            if (gsg is None) or (currentProperties.getFullscreen() != newProperties.getFullscreen()) or (currentProperties.getParentWindow() != newProperties.getParentWindow()):
+                self.openMainWindow(props=properties, gsg=gsg, keepCamera=True)
+                self.graphicsEngine.openWindows()
+                self.disableShowbaseMouse()
+            else:
+                self.win.requestProperties(properties)
+                self.graphicsEngine.renderFrame()
+
+            self.win.setSort(sort)
+            self.graphicsEngine.renderFrame()
+            self.graphicsEngine.renderFrame()
+        
         self.disableShowbaseMouse()
         self.addCullBins()
         self.debugRunningMultiplier /= OTPGlobals.ToonSpeedFactor
@@ -160,6 +235,14 @@ class ToonBase(OTPBase.OTPBase):
         orangeText.setTextColor(1.0, 0.65, 0.0, 1)
         orangeText.setTextScale(1.2)
         tpMgr.setProperties('orangeText', orangeText)
+        playerGreen = TextProperties()
+        playerGreen.setTextColor(0.0, 1.0, 0.2, 1.0)
+        playerGreen.setShadow(.01)
+        tpMgr.setProperties('playerGreen', playerGreen)
+        cogGray = TextProperties()
+        cogGray.setTextColor(0.2, 0.2, 0.2, 1.0)
+        cogGray.setShadow(.01)
+        tpMgr.setProperties('cogGray', cogGray)
         del tpMgr
         self.lastScreenShotTime = globalClock.getRealTime()
         self.accept('InputState-forward', self.__walking)
@@ -204,10 +287,22 @@ class ToonBase(OTPBase.OTPBase):
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
         self.lodMaxRange = 750
-        self.lodMinRange = 5
+        self.lodMinRange = 20
         self.lodDelayFactor = 0.4
         
         self.meterMode = settings.get('health-meter-mode', 2)
+        
+        self.wantSmoothAnims = settings.get('smoothanimations', True)
+        
+        self.wantTpMessages = settings.get('tpmsgs', True)
+        
+        self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
+        
+        self.wantDoorKey = settings.get('doorkey', False)
+        
+        self.wantInteractKey = settings.get('interactkey', False)
+        
+        self.accept('f4', self.toggleNametags)
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -222,7 +317,14 @@ class ToonBase(OTPBase.OTPBase):
             
     def setTextureScale(self): # Set the global texture scale (TODO)
         scale = settings.get('texture-scale')
-
+        
+    def toggleTpMsgs(self):
+        self.wantTpMessages = settings.get('tpmsgs', True)
+        self.wantFriendStatusMessagse = settings.get('friendstatusmsgs', True)
+        
+    def toggleDoorKey(self):
+        self.wantDoorKey = settings.get('doorkey', False)
+        self.wantInteractKey = settings.get('interactkey', False)
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
@@ -278,6 +380,28 @@ class ToonBase(OTPBase.OTPBase):
             aspect2d.show()
         else:
             aspect2d.hide()
+            
+
+    def toggleNametags(self):
+        nametags3d = render.findAllMatches('**/nametag3d')
+        nametags2d = render2d.findAllMatches('**/Nametag2d')
+        hide = False
+        for nametag in nametags2d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
+        for nametag in nametags2d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
 
     def takeScreenShot(self):
         if not os.path.exists(TTLocalizer.ScreenshotPath):
@@ -308,12 +432,23 @@ class ToonBase(OTPBase.OTPBase):
                 strTextLabel = DirectLabel(pos=(0.0, 0.001, 0.9), text=self.screenshotStr, text_scale=0.05, text_fg=VBase4(1.0, 1.0, 1.0, 1.0), text_bg=(0, 0, 0, 0), text_shadow=(0, 0, 0, 1), relief=None)
                 strTextLabel.setBin('gui-popup', 0)
         self.graphicsEngine.renderFrame()
-        self.screenshot(namePrefix=namePrefix, imageComment=ctext + ' ' + self.screenshotStr)
+        screenshot = self.screenshot(namePrefix=namePrefix, imageComment=ctext + ' ' + self.screenshotStr)
         self.lastScreenShotTime = globalClock.getRealTime()
+        pandafile = Filename(str(ExecutionEnvironment.getCwd()) + '/' + str(screenshot))
+        winfile = pandafile.toOsSpecific()
+        screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
+        screenShotNotice.reparentTo(base.a2dBottomCenter)
+        screenShotNotice.setBin('gui-popup', 0)
         if coordOnScreen:
             if strTextLabel is not None:
                 strTextLabel.destroy()
             coordTextLabel.destroy()
+            
+        def clearScreenshotMsg(task):
+            screenShotNotice.destroy()
+            return task.done
+
+        taskMgr.doMethodLater(5.0, clearScreenshotMsg, 'clearScreenshot')
 
     def addScreenshotString(self, str):
         if len(self.screenshotStr):

@@ -1,5 +1,5 @@
 import types
-from pandac.PandaModules import *
+from panda3d.core import * 
 from toontown.ai.ToontownAIMsgTypes import *
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.toon import DistributedToonAI
@@ -45,7 +45,6 @@ class DatabaseObject:
             self.getFields(fields)
         else:
             self.getFields(self.getDatabaseFields(self.dclass))
-        return
 
     def storeObject(self, do, fields = None):
         self.do = do

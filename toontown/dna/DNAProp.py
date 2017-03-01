@@ -26,12 +26,15 @@ class DNAProp(DNANode.DNANode):
         
     def getColor(self):
         return self.color
+        
+    def setColor(self, color):
+        self.color = LVector4f(int(color))
 
     def makeFromDGI(self, dgi, store):
         DNANode.DNANode.makeFromDGI(self, dgi, store)
         self.code = DNAUtil.dgiExtractString8(dgi)
         self.color = DNAUtil.dgiExtractColor(dgi)
-
+        
     def traverse(self, nodePath, dnaStorage):
         if self.code == 'DCS':
             node = ModelNode(self.name)

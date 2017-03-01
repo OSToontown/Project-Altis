@@ -1,9 +1,9 @@
 from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
-from toontown.hood import ZoneUtil
-from toontown.toonbase import ToontownGlobals
+from toontown.hood import ZoneUtil, HoodUtil
+from toontown.toonbase import ToontownGlobals, ToontownBattleGlobals
 from toontown.building import SuitBuildingGlobals
-from toontown.dna.DNAParser import DNASuitPoint, DNAStorage, loadDNAFileAI
+from toontown.dna.DNAParser import DNASuitPoint, DNAStorage, DNAInteractiveProp, loadDNAFileAI
 
 class SuitPlannerBase:
     notify = directNotify.newCategory('SuitPlannerBase')
@@ -130,6 +130,26 @@ class SuitPlannerBase:
        5,
        6),
       []],
+     [ToontownGlobals.AhoyAvenue,
+      15,
+      30,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80),
+      (40,
+       0,
+       0,
+       50,
+       10),
+      (4, 5, 6),
+      []],
      [ToontownGlobals.WalrusWay,
       15,
       30,
@@ -246,11 +266,34 @@ class SuitPlannerBase:
        40,
        60,
        80),
-      (15,
+      (40,
+       40,
+       0,
+       0,
+       20),
+      (5,
+       6,
+       7,
+       8),
+      []],
+     [ToontownGlobals.SopranoStreet,
+      15,
+      30,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
        10,
-       0,
-       0,
-       75),
+       40,
+       60,
+       80),
+      (5,
+       5,
+       5,
+       5,
+       80),
       (5,
        6,
        7,
@@ -277,8 +320,7 @@ class SuitPlannerBase:
       (2,
 	   3,
 	   4,
-	   5,
-	   6),
+	   5),
       []],
      [ToontownGlobals.MapleStreet,
       15,
@@ -298,7 +340,7 @@ class SuitPlannerBase:
        0,
        0,
        10),
-      (4, 5, 6),
+      (3, 4, 5, 6),
       []],
      [ToontownGlobals.OakStreet,
       15,
@@ -323,6 +365,27 @@ class SuitPlannerBase:
        5,
        6,
 	   7),
+      []],
+     [ToontownGlobals.RoseValley,
+      15,
+      30,
+      0,
+      99,
+      100,
+      4,
+      (1,
+       5,
+       10,
+       40,
+       60,
+       80,
+       0),
+      (40,
+       10,
+       30,
+       10,
+       10),
+      (4, 5, 6),
       []],
      [ToontownGlobals.LullabyLane,
       15,
@@ -408,7 +471,7 @@ class SuitPlannerBase:
        0,
        100,
        0),
-      (3, 4, 5, 6),
+      (4, 5, 6, 7),
       []],
      [ToontownGlobals.SellbotFactoryExt,
       15,
@@ -428,7 +491,7 @@ class SuitPlannerBase:
        0,
        100,
        0),
-      (4, 5, 6),
+      (5, 6, 7, 8),
       []],
      [ToontownGlobals.CashbotHQ,
       15,
@@ -572,6 +635,25 @@ class SuitPlannerBase:
             elif vg.getNumBattleCells() > 1:
                 self.notify.warning('multiple battle cells for zone: %d' % zoneId)
                 self.battlePosDict[zoneId] = vg.getBattleCell(0).getPos()
+                
+            if True:
+                for i in range(vg.getNumChildren()):
+                    childDnaGroup = vg.at(i)
+                    if isinstance(childDnaGroup, DNAInteractiveProp):
+                        self.notify.debug('got interactive prop %s' % childDnaGroup)
+                        battleCellId = childDnaGroup.getCellId()
+                        if battleCellId == -1:
+                            self.notify.warning('interactive prop %s  at %s not associated with a a battle' % (childDnaGroup, zoneId))
+                        elif battleCellId == 0:
+                            if self.cellToGagBonusDict.has_key(zoneId):
+                                self.notify.error('FIXME battle cell at zone %s has two props %s %s linked to it' % (zoneId, self.cellToGagBonusDict[zoneId], childDnaGroup))
+                            else:
+                                name = childDnaGroup.getName()
+                                propType = HoodUtil.calcPropType(name)
+                                if propType in ToontownBattleGlobals.PropTypeToTrackBonus:
+                                    trackBonus = ToontownBattleGlobals.PropTypeToTrackBonus[propType]
+                                    self.cellToGagBonusDict[zoneId] = trackBonus
+
         self.dnaStore.resetDNAGroups()
         self.dnaStore.resetDNAVisGroups()
         self.dnaStore.resetDNAVisGroupsAI()

@@ -428,7 +428,6 @@ class OTPClientRepository(ClientRepositoryBase):
         self.uberZoneInterest = None
         self.wantSwitchboard = config.GetBool('want-switchboard', 0)
         self.wantSwitchboardHacks = base.config.GetBool('want-switchboard-hacks', 0)
-        self.defaultShard = 0
 
         self.__pendingGenerates = {}
         self.__pendingMessages = {}
@@ -1252,9 +1251,6 @@ class OTPClientRepository(ClientRepositoryBase):
             'zoneId': zoneId,
             'avId': avId}
 
-        if self.defaultShard:
-            shardId = self.defaultShard
-
         if shardId is not None:
             district = self.activeDistrictMap.get(shardId)
         else:
@@ -1483,7 +1479,13 @@ class OTPClientRepository(ClientRepositoryBase):
         
         localAvatar.setLeftDistrict()
         self.removeShardInterest(self._handleOldShardGone)
-
+        taskMgr.remove('streamerUpdateDist')
+        taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')
+        
+    def updateDistrictName(self, task):
+        messenger.send("updateDistrictName")
+        return task.done
+        
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def _handleOldShardGone(self):
         self.gameFSM.request('waitOnEnterResponses', self._switchShardParams)
@@ -2048,9 +2050,9 @@ class OTPClientRepository(ClientRepositoryBase):
     def isLocalId(self, id):
         if hasattr(base, 'localAvatar'):
             return base.localAvatar.doId == id
-        
-        self.notify.warning('In isLocalId(), localAvatar not created yet')
-        return False
+        else:
+            self.notify.warning('In isLocalId(), localAvatar not created yet')
+            return False
 
     ITAG_PERM = 'perm'
     ITAG_AVATAR = 'avatar'
