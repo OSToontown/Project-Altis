@@ -1420,7 +1420,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             if hasattr(toon, 'doId'):
                 toon.b_setBattleId(toonId)
         pos = self.battlePosDict[canonicalZoneId]
-        interactivePropTrackBonus = 2
+        interactivePropTrackBonus = -1
         
         if simbase.config.GetBool('props-buff-battles', True) and self.cellToGagBonusDict.has_key(canonicalZoneId):
             tentativeBonusTrack = self.cellToGagBonusDict[canonicalZoneId]
