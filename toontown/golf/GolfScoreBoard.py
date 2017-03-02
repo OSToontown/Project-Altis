@@ -47,7 +47,7 @@ class GolfScoreBoard:
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         self.minimizeB = DirectButton(parent=self.scoreboard, pos=(-0.15, 0, self.lineHStart - 0.59), relief=None, state=DGG.NORMAL, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1),text=TTLocalizer.BoardingGroupHide, text_scale=0.04,text_pos=(0.1,-0.01), command=self.hideBoard, extraArgs=[None])
         self.exitCourseB = DirectButton(parent=self.scoreboard, pos=(0.15, 0, self.lineHStart - 0.59), relief=None, state=DGG.NORMAL, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1), text=TTLocalizer.GolfExitCourse, text_scale=0.04, text_pos=TTLocalizer.GSBexitCourseBPos, command=self.exitCourse)
-        self.exitCourseB.show()
+        self.exitCourseB.hide()
         self.highlightCur = DirectLabel(parent=self.scoreboard, relief=None, pos=(-0.003, 0, 0.038), image=highlight, image_scale=(1.82, 1, 0.135))
         self.titleBar = DirectLabel(parent=self.scoreboard, relief=None, pos=(-0.003, 0, 0.166), color=(0.7, 0.7, 0.7, 0.3), image=highlight, image_scale=(1.82, 1, 0.195))
         self.titleBar.show()

@@ -1,4 +1,4 @@
-import httplib
+import httplib, json
 from direct.distributed.PyDatagram import *
 from panda3d.core import *
 from otp.ai.AIZoneData import AIZoneDataStore
@@ -242,7 +242,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Done.')
         
         self.notify.info("Starting Invasion Tracker...")
-        #taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
+        taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
         self.notify.info("Invasion Tracker Started!")
 
     def lookupDNAFileName(self, zoneId):
@@ -306,11 +306,11 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         if invstatus == 'None':
             httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReqkill.request('GET', '/api/removeinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s' % (self.districtName))
+            httpReqkill.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/0/%s/1/1' % (self.districtName, pop, invstatus))
         else:
             httpReq = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReq.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/%s/0/0' % (self.districtName, pop, invstatus))
-            print('/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/%s/0/0' % (self.districtName, pop, invstatus))
+            httpReq.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
+            print(json.loads(httpReq.getresponse().read()))
         self.notify.info("Invasion API Data Updated!")
 
         return task.again

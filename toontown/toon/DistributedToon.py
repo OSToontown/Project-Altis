@@ -2898,6 +2898,11 @@ def disableGC():
 @magicWord(category=CATEGORY_CREATIVE)
 def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
+	
+@magicWord(category=CATEGORY_CREATIVE, types=[int])
+def streetGoto(streetZone):
+    spellbook.getInvoker().magicTeleportInitiate(ZoneUtil.getHoodId(streetZone), streetZone)
+    return "Teleporting to zone %d!" % streetZone 
     
 @magicWord(category=CATEGORY_CREATIVE)
 def sleep():

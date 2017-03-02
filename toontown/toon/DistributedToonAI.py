@@ -3297,6 +3297,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
+		
+    def doDeptInvasion(self, deptIndex):
+        if self.air.suitInvasionManager.getInvading():
+            return ['busy', 0, 0]
+            
+        if deptIndex >= len(SuitDNA.suitDepts):
+            self.notify.warning('Bad dept index: %s' % deptIndex)
+            return ['badIndex', deptIndex, 0]
+
+        if self.air.suitInvasionManager.startInvasion(
+                suitDeptIndex=deptIndex, suitTypeIndex=None):
+            return ['success', deptIndex, 0]
+
+        return ['fail', deptIndex, 0]
 
     def b_setCogSummonsEarned(self, cogSummonsEarned):
         self.d_setCogSummonsEarned(cogSummonsEarned)
@@ -5315,9 +5329,10 @@ def track(command, track, value=None):
 def suit(command, suitName="hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
-    if suitName not in SuitDNA.suitHeadTypes:
+    if suitName not in SuitDNA.suitHeadTypes and command != 'deptinvasion':
         return 'Invalid suit name: ' + suitName
-    suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
+    if command != 'deptinvasion':
+        suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
     if command == 'spawn':
         returnCode = invoker.doSummonSingleCog(SuitDNA.suitHeadTypes.index(suitName))
         if returnCode[0] == 'success':
@@ -5333,6 +5348,11 @@ def suit(command, suitName="hho"):
         if returnCode[0] == 'success':
             return 'Successfully started Cog Invasion for: ' + suitFullName
         return "Couldn't start Cog Invasion for: " + suitFullName
+    elif command == 'deptinvasion':
+        returnCode = invoker.doDeptInvasion(int(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully started Cog Invasion for dept index: ' + suitName
+        return "Couldn't start Cog Invasion for dept index: " + suitName
     elif command == 'invasionend':
         returnCode = 'Ending Invasion..'
         simbase.air.suitInvasionManager.stopInvasion()
