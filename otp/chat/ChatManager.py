@@ -369,6 +369,8 @@ class ChatManager(DirectObject.DirectObject):
         return result
 
     def exitWhisperChat(self):
+        if base.wantCustomControls:
+            base.localAvatar.controlManager.enableWASD()
         self.chatInputNormal.deactivate()
 
     def enterWhisperChatPlayer(self, avatarName, playerId):
