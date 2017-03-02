@@ -166,6 +166,7 @@ TheBrrrgh = 3000
 MinniesMelodyland = 4000
 DaisyGardens = 5000
 OutdoorZone = 6000
+RedwoodRoad = 6100
 FunnyFarm = 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
