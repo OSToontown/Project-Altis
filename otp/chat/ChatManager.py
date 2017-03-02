@@ -317,6 +317,7 @@ class ChatManager(DirectObject.DirectObject):
         if online and chatToToon:
             if self.wantBackgroundFocus:
                 self.chatInputNormal.chatEntry['backgroundFocus'] = 1
+            self.acceptOnce('enterNormalChat', self.fsm.request, ['whisperChat', [avatarName, avatarId]])
         self.whisperFrame.show()
         self.refreshWhisperFrame()
 
