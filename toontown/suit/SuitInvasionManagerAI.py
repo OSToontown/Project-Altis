@@ -32,8 +32,6 @@ class SuitInvasionManagerAI:
         return self.invading
 
     def getInvadingCog(self):
-        if self.suitTypeIndex == None:
-            self.suitTypeIndex = 0
         return (self.suitDeptIndex, self.suitTypeIndex, self.flags)
 
     def startInvasion(self, suitDeptIndex=None, suitTypeIndex=None, flags=0,
