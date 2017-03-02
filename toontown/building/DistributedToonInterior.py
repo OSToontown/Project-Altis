@@ -38,7 +38,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.announceGenerate(self)
         self.setup()
         if self.zoneId == 5702: # Jakes Rakes
-            taskMgr.doMethodLater(1, self.jakesRakes, 'jakerakemoosic') # gotta delay it a bit
+            taskMgr.doMethodLater(0.1, self.jakesRakes, 'jakerakemoosic') # gotta delay it a bit
             
     def jakesRakes(self, task):
         base.musicManager.stopAllSounds()
