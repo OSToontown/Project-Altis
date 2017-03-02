@@ -37,10 +37,20 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
         self.setup()
+        if self.zoneId == 5702: # Jakes Rakes
+            taskMgr.doMethodLater(1, self.jakesRakes, 'jakerakemoosic') # gotta delay it a bit
+            
+    def jakesRakes(self, task):
+        base.musicManager.stopAllSounds()
+        self.jakeMusicFile = loader.loadMusic("phase_8/audio/bgm/JR_SZ_activity.ogg")
+        self.jakeMusic = base.playMusic(self.jakeMusicFile, looping = 1)
+        return task.done
 
     def disable(self):
         self.interior.removeNode()
         del self.interior
+        if hasattr(self, 'jakeMusicFile'):
+            self.jakeMusicFile.stop()
         self.ignore(SpeedChatGlobals.SCStaticTextMsgEvent)
         DistributedObject.DistributedObject.disable(self)
 
