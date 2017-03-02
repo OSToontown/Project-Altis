@@ -231,6 +231,7 @@ class LocalAccountDB(AccountDB):
         try:
             nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
             nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
+            resp = json.loads(nameCheck.getresponse().read())
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
         return 'Success'
@@ -242,6 +243,10 @@ class LocalAccountDB(AccountDB):
             nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
             nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
+            
+            if resp[u"error"] == "true":
+                state = "ERROR"
+            
             status = resp[u"status"]
             if status == -1:
                 state = "REJECTED"
@@ -251,10 +256,10 @@ class LocalAccountDB(AccountDB):
                 state = "APPROVED"
             else:
                 self.notify.debug("Get name status for av %s didnt return an expected value, got %s, setting to PENDING" % (avId, str(status)))
-                state = "PENDING"
+                state = "REJECTED"
         except:
             self.notify.debug("Get name status failed for av %s, setting to pending" % avId)
-            state = "PENDING"
+            state = "ERROR"
         self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
         return state
     
@@ -796,6 +801,10 @@ class GetAvatarsFSM(AvatarOperationFSM):
                     name = fields['WishName'][0]
                 elif actualNameState == 'REJECTED':
                     nameState = 4
+                elif actualNameState == 'ERROR':
+                    nameState = 2
+
+                    self.csm.accountDB.addNameRequest(avId, fields['WishName'][0])
             elif wishNameState == 'APPROVED':
                 nameState = 3
             elif wishNameState == 'REJECTED':
