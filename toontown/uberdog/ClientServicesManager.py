@@ -18,7 +18,7 @@ class ClientServicesManager(DistributedObjectGlobal):
 
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
-        '''
+
         params = urllib.urlencode({'u': base.launcher.getUsername(), 'p': base.launcher.getPassword()})
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "application/json"}
 
@@ -38,8 +38,7 @@ class ClientServicesManager(DistributedObjectGlobal):
         else:
             # the request was successful, set the login cookie and login.
             cookie = response['additional']
-        '''
-        cookie = base.launcher.getUsername()
+
         key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
@@ -103,6 +102,9 @@ class ClientServicesManager(DistributedObjectGlobal):
     def systemMessage(self, message):
         whisper = WhisperPopup(message, OTPGlobals.getInterfaceFont(), WTSystem)
         whisper.manage(base.marginManager)
-
+        
+        if hasattr(base.cr, 'chatLog'):
+            base.cr.chatLog.addToLog("\1orangeText\1System Message: %s\2" %(message))
+            
         # play the system message sound effect
         base.playSfx(base.loader.loadSfx('phase_3/audio/sfx/clock03.ogg'))

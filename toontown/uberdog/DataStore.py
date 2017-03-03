@@ -35,7 +35,6 @@ class DataStore:
             self.filepath += '-anydbm'
             self.notify.debug('anydbm default module used: %s ' % anydbm._defaultmod.__name__)
         self.open()
-        return
 
     def readDataFromFile(self):
         if self.wantAnyDbm:
@@ -119,7 +118,6 @@ class DataStore:
                 self.data.close()
             taskMgr.remove('%s-syncTask' % (self.className,))
             self.data = None
-        return
 
     def open(self):
         self.close()

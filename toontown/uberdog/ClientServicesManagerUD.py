@@ -136,21 +136,7 @@ class DeveloperAccountDB(AccountDB):
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-
-    def addNameRequest(self, avId, name):
-        # add type a name
-        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
-        return 'Success'
-    
-    def getNameStatus(self, avId):
-        # check type a name
-        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
-        return 'APPROVED'
-    
     def lookup(self, username, callback):
-        '''
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
         
@@ -204,10 +190,6 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Invalid Cookie Specified!'})
             return
-        '''
-        # TEMP
-        cookie = username
-        # TEMP
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -228,7 +210,7 @@ class LocalAccountDB(AccountDB):
                     'success': True,
                     'userId': cookie,
                     'accountId': int(self.dbm[str(cookie)]),
-                    'accessLevel': int(507)
+                    'accessLevel': int(response['powerlevel'])
                 }
             except:
                 # We have an account already, let's return what we've got:
@@ -242,6 +224,45 @@ class LocalAccountDB(AccountDB):
             callback(response)
             return response
 
+
+    def addNameRequest(self, avId, name):
+        # add type a name
+        self.notify.debug("adding name from %s : %s" %(avId, name))
+        try:
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
+            resp = json.loads(nameCheck.getresponse().read())
+        except:
+            self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
+        return 'Success'
+        
+    def getNameStatus(self, avId):
+        # check type a name
+        self.notify.debug("debug: checking name from %s" %(avId))
+        try:
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
+            resp = json.loads(nameCheck.getresponse().read())
+            
+            if resp[u"error"] == "true":
+                state = "ERROR"
+            
+            status = resp[u"status"]
+            if status == -1:
+                state = "REJECTED"
+            elif status == 0:
+                state = "PENDING"
+            elif status == 1:
+                state = "APPROVED"
+            else:
+                self.notify.debug("Get name status for av %s didnt return an expected value, got %s, setting to PENDING" % (avId, str(status)))
+                state = "REJECTED"
+        except:
+            self.notify.debug("Get name status failed for av %s, setting to pending" % avId)
+            state = "ERROR"
+        self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
+        return state
+    
 class RemoteAccountDB(AccountDB):
     notify = directNotify.newCategory('RemoteAccountDB')
 
@@ -780,6 +801,10 @@ class GetAvatarsFSM(AvatarOperationFSM):
                     name = fields['WishName'][0]
                 elif actualNameState == 'REJECTED':
                     nameState = 4
+                elif actualNameState == 'ERROR':
+                    nameState = 2
+
+                    self.csm.accountDB.addNameRequest(avId, fields['WishName'][0])
             elif wishNameState == 'APPROVED':
                 nameState = 3
             elif wishNameState == 'REJECTED':

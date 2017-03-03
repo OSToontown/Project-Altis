@@ -36,7 +36,7 @@ class NameShop(StateData.StateData):
 
     def __init__(self, makeAToon, doneEvent, avList, index, isPaid):
         StateData.StateData.__init__(self, doneEvent)
-        self.wantTypeAName = False
+        self.wantTypeAName = True
         self.makeAToon = makeAToon
         self.isPaid = isPaid
         self.avList = avList

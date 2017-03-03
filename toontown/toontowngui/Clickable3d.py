@@ -2,8 +2,12 @@ from panda3d.core import Quat, Point3, Point2
 from toontown.toontowngui.Clickable import Clickable
 
 class Clickable3d(Clickable):
-    
+
     def setClickRegionFrame(self, left, right, bottom, top):
+        if self.avatar and self.nametag:
+            if hasattr(self.avatar, 'height'):
+                bottom *= self.avatar.height
+
         transform = self.contents.getNetTransform()
 
         # We use the inverse of the cam transform so that it will not be

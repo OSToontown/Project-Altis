@@ -56,7 +56,7 @@ from toontown.shtiker import TrackPage
 from toontown.shtiker import ItemsPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
-import StreamerMode
+import StreamerMode, ChatLog
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -181,6 +181,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.oldPos = None
         self.questMap = None
         self.streamerMode = None
+        self.chatLog = None
         self.prevToonIdx = 0
 
     def setDNA(self, dna):
@@ -190,6 +191,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def setName(self, name):
         base.localAvatarName = name
         DistributedToon.DistributedToon.setName(self, name)
+        
+    def setToonTag(self, tag):
+        DistributedToon.DistributedToon.setToonTag(self, tag)
 
     def wantLegacyLifter(self):
         return True
@@ -330,6 +334,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.streamerMode:
             self.streamerMode.stop()
             del self.streamerMode
+        if self.chatLog:
+            self.chatLog.stop()
         taskMgr.remove('unlockGardenButtons')
         if self.__lerpFurnitureButton:
             self.__lerpFurnitureButton.finish()
@@ -423,7 +429,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if not base.cr.isPaid():
             guiButton = loader.loadModel('phase_3/models/gui/quit_button')
             self.purchaseButton = DirectButton(parent=aspect2d, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=0.9, text=TTLocalizer.OptionsPagePurchase, text_scale=0.05, text_pos=(0, -0.01), textMayChange=0, pos=(0.885, 0, -0.94), sortOrder=100, command=self.__handlePurchase)
-            base.setCellsActive([base.bottomCells[4]], 0)
+            base.setCellsActive([base.bottomCells[3]], 0)
         self.accept('time-insert', self.__beginTossPie)
         self.accept('time-insert-up', self.__endTossPie)
         self.accept('time-delete', self.__beginTossPie)
@@ -439,6 +445,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.achievementGui = AchievementGui.AchievementGui()
         self.streamerMode = StreamerMode.StreamerMode()
         self.streamerMode.start()
+        self.chatLog = ChatLog.ChatLog()
+        self.chatLog.reparentTo(base.a2dLeftCenter)
+        self.chatLog.setPos(-1, 0, 0.2)
                     
         taskMgr.remove('streamerUpdateDist')
         taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')

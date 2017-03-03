@@ -49,3 +49,8 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
         
     def exitSunny(self):
         simbase.air.isRaining = True
+        
+    def createLightning(self):
+        x = random.random() * 100
+        y = random.random() * 100
+        self.sendUpdate("spawnLightning", [x, y])

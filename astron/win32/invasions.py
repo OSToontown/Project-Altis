@@ -57,7 +57,10 @@ while True:
         if shard['invasion'] == None:
           if shard['name'] in superDistricts:
             typ = int(float(random.random()) * 5.0)
-            suit = int(float(random.random()) * 4.0)
+            if random.random() <= 0.05:
+                suit = 0
+            else:
+                suit = int(float(random.random()) * 4.0)
             client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
             count = count + 1
             print 'Calling invasion for %s with %d,%d'%(shard['name'],typ,suit)
@@ -68,7 +71,10 @@ while True:
             r = random.random()
             if r < BaseInvasionChance and not shard['name'] in superDistricts:
               typ = int(float(random.random()) * 5.0)
-              suit = int(float(random.random()) * 8.0)
+              if random.random() <= 0.05:
+                  suit = 0
+              else:
+                  suit = int(float(random.random()) * 8.0)
               client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
               print 'Calling invasion for %s with %d,%d'%(shard['name'],typ,suit)
       print "tick..(was %d)\n"%(count)

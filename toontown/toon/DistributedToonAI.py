@@ -202,6 +202,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
+        self.interiorLayout = 0
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -2074,6 +2075,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getHouseId(self):
         return self.houseId
 
+    def b_setInteriorLayout(self, id):
+        self.setInteriorLayout(id)
+        self.d_setInteriorLayout(id)
+        
+    def d_setInteriorLayout(self, id):
+        self.sendUpdate('setInteriorLayout', [id])
+        
+    def setInteriorLayout(self, id):
+        self.interiorLayout = id
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout
+        
     def setPosIndex(self, index):
         self.posIndex = index
 
@@ -3283,6 +3297,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
+		
+    def doDeptInvasion(self, deptIndex):
+        if self.air.suitInvasionManager.getInvading():
+            return ['busy', 0, 0]
+            
+        if deptIndex >= len(SuitDNA.suitDepts):
+            self.notify.warning('Bad dept index: %s' % deptIndex)
+            return ['badIndex', deptIndex, 0]
+
+        if self.air.suitInvasionManager.startInvasion(
+                suitDeptIndex=deptIndex, suitTypeIndex=None):
+            return ['success', deptIndex, 0]
+
+        return ['fail', deptIndex, 0]
 
     def b_setCogSummonsEarned(self, cogSummonsEarned):
         self.d_setCogSummonsEarned(cogSummonsEarned)
@@ -4211,7 +4239,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if self.isGenerated():
                 self._checkOldGMName()
         #self._updateGMName()
-
+        
     def d_setName(self, name):
         words = str(name).lower().split('\x20')
         for word in words:
@@ -4241,6 +4269,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 
         self.setName(name)
         self.d_setName(name)
+        
+    def setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.setToonTag(self, tag)
+    
+    def d_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.d_setToonTag(self, tag)
+        
+    def b_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.b_setToonTag(self, tag)
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
@@ -4759,6 +4796,30 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
+def manualSos(count, npcId):
+    """
+    Modifies the invoker's specified SOS card count.
+    """
+    invoker = spellbook.getInvoker()
+    if not 0 <= count <= 100:
+        return 'Your SOS count must be in range (0-100).'
+    if (count == 0) and (npcId in invoker.NPCFriendsDict):
+        del invoker.NPCFriendsDict[npcId]
+    else:
+        invoker.NPCFriendsDict[npcId] = count
+    invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
+    return "You were given %d SOS cards of toon id %d." % (count, npcId)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[])
+def clearSOS():
+    """
+    Clear's the invoker's SOS card inventory
+    """
+    invoker = spellbook.getInvoker()
+    invoker.b_setNPCFriendsDict({})
+    return "Your sos cards have been cleared!"
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def unites(value=32767):
@@ -4873,6 +4934,19 @@ def name(name=''):
         return "Set %s's name to %s!" % (_name, name)
     else:
         return "%s's name is now empty!" % _name
+        
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
+def tag(tag=''):
+    """
+    Modify the target's tag.
+    """
+    target = spellbook.getTarget()
+    _name = target.getName()
+    target.b_setToonTag(tag)
+    if tag:
+        return "Set %s's tag to %s!" % (_name, tag)
+    else:
+        return "%s's tag is now empty!" % _name
 
 @magicWord(category=CATEGORY_CREATIVE, types=[int, int])
 def hat(hatIndex, hatTex=0):
@@ -5318,9 +5392,10 @@ def track(command, track, value=None):
 def suit(command, suitName="hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
-    if suitName not in SuitDNA.suitHeadTypes:
+    if suitName not in SuitDNA.suitHeadTypes and command != 'deptinvasion':
         return 'Invalid suit name: ' + suitName
-    suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
+    if command != 'deptinvasion':
+        suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
     if command == 'spawn':
         returnCode = invoker.doSummonSingleCog(SuitDNA.suitHeadTypes.index(suitName))
         if returnCode[0] == 'success':
@@ -5336,6 +5411,11 @@ def suit(command, suitName="hho"):
         if returnCode[0] == 'success':
             return 'Successfully started Cog Invasion for: ' + suitFullName
         return "Couldn't start Cog Invasion for: " + suitFullName
+    elif command == 'deptinvasion':
+        returnCode = invoker.doDeptInvasion(int(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully started Cog Invasion for dept index: ' + suitName
+        return "Couldn't start Cog Invasion for dept index: " + suitName
     elif command == 'invasionend':
         returnCode = 'Ending Invasion..'
         simbase.air.suitInvasionManager.stopInvasion()

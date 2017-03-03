@@ -110,7 +110,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  5100: ('to', 'on', 'Elm Street'),
  5200: ('to', 'on', 'Maple Street'),
  5300: ('to', 'on', 'Oak Street'),
- 5400: ('to', 'on', 'Rose Valley'),
+ 5400: ('to', 'on', 'Spruce Street'),
  9000: ('to the', 'in the', 'Playground'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
@@ -525,7 +525,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  30: ['Gift', 'Gifts', 'a '],
  31: ['Salt Shaker', 'Salt Shakers', 'a '],
  32: ['Goods', 'Goods', 'some '],
- 33: ['Cabbage', 'Cabbages', 'a '],
+ 33: ['Orange', 'Oranges', 'an '],
  34: ['Barrel of Jellybeans', 'Barrels of Jellybeans', 'a '],
  35: ['Camera', 'Cameras', 'a '],
  36: ['Paint Brush', 'Paint Brushes', 'a '],
@@ -560,6 +560,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  65: ['Meatballs', 'Meatballs', 'some '],
  66: ['Rake', 'Rakes', 'a '],
  67: ['Sword', 'Swords', 'a '],
+ 68: ['Cash', 'Rolls of Cash', 'some '],
  110: ['TIP Clothing Ticket', 'Clothing Tickets', 'a '],
  1000: ['Clothing Ticket', 'Clothing Tickets', 'a '],
  2001: ['Inner Tube', 'Inner Tubes', 'an '],
@@ -995,11 +996,11 @@ QuestDialogDict = {160: {GREETING: '',
         LEAVING: '',
         INCOMPLETE_PROGRESS: "Have you found my suit yet? I'm sure the Cogs took it!",
         COMPLETE: 'Thank you.\x07Here is your reward...'},
- 3204: {QUEST: "_toNpcName_ can't keep ahold of her cabbage._where_"},
- 3205: {QUEST: "A Name Dropper just stole my cabbage!\x07Please go get it for me!",
+ 3204: {QUEST: "_toNpcName_ has just lost his orange._where_"},
+ 3205: {QUEST: "A Yesman has just stolen my favorite orange!\x07Please go get it for me!",
         LEAVING: '',
         INCOMPLETE_PROGRESS: 'Are you still looking for my scissors?',
-        COMPLETE: 'My cabbage! Thank you so much! Here is your reward...'},
+        COMPLETE: 'My little buddy!\x07Thank you so much!\x07Here is your reward...'},
  3206: {QUEST: 'It sounds like _toNpcName_ is having problems with some Cogs._where_'},
  3207: {QUEST: 'Toons love this place to sell and buy used goods, but the Cogs always steal these used goods.\x07If you could recover some for me, that\'d be fantastic.',
         INCOMPLETE_PROGRESS: "That's not enough postcards! Keep looking!",
@@ -1058,8 +1059,35 @@ QuestDialogDict = {160: {GREETING: '',
  3251: {GREETING: 'Heya, what\'s the scoop, buddy?',
         QUEST: "There's a big scoop out there! I just know it!\x07Rumor has it that _toNpcName_'s furniture ACTUALLY contains poison and that's why some toons end up in the hospital.\x07Why don't you go find out more?_where_",
         LEAVING: "Good luck, buddy!"},
+ 3300: {GREETING: 'Heya, what\'s the scoop, buddy?',
+        QUEST: "There's a big scoop out there! I just know it!\x07I heard that _toNpcName_'s shop just had a break-in!\x07Wowza! I haven't done a scoop on that in ages!\x07Will ya go investigate for me?_where_",
+        LEAVING: "Good luck, buddy!"},
  3252: {QUEST: "Poison furniture?\x07I refuse to say anything!\x07Maybe I'll talk if you defeat some of those pesky Back Stabbers on this street...",
         LEAVING: ''},
+ 3301: {QUEST: "Yes, there was just a break-in here at this shop earlier.\x07It was caused by those darn Bossbots on this here street!\x07I want you to defeat some of them, then I'll give you more on the scoop.",
+		LEAVING: ''},
+ 3302: {QUEST: "OK, here's some more information.\x07The Bossbots replaced my building with a depressing, gray and dull building.\x07Luckily, toons restored my building back into FRUITastic shape!\x07I will give you the final details of this story if you defeat some Bossbot Buildings in this playground.",
+		LEAVING: "I can't be the only toon around here being harassed by these Bossbots..."},
+ 3303: {QUEST: "OK, here's the final detail.\x07The Bossbots mentioned something about aquiring toon goods for the CEO.\x07They then mentioned the CEO had plans to give them to the Chairman for special investigation, whatever that means...",
+        LEAVING: '',
+        COMPLETE: "Heya, what's the scoop, buddy?\x07Mhm, wowza!\x07THIS HAS GOT TO BE THE BEST SCOOP I'VE EVER HEARD!\x07Thank you so much, buddy! Maybe you should work for me? You can really get a good scoop on things!"},
+ 3304: {QUEST: "The Air Conditioning has stopped in _toNpcName_'s buildings, which he needs for his indoor garden._where_"},
+ 3305: {GREETING: '',
+		QUEST: "Heya, _avName_.\x07It appears that _toNpcName_ has shut off my air access, and I have no idea why.\x07I pay my bills regularly and there should be no reason for this!\x07Can you ask him to turn it back on?_where_",
+		LEAVING: ''},
+ 3306: {GREETING: 'Heya! How can I help ya?',
+		QUEST: "Someone's air has been shut off?\x07Hmm, I'll turn their air back on if you do me a favor.\x07Those Micromanagers are always downgrading my air supply that supplies the air to every toon's vent, lowering the amount of air delivered to each toon!\x07Less Micromanagers, less problems for me!\x07Defeat about five of them in this playground.",
+		LEAVING: ''},
+ 3307: {GREETING: '',
+		QUEST: "Thank you for taking care of those small BRATS for me!\x07Now I'll go ahead and...\x07NOT turn on _toNpcName_'s air! Hahaha!\x07Losing one customer saves me air for others.\x07Either way, I'm already a zillionaire!",
+		LEAVING: ''},
+ 3308: {GREETING: 'THAT GREEDY DIRTBAG!!!',
+		QUEST: "I'm suing him for denying my business for no reason!\x07I'll need help from the best lawyer around here.\x07Go ask _toNpcName_ if he'll handle my case._where_",
+		LEAVING: ''},
+ 3309: {GREETING: '',
+		QUEST: "Hmm, so Bunnysius O'Hare refused to deliver air to Sunny Jim for no reason?\x07Yeah, I'll take this case, but I ain't cheap.\x07Go recover some big rolls of cash from the Cashbots around here.\x07Then, I'll take the case.",
+		LEAVING: '',
+		COMPLETE: "Alright! That's what I'm talkin' about!\x07Let me call Jim right now!\x07Ring Ring.\x07Yeah, I'll take your case.\x07Let me handle setting it up in court and I'll get back to you on the details.\x07...\x07Oh? You want me to get that to _avName_?\x07Sure, no problem."},
  3253: {QUEST: "No, I still won't speak!\x07I want you to take down a few Lawbot Buildings around here, then perhaps I'll speak.",
         LEAVING: ''},
  3254: {QUEST: "Alright I'll speak!\x07Yes, some of my furniture contains real poison, but that's what brings out the 'Shine' in them!\x07I did try to stop the people who ship my furniture from putting poison in it, but they just wouldn't listen...",
@@ -1084,7 +1112,7 @@ QuestDialogDict = {160: {GREETING: '',
         GREETING: 'Yahooooo!',
         LEAVING: '\'Cya!',
         COMPLETE: '\'Ya done good, partner!\x07\'Ere is ya reward.'},
- 3262: {QUEST: "_toNpcName_ has a emergency!\x07Go see what his emergency is._where_"},
+ 3262: {QUEST: "_toNpcName_ has a emergency!\x07Go see what her emergency is._where_"},
  3263: {GREETING: '',
         QUEST: "Argh!\x07Those Lawbots are always stealing my cameras and I'm sick of it!\x07Can you do me a favor and recover the ones stolen on this street?",
         LEAVING: 'Thanks!',
@@ -2026,7 +2054,11 @@ MovieNPCSOSGreeting = 'Hi %s! Glad to help!'
 FrumpGreetings = ["I'm all in on this for a small loan of a million jellybeans.", 'Did one of you mention a wall?', "TOGETHER... WE WILL MAKE TOONTOWN GREAT AGAIN!!!", 'This is gonna be yuge.', "They are all filthy cogs, I'm sure some of them are great robots.", 'We are going to build a wall and make Loonyville pay for it!']
 MovieNPCSOSGoodbye = 'See you later!'
 MovieNPCSOSToonsHit = 'Toons Always Hit!'
+MovieNPCSOSToonsHitS = 'Toons Always Hit\nFor One Round!'
+MovieNPCSOSToonsHitP = 'Toons Always Hit\nFor %d Rounds!'
 MovieNPCSOSCogsMiss = 'Cogs Always Miss!'
+MovieNPCSOSCogsMissS = 'Cogs Always Miss\nFor One Round!'
+MovieNPCSOSCogsMissP = 'Cogs Always Miss\n For %d Rounds!'
 MovieNPCSOSRestockGags = 'Restocking %s gags!'
 MovieNPCSOSHeal = 'Heal'
 MovieNPCSOSTrap = 'Trap'
@@ -4515,6 +4547,7 @@ MapPageGoTo = 'Go To\n%s'
 OptionsPageTitle = 'Options'
 OptionsPageSpecial = 'Advanced'
 OptionsTabTitle = 'Options\n& Codes'
+OptionsPagePurchase = 'Subscribe'
 OptionsPageLogout = 'Logout'
 OptionsPageExitToontown = 'Exit Toontown'
 OptionsPageMusic = 'Music:'
@@ -5590,6 +5623,13 @@ QuestScript600_4 = "Jester Chester can help you get used to this habbit."
 QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
 QuestScript600_6 = "Have fun in Toontown: Project Altis!"
 
+QuestScript600_1 = "Welcome to Toontown: Project Altis!"
+QuestScript600_2 = "There are many shop keepers out there who will require your help."
+QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
+QuestScript600_4 = "Jester Chester can help you get used to this habbit."
+QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
+QuestScript600_6 = "Have fun in Toontown: Project Altis!"
+
 MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'
@@ -5645,6 +5685,7 @@ ResistanceToonMoneyInstructions = 'all the Toons near you will gain %s Jellybean
 ResistanceToonMoneyAllInstructions = 'all the Toons near you will fill their Jellybean jars'
 ResistanceToonRestockInstructions = 'all the Toons near you will restock their "%s" gags'
 ResistanceToonRestockAllInstructions = 'all the Toons near you will restock all their gags'
+ResistanceToonBonusUnites = '\x07Since you have continued your efforts against the C.F.O. and progressed your cog disguise, you have been awarded %d extra unites!'
 ResistanceToonHPBoost = "\x07You've done a lot of work for the Resistance.\x07The Toon Council has decided to give you another Laff point. Congratulations!"
 ResistanceToonLevelPromotion = "\x07Say--that C.F.O. Cog left behind your promotion papers.\x07I'll file them for you on the way out, so you'll get your promotion!"
 ResistanceToonSuitPromotion = "\x07It seems like you've reached the highest level you can for a %s.\x07You can continue upgrading your Cog suit through the disguise page in your Shticker Book.\x07Along with getting a new Cog suit, you will also get a 1 point Laff boost!"
@@ -5688,6 +5729,7 @@ RentalTypeName = 'Rental Item'
 GardenStarterTypeName = 'Gardening Kit'
 NametagTypeName = 'Name tag'
 AccessoryTypeName = 'Accessory'
+InteriorLayoutTypeName = "Interior Layout"
 CatalogItemTypeNames = {0: 'INVALID_ITEM',
  1: FurnitureTypeName,
  2: ChatTypeName,
@@ -5707,7 +5749,9 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  16: NametagTypeName,
  17: 'TOON_STATUE',
  18: 'ANIMATED FURNITURE',
- 19: AccessoryTypeName}
+ 19: AccessoryTypeName,
+ 20: InteriorLayoutTypeName}
+InteriorLayoutNames = ["Default Layout", "Layout 2", "Layout 3", "Layout 4"]
 HatStylesDescriptions = {'hbb1': 'Green Baseball Cap',
  'kmh1': 'Mouskateer',
  'hbb2': 'Blue Baseball Cap',
@@ -7506,6 +7550,28 @@ NPCToonNames = {20000: 'Tutorial Tom',
  5320: 'April',
  5321: 'Professor Ivy',
  5322: 'Rose',
+ 5400: 'Dr. Vine',
+ 5401: 'Gamby Lure',
+ 5402: 'Mr. Orange',
+ 5403: 'Flora',
+ 5404: 'Psy Kick',
+ 5405: 'Postmaster Parker',
+ 5406: 'I.C. Hue',
+ 5407: 'Officer Bork',
+ 5408: 'G. Arden',
+ 5409: 'Jackson Woods',
+ 5410: "Bunnysius O'Hare",
+ 5411: 'Law N. Mower',
+ 5412: 'Gus',
+ 5413: 'Blue Beary',
+ 5414: 'Speedy Herb',
+ 5415: 'Sunny Jim',
+ 5416: 'Cool Ray',
+ 5417: 'Bruce',
+ 5418: lHQOfficerF,
+ 5419: lHQOfficerM,
+ 5420: lHQOfficerM,
+ 5421: lHQOfficerF,
  8001: 'Graham Pree',
  8002: 'Ivona Race',
  8003: 'Anita Winn',
@@ -8013,6 +8079,24 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  5835: ('Flower Bed and Breakfast', ''),
  5836: ("April's Showers and Tubs", ''),
  5837: ('School of Vine Arts', ''),
+ 5903: ("I'm Feeling Vine! Chiropractors", ''),
+ 5904: ('Hedge Your Bets!', ''),
+ 5909: ("Orange's Door Hinges", ''),
+ 5910: ("Gus' Fungus Funhouse", ''),
+ 5911: ("Flora's Flowers", ''),
+ 5912: ("Palm Tree Fortunes", ''),
+ 5914: ("Rainbow Sightseeings", ''),
+ 5915: ('Seed and Send Post Office', ''),
+ 5917: ('Garden Patrol', ''),
+ 5919: ("Garden's Awaiting", ''),
+ 5920: ("Campfire Firewood", ''),
+ 5921: ("O'Hare Air", ''),
+ 5922: ('Mow Jellybeans, Mow Problems', ''),
+ 5923: ('A Bushel Of Berries Fruit Shop', ''),
+ 5924: ('Hybrid Karts and Plants', ''),
+ 5926: ('Solar Powered Gardens', ''),
+ 5927: ("Cool Ray's Rad-ish Makeovers", ''),
+ 5929: (lToonHQ, ''),
  9501: ('Lullaby Library', ''),
  9503: ('The Snooze Bar', ''),
  9504: ('Gag Shop', ''),
