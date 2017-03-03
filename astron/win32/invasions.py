@@ -57,8 +57,8 @@ while True:
         if shard['invasion'] == None:
           if shard['name'] in superDistricts:
             typ = int(float(random.random()) * 5.0)
-            if random.random() <= 0.05
-                suit = None
+            if random.random() <= 0.05:
+                suit = 0
             else:
                 suit = int(float(random.random()) * 4.0)
             client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
@@ -72,7 +72,7 @@ while True:
             if r < BaseInvasionChance and not shard['name'] in superDistricts:
               typ = int(float(random.random()) * 5.0)
               if random.random() <= 0.05:
-                  suit = None:
+                  suit = 0
               else:
                   suit = int(float(random.random()) * 8.0)
               client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
