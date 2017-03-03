@@ -298,7 +298,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         5: 'Boardbot'}
         pop = self.districtStats.getAvatarCount()
         invstatus = statusToType.get(self.districtStats.getInvasionStatus(), 'None')
-        if pop == self.invLastPop and invstatus == self.invLastStatus and not invstatus == 'None':
+        if pop == self.invLastPop and invstatus == self.invLastStatus:
             return task.again # Don't attempt to update the database, its a waste
         
         self.invLastPop = pop

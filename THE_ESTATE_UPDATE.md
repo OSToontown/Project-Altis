@@ -14,3 +14,8 @@ A bunch of estate updates, at this moment, only a couple are done, but much more
 - Fisherman at estate
 - More estate minigames
 - idk probably some more stuff
+
+## Part 1
+- Jukebox
+- Party Trampoline
+- Toonup Cannon Game
