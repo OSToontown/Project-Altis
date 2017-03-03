@@ -51,8 +51,8 @@ class DistributedCannonAI(DistributedObjectAI):
             self.setMovie(CannonGlobals.CANNON_MOVIE_LOAD, self.avId)
             self.acceptOnce(self.air.getAvatarExitEvent(avId), self.exitCannon, extraArgs = [CannonGlobals.CANNON_MOVIE_FORCE_EXIT])
         else:
-            self.setMovie(CannonGlobals.CANNON_MOVIE_FORCE_EXIT, avId)
             self.notify.warning("Cannon already occupied!")
+            self.sendUpdateToAvatarId(self.air.getAvatarIdFromSender(), 'requestExit', [])
 
     def requestExit(self):
         pass
