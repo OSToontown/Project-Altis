@@ -4231,6 +4231,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 
         self.setName(name)
         self.d_setName(name)
+        
+    def setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.setToonTag(self, tag)
+    
+    def d_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.d_setToonTag(self, tag)
+        
+    def b_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.b_setToonTag(self, tag)
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
@@ -4884,6 +4893,19 @@ def name(name=''):
         return "Set %s's name to %s!" % (_name, name)
     else:
         return "%s's name is now empty!" % _name
+        
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
+def tag(tag=''):
+    """
+    Modify the target's tag.
+    """
+    target = spellbook.getTarget()
+    _name = target.getName()
+    target.b_setToonTag(tag)
+    if tag:
+        return "Set %s's tag to %s!" % (_name, tag)
+    else:
+        return "%s's tag is now empty!" % _name
 
 @magicWord(category=CATEGORY_CREATIVE, types=[int, int])
 def hat(hatIndex, hatTex=0):

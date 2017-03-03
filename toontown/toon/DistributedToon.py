@@ -2709,6 +2709,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self._handleTrooperGMName(name)
         else:
             self._handleGMName()
+            
+    def setToonTag(self, tag = ''):
+        DistributedPlayer.DistributedPlayer.setToonTag(self, tag)
 
     def _handleGMName(self):
         name = self.name
