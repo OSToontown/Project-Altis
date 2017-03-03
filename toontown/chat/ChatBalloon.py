@@ -34,7 +34,6 @@ class ChatBalloon(NodePath):
 
         # Set the TextNode color:
         self.textNode.setTextColor(self.foreground)
-        self.textNode.setText(self.textNode.getText().replace('\n', ' '))
         # Create a balloon:
         self.balloon = self.model.copyTo(self)
         self.balloon.setColor(self.background)
