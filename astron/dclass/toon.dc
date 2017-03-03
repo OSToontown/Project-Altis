@@ -1326,6 +1326,9 @@ dclass DistributedCashbotBoss : DistributedBossCog {
   setBossDamage(uint16) broadcast ram;
   setRewardId(uint16) broadcast ram;
   applyReward() airecv clsend;
+  setBattleDifficulty(uint8) broadcast ram;
+  setMaxHp(uint16) broadcast ram;
+  setBonusUnites(uint8) broadcast ram;
 };
 
 struct LinkPosition {
