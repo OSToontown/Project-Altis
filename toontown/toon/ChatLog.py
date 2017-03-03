@@ -50,8 +50,9 @@ class ChatLog(DirectFrame, DirectObject):
         base.cr.chatLog = None
         
     def addToLog(self, msg):
-        msg = DirectLabel(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25)
-        self.log.addItem(msg)
+        msg = msg.replace('\n', ' ')
+        msgd = DirectLabel(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25)
+        self.log.addItem(msgd)
         self.log.scrollTo(len(self.log['items']) - 1)
         
     def toggle(self):

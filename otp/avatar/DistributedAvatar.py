@@ -157,6 +157,12 @@ class DistributedAvatar(DistributedActor, Avatar):
 
         return Avatar.setName(self, name)
 
+    def getToonTag(self):
+        return Avatar.getToonTag(self)
+
+    def setToonTag(self, tag):
+        return Avatar.setToonTag(self, tag)
+
     def showHpText(self, number, bonus = 0, scale = 1):
         if self.HpTextEnabled and not self.ghostMode:
             if number != 0:

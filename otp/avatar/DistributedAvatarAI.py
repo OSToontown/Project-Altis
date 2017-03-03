@@ -24,6 +24,19 @@ class DistributedAvatarAI(DistributedNodeAI.DistributedNodeAI):
 
     def getName(self):
         return self.name
+        
+    def b_setToonTag(self, tag):
+        self.setToonTag(tag)
+        self.d_setToonTag(tag)
+
+    def d_setToonTag(self, tag):
+        self.sendUpdate('setToonTag', [tag])
+
+    def setToonTag(self, tag):
+        self.npcType = tag
+
+    def getToonTag(self):
+        return self.npcType
 
     def b_setMaxHp(self, maxHp):
         self.d_setMaxHp(maxHp)

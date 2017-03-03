@@ -45,6 +45,8 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.cranes = {}
         self.safes = {}
         self.goons = []
+        self.battleDifficulty = 0
+        self.bonusUnites = 0
         self.bossMaxDamage = ToontownGlobals.CashbotBossMaxDamage
         self.elevatorType = ElevatorConstants.ELEVATOR_CFO
         base.boss = self
@@ -105,6 +107,9 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if OneBossCog == self:
             OneBossCog = None
         return
+		
+    def setBonusUnites(self, unites):
+        self.bonusUnites = unites
 
     def __makeResistanceToon(self):
         if self.resistanceToon:
@@ -670,6 +675,9 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.showHpText(-delta, scale=5)
         self.bossDamage = bossDamage
         self.updateHealthBar()
+		
+    def setMaxHp(self, hp):
+        self.bossMaxDamage = hp
 
     def setRewardId(self, rewardId):
         self.rewardId = rewardId
@@ -736,6 +744,8 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 toon.show()
 
     def __talkAboutPromotion(self, speech):
+        if self.bonusUnites:
+            speech += TTLocalizer.ResistanceToonBonusUnites % self.bonusUnites
         if self.prevCogSuitLevel < ToontownGlobals.MaxCogSuitLevel:
             deptIndex = CogDisguiseGlobals.dept2deptIndex(self.style.dept)
             cogLevels = base.localAvatar.getCogLevels()
@@ -893,6 +903,10 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         NametagGlobals.setWant2dNametags(True)
         ElevatorUtils.closeDoors(self.leftDoor, self.rightDoor, ElevatorConstants.ELEVATOR_CFO)
         taskMgr.remove(self.uniqueName('physics'))
+		
+    def setBattleDifficulty(self, diff):
+        self.notify.debug('battleDifficulty = %d' % diff)
+        self.battleDifficulty = diff
 
     def enterBattleThree(self):
         DistributedBossCog.DistributedBossCog.enterBattleThree(self)

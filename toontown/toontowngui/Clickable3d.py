@@ -6,8 +6,7 @@ class Clickable3d(Clickable):
     def setClickRegionFrame(self, left, right, bottom, top):
         if self.avatar and self.nametag:
             if hasattr(self.avatar, 'height'):
-                if self.nametag.distance >= 20:
-                    bottom *= self.avatar.height
+                bottom *= self.avatar.height
 
         transform = self.contents.getNetTransform()
 

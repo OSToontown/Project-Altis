@@ -190,6 +190,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def setName(self, name):
         base.localAvatarName = name
         DistributedToon.DistributedToon.setName(self, name)
+        
+    def setToonTag(self, tag):
+        DistributedToon.DistributedToon.setToonTag(self, tag)
 
     def wantLegacyLifter(self):
         return True

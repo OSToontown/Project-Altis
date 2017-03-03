@@ -403,7 +403,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.setChatAbsolute(chatString, CFSpeech | CFTimeout)
         ResistanceChat.doEffect(msgIndex, self, nearbyToons)
 
-    def d_battleSOS(self, requesterId, sendToId):
+    def d_battleSOS(self, sendToId):
         self.cr.ttaFriendsManager.d_battleSOS(sendToId)
 
     def battleSOS(self, requesterId):
@@ -2709,6 +2709,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self._handleTrooperGMName(name)
         else:
             self._handleGMName()
+            
+    def setToonTag(self, tag = ''):
+        DistributedPlayer.DistributedPlayer.setToonTag(self, tag)
 
     def _handleGMName(self):
         name = self.name
