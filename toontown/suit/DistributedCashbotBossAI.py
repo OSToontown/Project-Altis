@@ -502,7 +502,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 		
     def recalcDifficulty(self):
         if self.battleDifficulty >= 7:
-            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*3)
+            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*3.2)
             self.goonMinStrength = 10
             self.goonMaxStrength = 43
             self.goonMinScale = 0.8
@@ -510,7 +510,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 2
             self.b_setBonusUnites(2)
         elif self.battleDifficulty >= 6:
-            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*2.7)
+            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*2.9)
             self.goonMinStrength = 10
             self.goonMaxStrength = 41
             self.goonMinScale = 0.8
