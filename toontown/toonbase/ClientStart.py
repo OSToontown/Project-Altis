@@ -64,6 +64,8 @@ if 'interactkey' not in settings:
     settings['interactkey'] = False
 if 'patMode' not in settings:
     settings['patMode'] = "Altis"
+if 'language' not in settings:
+    settings['language'] = "English"
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])
