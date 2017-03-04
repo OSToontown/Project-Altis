@@ -32,6 +32,7 @@ class ChatLog(DirectFrame, DirectObject):
             itemFrame_geom = (loader.loadModel("phase_3.5/models/gui/frame")),
             itemFrame_geom_scale = (.14, 1, .17),
             itemFrame_geom_pos = (0, 0, -.25),
+            itemFrame_geom_color = (1,1,1,0.6),
             itemFrame_relief = None,
             
             items = [],
@@ -51,7 +52,7 @@ class ChatLog(DirectFrame, DirectObject):
         
     def addToLog(self, msg):
         msg = msg.replace('\n', ' ')
-        msgd = DirectLabel(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25)
+        msgd = DirectButton(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25)
         self.log.addItem(msgd)
         self.log.scrollTo(len(self.log['items']) - 1)
         
@@ -66,3 +67,6 @@ class ChatLog(DirectFrame, DirectObject):
             self.posInterval(0.5, Point3(-1, 0, 0.2), blendType = 'easeInOut').start()
             self.isHidden = True
             base.setCellsActive([base.leftCells[0]], 1)
+			
+    def updateTransparency(self, transparency):
+        self.log.itemFrame_geom_color[3] = transparency
