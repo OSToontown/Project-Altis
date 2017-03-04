@@ -52,7 +52,7 @@ class ChatLog(DirectFrame, DirectObject):
         
     def addToLog(self, msg):
         msg = msg.replace('\n', ' ')
-        msgd = DirectButton(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25)
+        msgd = DirectButton(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25, text_shadow=(0, 0, 0, 1))
         self.log.addItem(msgd)
         self.log.scrollTo(len(self.log['items']) - 1)
         
