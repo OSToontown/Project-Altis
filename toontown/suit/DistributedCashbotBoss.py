@@ -236,7 +236,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.geom.reparentTo(render)
         self.elevatorMusic = base.loader.loadMusic('phase_10/audio/bgm/cb_elevator.ogg')
         self.battleTwoMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
-        self.midCutsceneMusic = base.loadMusic('phase_9/audio/bgm/encntr_toon_winning.ogg')
+        self.midCutsceneMusic = base.loadMusic('phase_10/audio/bgm/CB_boss_cutscene.ogg')
         self.battleThreeMusic = base.loadMusic('phase_10/audio/bgm/encntr_cfo_crane.ogg')
 
     def unloadEnvironment(self):
@@ -800,12 +800,12 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.evWalls.stash()
         self.midVault.unstash()
         self.__showResistanceToon(True)
-        base.playMusic(self.stingMusic, looping=1, volume=0.9)
+        base.playMusic(self.midCutsceneMusic, looping=1, volume=0.9)
         DistributedBossCog.DistributedBossCog.enterIntroduction(self)
 
     def exitIntroduction(self):
         DistributedBossCog.DistributedBossCog.exitIntroduction(self)
-        self.stingMusic.stop()
+        self.midCutsceneMusic.stop()
 
     def enterBattleOne(self):
         DistributedBossCog.DistributedBossCog.enterBattleOne(self)
