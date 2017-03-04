@@ -508,9 +508,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         token, varName, fileName = line
         if varName == 'tomDialogue_01':
             notify.debug('VarName tomDialogue getting added. Tutorial Ack: %d' % base.localAvatar.tutorialAck)
-        if base.config.GetString('language', 'english') == 'japanese':
+        try:
             dialogue = base.loadSfx(fileName)
-        else:
+        except:
             dialogue = None
         self.setVar(varName, dialogue)
 
