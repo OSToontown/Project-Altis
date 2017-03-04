@@ -5614,6 +5614,15 @@ QuestScript600_4 = "Jester Chester can help you get used to this habbit."
 QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
 QuestScript600_6 = "Have fun in Toontown: Project Altis!"
 
+QuestScript10301_1 = "Welcome to Loopy's Balls!"
+QuestScript10301_2 = "We sell the freshest swedish meatballs in all of Toontown!"
+QuestScript10301_3 = "What would you like to order?"
+QuestScript10301_4 = "Meatballs! A Fan favorite. Great choice! Let me just check in with Jimmy."
+QuestScript10301_5 = "JIMMY!!"
+QuestScript10301_6 = "Oh. That's right."
+QuestScript10301_7 = "Jimmy was loafing around earlier so I tossed him in the pond."
+QuestScript10301_8 = "Can you be a darling and go fish him out and bring him back for me?"
+
 MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'
