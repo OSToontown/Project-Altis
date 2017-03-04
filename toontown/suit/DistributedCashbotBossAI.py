@@ -83,7 +83,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 goon.removeToon(avId)
 
         DistributedBossCogAI.DistributedBossCogAI.removeToon(self, avId)
-        return
 
     def __makeBattleThreeObjects(self):
         if self.cranes == None:
@@ -102,7 +101,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
         if self.goons == None:
             self.goons = []
-        return
 
     def __resetBattleThreeObjects(self):
         if self.cranes != None:
@@ -112,8 +110,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         if self.safes != None:
             for safe in self.safes:
                 safe.request('Initial')
-
-        return
 
     def __deleteBattleThreeObjects(self):
         if self.cranes != None:
@@ -134,13 +130,11 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 goon.requestDelete()
 
             self.goons = None
-        return
 
     def doNextAttack(self, task):
         self.__doDirectedAttack()
         if self.heldObject == None and not self.waitingForHelmet:
             self.waitForNextHelmet()
-        return
 
     def __doDirectedAttack(self):
         if self.toonsToAttack:
@@ -261,7 +255,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             goon.STUN_TIME = self.progressValue(30, 8)
             goon.b_setupGoon(velocity=self.progressRandomValue(3, 7), hFov=self.progressRandomValue(70, 80), attackRadius=self.progressRandomValue(6, 15), strength=int(self.progressRandomValue(self.goonMinStrength, self.goonMaxStrength)), scale=self.progressRandomValue(self.goonMinScale, self.goonMaxScale))
         goon.request(side)
-        return
 
     def __chooseOldGoon(self):
         for goon in self.goons:
@@ -300,7 +293,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             safe = self.safes[0]
             safe.request('Grabbed', self.doId, self.doId)
             self.heldObject = safe
-        return
 
     def stopHelmets(self):
         self.waitingForHelmet = 0
@@ -323,7 +315,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             self.waitForNextHelmet()
         else:
             self.recordHit(damage)
-        return
 
     def magicWordReset(self):
         if self.state == 'BattleThree':
@@ -338,7 +329,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
                 self.goons = None
             self.__makeBattleThreeObjects()
-        return
 
     def recordHit(self, damage):
         avId = self.air.getAvatarIdFromSender()
@@ -514,25 +504,57 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         if self.battleDifficulty >= 7:
             self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*3)
             self.goonMinStrength = 10
+            self.goonMaxStrength = 43
+            self.goonMinScale = 0.8
+            self.goonMaxScale = 2.6
+            self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 2
+            self.b_setBonusUnites(2)
+        elif self.battleDifficulty >= 6:
+            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*2.7)
+            self.goonMinStrength = 10
             self.goonMaxStrength = 41
             self.goonMinScale = 0.8
             self.goonMaxScale = 2.5
-            self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 2
+            self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 1.8
             self.b_setBonusUnites(2)
+        elif self.battleDifficulty >= 5:
+            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*2.5)
+            self.goonMinStrength = 10
+            self.goonMaxStrength = 39
+            self.goonMinScale = 0.8
+            self.goonMaxScale = 2.4
+            self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 1.6
+            self.b_setBonusUnites(1)
         elif self.battleDifficulty >= 4:
             self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*2)
             self.goonMinStrength = 8
             self.goonMaxStrength = 38
             self.goonMinScale = 0.6
-            self.goonMaxScale = 2.2
+            self.goonMaxScale = 2.4
             self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 1.4
             self.b_setBonusUnites(1)
-        else:
-            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage)
+        elif self.battleDifficulty >= 3:
+            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*1.5)
+            self.goonMinStrength = 8
+            self.goonMaxStrength = 36
+            self.goonMinScale = 0.6
+            self.goonMaxScale = 2.2
+            self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 1.3
+            self.b_setBonusUnites(1)
+        elif self.battleDifficulty >= 2:
+            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage*1.2)
             self.goonMinStrength = 5
             self.goonMaxStrength = 35
             self.goonMinScale = 0.5
-            self.goonMaxScale = 2.0
+            self.goonMaxScale = 2.1
+            self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage * 1.2
+            self.b_setBonusUnites(0)
+        else:
+            self.b_setMaxHp(ToontownGlobals.CashbotBossMaxDamage)
+            self.goonMinStrength = 3
+            self.goonMaxStrength = 32
+            self.goonMinScale = 0.3
+            self.goonMaxScale = 1.7
             self.knockoutDamage = ToontownGlobals.CashbotBossKnockoutDamage
             self.b_setBonusUnites(0)
 
@@ -585,7 +607,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
          'isVirtual': 0,
          'activeToons': self.involvedToons[:]})
         self.barrier = self.beginBarrier('Victory', self.involvedToons, 30, self.__doneVictory)
-        return
 
     def __doneVictory(self, avIds):
         self.d_setBattleExperience()
