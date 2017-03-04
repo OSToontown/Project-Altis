@@ -444,6 +444,10 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(rToon.clearChat),
             Func(base.camera.wrtReparentTo, self.geom),
             base.camera.posHprInterval(1, Point3(105, -326, 20), VBase3(-45.3, 15, 0), blendType='easeInOut'),
+            Parallel(
+                self.door2.posInterval(4.5, VBase3(0, 0, 0)),
+                self.door3.posInterval(4.5, VBase3(0, 0, 0)),
+            Sequence(
             Func(self.setChatAbsolute, TTL.CashbotBossTrapped, CFSpeech),
             Wait(4),
             Func(self.clearChat),
@@ -453,7 +457,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Wait(2),
             Func(self.clearChat),
             Func(self.getGeomNode().setH, 0),
-            Func(self.midCutsceneMusic.stop))
+            Func(self.midCutsceneMusic.stop))))
         return Sequence(Func(base.camera.reparentTo, self), base.camera.posHprInterval(1, Point3(0, -27, 25), VBase3(0, -18, 0), blendType='easeInOut'), track, Func(base.camera.reparentTo, render))
 		
     def createWalkInInterval(self):
