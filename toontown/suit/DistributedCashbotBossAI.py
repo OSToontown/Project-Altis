@@ -9,6 +9,7 @@ from toontown.battle import BattleExperienceAI
 from toontown.chat import ResistanceChat
 from direct.fsm import FSM
 from toontown.suit import DistributedBossCogAI
+from otp.avatar import DistributedAvatarAI
 from toontown.suit import SuitDNA
 import random
 from otp.ai.MagicWordGlobal import *
@@ -337,6 +338,10 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         if self.state != 'BattleThree':
             return
         self.b_setBossDamage(self.bossDamage + damage)
+        healthDisp = int(self.bossMaxDamage - self.bossDamage)
+        if healthDisp < 0:
+           healthDisp = 0
+        self.setHealthTag(str(healthDisp) + '/' + str(int(self.bossMaxDamage)))
         if self.bossDamage >= self.bossMaxDamage:
             self.b_setState('Victory')
         elif self.attackCode != ToontownGlobals.BossCogDizzy:

@@ -55,9 +55,9 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def announceGenerate(self):
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
         base.cr.forbidCheesyEffects(1)
-        self.setName(TTLocalizer.CashbotBossName)
-        nameInfo = TTLocalizer.BossCogNameWithDept % {'name': self.name,
+        nameInfo = TTLocalizer.BossCogNameWithDept % {'name': TTLocalizer.CashbotBossName,
          'dept': SuitDNA.getDeptFullname(self.style.dept)}
+        self.setName(nameInfo)
         self.setDisplayName(nameInfo)
         target = CollisionSphere(2, 0, 0, 3)
         targetNode = CollisionNode('headTarget')
