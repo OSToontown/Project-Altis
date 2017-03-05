@@ -110,12 +110,30 @@ class ItemsPage(ShtikerPage.ShtikerPage):
         
     def enter(self):
         ShtikerPage.ShtikerPage.enter(self)
+        self.nametagStyle_index = settings.get('lastNametag', {})[str(base.localAvatar.doId)]
+        self.fishingRods_index = settings.get('lastRod', {})[str(base.localAvatar.doId)]
+        self.cheesyEffect_index = settings.get('lastEffect', {})[str(base.localAvatar.doId)]
+        
         self.__updateNametagStyle()
         self.__updateFishingRods()
         self.__updateCheesyEffect()
 
     def exit(self):
         ShtikerPage.ShtikerPage.exit(self)
+
+        nametagStyle_index = settings.get('lastNametag', {})
+        fishingRods_index = settings.get('lastRod', {})
+        cheesyEffect_index = settings.get('lastEffect', {})
+                
+        nametagStyle_index[str(base.localAvatar.doId)] = self.nametagStyle_index
+        settings['lastNametag'] = nametagStyle_index
+        
+        fishingRods_index[str(base.localAvatar.doId)] = self.fishingRods_index
+        settings['lastRod'] = fishingRods_index
+        
+        cheesyEffect_index[str(base.localAvatar.doId)] = self.cheesyEffect_index
+        settings['lastEffect'] = cheesyEffect_index
+        
         if self.nametagStyle_index != -1 and self.nametagStyle_index != base.localAvatar.nametagStyles.index(base.localAvatar.getNametagStyle()):
             base.localAvatar.requestNametagStyle(base.localAvatar.nametagStyles[self.nametagStyle_index])
         if self.fishingRods_index != -1 and self.fishingRods_index != base.localAvatar.fishingRods.index(base.localAvatar.getFishingRod()):
