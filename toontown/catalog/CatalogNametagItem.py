@@ -53,7 +53,6 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
     def recordPurchase(self, avatar, optional):
         if avatar:
             avatar.nametagStyles.append(self.nametagStyle)
-            avatar.b_setNametagStyles.append(avatar.nametagStyle)
             avatar.b_setNametagStyle(self.nametagStyle)
         return ToontownGlobals.P_ItemAvailable
 
