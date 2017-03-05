@@ -347,9 +347,9 @@ class TalkAssistant(DirectObject.DirectObject):
                     if base.localAvatar.getAdminAccess() >= 375:
                         avatarName = "\1WLEnter\1(%s)\2%s" %(accountId, avatarName)
                     if self.isThought(message):
-                        base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message))
+                        base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message), senderAvId)
                     else:
-                        base.cr.chatLog.addToLog("\1playerGreen\1%s\2: %s" %(avatarName, message))
+                        base.cr.chatLog.addToLog("\1playerGreen\1%s\2: %s" %(avatarName, message), senderAvId)
 
             if newMessage.getBody() == OTPLocalizer.AntiSpamInChat:
                 self.spamDictByDoId[senderAvId] = 1
@@ -379,7 +379,7 @@ class TalkAssistant(DirectObject.DirectObject):
             if base.localAvatar.getAdminAccess() >= 375:
                 avatarName = "\1WLEnter\1(%s)\2%s" %(accountId, avatarName)
 
-            base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(avatarName, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(avatarName, message), avatarId)
         return error
 
     def receiveAccountTalk(self, avatarId, avatarName, accountId, accountName, toId, toName, message, scrubbed = 0):
@@ -459,7 +459,7 @@ class TalkAssistant(DirectObject.DirectObject):
             if base.localAvatar.getAdminAccess() >= 375:
                 avatarName = "\1WLEnter\1(%s)\2%s" %(accountId, avatarName)
 
-            base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s thinks\2: %s" %(avatarName, message), avatarId)
         return error
 
     def receiveGameMessage(self, message):
@@ -567,7 +567,7 @@ class TalkAssistant(DirectObject.DirectObject):
             if base.localAvatar.getAdminAccess() >= 375:
                 name = "\1WLEnter\1(%s)\2%s" %(senderAvId, name)
 
-            base.cr.chatLog.addToLog("\1playerGreen\1%s\2: %s" %(name, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s\2: %s" %(name, message), senderAvId)
         return error
 
     def receiveAvatarWhisperSpeedChat(self, type, messageIndex, senderAvId, name = None):
@@ -588,7 +588,7 @@ class TalkAssistant(DirectObject.DirectObject):
         if hasattr(base.cr, 'chatLog'):
             if base.localAvatar.getAdminAccess() >= 375:
                 name = "\1WLEnter\1(%s)\2%s" %(senderAvId, name)
-            base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(name, message))
+            base.cr.chatLog.addToLog("\1playerGreen\1%s whispers\2: \1WLDisplay\1%s\2" %(name, message), senderAvId)
         return error
 
     def receivePlayerWhisperSpeedChat(self, type, messageIndex, senderAvId, name = None):
