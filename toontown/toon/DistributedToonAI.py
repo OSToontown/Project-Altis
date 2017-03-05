@@ -1676,6 +1676,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.maxCarry
 
     def b_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+        if effect not in self.cheesyEffects:
+            self.cheesyEffects.append(effect)
+            self.b_setCheesyEffects(self.cheesyEffects)
         self.setCheesyEffect(effect, hoodId, expireTime)
         self.d_setCheesyEffect(effect, hoodId, expireTime)
 
@@ -1697,7 +1700,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return
 
     def getCheesyEffect(self):
-        return (self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime)
+        return (self.savedCheesyEffect)
 
     def __undoCheesyEffect(self, task):
         self.b_setCheesyEffect(ToontownGlobals.CENormal, 0, 0)
@@ -1708,10 +1711,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setCheesyEffects(ce)
         
     def d_setCheesyEffects(self, ce):
-        self.sendUpdate('setCheesyEffects', [ce])
+        try:
+            self.sendUpdate('setCheesyEffects', [ce])
+        except:
+            self.sendUpdate('setCheesyEffects', [0])
         
     def setCheesyEffects(self, ce):
         self.cheesyEffects = ce
+        if self.getCheesyEffect() not in self.cheesyEffects:
+            self.cheesyEffects.append(self.getCheesyEffect())
+            self.b_setCheesyEffects(self.cheesyEffects)
         
     def getCheesyEffects(self):
         return self.cheesyEffects
@@ -3896,7 +3905,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setNametagStyles(self, nametagStyles):
         self.nametagStyles = nametagStyles
-
+        if self.getNametagStyle() not in self.nametagStyles:
+            self.nametagStyles.append(self.getNametagStyle())
+            self.b_setNametagStyles(self.nametagStyles)
+            
     def getNametagStyles(self):
         return self.nametagStyles
     
@@ -3907,6 +3919,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setNametagStyle(nametagStyle)
 
     def b_setFishingRods(self, rods):
+        if rods not in self.fishingRods:
+            self.fishingRods.append(rods)
+            self.b_setFishingRods(self.fishingRods)
         self.d_setFishingRods(rods)
         self.setFishingRods(rods)
         
@@ -3915,6 +3930,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         
     def setFishingRods(self, rods):
         self.fishingRods = rods
+        if self.getFishingRod() not in self.fishingRods:
+            self.fishingRods.append(self.getFishingRod())
+            self.b_setFishingRods(self.fishingRods)
         
     def getFishingRods(self):
         return self.fishingRods

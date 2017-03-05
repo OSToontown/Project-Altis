@@ -17834,7 +17834,7 @@ class CheesyEffectReward(Reward):
         if not self.getEffect() in av.getCheesyEffects():
             av.cheesyEffects.append(self.getEffect())
             av.b_setCheesyEffects(avatar.getCheesyEffects())
-            av.b_setCheesyEffect(self.getEffect())
+        av.b_setCheesyEffect(self.getEffect())
 
     def countReward(self, qrc):
         pass
