@@ -37827,7 +37827,6 @@ WHITELIST = [
     'zillerzilla',
     'zillerzoom',
     'zillion',
-    'zimmer',
     'zing',
     'zinger',
     'zingers',
