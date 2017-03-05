@@ -3877,44 +3877,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getNametagStyle(self):
         return self.nametagStyle
 
-    def b_setNametagStyles(self, nametagStyles):
-        self.d_setNametagStyles(nametagStyles)
-        self.setNametagStyles(nametagStyles)
-
-    def d_setNametagStyles(self, nametagStyles):
-        self.sendUpdate('setNametagStyles', [nametagStyles])
-
-    def setNametagStyles(self, nametagStyles):
-        self.nametagStyles = nametagStyles
-
-    def getNametagStyles(self):
-        return self.nametagStyles
-    
-    def requestNametagStyle(self, nametagStyle):
-        if nametagStyle not in self.nametagStyles:
-            return
-
-        self.b_setNametagStyle(nametagStyle)
-
-    def b_setFishingRods(self, rods):
-        self.d_setFishingRods(rods)
-        self.setFishingRods(rods)
-        
-    def d_setFishingRods(self, rods):
-        self.sendUpdate('setFishingRods', [rods])
-        
-    def setFishingRods(self, rods):
-        self.fishingRods = rods
-        
-    def getFishingRods(self):
-        return self.fishingRods
-        
-    def requestFishingRod(self, rodId):
-        if rodId not in self.fishingRods:
-            return
-            
-        self.b_setFishingRod(rodId)
-        
     def logMessage(self, message):
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
@@ -4905,9 +4867,6 @@ def fishingRod(rod):
     if not 0 <= rod <= 4:
         return 'Rod value must be in xrange (0-4).'
     target = spellbook.getTarget()
-    if rod not in target.fishingRods:
-        target.fishingRods.append(rod)
-        target.b_setFishingRods(target.fishingRods)
     target.b_setFishingRod(rod)
     return "Set %s's fishing rod to %d!" % (target.getName(), rod)
 
@@ -5455,10 +5414,6 @@ def nametagStyle(nametagStyle):
     if nametagStyle != 0 and nametagStyle != 10 and currentAccess == CATEGORY_MODERATOR.defaultAccess:
         return 'Invalid access level!'
     target = spellbook.getTarget()
-
-    if nametagStyle not in target.nametagStyles:
-        target.nametagStyles.append(nametagStyle)
-        target.b_setNametagStyles(target.nametagStyles)
     target.b_setNametagStyle(nametagStyle)
     return 'Nametag style set to: %s.' % TTLocalizer.NametagFontNames[nametagStyle]
 

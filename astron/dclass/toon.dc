@@ -533,7 +533,6 @@ from toontown.suit import DistributedSuit/AI
 from toontown.suit import DistributedTutorialSuit/AI
 from toontown.suit import DistributedFactorySuit/AI
 from toontown.suit import DistributedMintSuit/AI
-from toontown.suit import DistributedBoardOfficeSuit/AI
 from toontown.suit import DistributedStageSuit/AI
 from toontown.suit import DistributedSellbotBoss/AI
 from toontown.suit import DistributedCashbotBoss/AI
@@ -622,7 +621,6 @@ from toontown.building import DistributedElevatorExt/AI
 from toontown.building import DistributedElevatorInt/AI
 from toontown.coghq import DistributedFactoryElevatorExt/AI
 from toontown.coghq import DistributedMintElevatorExt/AI
-from toontown.coghq.boardbothq import DistributedBoardOfficeElevatorExt/AI
 from toontown.coghq import DistributedLawOfficeElevatorExt/AI
 from toontown.coghq import DistributedLawOfficeElevatorInt/AI
 from toontown.building import DistributedElevatorFloor/AI
@@ -689,9 +687,6 @@ from toontown.ai import DistributedWinterCarolingTarget/AI
 from toontown.coghq import DistributedMint/AI
 from toontown.coghq import DistributedMintRoom/AI
 from toontown.coghq import DistributedMintBattle/AI
-from toontown.coghq.boardbothq import DistributedBoardOffice/AI
-from toontown.coghq.boardbothq import DistributedBoardOfficeRoom/AI
-from toontown.coghq.boardbothq import DistributedBoardOfficeBattle/AI
 from toontown.coghq import DistributedStage/AI
 from toontown.coghq import DistributedStageRoom/AI
 from toontown.coghq import DistributedStageBattle/AI
@@ -818,9 +813,6 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
-from toontown.betaevent import DistributedEvent/AI
-from toontown.betaevent import DistributedBetaEvent/AI
-from toontown.betaevent import DistributedBetaEventTTC/AI
 from toontown.weather import DistributedWeatherCycle/AI
 from toontown.weather import DistributedWeatherStorm/AI
 from toontown.club import DistributedToonClub/AI
@@ -1064,7 +1056,6 @@ dclass DistributedToon : DistributedPlayer {
   setMaxFishTank(uint8 = 20) required ownrecv db;
   setFishTank(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
   setFishingRod(uint8 = 0) required broadcast ownrecv db;
-  setFishingRods(uint8[] = [0]) required broadcast ownrecv db;
   setFishingTrophies(uint8[] = []) required ownrecv db;
   setFlowerCollection(uint8[] = [], uint8[] = []) required ownrecv db;
   setFlowerBasket(uint8[] = [], uint8[] = []) required ownrecv db;
@@ -1128,8 +1119,7 @@ dclass DistributedToon : DistributedPlayer {
   logMessage(char [0-1024]) ownsend airecv;
   forceLogoutWithNotify() ownrecv;
   setPinkSlips(uint8 = 0) required ownrecv db;
-  setNametagStyle(uint8 = 1) required broadcast ownrecv db;
-  setNametagStyles(uint8[] = [0]) required broadcast ownrecv db;
+  setNametagStyle(uint8 = 0) required broadcast ownrecv db;
   setMail(simpleMail []) ownrecv airecv ram;
   setNumMailItems(uint32) airecv;
   setSimpleMailNotify(uint8) ownrecv airecv;
@@ -1155,8 +1145,6 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
-  requestNametagStyle(uint8) airecv ownsend;
-  requestFishingRod(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
 };
@@ -1297,9 +1285,6 @@ dclass DistributedFactorySuit : DistributedSuitBase {
 };
 
 dclass DistributedMintSuit : DistributedFactorySuit {
-};
-
-dclass DistributedBoardOfficeSuit : DistributedFactorySuit {
 };
 
 dclass DistributedStageSuit : DistributedFactorySuit {
@@ -1469,9 +1454,6 @@ dclass DistributedBattleFactory : DistributedLevelBattle {
 };
 
 dclass DistributedMintBattle : DistributedLevelBattle {
-};
-
-dclass DistributedBoardOfficeBattle : DistributedLevelBattle {
 };
 
 dclass DistributedStageBattle : DistributedLevelBattle {
@@ -2545,12 +2527,6 @@ dclass DistributedMintElevatorExt : DistributedElevatorExt {
   setMintInteriorZoneForce(uint32);
 };
 
-dclass DistributedBoardOfficeElevatorExt : DistributedElevatorExt {
-  setBoardOfficeId(uint16) required broadcast ram;
-  setBoardOfficeInteriorZone(uint32);
-  setBoardOfficeInteriorZoneForce(uint32);
-};
-
 dclass DistributedCogdoElevatorExt : DistributedElevatorExt {
 };
 
@@ -2770,23 +2746,8 @@ dclass DistributedMint : DistributedObject {
   setRoomDoIds(uint32[]) broadcast ram;
 };
 
-dclass DistributedBoardOffice : DistributedObject {
-  setZoneId(uint32) required broadcast ram;
-  setBoardOfficeId(uint16) required broadcast ram;
-  setFloorNum(uint8) required broadcast ram;
-  setRoomDoIds(uint32[]) broadcast ram;
-};
-
 dclass DistributedMintRoom : DistributedLevel {
   setMintId(uint16) required broadcast ram;
-  setRoomId(uint16) required broadcast ram;
-  setRoomNum(uint8) required broadcast ram;
-  setSuits(uint32[], uint32[]) broadcast ram;
-  setBossConfronted(uint32) broadcast ram;
-  setDefeated() broadcast ram;
-};
-dclass DistributedBoardOfficeRoom : DistributedLevel {
-  setBoardOfficeId(uint16) required broadcast ram;
   setRoomId(uint16) required broadcast ram;
   setRoomNum(uint8) required broadcast ram;
   setSuits(uint32[], uint32[]) broadcast ram;
@@ -3990,16 +3951,6 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
 
-dclass DistributedEvent : DistributedObject {
-  start() broadcast ram;
-  setState(string, int32) broadcast ram;
-};
-
-dclass DistributedBetaEvent : DistributedEvent {
-};
-
-dclass DistributedBetaEventTTC : DistributedEvent {
-};
 dclass CharityScreen : DistributedObject {
    start() broadcast;
    setCount(uint16) broadcast ram;

@@ -16,7 +16,7 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        return self.rodId in avatar.getFishingRods() or self in avatar.onOrder or self in avatar.mailboxContents
+        return avatar.getFishingRod() >= self.rodId or self in avatar.onOrder or self in avatar.mailboxContents
 
     def saveHistory(self):
         return 1
@@ -31,8 +31,9 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
         if self.rodId < 0 or self.rodId > FishGlobals.MaxRodId:
             self.notify.warning('Invalid fishing pole: %s for avatar %s' % (self.rodId, avatar.doId))
             return ToontownGlobals.P_InvalidIndex
-        avatar.fishingRods.append(self.rodId)
-        avatar.b_setFishingRods.append(avatar.fishingRod)
+        if self.rodId < avatar.getFishingRod():
+            self.notify.warning('Avatar already has pole: %s for avatar %s' % (self.rodId, avatar.doId))
+            return ToontownGlobals.P_ItemUnneeded
         avatar.b_setFishingRod(self.rodId)
         return ToontownGlobals.P_ItemAvailable
 

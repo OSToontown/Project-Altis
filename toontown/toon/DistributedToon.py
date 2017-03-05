@@ -2259,7 +2259,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'nametagStyle'):
             return self.nametagStyle
 
-        return 1
+        return 0
 
     def setNametagStyle(self, nametagStyle):
         if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
@@ -2268,31 +2268,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             nametagStyle = 0
         self.nametagStyle = nametagStyle
         self.setDisplayName(self.getName())
-        
-    def getNametagStyles(self):
-        return self.nametagStyles
-        
-    def setNametagStyles(self, nametagStyles):
-        self.nametagStyles = nametagStyles
-    
-    def requestNametagStyle(self, nametagStyle):
-        if nametagStyle not in self.nametagStyles:
-            return
-        
-        self.sendUpdate('requestNametagStyle', [nametagStyle])
 
-    def getFishingRods(self):
-        return self.fishingRods
-        
-    def setFishingRods(self, fishingRods):
-        self.fishingRods = fishingRods
-        
-    def requestFishingRod(self, rodId):
-        if rodId not in self.fishingRods:
-            return
-            
-        self.sendUpdate('requestFishingRod', [rodId])
-        
     def getAvIdName(self):
         paidStr = PythonUtil.choice(self.getGameAccess() == OTPGlobals.AccessFull, 'P', 'F')
         return '%s\n%s (%s)' % (self.getName(), self.doId, paidStr)

@@ -9,7 +9,7 @@ def isGoofySpeedwayZone(zoneId):
 
 
 def isCogHQZone(zoneId):
-    return zoneId >= 10000 and zoneId < 15000 or (zoneId >= 19000 and zoneId <= 19999)
+    return zoneId >= 10000 and zoneId < 15000
 
 
 def isMintInteriorZone(zoneId):
@@ -104,8 +104,6 @@ def getWhereName(zoneId, isToon):
                     where = 'factoryInterior'
                 elif getHoodId(zoneId) == CashbotHQ:
                     where = 'mintInterior'
-                elif getHoodId(zoneId) == BoardbotHQ:
-                    where = 'boardofficeInterior'
                 else:
                     zoneUtilNotify.error('unknown cogHQ interior for hood: ' + str(getHoodId(zoneId)))
             else:

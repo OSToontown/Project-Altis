@@ -19,22 +19,22 @@ class MapPage(ShtikerPage.ShtikerPage):
         mapModel.removeNode()
         self.allZones = []
         for hood in ToontownGlobals.Hoods:
-            if hood not in [ToontownGlobals.GolfZone, ToontownGlobals.FunnyFarm, ToontownGlobals.PartyHood]:
+            if hood not in [ToontownGlobals.GolfZone, ToontownGlobals.FunnyFarm]:
                 self.allZones.append(hood)
 
-        self.cloudScaleList = (((0.55, 0, 0.4), (0.35, 0, 0.25)), # DD
-         (),# TTC
-         ((0.45, 0, 0.45), (0.5, 0, 0.4)),# TB
-         ((0.7, 0, 0.45),),# MML
-         ((0.55, 0, 0.4),),# DG
-         ((0.6, 0, 0.4), (0.5332, 0, 0.32)),# OZ
-         ((0.7, 0, 0.45), (0.7, 0, 0.45)),# GS
-         ((0.7998, 0, 0.39),), # DDL
-         ((0.5, 0, 0.4),), # BBHQ
-         ((-0.45, 0, 0.4),),# SBHQ
-         ((-0.45, 0, 0.35),),# CBHQ
-         ((0.5, 0, 0.35),),# LBHQ
-         ((0.55, 0, 0.35),))# BDHQ
+        self.cloudScaleList = (((0.55, 0, 0.4), (0.35, 0, 0.25)),
+         (),
+         ((0.45, 0, 0.45), (0.5, 0, 0.4)),
+         ((0.7, 0, 0.45),),
+         ((0.55, 0, 0.4),),
+         ((0.6, 0, 0.4), (0.5332, 0, 0.32)),
+         ((0.7, 0, 0.45), (0.7, 0, 0.45)),
+         ((0.7998, 0, 0.39),),
+         ((0.5, 0, 0.4),),
+         ((-0.45, 0, 0.4),),
+         ((-0.45, 0, 0.35),),
+         ((0.5, 0, 0.35),),
+         ((0.5, 0, 0.35),))
         self.cloudPosList = (((0.575, 0.0, -0.04), (0.45, 0.0, -0.25)),
          (),
          ((0.375, 0.0, 0.4), (0.5625, 0.0, 0.2)),
@@ -47,7 +47,7 @@ class MapPage(ShtikerPage.ShtikerPage):
          ((-0.68, 0.0, -0.444),),
          ((-0.6, 0.0, 0.45),),
          ((0.66, 0.0, 0.5),),
-         ((-0.5, 0.0, 0.25),))
+         ((0.4, 0.0, -0.35),))
         self.labelPosList = ((0.594, 0.0, -0.075),
          (0.0, 0.0, -0.1),
          (0.475, 0.0, 0.25),
@@ -60,7 +60,7 @@ class MapPage(ShtikerPage.ShtikerPage):
          (-0.7, 0.0, -0.5),
          (-0.7, 0.0, 0.5),
          (0.7, 0.0, 0.5),
-         (-0.5, 0.0, 0.25))
+         (0.45, 0.0, -0.45))
         self.labels = []
         self.clouds = []
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
