@@ -1050,7 +1050,7 @@ dclass DistributedToon : DistributedPlayer {
   setQuestCarryLimit(uint8 = 1) required ownrecv db;
   requestDeleteQuest(uint32[]) ownsend airecv;
   setCheesyEffect(int16 = 0, uint32 = 0, uint32 = 0) required broadcast ownrecv db;
-  setCheesyEffects(int16 = [0]) required broadcast ownrecv db;
+  setCheesyEffects(int16[] = [0 * 77]) required broadcast ownrecv db;
   setGhostMode(uint8) broadcast ownrecv ram;
   setPosIndex(uint8 = 0) required ownrecv db;
   setFishCollection(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
