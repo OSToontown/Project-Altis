@@ -53,6 +53,7 @@ from toontown.shtiker import ShtikerBook
 from toontown.shtiker import SuitPage
 from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
+from toontown.shtiker import ItemsPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
 import StreamerMode, ChatLog
@@ -267,12 +268,24 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         acceptingNewFriends = settings.get('acceptingNewFriends', {})
         acceptingNonFriendWhispers = settings.get('acceptingNonFriendWhispers', {})
+        nametagStyle_index = settings.get('lastNametag', {})
+        fishingRods_index = settings.get('lastRod', {})
+        cheesyEffect_index = settings.get('lastEffect', {})
         if str(self.doId) not in acceptingNewFriends:
             acceptingNewFriends[str(self.doId)] = True
             settings['acceptingNewFriends'] = acceptingNewFriends
         if str(self.doId) not in acceptingNonFriendWhispers:
             acceptingNonFriendWhispers[str(self.doId)] = True
             settings['acceptingNonFriendWhispers'] = acceptingNonFriendWhispers
+        if str(self.doId) not in nametagStyle_index:
+            nametagStyle_index[str(self.doId)] = 0
+            settings['lastNametag'] = nametagStyle_index
+        if str(self.doId) not in fishingRods_index:
+            fishingRods_index[str(self.doId)] = 0
+            settings['lastRod'] = fishingRods_index
+        if str(self.doId) not in cheesyEffect_index:
+            cheesyEffect_index[str(self.doId)] = 0
+            settings['lastEffect'] = cheesyEffect_index
         self.acceptingNewFriends = acceptingNewFriends[str(self.doId)]
         self.acceptingNonFriendWhispers = acceptingNonFriendWhispers[str(self.doId)]
 
@@ -388,6 +401,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.fishPage.setAvatar(self)
         self.fishPage.load()
         self.book.addPage(self.fishPage, pageName=TTLocalizer.FishPageTitle)
+        self.itemsPage = ItemsPage.ItemsPage()
+        self.itemsPage.load()
+        self.book.addPage(self.itemsPage, pageName = TTLocalizer.ItemsPageTitle)
         if base.wantAchievements:
             self.achievementsPage = AchievementsPage.AchievementsPage()
             self.achievementsPage.setAvatar(self)
