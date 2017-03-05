@@ -1,0 +1,123 @@
+from direct.directnotify import DirectNotifyGlobal
+from toontown.battle import BattlePlace
+from direct.fsm import ClassicFSM, State
+from direct.fsm import State
+from toontown.toonbase import ToontownGlobals
+from toontown.building import Elevator
+from panda3d.core import *
+from toontown.coghq import CogHQExterior
+from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
+from toontown.hood import ZoneUtil
+
+class BoardbotHQExterior(CogHQExterior.CogHQExterior):
+    """
+    notify = DirectNotifyGlobal.directNotify.newCategory('BoardbotHQExterior')
+    dnaFile = 'phase_11/dna/cog_hq_lawbot_sz.pdna'
+
+    def enter(self, requestStatus):
+        CogHQExterior.CogHQExterior.enter(self, requestStatus)
+        # Load the CogHQ DNA file:
+        dnaStore = DNAStorage()
+        dnaFileName = self.genDNAFileName(self.zoneId)
+        loadDNAFileAI(dnaStore, dnaFileName)
+
+        # Collect all of the vis group zone IDs:
+        self.zoneVisDict = {}
+        for i in xrange(dnaStore.getNumDNAVisGroupsAI()):
+            groupFullName = dnaStore.getDNAVisGroupName(i)
+            visGroup = dnaStore.getDNAVisGroupAI(i)
+            visZoneId = int(base.cr.hoodMgr.extractGroupName(groupFullName))
+            visZoneId = ZoneUtil.getTrueZoneId(visZoneId, self.zoneId)
+            visibles = []
+            for i in xrange(visGroup.getNumVisibles()):
+                visibles.append(int(visGroup.visibles[i]))
+            visibles.append(ZoneUtil.getBranchZone(visZoneId))
+            self.zoneVisDict[visZoneId] = visibles
+
+        # Next, we want interest in all vis groups due to this being a Cog HQ:
+        base.cr.sendSetZoneMsg(self.zoneId, self.zoneVisDict.values()[0])
+    """
+        
+    # TEMP:
+    notify = DirectNotifyGlobal.directNotify.newCategory('CashbotHQExterior')
+
+    def __init__(self, loader, parentFSM, doneEvent):
+        CogHQExterior.CogHQExterior.__init__(self, loader, parentFSM, doneEvent)
+        self.elevatorDoneEvent = 'elevatorDone'
+        self.trains = None
+        self.fsm.addState(State.State('elevator', self.enterElevator, self.exitElevator, ['walk', 'stopped']))
+        state = self.fsm.getStateNamed('walk')
+        state.addTransition('elevator')
+        state = self.fsm.getStateNamed('stopped')
+        state.addTransition('elevator')
+        state = self.fsm.getStateNamed('stickerBook')
+        state.addTransition('elevator')
+        state = self.fsm.getStateNamed('squished')
+        state.addTransition('elevator')
+        return
+
+    def load(self):
+        CogHQExterior.CogHQExterior.load(self)
+
+    def unload(self):
+        CogHQExterior.CogHQExterior.unload(self)
+
+    def enter(self, requestStatus):
+        CogHQExterior.CogHQExterior.enter(self, requestStatus)
+
+        # Load the CogHQ DNA file:
+        dnaStore = DNAStorage()
+        dnaFileName = self.genDNAFileName(self.zoneId)
+        loadDNAFileAI(dnaStore, dnaFileName)
+
+        # Collect all of the vis group zone IDs:
+        self.zoneVisDict = {}
+        for i in xrange(dnaStore.getNumDNAVisGroupsAI()):
+            groupFullName = dnaStore.getDNAVisGroupName(i)
+            visGroup = dnaStore.getDNAVisGroupAI(i)
+            visZoneId = int(base.cr.hoodMgr.extractGroupName(groupFullName))
+            visZoneId = ZoneUtil.getTrueZoneId(visZoneId, self.zoneId)
+            visibles = []
+            for i in xrange(visGroup.getNumVisibles()):
+                visibles.append(int(visGroup.visibles[i]))
+            visibles.append(ZoneUtil.getBranchZone(visZoneId))
+            self.zoneVisDict[visZoneId] = visibles
+
+        # Next, we want interest in all vis groups due to this being a Cog HQ:
+        base.cr.sendSetZoneMsg(self.zoneId, self.zoneVisDict.values()[0])
+
+    def exit(self):
+        CogHQExterior.CogHQExterior.exit(self)
+
+    def enterElevator(self, distElevator, skipDFABoard = 0):
+        self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
+        self.elevator = Elevator.Elevator(self.fsm.getStateNamed('elevator'), self.elevatorDoneEvent, distElevator)
+        if skipDFABoard:
+            self.elevator.skipDFABoard = 1
+        self.elevator.load()
+        self.elevator.enter()
+
+    def exitElevator(self):
+        self.ignore(self.elevatorDoneEvent)
+        self.elevator.unload()
+        self.elevator.exit()
+        del self.elevator
+
+    def detectedElevatorCollision(self, distElevator):
+        self.fsm.request('elevator', [distElevator])
+
+    def handleElevatorDone(self, doneStatus):
+        self.notify.debug('handling elevator done event')
+        where = doneStatus['where']
+        if where == 'reject':
+            if hasattr(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
+                pass
+            else:
+                self.fsm.request('walk')
+        elif where == 'exit':
+            self.fsm.request('walk')
+        elif where == 'boardofficeInterior':
+            self.doneStatus = doneStatus
+            messenger.send(self.doneEvent)
+        else:
+            self.notify.error('Unknown mode: ' + where + ' in handleElevatorDone')

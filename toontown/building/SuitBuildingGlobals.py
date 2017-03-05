@@ -67,6 +67,8 @@ buildingMinMax = {
                                 config.GetInt('elm-street-building-max', 6)),
     ToontownGlobals.MapleStreet: (config.GetInt('maple-street-building-min', 2),
                                   config.GetInt('maple-street-building-max', 6)),
+    ToontownGlobals.RoseValley: (config.GetInt('rose-valley-building-min', 0),
+                                  config.GetInt('rose-valley-building-max', 0)),
     ToontownGlobals.OakStreet: (config.GetInt('oak-street-building-min', 2),
                                 config.GetInt('oak-street-building-max', 6)),
     ToontownGlobals.RoseValley: (config.GetInt('rose-valley-building-min', 2),
@@ -93,7 +95,8 @@ buildingMinMax = {
     ToontownGlobals.SellbotFactoryExt: (0, 0),
     ToontownGlobals.CashbotHQ: (0, 0),
     ToontownGlobals.LawbotHQ: (0, 0),
-    ToontownGlobals.BossbotHQ: (0, 0)
+    ToontownGlobals.BossbotHQ: (0, 0),
+    ToontownGlobals.BoardbotHQ : (0, 0)
 }
 
 buildingChance = {
@@ -106,6 +109,7 @@ buildingChance = {
     ToontownGlobals.AhoyAvenue: config.GetFloat('ahoy-avenue-building-chance', 50.0),
     ToontownGlobals.ElmStreet: config.GetFloat('elm-street-building-chance', 90.0),
     ToontownGlobals.MapleStreet: config.GetFloat('maple-street-building-chance', 90.0),
+    ToontownGlobals.MapleStreet: config.GetFloat('rose-valley-building-chance', 0.0),
     ToontownGlobals.OakStreet: config.GetFloat('oak-street-building-chance', 90.0),
     ToontownGlobals.RoseValley: config.GetFloat('rose-valley-building-chance', 90.0),
     ToontownGlobals.AltoAvenue: config.GetFloat('alto-avenue-building-chance', 95.0),
@@ -121,5 +125,6 @@ buildingChance = {
     ToontownGlobals.SellbotFactoryExt: 0.0,
     ToontownGlobals.CashbotHQ: 0.0,
     ToontownGlobals.LawbotHQ: 0.0,
-    ToontownGlobals.BossbotHQ: 0.0
+    ToontownGlobals.BossbotHQ: 0.0,
+    ToontownGlobals.BoardbotHQ: 0.0
 }

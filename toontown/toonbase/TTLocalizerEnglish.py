@@ -135,7 +135,13 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  13300: ('to the', 'in the', 'Lawbot A Office'),
  13400: ('to the', 'in the', 'Lawbot B Office'),
  13500: ('to the', 'in the', 'Lawbot C Office'),
- 13600: ('to the', 'in the', 'Lawbot D Office')}
+ 13600: ('to the', 'in the', 'Lawbot D Office'),
+ 19000: ('to the', 'in the', 'Boardbot HQ Courtyard'),
+ 19100: ('to the', 'in the', 'Board Office Lobby'),
+ 19200: ('to the', 'in the', 'Board Office'),
+ 19500: ('to the', 'in the', 'Board Office A'),
+ 19600: ('to the', 'in the', 'Board Office B'),
+ 19700: ('to the', 'in the', 'Board Office C')}
 DonaldsDock = ('to', 'in', lDonaldsDock)
 ToontownCentral = ('to', 'in', lToontownCentral)
 TheBrrrgh = ('to', 'in', lTheBrrrgh)
@@ -149,6 +155,7 @@ BossbotHQ = ('to', 'in', 'Bossbot HQ')
 SellbotHQ = ('to', 'in', 'Sellbot HQ')
 CashbotHQ = ('to', 'in', 'Cashbot HQ')
 LawbotHQ = ('to', 'in', 'Lawbot HQ')
+BoardbotHQ = ('to', 'in', 'Boardbot HQ')
 Tutorial = ('to the', 'in the', 'Toon-torial')
 MyEstate = ('to', 'in', 'your house')
 WelcomeValley = ('to', 'in', 'Welcome Valley')
@@ -204,6 +211,9 @@ APresident = 'a Club President'
 Clerk = 'Clerk'
 ClerkP = 'Clerks'
 AClerk = 'a Clerk'
+BoardExecutive = 'Executive Board Member'
+BoardExecutiveP = 'Executive Board Members'
+ABoardExecutive = 'a Executive Board Member'
 CogCFO = Cog + ' C.F.O.'
 CogCFOs = "Cog C.F.O.'s"
 ACogCFO = ACog + ' C.F.O.'
@@ -1847,6 +1857,8 @@ StageBossTaunt = "My Justice isn't Blind."
 StageBossBattleTaunt = 'I am above the Law.'
 CountryClubBossTaunt = "I'm the Club President."
 CountryClubBossBattleTaunt = 'You need to talk to the Club President.'
+BoardOfficeBossTaunt = "I'm the Executive Board Member."
+BoardOfficeBossBattleTaunt = 'You need to talk to the Executive Board Member.'
 ForcedLeaveCountryClubAckMsg = 'The Club President was defeated before you could reach him. You did not recover any Stock Options.'
 ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['Why do male deer need braces?', "Because they have 'buck teeth'!"],
@@ -2083,7 +2095,7 @@ RewardPanelMeritBarLabels = ['Stock Options',
  'Gears']
 RewardPanelMeritAlert = 'Ready for promotion!'
 RewardPanelCogPart = 'You gained a Cog disguise part!'
-RewardPanelPromotion = 'Ready for promotion in %s  track!'
+RewardPanelPromotion = 'Ready for a %s promotion!'
 RewardPanelSkip = 'Skip'
 CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
  ('Big head', 'you will have a big head'),
@@ -4555,6 +4567,9 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+ItemsPageTitle = 'Items'
+ItemsPageNametagStyle = 'Nametag Style'
+ItemsPageFishingRods = "Fishing Rod"
 DisplaySettingsTitle = 'Display Settings'
 DisplaySettingsIntro = 'The following settings are used to configure the way Toontown is displayed on your computer.  It is usually unnecessary to adjust these unless you are experiencing a problem.'
 DisplaySettingsIntroSimple = 'You may adjust the screen resolution to a higher value to improve the clarity of text and graphics in Toontown, but depending on your graphics card, some higher values may make the game run less smoothly or may not work at all.'
@@ -5137,6 +5152,7 @@ HeadingToFactoryTitle = '%s'
 ForemanConfrontedMsg = '%s is battling the ' + Foreman + '!'
 MintBossConfrontedMsg = '%s is battling the Supervisor!'
 StageBossConfrontedMsg = '%s is battling the Clerk!'
+BoardOfficeBossConfrontedMsg = '%s is battling the Executive Board Member!'
 stageToonEnterElevator = '%s \nhas entered the elevator'
 ForcedLeaveStageAckMsg = 'The Law was defeated before you could reach him. You did not recover any Jury Notices.'
 MinigameWaitingForOtherPlayers = 'Waiting for other players to join...'

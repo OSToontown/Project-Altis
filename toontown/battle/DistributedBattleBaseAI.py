@@ -954,8 +954,8 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         if self.ignoreResponses == 1:
             self.notify.debug('rewardDone() - ignoring toon: %d' % toonId)
             return
-        elif stateName not in ('Reward', 'BuildingReward', 'FactoryReward', 'MintReward', 'StageReward', 'CountryClubReward'):
-            self.notify.warning('rewardDone() - in state %s' % stateName)
+        elif stateName not in ('Reward', 'BuildingReward', 'FactoryReward', 'MintReward', 'StageReward', 'CountryClubReward', 'BoardOfficeReward'):
+            self.notify.warning('State %s is not in DistributedBattleBaseAI!' % stateName)
             return
         elif self.toons.count(toonId) == 0:
             self.notify.warning('rewardDone() - toon: %d not in toon list' % toonId)
