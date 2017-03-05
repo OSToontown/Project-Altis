@@ -2104,6 +2104,20 @@ CheesyEffectHours = 'For the next %(time)s hours, %(effectName)s%(whileIn)s.'
 CheesyEffectDays = 'For the next %(time)s days, %(effectName)s%(whileIn)s.'
 CheesyEffectWhileYouAreIn = ' while you are in %s'
 CheesyEffectExceptIn = ', except in %s'
+CheesyEffectId2Name = {
+ 0: 'Normal Toon',
+ 1: 'Big Head',
+ 2: 'Small Head',
+ 3: 'Big Legs',
+ 4: 'Small Legs',
+ 5: 'Big Toon',
+ 6: 'Small Toon',
+ 7: 'Flat Portrait',
+ 8: 'Flat Profile',
+ 9: 'Transparent',
+ 10: 'No Color',
+ 11: 'Invisible',
+ 77: 'Wireframe'}
 SuitFlunky = 'Flunky'
 SuitPencilPusher = 'Pencil Pusher'
 SuitYesman = 'Yesman'
@@ -4555,6 +4569,10 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+ItemsPageTitle = 'Items'
+ItemsPageNametagStyle = 'Nametag Style'
+ItemsPageFishingRods = "Fishing Rod"
+ItemsPageCheesyEffect = "Cheesy Effect"
 DisplaySettingsTitle = 'Display Settings'
 DisplaySettingsIntro = 'The following settings are used to configure the way Toontown is displayed on your computer.  It is usually unnecessary to adjust these unless you are experiencing a problem.'
 DisplaySettingsIntroSimple = 'You may adjust the screen resolution to a higher value to improve the clarity of text and graphics in Toontown, but depending on your graphics card, some higher values may make the game run less smoothly or may not work at all.'

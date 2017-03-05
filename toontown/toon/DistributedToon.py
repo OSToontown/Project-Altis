@@ -1161,7 +1161,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             effect = ToontownGlobals.CEGhost
         
         self.applyCheesyEffect(effect, lerpTime=lerpTime)
-
+        
+    def getCheesyEffects(self):
+        return self.cheesyEffects
+        
+    def setCheesyEffects(self, ce):
+        self.cheesyEffects = ce
+        
+    def requestCheesyEffects(self, ce):
+        if ce not in self.cheesyEffects:
+            return
+            
+        self.sendUpdate('requestCheesyEffects', [ce])
+        
     def setGhostMode(self, flag):
         if self.ghostMode != flag:
             self.ghostMode = flag
@@ -2269,6 +2281,30 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.nametagStyle = nametagStyle
         self.setDisplayName(self.getName())
 
+    def getNametagStyles(self):
+        return self.nametagStyles
+        
+    def setNametagStyles(self, nametagStyles):
+        self.nametagStyles = nametagStyles
+    
+    def requestNametagStyle(self, nametagStyle):
+        if nametagStyle not in self.nametagStyles:
+            return
+        
+        self.sendUpdate('requestNametagStyle', [nametagStyle])
+
+    def getFishingRods(self):
+        return self.fishingRods
+        
+    def setFishingRods(self, fishingRods):
+        self.fishingRods = fishingRods
+        
+    def requestFishingRod(self, rodId):
+        if rodId not in self.fishingRods:
+            return
+            
+        self.sendUpdate('requestFishingRod', [rodId])
+        
     def getAvIdName(self):
         paidStr = PythonUtil.choice(self.getGameAccess() == OTPGlobals.AccessFull, 'P', 'F')
         return '%s\n%s (%s)' % (self.getName(), self.doId, paidStr)

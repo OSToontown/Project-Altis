@@ -17831,7 +17831,10 @@ class CheesyEffectReward(Reward):
 
     def sendRewardAI(self, av):
         expireTime = time.time() + int(self.getDurationMinutes()*60)
-        av.b_setCheesyEffect(self.getEffect(), self.getHoodId(), expireTime)
+        if not self.getEffect() in av.getCheesyEffects():
+            av.cheesyEffects.append(self.getEffect())
+            av.b_setCheesyEffects(avatar.getCheesyEffects())
+            av.b_setCheesyEffect(self.getEffect())
 
     def countReward(self, qrc):
         pass
