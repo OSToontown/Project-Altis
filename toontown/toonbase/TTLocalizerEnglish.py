@@ -2086,24 +2086,38 @@ RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
 RewardPanelSkip = 'Skip'
 CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
- ('Big head', 'you will have a big head'),
- ('Small head', 'you will have a small head'),
- ('Big legs', 'you will have big legs'),
- ('Small legs', 'you will have small legs'),
- ('Big toon', 'you will be a little bigger'),
- ('Small toon', 'you will be a little smaller'),
- ('Flat portrait', 'you will be two-dimensional'),
- ('Flat profile', 'you will be two-dimensional'),
- ('Transparent', 'you will be transparent'),
- ('No color', 'you will be colorless'),
- ('Invisible toon', 'you will be invisible'),
- ('Wireframe', 'you will take on a more geometric form')]
-CheesyEffectIndefinite = 'Until you choose another effect, %(effectName)s%(whileIn)s.'
+ ('Big head', 'Big head'),
+ ('Small head', 'Small head'),
+ ('Big legs', 'Big legs'),
+ ('Small legs', 'Small legs'),
+ ('Big toon', 'Big toon'),
+ ('Small toon', 'Small toon'),
+ ('Flat portrait', 'Flat portrait'),
+ ('Flat profile', 'Flat profile'),
+ ('Transparent', 'Transparent'),
+ ('No color', 'No color'),
+ ('Invisible toon', 'Invisible toon'),
+ ('Wireframe', 'Wireframe')]
+CheesyEffectIndefinite = 'You now have access to the %(effectName)s effect. You can choose it on in the "Items" page of your Shticker book!'
 CheesyEffectMinutes = 'For the next %(time)s minutes, %(effectName)s%(whileIn)s.'
 CheesyEffectHours = 'For the next %(time)s hours, %(effectName)s%(whileIn)s.'
 CheesyEffectDays = 'For the next %(time)s days, %(effectName)s%(whileIn)s.'
 CheesyEffectWhileYouAreIn = ' while you are in %s'
 CheesyEffectExceptIn = ', except in %s'
+CheesyEffectId2Name = {
+ 0: 'Normal Toon',
+ 1: 'Big Head',
+ 2: 'Small Head',
+ 3: 'Big Legs',
+ 4: 'Small Legs',
+ 5: 'Big Toon',
+ 6: 'Small Toon',
+ 7: 'Flat Portrait',
+ 8: 'Flat Profile',
+ 9: 'Transparent',
+ 10: 'No Color',
+ 11: 'Invisible',
+ 77: 'Wireframe'}
 SuitFlunky = 'Flunky'
 SuitPencilPusher = 'Pencil Pusher'
 SuitYesman = 'Yesman'
@@ -4555,6 +4569,10 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+ItemsPageTitle = 'Items'
+ItemsPageNametagStyle = 'Nametag Style'
+ItemsPageFishingRods = "Fishing Rod"
+ItemsPageCheesyEffect = "Cheesy Effect"
 DisplaySettingsTitle = 'Display Settings'
 DisplaySettingsIntro = 'The following settings are used to configure the way Toontown is displayed on your computer.  It is usually unnecessary to adjust these unless you are experiencing a problem.'
 DisplaySettingsIntroSimple = 'You may adjust the screen resolution to a higher value to improve the clarity of text and graphics in Toontown, but depending on your graphics card, some higher values may make the game run less smoothly or may not work at all.'

@@ -1050,12 +1050,14 @@ dclass DistributedToon : DistributedPlayer {
   setQuestCarryLimit(uint8 = 1) required ownrecv db;
   requestDeleteQuest(uint32[]) ownsend airecv;
   setCheesyEffect(int16 = 0, uint32 = 0, uint32 = 0) required broadcast ownrecv db;
+  setCheesyEffects(int16[] = [0]) required broadcast ownrecv db;
   setGhostMode(uint8) broadcast ownrecv ram;
   setPosIndex(uint8 = 0) required ownrecv db;
   setFishCollection(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
   setMaxFishTank(uint8 = 20) required ownrecv db;
   setFishTank(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
   setFishingRod(uint8 = 0) required broadcast ownrecv db;
+  setFishingRods(uint8[] = [0]) required broadcast ownrecv db;
   setFishingTrophies(uint8[] = []) required ownrecv db;
   setFlowerCollection(uint8[] = [], uint8[] = []) required ownrecv db;
   setFlowerBasket(uint8[] = [], uint8[] = []) required ownrecv db;
@@ -1120,6 +1122,7 @@ dclass DistributedToon : DistributedPlayer {
   forceLogoutWithNotify() ownrecv;
   setPinkSlips(uint8 = 0) required ownrecv db;
   setNametagStyle(uint8 = 0) required broadcast ownrecv db;
+  setNametagStyles(uint8[] = [0]) required broadcast ownrecv db;
   setMail(simpleMail []) ownrecv airecv ram;
   setNumMailItems(uint32) airecv;
   setSimpleMailNotify(uint8) ownrecv airecv;
@@ -1145,6 +1148,9 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
+  requestNametagStyle(uint8) airecv ownsend;
+  requestFishingRod(uint8) airecv ownsend;
+  requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
 };
