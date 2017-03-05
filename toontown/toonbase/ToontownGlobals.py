@@ -936,6 +936,18 @@ CashbotBossCranePosHprs = [(97.4,
   0,
   45,
   0,
+  0),
+ (81,
+  -315,
+  0,
+  -90,
+  0,
+  0),
+ (160,
+  -315,
+  0,
+  90,
+  0,
   0)]
 CashbotBossToMagnetTime = 0.2
 CashbotBossFromMagnetTime = 1

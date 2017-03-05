@@ -320,6 +320,5 @@ class ToontownAIRepository(ToontownInternalRepository):
             httpReq = httplib.HTTPSConnection('www.projectaltis.com')
             httpReq.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
             print(json.loads(httpReq.getresponse().read()))
-        self.notify.info("Invasion API Data Updated!")
 
         return task.again

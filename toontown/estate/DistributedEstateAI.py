@@ -85,19 +85,6 @@ class Garden:
 
         boxIndex = 0
         boxes = []
-        boxDefs = GardenGlobals.estateBoxes[houseIndex]
-        for x, y, h, boxType in boxDefs:
-            box = DistributedGardenBoxAI(self)
-
-            box.setTypeIndex(boxType)
-            box.setPos(x, y, 0)
-            box.setH(h)
-            box.setOwnerIndex(houseIndex)
-            box.generateWithRequired(estateMgr.zoneId)
-
-            self.objects.add(box)
-            boxes.append(box)
-            boxIndex += 1
 
         self._boxes = boxes
 
@@ -128,6 +115,8 @@ class Garden:
                 treeIndex += 1
 
             elif type == GardenGlobals.FLOWER_TYPE:
+                pass
+                '''
                 data = self.data['flowers'][flowerIndex]
 
                 planted, waterLevel, lastCheck, growthLevel, variety = data
@@ -149,6 +138,7 @@ class Garden:
                 idx = (0, 0, 0, 1, 2, 0, 1, 2, 0, 1)[flowerIndex]
                 obj.sendUpdate('setBoxDoId', [boxes[index].doId, idx])
                 flowerIndex += 1
+                '''
 
             elif type == GardenGlobals.STATUARY_TYPE:
                 data = self.data['statuary']
@@ -238,7 +228,7 @@ class Garden:
             if plot not in self.objects:
                 return
 
-            plot.requestDelete()
+            plot.slete()
             self.objects.remove(plot)
 
         flower = DistributedFlowerAI(self)

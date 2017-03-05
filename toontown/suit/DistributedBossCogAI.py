@@ -76,6 +76,9 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.nearToons.remove(avId)
         except:
             pass
+			
+    def setHealthTag(self, tag):
+        self.sendUpdate('setHealthTag', [tag])
 
     def __handleUnexpectedExit(self, avId):
         self.removeToon(avId)

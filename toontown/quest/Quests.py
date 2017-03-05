@@ -16804,7 +16804,7 @@ QuestDict = {
 		 Same,
 		 NA,
 		 10302,
-		 TTLocalizer.QuestDialogDict[10301],
+		 DefaultDialog,
 		 5000),
  10302: (ELDER_TIER,
 		 Cont,
