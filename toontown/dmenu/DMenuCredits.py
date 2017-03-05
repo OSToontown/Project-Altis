@@ -40,6 +40,7 @@ Barks | Game Developer
 Dan | Game Developer
 Malverde | Game Developer
 Alice | Web Developer
+Jakebooy | Web Developer
 
 \1orangeText\1Creative Team\2
 Bethy / Limey Mouse | Lead Artist
