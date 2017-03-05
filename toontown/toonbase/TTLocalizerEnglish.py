@@ -2086,19 +2086,19 @@ RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
 RewardPanelSkip = 'Skip'
 CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
- ('Big head', 'you will have a big head'),
- ('Small head', 'you will have a small head'),
- ('Big legs', 'you will have big legs'),
- ('Small legs', 'you will have small legs'),
- ('Big toon', 'you will be a little bigger'),
- ('Small toon', 'you will be a little smaller'),
- ('Flat portrait', 'you will be two-dimensional'),
- ('Flat profile', 'you will be two-dimensional'),
- ('Transparent', 'you will be transparent'),
- ('No color', 'you will be colorless'),
- ('Invisible toon', 'you will be invisible'),
- ('Wireframe', 'you will take on a more geometric form')]
-CheesyEffectIndefinite = 'Until you choose another effect, %(effectName)s%(whileIn)s.'
+ ('Big head', 'Big head'),
+ ('Small head', 'Small head'),
+ ('Big legs', 'Big legs'),
+ ('Small legs', 'Small legs'),
+ ('Big toon', 'Big toon'),
+ ('Small toon', 'Small toon'),
+ ('Flat portrait', 'Flat portrait'),
+ ('Flat profile', 'Flat profile'),
+ ('Transparent', 'Transparent'),
+ ('No color', 'No color'),
+ ('Invisible toon', 'Invisible toon'),
+ ('Wireframe', 'Wireframe')]
+CheesyEffectIndefinite = 'You now have access to the %(effectName)s effect. You can choose it on in the "Items" page of your Shticker book!'
 CheesyEffectMinutes = 'For the next %(time)s minutes, %(effectName)s%(whileIn)s.'
 CheesyEffectHours = 'For the next %(time)s hours, %(effectName)s%(whileIn)s.'
 CheesyEffectDays = 'For the next %(time)s days, %(effectName)s%(whileIn)s.'
