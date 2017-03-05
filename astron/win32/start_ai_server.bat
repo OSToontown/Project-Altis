@@ -11,8 +11,8 @@ set ASTRON_IP=127.0.0.1:7199
 set EVENTLOGGER_IP=127.0.0.1:7197
 
 rem Get the user input:
-set /P DISTRICT_NAME="District name (DEFAULT: Nuttyboro): " || ^
-set DISTRICT_NAME=Nuttyboro
+set /P DISTRICT_NAME="District name (DEFAULT: Test Canvas): " || ^
+set DISTRICT_NAME=Test Canvas
 set /P BASE_CHANNEL="Base channel (DEFAULT: 401000000): " || ^
 set BASE_CHANNEL=401000000
 

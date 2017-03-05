@@ -41,11 +41,11 @@ class DistributedGagTreeAI(DistributedPlantBaseAI):
         
         # Water level
         elapsed = now - lastCheck
-        while elapsed > 86400:
+        while elapsed > 43200:
             if self.waterLevel >= 0:
                 grown += self.GrowRate
                 
-            elapsed -= 86400
+            elapsed -= 43200
             self.waterLevel -= 1
             
         self.waterLevel = max(self.waterLevel, -2)
@@ -104,7 +104,7 @@ class DistributedGagTreeAI(DistributedPlantBaseAI):
         if self.getGrowthLevel() < self.growthThresholds[2]:
             problem |= PROBLEM_NOT_GROWN
             
-        if (self.lastCheck - self.lastHarvested) < 86400:
+        if (self.lastCheck - self.lastHarvested) < 43200:
             problem |= PROBLEM_HARVESTED_LATELY
             
         return problem

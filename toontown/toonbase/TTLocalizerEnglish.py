@@ -953,7 +953,7 @@ QuestDialogDict = {160: {GREETING: '',
  2213: {QUEST: "Some salt?\x07Sure, but first, I need you to defeat some high leveled cogs on this street. I just can't stand them!",
         GREETING: '',
         LEAVING: ''},
- 2214: {QUEST: "You know, it's kind of funny.\x07A high leveled cog stole my last salt shaker while you were away...",
+ 2214: {QUEST: "You know, it's kind of funny.\x07A Cog came in while you were fighting others and threw my salt shaker into the pond...\x07Will you go fish it out please?",
         INCOMPLETE_PROGRESS: "",
         GREETING: '',
         LEAVING: ''},
@@ -2086,24 +2086,38 @@ RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
 RewardPanelSkip = 'Skip'
 CheesyEffectDescriptions = [('Normal Toon', 'you will be normal'),
- ('Big head', 'you will have a big head'),
- ('Small head', 'you will have a small head'),
- ('Big legs', 'you will have big legs'),
- ('Small legs', 'you will have small legs'),
- ('Big toon', 'you will be a little bigger'),
- ('Small toon', 'you will be a little smaller'),
- ('Flat portrait', 'you will be two-dimensional'),
- ('Flat profile', 'you will be two-dimensional'),
- ('Transparent', 'you will be transparent'),
- ('No color', 'you will be colorless'),
- ('Invisible toon', 'you will be invisible'),
- ('Wireframe', 'you will take on a more geometric form')]
-CheesyEffectIndefinite = 'Until you choose another effect, %(effectName)s%(whileIn)s.'
+ ('Big head', 'Big head'),
+ ('Small head', 'Small head'),
+ ('Big legs', 'Big legs'),
+ ('Small legs', 'Small legs'),
+ ('Big toon', 'Big toon'),
+ ('Small toon', 'Small toon'),
+ ('Flat portrait', 'Flat portrait'),
+ ('Flat profile', 'Flat profile'),
+ ('Transparent', 'Transparent'),
+ ('No color', 'No color'),
+ ('Invisible toon', 'Invisible toon'),
+ ('Wireframe', 'Wireframe')]
+CheesyEffectIndefinite = 'You now have access to the %(effectName)s effect. You can choose it on in the "Items" page of your Shticker book!'
 CheesyEffectMinutes = 'For the next %(time)s minutes, %(effectName)s%(whileIn)s.'
 CheesyEffectHours = 'For the next %(time)s hours, %(effectName)s%(whileIn)s.'
 CheesyEffectDays = 'For the next %(time)s days, %(effectName)s%(whileIn)s.'
 CheesyEffectWhileYouAreIn = ' while you are in %s'
 CheesyEffectExceptIn = ', except in %s'
+CheesyEffectId2Name = {
+ 0: 'Normal Toon',
+ 1: 'Big Head',
+ 2: 'Small Head',
+ 3: 'Big Legs',
+ 4: 'Small Legs',
+ 5: 'Big Toon',
+ 6: 'Small Toon',
+ 7: 'Flat Portrait',
+ 8: 'Flat Profile',
+ 9: 'Transparent',
+ 10: 'No Color',
+ 11: 'Invisible',
+ 77: 'Wireframe'}
 SuitFlunky = 'Flunky'
 SuitPencilPusher = 'Pencil Pusher'
 SuitYesman = 'Yesman'
@@ -4555,6 +4569,10 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+ItemsPageTitle = 'Items'
+ItemsPageNametagStyle = 'Nametag Style'
+ItemsPageFishingRods = "Fishing Rod"
+ItemsPageCheesyEffect = "Cheesy Effect"
 DisplaySettingsTitle = 'Display Settings'
 DisplaySettingsIntro = 'The following settings are used to configure the way Toontown is displayed on your computer.  It is usually unnecessary to adjust these unless you are experiencing a problem.'
 DisplaySettingsIntroSimple = 'You may adjust the screen resolution to a higher value to improve the clarity of text and graphics in Toontown, but depending on your graphics card, some higher values may make the game run less smoothly or may not work at all.'
@@ -5162,8 +5180,8 @@ TugOfWarGameReady = 'Ready...'
 TugOfWarGameEnd = 'Good game!'
 TugOfWarGameTie = 'You tied!'
 TugOfWarPowerMeter = 'Power meter'
-PatternGameTitle = 'Match %s' % Minnie
-PatternGameInstructions = Minnie + ' will show you a dance sequence. ' + 'Try to repeat ' + Minnie + "'s dance just the way you see it using the arrow keys!"
+PatternGameTitle = 'Match Tubby'
+PatternGameInstructions = 'Sir Tubby Cheezyfish will show you a dance sequence. ' + 'Try to repeat Sir Tubby Cheezyfish\'s dance just the way you see it using the arrow keys!'
 PatternGameWatch = 'Watch these dance steps...'
 PatternGameGo = 'GO!'
 PatternGameRight = 'Good, %s!'
@@ -5613,6 +5631,15 @@ QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we
 QuestScript600_4 = "Jester Chester can help you get used to this habbit."
 QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
 QuestScript600_6 = "Have fun in Toontown: Project Altis!"
+
+QuestScript10301_1 = "Welcome to Loopy's Balls!"
+QuestScript10301_2 = "We sell the freshest swedish meatballs in all of Toontown!"
+QuestScript10301_3 = "What would you like to order?"
+QuestScript10301_4 = "Meatballs! A Fan favorite. Great choice! Let me just check in with Jimmy."
+QuestScript10301_5 = "JIMMY!!"
+QuestScript10301_6 = "Oh. That's right."
+QuestScript10301_7 = "Jimmy was loafing around earlier so I tossed him in the pond."
+QuestScript10301_8 = "Can you be a darling and go fish him out and bring him back for me?"
 
 MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
@@ -7671,7 +7698,8 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7008: 'Ima Cagedtoon',
  7009: 'Jimmy Thelock',
  91917: 'Prince Frizzy',
- 91918: 'Squeaker'}
+ 91918: 'Squeaker',
+ 91919: 'Sir Tubby Cheezyfish'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
  2514: ('Toontown Bank', ''),
  2516: ('Toontown School House', ''),
@@ -8422,7 +8450,7 @@ TipDict = {TIP_NONE: ('',),
                'Every time you turn in a completed ToonTask your Laff points are automatically refilled.',
                'You can browse the selection at Clothing Stores even without a clothing ticket.',
                'Rewards for some ToonTasks allow you to carry more gags and Jellybeans.',
-               'You can have up to 200 friends on your Friends List.',
+               'You can have up to 300 friends on your Friends List.',
                'Some ToonTask rewards let you teleport to playgrounds in Toontown by using the Map Page in the Shticker Book.',
                'Increase your Laff points in the Playgrounds by collecting treasures like stars and ice cream cones.',
                'To heal quickly after a battle, go to your estate and play with your Doodle.',
@@ -8496,10 +8524,10 @@ TipDict = {TIP_NONE: ('',),
               'If you wait too long to attack a lured Cog, it will wake up. Higher level lures last longer.',
               'There are fishing ponds on every street in Toontown. Some streets have unique fish.'),
  TIP_MINIGAME: ('After you fill up your Jellybean jar, any Jellybeans you get from Trolley Games automatically spill over into your bank.',
-                'You can use the arrow keys instead of the mouse in the "Match Minnie" Trolley Game.',
+                'You can use the arrow keys instead of the mouse in the "Match Tubby" Trolley Game.',
                 'In the Cannon Game you can use the arrow keys to move your cannon and press the "Control" key to fire.',
                 'In the Ring Game, bonus points are awarded when the entire group successfully swims through its rings.',
-                'A perfect game of Match Minnie will double your points.',
+                'A perfect game of Match Tubby will double your points.',
                 'In the Tug-of-War you are awarded more Jellybeans if you play against a tougher Cog.',
                 'Trolley Game difficulty varies by neighborhood; ' + lToontownCentral + ' has the easiest and ' + lDonaldsDreamland + ' has the hardest.',
                 'Certain Trolley Games can only be played in a group.'),

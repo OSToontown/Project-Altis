@@ -625,7 +625,6 @@ class CreateAvatarFSM(OperationFSM):
 		
         toonFields = {
             'setName': (name,),
-            'setTag': ('',),
             'WishNameState': ('OPEN',),
             'WishName': ('',),
             'setDNAString': (self.dna,),

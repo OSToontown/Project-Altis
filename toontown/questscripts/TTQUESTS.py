@@ -587,4 +587,46 @@ PLAY_ANIM npc "wave" 1
 CHAT_CONFIRM npc QuestScript600_6
 LOOP_ANIM npc "neutral"
 FINISH_QUEST_MOVIE
+
+# Loopys Balls
+ID quest_assign_10301
+POSE_ANIM npc "wave" 20
+CHAT_CONFIRM npc QuestScript10301_1
+POSE_ANIM npc "neutral" 1
+CHAT_CONFIRM npc QuestScript10301_2
+POSE_ANIM npc "shrug" 25
+CHAT_CONFIRM npc QuestScript10301_3
+POSE_ANIM npc "think" 40
+CHAT_CONFIRM npc QuestScript10301_4
+POSE_ANIM npc "conked" 20
+CHAT_CONFIRM npc QuestScript10301_5
+POSE_ANIM npc "shrug" 25
+CHAT_CONFIRM npc QuestScript10301_6
+POSE_ANIM npc "think" 40
+CHAT_CONFIRM npc QuestScript10301_7
+POSE_ANIM npc "shrug" 25
+CHAT_CONFIRM npc QuestScript10301_8
+LOOP_ANIM npc "neutral"
+FINISH_QUEST_MOVIE
+
+# Loopys Balls
+ID quest_incomplete_10301
+POSE_ANIM npc "wave" 20
+CHAT_CONFIRM npc QuestScript10301_1
+POSE_ANIM npc "neutral" 1
+CHAT_CONFIRM npc QuestScript10301_2
+POSE_ANIM npc "shrug" 25
+CHAT_CONFIRM npc QuestScript10301_3
+POSE_ANIM npc "think" 40
+CHAT_CONFIRM npc QuestScript10301_4
+POSE_ANIM npc "conked" 20
+CHAT_CONFIRM npc QuestScript10301_5
+POSE_ANIM npc "shrug" 25
+CHAT_CONFIRM npc QuestScript10301_6
+POSE_ANIM npc "think" 40
+CHAT_CONFIRM npc QuestScript10301_7
+POSE_ANIM npc "shrug" 25
+CHAT_CONFIRM npc QuestScript10301_8
+LOOP_ANIM npc "neutral"
+FINISH_QUEST_MOVIE
 '''
