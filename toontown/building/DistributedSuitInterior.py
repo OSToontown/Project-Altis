@@ -53,10 +53,6 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
     def __uniqueName(self, name):
         DistributedSuitInterior.id += 1
         return name + '%d' % DistributedSuitInterior.id
-		
-    def getSky(self):
-        skyModel = base.cr.playGame.hood.newSky
-        return skyModel
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -252,7 +248,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
             SuitPositions = self.BottomFloor_SuitPositions
         elif self.currentFloor == self.numFloors - 1 and self.numFloors >= 5:
             self.floorModel = loader.loadModel('phase_7/models/modules/suit_building_roof')
-            self.skyModel = self.getSky()
+            self.skyModel = base.cr.playGame.hood.newSky
             SuitHs = self.Cubicle_SuitHs
             SuitPositions = self.Cubicle_SuitPositions
         elif self.currentFloor == self.numFloors - 1 or (self.currentFloor == self.numFloors - 2 and self.numFloors >= 5):
@@ -261,7 +257,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
             SuitPositions = self.BossOffice_SuitPositions
         else:
             self.floorModel = loader.loadModel('phase_7/models/modules/cubicle_room')
-            self.skyModel = self.getSky()
+            self.skyModel = base.cr.playGame.hood.newSky
             SuitHs = self.Cubicle_SuitHs
             SuitPositions = self.Cubicle_SuitPositions
         self.floorModel.reparentTo(render)
