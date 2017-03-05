@@ -55,12 +55,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         return name + '%d' % DistributedSuitInterior.id
 		
     def getSky(self):
-        if ZoneUtil.getHoodId(self.extZoneId) == ToontownGlobals.DonaldsDreamland:
-            skyModel = loader.loadModel('phase_8/models/props/DL_sky')
-        elif ZoneUtil.getHoodId(self.extZoneId) == ToontownGlobals.MinniesMelodyland:
-            skyModel = loader.loadModel('phase_6/models/props/MM_sky')
-        else:
-            skyModel = loader.loadModel('phase_3.5/models/props/BR_sky')
+        skyModel = base.cr.playGame.hood.newSky
         return skyModel
 
     def generate(self):
