@@ -6,8 +6,8 @@ from otp.otpbase import BackupManager
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 import toontown.minigame.MinigameCreatorAI
 
-#from toontown.rpc.ToontownRPCServer import ToontownRPCServer
-#from toontown.rpc.ToontownRPCHandler import ToontownRPCHandler
+from toontown.rpc.ToontownRPCServer import ToontownRPCServer
+from toontown.rpc.ToontownRPCHandler import ToontownRPCHandler
 
 if config.GetBool('want-mongo-client', False):
     import pymongo

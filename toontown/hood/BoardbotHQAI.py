@@ -13,7 +13,7 @@ class BoardbotHQAI(CogHQAI.CogHQAI):
     def __init__(self, air):
         CogHQAI.CogHQAI.__init__(
             self, air, ToontownGlobals.BoardbotHQ, ToontownGlobals.BoardbotLobby,
-            FADoorCodes.CB_DISGUISE_INCOMPLETE,
+            FADoorCodes.BD_DISGUISE_INCOMPLETE,
             DistributedCFOElevatorAI.DistributedCFOElevatorAI,
             DistributedCashbotBossAI.DistributedCashbotBossAI)
 
