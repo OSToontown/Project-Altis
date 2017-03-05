@@ -212,6 +212,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             itemName = GardenGlobals.PlantAttributes[species]['name']
             stringToShow = TTLocalizer.getResultPlantedSomethingSentence(itemName)
         elif willPlant:
+            base.localAvatar.controlManager.disableControls()
             self.resultDialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=TTLocalizer.ResultPlantedNothing, command=self.popupItemPlantingGuiAgain)
         else:
             self.finishInteraction()
