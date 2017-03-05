@@ -236,7 +236,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             iconGeom = iconModels.find('**/gui_gear')
             iconModels.detachNode()
         elif pageName == TTLocalizer.ItemsPageTitle:
-            iconGeom = iconModels = OnscreenImage(image='phase_3/maps/achievements/ttpa_achievement_catalog_1.png')
+            iconGeom = iconModels = OnscreenImage(image='phase_3/maps/items_page_icon.png')
             iconGeom.setTransparency(TransparencyAttrib.MAlpha)
             iconScale = (0.4, 0.4, 0.4)
             iconModels.detachNode()
