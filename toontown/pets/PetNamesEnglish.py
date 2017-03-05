@@ -5,7 +5,7 @@
 #                                     2 - neutralFirst
 
 PETNAMES = '''0*0*Achilles
-1*0*Adolfo
+1*0*Adora
 2*0*Adonis
 3*0*Aesop
 4*0*Agamemnon
