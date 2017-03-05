@@ -3919,9 +3919,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setNametagStyle(nametagStyle)
 
     def b_setFishingRods(self, rods):
-        if rods not in self.fishingRods:
-            self.fishingRods.append(rods)
-            self.b_setFishingRods(self.fishingRods)
         self.d_setFishingRods(rods)
         self.setFishingRods(rods)
         
@@ -4936,7 +4933,7 @@ def fishingRod(rod):
     if not 0 <= rod <= 4:
         return 'Rod value must be in xrange (0-4).'
     target = spellbook.getTarget()
-    if not rod in target.nametagStyles:
+    if not rod in target.fishingRods:
         target.fishingRods.append(rod)
         target.b_setFishingRods(target.fishingRods)
     target.b_setFishingRod(rod)
