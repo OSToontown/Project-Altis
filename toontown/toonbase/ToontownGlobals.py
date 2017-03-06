@@ -257,7 +257,8 @@ cogIndex2dept = invertDict(cogDept2index)
 HQToSafezone = {SellbotHQ: DaisyGardens,
  CashbotHQ: DonaldsDreamland,
  LawbotHQ: TheBrrrgh,
- BossbotHQ: DonaldsDock}
+ BossbotHQ: DonaldsDock,
+ BoardbotHQ: MinniesMelodyland}
 CogDeptNames = [TTLocalizer.Bossbot,
  TTLocalizer.Lawbot,
  TTLocalizer.Cashbot,
