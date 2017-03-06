@@ -249,6 +249,8 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         elif self.currentFloor == self.numFloors - 1 and self.numFloors >= 5:
             self.floorModel = loader.loadModel('phase_7/models/modules/suit_building_roof')
             self.skyModel = base.cr.playGame.hood.newSky
+            if self.skyModel == None:
+                self.skyModel = base.cr.playGame.hood.oldSky
             SuitHs = self.Cubicle_SuitHs
             SuitPositions = self.Cubicle_SuitPositions
         elif self.currentFloor == self.numFloors - 1 or (self.currentFloor == self.numFloors - 2 and self.numFloors >= 5):
@@ -258,6 +260,8 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         else:
             self.floorModel = loader.loadModel('phase_7/models/modules/cubicle_room')
             self.skyModel = base.cr.playGame.hood.newSky
+            if self.skyModel == None:
+                self.skyModel = base.cr.playGame.hood.oldSky
             SuitHs = self.Cubicle_SuitHs
             SuitPositions = self.Cubicle_SuitPositions
         self.floorModel.reparentTo(render)
