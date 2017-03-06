@@ -9,6 +9,8 @@ ELEVATOR_OFFICE = 5
 ELEVATOR_STAGE = 6
 ELEVATOR_BB = 7
 ELEVATOR_COUNTRY_CLUB = 8
+ELEVATOR_BOARD_OFFICE = 9
+ELEVATOR_CM = 10
 REJECT_NOREASON = 0
 REJECT_SHUFFLE = 1
 REJECT_MINLAFF = 2
@@ -83,7 +85,19 @@ ElevatorData = {ELEVATOR_NORMAL: {'openTime': 2.0,
                          'width': 5.875,
                          'countdown': bboard.get('elevatorCountdown', 15.0),
                          'sfxVolume': 1.0,
-                         'collRadius': 4}}
+                         'collRadius': 4},
+ ELEVATOR_OFFICE: {'openTime': 2.0,
+                   'closeTime': 2.0,
+                   'width': 5.875,
+                   'countdown': bboard.get('elevatorCountdown', 15.0),
+                   'sfxVolume': 1.0,
+                   'collRadius': 5},
+ ELEVATOR_CM: {'openTime': 4.0,
+               'closeTime': 4.0,
+               'width': 15.8,
+               'countdown': bboard.get('elevatorCountdown', 30.0),
+               'sfxVolume': 0.7,
+               'collRadius': 7.5}}
 TOON_BOARD_ELEVATOR_TIME = 1.0
 TOON_EXIT_ELEVATOR_TIME = 1.0
 TOON_VICTORY_EXIT_TIME = 1.0

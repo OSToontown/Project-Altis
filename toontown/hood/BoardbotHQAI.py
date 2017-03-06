@@ -1,9 +1,9 @@
-from toontown.building import DistributedCFOElevatorAI
+from toontown.building import DistributedCMElevatorAI
 from toontown.building import FADoorCodes
 from toontown.building.DistributedBoardingPartyAI import DistributedBoardingPartyAI
 from toontown.coghq.boardbothq.DistributedBoardOfficeElevatorExtAI import DistributedBoardOfficeElevatorExtAI
 from toontown.hood import CogHQAI
-from toontown.suit import DistributedCashbotBossAI
+from toontown.suit import DistributedBoardbotBossAI
 from toontown.suit import DistributedSuitPlannerAI
 from toontown.toonbase import ToontownGlobals
 from toontown.betaevent import DistributedBetaEventAI
@@ -14,8 +14,8 @@ class BoardbotHQAI(CogHQAI.CogHQAI):
         CogHQAI.CogHQAI.__init__(
             self, air, ToontownGlobals.BoardbotHQ, ToontownGlobals.BoardbotLobby,
             FADoorCodes.BD_DISGUISE_INCOMPLETE,
-            DistributedCFOElevatorAI.DistributedCFOElevatorAI,
-            DistributedCashbotBossAI.DistributedCashbotBossAI)
+            DistributedCMElevatorAI.DistributedCMElevatorAI,
+            DistributedBoardbotBossAI.DistributedBoardbotBossAI)
 
         self.boardofficeElevators = []
         self.boardofficeBoardingParty = None
