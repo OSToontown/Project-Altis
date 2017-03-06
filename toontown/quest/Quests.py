@@ -17831,7 +17831,9 @@ class CheesyEffectReward(Reward):
 
     def sendRewardAI(self, av):
         expireTime = time.time() + int(self.getDurationMinutes()*60)
-        av.b_setCheesyEffect(self.getEffect(), self.getHoodId(), expireTime)
+        if not self.getEffect() in av.getCheesyEffects():
+            av.cheesyEffects.append(self.getEffect())
+            av.b_setCheesyEffects(av.getCheesyEffects())
 
     def countReward(self, qrc):
         pass
@@ -17850,20 +17852,7 @@ class CheesyEffectReward(Reward):
         if effect == 77:
             effect = 12
         desc = TTLocalizer.CheesyEffectDescriptions[effect][1]
-        if hoodId == 0:
-            whileStr = ''
-        elif hoodId == 1:
-            whileStr = TTLocalizer.CheesyEffectExceptIn % TTLocalizer.ToontownCentral[-1]
-        else:
-            hoodName = base.cr.hoodMgr.getFullnameFromId(hoodId)
-            whileStr = TTLocalizer.CheesyEffectWhileYouAreIn % hoodName
-        if duration:
-            return string % {'time': duration,
-             'effectName': desc,
-             'whileIn': whileStr}
-        else:
-            return TTLocalizer.CheesyEffectIndefinite % {'effectName': desc,
-             'whileIn': whileStr}
+        return TTLocalizer.CheesyEffectIndefinite % {'effectName': desc}
 
     def getPosterString(self):
         effect = self.getEffect()

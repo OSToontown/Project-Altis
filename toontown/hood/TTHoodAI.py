@@ -8,7 +8,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
-from toontown.betaevent import DistributedBetaEventTTCAI
 
 class TTHoodAI(HoodAI.HoodAI):
     
@@ -40,10 +39,6 @@ class TTHoodAI(HoodAI.HoodAI):
         if simbase.air.wantChristmas:
             self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
             self.WinterCarolingTargetManager.generateWithRequired(2659)
-        
-        self.event = DistributedBetaEventTTCAI.DistributedBetaEventTTCAI(self.air)
-        self.event.generateWithRequired(self.zoneId)
-        self.event.start()
 
     def shutdown(self):
         HoodAI.HoodAI.shutdown(self)

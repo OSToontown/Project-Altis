@@ -35,7 +35,6 @@ class ToontownUberRepository(ToontownInternalRepository):
         rootObj.generateWithRequiredAndId(self.getGameDoId(), 0, 0)
 
         endpoint = config.GetString('rpc-server-endpoint', 'http://localhost:8080/')
-
         self.rpcServer = ToontownRPCServer(endpoint, ToontownRPCHandler(self))
         self.rpcServer.start(useTaskChain=True)
         self.backups = BackupManager.BackupManager(

@@ -10,7 +10,7 @@ import fnmatch, os
 from toontown.pandautils import yaml
 
 SupportedExtensions = ('.jpg', '.png', '.rgb', '.rgba', '.ogg', '.ttf')
-DefaultPhases = (3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
+DefaultPhases = (3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13)
 
 class ContentPackManager:
     notify = directNotify.newCategory('ContentPackManager')

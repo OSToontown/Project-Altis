@@ -1161,7 +1161,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             effect = ToontownGlobals.CEGhost
         
         self.applyCheesyEffect(effect, lerpTime=lerpTime)
-
+        
+    def getCheesyEffects(self):
+        return self.cheesyEffects
+        
+    def setCheesyEffects(self, ce):
+        self.cheesyEffects = ce
+        
+    def requestCheesyEffects(self, ce):
+        if ce not in self.cheesyEffects:
+            return
+            
+        self.sendUpdate('requestCheesyEffects', [ce])
+        
     def setGhostMode(self, flag):
         if self.ghostMode != flag:
             self.ghostMode = flag
@@ -2259,7 +2271,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'nametagStyle'):
             return self.nametagStyle
 
-        return 1
+        return 0
 
     def setNametagStyle(self, nametagStyle):
         if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
@@ -2268,7 +2280,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             nametagStyle = 0
         self.nametagStyle = nametagStyle
         self.setDisplayName(self.getName())
-        
+
     def getNametagStyles(self):
         return self.nametagStyles
         

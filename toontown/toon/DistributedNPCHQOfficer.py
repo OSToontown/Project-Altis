@@ -76,20 +76,12 @@ class DistributedNPCHQOfficer(DistributedNPCToonBase):
         if isLocalToon:
             self.showNametag2d()
             taskMgr.remove(self.uniqueName('lerpCamera'))
-            self.returnCamera()
+            base.localAvatar.posCamera(0, 0)
+            base.cr.playGame.getPlace().setState('walk')
             self.sendUpdate('setMovieDone', [])
             self.nametag3d.clearDepthTest()
             self.nametag3d.clearBin()
             
-    def returnCamera(self):
-        avHeight = max(base.localAvatar.getHeight(), 3.0)
-        scaleFactor = avHeight * 0.3333333333
-        camera.wrtReparentTo(base.localAvatar)
-        camera.posQuatInterval(1, (0, -9 * scaleFactor, avHeight), (0, 0, 0), other=base.localAvatar, blendType='easeInOut').start()
-        def walk():
-            base.cr.playGame.getPlace().setState('walk')
-        Sequence(Wait(1), Func(walk)).start()
-        
     def setupCamera(self, mode):
         camera.wrtReparentTo(render)
         if mode == NPCToons.QUEST_MOVIE_QUEST_CHOICE or mode == NPCToons.QUEST_MOVIE_TRACK_CHOICE:
@@ -101,13 +93,11 @@ class DistributedNPCHQOfficer(DistributedNPCToonBase):
         isLocalToon = avId == base.localAvatar.doId
         if mode == NPCToons.QUEST_MOVIE_CLEAR:
             self.cleanupMovie()
-            if isLocalToon:
-                self.returnCamera()
             return
         if mode == NPCToons.QUEST_MOVIE_TIMEOUT:
             self.cleanupMovie()
             if isLocalToon:
-                self.returnCamera()
+                self.freeAvatar()
             self.setPageNumber(0, -1)
             self.clearChat()
             self.startLookAround()
