@@ -32,6 +32,7 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
             self.notify.warning('Invalid fishing pole: %s for avatar %s' % (self.rodId, avatar.doId))
             return ToontownGlobals.P_InvalidIndex
         avatar.fishingRods.append(self.rodId)
+        avatar.b_setFishingRods.append(avatar.fishingRod)
         avatar.b_setFishingRod(self.rodId)
         return ToontownGlobals.P_ItemAvailable
 

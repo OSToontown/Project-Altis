@@ -27,29 +27,29 @@ class ItemsPage(ShtikerPage.ShtikerPage):
         self.buttonModel = 'phase_3/models/gui/quit_button.bam'
         matGui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
-        self.nametagStyle_label = DirectLabel(parent = self, relief=None, text=TTLocalizer.ItemsPageNametagStyle, text_align=TextNode.ALeft, text_scale=0.054, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight * 0.145 + .3))
-        self.nametagStyle_preview = DirectLabel(parent = self, relief=None, text='Preview', scale=0.06, text_align = TextNode.ACenter, text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145 + .3))
+        self.nametagStyle_label = DirectLabel(parent = self, relief=None, text=TTLocalizer.ItemsPageNametagStyle, text_align=TextNode.ALeft, text_scale=0.054, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight * 0.145))
+        self.nametagStyle_preview = DirectLabel(parent = self, relief=None, text='Preview', scale=0.06, text_align = TextNode.ACenter, text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145))
         self.nametagStyle_leftButton = DirectButton(parent = self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
          gui.find('**/Horiz_Arrow_DN'),
          gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), scale= -0.6, pos=(0.15, 0, textStartHeight * 0.145 + .3), command=self.__changeNametagStyle, extraArgs=[-1])
+         gui.find('**/Horiz_Arrow_UP')), scale= -0.6, pos=(0.15, 0, textStartHeight * 0.145), command=self.__changeNametagStyle, extraArgs=[-1])
         self.nametagStyle_rightButton = DirectButton(parent = self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
          gui.find('**/Horiz_Arrow_DN'),
          gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), scale = 0.6, pos = (0.55, 0, textStartHeight * 0.145 + .3), command = self.__changeNametagStyle, extraArgs = [1])
+         gui.find('**/Horiz_Arrow_UP')), scale = 0.6, pos = (0.55, 0, textStartHeight * 0.145), command = self.__changeNametagStyle, extraArgs = [1])
         self.nametagStyle_index = 0
         
-        self.fishingRods_label = DirectLabel(parent = self, relief=None, text=TTLocalizer.ItemsPageFishingRods, text_align=TextNode.ALeft, text_scale=0.054, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight * 0.145))
+        self.fishingRods_label = DirectLabel(parent = self, relief=None, text=TTLocalizer.ItemsPageFishingRods, text_align=TextNode.ALeft, text_scale=0.054, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight * 0.145 - .1))
         # The preview is a button to enable the hover effect
-        self.fishingRods_preview = DirectButton(parent = self, relief=None, text='Preview', scale=0.06, text_align = TextNode.ACenter, text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145))
+        self.fishingRods_preview = DirectButton(parent = self, relief=None, text='Preview', scale=0.06, text_align = TextNode.ACenter, text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145 - .1))
         self.fishingRods_leftButton = DirectButton(parent = self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
          gui.find('**/Horiz_Arrow_DN'),
          gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), scale= -0.6, pos=(0.15, 0, textStartHeight * 0.145), command=self.__changeFishingRods, extraArgs=[-1])
+         gui.find('**/Horiz_Arrow_UP')), scale= -0.6, pos=(0.15, 0, textStartHeight * 0.145 - .1), command=self.__changeFishingRods, extraArgs=[-1])
         self.fishingRods_rightButton = DirectButton(parent = self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
          gui.find('**/Horiz_Arrow_DN'),
          gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), scale = 0.6, pos = (0.55, 0, textStartHeight * 0.145), command = self.__changeFishingRods, extraArgs = [1])
+         gui.find('**/Horiz_Arrow_UP')), scale = 0.6, pos = (0.55, 0, textStartHeight * 0.145- .1), command = self.__changeFishingRods, extraArgs = [1])
         self.fishingRods_index = 0
         self.fishingRods_previewPanel = OnscreenImage(parent = self, image = 'phase_3/maps/stat_board.png', pos = (buttonbase_xcoord, 0, textStartHeight * 0.145), scale = 0.2)
         self.fishingRods_previewPanel.setTransparency(TransparencyAttrib.MAlpha)
@@ -58,18 +58,6 @@ class ItemsPage(ShtikerPage.ShtikerPage):
         self.fishingRods_preview.bind(DirectGuiGlobals.EXIT, self.exitHoverFishing)
         self.geom = None
         
-        self.cheesyEffect_label = DirectLabel(parent = self, relief=None, text=TTLocalizer.ItemsPageCheesyEffect, text_align=TextNode.ALeft, text_scale=0.054, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight * 0.145 - .3))
-        self.cheesyEffect_preview = DirectLabel(parent = self, relief=None, text='Preview', scale=0.06, text_align = TextNode.ACenter, text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145 - .3))
-        self.cheesyEffect_leftButton = DirectButton(parent = self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
-         gui.find('**/Horiz_Arrow_DN'),
-         gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), scale= -0.6, pos=(0.15, 0, textStartHeight * 0.145 - .3), command=self.__changeCheesyEffect, extraArgs=[-1])
-        self.cheesyEffect_rightButton = DirectButton(parent = self, relief=None, image=(gui.find('**/Horiz_Arrow_UP'),
-         gui.find('**/Horiz_Arrow_DN'),
-         gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), scale = 0.6, pos = (0.55, 0, textStartHeight * 0.145 - .3), command = self.__changeCheesyEffect, extraArgs = [1])
-        self.cheesyEffect_index = 0
-
     def unload(self):
         ShtikerPage.ShtikerPage.unload(self)
         if self.title:
@@ -99,47 +87,17 @@ class ItemsPage(ShtikerPage.ShtikerPage):
         self.fishingRods_previewPanel.destroy()
         del self.fishingRods_previewPanel
         
-        self.cheesyEffect_label.destroy()
-        del self.cheesyEffect_label
-        self.cheesyEffect_preview.destroy()
-        del self.cheesyEffect_preview
-        self.cheesyEffect_leftButton.destroy()
-        del self.cheesyEffect_leftButton
-        self.cheesyEffect_rightButton.destroy()
-        del self.cheesyEffect_rightButton
-        
     def enter(self):
         ShtikerPage.ShtikerPage.enter(self)
-        self.nametagStyle_index = settings.get('lastNametag', {})[str(base.localAvatar.doId)]
-        self.fishingRods_index = settings.get('lastRod', {})[str(base.localAvatar.doId)]
-        self.cheesyEffect_index = settings.get('lastEffect', {})[str(base.localAvatar.doId)]
-        
         self.__updateNametagStyle()
         self.__updateFishingRods()
-        self.__updateCheesyEffect()
 
     def exit(self):
         ShtikerPage.ShtikerPage.exit(self)
-
-        nametagStyle_index = settings.get('lastNametag', {})
-        fishingRods_index = settings.get('lastRod', {})
-        cheesyEffect_index = settings.get('lastEffect', {})
-                
-        nametagStyle_index[str(base.localAvatar.doId)] = self.nametagStyle_index
-        settings['lastNametag'] = nametagStyle_index
-        
-        fishingRods_index[str(base.localAvatar.doId)] = self.fishingRods_index
-        settings['lastRod'] = fishingRods_index
-        
-        cheesyEffect_index[str(base.localAvatar.doId)] = self.cheesyEffect_index
-        settings['lastEffect'] = cheesyEffect_index
-        
         if self.nametagStyle_index != -1 and self.nametagStyle_index != base.localAvatar.nametagStyles.index(base.localAvatar.getNametagStyle()):
             base.localAvatar.requestNametagStyle(base.localAvatar.nametagStyles[self.nametagStyle_index])
         if self.fishingRods_index != -1 and self.fishingRods_index != base.localAvatar.fishingRods.index(base.localAvatar.getFishingRod()):
             base.localAvatar.requestFishingRod(base.localAvatar.fishingRods[self.fishingRods_index])
-        if self.cheesyEffect_index != -1 and self.cheesyEffect_index != base.localAvatar.cheesyEffects.index(base.localAvatar.savedCheesyEffect):
-            base.localAvatar.requestCheesyEffects(base.localAvatar.cheesyEffects[self.cheesyEffect_index])
     
     def __updateNametagStyle(self):
         self.nametagStyle_preview['text_font'] = ToontownGlobals.getNametagFont(base.localAvatar.nametagStyles[self.nametagStyle_index])
@@ -205,24 +163,3 @@ class ItemsPage(ShtikerPage.ShtikerPage):
     def exitHoverFishing(self, hoverEvent):
         if hasattr(self, 'fishingRods_previewPanel'):
             self.fishingRods_previewPanel.hide()
-            
-    def __updateCheesyEffect(self):
-        self.cheesyEffect_preview['text'] = TTLocalizer.CheesyEffectId2Name.get(base.localAvatar.cheesyEffects[self.cheesyEffect_index], 'Unknown Effect')
-        ceCount = len(base.localAvatar.cheesyEffects)            
-        if ceCount == 0:
-            self.cheesyEffect_rightButton.hide()
-            self.cheesyEffect_leftButton.hide()
-            
-        if self.cheesyEffect_index >= (ceCount - 1):
-            self.cheesyEffect_rightButton.hide()
-        else:
-            self.cheesyEffect_rightButton.show()
-        
-        if self.cheesyEffect_index <= 0:
-            self.cheesyEffect_leftButton.hide()
-        else:
-            self.cheesyEffect_leftButton.show()
-    
-    def __changeCheesyEffect(self, val):
-        self.cheesyEffect_index += val
-        self.__updateCheesyEffect()

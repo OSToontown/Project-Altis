@@ -287,9 +287,6 @@ class DistributedToonUD(DistributedAvatarUD.DistributedAvatarUD):
 
     def setCheesyEffect(self, todo0, todo1, todo2):
         pass
-        
-    def setCheesyEffects(self, todo0):
-        pass
 
     def setGhostMode(self, todo0):
         pass
@@ -500,7 +497,7 @@ class DistributedToonUD(DistributedAvatarUD.DistributedAvatarUD):
 
     def setNametagStyle(self, todo0):
         pass
-
+        
     def setNametagStyles(self, todo):
         pass
 

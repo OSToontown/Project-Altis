@@ -1675,62 +1675,43 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getMaxCarry(self):
         return self.maxCarry
 
-    def b_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
-        if effect not in self.cheesyEffects:
-            self.cheesyEffects.append(effect)
-            self.b_setCheesyEffects(self.cheesyEffects)
+    def b_setCheesyEffect(self, effect, hoodId, expireTime):
         self.setCheesyEffect(effect, hoodId, expireTime)
         self.d_setCheesyEffect(effect, hoodId, expireTime)
 
-    def d_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+    def d_setCheesyEffect(self, effect, hoodId, expireTime):
         self.sendUpdate('setCheesyEffect', [effect, hoodId, expireTime])
 
-    def setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+    def setCheesyEffect(self, effect, hoodId, expireTime):
         if simbase.air.holidayManager and ToontownGlobals.WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.WACKY_WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and effect == ToontownGlobals.CESnowMan:
-            self.b_setCheesyEffect(ToontownGlobals.CENormal)
+            self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
             self.b_setScavengerHunt([])
             return
         if simbase.air.holidayManager and ToontownGlobals.HALLOWEEN_PROPS not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.HALLOWEEN_COSTUMES not in simbase.air.holidayManager.currentHolidays and not simbase.air.wantHalloween and effect == ToontownGlobals.CEPumpkin:
-            self.b_setCheesyEffect(ToontownGlobals.CENormal)
+            self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
             self.b_setScavengerHunt([])
             return
         self.savedCheesyEffect = effect
         self.savedCheesyHoodId = hoodId
         self.savedCheesyExpireTime = expireTime
+        if config.GetBool('want-cheesy-expirations', self.air.doLiveUpdates):
+            taskName = self.uniqueName('cheesy-expires')
+            taskMgr.remove(taskName)
+            if effect != ToontownGlobals.CENormal:
+                duration = expireTime - time.time()
+                if duration > 0:
+                    taskMgr.doMethodLater(duration, self.__undoCheesyEffect, taskName)
+                else:
+                    self.__undoCheesyEffect(None)
         return
 
     def getCheesyEffect(self):
-        return (self.savedCheesyEffect)
+        return (self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime)
 
     def __undoCheesyEffect(self, task):
         self.b_setCheesyEffect(ToontownGlobals.CENormal, 0, 0)
         return Task.cont
 
-    def b_setCheesyEffects(self, ce):
-        self.d_setCheesyEffects(ce)
-        self.setCheesyEffects(ce)
-        
-    def d_setCheesyEffects(self, ce):
-        try:
-            self.sendUpdate('setCheesyEffects', [ce])
-        except:
-            self.sendUpdate('setCheesyEffects', [0])
-        
-    def setCheesyEffects(self, ce):
-        self.cheesyEffects = ce
-        if self.getCheesyEffect() not in self.cheesyEffects:
-            self.cheesyEffects.append(self.getCheesyEffect())
-            self.b_setCheesyEffects(self.cheesyEffects)
-        
-    def getCheesyEffects(self):
-        return self.cheesyEffects
-        
-    def requestCheesyEffects(self, ce):
-        if ce not in self.cheesyEffects:
-            return
-            
-        self.b_setCheesyEffect(ce)
-        
     def b_setTrackAccess(self, trackArray):
         self.setTrackAccess(trackArray)
         self.d_setTrackAccess(trackArray)
@@ -3905,10 +3886,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setNametagStyles(self, nametagStyles):
         self.nametagStyles = nametagStyles
-        if self.getNametagStyle() not in self.nametagStyles:
-            self.nametagStyles.append(self.getNametagStyle())
-            self.b_setNametagStyles(self.nametagStyles)
-            
+
     def getNametagStyles(self):
         return self.nametagStyles
     
@@ -3927,9 +3905,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         
     def setFishingRods(self, rods):
         self.fishingRods = rods
-        if self.getFishingRod() not in self.fishingRods:
-            self.fishingRods.append(self.getFishingRod())
-            self.b_setFishingRods(self.fishingRods)
         
     def getFishingRods(self):
         return self.fishingRods
@@ -4634,10 +4609,7 @@ def cheesyEffect(value, hood=0, expire=0):
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
     invoker = spellbook.getTarget()
-    if not value in invoker.cheesyEffects:
-        invoker.cheesyEffects.append(value)
-        invoker.b_setCheesyEffects(invoker.cheesyEffects)
-    invoker.b_setCheesyEffect(value)
+    invoker.b_setCheesyEffect(value, hood, expire)
     return 'Set your cheesy effect to: %d' % value
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
@@ -4933,7 +4905,7 @@ def fishingRod(rod):
     if not 0 <= rod <= 4:
         return 'Rod value must be in xrange (0-4).'
     target = spellbook.getTarget()
-    if not rod in target.fishingRods:
+    if rod not in target.fishingRods:
         target.fishingRods.append(rod)
         target.b_setFishingRods(target.fishingRods)
     target.b_setFishingRod(rod)
@@ -5483,7 +5455,8 @@ def nametagStyle(nametagStyle):
     if nametagStyle != 0 and nametagStyle != 10 and currentAccess == CATEGORY_MODERATOR.defaultAccess:
         return 'Invalid access level!'
     target = spellbook.getTarget()
-    if not nametagStyle in target.nametagStyles:
+
+    if nametagStyle not in target.nametagStyles:
         target.nametagStyles.append(nametagStyle)
         target.b_setNametagStyles(target.nametagStyles)
     target.b_setNametagStyle(nametagStyle)
