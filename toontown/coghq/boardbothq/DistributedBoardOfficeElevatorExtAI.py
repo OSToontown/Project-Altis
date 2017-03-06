@@ -14,7 +14,7 @@ class DistributedBoardOfficeElevatorExtAI(DistributedElevatorExtAI.DistributedEl
         DistributedElevatorExtAI.DistributedElevatorExtAI.__init__(self, air, bldg, antiShuffle=antiShuffle, minLaff=minLaff)
         self.boardofficeId = boardofficeId
         self.cogDept = ToontownGlobals.cogHQZoneId2deptIndex(self.boardofficeId)
-        self.type = ELEVATOR_MINT
+        self.type = ELEVATOR_BOARD_OFFICE
         self.countdownTime = ElevatorData[self.type]['countdown']
 
     def getBoardOfficeId(self):

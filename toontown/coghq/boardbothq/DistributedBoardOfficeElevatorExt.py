@@ -17,7 +17,7 @@ class DistributedBoardOfficeElevatorExt(DistributedElevatorExt.DistributedElevat
 
     def __init__(self, cr):
         DistributedElevatorExt.DistributedElevatorExt.__init__(self, cr)
-        self.type = ELEVATOR_MINT
+        self.type = ELEVATOR_BOARD_OFFICE
         self.countdownTime = ElevatorData[self.type]['countdown']
 
     def generate(self):
@@ -48,7 +48,7 @@ class DistributedBoardOfficeElevatorExt(DistributedElevatorExt.DistributedElevat
         signText.setDepthWrite(0)
 
     def setupElevator(self):
-        self.elevatorModel = loader.loadModel('phase_10/models/cogHQ/mintElevator')
+        self.elevatorModel = loader.loadModel('phase_11/models/lawbotHQ/LB_ElevatorScaled')
         self.elevatorModel.reparentTo(render)
         self.leftDoor = self.elevatorModel.find('**/left_door')
         self.rightDoor = self.elevatorModel.find('**/right_door')
