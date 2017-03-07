@@ -115,7 +115,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if self.resistanceToon:
             return
         npc = Toon.Toon()
-        npc.setName(TTLocalizer.ResistanceToonName)
         npc.setPickable(0)
         npc.setPlayerType(NametagGlobals.CCNonPlayer)
         dna = ToonDNA.ToonDNA()
@@ -128,6 +127,8 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         state = random.getstate()
         random.seed(self.doId)
         self.resistanceToon.suitType = SuitDNA.getRandomSuitByDept('m')
+        self.resistanceToon.setName(TTLocalizer.ResistanceToonName)
+        self.resistanceToon.setDisplayName(TTLocalizer.ResistanceToonName)
         random.setstate(state)
         self.fakeGoons = []
         for i in xrange(self.numFakeGoons):
