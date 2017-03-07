@@ -860,6 +860,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     
     def enterBattleTwo(self):
         self.reparentTo(render)
+        self.evWalls.unstash()
         self.setPosHpr(*ToontownGlobals.CashbotBossBattleTwoPosHpr)
         self.show()
         self.pelvis.setHpr(self.pelvisReversedHpr)
