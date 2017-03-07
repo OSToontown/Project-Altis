@@ -13,8 +13,8 @@ class AchievementGui:
     
     def earnAchievement(self, achievementId):
         if self.queue == []:
-            applause = loader.loadSfx('phase_3.5/audio/sfx/AV_levelup.ogg')
-            applause.play()
+            sound = loader.loadSfx('phase_3.5/audio/sfx/AV_levelup.ogg')
+            sound.play()
             
             self.queue.append(achievementId)
             self.showAchievement()
@@ -32,24 +32,25 @@ class AchievementGui:
         currentAchievement = AchievementsGlobals.AchievementImages[self.currentShowingAward]
         experience = AchievementsGlobals.AchievementExperience[self.currentShowingAward]
         
-        self.frame = OnscreenGeom(geom='phase_3/models/gui/dialog_box_gui', scale=(0.55, 1, 0.55), parent=base.a2dTopCenter,
-                                  pos=(0, 0, .4))
+        self.frame = OnscreenImage(image='phase_3/maps/achievements/ttpa_achievement_background.png', scale=(0.5, 1, 0.5), parent=base.a2dBottomCenter,
+                                  pos=(0, 0, -.45))
+        self.frame.setTransparency(TransparencyAttrib.MAlpha)
         
-        self.image = OnscreenImage(image=currentAchievement, parent=self.frame, scale = .2, pos = (0, 0, -.1))
+        self.image = OnscreenImage(image=currentAchievement, parent=self.frame, scale = .3, pos = (.6, 0, 0))
         self.image.setTransparency(TransparencyAttrib.MAlpha)
 
-        self.title = OnscreenText(text='Achievement Unlocked', scale=(0.06), font=ToontownGlobals.getMinnieFont(),
-                                  parent=self.frame, pos=(0, 0.33), align=TextNode.ACenter)
+        self.title = OnscreenText(text='Achievement Unlocked', scale=(0.1), font=ToontownGlobals.getMinnieFont(),
+                                  parent=self.frame, pos=(0, 0.33), style = 3, align=TextNode.ACenter)
         
-        self.achievementName = OnscreenText(text=AchievementsGlobals.AchievementTitles[self.currentShowingAward], wordwrap = 12, scale=(0.06),
-                                            font=ToontownGlobals.getMinnieFont(), parent=self.frame, align=TextNode.ACenter, pos=(0, 0.2))
-        self.experience = OnscreenText(parent=self.frame, text=str(experience) + " experience earned!", scale=(0.05), font = ToontownGlobals.getMinnieFont(), fg = (0, .8, 0, 1), pos = (0, -.4))
+        self.achievementName = OnscreenText(text=AchievementsGlobals.AchievementTitles[self.currentShowingAward], wordwrap = 12, scale=(0.1),
+                                            font=ToontownGlobals.getMinnieFont(), parent=self.frame, style = 3, align=TextNode.ACenter, pos=(0, 0.2))
+        self.experience = OnscreenText(parent=self.frame, text=str(experience) + " experience earned!", scale=(0.09), style = 3, font = ToontownGlobals.getMinnieFont(), fg = (0, .8, 0, 1), pos = (0, -.4))
         
     def frameSequence(self):
         self.seq = Sequence()
-        self.seq.append(self.frame.posInterval(.5, (0, 0, -.4), blendType = 'easeInOut'))
+        self.seq.append(self.frame.posInterval(.5, (0, 0, .45), blendType = 'easeInOut'))
         self.seq.append(Wait(2))
-        self.seq.append(self.frame.posInterval(.5, (0, 0, .4), blendType = 'easeInOut'))
+        self.seq.append(self.frame.posInterval(.5, (0, 0, -.45), blendType = 'easeInOut'))
         self.seq.append(Func(self.cleanupCurrentFrame))
         
         self.seq.start()

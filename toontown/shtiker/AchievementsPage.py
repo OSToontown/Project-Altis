@@ -118,7 +118,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
             achievementFrame = DirectFrame(parent=self.achievementsPageNode, image=DGG.getDefaultDialogGeom(), scale=(0.25, 0, 0.25),
                                            relief=None, pos=(POSITIONS[achievement]),
                                            text=AchievementsGlobals.AchievementTitles[achievement], text_scale=(.08),
-                                           text_font=ToontownGlobals.getMinnieFont(), text_pos=(0, 0, 0))
+                                           text_font=ToontownGlobals.getMinnieFont(), text_wordwrap = 10, text_pos=(0, 0, 0))
 
             self.achievements.append(achievementFrame)
 

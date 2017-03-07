@@ -238,7 +238,12 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         elif pageName == TTLocalizer.ItemsPageTitle:
             iconGeom = iconModels = OnscreenImage(image='phase_3/maps/items_page_icon.png')
             iconGeom.setTransparency(TransparencyAttrib.MAlpha)
-            iconScale = (0.4, 0.4, 0.4)
+            iconScale = (0.5, 0.5, 0.5)
+            iconModels.detachNode()
+        elif pageName == TTLocalizer.AchievementsPageTitle:
+            iconGeom = iconModels = OnscreenImage(image='phase_3/maps/achievements_page_icon.png')
+            iconGeom.setTransparency(TransparencyAttrib.MAlpha)
+            iconScale = (0.5, 0.5, 0.5)
             iconModels.detachNode()
         elif pageName == TTLocalizer.FishPageTitle:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
