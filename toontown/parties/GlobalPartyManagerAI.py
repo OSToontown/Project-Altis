@@ -34,11 +34,7 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
             return Task.done
 
     def sendAddParty(self, avId, partyId, start, end, isPrivate, inviteTheme, activities, decorations, inviteeIds):
-        if not self.uberdogUp:
-            self.sendUpdateToAvatarId(avId, 'addPartyResponse', [avId, AddPartyErrorCode.DatabaseError])
-            print("Uber dog isnt up, uh oh!")
-            return
-        self.sendUpdate('addParty', [avId, partyId, start, end, isPrivate, inviteTheme, activities, decorations, inviteeIds])
+        self.sendUpdate('addParty', [avId, int(partyId), start, end, isPrivate, inviteTheme, activities, decorations, inviteeIds])
         print("Started a party! " + str(avId) + str(partyId) + str(start) + str(end) + str(isPrivate) + str(inviteTheme) + str(activities) + str(decorations) + str(inviteeIds))
         
     def queryPartyForHost(self, hostId):
@@ -46,40 +42,40 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
         print("Getting host: " + str(hostId))
 
     def d_partyStarted(self, partyId, shardId, zoneId, hostName):
-        self.sendUpdate('partyHasStarted', [partyId, shardId, zoneId, hostName])
+        self.sendUpdate('partyHasStarted', [int(partyId), shardId, zoneId, hostName])
         
     def partyStarted(self, partyId, shardId, zoneId, hostName):
         pass
 
     def d_partyDone(self, partyId):
-        self.sendUpdate('partyDone', [partyId])
+        self.sendUpdate('partyDone', int([partyId]))
         
     def partyDone(self, partyId):
         pass
 
     def d_toonJoinedParty(self, partyId, avId):
-        self.sendUpdate('toonJoinedParty', [partyId, avId])
+        self.sendUpdate('toonJoinedParty', [int(partyId), avId])
         
     def toonJoinedParty(self, partyId, avId):
         pass
 
     def d_toonLeftParty(self, partyId, avId):
-        self.sendUpdate('toonLeftParty', [partyId, avId])
+        self.sendUpdate('toonLeftParty', [int(partyId), avId])
         
     def toonLeftParty(self, partyId, avId):
         pass
         
     def d_requestPartySlot(self, partyId, avId, gateId):
-        self.sendUpdate('requestPartySlot', [partyId, avId, gateId])
+        self.sendUpdate('requestPartySlot', [int(partyId), avId, gateId])
         
     def requestPartySlot(self, partyId, avId, gateId):
         pass
 
     def changePrivateRequestAiToUd(self, hostId, partyId, isPrivate):
-        self.sendUpdate('changePrivateRequest', [hostId, partyId, isPrivate])
+        self.sendUpdate('changePrivateRequest', [hostId, int(partyId), isPrivate])
 
     def changePartyStatusRequestAiToUd(self, hostId, partyId, newPartyStatus):
-        self.sendUpdate('changePartyStatusRequest', [hostId, partyId, newPartyStatus])
+        self.sendUpdate('changePartyStatusRequest', [hostId, int(partyId), newPartyStatus])
 
     def respondToInviteAiToUd(self, fromId, todo0, context, inviteKey, inviteStatus):
         self.sendUpdate('respondToInvite', [fromId, todo0, context, inviteKey, inviteStatus])

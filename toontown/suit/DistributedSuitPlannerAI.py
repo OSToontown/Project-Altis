@@ -337,8 +337,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
       (2,
 	   3,
 	   4,
-	   5,
-	   6),
+	   5),
       []],
      [ToontownGlobals.MapleStreet,
       8,
@@ -358,7 +357,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        0,
        10),
-      (4, 5, 6),
+      (3, 4, 5, 6),
       []],
      [ToontownGlobals.OakStreet,
       8,
@@ -398,15 +397,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        60,
        80,
        0),
-      (5,
-       5,
-       5,
-       80,
-       5),
-      (4,
-       5,
-       6,
-       7),
+      (40,
+       10,
+       30,
+       10,
+       10),
+      (4, 5, 6),
       []],
      [ToontownGlobals.LullabyLane,
       8,
@@ -492,7 +488,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        100,
        0),
-      (3, 4, 5, 6),
+      (4, 5, 6, 7),
       []],
      [ToontownGlobals.SellbotFactoryExt,
       8,
@@ -512,7 +508,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
        0,
        100,
        0),
-      (4, 5, 6),
+      (5, 6, 7, 8),
       []],
      [ToontownGlobals.CashbotHQ,
       8,
@@ -1424,7 +1420,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             if hasattr(toon, 'doId'):
                 toon.b_setBattleId(toonId)
         pos = self.battlePosDict[canonicalZoneId]
-        interactivePropTrackBonus = 2
+        interactivePropTrackBonus = -1
         
         if simbase.config.GetBool('props-buff-battles', True) and self.cellToGagBonusDict.has_key(canonicalZoneId):
             tentativeBonusTrack = self.cellToGagBonusDict[canonicalZoneId]

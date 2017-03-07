@@ -21,6 +21,14 @@ class DistributedGagshopInterior(DistributedObject.DistributedObject):
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
         self.setup()
+        taskMgr.doMethodLater(0.1, self.doMusic, 'gagShopMusic') # gotta delay it a bit
+		
+    def doMusic(self, task):
+        base.musicManager.stopAllSounds()
+        self.gagshopMusicFile = loader.loadMusic("phase_4/audio/bgm/FF_safezone.ogg")
+        self.gagshopMusic = base.playMusic(self.gagshopMusicFile, looping = 1)
+        return task.done
+
 
     def randomDNAItem(self, category, findFunc):
         codeCount = self.dnaStore.getNumCatalogCodes(category)
@@ -96,4 +104,6 @@ class DistributedGagshopInterior(DistributedObject.DistributedObject):
     def disable(self):
         self.interior.removeNode()
         del self.interior
+        if hasattr(self, 'gagshopMusicFile'):
+            self.gagshopMusicFile.stop()
         DistributedObject.DistributedObject.disable(self)

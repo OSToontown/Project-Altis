@@ -900,6 +900,18 @@ CashbotBossCranePosHprs = [(97.4,
   0,
   45,
   0,
+  0),
+ (81,
+  -315,
+  0,
+  -90,
+  0,
+  0),
+ (160,
+  -315,
+  0,
+  90,
+  0,
   0)]
 CashbotBossToMagnetTime = 0.2
 CashbotBossFromMagnetTime = 1
@@ -1786,3 +1798,5 @@ STATS_CJ = 7
 STATS_CEO = 8
 STATS_SAD = 9
 
+                            # 1-default # 2 # 3 # 4
+HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]

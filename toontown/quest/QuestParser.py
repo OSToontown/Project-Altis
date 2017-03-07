@@ -402,6 +402,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
                     iList.append(self.parseStopSfx(line))
                 elif command == 'PLAY_ANIM':
                     iList.append(self.parsePlayAnim(line))
+                elif command == 'POSE_ANIM':
+                    iList.append(self.parsePoseAnim(line))
                 elif command == 'LOOP_ANIM':
                     iList.append(self.parseLoopAnim(line))
                 elif command == 'LERP_POS':
@@ -506,9 +508,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         token, varName, fileName = line
         if varName == 'tomDialogue_01':
             notify.debug('VarName tomDialogue getting added. Tutorial Ack: %d' % base.localAvatar.tutorialAck)
-        if base.config.GetString('language', 'english') == 'japanese':
+        try:
             dialogue = base.loadSfx(fileName)
-        else:
+        except:
             dialogue = None
         self.setVar(varName, dialogue)
 
@@ -817,6 +819,14 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         actor = self.getVar(actorName)
         return Sequence(Func(actor.setPlayRate, playRate, animName), Func(actor.play, animName))
 
+    def parsePoseAnim(self, line):
+        if len(line) == 4:
+            token, actorName, animName, frame = line
+        else:
+            notify.error('invalid number of arguments')
+        actor = self.getVar(actorName)
+        return Sequence(Func(actor.pose, animName, frame))
+        
     def parseLoopAnim(self, line):
         if len(line) == 3:
             token, actorName, animName = line

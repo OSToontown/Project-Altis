@@ -2,7 +2,7 @@ from panda3d.core import Quat, Point3, Point2
 from toontown.toontowngui.Clickable import Clickable
 
 class Clickable3d(Clickable):
-    
+
     def setClickRegionFrame(self, left, right, bottom, top):
         transform = self.contents.getNetTransform()
 

@@ -18,7 +18,7 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
     def reachedPurchaseLimit(self, avatar):
         if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1
-        if avatar.nametagStyle == self.nametagStyle:
+        if self.nametagStyle in avatar.nametagStyles:
             return 1
         return 0
 
@@ -52,6 +52,7 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
 
     def recordPurchase(self, avatar, optional):
         if avatar:
+            avatar.nametagStyles.append(self.nametagStyle)
             avatar.b_setNametagStyle(self.nametagStyle)
         return ToontownGlobals.P_ItemAvailable
 

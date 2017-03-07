@@ -224,6 +224,7 @@ dclass AvatarHandle : TalkPath_whisper {
 dclass DistributedAvatar : DistributedSmoothNode, TalkPath_whisper {
   string DcObjectType db;
   setName(string = "[Name not set]") required broadcast db airecv;
+  setToonTag(string = "") required broadcast db airecv;
   friendsNotify(DoId avId, int8 status) ownrecv airecv;
   checkAvOnShard(DoId) clsend airecv;
   confirmAvOnShard(DoId avId, int8 isOnShard);
@@ -289,6 +290,7 @@ dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256), uint8 chatMode) clsend;
   chatMessageResponse(DoId, string, TalkModification [], uint8 chatMode) airecv;
+  kickForSpam(uint32) airecv clsend;
 };
 
 dclass FriendManager : DistributedObject {
@@ -1048,12 +1050,14 @@ dclass DistributedToon : DistributedPlayer {
   setQuestCarryLimit(uint8 = 1) required ownrecv db;
   requestDeleteQuest(uint32[]) ownsend airecv;
   setCheesyEffect(int16 = 0, uint32 = 0, uint32 = 0) required broadcast ownrecv db;
+  setCheesyEffects(int16[] = [0]) required broadcast ownrecv db;
   setGhostMode(uint8) broadcast ownrecv ram;
   setPosIndex(uint8 = 0) required ownrecv db;
   setFishCollection(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
   setMaxFishTank(uint8 = 20) required ownrecv db;
   setFishTank(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
   setFishingRod(uint8 = 0) required broadcast ownrecv db;
+  setFishingRods(uint8[] = [0]) required broadcast ownrecv db;
   setFishingTrophies(uint8[] = []) required ownrecv db;
   setFlowerCollection(uint8[] = [], uint8[] = []) required ownrecv db;
   setFlowerBasket(uint8[] = [], uint8[] = []) required ownrecv db;
@@ -1118,6 +1122,7 @@ dclass DistributedToon : DistributedPlayer {
   forceLogoutWithNotify() ownrecv;
   setPinkSlips(uint8 = 0) required ownrecv db;
   setNametagStyle(uint8 = 0) required broadcast ownrecv db;
+  setNametagStyles(uint8[] = [0]) required broadcast ownrecv db;
   setMail(simpleMail []) ownrecv airecv ram;
   setNumMailItems(uint32) airecv;
   setSimpleMailNotify(uint8) ownrecv airecv;
@@ -1143,8 +1148,12 @@ dclass DistributedToon : DistributedPlayer {
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
+  requestNametagStyle(uint8) airecv ownsend;
+  requestFishingRod(uint8) airecv ownsend;
+  requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
   setStats(uint32[] = [0*10]) required ownrecv db;
+  setInteriorLayout(uint8 = 0) required ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -1302,6 +1311,7 @@ dclass DistributedBossCog : DistributedNode {
   zapToon(int16/10, int16/10, int16/10, int16/10, int16/10, int16/10, int8/100, int8/100, uint8, int16) airecv clsend;
   showZapToon(uint32, int16/10, int16/10, int16/10, int16/10, int16/10, int16/10, uint8, int16) broadcast;
   setAttackCode(uint8, uint32) broadcast;
+  setHealthTag(string) broadcast ram;
 };
 
 dclass DistributedSellbotBoss : DistributedBossCog {
@@ -1324,6 +1334,9 @@ dclass DistributedCashbotBoss : DistributedBossCog {
   setBossDamage(uint16) broadcast ram;
   setRewardId(uint16) broadcast ram;
   applyReward() airecv clsend;
+  setBattleDifficulty(uint8) broadcast ram;
+  setMaxHp(uint16) broadcast ram;
+  setBonusUnites(uint8) broadcast ram;
 };
 
 struct LinkPosition {
@@ -1748,6 +1761,7 @@ dclass DistributedHouse : DistributedObject {
   setInteriorInitialized(uint8 initialized = 0) required db;
   setCannonEnabled(uint8) required;
   setHouseReady() broadcast ram;
+  setInteriorLayout(uint8 layoutId = 0) required broadcast db;
 };
 
 dclass DistributedHouseInterior : DistributedObject {
@@ -1755,6 +1769,7 @@ dclass DistributedHouseInterior : DistributedObject {
   setHouseIndex(uint8) required broadcast ram;
   setWallpaper(blob) required broadcast ram;
   setWindows(blob) required broadcast ram;
+  setInteriorLayout(uint8) required broadcast ram;
 };
 
 dclass DistributedGarden : DistributedObject {
@@ -3981,5 +3996,5 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 };
 
 dclass DistributedRainManager : DistributedWeatherMGR {
-
+  spawnLightning(int16, int16) broadcast ram;
 };

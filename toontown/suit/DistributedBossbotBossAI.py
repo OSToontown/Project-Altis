@@ -482,6 +482,10 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         bossDamage *= 2
         bossDamage = min(self.getBossDamage() + bossDamage, self.bossMaxDamage)
         self.b_setBossDamage(bossDamage, 0, 0)
+        healthDisp = int(self.bossMaxDamage - self.bossDamage)
+        if healthDisp < 0:
+           healthDisp = 0
+        self.setHealthTag(str(healthDisp) + '/' + str(int(self.bossMaxDamage)))
         if self.bossDamage >= self.bossMaxDamage:
             self.b_setState('Victory')
         else:

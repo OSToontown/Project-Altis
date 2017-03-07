@@ -1,3 +1,4 @@
+import httplib, json
 from direct.distributed.PyDatagram import *
 from panda3d.core import *
 from otp.ai.AIZoneData import AIZoneDataStore
@@ -76,6 +77,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.countryClubMgr = None
         self.startTime = startTime
         self.isRaining = False
+        self.invLastPop = None
+        self.invLastStatus = None
 
         import pymongo
         
@@ -237,6 +240,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Making district available...')
         self.distributedDistrict.b_setAvailable(1)
         self.notify.info('Done.')
+        
+        self.notify.info("Starting Invasion Tracker...")
+        taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
+        self.notify.info("Invasion Tracker Started!")
 
     def lookupDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)
@@ -279,3 +286,31 @@ class ToontownAIRepository(ToontownInternalRepository):
 
     def trueUniqueName(self, name):
         return self.uniqueName(name)
+        
+    def updateInvasionTrackerTask(self, task):
+        task.delayTime = 10 # Set it to 10 after doing it the first time
+        statusToType = {
+        0: 'None',
+        1: 'Bossbot',
+        2: 'Lawbot',
+        3: 'Cashbot',
+        4: 'Sellbot',
+        5: 'Boardbot'}
+        pop = self.districtStats.getAvatarCount()
+        invstatus = statusToType.get(self.districtStats.getInvasionStatus(), 'None')
+      #  if pop == self.invLastPop and invstatus == self.invLastStatus:
+      #      return task.again # Don't attempt to update the database, its a waste
+	  # No it's not a waste. PLZ
+        
+        self.invLastPop = pop
+        self.invLastStatus = invstatus
+        
+        if invstatus == 'None':
+            httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
+            httpReqkill.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/0/%s/1/1' % (self.districtName, pop, invstatus))
+        else:
+            httpReq = httplib.HTTPSConnection('www.projectaltis.com')
+            httpReq.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
+            print(json.loads(httpReq.getresponse().read()))
+
+        return task.again

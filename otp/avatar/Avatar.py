@@ -250,6 +250,14 @@ class Avatar(Actor, ShadowCaster):
 
     def getType(self):
         return self.avatarType
+        
+    def setToonTag(self, tag):
+        self.npcType = tag
+        if hasattr(self, 'nametag'):
+            self.setNametagWithTag(self.name)
+            
+    def getToonTag(self):
+        return self.npcType
 
     def setName(self, name):
         self.name = name
@@ -264,7 +272,7 @@ class Avatar(Actor, ShadowCaster):
             name = self.name
             
         if self.npcType:
-            name += ('\n\1textShadow\1%s\2' % self.npcType)
+            name += ('\n\1textShadow\1%s\2' % self.getToonTag())
         self.nametag.setText(name)
 
     def getFont(self):

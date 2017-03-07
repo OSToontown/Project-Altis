@@ -53,9 +53,10 @@ from toontown.shtiker import ShtikerBook
 from toontown.shtiker import SuitPage
 from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
+from toontown.shtiker import ItemsPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
-import StreamerMode
+import StreamerMode, ChatLog
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -180,6 +181,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.oldPos = None
         self.questMap = None
         self.streamerMode = None
+        self.chatLog = None
         self.prevToonIdx = 0
 
     def setDNA(self, dna):
@@ -189,6 +191,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def setName(self, name):
         base.localAvatarName = name
         DistributedToon.DistributedToon.setName(self, name)
+        
+    def setToonTag(self, tag):
+        DistributedToon.DistributedToon.setToonTag(self, tag)
 
     def wantLegacyLifter(self):
         return True
@@ -263,12 +268,24 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         acceptingNewFriends = settings.get('acceptingNewFriends', {})
         acceptingNonFriendWhispers = settings.get('acceptingNonFriendWhispers', {})
+        nametagStyle_index = settings.get('lastNametag', {})
+        fishingRods_index = settings.get('lastRod', {})
+        cheesyEffect_index = settings.get('lastEffect', {})
         if str(self.doId) not in acceptingNewFriends:
             acceptingNewFriends[str(self.doId)] = True
             settings['acceptingNewFriends'] = acceptingNewFriends
         if str(self.doId) not in acceptingNonFriendWhispers:
             acceptingNonFriendWhispers[str(self.doId)] = True
             settings['acceptingNonFriendWhispers'] = acceptingNonFriendWhispers
+        if str(self.doId) not in nametagStyle_index:
+            nametagStyle_index[str(self.doId)] = 0
+            settings['lastNametag'] = nametagStyle_index
+        if str(self.doId) not in fishingRods_index:
+            fishingRods_index[str(self.doId)] = 0
+            settings['lastRod'] = fishingRods_index
+        if str(self.doId) not in cheesyEffect_index:
+            cheesyEffect_index[str(self.doId)] = 0
+            settings['lastEffect'] = cheesyEffect_index
         self.acceptingNewFriends = acceptingNewFriends[str(self.doId)]
         self.acceptingNonFriendWhispers = acceptingNonFriendWhispers[str(self.doId)]
 
@@ -329,6 +346,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.streamerMode:
             self.streamerMode.stop()
             del self.streamerMode
+        if self.chatLog:
+            self.chatLog.stop()
         taskMgr.remove('unlockGardenButtons')
         if self.__lerpFurnitureButton:
             self.__lerpFurnitureButton.finish()
@@ -382,6 +401,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.fishPage.setAvatar(self)
         self.fishPage.load()
         self.book.addPage(self.fishPage, pageName=TTLocalizer.FishPageTitle)
+        self.itemsPage = ItemsPage.ItemsPage()
+        self.itemsPage.load()
+        self.book.addPage(self.itemsPage, pageName = TTLocalizer.ItemsPageTitle)
         if base.wantAchievements:
             self.achievementsPage = AchievementsPage.AchievementsPage()
             self.achievementsPage.setAvatar(self)
@@ -435,6 +457,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.achievementGui = AchievementGui.AchievementGui()
         self.streamerMode = StreamerMode.StreamerMode()
         self.streamerMode.start()
+        self.chatLog = ChatLog.ChatLog()
+        self.chatLog.reparentTo(base.a2dLeftCenter)
+        self.chatLog.setPos(-1, 0, 0.2)
                     
         taskMgr.remove('streamerUpdateDist')
         taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')

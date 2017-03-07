@@ -203,6 +203,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.magicWordTeleportRequests = []
         self.buffs = []
         self.stats = [0] * 10
+        self.interiorLayout = 0
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -1679,43 +1680,62 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getMaxCarry(self):
         return self.maxCarry
 
-    def b_setCheesyEffect(self, effect, hoodId, expireTime):
+    def b_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+        if effect not in self.cheesyEffects:
+            self.cheesyEffects.append(effect)
+            self.b_setCheesyEffects(self.cheesyEffects)
         self.setCheesyEffect(effect, hoodId, expireTime)
         self.d_setCheesyEffect(effect, hoodId, expireTime)
 
-    def d_setCheesyEffect(self, effect, hoodId, expireTime):
+    def d_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
         self.sendUpdate('setCheesyEffect', [effect, hoodId, expireTime])
 
-    def setCheesyEffect(self, effect, hoodId, expireTime):
+    def setCheesyEffect(self, effect, hoodId=0, expireTime=0):
         if simbase.air.holidayManager and ToontownGlobals.WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.WACKY_WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and effect == ToontownGlobals.CESnowMan:
-            self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
+            self.b_setCheesyEffect(ToontownGlobals.CENormal)
             self.b_setScavengerHunt([])
             return
         if simbase.air.holidayManager and ToontownGlobals.HALLOWEEN_PROPS not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.HALLOWEEN_COSTUMES not in simbase.air.holidayManager.currentHolidays and not simbase.air.wantHalloween and effect == ToontownGlobals.CEPumpkin:
-            self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
+            self.b_setCheesyEffect(ToontownGlobals.CENormal)
             self.b_setScavengerHunt([])
             return
         self.savedCheesyEffect = effect
         self.savedCheesyHoodId = hoodId
         self.savedCheesyExpireTime = expireTime
-        if config.GetBool('want-cheesy-expirations', self.air.doLiveUpdates):
-            taskName = self.uniqueName('cheesy-expires')
-            taskMgr.remove(taskName)
-            if effect != ToontownGlobals.CENormal:
-                duration = expireTime - time.time()
-                if duration > 0:
-                    taskMgr.doMethodLater(duration, self.__undoCheesyEffect, taskName)
-                else:
-                    self.__undoCheesyEffect(None)
         return
 
     def getCheesyEffect(self):
-        return (self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime)
+        return (self.savedCheesyEffect)
 
     def __undoCheesyEffect(self, task):
         self.b_setCheesyEffect(ToontownGlobals.CENormal, 0, 0)
         return Task.cont
 
+    def b_setCheesyEffects(self, ce):
+        self.d_setCheesyEffects(ce)
+        self.setCheesyEffects(ce)
+        
+    def d_setCheesyEffects(self, ce):
+        try:
+            self.sendUpdate('setCheesyEffects', [ce])
+        except:
+            self.sendUpdate('setCheesyEffects', [0])
+        
+    def setCheesyEffects(self, ce):
+        self.cheesyEffects = ce
+        if self.getCheesyEffect() not in self.cheesyEffects:
+            self.cheesyEffects.append(self.getCheesyEffect())
+            self.b_setCheesyEffects(self.cheesyEffects)
+        
+    def getCheesyEffects(self):
+        return self.cheesyEffects
+        
+    def requestCheesyEffects(self, ce):
+        if ce not in self.cheesyEffects:
+            return
+            
+        self.b_setCheesyEffect(ce)
+        
     def b_setTrackAccess(self, trackArray):
         self.setTrackAccess(trackArray)
         self.d_setTrackAccess(trackArray)
@@ -2079,6 +2099,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getHouseId(self):
         return self.houseId
 
+    def b_setInteriorLayout(self, id):
+        self.setInteriorLayout(id)
+        self.d_setInteriorLayout(id)
+        
+    def d_setInteriorLayout(self, id):
+        self.sendUpdate('setInteriorLayout', [id])
+        
+    def setInteriorLayout(self, id):
+        self.interiorLayout = id
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout
+        
     def setPosIndex(self, index):
         self.posIndex = index
 
@@ -3288,6 +3321,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
+		
+    def doDeptInvasion(self, deptIndex):
+        if self.air.suitInvasionManager.getInvading():
+            return ['busy', 0, 0]
+            
+        if deptIndex >= len(SuitDNA.suitDepts):
+            self.notify.warning('Bad dept index: %s' % deptIndex)
+            return ['badIndex', deptIndex, 0]
+
+        if self.air.suitInvasionManager.startInvasion(
+                suitDeptIndex=deptIndex, suitTypeIndex=None):
+            return ['success', deptIndex, 0]
+
+        return ['fail', deptIndex, 0]
 
     def b_setCogSummonsEarned(self, cogSummonsEarned):
         self.d_setCogSummonsEarned(cogSummonsEarned)
@@ -3854,6 +3901,50 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getNametagStyle(self):
         return self.nametagStyle
 
+    def b_setNametagStyles(self, nametagStyles):
+        self.d_setNametagStyles(nametagStyles)
+        self.setNametagStyles(nametagStyles)
+
+    def d_setNametagStyles(self, nametagStyles):
+        self.sendUpdate('setNametagStyles', [nametagStyles])
+
+    def setNametagStyles(self, nametagStyles):
+        self.nametagStyles = nametagStyles
+        if self.getNametagStyle() not in self.nametagStyles:
+            self.nametagStyles.append(self.getNametagStyle())
+            self.b_setNametagStyles(self.nametagStyles)
+            
+    def getNametagStyles(self):
+        return self.nametagStyles
+    
+    def requestNametagStyle(self, nametagStyle):
+        if nametagStyle not in self.nametagStyles:
+            return
+
+        self.b_setNametagStyle(nametagStyle)
+
+    def b_setFishingRods(self, rods):
+        self.d_setFishingRods(rods)
+        self.setFishingRods(rods)
+        
+    def d_setFishingRods(self, rods):
+        self.sendUpdate('setFishingRods', [rods])
+        
+    def setFishingRods(self, rods):
+        self.fishingRods = rods
+        if self.getFishingRod() not in self.fishingRods:
+            self.fishingRods.append(self.getFishingRod())
+            self.b_setFishingRods(self.fishingRods)
+        
+    def getFishingRods(self):
+        return self.fishingRods
+        
+    def requestFishingRod(self, rodId):
+        if rodId not in self.fishingRods:
+            return
+            
+        self.b_setFishingRod(rodId)
+        
     def logMessage(self, message):
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
@@ -4208,6 +4299,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 
         self.setName(name)
         self.d_setName(name)
+        
+    def setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.setToonTag(self, tag)
+    
+    def d_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.d_setToonTag(self, tag)
+        
+    def b_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.b_setToonTag(self, tag)
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
@@ -4427,7 +4527,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return 1
 
         return 0
-        
+
     def b_setStats(self, stats):
         self.d_setStats(stats)
         self.setStats(stats)
@@ -4564,7 +4664,10 @@ def cheesyEffect(value, hood=0, expire=0):
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
     invoker = spellbook.getTarget()
-    invoker.b_setCheesyEffect(value, hood, expire)
+    if not value in invoker.cheesyEffects:
+        invoker.cheesyEffects.append(value)
+        invoker.b_setCheesyEffects(invoker.cheesyEffects)
+    invoker.b_setCheesyEffect(value)
     return 'Set your cheesy effect to: %d' % value
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
@@ -4751,6 +4854,30 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
+def manualSos(count, npcId):
+    """
+    Modifies the invoker's specified SOS card count.
+    """
+    invoker = spellbook.getInvoker()
+    if not 0 <= count <= 100:
+        return 'Your SOS count must be in range (0-100).'
+    if (count == 0) and (npcId in invoker.NPCFriendsDict):
+        del invoker.NPCFriendsDict[npcId]
+    else:
+        invoker.NPCFriendsDict[npcId] = count
+    invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
+    return "You were given %d SOS cards of toon id %d." % (count, npcId)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[])
+def clearSOS():
+    """
+    Clear's the invoker's SOS card inventory
+    """
+    invoker = spellbook.getInvoker()
+    invoker.b_setNPCFriendsDict({})
+    return "Your sos cards have been cleared!"
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def unites(value=32767):
@@ -4836,6 +4963,9 @@ def fishingRod(rod):
     if not 0 <= rod <= 4:
         return 'Rod value must be in xrange (0-4).'
     target = spellbook.getTarget()
+    if not rod in target.fishingRods:
+        target.fishingRods.append(rod)
+        target.b_setFishingRods(target.fishingRods)
     target.b_setFishingRod(rod)
     return "Set %s's fishing rod to %d!" % (target.getName(), rod)
 
@@ -4862,6 +4992,19 @@ def name(name=''):
         return "Set %s's name to %s!" % (_name, name)
     else:
         return "%s's name is now empty!" % _name
+        
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
+def tag(tag=''):
+    """
+    Modify the target's tag.
+    """
+    target = spellbook.getTarget()
+    _name = target.getName()
+    target.b_setToonTag(tag)
+    if tag:
+        return "Set %s's tag to %s!" % (_name, tag)
+    else:
+        return "%s's tag is now empty!" % _name
 
 @magicWord(category=CATEGORY_CREATIVE, types=[int, int])
 def hat(hatIndex, hatTex=0):
@@ -4947,6 +5090,7 @@ def gmIcon(accessLevel=None):
                                CATEGORY_MODERATOR.defaultAccess,
                                CATEGORY_CREATIVE.defaultAccess,
                                CATEGORY_PROGRAMMER.defaultAccess,
+                               398,
                                CATEGORY_ADMINISTRATOR.defaultAccess,
                                CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess):
             return 'Invalid access level!'
@@ -5307,9 +5451,10 @@ def track(command, track, value=None):
 def suit(command, suitName="hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
-    if suitName not in SuitDNA.suitHeadTypes:
+    if suitName not in SuitDNA.suitHeadTypes and command != 'deptinvasion':
         return 'Invalid suit name: ' + suitName
-    suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
+    if command != 'deptinvasion':
+        suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
     if command == 'spawn':
         returnCode = invoker.doSummonSingleCog(SuitDNA.suitHeadTypes.index(suitName))
         if returnCode[0] == 'success':
@@ -5325,6 +5470,11 @@ def suit(command, suitName="hho"):
         if returnCode[0] == 'success':
             return 'Successfully started Cog Invasion for: ' + suitFullName
         return "Couldn't start Cog Invasion for: " + suitFullName
+    elif command == 'deptinvasion':
+        returnCode = invoker.doDeptInvasion(int(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully started Cog Invasion for dept index: ' + suitName
+        return "Couldn't start Cog Invasion for dept index: " + suitName
     elif command == 'invasionend':
         returnCode = 'Ending Invasion..'
         simbase.air.suitInvasionManager.stopInvasion()
@@ -5364,6 +5514,9 @@ def nametagStyle(nametagStyle):
     if nametagStyle != 0 and nametagStyle != 10 and currentAccess == CATEGORY_MODERATOR.defaultAccess:
         return 'Invalid access level!'
     target = spellbook.getTarget()
+    if not nametagStyle in target.nametagStyles:
+        target.nametagStyles.append(nametagStyle)
+        target.b_setNametagStyles(target.nametagStyles)
     target.b_setNametagStyle(nametagStyle)
     return 'Nametag style set to: %s.' % TTLocalizer.NametagFontNames[nametagStyle]
 

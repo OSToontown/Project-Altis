@@ -165,6 +165,7 @@ class PlantingGUI(DirectFrame):
             instructionsPos = (0, 0.35)
         DirectFrame.__init__(self, relief=None, state='normal', geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_scale=(1.5, 1.0, 1.0), frameSize=(-1, 1, -1, 1), pos=(0, 0, 0), text=instructions, text_wordwrap=20, text_scale=0.08, text_pos=instructionsPos)
         self.initialiseoptions(PlantingGUI)
+        self.reparentTo(aspect2d, 4000)
         self.doneEvent = doneEvent
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         okImageList = (buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr'))
@@ -186,10 +187,13 @@ class PlantingGUI(DirectFrame):
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         self.beanBank = DirectLabel(self, relief=None, image=guiItems.find('**/bean_bank'), text=str(base.localAvatar.getMoney() + base.localAvatar.getBankMoney()), text_align=TextNode.ARight, text_scale=0.11, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.75, -0.81), text_font=ToontownGlobals.getSignFont(), pos=(-0.85, 0, 0.2), scale=0.5)
         self.matchBoxesToAvailableMoney()
+        base.transitions.fadeScreen(0.5)
+        base.localAvatar.controlManager.disableControls()
         if PICKER_ALWAYS_UP:
             self.spiffyBeanBoxClicked(0)
 
     def destroy(self):
+        base.localAvatar.controlManager.enableControls()
         if self.boxList:
             for box in self.boxList:
                 box.destroy()
@@ -208,7 +212,8 @@ class PlantingGUI(DirectFrame):
                 photo.destroy()
 
             self.specialPhotoList = []
-
+        base.transitions.noFade()
+        
     def __cancel(self):
         messenger.send(self.doneEvent, [0, '', -1])
         messenger.send('wakeup')

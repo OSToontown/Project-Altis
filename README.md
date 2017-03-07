@@ -6,27 +6,28 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 ## Contributors
 
 ### Management Team
-* Bethy / Limey Mouse | Director
-* Smirky Bumberpop | External Community Manager
-* Loopy Goopy Googlenerd | Content Director
-* Judge | Investor
-* Drew | Technical Team Lead
+* Dubito / James | Founder & Director
+* Bethy / Limey Mouse | Director | **Signed NDA**
+* Smirky Bumberpop | External Community Manager | Pending NDA
+* Loopy Goopy Googlenerd | Content Director | Pending NDA
+* Judge | Investor | **Signed NDA**
+* Drew | Technical Team Lead | Pending NDA
 
 ### Technical Team
-* Sir Tubby Cheezyfish | Lead Game Developer
-* Barks | Game Developer
-* Dan | Game Developer
-* Malverde | Game Developer
-* Skipps | Game Developer
-* Alice | Web Developer
-* Ben | Launcher Developer
+* Sir Tubby Cheezyfish | Lead Game Developer | Pending NDA
+* Barks | Game Developer | Pending NDA
+* Dan | Game Developer | Pending NDA
+* Malverde | Game Developer | Pending NDA
+* Alice | Web Developer | **Signed NDA**
+* Ben | Launcher Developer | Pending NDA
+* Jakebooy | Web Developer | **Signed NDA**
 
 ### Creative Team
-* Bethy / Limey Mouse | Lead Artist
-* Old Geezer | Modeller | Composer
-* Maddie | Texture Artist
-* VoidPoro | Texture Artist
-* Pascal | Modeller
+* Bethy / Limey Mouse | Lead Artist | NDA Not Needed
+* Old Geezer | Modeller | Composer | NDA Not Needed
+* Maddie | Texture Artist | NDA Not Needed
+* VoidPoro | Texture Artist | NDA Not Needed
+* Pascal | Modeller | NDA Not Needed
 
 ### Contributors
 * Dank Mickey | Former Developer | Boardbot Development

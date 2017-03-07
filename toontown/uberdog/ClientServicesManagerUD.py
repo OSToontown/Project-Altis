@@ -1,4 +1,4 @@
-import semidbm
+import anydbm
 import base64
 import hashlib
 import hmac
@@ -29,8 +29,10 @@ if accountDBType == 'remote':
 # developer server:
 minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
-accountServerEndpoint = simbase.config.GetString('account-server-endpoint', 'https://projectaltis.com/api/')
-accountServerSecret = simbase.config.GetString('account-server-secret', 'sjHgh43h43ZMcHnJ')
+accountServerEndpoint = simbase.config.GetString(
+    'account-server-endpoint', 'https://projectaltis.com/api/')
+accountServerSecret = simbase.config.GetString(
+    'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
 http = HTTPClient()
 http.setVerifySsl(0)
@@ -44,7 +46,7 @@ def executeHttpRequest(url, **extras):
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
         request.add_header('X-CSM-' + k, v)
-
+    
     try:
         return urllib2.urlopen(request).read()
     except:
@@ -57,17 +59,16 @@ if blacklist:
 def judgeName(name): #All of this gunction is just fuckrd
     if not name:
         return False
-
+    
     if blacklist:
         for namePart in name.split(' '):
             namePart = namePart.lower()
             if len(namePart) < 1:
                 return False
-
+            
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
-
     # Use Google's API for checking badword list
     return True
 
@@ -77,8 +78,9 @@ class AccountDB:
     def __init__(self, csm):
         self.csm = csm
 
-        filename = simbase.config.GetString('account-bridge-filename', 'account-bridge')
-        self.dbm = semidbm.open(filename, 'c')
+        filename = simbase.config.GetString(
+            'account-bridge-filename', 'account-bridge')
+        self.dbm = anydbm.open(filename, 'c')
 
     def addNameRequest(self, avId, name):
         return 'Success'
@@ -134,24 +136,10 @@ class DeveloperAccountDB(AccountDB):
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-
-    def addNameRequest(self, avId, name):
-        # add type a name
-        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/addtypeaname/%s/%s' % (avId, name))
-        return 'Success'
-
-    def getNameStatus(self, avId):
-        # check type a name
-        #nameCheck = httplib.HTTPConnection('www.projectaltis.com')
-        #nameCheck.request('GET', '/api/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/checktypeaname/%s' % (avId)) # this should just use avid
-        return 'APPROVED'
-
     def lookup(self, username, callback):
-        '''
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
-
+        
         try:
             XXX = httpReq.getresponse().read()
             response = json.loads(XXX)
@@ -161,7 +149,7 @@ class LocalAccountDB(AccountDB):
             return
 
         if response['status'] != 'true':
-
+            
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
@@ -175,7 +163,7 @@ class LocalAccountDB(AccountDB):
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
         sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
-
+        
         try:
             XYZ = sanityChecks.getresponse().read()
             print(str(XYZ))
@@ -196,9 +184,9 @@ class LocalAccountDB(AccountDB):
                 callback({'success': False,
                           'reason': 'Your account is banned from Project Altis!'})
                 return
-        except:
+        except: 
             pass
-
+                
         #if response["statuscheck"] == "false":
         #    callback({'success': False,
         #              'reason': 'Toontown Project Altis is closed until the 20th!'})
@@ -208,10 +196,6 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Invalid Cookie Specified!'})
             return
-        '''
-        # TEMP
-        cookie = username
-        # TEMP
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -221,7 +205,7 @@ class LocalAccountDB(AccountDB):
                 'accountId': 0,
                 'accessLevel': 100
             }
-
+            
             callback(response)
             return response
 
@@ -232,7 +216,7 @@ class LocalAccountDB(AccountDB):
                     'success': True,
                     'userId': cookie,
                     'accountId': int(self.dbm[str(cookie)]),
-                    'accessLevel': int(507)
+                    'accessLevel': int(response['powerlevel'])
                 }
             except:
                 # We have an account already, let's return what we've got:
@@ -242,10 +226,49 @@ class LocalAccountDB(AccountDB):
                     'accountId': int(self.dbm[str(cookie)]),
                     'accessLevel': int(150)
                 }
-
+            
             callback(response)
             return response
 
+
+    def addNameRequest(self, avId, name):
+        # add type a name
+        self.notify.debug("adding name from %s : %s" %(avId, name))
+        try:
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
+            resp = json.loads(nameCheck.getresponse().read())
+        except:
+            self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
+        return 'Success'
+        
+    def getNameStatus(self, avId):
+        # check type a name
+        self.notify.debug("debug: checking name from %s" %(avId))
+        try:
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
+            resp = json.loads(nameCheck.getresponse().read())
+            
+            if resp[u"error"] == "true":
+                state = "ERROR"
+            
+            status = resp[u"status"]
+            if status == -1:
+                state = "REJECTED"
+            elif status == 0:
+                state = "PENDING"
+            elif status == 1:
+                state = "APPROVED"
+            else:
+                self.notify.debug("Get name status for av %s didnt return an expected value, got %s, setting to PENDING" % (avId, str(status)))
+                state = "REJECTED"
+        except:
+            self.notify.debug("Get name status failed for av %s, setting to pending" % avId)
+            state = "ERROR"
+        self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
+        return state
+    
 class RemoteAccountDB(AccountDB):
     notify = directNotify.newCategory('RemoteAccountDB')
 
@@ -567,7 +590,7 @@ class CreateAvatarFSM(OperationFSM):
         elif pg ==2:
             for track in tracks:
                 self.trackAccess[track] = 1
-
+        
 
         # Okay, we're good to go, let's query their account.
         self.demand('RetrieveAccount')
@@ -605,7 +628,7 @@ class CreateAvatarFSM(OperationFSM):
             colorString = "Colorful"
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
-
+		
         toonFields = {
             'setName': (name,),
             'WishNameState': ('OPEN',),
@@ -614,7 +637,7 @@ class CreateAvatarFSM(OperationFSM):
             'setDISLid': (self.target,),
             'setUber': (self.uber,)
         }
-
+		
         if self.pg > 0:
             if self.pg == 1:
                 maxMoney = 50
@@ -628,8 +651,8 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 25
                 experience = [600, 800]
-
-            elif self.pg == 2:
+                
+            elif self.pg == 2: 
                 maxMoney = 60
                 maxCarry = 30
                 startingHood = 5000
@@ -643,16 +666,16 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 34
                 experience = [1000, 2400]
-
+			
             exp = Experience()
-
+            
             for i, t in enumerate(self.trackAccess):
                 if t:
                     chosenExp = random.randint(experience[0], experience[1])
                     exp.setExp(i, chosenExp)
 
             toonFields['setExperience'] = (exp.makeNetString(),)
-
+			
             toonFields['setMaxMoney'] = (maxMoney,)
             toonFields['setMaxCarry'] = (maxCarry,)
             toonFields['setTrackAccess'] = (self.trackAccess,)
@@ -665,7 +688,7 @@ class CreateAvatarFSM(OperationFSM):
             toonFields['setHp'] = (hp,)
             toonFields['setMaxHp'] = (hp,)
             toonFields['setTutorialAck'] = (1,)
-
+				
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['DistributedToonUD'],
@@ -784,6 +807,10 @@ class GetAvatarsFSM(AvatarOperationFSM):
                     name = fields['WishName'][0]
                 elif actualNameState == 'REJECTED':
                     nameState = 4
+                elif actualNameState == 'ERROR':
+                    nameState = 2
+
+                    self.csm.accountDB.addNameRequest(avId, fields['WishName'][0])
             elif wishNameState == 'APPROVED':
                 nameState = 3
             elif wishNameState == 'REJECTED':
@@ -886,7 +913,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
     def enterJudgeName(self):
         # Let's see if the name is valid:
         status = judgeName(self.name)
-
+        
         if self.avId and status:
             resp = self.csm.accountDB.addNameRequest(self.avId, self.name)
             if resp != 'Success':
@@ -1206,13 +1233,13 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
     def login(self, cookie, authKey):
         sender = self.air.getMsgSender()
-
+        
         self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
         digest_maker.update(cookie)
-
+        
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
             # recieved a bad authentication key from the client, drop there connection!
             self.killConnection(sender, 'Failed to login, recieved a bad login cookie %s!' % (cookie))

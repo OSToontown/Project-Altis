@@ -2,6 +2,8 @@ from direct.distributed.DistributedObjectGlobalAI import DistributedObjectGlobal
 from direct.directnotify import DirectNotifyGlobal
 from toontown.chat.ChatGlobals import *
 from otp.distributed import OtpDoGlobals
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.MsgTypes import *
 
 class ChatAgentAI(DistributedObjectGlobalAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentAI")
@@ -13,7 +15,7 @@ class ChatAgentAI(DistributedObjectGlobalAI):
             2: OtpDoGlobals.OTP_ADMIN_CHANNEL,
             3: OtpDoGlobals.OTP_SYSADMIN_CHANNEL,
         }
-        
+        self.air = air
         self.accept('requestToonAccess', self.getToonAccess)
         self.accept('warningUpdate', self.updateWarnings)
         self.accept('requestOffenses', self.sendAvatarOffenses)
@@ -77,3 +79,6 @@ class ChatAgentAI(DistributedObjectGlobalAI):
             return
     
         av.b_setWarningCount(count, doBan)
+        
+    def kickForSpam(self, avatar):
+        pass
