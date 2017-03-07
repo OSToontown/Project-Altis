@@ -9,6 +9,9 @@ class DistributedAvatarUD(DistributedObjectUD):
 
     def setName(self, todo0):
         pass
+        
+    def setToonTag(self, tag):
+        pass
 
     def friendsNotify(self, todo0, todo1):
         pass

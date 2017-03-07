@@ -403,7 +403,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.setChatAbsolute(chatString, CFSpeech | CFTimeout)
         ResistanceChat.doEffect(msgIndex, self, nearbyToons)
 
-    def d_battleSOS(self, requesterId, sendToId):
+    def d_battleSOS(self, sendToId):
         self.cr.ttaFriendsManager.d_battleSOS(sendToId)
 
     def battleSOS(self, requesterId):
@@ -1161,7 +1161,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             effect = ToontownGlobals.CEGhost
         
         self.applyCheesyEffect(effect, lerpTime=lerpTime)
-
+        
+    def getCheesyEffects(self):
+        return self.cheesyEffects
+        
+    def setCheesyEffects(self, ce):
+        self.cheesyEffects = ce
+        
+    def requestCheesyEffects(self, ce):
+        if ce not in self.cheesyEffects:
+            return
+            
+        self.sendUpdate('requestCheesyEffects', [ce])
+        
     def setGhostMode(self, flag):
         if self.ghostMode != flag:
             self.ghostMode = flag
@@ -2269,6 +2281,30 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.nametagStyle = nametagStyle
         self.setDisplayName(self.getName())
 
+    def getNametagStyles(self):
+        return self.nametagStyles
+        
+    def setNametagStyles(self, nametagStyles):
+        self.nametagStyles = nametagStyles
+    
+    def requestNametagStyle(self, nametagStyle):
+        if nametagStyle not in self.nametagStyles:
+            return
+        
+        self.sendUpdate('requestNametagStyle', [nametagStyle])
+
+    def getFishingRods(self):
+        return self.fishingRods
+        
+    def setFishingRods(self, fishingRods):
+        self.fishingRods = fishingRods
+        
+    def requestFishingRod(self, rodId):
+        if rodId not in self.fishingRods:
+            return
+            
+        self.sendUpdate('requestFishingRod', [rodId])
+        
     def getAvIdName(self):
         paidStr = PythonUtil.choice(self.getGameAccess() == OTPGlobals.AccessFull, 'P', 'F')
         return '%s\n%s (%s)' % (self.getName(), self.doId, paidStr)
@@ -2709,6 +2745,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self._handleTrooperGMName(name)
         else:
             self._handleGMName()
+            
+    def setToonTag(self, tag = ''):
+        DistributedPlayer.DistributedPlayer.setToonTag(self, tag)
 
     def _handleGMName(self):
         name = self.name
@@ -2743,7 +2782,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_creative', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*')
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*')
         ]
         
         #Now we need to caculate our index. 
@@ -2753,6 +2793,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             index = 3
         elif gmType in [390]:
             index = 2
+        elif gmType in [398]:
+            index = 5
         elif gmType >= 400:
             index = 4
         else:

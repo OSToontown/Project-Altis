@@ -16,7 +16,7 @@ appearSoundFiles = ('MG_tag_1.ogg', 'LB_receive_evidence.ogg', 'm_match_trumpet.
 hitSoundFiles = ('AA_sound_Opera_Singer_Cog_Glass.ogg',)
 tSound = 2.45
 tSuitReact = 2.8
-DISTANCE_TO_WALK_BACK = MovieUtil.SUIT_LURE_DISTANCE * -0.75
+DISTANCE_TO_WALK_BACK = MovieUtil.SUIT_LURE_DISTANCE * 0.75
 TIME_TO_WALK_BACK = 0.5
 if DISTANCE_TO_WALK_BACK == 0:
     TIME_TO_WALK_BACK = 0

@@ -61,6 +61,10 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def announceGenerate(self):
         global OneBossCog
         DistributedBossCog.DistributedBossCog.announceGenerate(self)
+        nameInfo = TTLocalizer.BossCogNameWithDept % {'name': TTLocalizer.BossbotBossName,
+         'dept': SuitDNA.getDeptFullname(self.style.dept)}
+        self.setName(nameInfo)
+        self.setDisplayName(nameInfo)
         self.loadEnvironment()
         self.__makeResistanceToon()
         base.localAvatar.chatMgr.chatInputSpeedChat.addCEOMenu()
@@ -188,7 +192,6 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             return
         
         npc = Toon.Toon()
-        npc.setName(TTLocalizer.BossbotResistanceToonName)
         npc.setPickable(0)
         npc.setPlayerType(NametagGlobals.CCNonPlayer)
         dna = ToonDNA.ToonDNA()
@@ -202,6 +205,8 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         state = random.getstate()
         random.seed(self.doId)
         self.resistanceToon.suitType = SuitDNA.getRandomSuitByDept('c')
+        self.resistanceToon.setName(TTLocalizer.BossbotResistanceToonName)
+        self.resistanceToon.setDisplayName(TTLocalizer.BossbotResistanceToonName)
         random.setstate(state)
 
     def __cleanupResistanceToon(self):
