@@ -19,6 +19,18 @@ from toontown.suit.SuitLegList import *
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
+'''
+GUIDE TO CREATING SUIT PLANNER ENTRIES:
+Index 0: Zone ID
+Index 1-2: Min/Max # of cogs
+Index 3-4: Min/Max # of bldgs
+Index 5: Building spawn chance
+Index 6: Max # of cogs per battle
+Index 7: Join chance of cogs
+Index 8: Department Weights
+Index 9: Levels for planner
+Index 10: Building heights (Leave this as an empty array)
+'''
 
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     notify = directNotify.newCategory('DistributedSuitPlannerAI')
