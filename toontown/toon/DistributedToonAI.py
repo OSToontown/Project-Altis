@@ -5060,6 +5060,7 @@ def gmIcon(accessLevel=None):
                                CATEGORY_MODERATOR.defaultAccess,
                                CATEGORY_CREATIVE.defaultAccess,
                                CATEGORY_PROGRAMMER.defaultAccess,
+                               398,
                                CATEGORY_ADMINISTRATOR.defaultAccess,
                                CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess):
             return 'Invalid access level!'
