@@ -25,40 +25,14 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             toon = simbase.air.doId2do.get(toonId)
         if toon == None:
             p.append(-1)
-            p.append([0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0])
-            p.append([0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0])
+            p.append([0, 0, 0, 0, 0, 0, 0, 0])
+            p.append([0, 0, 0, 0, 0, 0, 0, 0])
             p.append([])
             p.append([])
             p.append([])
-            p.append([0,
-             0,
-             0,
-             0,
-             0])
-            p.append([0,
-             0,
-             0,
-             0,
-             0])
-            p.append([0,
-             0,
-             0,
-             0,
-             0])
+            p.append([0, 0, 0, 0, 0])
+            p.append([0, 0, 0, 0, 0])
+            p.append([0, 0, 0, 0, 0])
         else:
             p.append(toonId)
             origExp = toonExp[toonId]
@@ -75,17 +49,9 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             p.append(items[1])
             origMerits = toonOrigMerits.get(toonId, [])
             p.append(origMerits)
-            merits = toonMerits.get(toonId, [0,
-             0,
-             0,
-             0,
-             0])
+            merits = toonMerits.get(toonId, [0, 0, 0, 0, 0])
             p.append(merits)
-            parts = toonParts.get(toonId, [0,
-             0,
-             0,
-             0,
-             0])
+            parts = toonParts.get(toonId, [0, 0, 0, 0, 0])
             p.append(parts)
 
     deathList = []
