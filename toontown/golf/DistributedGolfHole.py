@@ -398,10 +398,10 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         y = math.cos(self.ballFollow.getH() * 0.0174532925)
         dt = globalClock.getDt()
         b = self.curGolfBall()
-        forceMove = 500
+        forceMove = 1600
         forceMoveDt = forceMove * dt
         posUpdate = False
-        momentumChange = dt * 60.0
+        momentumChange = dt * 144
         if (self.arrowKeys.upPressed() or self.arrowKeys.downPressed()) and not self.golfCourse.canDrive(self.currentGolfer):
             posUpdate = True
             self.aimMomentum = 0.0
