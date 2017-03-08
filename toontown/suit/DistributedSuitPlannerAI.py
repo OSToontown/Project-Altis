@@ -54,6 +54,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     [ToontownGlobals.MapleStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (30, 60, 0, 0, 10), (3, 4, 5, 6), []],
     [ToontownGlobals.OakStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 5, 80, 5), (4, 5, 6, 7), []],
     [ToontownGlobals.RoseValley, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 10, 30, 10, 10), (4, 5, 6), []],
+    [ToontownGlobals.RedwoodRoad, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (7, 8, 9), []],
     [ToontownGlobals.LullabyLane, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (7, 8, 9, 10), []],
     [ToontownGlobals.PajamaPlace, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 80, 5, 5), (6,7,8,9), []],
     [ToontownGlobals.BossbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (100, 0, 0, 0, 0), (8, 9, 10), []],            
