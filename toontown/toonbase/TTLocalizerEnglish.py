@@ -32,7 +32,7 @@ NametagFonts = (
     'phase_3/models/fonts/RedDogSaloon.bam'
 )
 NametagFontNames = (
-    'Default',
+    'Basic',
     'Plain',
     'Shivering',
     'Wonky',
