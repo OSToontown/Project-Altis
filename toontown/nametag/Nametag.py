@@ -124,10 +124,10 @@ class Nametag:
     def hasChatButton(self):
         if (self.chatBalloonType == NametagGlobals.CHAT_BALLOON) and self.chatHidden:
             return False
-        
+
         if (self.chatBalloonType == NametagGlobals.THOUGHT_BALLOON) and self.thoughtHidden:
             return False
-        
+
         return self.chatButton != NametagGlobals.noButton
 
     def setChatReversed(self, chatReversed):
@@ -207,12 +207,12 @@ class Nametag:
             foreground, background = self.chatColor[clickState]
             if self.chatType == NametagGlobals.SPEEDCHAT:
                 background = self.speedChatColor
-            
+
             if background[3] > self.CHAT_BALLOON_ALPHA:
                 background = VBase4(
                     background[0], background[1], background[2],
                     self.CHAT_BALLOON_ALPHA)
-            
+
             self.chatBalloon.setForeground(foreground)
             self.chatBalloon.setBackground(background)
             self.chatBalloon.setButton(self.chatButton[clickState])
@@ -236,7 +236,7 @@ class Nametag:
     def setWordWrap(self, wordWrap):
         if wordWrap is None:
             wordWrap = self.TEXT_WORD_WRAP
-        
+
         self.textNode.setWordwrap(wordWrap)
         self.update()
 

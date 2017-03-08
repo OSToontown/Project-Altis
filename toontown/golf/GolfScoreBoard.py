@@ -1,12 +1,11 @@
-from pandac.PandaModules import *
-from toontown.toonbase.ToonBaseGlobal import *
+from math import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
-from math import *
 from direct.distributed.ClockDelta import *
 from toontown.golf import GolfGlobals
-from pandac.PandaModules import LineSegs
+from toontown.toonbase.ToonBaseGlobal import *
 AUTO_HIDE_TIMEOUT = 3
 
 class GolfScoreBoard:
@@ -46,8 +45,8 @@ class GolfScoreBoard:
         self.lineVertOffset = 0.125
         self.lineVCenter = 0.025
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
-        self.minimizeB = DirectButton(parent=self.scoreboard, pos=(0, 0, self.lineHStart - 0.59), relief=None, state=DGG.NORMAL, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1), command=self.hideBoard, extraArgs=[None])
-        self.exitCourseB = DirectButton(parent=self.scoreboard, pos=(0, 0, self.lineHStart - 0.59), relief=None, state=DGG.NORMAL, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1), text=TTLocalizer.GolfExitCourse, text_scale=0.04, text_pos=TTLocalizer.GSBexitCourseBPos, command=self.exitCourse)
+        self.minimizeB = DirectButton(parent=self.scoreboard, pos=(-0.15, 0, self.lineHStart - 0.59), relief=None, state=DGG.NORMAL, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1),text=TTLocalizer.BoardingGroupHide, text_scale=0.04,text_pos=(0.1,-0.01), command=self.hideBoard, extraArgs=[None])
+        self.exitCourseB = DirectButton(parent=self.scoreboard, pos=(0.15, 0, self.lineHStart - 0.59), relief=None, state=DGG.NORMAL, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(1, 1, 1), text=TTLocalizer.GolfExitCourse, text_scale=0.04, text_pos=TTLocalizer.GSBexitCourseBPos, command=self.exitCourse)
         self.exitCourseB.hide()
         self.highlightCur = DirectLabel(parent=self.scoreboard, relief=None, pos=(-0.003, 0, 0.038), image=highlight, image_scale=(1.82, 1, 0.135))
         self.titleBar = DirectLabel(parent=self.scoreboard, relief=None, pos=(-0.003, 0, 0.166), color=(0.7, 0.7, 0.7, 0.3), image=highlight, image_scale=(1.82, 1, 0.195))
@@ -122,7 +121,6 @@ class GolfScoreBoard:
         self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart - 4 * 0.13)
         self.scoreboard.attachNewNode(self.lines.create())
         self.hide()
-        return
 
     def getScoreLabel(self, avIdorIndex, holeNum):
         index = None

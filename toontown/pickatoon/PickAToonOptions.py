@@ -248,6 +248,9 @@ class NewPickAToonOptions:
         self.displaySettingsBorderless = None
         self.displaySettingsApi = None
         self.displaySettingsApiChanged = 0
+        
+        self.animations_Label = None
+        self.animations_toggleButton = None
 
     def showOptions(self):
         # base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
@@ -370,8 +373,11 @@ class NewPickAToonOptions:
         self.fov_resetButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Reset FOV', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.2), command = self.__resetFov)
         self.fovsliderText = OnscreenText('0.0', scale = .3, pos = (0, .1), fg = (1, 1, 1, 1), style = 3)
         self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
+        self.animations_Label = DirectLabel(parent=self.optionsNode, relief=None, text='', text_align=TextNode.ACenter, text_scale=0.052, text_wordwrap=16, pos=(0, 0, -.3))
+        self.animations_toggleButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text='', text_scale=0.052, text_pos=(0, -.02), pos=(0, 0, -.4), command=self.__doToggleAnimations)
         self.__doFovLevel()
         self.__setDisplaySettings()
+        self.__setAnimationsButton()
         # TODO: Add more graphics options like Resolution, and more graphics options like in POTCO to allow changing quality of textures, etc.
 
     def delSoundOptions(self):
@@ -437,6 +443,12 @@ class NewPickAToonOptions:
             self.fov_resetButton.destroy()
             self.fov_resetButton = None
 
+        if self.animations_Label:
+            self.animations_Label.destroy()
+            self.animations_Label = None
+            self.animations_toggleButton.destroy()
+            self.animations_toggleButton = None
+            
     def delAllOptions(self):
         self.delSoundOptions()
         self.delControlOptions()
@@ -567,3 +579,19 @@ class NewPickAToonOptions:
         settings['fieldofview'] = 52
         base.camLens.setMinFov(52 / (4. / 3.))
         self.fovsliderText['text'] = str(52)
+
+    def __doToggleAnimations(self):
+        if settings['smoothanimations'] == True:
+            settings['smoothanimations'] = False
+        else:
+            settings['smoothanimations'] = True
+        self.settingsChanged = 1
+        self.__setAnimationsButton()
+		
+    def __setAnimationsButton(self):
+        if settings['smoothanimations'] == True:
+            self.animations_Label['text'] = 'Smooth Animations ON'
+            self.animations_toggleButton['text'] = 'Turn Off\n\n(REQUIRES RESTART)'
+        else:
+            self.animations_Label['text'] = 'Smooth Animations OFF'
+            self.animations_toggleButton['text'] = 'Turn On\n\n(REQUIRES RESTART)'

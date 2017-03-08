@@ -1,13 +1,11 @@
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from toontown.building import DistributedDoor
 from toontown.hood import ZoneUtil
-from toontown.building import FADoorCodes
-from toontown.building import DoorTypes
-from toontown.toonbase import TTLocalizer
+from toontown.building import FADoorCodes, DoorTypes
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import TeaserPanel
 
 class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
@@ -88,6 +86,10 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
             self.doorX = 1.0
 
     def enterDoor(self):
+        self.ignore("shift")
+        if hasattr(self, "enterText"):
+            self.enterText.removeNode()
+            del self.enterText
         if self.allowedToEnter():
             messenger.send('DistributedDoor_doorTrigger')
             self.sendUpdate('requestEnter')

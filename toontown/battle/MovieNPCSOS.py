@@ -98,7 +98,11 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
     d = Func(npc.pose, 'teleport', npc.getNumFrames('teleport') - 1)
     e = npc.getTeleportInTrack()
     ee = Func(npc.addActive)
-    f = Func(npc.setChatAbsolute, TTLocalizer.MovieNPCSOSGreeting % attack['toon'].getName(), CFSpeech | CFTimeout)
+    if npc.nametag.getText() == 'Donald Frump':
+        text = random.choice(TTLocalizer.FrumpGreetings)
+    else:
+        text = TTLocalizer.MovieNPCSOSGreeting % attack['toon'].getName()
+    f = Func(npc.setChatAbsolute, text, CFSpeech | CFTimeout)
     g = ActorInterval(npc, 'wave')
     h = Func(npc.loop, 'neutral')
     seq = Sequence(a, b, c, d, e, ee, f, g, h)
@@ -116,7 +120,11 @@ def teleportOut(attack, npc):
         a = ActorInterval(npc, 'bow')
     else:
         a = ActorInterval(npc, 'curtsy')
-    b = Func(npc.setChatAbsolute, TTLocalizer.MovieNPCSOSGoodbye, CFSpeech | CFTimeout)
+    if npc.nametag.getText() == 'Donald Frump':
+        text = "Oh, by the way, you're fired. Get 'em out of here!"
+    else:
+        text = TTLocalizer.MovieNPCSOSGoodbye
+    b = Func(npc.setChatAbsolute, text, CFSpeech | CFTimeout)
     c = npc.getTeleportOutTrack()
     seq = Sequence(a, b, c)
     seq.append(Func(npc.removeActive))
@@ -214,14 +222,22 @@ def __doSmooch(attack, hp = 0):
 def __doToonsHit(attack, level, hp):
     track = __doSprinkle(attack, 'toons', hp)
     pbpText = attack['playByPlayText']
-    pbpTrack = pbpText.getShowInterval(TTLocalizer.MovieNPCSOSToonsHit, track.getDuration())
+    if hp == 1:
+        text = TTLocalizer.MovieNPCSOSToonsHitS
+    else:
+        text = TTLocalizer.MovieNPCSOSToonsHitP % hp
+    pbpTrack = pbpText.getShowInterval(text, track.getDuration())
     return (track, pbpTrack)
 
 
 def __doCogsMiss(attack, level, hp):
     track = __doSprinkle(attack, 'suits', hp)
     pbpText = attack['playByPlayText']
-    pbpTrack = pbpText.getShowInterval(TTLocalizer.MovieNPCSOSCogsMiss, track.getDuration())
+    if hp == 1:
+        text = TTLocalizer.MovieNPCSOSCogsMissS
+    else:
+        text = TTLocalizer.MovieNPCSOSCogsMissP % hp
+    pbpTrack = pbpText.getShowInterval(text, track.getDuration())
     return (track, pbpTrack)
 
 

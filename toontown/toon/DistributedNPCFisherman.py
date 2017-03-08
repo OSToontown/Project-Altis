@@ -54,7 +54,12 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
             self.reparentTo(npcOrigin)
             self.clearMat()
         else:
-            self.notify.warning('announceGenerate: Could not find npc_fisherman_origin_' + str(self.posIndex))
+            npcOrigin = self.cr.playGame.hood.loader.geom.find('**/npc_fisherman_origin_0;+s')
+            if not npcOrigin.isEmpty():
+                self.reparentTo(npcOrigin)
+                self.clearMat()
+            else:
+                self.notify.info('announceGenerate: Could not find npc_fisherman_origin_' + str(self.posIndex))
         return
 
     def getCollSphereRadius(self):

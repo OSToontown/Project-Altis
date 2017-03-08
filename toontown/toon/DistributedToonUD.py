@@ -1,8 +1,13 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectUD import DistributedObjectUD
+from otp.avatar import DistributedAvatarUD
 
-class DistributedToonUD(DistributedObjectUD):
+class DistributedToonUD(DistributedAvatarUD.DistributedAvatarUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedToonUD")
+    
+    def __init__(self, air):
+        DistributedAvatarUD.DistributedAvatarUD.__init__(self, air)
+        self.air = air
 
     def setDNAString(self, todo0):
         pass
@@ -282,6 +287,9 @@ class DistributedToonUD(DistributedObjectUD):
 
     def setCheesyEffect(self, todo0, todo1, todo2):
         pass
+        
+    def setCheesyEffects(self, todo0):
+        pass
 
     def setGhostMode(self, todo0):
         pass
@@ -493,6 +501,12 @@ class DistributedToonUD(DistributedObjectUD):
     def setNametagStyle(self, todo0):
         pass
 
+    def setNametagStyles(self, todo):
+        pass
+
+    def setFishingRods(self, rods):
+        pass
+        
     def setMail(self, todo0):
         pass
 

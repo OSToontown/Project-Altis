@@ -16,6 +16,8 @@ class DistributedLightSwitch(DistributedObject):
 
         toonInterior = base.cr.doId2do[self.getInteriorDoId()]
         self.lightSwitch = toonInterior.interior.find('**/light_switch')
+        if self.lightSwitch.isEmpty():
+            return
         self.lightSwitch.find('**/button').setColor(LVector4f(0, 1, 0, 1))
         self.lightSwitch.find('**/button').setPos(0, -.1, 0)
         self.picker = CollisionTraverser()

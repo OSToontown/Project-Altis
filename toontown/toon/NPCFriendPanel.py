@@ -81,7 +81,7 @@ class NPCFriendCard(DirectFrame):
         self.back = DirectFrame(parent=self, relief=None, image=cardModel.find('**/card_back'), geom=cardModel.find('**/logo'))
         callButtonPosZ = -0.9
         textWordWrap = 16.0
-        textScale = 0.35
+        textScale = 0.4
         textPosZ = 1.15
         nameScale = 0.4
         namePosZ = -0.45
@@ -110,7 +110,7 @@ class NPCFriendCard(DirectFrame):
             self.sosCountInfoScale = 0.4
             self.sosCountInfo2PosZ = -2.0
             self.sosCountInfo2Scale = 0.55
-        self.sosTypeInfo = DirectLabel(parent=self.front, relief=None, text='', text_font=ToontownGlobals.getMinnieFont(), text_fg=self.normalTextColor, text_scale=textScale, text_align=TextNode.ACenter, text_wordwrap=textWordWrap, pos=(0, 0, textPosZ))
+        self.sosTypeInfo = DirectLabel(parent=self.front, relief=None, text='', text_font=ToontownGlobals.getBuildingNametagFont(), text_fg=(1,1,1,1), text_scale=textScale, text_align=TextNode.ACenter, text_wordwrap=textWordWrap, pos=(0, 0, textPosZ))
         self.NPCHead = None
         self.NPCName = DirectLabel(parent=self.front, relief=None, text='', text_fg=self.normalTextColor, text_scale=nameScale, text_align=TextNode.ACenter, text_wordwrap=8.0, pos=(0, 0, namePosZ))
         buttonModels = loader.loadModel('phase_3.5/models/gui/inventory_gui')
@@ -163,7 +163,24 @@ class NPCFriendCard(DirectFrame):
             if track == 100:
                 sosText = TTLocalizer.InventoryFire
             else:
-                sosText = self.sosTracks[track]
+                try:
+                    sosText = self.sosTracks[track]
+                except:
+                    sosText = 'UNKNOWN SOS'
+                    fCallable = 0
+            try:
+                if track == 100:
+                    color = (0.8,0.5,0.5,1)
+                elif track == ToontownBattleGlobals.NPC_RESTOCK_GAGS:
+                    if level == -1:
+                        color = (1,1,1,1)
+                    else:
+                        color = (ToontownBattleGlobals.TrackColors[level][0] * 0.8, ToontownBattleGlobals.TrackColors[level][1] * 0.8, ToontownBattleGlobals.TrackColors[level][2] * 0.8, 1)
+                else:
+                    color = (ToontownBattleGlobals.TrackColors[track][0] * 0.8, ToontownBattleGlobals.TrackColors[track][1] * 0.8, ToontownBattleGlobals.TrackColors[track][2] * 0.8, 1)
+                self.front['image_color'] = color
+            except:
+                self.front['image_color'] = (1,1,1,1)
             if track == ToontownBattleGlobals.NPC_RESTOCK_GAGS:
                 if level == -1:
                     sosText += ' All'

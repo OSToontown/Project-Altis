@@ -970,8 +970,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return 25
         elif index == 8:
             return 50
-        else:
-            return None
         return None
 
     def reachedPurchaseLimit(self, avatar):
@@ -1010,9 +1008,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 return 0
             else:
                 return flag
-        else:
-            return 0
-        return
+        return 0
 
     def isGift(self):
         if self.getEmblemPrices():
@@ -1100,7 +1096,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             if store & CatalogItem.Customization:
                 self.colorOption = di.getUint8()
                 option = type[FTColorOptions][self.colorOption]
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)

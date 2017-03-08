@@ -16,16 +16,20 @@ from DistributedWeatherMGRAI import DistributedWeatherMGRAI
 class DistributedRainManagerAI(DistributedWeatherMGRAI):
     notify = directNotify.newCategory('DistributedRainManagerAI')
     
-    def __init__(self, air):
+    def __init__(self, air, zoneId):
         DistributedWeatherMGRAI.__init__(self, air)
+        self.zoneId = zoneId
 
     def announceGenerate(self):
         DistributedWeatherMGRAI.announceGenerate(self)
-
+        if self.zoneId in [3000, 3100, 3200, 3300]:
+            rainState = 'Snow'
+        else:
+            rainState = 'Rain'
         Sequence(
             Func(self.b_setState, 'Sunny'),
             Wait(1800),
-            Func(self.b_setState, 'Rain'),
+            Func(self.b_setState, rainState),
             Wait(900)).loop()
 
     def enterRain(self):
@@ -41,7 +45,12 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
         pass
         
     def enterSunny(self):
-        pass
+        simbase.air.isRaining = False
         
     def exitSunny(self):
-        pass
+        simbase.air.isRaining = True
+        
+    def createLightning(self):
+        x = random.random() * 100
+        y = random.random() * 100
+        self.sendUpdate("spawnLightning", [x, y])

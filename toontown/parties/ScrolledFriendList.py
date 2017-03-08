@@ -1,7 +1,7 @@
-from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel
-from direct.gui.DirectGui import DirectScrolledList, DirectCheckButton
-from direct.gui.DirectCheckBox import DirectCheckBox
-from direct.gui import DirectGuiGlobals
+from toontown.pgui.DirectGui import DirectFrame, DirectButton, DirectLabel
+from toontown.pgui.DirectGui import DirectScrolledList, DirectCheckButton
+from toontown.pgui.DirectCheckBox import DirectCheckBox
+from toontown.pgui import DirectGuiGlobals
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import Vec3, Vec4, PlaneNode, Plane, Point3, TextNode, VBase4, NodePath
 

@@ -25,7 +25,7 @@ from toontown.battle import SuitBattleGlobals
 from toontown.catalog import CatalogAccessoryItem
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogItemList
-from toontown.chat import ResistanceChat
+from toontown.chat import ResistanceChat, BlackListData
 from toontown.coghq import CogDisguiseGlobals
 from toontown.estate import FlowerBasket
 from toontown.estate import FlowerCollection
@@ -76,6 +76,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
      ToontownGlobals.FT_Leg: (CogDisguiseGlobals.leftLegIndex, CogDisguiseGlobals.rightLegIndex),
      ToontownGlobals.FT_Arm: (CogDisguiseGlobals.leftArmIndex, CogDisguiseGlobals.rightArmIndex),
      ToontownGlobals.FT_Torso: (CogDisguiseGlobals.torsoIndex,)}
+    Blacklist = BlackListData.BLACKLIST
     lastFlagAvTime = globalClock.getFrameTime()
     flagCounts = {}
     WantTpTrack = simbase.config.GetBool('want-tptrack', False)
@@ -125,6 +126,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.cogLevel = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogRadar = [0, 0, 0, 0, 0]
+        self.trackBonusLevel = [0] * 9
         self.cogIndex = -1
         self.disguisePageFlag = 0
         self.sosPageFlag = 0
@@ -200,6 +202,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
+        self.interiorLayout = 0
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -445,12 +448,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def verifyDNA(self):
         valid = True
-        if self.isPlayerControlled():
-            if self.dna.gloveColor != 0:
-                self.dna.gloveColor = 0
-                valid = False
-            if not valid:
-                self.b_setDNAString(self.dna.makeNetString())
+        if not valid:
+            self.b_setDNAString(self.dna.makeNetString())
         return valid
 
     def getDNAString(self):
@@ -923,7 +922,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if self.isClosetFull():
             return 0
         index = 0
-        for i in xrange(0, len(self.clothesTopsList), 4):
+        for i in range(0, len(self.clothesTopsList), 4):
             if self.clothesTopsList[i] == topTex and self.clothesTopsList[i + 1] == topTexColor and self.clothesTopsList[i + 2] == sleeveTex and self.clothesTopsList[i + 3] == sleeveTexColor:
                 return 0
 
@@ -935,7 +934,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def replaceItemInClothesTopsList(self, topTexA, topTexColorA, sleeveTexA, sleeveTexColorA, topTexB, topTexColorB, sleeveTexB, sleeveTexColorB):
         index = 0
-        for i in xrange(0, len(self.clothesTopsList), 4):
+        for i in range(0, len(self.clothesTopsList), 4):
             if self.clothesTopsList[i] == topTexA and self.clothesTopsList[i + 1] == topTexColorA and self.clothesTopsList[i + 2] == sleeveTexA and self.clothesTopsList[i + 3] == sleeveTexColorA:
                 self.clothesTopsList[i] = topTexB
                 self.clothesTopsList[i + 1] = topTexColorB
@@ -951,7 +950,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.warning('Clothes top list is not long enough to delete anything')
             return 0
         index = 0
-        for i in xrange(0, listLen, 4):
+        for i in range(0, listLen, 4):
             if self.clothesTopsList[i] == topTex and self.clothesTopsList[i + 1] == topTexColor and self.clothesTopsList[i + 2] == sleeveTex and self.clothesTopsList[i + 3] == sleeveTexColor:
                 self.clothesTopsList = self.clothesTopsList[0:i] + self.clothesTopsList[i + 4:listLen]
                 return 1
@@ -976,7 +975,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.warning('clothes bottoms list is full')
             return 0
         index = 0
-        for i in xrange(0, len(self.clothesBottomsList), 2):
+        for i in range(0, len(self.clothesBottomsList), 2):
             if self.clothesBottomsList[i] == botTex and self.clothesBottomsList[i + 1] == botTexColor:
                 return 0
 
@@ -986,7 +985,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def replaceItemInClothesBottomsList(self, botTexA, botTexColorA, botTexB, botTexColorB):
         index = 0
-        for i in xrange(0, len(self.clothesBottomsList), 2):
+        for i in range(0, len(self.clothesBottomsList), 2):
             if self.clothesBottomsList[i] == botTexA and self.clothesBottomsList[i + 1] == botTexColorA:
                 self.clothesBottomsList[i] = botTexB
                 self.clothesBottomsList[i + 1] = botTexColorB
@@ -1000,7 +999,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.warning('Clothes bottoms list is not long enough to delete anything')
             return 0
         index = 0
-        for i in xrange(0, len(self.clothesBottomsList), 2):
+        for i in range(0, len(self.clothesBottomsList), 2):
             if self.clothesBottomsList[i] == botTex and self.clothesBottomsList[i + 1] == botTexColor:
                 self.clothesBottomsList = self.clothesBottomsList[0:i] + self.clothesBottomsList[i + 2:listLen]
                 return 1
@@ -1676,42 +1675,62 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getMaxCarry(self):
         return self.maxCarry
 
-    def b_setCheesyEffect(self, effect, hoodId, expireTime):
+    def b_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+        if effect not in self.cheesyEffects:
+            self.cheesyEffects.append(effect)
+            self.b_setCheesyEffects(self.cheesyEffects)
         self.setCheesyEffect(effect, hoodId, expireTime)
         self.d_setCheesyEffect(effect, hoodId, expireTime)
 
-    def d_setCheesyEffect(self, effect, hoodId, expireTime):
+    def d_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
         self.sendUpdate('setCheesyEffect', [effect, hoodId, expireTime])
 
-    def setCheesyEffect(self, effect, hoodId, expireTime):
+    def setCheesyEffect(self, effect, hoodId=0, expireTime=0):
         if simbase.air.holidayManager and ToontownGlobals.WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.WACKY_WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and effect == ToontownGlobals.CESnowMan:
-            self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
+            self.b_setCheesyEffect(ToontownGlobals.CENormal)
             self.b_setScavengerHunt([])
             return
         if simbase.air.holidayManager and ToontownGlobals.HALLOWEEN_PROPS not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.HALLOWEEN_COSTUMES not in simbase.air.holidayManager.currentHolidays and not simbase.air.wantHalloween and effect == ToontownGlobals.CEPumpkin:
-            self.b_setCheesyEffect(ToontownGlobals.CENormal, hoodId, expireTime)
+            self.b_setCheesyEffect(ToontownGlobals.CENormal)
             self.b_setScavengerHunt([])
             return
         self.savedCheesyEffect = effect
         self.savedCheesyHoodId = hoodId
         self.savedCheesyExpireTime = expireTime
-        taskName = self.uniqueName('cheesy-expires')
-        taskMgr.remove(taskName)
-        if expireTime and (effect != ToontownGlobals.CENormal):
-            duration = expireTime * 60 - time.time()
-            if duration > 0:
-                taskMgr.doMethodLater(duration, self.__undoCheesyEffect, taskName)
-            else:
-                self.__undoCheesyEffect(None)
         return
 
     def getCheesyEffect(self):
-        return (self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime)
+        return (self.savedCheesyEffect)
 
     def __undoCheesyEffect(self, task):
         self.b_setCheesyEffect(ToontownGlobals.CENormal, 0, 0)
         return Task.cont
 
+    def b_setCheesyEffects(self, ce):
+        self.d_setCheesyEffects(ce)
+        self.setCheesyEffects(ce)
+        
+    def d_setCheesyEffects(self, ce):
+        try:
+            self.sendUpdate('setCheesyEffects', [ce])
+        except:
+            self.sendUpdate('setCheesyEffects', [0])
+        
+    def setCheesyEffects(self, ce):
+        self.cheesyEffects = ce
+        if self.getCheesyEffect() not in self.cheesyEffects:
+            self.cheesyEffects.append(self.getCheesyEffect())
+            self.b_setCheesyEffects(self.cheesyEffects)
+        
+    def getCheesyEffects(self):
+        return self.cheesyEffects
+        
+    def requestCheesyEffects(self, ce):
+        if ce not in self.cheesyEffects:
+            return
+            
+        self.b_setCheesyEffect(ce)
+        
     def b_setTrackAccess(self, trackArray):
         self.setTrackAccess(trackArray)
         self.d_setTrackAccess(trackArray)
@@ -2075,6 +2094,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getHouseId(self):
         return self.houseId
 
+    def b_setInteriorLayout(self, id):
+        self.setInteriorLayout(id)
+        self.d_setInteriorLayout(id)
+        
+    def d_setInteriorLayout(self, id):
+        self.sendUpdate('setInteriorLayout', [id])
+        
+    def setInteriorLayout(self, id):
+        self.interiorLayout = id
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout
+        
     def setPosIndex(self, index):
         self.posIndex = index
 
@@ -3284,6 +3316,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
+		
+    def doDeptInvasion(self, deptIndex):
+        if self.air.suitInvasionManager.getInvading():
+            return ['busy', 0, 0]
+            
+        if deptIndex >= len(SuitDNA.suitDepts):
+            self.notify.warning('Bad dept index: %s' % deptIndex)
+            return ['badIndex', deptIndex, 0]
+
+        if self.air.suitInvasionManager.startInvasion(
+                suitDeptIndex=deptIndex, suitTypeIndex=None):
+            return ['success', deptIndex, 0]
+
+        return ['fail', deptIndex, 0]
 
     def b_setCogSummonsEarned(self, cogSummonsEarned):
         self.d_setCogSummonsEarned(cogSummonsEarned)
@@ -3465,9 +3511,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.gardenSpecials.append((index, newCount))
                 self.gardenSpecials.sort()
                 self.b_setGardenSpecials(self.gardenSpecials)
-                return
-
+                return 1
         self.notify.warning("removing garden item %d that toon doesn't have" % index)
+        return 0
 
     def b_setFlowerCollection(self, speciesList, varietyList):
         self.setFlowerCollection(speciesList, varietyList)
@@ -3640,7 +3686,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          (7, 2),
          (100, 1),
          (101, 3),
-         (102, 1)])
+         (102, 1),
+         (109, 1)])
 
     def reqUseSpecial(self, special):
         return  # TODO/gardening
@@ -3849,6 +3896,50 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getNametagStyle(self):
         return self.nametagStyle
 
+    def b_setNametagStyles(self, nametagStyles):
+        self.d_setNametagStyles(nametagStyles)
+        self.setNametagStyles(nametagStyles)
+
+    def d_setNametagStyles(self, nametagStyles):
+        self.sendUpdate('setNametagStyles', [nametagStyles])
+
+    def setNametagStyles(self, nametagStyles):
+        self.nametagStyles = nametagStyles
+        if self.getNametagStyle() not in self.nametagStyles:
+            self.nametagStyles.append(self.getNametagStyle())
+            self.b_setNametagStyles(self.nametagStyles)
+            
+    def getNametagStyles(self):
+        return self.nametagStyles
+    
+    def requestNametagStyle(self, nametagStyle):
+        if nametagStyle not in self.nametagStyles:
+            return
+
+        self.b_setNametagStyle(nametagStyle)
+
+    def b_setFishingRods(self, rods):
+        self.d_setFishingRods(rods)
+        self.setFishingRods(rods)
+        
+    def d_setFishingRods(self, rods):
+        self.sendUpdate('setFishingRods', [rods])
+        
+    def setFishingRods(self, rods):
+        self.fishingRods = rods
+        if self.getFishingRod() not in self.fishingRods:
+            self.fishingRods.append(self.getFishingRod())
+            self.b_setFishingRods(self.fishingRods)
+        
+    def getFishingRods(self):
+        return self.fishingRods
+        
+    def requestFishingRod(self, rodId):
+        if rodId not in self.fishingRods:
+            return
+            
+        self.b_setFishingRod(rodId)
+        
     def logMessage(self, message):
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
@@ -4156,11 +4247,62 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setName(newName)
 
     def setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                DistributedPlayerAI.DistributedPlayerAI.setName(self, colorString + ' ' + animalType)
+                return
+        
+        
         DistributedPlayerAI.DistributedPlayerAI.setName(self, name)
         if self.WantOldGMNameBan:
             if self.isGenerated():
                 self._checkOldGMName()
         #self._updateGMName()
+        
+    def d_setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                DistributedPlayerAI.DistributedPlayerAI.d_setName(self, colorString + ' ' + animalType)
+                return
+                
+        DistributedPlayerAI.DistributedPlayerAI.d_setName(self, name)
+        
+    def b_setName(self, name):
+        words = str(name).lower().split('\x20')
+        for word in words:
+            if word in self.Blacklist:
+                try:
+                    colorString = TTLocalizer.NumToColor[self.dna.headColor]
+                except:
+                    colorString = "Colorful"
+                animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
+                self.setName(colorString + ' ' + animalType)
+                self.d_setName(colorString + ' ' + animalType)
+                return
+                
+        self.setName(name)
+        self.d_setName(name)
+        
+    def setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.setToonTag(self, tag)
+    
+    def d_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.d_setToonTag(self, tag)
+        
+    def b_setToonTag(self, tag):
+        DistributedPlayerAI.DistributedPlayerAI.b_setToonTag(self, tag)
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
@@ -4416,6 +4558,52 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
         
+    def setWarningCount(self, count):   
+        if 0 > count:
+            count = 0
+            
+        self.warningCount = count
+        
+    def getWarningCount(self):
+        return self.warningCount
+        
+    def doWarningBan(self, msg):
+        if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
+            simbase.air.banManager.ban(self.doId, msg)
+        
+    def incrementWarningCount(self):
+        self.b_setWarningCount(int(self.getWarningCount()) + 1)
+        
+    def decrementWarningCount(self):
+        count = int(self.getWarningCount()) - 1
+        if 0 > count:
+            count = 0
+
+        self.b_setWarningCount(count)
+        del count
+  
+    def checkWarningCount(self, noBan = False):
+        if self.warningCount >= 3:
+            self.setWarningCount(0)
+            self.d_setWarningCount(0)
+            if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS and not noBan:
+                self.doWarningBan("Three Strikes You're Out! - Auto Ban Manager")
+                return
+        
+    def d_setWarningCount(self, count):
+        if 0 > count:
+            count = 0
+    
+        self.sendUpdate("setWarningCount", [count])
+        
+    def b_setWarningCount(self, count, noBan = False):
+        if 0 > count:
+            count = 0
+        
+        self.checkWarningCount(noBan)
+        self.setWarningCount(count)
+        self.d_setWarningCount(count)
+        
     def magicTeleportResponse(self, requesterId, hoodId):
         toon = self.air.doId2do.get(requesterId)
         if toon:
@@ -4446,7 +4634,10 @@ def cheesyEffect(value, hood=0, expire=0):
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
     invoker = spellbook.getTarget()
-    invoker.b_setCheesyEffect(value, hood, expire)
+    if not value in invoker.cheesyEffects:
+        invoker.cheesyEffects.append(value)
+        invoker.b_setCheesyEffects(invoker.cheesyEffects)
+    invoker.b_setCheesyEffect(value)
     return 'Set your cheesy effect to: %d' % value
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
@@ -4487,7 +4678,7 @@ def allSummons():
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str])
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
 def maxToon(missingTrack=None):
     """
     Max the target's stats for end-level gameplay.
@@ -4612,7 +4803,7 @@ def unlocks():
 
     return 'Unlocked teleport access, emotions, and pet trick phrases!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int, str])
+@magicWord(category=CATEGORY_MODERATOR, types=[int, str])
 def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
@@ -4633,8 +4824,32 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
+def manualSos(count, npcId):
+    """
+    Modifies the invoker's specified SOS card count.
+    """
+    invoker = spellbook.getInvoker()
+    if not 0 <= count <= 100:
+        return 'Your SOS count must be in range (0-100).'
+    if (count == 0) and (npcId in invoker.NPCFriendsDict):
+        del invoker.NPCFriendsDict[npcId]
+    else:
+        invoker.NPCFriendsDict[npcId] = count
+    invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
+    return "You were given %d SOS cards of toon id %d." % (count, npcId)
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[])
+def clearSOS():
+    """
+    Clear's the invoker's SOS card inventory
+    """
+    invoker = spellbook.getInvoker()
+    invoker.b_setNPCFriendsDict({})
+    return "Your sos cards have been cleared!"
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
 def unites(value=32767):
     """
     Restock all resistance messages.
@@ -4644,7 +4859,7 @@ def unites(value=32767):
     invoker.restockAllResistanceMessages(value)
     return 'Restocked %d unites!' % value
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
 def fires(count):
     """
     Modifies the invoker's pink slip count.
@@ -4718,6 +4933,9 @@ def fishingRod(rod):
     if not 0 <= rod <= 4:
         return 'Rod value must be in xrange (0-4).'
     target = spellbook.getTarget()
+    if not rod in target.fishingRods:
+        target.fishingRods.append(rod)
+        target.b_setFishingRods(target.fishingRods)
     target.b_setFishingRod(rod)
     return "Set %s's fishing rod to %d!" % (target.getName(), rod)
 
@@ -4744,6 +4962,19 @@ def name(name=''):
         return "Set %s's name to %s!" % (_name, name)
     else:
         return "%s's name is now empty!" % _name
+        
+@magicWord(category=CATEGORY_MODERATOR, types=[str])
+def tag(tag=''):
+    """
+    Modify the target's tag.
+    """
+    target = spellbook.getTarget()
+    _name = target.getName()
+    target.b_setToonTag(tag)
+    if tag:
+        return "Set %s's tag to %s!" % (_name, tag)
+    else:
+        return "%s's tag is now empty!" % _name
 
 @magicWord(category=CATEGORY_CREATIVE, types=[int, int])
 def hat(hatIndex, hatTex=0):
@@ -4829,6 +5060,7 @@ def gmIcon(accessLevel=None):
                                CATEGORY_MODERATOR.defaultAccess,
                                CATEGORY_CREATIVE.defaultAccess,
                                CATEGORY_PROGRAMMER.defaultAccess,
+                               398,
                                CATEGORY_ADMINISTRATOR.defaultAccess,
                                CATEGORY_SYSTEM_ADMINISTRATOR.defaultAccess):
             return 'Invalid access level!'
@@ -4862,7 +5094,10 @@ def badName():
     """
     target = spellbook.getTarget()
     _name = target.getName()
-    colorString = TTLocalizer.NumToColor[target.dna.headColor]
+    try:
+        colorString = TTLocalizer.NumToColor[target.dna.headColor]
+    except:
+        colorString = "Colorful"
     animalType = TTLocalizer.AnimalToSpecies[target.dna.getAnimal()]
     target.b_setName(colorString + ' ' + animalType)
     target.sendUpdate('WishNameState', ['REJECTED'])
@@ -5005,63 +5240,29 @@ def dna(part, value):
         return 'Legs set to: ' + dna.legs
 
     if part == 'headcolor':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains black parts!'
-        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains white parts!'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            return 'Invalid male head color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            return 'Invalid female head color index: ' + str(value)
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid head color index: ' + str(value)
         dna.headColor = value
         invoker.b_setDNAString(dna.makeNetString())
         return 'Head color index set to: ' + str(dna.headColor)
 
     if part == 'armcolor':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains black parts!'
-        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains white parts!'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            return 'Invalid male arm color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            return 'Invalid female arm color index: ' + str(value)
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid arm color index: ' + str(value)
         dna.armColor = value
         invoker.b_setDNAString(dna.makeNetString())
         return 'Arm color index set to: ' + str(dna.armColor)
 
     if part == 'legcolor':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains black parts!'
-        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
-            return 'Toon contains white parts!'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            return 'Invalid male leg color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            return 'Invalid female leg color index: ' + str(value)
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid leg color index: ' + str(value)
         dna.legColor = value
         invoker.b_setDNAString(dna.makeNetString())
         return 'Leg color index set to: ' + str(dna.legColor)
 
     if part == 'color':
-        if dna.gender not in ('m', 'f'):
-            return 'Unknown gender.'
-        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
-            if (value != 0x1a) and (value != 0x00):
-                return 'Invalid male color index: ' + str(value)
-        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
-            if (value != 0x1a) and (value != 0x00):
-                return 'Invalid female color index: ' + str(value)
-        if (value == 0x1a) and (dna.getAnimal() != 'cat'):
-            return 'Invalid color index for species: ' + dna.getAnimal()
-        if (value == 0x00) and (dna.getAnimal() != 'bear'):
-            return 'Invalid color index for species: ' + dna.getAnimal()
+        if value not in ToonDNA.defaultColorList:
+            return 'Invalid color index: ' + str(value)
         dna.headColor = value
         dna.armColor = value
         dna.legColor = value
@@ -5179,7 +5380,7 @@ def trackBonus(trackIndex):
     invoker = spellbook.getInvoker()
     if not 0 <= trackIndex < 8:
         return 'Invalid track index!'
-    trackBonusLevel = [0] * 8
+    trackBonusLevel = [0] * 9
     trackBonusLevel[trackIndex] = 6
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
@@ -5220,9 +5421,10 @@ def track(command, track, value=None):
 def suit(command, suitName="hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
-    if suitName not in SuitDNA.suitHeadTypes:
+    if suitName not in SuitDNA.suitHeadTypes and command != 'deptinvasion':
         return 'Invalid suit name: ' + suitName
-    suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
+    if command != 'deptinvasion':
+        suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
     if command == 'spawn':
         returnCode = invoker.doSummonSingleCog(SuitDNA.suitHeadTypes.index(suitName))
         if returnCode[0] == 'success':
@@ -5238,6 +5440,11 @@ def suit(command, suitName="hho"):
         if returnCode[0] == 'success':
             return 'Successfully started Cog Invasion for: ' + suitFullName
         return "Couldn't start Cog Invasion for: " + suitFullName
+    elif command == 'deptinvasion':
+        returnCode = invoker.doDeptInvasion(int(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully started Cog Invasion for dept index: ' + suitName
+        return "Couldn't start Cog Invasion for dept index: " + suitName
     elif command == 'invasionend':
         returnCode = 'Ending Invasion..'
         simbase.air.suitInvasionManager.stopInvasion()
@@ -5277,6 +5484,9 @@ def nametagStyle(nametagStyle):
     if nametagStyle != 0 and nametagStyle != 10 and currentAccess == CATEGORY_MODERATOR.defaultAccess:
         return 'Invalid access level!'
     target = spellbook.getTarget()
+    if not nametagStyle in target.nametagStyles:
+        target.nametagStyles.append(nametagStyle)
+        target.b_setNametagStyles(target.nametagStyles)
     target.b_setNametagStyle(nametagStyle)
     return 'Nametag style set to: %s.' % TTLocalizer.NametagFontNames[nametagStyle]
 
@@ -5429,3 +5639,8 @@ def globalTeleport():
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def catalog():
     simbase.air.catalogManager.deliverCatalogFor(spellbook.getTarget())
+    
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
+def shovelSkill(skill):
+    target = spellbook.getTarget()
+    target.b_setShovelSkill(skill)

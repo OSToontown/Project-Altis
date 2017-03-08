@@ -36,6 +36,8 @@ class DistributedEstate(DistributedObject.DistributedObject):
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.closestHouse = 0
+        self.defaultSignModel = loader.loadModel('phase_13/models/parties/eventSign')
+        self.activityIconsModel = loader.loadModel('phase_4/models/parties/eventSignIcons')
         self.ground = None
         self.dayTrack = None
         self.sunTrack = None

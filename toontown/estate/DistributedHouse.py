@@ -373,3 +373,9 @@ class DistributedHouse(DistributedObject.DistributedObject):
         self.namePlate.setPos(0, -0.05, 0)
         self.namePlate.setScale(xScale)
         return nameText
+        
+    def setInteriorLayout(self, layoutId):
+        self.interiorLayout = layoutId
+        
+    def getInteriorLayout(self):
+        return self.interiorLayout

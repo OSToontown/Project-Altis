@@ -52,7 +52,18 @@ if 'health-meter-mode' not in settings:
     settings['health-meter-mode'] = 2
 if 'experienceBarMode' not in settings:
     settings['experienceBarMode'] = True
-settings['newGui'] = False # Force this to be false
+if 'smoothanimations' not in settings:
+    settings['smoothanimations'] = True
+if 'tpmsgs' not in settings:
+    settings['tpmsgs'] = True
+if 'friendstatusmsgs' not in settings:
+    settings['friendstatusmsgs'] = True
+if 'doorkey' not in settings:
+    settings['doorkey'] = False
+if 'interactkey' not in settings:
+    settings['interactkey'] = False
+if 'patMode' not in settings:
+    settings['patMode'] = "Altis"
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])
@@ -62,8 +73,24 @@ loadPrcFileData('Settings: sfxVol', 'audio-master-sfx-volume %s' % settings['sfx
 loadPrcFileData('Settings: loadDisplay', 'load-display %s' % settings['loadDisplay'])
 loadPrcFileData('Settings: toonChatSounds', 'toon-chat-sounds %s' % settings['toonChatSounds'])
 
-'''loadDisplay = settings.get('loadDisplay', 'pandagl')
-loadPrcFileData('', 'load-display' % settings['loadDisplay'])'''
+vfs = VirtualFileSystem.getGlobalPtr()
+DefaultPhases = (3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13)
+import glob
+print("Loading Default Pack...")
+for file in glob.glob('resources/default/*.mf'):
+    if float(file.replace('.mf', '').replace('resources/default\phase_', '')) in DefaultPhases:
+        mf = Multifile()
+        mf.openReadWrite(Filename(file))
+        names = mf.getSubfileNames()
+        vfs.mount(mf, Filename('/'), 0)
+        print('Successfully Mounted:' + file)
+print("Default Pack Loaded!")
+from toontown.toonbase.ContentPackManager import ContentPackManager
+__builtin__.ContentPackMgr = ContentPackManager()
+ContentPackMgr.loadAll()
+
+loadDisplay = settings.get('loadDisplay', 'pandagl')
+loadPrcFileData('', 'load-display %s' % settings['loadDisplay'])
 
 import os
 import time

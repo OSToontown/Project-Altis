@@ -45,6 +45,7 @@ class Estate(Place.Place):
           'trialerFA',
           'doorOut',
           'push',
+          'activity',
           'pet']),
          State.State('stopped', self.enterStopped, self.exitStopped, ['walk', 'teleportOut']),
          State.State('sit', self.enterSit, self.exitSit, ['walk']),
@@ -59,6 +60,7 @@ class Estate(Place.Place):
           'push',
           'pet',
           'DFA',
+          'activity',
           'trialerFA']),
          State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk', 'petTutorial']),
          State.State('teleportOut', self.enterTeleportOut, self.exitTeleportOut, ['teleportIn', 'walk', 'final']),
@@ -73,7 +75,8 @@ class Estate(Place.Place):
          State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
          State.State('trialerFAReject', self.enterTrialerFAReject, self.exitTrialerFAReject, ['walk']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut']),
-         State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk'])], 'init', 'final')
+         State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk']),
+         State.State('activity', self.enterActivity, self.exitActivity, ['walk', 'stopped'])], 'init', 'final')
         self.fsm.enterInitialState()
         self.doneEvent = doneEvent
         self.parentFSMState = parentFSMState
@@ -98,7 +101,6 @@ class Estate(Place.Place):
         del self.fsm
         self.fog = None
         Place.Place.unload(self)
-        return
 
     def enter(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -128,7 +130,6 @@ class Estate(Place.Place):
             self.loader.enterAnimatedProps(i)
 
         self.loader.geom.reparentTo(render)
-        # The client April Toons Manager is currently broken, so we have to do this hacky thing instead. :(
         #if hasattr(base.cr, 'aprilToonsMgr'):
             #if self.isEventActive(AprilToonsGlobals.EventEstateGravity):
                 #base.localAvatar.startAprilToonsControls()
@@ -198,14 +199,12 @@ class Estate(Place.Place):
             taskMgr.add(self.__checkToonUnderwater, 'estate-check-toon-underwater')
         if hasattr(self, 'petTutorial') and self.petTutorial is not None:
             self.petTutorial.destroy()
-        return
 
     def petTutorialDone(self):
         self.ignore(self.petTutorialDoneEvent)
         self.petTutorial.destroy()
         self.petTutorial = None
         self.fsm.request('walk', [1])
-        return
 
     def enterMailbox(self):
         Place.Place.enterPurchase(self)
@@ -278,7 +277,6 @@ class Estate(Place.Place):
         else:
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent, [self.doneStatus])
-        return
 
     def goHomeFailed(self, task):
         self.notifyUserGoHomeFailed()
@@ -385,3 +383,15 @@ class Estate(Place.Place):
             self.fog.setColor(Vec4(0.8, 0.8, 0.8, 1.0))
             self.fog.setLinearRange(0.0, 700.0)
             render.setFog(self.fog)
+            
+    def enterActivity(self, setAnimState = True):
+        if setAnimState:
+            base.localAvatar.b_setAnimState('neutral', 1)
+        self.accept('teleportQuery', self.handleTeleportQuery)
+        base.localAvatar.setTeleportAvailable(False)
+        base.localAvatar.laffMeter.start()
+
+    def exitActivity(self):
+        base.localAvatar.setTeleportAvailable(True)
+        self.ignore('teleportQuery')
+        base.localAvatar.laffMeter.stop()

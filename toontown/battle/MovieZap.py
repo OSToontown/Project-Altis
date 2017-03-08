@@ -150,7 +150,7 @@ def __createSuitResetPosTrack(suit, battle):
 def createSuitResetPosTrack(suit, battle):
     return __createSuitResetPosTrack(suit, battle)
 
-def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun = 0.5, afterStun = 1.8, uberRepeat = 0, revived = 0, npcs = []):
+def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun = 0.5, afterStun = 1.8, uberRepeat = 0, revived = 0, npcs = [], dodge = True):
     if hp > 0:
         suitTrack = Sequence()
         sival = ActorInterval(suit, anim)
@@ -183,8 +183,10 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         if revived != 0:
             suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
         return Parallel(suitTrack, bonusTrack)
-    else:
+    elif dodge:
         return MovieUtil.createSuitDodgeMultitrack(tDodge, suit, leftSuits, rightSuits)
+    else:
+        return Sequence(Wait(tDodge), Func(MovieUtil.indicateMissed, toon))
 		
 def shortCircuitTrack(suit, battle):
     if suit.isHidden():
@@ -317,7 +319,10 @@ def __doRug(zap, delay, fShowStun, npcs=[]):
     rug = globalPropPool.getProp('zapRug')
     rugPos = Point3(0, 0, 0.025)
     rugHpr = Point3(0, 0, 0)
-    glassTrack = Sequence(Func(MovieUtil.showProp, rug, toon, rugPos, rugHpr), ActorInterval(toon, 'walk', playRate=0.7), ActorInterval(toon, 'run'), ActorInterval(toon, 'run', playRate=1.1),  ActorInterval(toon, 'run', playRate=1.2),  ActorInterval(toon, 'run', playRate=1.3),  ActorInterval(toon, 'run', playRate=1.4), ActorInterval(toon, 'water', playRate=1, startFrame=0, endFrame=36), Wait(1), Func(MovieUtil.removeProp, rug), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+    if hp > 0:
+        glassTrack = Sequence(Func(MovieUtil.showProp, rug, toon, rugPos, rugHpr), ActorInterval(toon, 'walk', playRate=0.7), ActorInterval(toon, 'run'), ActorInterval(toon, 'run', playRate=1.1),  ActorInterval(toon, 'run', playRate=1.2),  ActorInterval(toon, 'run', playRate=1.3),  ActorInterval(toon, 'run', playRate=1.4), ActorInterval(toon, 'water', playRate=1, startFrame=0, endFrame=36), Wait(1), Func(MovieUtil.removeProp, rug), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
+    else:
+        glassTrack = Sequence(Func(MovieUtil.showProp, rug, toon, rugPos, rugHpr), ActorInterval(toon, 'walk', playRate=0.7), ActorInterval(toon, 'run'), ActorInterval(toon, 'run', playRate=1.1),  ActorInterval(toon, 'run', playRate=1.2),  ActorInterval(toon, 'run', playRate=1.3),  ActorInterval(toon, 'run', playRate=1.4), ActorInterval(toon, 'slip-forward', playRate=1, startFrame=0, endFrame=36), Wait(1), Func(MovieUtil.removeProp, rug), Func(toon.loop, 'neutral'), Func(toon.setHpr, battle, origHpr))
     tracks.append(glassTrack)
     targetPoint = lambda suit = suit: __suitTargetPoint(suit)
 
@@ -333,11 +338,11 @@ def __doRug(zap, delay, fShowStun, npcs=[]):
             joint = lod0.find('**/joint_Rhold')
         p = joint.getPos(render)
         return p
-
-    sprayTrack = MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, horizScale=scale, vertScale=scale)
-    tracks.append(Sequence(Wait(tSpray), sprayTrack))
+    if hp > 0:
+        sprayTrack = MovieUtil.getZapTrack(battle, WaterSprayColor, getSprayStartPos, targetPoint, dSprayScale, dSprayHold, dSprayScale, horizScale=scale, vertScale=scale)
+        tracks.append(Sequence(Wait(tSpray), sprayTrack))
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'shock', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived, dodge=False))
     return tracks
 
 

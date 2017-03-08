@@ -176,6 +176,9 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
 
     def setDNA(self, dna):
         BossCog.BossCog.setDNA(self, dna)
+		
+    def setHealthTag(self, tag):
+        BossCog.BossCog.setToonTag(self, tag)
 
     def setToonIds(self, involvedToons, toonsA, toonsB):
         self.involvedToons = involvedToons
