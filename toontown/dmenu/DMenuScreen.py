@@ -45,7 +45,7 @@ TOON_HALL_HPR = (-90, 0, 0)
 HQ_POS = (14, 16, 8)
 HQ_HPR = (-48, 0, 0)
 
-MOBILE = False
+MOBILE = True
 
 class DMenuScreen(DirectObject):
     notify = directNotify.newCategory('DMenuScreen')
