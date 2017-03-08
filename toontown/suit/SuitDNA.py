@@ -7,92 +7,15 @@ from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from otp.avatar import AvatarDNA
 notify = directNotify.newCategory('SuitDNA')
-suitHeadTypes = ['f',
- 'p',
- 'ym',
- 'mm',
- 'ds',
- 'hh',
- 'cr',
- 'tbc',
- 'bf',
- 'b',
- 'dt',
- 'ac',
- 'bs',
- 'sd',
- 'le',
- 'bw',
- 'sc',
- 'pp',
- 'tw',
- 'bc',
- 'nc',
- 'mb',
- 'ls',
- 'rb',
- 'cc',
- 'tm',
- 'nd',
- 'gh',
- 'ms',
- 'tf',
- 'm',
- 'mh',
- 'ca',
- 'cn',
- 'sw',                 
- 'mdm',
- 'txm',
- 'mg',
- 'bfh',
- 'hho']
-suitATypes = ['ym',
- 'hh',
- 'tbc',
- 'dt',
- 'bs',
- 'le',
- 'bw',
- 'pp',
- 'nc',
- 'rb',
- 'nd',
- 'tf',
- 'm',
- 'mh',
- 'sw',
- 'mdm',            
- 'txm',
- 'mg',
- 'hho']
-suitBTypes = ['p',
- 'ds',
- 'b',
- 'ac',
- 'sd',
- 'bc',
- 'br',
- 'ls',
- 'tm',
- 'ms',
- 'cn']
-suitCTypes = ['f',
- 'mm',
- 'cr',
- 'bf',
- 'sc',
- 'tw',
- 'mb',
- 'cc',
- 'gh',
- 'ca',
- 'bfh']
-suitDepts = ['c',
- 'l',
- 'm',
- 's',
- 'g']
+suitHeadTypes = ['f', 'p', 'ym', 'mm', 'ds', 'hh', 'cr', 'tbc',
+ 'bf', 'b', 'dt', 'ac', 'bs', 'sd', 'le', 'bw',
+ 'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'ls', 'rb',
+ 'cc', 'tm', 'nd', 'gh', 'ms', 'tf', 'm', 'mh',
+ 'ca', 'cn', 'sw', 'mdm', 'txm', 'mg', 'bfh', 'hho']
+suitATypes = ['ym', 'hh', 'tbc', 'dt', 'bs', 'le', 'bw', 'pp', 'nc', 'rb', 'nd', 'tf', 'm', 'mh', 'sw', 'mdm', 'txm', 'mg', 'hho']
+suitBTypes = ['p', 'ds', 'b', 'ac', 'sd', 'bc', 'br', 'ls', 'tm', 'ms', 'cn']
+suitCTypes = ['f', 'mm', 'cr', 'bf', 'sc', 'tw', 'mb', 'cc', 'gh', 'ca', 'bfh']
+suitDepts = ['c', 'l', 'm', 's', 'g']
 suitDeptFullnames = {'c': TTLocalizer.Bossbot,
  'l': TTLocalizer.Lawbot,
  'm': TTLocalizer.Cashbot,
@@ -118,14 +41,7 @@ legalPolyColor = VBase4(0.75, 0.75, 0.95, 1.0)
 moneyPolyColor = VBase4(0.65, 0.95, 0.85, 1.0)
 salesPolyColor = VBase4(0.95, 0.75, 0.95, 1.0)
 boardPolyColor = VBase4(.45, 0.45, .45, 1.0)
-suitsPerLevel = [1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1]
+suitsPerLevel = [1, 1, 1, 1, 1, 1, 1, 1, 1]
 suitsPerDept = 8
 levelsPerSuit = 5
 goonTypes = ['pg', 'sg']
