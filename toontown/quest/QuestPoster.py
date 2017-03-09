@@ -1018,6 +1018,15 @@ class QuestPoster(DirectFrame):
                 lIconGeom = icon.copyTo(hidden)
                 lIconGeom.setColor(Suit.Suit.medallionColors[dept])
                 cogIcons.removeNode()
+            if quest.getType() == Quests.CogTrackLevelQuest:
+                dept = quest.getCogTrack()
+                cogIcons = loader.loadModel('phase_3/models/gui/cog_icons')
+                lIconGeomScale = 0.13
+                if dept in SuitDNA.suitDeptModelPaths:
+                    icon = cogIcons.find(SuitDNA.suitDeptModelPaths[dept])
+                lIconGeom = icon.copyTo(hidden)
+                lIconGeom.setColor(Suit.Suit.medallionColors[dept])
+                cogIcons.removeNode()
             elif quest.getType() == Quests.CogQuest:
                 if quest.getCogType() != Quests.Any:
                     lIconGeom = self.createSuitHead(quest.getCogType())
