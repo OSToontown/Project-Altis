@@ -7,6 +7,7 @@ from toontown.toon import NPCToons
 from toontown.toon import ToonHead
 from toontown.toon import ToonDNA
 from toontown.suit import SuitDNA
+from toontown.suit import BossCog
 from toontown.suit import Suit
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
@@ -62,6 +63,7 @@ class QuestPoster(DirectFrame):
                0.42,
                0.22,
                1)}
+    unformattedTypes = [Quests.VPQuest, Quests.VPNewbieQuest, Quests.CFOQuest, Quests.CFONewbieQuest, Quests.CJQuest, Quests.CJNewbieQuest, Quests.CEOQuest, Quests.CEONewbieQuest]
     normalTextColor = (0.3,
      0.25,
      0.2,
@@ -181,6 +183,16 @@ class QuestPoster(DirectFrame):
         self.fitGeometry(head, fFlip=1)
         suit.delete()
         suit = None
+        return head
+		
+    def createBossHead(self, dept):
+        headModel = loader.loadModel(BossCog.ModelDict[dept] + '-head-zero')
+        headModel.setHpr(90, 0, -90)
+        head = hidden.attachNewNode('head')
+        copyHead = headModel.copyTo(head)
+        copyHead.setDepthTest(1)
+        copyHead.setDepthWrite(1)
+        self.fitGeometry(head, fFlip=1)
         return head
 
     def loadElevator(self, building, numFloors, isCogdo=False):
@@ -352,7 +364,11 @@ class QuestPoster(DirectFrame):
         auxTextPos = Vec3(0, 0, 0.12)
         headlineString = quest.getHeadlineString()
         objectiveStrings = quest.getObjectiveStrings()
-        captions = map(string.capwords, quest.getObjectiveStrings())
+        wantFormat = self.checkFormat(quest.getType())
+        if not wantFormat:
+            captions = quest.getObjectiveStrings()
+        else:
+            captions = map(string.capwords, quest.getObjectiveStrings())
         imageColor = Vec4(*self.colors['white'])
         if quest.getType() == Quests.DeliverGagQuest or quest.getType() == Quests.DeliverItemQuest:
             frameBgColor = 'red'
@@ -785,20 +801,16 @@ class QuestPoster(DirectFrame):
                 rIconGeomScale = 1
         elif quest.getType() == Quests.VPQuest:
             frameBgColor = 'blue'
-            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
-            lIconGeom = bookModel.find('**/BossHead3Icon')
-            bookModel.removeNode()
-            lIconGeomScale = 0.13
+            lIconGeom = self.createBossHead('s')
+            lIconGeomScale = IMAGE_SCALE_SMALL
             if not fComplete:
                 infoText = quest.getLocationName()
                 if infoText == '':
                     infoText = TTLocalizer.QuestPosterAnywhere
         elif quest.getType() == Quests.VPNewbieQuest:
             frameBgColor = 'blue'
-            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
-            rIconGeom = bookModel.find('**/BossHead3Icon')
-            bookModel.removeNode()
-            rIconGeomScale = 0.13
+            rIconGeom = self.createBossHead('s')
+            rIconGeomScale = IMAGE_SCALE_SMALL
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
@@ -818,20 +830,74 @@ class QuestPoster(DirectFrame):
                 rIconGeomScale = 1
         elif quest.getType() == Quests.CFOQuest:
             frameBgColor = 'blue'
-            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
-            lIconGeom = bookModel.find('**/CashBotBossHeadIcon')
-            bookModel.removeNode()
-            lIconGeomScale = 0.13
+            lIconGeom = self.createBossHead('m')
+            lIconGeomScale = IMAGE_SCALE_SMALL
             if not fComplete:
                 infoText = quest.getLocationName()
                 if infoText == '':
                     infoText = TTLocalizer.QuestPosterAnywhere
         elif quest.getType() == Quests.CFONewbieQuest:
             frameBgColor = 'blue'
-            bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
-            rIconGeom = bookModel.find('**/CashBotBossHeadIcon')
-            bookModel.removeNode()
-            rIconGeomScale = 0.13
+            rIconGeom = self.createBossHead('m')
+            rIconGeomScale = IMAGE_SCALE_SMALL
+            if not fComplete:
+                headlineString = TTLocalizer.QuestsNewbieQuestHeadline
+                captions = [quest.getCaption()]
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
+                auxText = TTLocalizer.QuestsCogNewbieQuestAux
+                lPos.setX(-0.18)
+                self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
+                self.laffMeter.setScale(0.04)
+                lIconGeom = None
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+            else:
+                lIconGeom = rIconGeom
+                rIconGeom = None
+                lIconGeomScale = rIconGeomScale
+                rIconGeomScale = 1
+        elif quest.getType() == Quests.CJQuest:
+            frameBgColor = 'blue'
+            lIconGeom = self.createBossHead('l')
+            lIconGeomScale = IMAGE_SCALE_SMALL
+            if not fComplete:
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+        elif quest.getType() == Quests.CJNewbieQuest:
+            frameBgColor = 'blue'
+            rIconGeom = self.createBossHead('l')
+            rIconGeomScale = IMAGE_SCALE_SMALL
+            if not fComplete:
+                headlineString = TTLocalizer.QuestsNewbieQuestHeadline
+                captions = [quest.getCaption()]
+                captions.append(map(string.capwords, quest.getObjectiveStrings()))
+                auxText = TTLocalizer.QuestsCogNewbieQuestAux
+                lPos.setX(-0.18)
+                self.laffMeter = self.createLaffMeter(quest.getNewbieLevel())
+                self.laffMeter.setScale(0.04)
+                lIconGeom = None
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+            else:
+                lIconGeom = rIconGeom
+                rIconGeom = None
+                lIconGeomScale = rIconGeomScale
+                rIconGeomScale = 1
+        elif quest.getType() == Quests.CEOQuest:
+            frameBgColor = 'blue'
+            lIconGeom = self.createBossHead('c')
+            lIconGeomScale = IMAGE_SCALE_SMALL
+            if not fComplete:
+                infoText = quest.getLocationName()
+                if infoText == '':
+                    infoText = TTLocalizer.QuestPosterAnywhere
+        elif quest.getType() == Quests.CEONewbieQuest:
+            frameBgColor = 'blue'
+            rIconGeom = self.createBossHead('c')
+            rIconGeomScale = IMAGE_SCALE_SMALL
             if not fComplete:
                 headlineString = TTLocalizer.QuestsNewbieQuestHeadline
                 captions = [quest.getCaption()]
@@ -1115,6 +1181,12 @@ class QuestPoster(DirectFrame):
 
     def unbindMouseEnter(self):
         self.unbind(DGG.WITHIN)
+
+    def checkFormat(self, questType):
+        if questType in self.unformattedTypes:
+            return False
+        else:
+            return True
 
     def showDeleteButton(self, questDesc):
         self.hideDeleteButton()
