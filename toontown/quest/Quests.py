@@ -695,6 +695,82 @@ class CogLevelQuest(CogQuest):
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         questCogLevel = self.getCogLevel()
         return questCogLevel <= cogDict['level'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
+		
+class CogTrackLevelQuest(CogQuest):
+    trackCodes = ['c',
+     'l',
+     'm',
+     's',
+     'g']
+    trackNamesS = [TTLocalizer.BossbotS,
+     TTLocalizer.LawbotS,
+     TTLocalizer.CashbotS,
+     TTLocalizer.SellbotS,
+     TTLocalizer.BoardbotS]
+    trackNamesP = [TTLocalizer.BossbotP,
+     TTLocalizer.LawbotP,
+     TTLocalizer.CashbotP,
+     TTLocalizer.SellbotP,
+     TTLocalizer.BoardbotP]
+
+    def __init__(self, id, quest):
+        CogQuest.__init__(self, id, quest)
+        if self.__class__ == CogTrackQuest:
+            self.checkNumCogs(self.quest[1])
+            self.checkCogTrack(self.quest[2])
+            self.checkCogLevel(self.quest[3])
+
+    def getCogTrack(self):
+        return self.quest[2]
+		
+    def getCogLevel(self):
+        return self.quest[3]
+
+    def getProgressString(self, avatar, questDesc):
+        if self.getCompletionStatus(avatar, questDesc) == COMPLETE:
+            return CompleteString
+        elif self.getNumCogs() == 1:
+            return ''
+        else:
+            return TTLocalizer.QuestsCogTrackQuestProgress % {'progress': questDesc[4],
+             'numCogs': self.getNumCogs()}
+
+    def getObjectiveStrings(self):
+        numCogs = self.getNumCogs()
+        level = self.getCogLevel()
+        track = self.trackCodes.index(self.getCogTrack())
+        if numCogs == 1:
+            text = TTLocalizer.QuestsCogLevelQuestDesc % {'level': level, 'name': self.trackNamesS[track]}
+        else:
+            text = TTLocalizer.QuestsCogLevelQuestDescC % {'count': numCogs, 'level': level, 'name': self.trackNamesP[track]}
+        return (text,)
+
+    def getString(self):
+        return TTLocalizer.QuestsCogLevelQuestDefeat % self.getObjectiveStrings()[0]
+
+    def getSCStrings(self, toNpcId, progress):
+        if progress >= self.getNumCogs():
+            return getFinishToonTaskSCStrings(toNpcId)
+        count = self.getNumCogs()
+        level = self.getCogLevel()
+        track = self.trackCodes.index(self.getCogTrack())
+        if count == 1:
+            text = TTLocalizer.QuestsCogLevelQuestDesc
+        else:
+            text = TTLocalizer.QuestsCogLevelQuestDescI
+        objective = text % {'level': level,
+         'name': self.trackNamesP[track]}
+        location = self.getLocationName()
+        return TTLocalizer.QuestsCogLevelQuestSCString % {'objective': objective,
+         'location': location}
+
+    def getHeadlineString(self):
+        return TTLocalizer.QuestsCogTrackQuestHeadline
+
+    def doesCogCount(self, avId, cogDict, zoneId):
+        questCogTrack = self.getCogTrack()
+        questCogLevel = self.getCogLevel()
+        return questCogTrack == cogDict['track'] and questCogLevel <= cogDict['level'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
 
 
 class SkelecogQBase:
