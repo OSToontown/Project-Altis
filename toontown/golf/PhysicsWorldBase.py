@@ -54,8 +54,8 @@ class PhysicsWorldBase:
         self.timingCycleLength = 10.0
         self.timingCycleOffset = 0.0
         self.timingSimTime = 0.0
-        self.FPS = 144
-        self.refFPS = 144.0
+        self.FPS = 60
+        self.refFPS = 60.0
         self.DTAStep = 1.0 / self.FPS
         self.refCon = 1.2
 
