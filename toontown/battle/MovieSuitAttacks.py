@@ -848,10 +848,10 @@ def doShred(attack):
 def doSongAndDance(attack):
     suit = attack['suit']
     battle = attack['battle']
-    suitTrack = getSuitTrack(attack)
-    toonTrack = getToonTrack(attack, suitTrack.getDuration() - 1.8, ['cringe'], suitTrack.getDuration() - 1.8, ['applause'])
+    suitTrack = getSuitAnimTrack(attack)
+    toonTracks = getToonTracks(attack, suitTrack.getDuration() - 1.8, ['cringe'], suitTrack.getDuration() - 1.8, ['applause'])
     soundTrack = getSoundTrack('AA_heal_happydance.ogg', node=suit)
-    return Parallel(suitTrack, toonTrack, soundTrack)
+    return Parallel(suitTrack, toonTracks, soundTrack)
 
 def doFillWithLead(attack):
     suit = attack['suit']
