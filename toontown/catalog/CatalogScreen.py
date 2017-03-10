@@ -1047,7 +1047,7 @@ class CatalogScreen(DirectFrame):
 
     def __giftToggle(self):
         messenger.send('wakeup')
-        FeatureComingSoonDialog.FeatureComingSoonDialog("Woah! That feature will is \n\1textShadow\1coming soon\2! Sorry about that!")
+        FeatureComingSoonDialog.FeatureComingSoonDialog("Woah! That feature is \n\1textShadow\1coming soon\2! Sorry about that!")
         '''
         if self.gifting == -1:
             self.gifting = 1
