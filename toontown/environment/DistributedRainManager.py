@@ -14,6 +14,7 @@ from toontown.hood import Place
 import DayTimeGlobals
 from DistributedWeatherMGR import DistributedWeatherMGR
 from toontown.battle import BattleParticles
+from toontown.battle.BattleProps import *
 
 class DistributedRainManager(DistributedWeatherMGR):
     notify = directNotify.newCategory('DistributedRainManager')
@@ -25,16 +26,27 @@ class DistributedRainManager(DistributedWeatherMGR):
         self.rain = None
         self.rainRender = None
         self.rainSound = None
+        self.hood = base.cr.playGame.hood
         self.nextWindTime = 0
+        self.bolt = None
 
     def generate(self):
         DistributedWeatherMGR.generate(self)
+        self.bolt = loader.loadModel('phase_6/models/props/lightning')
+        self.bolt.reparentTo(hidden)
+        self.bolt.setScale(5, 5, 90)
+        self.bolt.setTransparency(1)
+        self.bolt.setColorScale(1, 1, 0.2, 0.8)
         
     def announceGenerate(self):
         DistributedWeatherMGR.announceGenerate(self)
         
     def delete(self):
+        render.setColorScale(1, 1, 1, 1)
         DistributedWeatherMGR.delete(self)
+        if self.bolt:
+            self.bolt.removeNode()
+            self.bolt = None
         if self.currentWeather == 0:
             self.rain.cleanup()
             taskMgr.remove('snowWind')
@@ -46,6 +58,7 @@ class DistributedRainManager(DistributedWeatherMGR):
             del self.rainRender
 
     def enterRain(self, timestamp):
+        self.hood.skyTransition('rain')
         self.rain = BattleParticles.loadParticleFile('raindisk.ptf')
         self.rain.setPos(0, 0, 20)
         self.rainRender = render.attachNewNode('rainRender')
@@ -81,6 +94,7 @@ class DistributedRainManager(DistributedWeatherMGR):
         taskMgr.remove('snowWind')
         
     def enterSunny(self, timestamp):
+        self.hood.skyTransition('day')
         if self.rain:
             self.rain.cleanup()
             if self.rainSound:
@@ -94,6 +108,23 @@ class DistributedRainManager(DistributedWeatherMGR):
         self.currentWeather = 1
 
     def exitSunny(self):
+        pass
+        
+    def enterThunderStorm(self, timestamp):
+        self.hood.skyTransition('rain')
+        render.setColorScale(0.8, 0.8, 0.8, 1)
+        self.rain = BattleParticles.loadParticleFile('raindisk.ptf')
+        self.rain.setPos(0, 0, 20)
+        self.rainRender = render.attachNewNode('rainRender')
+        self.rainRender.setDepthWrite(0)
+        self.rainRender.setBin('fixed', 1)
+        self.rain.start(camera, self.rainRender)
+        self.rainSound = base.loadSfx('phase_12/audio/sfx/CHQ_rain_ambient.ogg')
+        base.playSfx(self.rainSound, looping=1, volume=0.3)
+        
+        self.currentWeather = 0
+        
+    def exitThunderStorm(self):
         pass
         
     def snowWindSoundTask(self, task):
@@ -114,5 +145,16 @@ class DistributedRainManager(DistributedWeatherMGR):
         return Task.cont
         
     def spawnLightning(self, x, y):
-        pass
+        Sequence(
+        Func(render.setColorScale, 1, 1, 1, 1),
+        Wait(0.2),
+        Func(render.setColorScale, 0.6, 0.6, 0.6, 1)).start()
+        self.bolt.reparentTo(render)
+        self.bolt.setPos(x, y, -200)
+        self.bolt.setH(random.randrange(-360, 360))
+        taskMgr.doMethodLater(0.2, self.killLightning, 'killLightning')
         
+    def killLightning(self, task):
+        if self.bolt:
+            self.bolt.reparentTo(hidden)
+        return task.done
