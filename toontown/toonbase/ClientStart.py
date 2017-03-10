@@ -19,7 +19,7 @@ if __debug__:
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.settings.Settings import Settings
 
-notify = directNotify.newCategory('ClientStart')
+notify = directNotify.newCategory('AltisClient')
 notify.setInfo(True)
 
 preferencesFilename = ConfigVariableString(
@@ -62,8 +62,6 @@ if 'doorkey' not in settings:
     settings['doorkey'] = False
 if 'interactkey' not in settings:
     settings['interactkey'] = False
-if 'patMode' not in settings:
-    settings['patMode'] = "Altis"
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])
@@ -76,15 +74,15 @@ loadPrcFileData('Settings: toonChatSounds', 'toon-chat-sounds %s' % settings['to
 vfs = VirtualFileSystem.getGlobalPtr()
 DefaultPhases = (3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13)
 import glob
-print("Loading Default Pack...")
+notify.info("Loading Default Pack...")
 for file in glob.glob('resources/default/*.mf'):
     if float(file.replace('.mf', '').replace('resources/default\phase_', '')) in DefaultPhases:
         mf = Multifile()
         mf.openReadWrite(Filename(file))
         names = mf.getSubfileNames()
         vfs.mount(mf, Filename('/'), 0)
-        print('Successfully Mounted:' + file)
-print("Default Pack Loaded!")
+        notify.info('Successfully Mounted:' + file)
+notify.info("Default Pack Loaded!")
 from toontown.toonbase.ContentPackManager import ContentPackManager
 __builtin__.ContentPackMgr = ContentPackManager()
 ContentPackMgr.loadAll()
@@ -105,7 +103,6 @@ try:
 except Exception as e:
     raise (e)
 
-notify.info('Starting the game...')
 if launcher.isDummy():
     http = HTTPClient()
 else:
@@ -119,13 +116,13 @@ from direct.gui.DirectGui import *
 
 from toontown.pgui import DirectGuiGlobals as PGUIGlobals
 
-notify.info('Setting the default font...')
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 PGUIGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
+notify.info('Loading AltisBase...')
 from toontown.toonbase import ToonBase
 ToonBase.ToonBase()
-from pandac.PandaModules import *
+from panda3d.core import *
 if base.win is None:
     notify.error('Unable to open window; aborting.')
     
@@ -243,7 +240,7 @@ __builtin__.loader = base.loader
 autoRun = ConfigVariableBool('toontown-auto-run', 1)
 if autoRun:
     try:
-        run()
+        base.run()
     except SystemExit:
         raise
     except:
