@@ -48,7 +48,7 @@ class OTPClientRepository(ClientRepositoryBase):
      'PendingApproval',
      'Approved',
      'Rejected'])
-    
+
     whiteListChatEnabled = 1 # TODO: Have server set this on localAvatar on login.
 
     def __init__(self, serverVersion, launcher = None, playGame = None):
@@ -129,7 +129,7 @@ class OTPClientRepository(ClientRepositoryBase):
             for i in xrange(subCount):
                 self.DISLToken += ('&PIRATES_SUB_%s_ACCESS=%s' % (i, config.GetString('fake-DISL-Sub-%s-Access' % i, 'FULL')) +
                                    '&PIRATES_SUB_%s_ACTIVE=%s' % (i, config.GetString('fake-DISL-Sub-%s-Active' % i, 'YES')) +
-                                   '&PIRATES_SUB_%s_ID=%s' % (i, config.GetInt('fake-DISL-Sub-%s-Id' % i, playerAccountId) +  config.GetInt('fake-DISL-Sub-Id-Offset', 0)) +
+                                   '&PIRATES_SUB_%s_ID=%s' % (i, config.GetInt('fake-DISL-Sub-%s-Id' % i, playerAccountId) + config.GetInt('fake-DISL-Sub-Id-Offset', 0)) +
                                    '&PIRATES_SUB_%s_LEVEL=%s' % (i, config.GetInt('fake-DISL-Sub-%s-Level' % i, 3)) +
                                    '&PIRATES_SUB_%s_NAME=%s' % (i, config.GetString('fake-DISL-Sub-%s-Name' % i, fakeDISLPlayerName)) +
                                    '&PIRATES_SUB_%s_NUM_AVATARS=%s' % (i, config.GetInt('fake-DISL-Sub-%s-NumAvatars' % i, defaultNumAvatars)) +
@@ -233,8 +233,8 @@ class OTPClientRepository(ClientRepositoryBase):
                 reportWait = 60.0 * 2.0
             if reportWaitScale == noneValue:
                 reportWaitScale = None
-            self.garbageReportScheduler = GarbageReportScheduler(waitBetween=reportWait,
-                                                                 waitScale=reportWaitScale)
+            self.garbageReportScheduler = GarbageReportScheduler(waitBetween = reportWait,
+                                                                 waitScale = reportWaitScale)
 
         self._proactiveLeakChecks = config.GetBool('proactive-leak-checks', 1) or config.GetBool('client-proactive-leak-checks', 1)
         self._crashOnProactiveLeakDetect = config.GetBool('crash-on-proactive-leak-detect', 1)
@@ -440,9 +440,9 @@ class OTPClientRepository(ClientRepositoryBase):
     def startLeakDetector(self):
         if hasattr(self, 'leakDetector'):
             return False
-        
+
         firstCheckDelay = config.GetFloat('leak-detector-first-check-delay', 2 * 60.0)
-        self.leakDetector = ContainerLeakDetector('client container leak detector', firstCheckDelay=firstCheckDelay)
+        self.leakDetector = ContainerLeakDetector('client container leak detector', firstCheckDelay = firstCheckDelay)
         self.objectTypesLeakDetector = LeakDetectors.ObjectTypesLeakDetector()
         self.garbageLeakDetector = LeakDetectors.GarbageLeakDetector()
         self.renderLeakDetector = LeakDetectors.SceneGraphLeakDetector(render)
@@ -455,19 +455,19 @@ class OTPClientRepository(ClientRepositoryBase):
     def getGameDoId(self):
         return self.GameGlobalsId
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterLoginOff(self):
         self.handler = self.handleMessageType
         self.shardListHandle = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitLoginOff(self):
         self.handler = None
 
     def getServerVersion(self):
         return self.serverVersion
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterConnect(self, serverList):
         self.serverList = serverList
         dialogClass = OTPGlobals.getGlobalDialogClass()
@@ -475,7 +475,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.connectingBox.start('Connecting to server...')
         self.renderFrame()
         self.handler = self.handleConnecting
-        self.connect(self.serverList, successCallback=self._sendHello, failureCallback=self.failedToConnect)
+        self.connect(self.serverList, successCallback = self._sendHello, failureCallback = self.failedToConnect)
 
     def _sendHello(self):
         datagram = PyDatagram()
@@ -490,11 +490,11 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.handleMessageType(msgtype, di)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def failedToConnect(self, statusCode, statusString):
         self.loginFSM.request('failedToConnect', [statusCode, statusString])
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitConnect(self):
         self.connectingBox.stop()
 
@@ -510,7 +510,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def getConnectedEvent(self):
         return 'OTPClientRepository-connected'
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _handleConnected(self):
         self.launcher.setDisconnectDetailsNormal()
         messenger.send(self.getConnectedEvent())
@@ -518,18 +518,18 @@ class OTPClientRepository(ClientRepositoryBase):
 
     def gotoFirstScreen(self):
         self.startReaderPollTask()
-        #self.startHeartbeat()
+        # self.startHeartbeat()
         self.loginFSM.request('login')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterLogin(self):
         self.sendSetAvatarIdMsg(0)
         self.loginDoneEvent = 'loginDone'
         self.accept(self.loginDoneEvent, self.__handleLoginDone)
         self.csm.performLogin(self.loginDoneEvent)
-        self.waitForDatabaseTimeout(requestName='WaitOnCSMLoginResponse')
+        self.waitForDatabaseTimeout(requestName = 'WaitOnCSMLoginResponse')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleLoginDone(self, doneStatus):
         mode = doneStatus['mode']
         if mode == 'success':
@@ -555,14 +555,14 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.notify.error('Invalid doneStatus mode from ClientServicesManager: ' + str(mode))
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitLogin(self):
         self.cleanupWaitingForDatabase()
         self.ignore(self.loginDoneEvent)
         del self.loginDoneEvent
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterCreateAccount(self, createAccountDoneData = {'back': 'login',
  'backArgs': []}):
         self.createAccountDoneData = createAccountDoneData
@@ -573,7 +573,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.createAccountScreen.load()
         self.createAccountScreen.enter()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleCreateAccountDone(self, doneStatus):
         mode = doneStatus['mode']
         if mode == 'success':
@@ -590,7 +590,7 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.notify.error('Invalid doneStatus mode from CreateAccountScreen: ' + str(mode))
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitCreateAccount(self):
         if self.createAccountScreen:
             self.createAccountScreen.exit()
@@ -601,7 +601,7 @@ class OTPClientRepository(ClientRepositoryBase):
         del self.createAccountDoneEvent
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterFailedToConnect(self, statusCode, statusString):
         self.handler = self.handleMessageType
         messenger.send('connectionIssue')
@@ -619,7 +619,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.notify.info(message)
         self.accept('failedToConnectAck', self.__handleFailedToConnectAck)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleFailedToConnectAck(self):
         doneStatus = self.failedToConnectBox.doneStatus
         if doneStatus == 'ok':
@@ -630,13 +630,13 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(doneStatus))
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitFailedToConnect(self):
         self.handler = None
         self.ignore('failedToConnectAck')
         self.failedToConnectBox.stop()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterFailedToGetServerConstants(self, e):
         self.handler = self.handleMessageType
         messenger.send('connectionIssue')
@@ -656,12 +656,12 @@ class OTPClientRepository(ClientRepositoryBase):
             message = OTPLocalizer.CRServerConstantsTryAgain % url.cStr()
             style = OTPDialog.TwoChoice
         dialogClass = OTPGlobals.getGlobalDialogClass()
-        self.failedToGetConstantsBox = dialogClass(message=message, doneEvent='failedToGetConstantsAck', text_wordwrap=18, style=style)
+        self.failedToGetConstantsBox = dialogClass(message = message, doneEvent = 'failedToGetConstantsAck', text_wordwrap = 18, style = style)
         self.failedToGetConstantsBox.show()
         self.accept('failedToGetConstantsAck', self.__handleFailedToGetConstantsAck)
         self.notify.warning('Failed to get account server constants. Notifying user.')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleFailedToGetConstantsAck(self):
         doneStatus = self.failedToGetConstantsBox.doneStatus
         if doneStatus == 'ok':
@@ -672,33 +672,33 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(doneStatus))
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitFailedToGetServerConstants(self):
         self.handler = None
         self.ignore('failedToGetConstantsAck')
         self.failedToGetConstantsBox.cleanup()
         del self.failedToGetConstantsBox
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterShutdown(self, errorCode = None):
         self.handler = self.handleMessageType
         self.sendDisconnect()
         self.notify.info('Exiting cleanly')
         base.exitShow(errorCode)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitShutdown(self):
         if hasattr(self, 'garbageWatcher'):
             self.garbageWatcher.destroy()
             del self.garbageWatcher
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterWaitForGameList(self):
-        self.gameDoDirectory = self.addTaggedInterest(self.GameGlobalsId, OTP_ZONE_ID_MANAGEMENT, self.ITAG_PERM, 'game directory', event='GameList_Complete')
+        self.gameDoDirectory = self.addTaggedInterest(self.GameGlobalsId, OTP_ZONE_ID_MANAGEMENT, self.ITAG_PERM, 'game directory', event = 'GameList_Complete')
         self.acceptOnce('GameList_Complete', self.waitForGetGameListResponse)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def waitForGetGameListResponse(self):
         if self.isGameListCorrect():
             if base.config.GetBool('game-server-tests', 0):
@@ -708,24 +708,24 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.loginFSM.request('missingGameRootObject')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def isGameListCorrect(self):
         return 1
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitWaitForGameList(self):
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterMissingGameRootObject(self):
         self.notify.warning('missing some game root objects.')
         self.handler = self.handleMessageType
         dialogClass = OTPGlobals.getGlobalDialogClass()
-        self.missingGameRootObjectBox = dialogClass(message=OTPLocalizer.CRMissingGameRootObject, doneEvent='missingGameRootObjectBoxAck', style=OTPDialog.TwoChoice)
+        self.missingGameRootObjectBox = dialogClass(message = OTPLocalizer.CRMissingGameRootObject, doneEvent = 'missingGameRootObjectBoxAck', style = OTPDialog.TwoChoice)
         self.missingGameRootObjectBox.show()
         self.accept('missingGameRootObjectBoxAck', self.__handleMissingGameRootObjectAck)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleMissingGameRootObjectAck(self):
         doneStatus = self.missingGameRootObjectBox.doneStatus
         if doneStatus == 'ok':
@@ -735,29 +735,29 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(doneStatus))
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitMissingGameRootObject(self):
         self.handler = None
         self.ignore('missingGameRootObjectBoxAck')
         self.missingGameRootObjectBox.cleanup()
         del self.missingGameRootObjectBox
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterWaitForShardList(self):
         if not self.isValidInterestHandle(self.shardListHandle):
-            self.shardListHandle = self.addTaggedInterest(self.GameGlobalsId, OTP_ZONE_ID_DISTRICTS, self.ITAG_PERM, 'LocalShardList', event='ShardList_Complete')
+            self.shardListHandle = self.addTaggedInterest(self.GameGlobalsId, OTP_ZONE_ID_DISTRICTS, self.ITAG_PERM, 'LocalShardList', event = 'ShardList_Complete')
             self.acceptOnce('ShardList_Complete', self._wantShardListComplete)
         else:
             self._wantShardListComplete()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _wantShardListComplete(self):
         if self._shardsAreReady():
             self.loginFSM.request('waitForAvatarList')
         else:
             self.loginFSM.request('noShards')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _shardsAreReady(self):
         maxPop = config.GetInt('shard-mid-pop', 300)
         for shard in self.activeDistrictMap.values():
@@ -767,13 +767,13 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             return False
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitWaitForShardList(self):
         self.ignore('ShardList_Complete')
         self.handler = None
         return
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterNoShards(self):
         messenger.send('connectionIssue')
         self.handler = self.handleMessageType
@@ -782,7 +782,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.noShardsBox.start(OTPLocalizer.CRNoDistrictsTryAgain, yesText = 'Retry', noText = 'Cancel', doneEvent = 'noShardsAck', isError = True)
         self.accept('noShardsAck', self.__handleNoShardsAck)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleNoShardsAck(self):
         doneStatus = self.noShardsBox.doneStatus
         if doneStatus == 'ok':
@@ -793,13 +793,13 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(doneStatus))
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitNoShards(self):
         self.handler = None
         self.ignore('noShardsAck')
         self.noShardsBox.stop()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterNoShardsWait(self):
         dialogClass = OTPGlobals.getGlobalDialogClass()
         self.connectingBox = LoadingDialog.LoadingDialog()
@@ -814,27 +814,27 @@ class OTPClientRepository(ClientRepositoryBase):
             delay = 0.0
         else:
             delay = 6.5 + random.random() * 2.0
-        
+
         taskMgr.doMethodLater(delay, doneWait, self.noShardsWaitTaskName)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitNoShardsWait(self):
         taskMgr.remove(self.noShardsWaitTaskName)
         del self.noShardsWaitTaskName
         self.connectingBox.stop()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterReject(self):
         self.handler = self.handleMessageType
         self.notify.warning('Connection Rejected')
         launcher.setPandaErrorCode(13)
         sys.exit()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitReject(self):
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterNoConnection(self):
         messenger.send('connectionIssue')
         self.resetInterestStateForConnectionLoss()
@@ -867,70 +867,70 @@ class OTPClientRepository(ClientRepositoryBase):
         self.accept('lostConnectionAck', self.__handleLostConnectionAck)
         self.notify.warning('Lost connection to server. Notifying user.')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleLostConnectionAck(self):
         if self.lostConnectionBox.doneStatus == 'ok' and self.loginInterface.supportsRelogin():
             self.loginFSM.request('connect', [self.serverList])
         else:
             self.loginFSM.request('shutdown')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitNoConnection(self):
         self.handler = None
         self.ignore('lostConnectionAck')
         self.lostConnectionBox.stop()
         messenger.send('connectionRetrying')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterAfkTimeout(self):
         self.sendSetAvatarIdMsg(0)
         msg = OTPLocalizer.AfkForceAcknowledgeMessage
         dialogClass = OTPGlobals.getDialogClass()
-        self.afkDialog = dialogClass(text=msg, command=self.__handleAfkOk, style=OTPDialog.Acknowledge)
+        self.afkDialog = dialogClass(text = msg, command = self.__handleAfkOk, style = OTPDialog.Acknowledge)
         self.handler = self.handleMessageType
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleAfkOk(self, value):
         self.loginFSM.request('waitForAvatarList')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitAfkTimeout(self):
         if self.afkDialog:
             self.afkDialog.cleanup()
             self.afkDialog = None
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterPeriodTimeout(self):
         self.sendSetAvatarIdMsg(0)
         self.sendDisconnect()
         msg = OTPLocalizer.PeriodForceAcknowledgeMessage
         dialogClass = OTPGlobals.getDialogClass()
-        self.periodDialog = dialogClass(text=msg, command=self.__handlePeriodOk, style=OTPDialog.Acknowledge)
+        self.periodDialog = dialogClass(text = msg, command = self.__handlePeriodOk, style = OTPDialog.Acknowledge)
         self.handler = self.handleMessageType
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handlePeriodOk(self, value):
         base.exitShow()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitPeriodTimeout(self):
         if self.periodDialog:
             self.periodDialog.cleanup()
             self.periodDialog = None
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterWaitForAvatarList(self):
         self._requestAvatarList()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _requestAvatarList(self):
         self.csm.requestAvatars()
-        self.waitForDatabaseTimeout(requestName='WaitForAvatarList')
+        self.waitForDatabaseTimeout(requestName = 'WaitForAvatarList')
         self.acceptOnce(OtpAvatarManager.OtpAvatarManager.OnlineEvent, self._requestAvatarList)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitWaitForAvatarList(self):
         self.cleanupWaitingForDatabase()
         self.ignore(OtpAvatarManager.OtpAvatarManager.OnlineEvent)
@@ -940,67 +940,67 @@ class OTPClientRepository(ClientRepositoryBase):
         self.avList = avatars
         self.loginFSM.request('chooseAvatar', [self.avList])
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterChooseAvatar(self, avList):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitChooseAvatar(self):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterCreateAvatar(self, avList, index, newDNA = None):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitCreateAvatar(self):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterWaitForDeleteAvatarResponse(self, potAv):
         self.csm.sendDeleteAvatar(potAv.id)
-        self.waitForDatabaseTimeout(requestName='WaitForDeleteAvatarResponse')
+        self.waitForDatabaseTimeout(requestName = 'WaitForDeleteAvatarResponse')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitWaitForDeleteAvatarResponse(self):
         self.cleanupWaitingForDatabase()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterRejectRemoveAvatar(self, reasonCode):
         self.notify.warning('Rejected removed avatar. (%s)' % (reasonCode,))
         self.handler = self.handleMessageType
         dialogClass = OTPGlobals.getGlobalDialogClass()
-        self.rejectRemoveAvatarBox = dialogClass(message='%s\n(%s)' % (OTPLocalizer.CRRejectRemoveAvatar, reasonCode), doneEvent='rejectRemoveAvatarAck', style=OTPDialog.Acknowledge)
+        self.rejectRemoveAvatarBox = dialogClass(message = '%s\n(%s)' % (OTPLocalizer.CRRejectRemoveAvatar, reasonCode), doneEvent = 'rejectRemoveAvatarAck', style = OTPDialog.Acknowledge)
         self.rejectRemoveAvatarBox.show()
         self.accept('rejectRemoveAvatarAck', self.__handleRejectRemoveAvatar)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def __handleRejectRemoveAvatar(self):
         self.loginFSM.request('chooseAvatar')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitRejectRemoveAvatar(self):
         self.handler = None
         self.ignore('rejectRemoveAvatarAck')
         self.rejectRemoveAvatarBox.cleanup()
         del self.rejectRemoveAvatarBox
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterWaitForSetAvatarResponse(self, potAv):
         self.sendSetAvatarMsg(potAv)
-        self.waitForDatabaseTimeout(requestName='WaitForSetAvatarResponse')
+        self.waitForDatabaseTimeout(requestName = 'WaitForSetAvatarResponse')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitWaitForSetAvatarResponse(self):
         self.cleanupWaitingForDatabase()
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def sendSetAvatarMsg(self, potAv):
         self.sendSetAvatarIdMsg(potAv.id)
         self.avData = potAv
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def sendSetAvatarIdMsg(self, avId):
         if avId != self.__currentAvId:
             self.__currentAvId = avId
@@ -1010,20 +1010,20 @@ class OTPClientRepository(ClientRepositoryBase):
             else:
                 self.startPeriodTimer()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def handleAvatarResponseMsg(self, avatarId, di):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterPlayingGame(self):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitPlayingGame(self):
         self.notify.info('sending clientLogout')
         messenger.send('clientLogout')
 
-    @report(types=['args'], dConfigParam='teleport')
+    @report(types = ['args'], dConfigParam = 'teleport')
     def detectLeaks(self, okTasks = None, okEvents = None):
         if not __dev__ or configIsToday('allow-unclean-exit'):
             return
@@ -1065,7 +1065,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.notify.info('checking for leaked garbage...')
         if gc.garbage:
             self.notify.warning('garbage already contains %d items' % len(gc.garbage))
-        report = GarbageReport.GarbageReport('logout', verbose=True)
+        report = GarbageReport.GarbageReport('logout', verbose = True)
         numCycles = report.getNumCycles()
         if numCycles:
             msg = "You can't leave until you take out your garbage. See report above & base.garbage"
@@ -1223,7 +1223,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def _abandonShard(self):
         self.notify.error('%s must override _abandonShard' % self.__class__.__name__)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterGameOff(self):
         self.uberZoneInterest = None
         if not hasattr(self, 'cleanGameExit'):
@@ -1240,11 +1240,11 @@ class OTPClientRepository(ClientRepositoryBase):
         self.doDataCache.flush()
         self.handler = self.handleMessageType
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitGameOff(self):
         self.handler = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterWaitOnEnterResponses(self, shardId, hoodId, zoneId, avId):
         self.cleanGameExit = False
         self.handlerArgs = {'hoodId': hoodId,
@@ -1255,7 +1255,7 @@ class OTPClientRepository(ClientRepositoryBase):
             district = self.activeDistrictMap.get(shardId)
         else:
             district = None
-        
+
         if not district:
             self.distributedDistrict = self.getStartingDistrict()
             if self.distributedDistrict is None:
@@ -1264,23 +1264,23 @@ class OTPClientRepository(ClientRepositoryBase):
             shardId = self.distributedDistrict.doId
         else:
             self.distributedDistrict = district
-        
+
         self.notify.info('Entering shard %s' % shardId)
         localAvatar.setLocation(shardId, zoneId)
         base.localAvatar.defaultShard = shardId
-        self.waitForDatabaseTimeout(requestName='WaitOnEnterResponses')
+        self.waitForDatabaseTimeout(requestName = 'WaitOnEnterResponses')
         self.handleSetShardComplete()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def handleSetShardComplete(self):
         hoodId = self.handlerArgs['hoodId']
         zoneId = self.handlerArgs['zoneId']
         avId = self.handlerArgs['avId']
         self.uberZoneInterest = self.addInterest(base.localAvatar.defaultShard, OTPGlobals.UberZone, 'uberZone', 'uberZoneInterestComplete')
         self.acceptOnce('uberZoneInterestComplete', self.uberZoneInterestComplete)
-        self.waitForDatabaseTimeout(20, requestName='waitingForUberZone')
+        self.waitForDatabaseTimeout(20, requestName = 'waitingForUberZone')
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def uberZoneInterestComplete(self):
         self.__gotTimeSync = 0
         self.cleanupWaitingForDatabase()
@@ -1299,19 +1299,19 @@ class OTPClientRepository(ClientRepositoryBase):
             self.timeManager.sendCpuInfo()
             if self.timeManager.synchronize('startup'):
                 self.accept('gotTimeSync', self.gotTimeSync)
-                self.waitForDatabaseTimeout(requestName='uberZoneInterest-timeSync')
+                self.waitForDatabaseTimeout(requestName = 'uberZoneInterest-timeSync')
             else:
                 self.notify.info('No sync from TimeManager.')
                 self.gotTimeSync()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitWaitOnEnterResponses(self):
         self.ignore('uberZoneInterestComplete')
         self.cleanupWaitingForDatabase()
         self.handler = None
         self.handlerArgs = None
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterCloseShard(self, loginState = None):
         self.notify.info('Exiting shard')
         if loginState is None:
@@ -1328,21 +1328,21 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.removeShardInterest(callback)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _removeAllOV(self):
         ownerDoIds = self.doId2ownerView.keys()
         for doId in ownerDoIds:
-            self.disableDoId(doId, ownerView=True)
+            self.disableDoId(doId, ownerView = True)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def isShardInterestOpen(self):
         self.notify.error('%s must override isShardInterestOpen' % self.__class__.__name__)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def removeShardInterest(self, callback, task = None):
         self._removeCurrentShardInterest(Functor(self._removeShardInterestComplete, callback))
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _removeShardInterestComplete(self, callback):
         self.cleanGameExit = True
         self.cache.flush()
@@ -1352,29 +1352,29 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self._callRemoveShardInterestCallback(callback, None)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _callRemoveShardInterestCallback(self, callback, task):
         callback()
         return Task.done
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _removeCurrentShardInterest(self, callback):
         self.notify.error('%s must override _removeCurrentShardInterest' % self.__class__.__name__)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitCloseShard(self):
         del self._closeShardLoginState
         base.cr.setNoNewInterests(False)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterTutorialQuestion(self, hoodId, zoneId, avId):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitTutorialQuestion(self):
         pass
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterPlayGame(self, hoodId, zoneId, avId):
         if self.music:
             self.music.stop()
@@ -1394,7 +1394,7 @@ class OTPClientRepository(ClientRepositoryBase):
         def checkScale(task):
             return Task.cont
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def handleGameDone(self):
         if self.timeManager:
             self.timeManager.setDisconnectReason(OTPGlobals.DisconnectSwitchShards)
@@ -1412,7 +1412,7 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.notify.error('Exited shard with unexpected mode %s' % how)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitPlayGame(self):
         taskMgr.remove('globalScaleCheck')
         self.handler = None
@@ -1422,14 +1422,14 @@ class OTPClientRepository(ClientRepositoryBase):
         self.garbageLeakLogger.destroy()
         del self.garbageLeakLogger
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def gotTimeSync(self):
         self.notify.info('gotTimeSync')
         self.ignore('gotTimeSync')
         self.__gotTimeSync = 1
         self.moveOnFromUberZone()
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def moveOnFromUberZone(self):
         if not self.__gotTimeSync:
             self.notify.info('Waiting for time sync.')
@@ -1462,7 +1462,7 @@ class OTPClientRepository(ClientRepositoryBase):
         if msgType == CLIENT_ENTER_OBJECT_REQUIRED:
             self.handleGenerateWithRequired(di)
         elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER:
-            self.handleGenerateWithRequired(di, other=True)
+            self.handleGenerateWithRequired(di, other = True)
         elif msgType == CLIENT_OBJECT_SET_FIELD:
             self.handleUpdateField(di)
         elif msgType == CLIENT_OBJECT_LEAVING:
@@ -1470,27 +1470,27 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             self.handleMessageType(msgType, di)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def enterSwitchShards(self, shardId, hoodId, zoneId, avId):
         self._switchShardParams = [shardId,
             hoodId,
             zoneId,
             avId]
-        
+
         localAvatar.setLeftDistrict()
         self.removeShardInterest(self._handleOldShardGone)
         taskMgr.remove('streamerUpdateDist')
         taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')
-        
+
     def updateDistrictName(self, task):
         messenger.send("updateDistrictName")
         return task.done
-        
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def _handleOldShardGone(self):
         self.gameFSM.request('waitOnEnterResponses', self._switchShardParams)
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    @report(types = ['args', 'deltaStamp'], dConfigParam = 'teleport')
     def exitSwitchShards(self):
         pass
 
@@ -1646,7 +1646,7 @@ class OTPClientRepository(ClientRepositoryBase):
         OTPClientRepository.notify.debug('waiting for database timeout %s at %s' % (requestName, globalClock.getFrameTime()))
         self.cleanupWaitingForDatabase()
         globalClock.tick()
-        taskMgr.doMethodLater((OTPGlobals.DatabaseDialogTimeout + extraTimeout) * 10 if __dev__ else 1, self.__showWaitingForDatabase, 'waitingForDatabase', extraArgs=[requestName])
+        taskMgr.doMethodLater((OTPGlobals.DatabaseDialogTimeout + extraTimeout) * 10 if __dev__ else 1, self.__showWaitingForDatabase, 'waitingForDatabase', extraArgs = [requestName])
 
     def cleanupWaitingForDatabase(self):
         if self.waitingForDatabase:
@@ -1660,7 +1660,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.waitingForDatabase = LoadingDialog.LoadingDialog()
         self.waitingForDatabase.start(OTPLocalizer.CRToontownUnavailable)
         taskMgr.remove('waitingForDatabase')
-        taskMgr.doMethodLater(OTPGlobals.DatabaseGiveupTimeout, self.__giveUpWaitingForDatabase, 'waitingForDatabase', extraArgs=[requestName])
+        taskMgr.doMethodLater(OTPGlobals.DatabaseGiveupTimeout, self.__giveUpWaitingForDatabase, 'waitingForDatabase', extraArgs = [requestName])
         return Task.done
 
     def __giveUpWaitingForDatabase(self, requestName):
@@ -1734,7 +1734,7 @@ class OTPClientRepository(ClientRepositoryBase):
         elif msgType == CLIENT_ENTER_OBJECT_REQUIRED:
             self.handleGenerateWithRequired(di)
         elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER:
-            self.handleGenerateWithRequired(di, other=True)
+            self.handleGenerateWithRequired(di, other = True)
         elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER_OWNER:
             self.handleGenerateWithRequiredOtherOwner(di)
         elif msgType == CLIENT_OBJECT_SET_FIELD:
@@ -1742,7 +1742,7 @@ class OTPClientRepository(ClientRepositoryBase):
         elif msgType == CLIENT_OBJECT_LEAVING:
             self.handleDisable(di)
         elif msgType == CLIENT_OBJECT_LEAVING_OWNER:
-            self.handleDisable(di, ownerView=True)
+            self.handleDisable(di, ownerView = True)
         elif msgType == CLIENT_DONE_INTEREST_RESP:
             self.gotInterestDoneMessage(di)
         elif msgType == CLIENT_OBJECT_LOCATION:
@@ -1753,7 +1753,7 @@ class OTPClientRepository(ClientRepositoryBase):
                 currentLoginStateName = currentLoginState.getName()
             else:
                 currentLoginStateName = 'None'
-            
+
             currentGameState = self.gameFSM.getCurrentState()
             if currentGameState:
                 currentGameStateName = currentGameState.getName()
@@ -1767,7 +1767,7 @@ class OTPClientRepository(ClientRepositoryBase):
             self.deferredGenerates.append((CLIENT_DONE_INTEREST_RESP, (dg, di)))
         else:
             di2 = DatagramIterator(di.getDatagram(), di.getCurrentIndex())
-            di2.getUint32()  # Ignore the context.
+            di2.getUint32() # Ignore the context.
             handle = di2.getUint16()
             self.__playBackGenerates(handle)
 
@@ -1838,22 +1838,22 @@ class OTPClientRepository(ClientRepositoryBase):
         else:
             ClientRepositoryBase.replayDeferredGenerate(self, msgType, extra)
 
-    @exceptionLogged(append=False)
+    @exceptionLogged(append = False)
     def handleDatagram(self, di):
         if self.notify.getDebug():
             print 'ClientRepository received datagram:'
             di.getDatagram().dumpHex(ostream)
-        
+
         msgType = self.getMsgType()
         if msgType == 65535:
             self.lostConnection()
             return
-        
+
         if self.handler == None:
             self.handleMessageType(msgType, di)
         else:
             self.handler(msgType, di)
-        
+
         self.considerHeartbeat()
 
     def askAvatarKnown(self, avId):
@@ -1895,7 +1895,7 @@ class OTPClientRepository(ClientRepositoryBase):
             self.send(datagram)
             self.notify.info('Sent disconnect message to server')
             self.disconnect()
-        
+
         self.stopHeartbeat()
 
     def _isPlayerDclass(self, dclass):
@@ -1908,10 +1908,10 @@ class OTPClientRepository(ClientRepositoryBase):
         if self._isPlayerDclass(dclass):
             if not self._isValidPlayerLocation(parentId, zoneId):
                 return True
-        
+
         return False
 
-    def handleGenerateWithRequired(self, di, other=False):
+    def handleGenerateWithRequired(self, di, other = False):
         doId = di.getUint32()
         parentId = di.getUint32()
         zoneId = di.getUint32()
@@ -1950,7 +1950,7 @@ class OTPClientRepository(ClientRepositoryBase):
         # This interest has pending generates! Play them:
         generates = self.__pendingGenerates[handle]
         del self.__pendingGenerates[handle]
-        generates.sort(key=lambda i: i[3])  # Sort by classId.
+        generates.sort(key = lambda i: i[3]) # Sort by classId.
         for doId, parentId, zoneId, classId, dg, other in generates:
             di = DatagramIterator(dg)
             di.skipBytes(16)

@@ -80,12 +80,12 @@ class ShardPage(ShtikerPage.ShtikerPage):
     def load(self):
         main_text_scale = 0.06
         title_text_scale = 0.12
-        self.title = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPageTitle, text_scale=title_text_scale, textMayChange=0, pos=(0, 0, 0.6))
+        self.title = DirectLabel(parent = self, relief = None, text = TTLocalizer.ShardPageTitle, text_scale = title_text_scale, textMayChange = 0, pos = (0, 0, 0.6))
         helpText_ycoord = 0.403
-        self.helpText = DirectLabel(parent=self, relief=None, text='Notice: The "Attempting Database Connection" error when switching districts has been fixed!', text_scale=main_text_scale, text_wordwrap=12, text_align=TextNode.ALeft, textMayChange=1, pos=(0.058, 0, helpText_ycoord))
+        self.helpText = DirectLabel(parent = self, relief = None, text = 'Notice: The "Attempting Database Connection" error when switching districts has been fixed!', text_scale = main_text_scale, text_wordwrap = 12, text_align = TextNode.ALeft, textMayChange = 1, pos = (0.058, 0, helpText_ycoord))
         shardPop_ycoord = helpText_ycoord - 0.523
         totalPop_ycoord = shardPop_ycoord - 0.26
-        self.totalPopulationText = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPagePopulationTotal % 1, text_scale=main_text_scale, text_wordwrap=8, textMayChange=1, text_align=TextNode.ACenter, pos=(0.38, 0, totalPop_ycoord))
+        self.totalPopulationText = DirectLabel(parent = self, relief = None, text = TTLocalizer.ShardPagePopulationTotal % 1, text_scale = main_text_scale, text_wordwrap = 8, textMayChange = 1, text_align = TextNode.ACenter, pos = (0.38, 0, totalPop_ycoord))
         if self.showTotalPop:
             self.totalPopulationText.show()
         else:
@@ -100,7 +100,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
         self.itemFrameZorigin = 0.365
         self.buttonXstart = self.itemFrameXorigin + 0.293
         self.regenerateScrollList()
-        scrollTitle = DirectFrame(parent=self.scrollList, text=TTLocalizer.ShardPageScrollTitle, text_scale=main_text_scale, text_align=TextNode.ACenter, relief=None, pos=(self.buttonXstart, 0, self.itemFrameZorigin + 0.127))
+        scrollTitle = DirectFrame(parent = self.scrollList, text = TTLocalizer.ShardPageScrollTitle, text_scale = main_text_scale, text_align = TextNode.ACenter, relief = None, pos = (self.buttonXstart, 0, self.itemFrameZorigin + 0.127))
 
     def unload(self):
         self.gui.removeNode()
@@ -122,16 +122,16 @@ class ShardPage(ShtikerPage.ShtikerPage):
             self.scrollList.destroy()
             self.scrollList = None
 
-        self.scrollList = DirectScrolledList(parent=self, relief=None, pos=(-0.5, 0, 0), incButton_image=(self.gui.find('**/FndsLst_ScrollUp'),
+        self.scrollList = DirectScrolledList(parent = self, relief = None, pos = (-0.5, 0, 0), incButton_image = (self.gui.find('**/FndsLst_ScrollUp'),
          self.gui.find('**/FndsLst_ScrollDN'),
          self.gui.find('**/FndsLst_ScrollUp_Rllvr'),
-         self.gui.find('**/FndsLst_ScrollUp')), incButton_relief=None, incButton_scale=(self.arrowButtonScale, self.arrowButtonScale, -self.arrowButtonScale), incButton_pos=(self.buttonXstart, 0, self.itemFrameZorigin - 0.999), incButton_image3_color=Vec4(1, 1, 1, 0.2), decButton_image=(self.gui.find('**/FndsLst_ScrollUp'),
+         self.gui.find('**/FndsLst_ScrollUp')), incButton_relief = None, incButton_scale = (self.arrowButtonScale, self.arrowButtonScale, -self.arrowButtonScale), incButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin - 0.999), incButton_image3_color = Vec4(1, 1, 1, 0.2), decButton_image = (self.gui.find('**/FndsLst_ScrollUp'),
          self.gui.find('**/FndsLst_ScrollDN'),
          self.gui.find('**/FndsLst_ScrollUp_Rllvr'),
-         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief=None, decButton_scale=(self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos=(self.buttonXstart, 0, self.itemFrameZorigin + 0.227), decButton_image3_color=Vec4(1, 1, 1, 0.2), itemFrame_pos=(self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale=1.0, itemFrame_relief=DGG.SUNKEN, itemFrame_frameSize=(self.listXorigin,
+         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief = None, decButton_scale = (self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin + 0.227), decButton_image3_color = Vec4(1, 1, 1, 0.2), itemFrame_pos = (self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale = 1.0, itemFrame_relief = DGG.SUNKEN, itemFrame_frameSize = (self.listXorigin,
          self.listXorigin + self.listFrameSizeX,
          self.listZorigin,
-         self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor=(0.85, 0.95, 1, 1), itemFrame_borderWidth=(0.01, 0.01), numItemsVisible=15, forceHeight=0.065, items=self.shardButtons)
+         self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor = (0.85, 0.95, 1, 1), itemFrame_borderWidth = (0.01, 0.01), numItemsVisible = 15, forceHeight = 0.065, items = self.shardButtons)
         self.scrollList.scrollTo(selectedIndex)
 
     def askForShardInfoUpdate(self, task = None):
@@ -141,7 +141,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
 
     def makeShardButton(self, shardId, shardName, shardPop):
         shardButtonParent = DirectFrame()
-        shardButtonL = DirectButton(parent=shardButtonParent, relief=None, text=shardName, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, command=self.getPopChoiceHandler(shardPop), extraArgs=[shardId])
+        shardButtonL = DirectButton(parent = shardButtonParent, relief = None, text = shardName, text_scale = 0.06, text_align = TextNode.ALeft, text1_bg = self.textDownColor, text2_bg = self.textRolloverColor, text3_fg = self.textDisabledColor, textMayChange = 0, command = self.getPopChoiceHandler(shardPop), extraArgs = [shardId])
 
         if self.showPop:
             popText = str(shardPop)
@@ -149,34 +149,34 @@ class ShardPage(ShtikerPage.ShtikerPage):
             if shardPop == None:
                 popText = ''
 
-            shardButtonR = DirectButton(parent=shardButtonParent, relief=None,
-                                        text=popText, text_scale=0.06,
-                                        text_align=TextNode.ALeft,
-                                        text1_bg=self.textDownColor,
-                                        text2_bg=self.textRolloverColor,
-                                        text3_fg=self.textDisabledColor,
-                                        textMayChange=1, pos=(0.5, 0, 0),
-                                        command=self.choseShard,
-                                        extraArgs=[shardId])
+            shardButtonR = DirectButton(parent = shardButtonParent, relief = None,
+                                        text = popText, text_scale = 0.06,
+                                        text_align = TextNode.ALeft,
+                                        text1_bg = self.textDownColor,
+                                        text2_bg = self.textRolloverColor,
+                                        text3_fg = self.textDisabledColor,
+                                        textMayChange = 1, pos = (0.5, 0, 0),
+                                        command = self.choseShard,
+                                        extraArgs = [shardId])
 
         else:
             model = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
             button = model.find('**/minnieCircle')
-            shardButtonR = DirectButton(parent=shardButtonParent, relief=None,
-                                        image=button, image_scale=(0.3, 1, 0.3),
-                                        image2_scale=(0.35, 1, 0.35),
-                                        image_color=self.getPopColor(shardPop),
-                                        pos=(0.6, 0, 0.0125),
-                                        text=self.getPopText(shardPop),
-                                        text_scale=0.06,
-                                        text_align=TextNode.ACenter,
-                                        text_pos=(-0.0125, -0.0125),
-                                        text_fg=Vec4(0, 0, 0, 0),
-                                        text1_fg=Vec4(0, 0, 0, 0),
-                                        text2_fg=Vec4(0, 0, 0, 1),
-                                        text3_fg=Vec4(0, 0, 0, 0),
-                                        command=self.getPopChoiceHandler(shardPop),
-                                        extraArgs=[shardId])
+            shardButtonR = DirectButton(parent = shardButtonParent, relief = None,
+                                        image = button, image_scale = (0.3, 1, 0.3),
+                                        image2_scale = (0.35, 1, 0.35),
+                                        image_color = self.getPopColor(shardPop),
+                                        pos = (0.6, 0, 0.0125),
+                                        text = self.getPopText(shardPop),
+                                        text_scale = 0.06,
+                                        text_align = TextNode.ACenter,
+                                        text_pos = (-0.0125, -0.0125),
+                                        text_fg = Vec4(0, 0, 0, 0),
+                                        text1_fg = Vec4(0, 0, 0, 0),
+                                        text2_fg = Vec4(0, 0, 0, 1),
+                                        text3_fg = Vec4(0, 0, 0, 0),
+                                        command = self.getPopChoiceHandler(shardPop),
+                                        extraArgs = [shardId])
             model.removeNode()
             button.removeNode()
 
@@ -311,7 +311,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
         buttonTuple = self.shardButtonMap.get(currentShardId)
         if buttonTuple:
             i = self.shardButtons.index(buttonTuple[0])
-            self.scrollList.scrollTo(i, centered=1)
+            self.scrollList.scrollTo(i, centered = 1)
 
         ShtikerPage.ShtikerPage.enter(self)
         self.accept('shardInfoUpdated', self.updateScrollList)
@@ -324,7 +324,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
         ShtikerPage.ShtikerPage.exit(self)
 
     def shardChoiceReject(self, shardId):
-        self.confirm = TTDialog.TTGlobalDialog(doneEvent='ShardPageConfirmDone', message=TTLocalizer.ShardPageChoiceReject, style=TTDialog.Acknowledge)
+        self.confirm = TTDialog.TTGlobalDialog(doneEvent = 'ShardPageConfirmDone', message = TTLocalizer.ShardPageChoiceReject, style = TTDialog.Acknowledge)
         self.confirm.show()
         self.accept('ShardPageConfirmDone', self.__handleConfirm)
 
