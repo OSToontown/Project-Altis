@@ -504,8 +504,8 @@ DecorationInformationDict = {DecorationIds.BalloonAnvil: {'cost': int(10 * Party
                             'paidOnly': False,
                             'gridAsset': 'decoration_1x1'}}
 DefaultRulesTimeout = 10.0
-DenialReasons = PythonUtil.Enum(('Default', 'Full', 'SilentFail'), start=0)
-FireworkShows = PythonUtil.Enum(('Summer',), start=200)
+DenialReasons = PythonUtil.Enum(('Default', 'Full', 'SilentFail'), start = 0)
+FireworkShows = PythonUtil.Enum(('Summer',), start = 200)
 FireworksGlobalXOffset = 160.0
 FireworksGlobalYOffset = -20.0
 FireworksPostLaunchDelay = 5.0
@@ -514,7 +514,7 @@ RocketDirectionDelay = 2.0
 FireworksStartedEvent = 'PartyFireworksStarted'
 FireworksFinishedEvent = 'PartyFireworksFinished'
 FireworksTransitionToDisabledDelay = 3.0
-TeamActivityTeams = PythonUtil.Enum(('LeftTeam', 'RightTeam'), start=0)
+TeamActivityTeams = PythonUtil.Enum(('LeftTeam', 'RightTeam'), start = 0)
 TeamActivityNeitherTeam = 3
 TeamActivityTextScale = 0.135
 TeamActivityStartDelay = 8.0
@@ -795,8 +795,8 @@ PhaseToMusicData40 = {3.5: {'encntr_general_bg.ogg': [TTLocalizer.MusicEncntrGen
      'CHQ_FACT_bg.ogg': [TTLocalizer.MusicChqFactBg, 50],
      'encntr_suit_winning.ogg': [TTLocalizer.MusicEncntrSuitWinning, 31],
      'encntr_head_suit_theme.ogg': [TTLocalizer.MusicEncntrHeadSuitTheme, 29]},
- 10: {'cb_elevator.ogg': [TTLocalizer.MusicCashbotElevatorTheme, 12],
-      'encntr_cfo_crane.ogg': [TTLocalizer.MusicEncntrCFOCraneTheme, 4]},
+ 10: {'CB_mint.ogg': [TTLocalizer.MusicCashbotMintTheme, 30],
+      'encntr_cfo_crane.ogg': [TTLocalizer.MusicEncntrCFOCraneTheme, 75]},
  11: {'LB_juryBG.ogg': [TTLocalizer.MusicLbJurybg, 30],
       'LB_courtyard.ogg': [TTLocalizer.MusicLbCourtyard, 32]},
  12: {'Bossbot_Entry_v1.ogg': [TTLocalizer.MusicBossbotEntryV1, 30],
@@ -808,8 +808,7 @@ PhaseToMusicData40 = {3.5: {'encntr_general_bg.ogg': [TTLocalizer.MusicEncntrGen
  13: {'party_original_theme.ogg': [TTLocalizer.MusicPartyOriginalTheme, 56],
       'party_polka_dance.ogg': [TTLocalizer.MusicPartyPolkaDance, 63],
       'party_waltz_dance.ogg': [TTLocalizer.MusicPartyWaltzDance, 63],
-      'party_generic_theme_jazzy.ogg': [TTLocalizer.MusicPartyGenericThemeJazzy, 64],
-      'take_on_me.ogg': [TTLocalizer.MusicTakeOnMe, 2]}}
+      'party_generic_theme_jazzy.ogg': [TTLocalizer.MusicPartyGenericThemeJazzy, 64]}}
 
 def countMusic():
     numMusic = 0
