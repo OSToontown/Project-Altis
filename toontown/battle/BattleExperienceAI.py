@@ -25,40 +25,14 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             toon = simbase.air.doId2do.get(toonId)
         if toon == None:
             p.append(-1)
-            p.append([0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0])
-            p.append([0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0])
+            p.append([0, 0, 0, 0, 0, 0, 0, 0])
+            p.append([0, 0, 0, 0, 0, 0, 0, 0])
             p.append([])
             p.append([])
             p.append([])
-            p.append([0,
-             0,
-             0,
-             0,
-             0])
-            p.append([0,
-             0,
-             0,
-             0,
-             0])
-            p.append([0,
-             0,
-             0,
-             0,
-             0])
+            p.append([0, 0, 0, 0, 0])
+            p.append([0, 0, 0, 0, 0])
+            p.append([0, 0, 0, 0, 0])
         else:
             p.append(toonId)
             origExp = toonExp[toonId]
@@ -75,17 +49,9 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             p.append(items[1])
             origMerits = toonOrigMerits.get(toonId, [])
             p.append(origMerits)
-            merits = toonMerits.get(toonId, [0,
-             0,
-             0,
-             0,
-             0])
+            merits = toonMerits.get(toonId, [0, 0, 0, 0, 0])
             p.append(merits)
-            parts = toonParts.get(toonId, [0,
-             0,
-             0,
-             0,
-             0])
+            parts = toonParts.get(toonId, [0, 0, 0, 0, 0])
             p.append(parts)
 
     deathList = []
@@ -96,7 +62,7 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
     for deathRecord in suitsKilled:
         level = deathRecord['level']
         type = deathRecord['type']
-        if deathRecord['isVP'] or deathRecord['isCFO']:
+        if deathRecord['isBoss']:
             level = 0
             typeNum = SuitDNA.suitDepts.index(deathRecord['track'])
         else:
@@ -112,10 +78,8 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             flags |= ToontownBattleGlobals.DLF_SKELECOG
         if deathRecord['isForeman']:
             flags |= ToontownBattleGlobals.DLF_FOREMAN
-        if deathRecord['isVP']:
-            flags |= ToontownBattleGlobals.DLF_VP
-        if deathRecord['isCFO']:
-            flags |= ToontownBattleGlobals.DLF_CFO
+        if deathRecord['isBoss']:
+            flags |= ToontownBattleGlobals.DLF_BOSS
         if deathRecord['isSupervisor']:
             flags |= ToontownBattleGlobals.DLF_SUPERVISOR
         if deathRecord['isVirtual']:

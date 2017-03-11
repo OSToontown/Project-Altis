@@ -11,7 +11,7 @@ class StreetSign(DistributedObject.DistributedObject):
     RedownloadTaskName = 'RedownloadStreetSign'
     StreetSignFileName = config.GetString('street-sign-filename', 'texture.jpg')
     StreetSignBaseDir = config.GetString('street-sign-base-dir', 'sign')
-    StreetSignUrl = base.config.GetString('street-sign-url', 'http://cdn.toontown.disney.go.com/toontown/en/street-signs/img/')
+    StreetSignUrl = base.config.GetString('street-sign-url', 'https://projectaltis.com/_assets/_img/sign/')
     notify = DirectNotifyGlobal.directNotify.newCategory('StreetSign')
 
     def __init__(self):
@@ -20,7 +20,7 @@ class StreetSign(DistributedObject.DistributedObject):
         self.startDownload = datetime.datetime.now()
         self.endDownload = datetime.datetime.now()
         self.notify.info('Street sign url is %s' % self.StreetSignUrl)
-        #self.redownloadStreetSign()
+        self.redownloadStreetSign()
 
     def replaceTexture(self):
         searchPath = DSearchPath()
