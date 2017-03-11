@@ -29,6 +29,10 @@ class DistributedRainManager(DistributedWeatherMGR):
         self.hood = base.cr.playGame.hood
         self.nextWindTime = 0
         self.bolt = None
+        self.hoodId = self.hood.id
+        self.hoodToDaySky = {
+            4000: 'mml'
+            }
 
     def generate(self):
         DistributedWeatherMGR.generate(self)
@@ -41,6 +45,9 @@ class DistributedRainManager(DistributedWeatherMGR):
     def announceGenerate(self):
         DistributedWeatherMGR.announceGenerate(self)
 
+    def update(self, state):
+        self.setState(state)
+        
     def delete(self):
         render.setColorScale(1, 1, 1, 1)
         DistributedWeatherMGR.delete(self)
@@ -57,8 +64,12 @@ class DistributedRainManager(DistributedWeatherMGR):
             del self.rain
             del self.rainRender
 
+    def setSky(self, sky):
+        self.hood.skyTransition(sky)
+        taskMgr.remove('setSky')
+            
     def enterRain(self, timestamp):
-        self.hood.skyTransition('rain')
+        taskMgr.doMethodLater(0.5, self.setSky, 'setSky', extraArgs = ['rain'])
         self.rain = BattleParticles.loadParticleFile('raindisk.ptf')
         self.rain.setPos(0, 0, 20)
         self.rainRender = render.attachNewNode('rainRender')
@@ -94,7 +105,7 @@ class DistributedRainManager(DistributedWeatherMGR):
         taskMgr.remove('snowWind')
 
     def enterSunny(self, timestamp):
-        self.hood.skyTransition('day')
+        taskMgr.doMethodLater(0.5, self.setSky, 'setSky', extraArgs = [self.hoodToDaySky.get(self.hoodId, 'day')])
         if self.rain:
             self.rain.cleanup()
             if self.rainSound:
@@ -111,7 +122,7 @@ class DistributedRainManager(DistributedWeatherMGR):
         pass
 
     def enterThunderStorm(self, timestamp):
-        self.hood.skyTransition('rain')
+        taskMgr.doMethodLater(0.5, self.setSky, 'setSky', extraArgs = ['rain'])
         render.setColorScale(0.8, 0.8, 0.8, 1)
         self.rain = BattleParticles.loadParticleFile('raindisk.ptf')
         self.rain.setPos(0, 0, 20)
