@@ -115,3 +115,6 @@ deployment/
 *.json
 streamerinfo_district.txt
 astron/databases/account-bridge/data
+Source.pyproj
+Source.sln
+UpgradeLog.htm

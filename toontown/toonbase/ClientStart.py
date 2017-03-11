@@ -4,7 +4,7 @@ import __builtin__
 __builtin__.process = 'client'
 
 # Temporary hack patch:
-__builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist=['*']).__dict__)
+__builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist = ['*']).__dict__)
 from direct.extensions_native import HTTPChannel_extensions
 from direct.extensions_native import Mat3_extensions
 from direct.extensions_native import VBase3_extensions
@@ -125,7 +125,7 @@ ToonBase.ToonBase()
 from panda3d.core import *
 if base.win is None:
     notify.error('Unable to open window; aborting.')
-    
+
 launcher.setPandaErrorCode(0)
 launcher.setPandaWindowOpen()
 ConfigVariableDouble('decompressor-step-time').setValue(0.01)
@@ -135,9 +135,9 @@ backgroundNodePath.setPos(0.0, 0.0, 0.0)
 backgroundNodePath.setScale(render2d, VBase3(1))
 backgroundNodePath.find('**/fg').hide()
 logo = OnscreenImage(
-    image='phase_3/maps/toontown-logo.png',
-    scale=(1 / (4.0/3.0), 1, 1 / (4.0/3.0)),
-    pos=backgroundNodePath.find('**/fg').getPos())
+    image = 'phase_3/maps/toontown-logo.png',
+    scale = (1 / (4.0 / 3.0), 1, 1 / (4.0 / 3.0)),
+    pos = backgroundNodePath.find('**/fg').getPos())
 logo.setTransparency(TransparencyAttrib.MAlpha)
 logo.setBin('fixed', 20)
 logo.reparentTo(backgroundNodePath)
@@ -153,7 +153,7 @@ from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 
-#For Devs only. (The below)
+# For Devs only. (The below)
 '''from direct.stdpy import threading, thread
 def __inject_wx(_):
     code = textbox.GetValue()
@@ -161,9 +161,9 @@ def __inject_wx(_):
 
 def openInjector_wx():
     import wx
-    
+
     app = wx.App(redirect = False)
-        
+
     frame = wx.Frame(None, title = "TTPA Dev Injector", size=(640, 400), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX)
     panel = wx.Panel(frame)
     button = wx.Button(parent = panel, id = -1, label = "Inject", size = (50, 20), pos = (295, 0))
@@ -173,9 +173,9 @@ def openInjector_wx():
 
     frame.Show()
     app.SetTopWindow(frame)
-    
+
     textbox.AppendText(" ")
-    
+
     threading.Thread(target = app.MainLoop).start()
 
 openInjector_wx()'''
@@ -205,9 +205,9 @@ elif __debug__:
     serverVersionText = serverVersion + "-debug"
 else:
     serverVersionText = serverVersion
-    
-version = OnscreenText(serverVersionText, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 0, 1), align=TextNode.ALeft)
-version.setPos(0.03,0.03)
+
+version = OnscreenText(serverVersionText, pos = (-1.3, -0.975), scale = 0.06, fg = Vec4(0, 0, 0, 1), align = TextNode.ALeft)
+version.setPos(0.03, 0.03)
 version.reparentTo(base.a2dBottomLeft)
 from toontown.suit import Suit
 Suit.loadModels()
