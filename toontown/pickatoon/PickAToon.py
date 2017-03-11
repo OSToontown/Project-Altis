@@ -33,7 +33,7 @@ BUTTONPOSITIONS = (
  (0.6, 0, 0.5),
  (1, 0, 0.5)
  )
-            
+
 BUTTONPOSITIONSCLASSIC = (
  Vec3(-0.840167, 0, 0.359333),
  Vec3(0.00933349, 0, 0.306533),
@@ -107,10 +107,10 @@ class PickAToon(DirectObject):
                 button['command'] = self.selectToonClassic
             else:
                 button['command'] = self.makeToonClassic
-                
+
             button.posHprScaleInterval(1, position, Vec3(0, 0, 0), Vec3(1.01, 1.01, 1.01), blendType = 'easeInOut').start()
         self.play.hide()
-        
+
     def hideClassic(self):
         self.isClassic = False
         self.classicButton['text'] = "Classic"
@@ -122,7 +122,7 @@ class PickAToon(DirectObject):
         self.play.show()
         if self.backgroundClassic:
             LerpColorScaleInterval(self.backgroundClassic, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, 1), blendType = 'easeInOut').start()
-        
+
     def enter(self):
         base.disableMouse()
         if base.showDisclaimer:
@@ -210,8 +210,6 @@ class PickAToon(DirectObject):
                 del self.Seq
                 self.loadingCircle.removeNode()
                 del self.loadingCircle
-            if settings['patMode'].lower() == "classic":
-                self.showClassic()
         self.loadingCircle = OnscreenImage(image = 'phase_3/maps/dmenu/loading_circle.png')
         self.loadingCircle.show()
         self.loadingCircle.setScale(0.1)
@@ -230,11 +228,11 @@ class PickAToon(DirectObject):
             self.hideClassic()
         else:
             self.showClassic()
-        
+
     def selectToon(self, slot):
         self.selectedToon = slot
         self.updateFunc()
-        
+
     def selectToonClassic(self, slot):
         self.selectedToon = slot
         doneStatus = {'mode': 'chose', 'choice': slot}
@@ -312,12 +310,12 @@ class PickAToon(DirectObject):
     def makeToon(self, position = None):
         doneStatus = {'mode': 'create', 'choice': self.selectedToon}
         messenger.send(self.doneEvent, [doneStatus])
-        
+
     def makeToonClassic(self, position):
         self.selectToon(position)
         doneStatus = {'mode': 'create', 'choice': self.selectedToon}
         messenger.send(self.doneEvent, [doneStatus])
-        
+
     def setupButtons(self, av = None, position = 0):
         deleteButton = None
         button = DirectButton(text = ('', '', ''), text_scale = TTLocalizer.ACplayThisToon, text_fg = (1, 0.9, 0.1, 1), relief = None, text_font = ToontownGlobals.getSignFont(), command = self.selectToon, extraArgs = [position], image = self.buttonBgs[position])
@@ -350,7 +348,7 @@ class PickAToon(DirectObject):
         self.buttonList.append(button)
         if deleteButton:
             self.deleteButtons.append(deleteButton)
-    
+
     def unload(self):
         taskMgr.remove('turnHead')
         cleanupDialog('globalDialog')
@@ -434,7 +432,7 @@ class PickAToon(DirectObject):
         self.shardPicker.hidePicker()
         self.shardsButton['text'] = 'Districts'
         self.shardsButton['command'] = self.openShardPicker
-        
+
     def quitGame(self):
         self.showQuitConfirmation()
         self.optionsButton.hide()
@@ -442,14 +440,14 @@ class PickAToon(DirectObject):
         self.quitButton.hide()
         self.patNode2d.hide()
         self.patNode.hide()
-            
+
     def showQuitConfirmation(self):
         LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .5), startColorScale = Vec4(.6, .1, .1, 0)).start()
         self.quitConfirmation.showConf()
-            
+
     def doQuitFunc(self):
         base.exitFunc()
-        
+
     def doCancelQuitFunc(self):
         LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, 0), startColorScale = Vec4(.6, .1, .1, .5)).start()
         self.quitConfirmation.hideConf()
