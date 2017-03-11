@@ -6,6 +6,8 @@ from otp.otpbase import OTPRender
 from direct.showbase.ShowBase import ShowBase
 from otp.ai.MagicWordGlobal import *
 from pandac.PandaModules import Camera, TPLow, VBase4, ColorWriteAttrib, Filename, getModelPath, NodePath, Vec4
+import subprocess
+import sys
 
 class OTPBase(ShowBase):
 
@@ -242,6 +244,8 @@ class OTPBase(ShowBase):
                     from otp.otpbase import OTPGlobals
                     self.cr.timeManager.setDisconnectReason(OTPGlobals.DisconnectPythonError)
                     self.cr.timeManager.setExceptionInfo()
+                    
+                    subprocess.Popen('crashreport.exe')
                 self.cr.sendDisconnect()
             self.notify.info('Exception exit.\n')
             self.destroy()
