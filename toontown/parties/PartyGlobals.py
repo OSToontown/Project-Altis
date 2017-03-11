@@ -786,7 +786,7 @@ PhaseToMusicData40 = {3.5: {'encntr_general_bg.ogg': [TTLocalizer.MusicEncntrGen
      'GS_KartShop.ogg': [TTLocalizer.MusicGsKartshop, 32]},
  7: {'encntr_general_bg_indoor.ogg': [TTLocalizer.MusicEncntrGeneralBgIndoor, 31],
      'encntr_suit_winning_indoor.ogg': [TTLocalizer.MusicEncntrGeneralSuitWinningIndoor, 36],
-     'O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-.ogg': ["O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA", 39]},
+     'O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-.ogg': [TTLocalizer.Music-O-ooooooooooAAAE-A-A-I-A-U-JO-oooooooooooo, 39]},
  8: {'DL_nbrhood.ogg': [TTLocalizer.MusicDlNbrhood, 30],
      'DG_SZ.ogg': [TTLocalizer.MusicDgSz, 48],
      'DL_SZ.ogg': [TTLocalizer.MusicDlSz, 33],
@@ -795,14 +795,21 @@ PhaseToMusicData40 = {3.5: {'encntr_general_bg.ogg': [TTLocalizer.MusicEncntrGen
      'CHQ_FACT_bg.ogg': [TTLocalizer.MusicChqFactBg, 50],
      'encntr_suit_winning.ogg': [TTLocalizer.MusicEncntrSuitWinning, 31],
      'encntr_head_suit_theme.ogg': [TTLocalizer.MusicEncntrHeadSuitTheme, 29]},
+ 10: {'cb_elevator.ogg': [TTLocalizer.MusicCashbotElevatorTheme, 12],
+      'encntr_cfo_crane.ogg': [TTLocalizer.MusicEncntrCFOCraneTheme, 4]},
  11: {'LB_juryBG.ogg': [TTLocalizer.MusicLbJurybg, 30],
       'LB_courtyard.ogg': [TTLocalizer.MusicLbCourtyard, 32]},
- 12: {'Bossbot_Factory_v1.ogg': [TTLocalizer.MusicBossbotFactoryV1, 30],
-      'BossBot_CEO_v1.ogg': [TTLocalizer.MusicBossbotCeoV1, 31]},
+ 12: {'Bossbot_Entry_v1.ogg': [TTLocalizer.MusicBossbotEntryV1, 30],
+      'Bossbot_Factory_v1.ogg': [TTLocalizer.MusicBossbotFactoryV1, 30],
+      'Bossbot_Factory_v2.ogg': [TTLocalizer.MusicBossbotFactoryV2, 45],
+      'Bossbot_Factory_v3.ogg': [TTLocalizer.MusicBossbotFactoryV3, 41],
+      'BossBot_CEO_v1.ogg': [TTLocalizer.MusicBossbotCeoV1, 31],
+      'BossBot_CEO_v2.ogg': [TTLocalizer.MusicBossbotCeoV2, 36]},
  13: {'party_original_theme.ogg': [TTLocalizer.MusicPartyOriginalTheme, 56],
       'party_polka_dance.ogg': [TTLocalizer.MusicPartyPolkaDance, 63],
       'party_waltz_dance.ogg': [TTLocalizer.MusicPartyWaltzDance, 63],
-      'party_generic_theme_jazzy.ogg': [TTLocalizer.MusicPartyGenericThemeJazzy, 64]}}
+      'party_generic_theme_jazzy.ogg': [TTLocalizer.MusicPartyGenericThemeJazzy, 64],
+      'take_on_me.ogg': [TTLocalizer.MusicTakeOnMe, 2]}
 
 def countMusic():
     numMusic = 0
