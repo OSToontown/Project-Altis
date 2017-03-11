@@ -30,6 +30,7 @@ from toontown.toonbase import ToontownAccess
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
 from toontown.options import GraphicsOptions
+from toontown.audio.AltisAudio import AltisAudio
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 
 class ToonBase(OTPBase.OTPBase):
@@ -111,6 +112,8 @@ class ToonBase(OTPBase.OTPBase):
             self.win.setSort(sort)
             self.graphicsEngine.renderFrame()
             self.graphicsEngine.renderFrame()
+        
+        self.audioMgr = AltisAudio()
         
         self.disableShowbaseMouse()
         self.addCullBins()
@@ -645,6 +648,12 @@ class ToonBase(OTPBase.OTPBase):
 
     def playMusic(self, *args, **kw):
         OTPBase.OTPBase.playMusic(self, *args, **kw)
+        
+    def fadeMusicIn(self, musicFile, looping = 1):
+        self.audioMgr.fadeInMusic(musicFile, looping)
+        
+    def fadeMusicOut(self, musicFile):
+        self.audioMgr.fadeOutMusic(musicFile)
 
     def exitOSX(self):
         self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=TTLocalizer.OptionsPageExitConfirm, 

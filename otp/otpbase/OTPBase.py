@@ -6,17 +6,19 @@ from otp.otpbase import OTPRender
 from direct.showbase.ShowBase import ShowBase
 from otp.ai.MagicWordGlobal import *
 from pandac.PandaModules import Camera, TPLow, VBase4, ColorWriteAttrib, Filename, getModelPath, NodePath, Vec4
+import subprocess
+import sys
 
 class OTPBase(ShowBase):
 
     def __init__(self, windowType = None):
         self.wantEnviroDR = False
-        ShowBase.__init__(self, windowType=windowType)
+        ShowBase.__init__(self, windowType = windowType)
         if config.GetBool('want-phase-checker', 0):
             from direct.showbase import Loader
             Loader.phaseChecker = self.loaderPhaseChecker
             self.errorAccumulatorBuffer = ''
-            taskMgr.add(self.delayedErrorCheck, 'delayedErrorCheck', priority=10000)
+            taskMgr.add(self.delayedErrorCheck, 'delayedErrorCheck', priority = 10000)
         self.idTags = config.GetBool('want-id-tags', 0)
         if not self.idTags:
             del self.idTags
@@ -42,10 +44,10 @@ class OTPBase(ShowBase):
 
     def setTaskChainNetThreaded(self):
         if base.config.GetBool('want-threaded-network', 0):
-            taskMgr.setupTaskChain('net', numThreads=1, frameBudget=0.001, threadPriority=TPLow)
+            taskMgr.setupTaskChain('net', numThreads = 1, frameBudget = 0.001, threadPriority = TPLow)
 
     def setTaskChainNetNonthreaded(self):
-        taskMgr.setupTaskChain('net', numThreads=0, frameBudget=-1)
+        taskMgr.setupTaskChain('net', numThreads = 0, frameBudget = -1)
 
     def toggleStereo(self):
         self.stereoEnabled = not self.stereoEnabled
@@ -142,7 +144,7 @@ class OTPBase(ShowBase):
         self.pixelZoomEnabled = flag
         taskMgr.remove('chasePixelZoom')
         if flag:
-            taskMgr.add(self.__chasePixelZoom, 'chasePixelZoom', priority=-52)
+            taskMgr.add(self.__chasePixelZoom, 'chasePixelZoom', priority = -52)
         else:
             self.backgroundDrawable.setPixelZoom(1)
 
@@ -242,6 +244,8 @@ class OTPBase(ShowBase):
                     from otp.otpbase import OTPGlobals
                     self.cr.timeManager.setDisconnectReason(OTPGlobals.DisconnectPythonError)
                     self.cr.timeManager.setExceptionInfo()
+
+                    # subprocess.Popen('crashreport.exe')
                 self.cr.sendDisconnect()
             self.notify.info('Exception exit.\n')
             self.destroy()
@@ -249,42 +253,42 @@ class OTPBase(ShowBase):
             traceback.print_exc()
 
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def oobe():
     """
     Toggle the 'out of body experience' view.
     """
     base.oobe()
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category = CATEGORY_PROGRAMMER)
 def oobeCull():
     """
     Toggle the 'out of body experience' view with culling debugging.
     """
     base.oobeCull()
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def wire():
     """
     Toggle the 'wireframe' view.
     """
     base.toggleWireframe()
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def idNametags():
     """
     Display avatar IDs inside nametags.
     """
     messenger.send('nameTagShowAvId')
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def nameNametags():
     """
     Display only avatar names inside nametags.
     """
     messenger.send('nameTagShowName')
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def a2d():
     """
     Toggle aspect2d.
@@ -294,14 +298,14 @@ def a2d():
     else:
         aspect2d.hide()
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def placer():
     """
     Toggle the camera placer.
     """
     base.camera.place()
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def explorer():
     """
     Toggle the scene graph explorer.
@@ -309,7 +313,7 @@ def explorer():
     base.render.explore()
 
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def neglect():
     """
     Toggle the neglection of network updates on the invoker's client.
@@ -322,8 +326,8 @@ def neglect():
         return 'You are now neglecting network updates.'
 
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[float, float, float, float])
-def backgroundColor(r=None, g=1, b=1, a=1):
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER, types = [float, float, float, float])
+def backgroundColor(r = None, g = 1, b = 1, a = 1):
     """
     Set the background color. Specify no arguments for the default background
     color.

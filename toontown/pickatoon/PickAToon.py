@@ -87,6 +87,7 @@ class PickAToon(DirectObject):
         return SkyUtil.cloudSkyTrack(task)
 
     def showClassic(self):
+        return
         self.isClassic = True
         self.classicButton['text'] = "Altis"
         settings['patMode'] = "Classic"
@@ -170,11 +171,6 @@ class PickAToon(DirectObject):
         self.shardsButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Districts', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.openShardPicker)
         self.shardsButton.reparentTo(base.a2dBottomLeft)
         self.shardsButton.setPos(0.25, 0, 0.2)
-        
-        # Classic Screen Button
-        self.classicButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Classic', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.toggleClassic)
-        self.classicButton.reparentTo(base.a2dTopRight)
-        self.classicButton.setPos(-0.25, 0, -0.2)
 
         gui.removeNode()
         gui2.removeNode()
@@ -374,8 +370,6 @@ class PickAToon(DirectObject):
         self.shardsButton.destroy()
         del self.shardsButton
         self.shardPicker.unload()
-        self.classicButton.destroy()
-        del self.classicButton
         del self.avatarList
         self.toon.removeNode()
         del self.toon

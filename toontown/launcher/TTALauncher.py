@@ -21,11 +21,10 @@ class LogAndOutput:
         self.orig.flush()
 
 class TTALauncher(LauncherBase):
-    notify = DirectNotifyGlobal.directNotify.newCategory('ToontownDummyLauncher')
+    notify = DirectNotifyGlobal.directNotify.newCategory('AltisLauncher')
 
     def __init__(self):
         self.http = HTTPClient()
-
         self.logPrefix = 'project-altis-'
 
         ltime = 1 and time.localtime()
@@ -44,6 +43,7 @@ class TTALauncher(LauncherBase):
         logErr = LogAndOutput(sys.stderr, log)
         sys.stdout = logOut
         sys.stderr = logErr
+        self.notify.info('Starting Project Altis...')
 
     def getPlayToken(self):
         return self.getValue('TT_PLAYCOOKIE')

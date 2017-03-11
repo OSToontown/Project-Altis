@@ -614,12 +614,11 @@ class RewardPanel(DirectFrame):
 
             isSkelecog = flags & ToontownBattleGlobals.DLF_SKELECOG
             isForeman = flags & ToontownBattleGlobals.DLF_FOREMAN
-            isVP = flags & ToontownBattleGlobals.DLF_VP
-            isCFO = flags & ToontownBattleGlobals.DLF_CFO
+            isBoss = flags & ToontownBattleGlobals.DLF_BOSS
             isSupervisor = flags & ToontownBattleGlobals.DLF_SUPERVISOR
             isVirtual = flags & ToontownBattleGlobals.DLF_VIRTUAL
             hasRevives = flags & ToontownBattleGlobals.DLF_REVIVES
-            if isVP or isCFO:
+            if isBoss:
                 cogType = None
                 cogTrack = SuitDNA.suitDepts[cogIndex]
             else:
@@ -630,8 +629,7 @@ class RewardPanel(DirectFrame):
              'track': cogTrack,
              'isSkelecog': isSkelecog,
              'isForeman': isForeman,
-             'isVP': isVP,
-             'isCFO': isCFO,
+             'isBoss': isBoss,
              'isSupervisor': isSupervisor,
              'isVirtual': isVirtual,
              'hasRevives': hasRevives,
@@ -663,10 +661,15 @@ class RewardPanel(DirectFrame):
                         earned = itemList.count(questItem)
                 else:
                     for cogDict in cogList:
-                        if cogDict['isVP']:
-                            num = quest.doesVPCount(avId, cogDict, zoneId, toonShortList)
-                        elif cogDict['isCFO']:
-                            num = quest.doesCFOCount(avId, cogDict, zoneId, toonShortList)
+                        if cogDict['isBoss']:
+                            if cogDict['track'] == 'c':
+                                num = quest.doesCEOCount(avId, cogDict, zoneId, toonShortList)
+                            elif cogDict['track'] == 'l':
+                                num = quest.doesCJCount(avId, cogDict, zoneId, toonShortList)
+                            elif cogDict['track'] == 'm':
+                                num = quest.doesCFOCount(avId, cogDict, zoneId, toonShortList)
+                            elif cogDict['track'] == 's':
+                                num = quest.doesVPCount(avId, cogDict, zoneId, toonShortList)
                         else:
                             num = quest.doesCogCount(avId, cogDict, zoneId, toonShortList)
                         if num:
