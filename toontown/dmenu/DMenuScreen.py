@@ -56,7 +56,7 @@ class DMenuScreen(DirectObject):
         self.seq = None
         self.isBananaPlaying = False # .isPlaying() doesnt want to work
         base.cr.avChoice = None
-
+        
         fadeSequence = Sequence(
             Func(base.transitions.fadeOut, .001),
             Wait(.5),
