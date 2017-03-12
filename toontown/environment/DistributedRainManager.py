@@ -31,7 +31,8 @@ class DistributedRainManager(DistributedWeatherMGR):
         self.bolt = None
         self.hoodId = self.hood.id
         self.hoodToDaySky = {
-            4000: 'mml'
+            4000: 'mml',
+            9000: 'night'
             }
 
     def generate(self):
