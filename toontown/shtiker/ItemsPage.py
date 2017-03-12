@@ -57,6 +57,7 @@ class ItemsPage(ShtikerPage.ShtikerPage):
         self.fishingRods_preview.bind(DirectGuiGlobals.ENTER, self.enterHoverFishing)
         self.fishingRods_preview.bind(DirectGuiGlobals.EXIT, self.exitHoverFishing)
         self.geom = None
+        self.geomRotate = None
         
         self.cheesyEffect_label = DirectLabel(parent = self, relief=None, text=TTLocalizer.ItemsPageCheesyEffect, text_align=TextNode.ALeft, text_scale=0.054, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight * 0.145 - .3))
         self.cheesyEffect_preview = DirectLabel(parent = self, relief=None, text='Preview', scale=0.06, text_align = TextNode.ACenter, text_wordwrap=9, pos=(buttonbase_xcoord, 0, textStartHeight * 0.145 - .3))

@@ -5,6 +5,7 @@ from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from panda3d.core import TransparencyAttrib, VBase3, TextNode
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, LerpFunctionInterval
+from toontown.toonbase import ToontownGlobals
 
 class PopupDialog:
 
@@ -14,7 +15,7 @@ class PopupDialog:
         gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
         shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')
-        self.dialogText = OnscreenText(text='put text here', align=TextNode.ACenter, scale=0.1, pos=(0, .2, 0), wordwrap = 20)
+        self.dialogText = OnscreenText(text='put text here', font = ToontownGlobals.getMinnieFont(), style = 3, align=TextNode.ACenter, scale=0.1, pos=(0, .2, 0), wordwrap = 20)
         self.background = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
         self.background.setBin('background', 1)
         self.background.reparentTo(aspect2d)

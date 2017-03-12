@@ -331,9 +331,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
                         continue
 
-                    if not hood.zoneId == 9000:
-                        hood.dayTimeMgr.d_requestUpdate()
-
         # Not sure if i sohuld really code it in here, but fuck it
         if newZoneId == 2741: # Loopy's balls
             self.air.achievementsManager.loopysBalls(self.doId)
