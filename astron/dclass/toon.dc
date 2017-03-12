@@ -1152,7 +1152,7 @@ dclass DistributedToon : DistributedPlayer {
   requestFishingRod(uint8) airecv ownsend;
   requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
-  setStats(uint32[] = [0*10]) required ownrecv db;
+  setStats(uint32[] = [0*11]) required ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
 };
 

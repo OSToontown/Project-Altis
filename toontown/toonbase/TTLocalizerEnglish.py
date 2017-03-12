@@ -4071,7 +4071,8 @@ StatsList = [
 "CFOs defeated: %s",
 "CJs defeated: %s",
 "CEOs defeated: %s",
-"Times went sad: %s"
+"Times went sad: %s",
+"Items purchased: %s"
 ]
 
 NPCFriendPageTitle = 'SOS Toons'

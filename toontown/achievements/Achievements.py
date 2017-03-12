@@ -3,7 +3,7 @@ from toontown.toonbase import ToontownGlobals
 
 class FriendAchievement:
 
-    def __init__(self, neededFriends=1):
+    def __init__(self, neededFriends = 1):
         self.neededFriends = neededFriends
 
     def hasComplete(self, av):
@@ -13,11 +13,17 @@ class FriendAchievement:
             return 1
 
         return 0
-        
+
 class CatalogAchievement:
     def __init__(self, items):
-        pass
-        
+        self.neededItems = items
+
+    def hasComplete(self, av, times):
+        items = av.getStat(ToontownGlobals.STATS_CATALOG)
+        if items == self.neededItems:
+            return 1
+        return 0
+
 class TrolleyAchievement:
 
     def hasComplete(self, av):
@@ -27,12 +33,12 @@ class LoopysBallsAchievement:
 
     def hasComplete(self, av):
         return 1
-        
+
 class VPAchievement:
 
     def __init__(self, times):
         pass
-        
+
     def hasComplete(self, times):
         return 1
 
@@ -40,7 +46,7 @@ class CFOAchievement:
 
     def __init__(self, times):
         pass
-        
+
     def hasComplete(self, times):
         return 1
 
@@ -48,7 +54,7 @@ class CJAchievement:
 
     def __init__(self, times):
         pass
-        
+
     def hasComplete(self, times):
         return 1
 
@@ -56,20 +62,20 @@ class CEOAchievement:
 
     def __init__(self, times):
         pass
-        
+
     def hasComplete(self, times):
         return 1
 
 class DisguiseAchievement:
     def __init__(self, dept):
         pass
-        
+
     def hasComplete(self, dept):
         return 1
 
-AchievementsDict = (FriendAchievement(neededFriends=1),
-                    FriendAchievement(neededFriends=10),
-                    FriendAchievement(neededFriends=50),
+AchievementsDict = (FriendAchievement(neededFriends = 1),
+                    FriendAchievement(neededFriends = 10),
+                    FriendAchievement(neededFriends = 50),
                     CatalogAchievement(items = 1),
                     CatalogAchievement(items = 10),
                     CatalogAchievement(items = 50),

@@ -14,15 +14,15 @@ class AchievementsManagerAI():
             if not achievementId in av.getAchievements():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av):
                     av.addAchievement(achievementId)
-    
+
     def catalog(self, av, items):
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.CatalogAchievement)
 
         for achievementId in possibleAchievements:
             if not achievementId in av.getAchievements():
-                if Achievements.AchievementsDict[achievementId].hasComplete(items):
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, items):
                     av.addAchievement(achievementId)
-                    
+
     def rideTrolley(self, av):
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.TrolleyAchievement)
 
@@ -30,7 +30,7 @@ class AchievementsManagerAI():
             if not achievementId in av.getAchievements():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av):
                     av.addAchievement(achievementId)
-                    
+
     def loopysBalls(self, av):
         av = self.air.doId2do.get(av)
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.LoopysBallsAchievement)

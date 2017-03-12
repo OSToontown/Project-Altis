@@ -35,6 +35,7 @@ class AchievementGui:
         self.frame = OnscreenImage(image='phase_3/maps/achievements/ttpa_achievement_background.png', scale=(0.5, 1, 0.5), parent=base.a2dBottomCenter,
                                   pos=(0, 0, -.45))
         self.frame.setTransparency(TransparencyAttrib.MAlpha)
+        self.frame.wrtReparentTo(base.a2dBottomCenter, 4000)
         
         self.image = OnscreenImage(image=currentAchievement, parent=self.frame, scale = .3, pos = (.6, 0, 0))
         self.image.setTransparency(TransparencyAttrib.MAlpha)

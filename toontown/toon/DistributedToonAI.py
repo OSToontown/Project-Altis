@@ -163,11 +163,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.monthlyCatalog = CatalogItemList.CatalogItemList()
         self.weeklyCatalog = CatalogItemList.CatalogItemList()
         self.backCatalog = CatalogItemList.CatalogItemList()
-        self.onOrder = CatalogItemList.CatalogItemList(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        self.onGiftOrder = CatalogItemList.CatalogItemList(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        self.mailboxContents = CatalogItemList.CatalogItemList(store=CatalogItem.Customization)
-        self.awardMailboxContents = CatalogItemList.CatalogItemList(store=CatalogItem.Customization)
-        self.onAwardOrder = CatalogItemList.CatalogItemList(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+        self.onOrder = CatalogItemList.CatalogItemList(store = CatalogItem.Customization | CatalogItem.DeliveryDate)
+        self.onGiftOrder = CatalogItemList.CatalogItemList(store = CatalogItem.Customization | CatalogItem.DeliveryDate)
+        self.mailboxContents = CatalogItemList.CatalogItemList(store = CatalogItem.Customization)
+        self.awardMailboxContents = CatalogItemList.CatalogItemList(store = CatalogItem.Customization)
+        self.onAwardOrder = CatalogItemList.CatalogItemList(store = CatalogItem.Customization | CatalogItem.DeliveryDate)
         self.kart = None
         if simbase.wantKarts:
             self.kartDNA = [-1] * getNumFields()
@@ -202,7 +202,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
-        self.stats = [0] * 10
+        self.stats = [0] * 11
         self.interiorLayout = 0
 
     def generate(self):
@@ -263,7 +263,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.exitEstate()
             if self.zoneId != ToontownGlobals.QuietZone:
                 self.announceZoneChange(ToontownGlobals.QuietZone, self.zoneId)
-        
+
         taskName = self.uniqueName('cheesy-expires')
         taskMgr.remove(taskName)
         taskName = self.uniqueName('next-catalog')
@@ -321,7 +321,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         if self.isPlayerControlled() and self.WantTpTrack:
             messenger.send(self.staticGetLogicalZoneChangeAllEvent(), [newZoneId, oldZoneId, self])
-            
+
         if oldZoneId is not None:
             # check if the previous zone was an interior zone, if so request time update
             # from the day time manager to ensure sky state is correct.
@@ -334,7 +334,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         # Not sure if i sohuld really code it in here, but fuck it
         if newZoneId == 2741: # Loopy's balls
             self.air.achievementsManager.loopysBalls(self.doId)
-        
+
     def announceZoneChange(self, newZoneId, oldZoneId):
         if simbase.wantPets:
             broadcastZones = [oldZoneId, newZoneId]
@@ -1030,7 +1030,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def b_setMaxHp(self, maxHp):
         if maxHp > ToontownGlobals.MaxHpLimit:
-            self.air.writeServerEvent('suspicious', avId=self.doId, issue='Toon tried to go over ' + str(ToontownGlobals.MaxHpLimit) + ' laff.')
+            self.air.writeServerEvent('suspicious', avId = self.doId, issue = 'Toon tried to go over ' + str(ToontownGlobals.MaxHpLimit) + ' laff.')
         elif maxHp > 15 and self.uber == 1:
             self.d_setMaxHp(15)
             self.setMaxHp(15)
@@ -1039,7 +1039,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.setMaxHp(25)
         elif maxHp > 34 and self.uber == 3:
             self.d_setMaxHp(34)
-            self.setMaxHp(34) #No need to track these, they are just keeping uber toons in check
+            self.setMaxHp(34) # No need to track these, they are just keeping uber toons in check
         else:
             self.d_setMaxHp(maxHp)
             self.setMaxHp(maxHp)
@@ -1129,7 +1129,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     pass
             else:
                 self.air.writeServerEvent('suspicious', self.doId, desc)
-        
+
         self.animName = animName
         self.animMultiplier = animMultiplier
 
@@ -1269,7 +1269,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
                     self.b_setMaxHp(maxHp)
                     self.toonUp(maxHp)
-        self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
+        self.air.writeServerEvent('cogSuit', avId = self.doId, dept = dept, suitType = self.cogTypes[dept], level = self.cogLevels[dept])
 
     def getNumPromotions(self, dept):
         if dept not in SuitDNA.suitDepts:
@@ -1578,7 +1578,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return
 
     def hasQuest(self, questId, visitNpcId = None, rewardId = None):
-        if self.getQuest(questId, visitNpcId=visitNpcId, rewardId=rewardId) == None:
+        if self.getQuest(questId, visitNpcId = visitNpcId, rewardId = rewardId) == None:
             return False
         else:
             return True
@@ -1638,7 +1638,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
         questId = questDesc[0]
         rewardId = questDesc[3]
-        if not self.hasQuest(questId, rewardId=rewardId):
+        if not self.hasQuest(questId, rewardId = rewardId):
             self.air.writeServerEvent('suspicious', self.doId, "Toon tried to delete quest they don't have %s" % str(questDesc))
             self.notify.warning("%s.requestDeleteQuest(%s) -- Toon doesn't have that quest" % (self, str(questDesc)))
             return
@@ -1677,17 +1677,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getMaxCarry(self):
         return self.maxCarry
 
-    def b_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+    def b_setCheesyEffect(self, effect, hoodId = 0, expireTime = 0):
         if effect not in self.cheesyEffects:
             self.cheesyEffects.append(effect)
             self.b_setCheesyEffects(self.cheesyEffects)
         self.setCheesyEffect(effect, hoodId, expireTime)
         self.d_setCheesyEffect(effect, hoodId, expireTime)
 
-    def d_setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+    def d_setCheesyEffect(self, effect, hoodId = 0, expireTime = 0):
         self.sendUpdate('setCheesyEffect', [effect, hoodId, expireTime])
 
-    def setCheesyEffect(self, effect, hoodId=0, expireTime=0):
+    def setCheesyEffect(self, effect, hoodId = 0, expireTime = 0):
         if simbase.air.holidayManager and ToontownGlobals.WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and ToontownGlobals.WACKY_WINTER_CAROLING not in simbase.air.holidayManager.currentHolidays and effect == ToontownGlobals.CESnowMan:
             self.b_setCheesyEffect(ToontownGlobals.CENormal)
             self.b_setScavengerHunt([])
@@ -1711,28 +1711,28 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setCheesyEffects(self, ce):
         self.d_setCheesyEffects(ce)
         self.setCheesyEffects(ce)
-        
+
     def d_setCheesyEffects(self, ce):
         try:
             self.sendUpdate('setCheesyEffects', [ce])
         except:
             self.sendUpdate('setCheesyEffects', [0])
-        
+
     def setCheesyEffects(self, ce):
         self.cheesyEffects = ce
         if self.getCheesyEffect() not in self.cheesyEffects:
             self.cheesyEffects.append(self.getCheesyEffect())
             self.b_setCheesyEffects(self.cheesyEffects)
-        
+
     def getCheesyEffects(self):
         return self.cheesyEffects
-        
+
     def requestCheesyEffects(self, ce):
         if ce not in self.cheesyEffects:
             return
-            
+
         self.b_setCheesyEffect(ce)
-        
+
     def b_setTrackAccess(self, trackArray):
         self.setTrackAccess(trackArray)
         self.d_setTrackAccess(trackArray)
@@ -2071,7 +2071,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         bits = bits[:maxBitCount]
         bitCount = len(bits)
         if bitCount < maxBitCount:
-            bits.extend([0] * (maxBitCount-bitCount))
+            bits.extend([0] * (maxBitCount - bitCount))
             self.b_setEmoteAccess(bits)
         else:
             self.emoteAccess = bits
@@ -2099,16 +2099,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setInteriorLayout(self, id):
         self.setInteriorLayout(id)
         self.d_setInteriorLayout(id)
-        
+
     def d_setInteriorLayout(self, id):
         self.sendUpdate('setInteriorLayout', [id])
-        
+
     def setInteriorLayout(self, id):
         self.interiorLayout = id
-        
+
     def getInteriorLayout(self):
         return self.interiorLayout
-        
+
     def setPosIndex(self, index):
         self.posIndex = index
 
@@ -2234,13 +2234,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.d_setDeliverySchedule(onOrder)
 
     def d_setDeliverySchedule(self, onOrder):
-        self.sendUpdate('setDeliverySchedule', [onOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)])
+        self.sendUpdate('setDeliverySchedule', [onOrder.getBlob(store = CatalogItem.Customization | CatalogItem.DeliveryDate)])
 
     def setDeliverySchedule(self, onOrder, doUpdateLater = True):
         self.setBothSchedules(onOrder, None)
 
     def getDeliverySchedule(self):
-        return self.onOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+        return self.onOrder.getBlob(store = CatalogItem.Customization | CatalogItem.DeliveryDate)
 
     def b_setBothSchedules(self, onOrder, onGiftOrder, doUpdateLater = True):
         self.setBothSchedules(onOrder, onGiftOrder, doUpdateLater)
@@ -2248,9 +2248,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setBothSchedules(self, onOrder, onGiftOrder, doUpdateLater = True):
         if onOrder != None:
-            self.onOrder = CatalogItemList.CatalogItemList(onOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+            self.onOrder = CatalogItemList.CatalogItemList(onOrder, store = CatalogItem.Customization | CatalogItem.DeliveryDate)
         if onGiftOrder != None:
-            self.onGiftOrder = CatalogItemList.CatalogItemList(onGiftOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+            self.onGiftOrder = CatalogItemList.CatalogItemList(onGiftOrder, store = CatalogItem.Customization | CatalogItem.DeliveryDate)
         if not hasattr(self, 'air') or self.air == None:
             return
         if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'name'):
@@ -2292,7 +2292,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 else:
                     taskMgr.doMethodLater(newDuration, self.__deliverBothPurchases, taskName)
         return
-        
+
     def __deliverBothPurchases(self, task):
         '''
         This should only ever be used if the DistributedDelieveryManager is
@@ -2301,20 +2301,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         now = int(time.time() / 60 + 0.5)
         delivered, remaining = self.onOrder.extractDeliveryItems(now)
         deliveredGifts, remainingGifts = self.onGiftOrder.extractDeliveryItems(now)
-        giftItem = CatalogItemList.CatalogItemList(deliveredGifts, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+        giftItem = CatalogItemList.CatalogItemList(deliveredGifts, store = CatalogItem.Customization | CatalogItem.DeliveryDate)
         if len(giftItem) > 0:
             self.air.writeServerEvent('Getting Gift', self.doId, 'sender %s receiver %s gift %s' % (giftItem[0].giftTag, self.doId, giftItem[0].getName()))
         self.b_setMailboxContents(self.mailboxContents + delivered + deliveredGifts)
         self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NewItems)
         self.b_setBothSchedules(remaining, remainingGifts)
-        #simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now)
+        # simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now)
         return Task.done
 
     def setGiftSchedule(self, onGiftOrder, doUpdateLater = True):
         self.setBothSchedules(None, onGiftOrder)
 
     def getGiftSchedule(self):
-        return self.onGiftOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+        return self.onGiftOrder.getBlob(store = CatalogItem.Customization | CatalogItem.DeliveryDate)
 
     def __deliverGiftPurchase(self, task):
         now = int(time.time() / 60 + 0.5)
@@ -2339,7 +2339,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.d_setMailboxContents(mailboxContents)
 
     def d_setMailboxContents(self, mailboxContents):
-        self.sendUpdate('setMailboxContents', [mailboxContents.getBlob(store=CatalogItem.Customization)])
+        self.sendUpdate('setMailboxContents', [mailboxContents.getBlob(store = CatalogItem.Customization)])
         if len(mailboxContents) == 0:
             self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NoItems)
         self.checkMailboxFullIndicator()
@@ -2349,11 +2349,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setMailboxContents(self, mailboxContents):
         self.notify.debug('Setting mailboxContents to %s.' % mailboxContents)
-        self.mailboxContents = CatalogItemList.CatalogItemList(mailboxContents, store=CatalogItem.Customization)
+        self.mailboxContents = CatalogItemList.CatalogItemList(mailboxContents, store = CatalogItem.Customization)
         self.notify.debug('mailboxContents is %s.' % self.mailboxContents)
 
     def getMailboxContents(self):
-        return self.mailboxContents.getBlob(store=CatalogItem.Customization)
+        return self.mailboxContents.getBlob(store = CatalogItem.Customization)
 
     def b_setGhostMode(self, flag):
         self.setGhostMode(flag)
@@ -2367,7 +2367,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setImmortalMode(self, flag):
         self.immortalMode = flag
-        
+
     def setUnlimitedGags(self, flag):
         self.unlimitedGags = flag
 
@@ -2399,7 +2399,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getMaxMoney(self):
         return self.maxMoney
-        
+
     def b_setUber(self, uber):
         self.d_setUber(uber)
         self.setUber(uber)
@@ -2409,16 +2409,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setUber(self, uber):
         self.uber = uber
-        
+
     def getUber(self):
         return self.uber
-        
+
     def b_setToonExp(self, exp):
         while True:
             for level in xrange(len(ToonExperience.ToonExperience().ExpPerLevel)):
                 if exp >= ToonExperience.ToonExperience().getLevelMaxExp(self.toonLevel) and level > self.toonLevel:
                     exp -= ToonExperience.ToonExperience().getLevelMaxExp(self.toonLevel)
-                    self.b_setToonLevel(self.toonLevel+1)
+                    self.b_setToonLevel(self.toonLevel + 1)
                 elif level <= self.toonLevel:
                      continue
                 else:
@@ -2431,16 +2431,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setToonExp(self, exp):
         self.sendUpdate('setToonExp', [exp])
-        
+
     def setToonExp(self, exp):
         self.toonExp = exp
-        
+
     def addToonExp(self, deltaExp):
         self.toonExp = deltaExp + self.toonExp
-        
+
     def getToonExp(self):
         return self.toonExp
-        
+
     def b_setToonLevel(self, level):
         if level > ToontownGlobals.MaxToonLevel:
            pass
@@ -2452,17 +2452,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             simbase.air.experienceMgr.checkForLevelUpReward(self)
             if level in ToontownGlobals.ExperienceHPLevels:
                 self.sendUpdate('notifyExpReward', [level, 0])
-            #if level in ToontownGlobals.ExperienceGagLevels: Leftovers, might take some reworking to get these working
-                #self.sendUpdate('notifyExpReward', [level, 1])
-            #if level in ToontownGlobals.ExperienceMoneyLevels:
-                #self.sendUpdate('notifyExpReward', [level, 2])
+            # if level in ToontownGlobals.ExperienceGagLevels: Leftovers, might take some reworking to get these working
+                # self.sendUpdate('notifyExpReward', [level, 1])
+            # if level in ToontownGlobals.ExperienceMoneyLevels:
+                # self.sendUpdate('notifyExpReward', [level, 2])
 
     def d_setToonLevel(self, level):
         self.sendUpdate('setToonLevel', [level])
-        
+
     def setToonLevel(self, level):
         self.toonLevel = level
-        
+
     def getToonLevel(self):
         return self.toonLevel
 
@@ -2515,7 +2515,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getTotalMoney(self):
         return self.money + self.bankMoney
-        
+
     def b_setMaxBankMoney(self, maxMoney):
         self.d_setMaxBankMoney(maxMoney)
         self.setMaxBankMoney(maxMoney)
@@ -2651,7 +2651,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         newDna = ToonDNA.ToonDNA()
         newDna.makeFromNetString(self.dna.makeNetString())
         black = 26
-        newDna.updateToonProperties(armColor=black, legColor=black, headColor=black)
+        newDna.updateToonProperties(armColor = black, legColor = black, headColor = black)
         self.b_setDNAString(newDna.makeNetString())
 
     def b_announceBingo(self):
@@ -3139,7 +3139,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             collNode.setFromCollideMask(BitMask32.allOff())
             collNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
             self.collNodePath = self.attachNewNode(collNode)
-            taskMgr.add(self._moveSphere, self._getMoveSphereTaskName(), priority=OTPGlobals.AICollMovePriority)
+            taskMgr.add(self._moveSphere, self._getMoveSphereTaskName(), priority = OTPGlobals.AICollMovePriority)
             self.inEstate = 1
             self.estateOwnerId = ownerId
             self.estateZones = simbase.air.estateMgr.getEstateZones(ownerId)
@@ -3258,7 +3258,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         for zoneId in zones:
             if zoneId in map:
                 points = map[zoneId][:]
-                suit = sp.createNewSuit([], points, suitName=suitName)
+                suit = sp.createNewSuit([], points, suitName = suitName)
                 if suit:
                     return ['success', suitIndex, 0]
 
@@ -3294,41 +3294,41 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if streetId not in self.air.suitPlanners:
             self.notify.warning('Street %d is not known.' % streetId)
             return ['badlocation', difficulty, 0]
-        
+
         building = self.findClosestDoor()
         if building is None:
             return ['badlocation', difficulty, 0]
-        
+
         building.cogdoTakeOver(difficulty, buildingHeight)
         return ['success', difficulty, building.doId]
 
     def doCogInvasion(self, suitIndex):
         if self.air.suitInvasionManager.getInvading():
             return ['busy', 0, 0]
-            
+
         if suitIndex >= len(SuitDNA.suitHeadTypes):
             self.notify.warning('Bad suit index: %s' % suitIndex)
             return ['badIndex', suitIndex, 0]
-  
+
         track = suitIndex / SuitDNA.suitsPerDept
         type = suitIndex % SuitDNA.suitsPerDept
 
         if self.air.suitInvasionManager.startInvasion(
-                suitDeptIndex=track, suitTypeIndex=type):
+                suitDeptIndex = track, suitTypeIndex = type):
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
-		
+
     def doDeptInvasion(self, deptIndex):
         if self.air.suitInvasionManager.getInvading():
             return ['busy', 0, 0]
-            
+
         if deptIndex >= len(SuitDNA.suitDepts):
             self.notify.warning('Bad dept index: %s' % deptIndex)
             return ['badIndex', deptIndex, 0]
 
         if self.air.suitInvasionManager.startInvasion(
-                suitDeptIndex=deptIndex, suitTypeIndex=None):
+                suitDeptIndex = deptIndex, suitTypeIndex = None):
             return ['success', deptIndex, 0]
 
         return ['fail', deptIndex, 0]
@@ -3692,7 +3692,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          (109, 1)])
 
     def reqUseSpecial(self, special):
-        return  # TODO/gardening
+        return # TODO/gardening
         response = self.tryToUseSpecial(special)
         self.sendUpdate('useSpecialResponse', [response])
 
@@ -3715,7 +3715,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if estate and hasattr(estate, 'avIdList'):
                 ownerIndex = estate.avIdList.index(estateOwnerDoId)
                 if ownerIndex >= 0:
-                    estate.doEpochNow(onlyForThisToonIndex=ownerIndex)
+                    estate.doEpochNow(onlyForThisToonIndex = ownerIndex)
                     self.removeGardenItem(special, 1)
                     response = 'success'
                     self.air.writeServerEvent('garden_fertilizer', self.doId, '')
@@ -3910,10 +3910,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if self.getNametagStyle() not in self.nametagStyles:
             self.nametagStyles.append(self.getNametagStyle())
             self.b_setNametagStyles(self.nametagStyles)
-            
+
     def getNametagStyles(self):
         return self.nametagStyles
-    
+
     def requestNametagStyle(self, nametagStyle):
         if nametagStyle not in self.nametagStyles:
             return
@@ -3923,25 +3923,25 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setFishingRods(self, rods):
         self.d_setFishingRods(rods)
         self.setFishingRods(rods)
-        
+
     def d_setFishingRods(self, rods):
         self.sendUpdate('setFishingRods', [rods])
-        
+
     def setFishingRods(self, rods):
         self.fishingRods = rods
         if self.getFishingRod() not in self.fishingRods:
             self.fishingRods.append(self.getFishingRod())
             self.b_setFishingRods(self.fishingRods)
-        
+
     def getFishingRods(self):
         return self.fishingRods
-        
+
     def requestFishingRod(self, rodId):
         if rodId not in self.fishingRods:
             return
-            
+
         self.b_setFishingRod(rodId)
-        
+
     def logMessage(self, message):
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
@@ -3957,29 +3957,29 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setMail(self, mail):
         self.sendUpdate('setMail', [mail])
-    
+
     def setMail(self, mail):
         self.mail = []
         for i in range(len(mail)):
             oneMailItem = mail[i]
             newMail = SimpleMailBase(*oneMailItem)
             self.mail.append(newMail)
-        
+
     def getMail(self):
         return self.mail
 
     def setNumMailItems(self, numMailItems):
         self.numMailItems = numMailItems
-        
+
     def getNumMailItems(self):
         return self.numMailItems
 
     def setSimpleMailNotify(self, simpleMailNotify):
         self.simpleMailNotify = simpleMailNotify
-        
+
     def d_setSimpleMailNotify(self, simpleMailNotify):
         self.sendUpdate('setSimpleMailNotify', [simpleMailNotify])
-        
+
     def b_setSimpleMailNotify(self, simpleMailNotify):
         self.setSimpleMailNotify(simpleMailNotify)
         self.d_setSimpleMailNotify(simpleMailNotify)
@@ -4144,28 +4144,28 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.d_setAwardMailboxContents(awardMailboxContents)
 
     def d_setAwardMailboxContents(self, awardMailboxContents):
-        self.sendUpdate('setAwardMailboxContents', [awardMailboxContents.getBlob(store=CatalogItem.Customization)])
+        self.sendUpdate('setAwardMailboxContents', [awardMailboxContents.getBlob(store = CatalogItem.Customization)])
 
     def setAwardMailboxContents(self, awardMailboxContents):
         self.notify.debug('Setting awardMailboxContents to %s.' % awardMailboxContents)
-        self.awardMailboxContents = CatalogItemList.CatalogItemList(awardMailboxContents, store=CatalogItem.Customization)
+        self.awardMailboxContents = CatalogItemList.CatalogItemList(awardMailboxContents, store = CatalogItem.Customization)
         self.notify.debug('awardMailboxContents is %s.' % self.awardMailboxContents)
         if len(awardMailboxContents) == 0:
             self.b_setAwardNotify(ToontownGlobals.NoItems)
         self.checkMailboxFullIndicator()
 
     def getAwardMailboxContents(self):
-        return self.awardMailboxContents.getBlob(store=CatalogItem.Customization)
+        return self.awardMailboxContents.getBlob(store = CatalogItem.Customization)
 
     def b_setAwardSchedule(self, onOrder, doUpdateLater = True):
         self.setAwardSchedule(onOrder, doUpdateLater)
         self.d_setAwardSchedule(onOrder)
 
     def d_setAwardSchedule(self, onOrder):
-        self.sendUpdate('setAwardSchedule', [onOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)])
+        self.sendUpdate('setAwardSchedule', [onOrder.getBlob(store = CatalogItem.Customization | CatalogItem.DeliveryDate)])
 
     def setAwardSchedule(self, onAwardOrder, doUpdateLater = True):
-        self.onAwardOrder = CatalogItemList.CatalogItemList(onAwardOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+        self.onAwardOrder = CatalogItemList.CatalogItemList(onAwardOrder, store = CatalogItem.Customization | CatalogItem.DeliveryDate)
         if hasattr(self, 'name'):
             if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'air'):
                 taskName = self.uniqueName('next-award-delivery')
@@ -4199,7 +4199,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setAwardNotify(self, awardNotify):
         self.awardNotify = awardNotify
-        
+
     def hasGMName(self):
         return self.getName().startswith('$')
 
@@ -4259,14 +4259,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
                 DistributedPlayerAI.DistributedPlayerAI.setName(self, colorString + ' ' + animalType)
                 return
-        
-        
+
+
         DistributedPlayerAI.DistributedPlayerAI.setName(self, name)
         if self.WantOldGMNameBan:
             if self.isGenerated():
                 self._checkOldGMName()
-        #self._updateGMName()
-        
+        # self._updateGMName()
+
     def d_setName(self, name):
         words = str(name).lower().split('\x20')
         for word in words:
@@ -4278,9 +4278,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 animalType = TTLocalizer.AnimalToSpecies[self.dna.getAnimal()]
                 DistributedPlayerAI.DistributedPlayerAI.d_setName(self, colorString + ' ' + animalType)
                 return
-                
+
         DistributedPlayerAI.DistributedPlayerAI.d_setName(self, name)
-        
+
     def b_setName(self, name):
         words = str(name).lower().split('\x20')
         for word in words:
@@ -4293,16 +4293,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.setName(colorString + ' ' + animalType)
                 self.d_setName(colorString + ' ' + animalType)
                 return
-                
+
         self.setName(name)
         self.d_setName(name)
-        
+
     def setToonTag(self, tag):
         DistributedPlayerAI.DistributedPlayerAI.setToonTag(self, tag)
-    
+
     def d_setToonTag(self, tag):
         DistributedPlayerAI.DistributedPlayerAI.d_setToonTag(self, tag)
-        
+
     def b_setToonTag(self, tag):
         DistributedPlayerAI.DistributedPlayerAI.b_setToonTag(self, tag)
 
@@ -4490,7 +4490,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def setAchievements(self, achievements):
         for i in xrange(len(achievements)):
             if not achievements[i] in xrange(len(Achievements.AchievementsDict)):
-                print 'Unknown AchievementId %s'%(achievements[i])
+                print 'Unknown AchievementId %s' % (achievements[i])
                 del achievements[i]
 
         self.achievements = achievements
@@ -4498,10 +4498,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def d_setAchievements(self, achievements):
         for i in xrange(len(achievements)):
             if not achievements[i] in xrange(len(Achievements.AchievementsDict)):
-                print 'Unknown AchievementId %s'%(achievements[i])
+                print 'Unknown AchievementId %s' % (achievements[i])
                 del achievements[i]
 
-        self.sendUpdate('setAchievements', args=[achievements])
+        self.sendUpdate('setAchievements', args = [achievements])
 
     def b_setAchievements(self, achievements):
         self.setAchievements(achievements)
@@ -4534,26 +4534,26 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setStats(self, stats):
         self.stats = stats
-    
+
     def getStats(self):
         return self.stats
-    
+
     def getStat(self, stat):
         return self.stats[stat]
-    
+
     def addStat(self, stat, amount = 1):
         if amount <= 0:
             return
 
         self.stats[stat] += amount
         self.d_setStats(self.stats)
-    
+
 
     def addBuff(self, id, duration):
         buffCount = len(self.buffs)
         if buffCount <= id:
-            self.buffs.extend([0] * ((id+1) - buffCount))
-        timestamp = int(time.time()) + (duration*60)
+            self.buffs.extend([0] * ((id + 1) - buffCount))
+        timestamp = int(time.time()) + (duration * 60)
         self.buffs[id] = timestamp
         self.b_setBuffs(self.buffs)
 
@@ -4576,7 +4576,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 taskName = self.uniqueName('removeBuff-%s' % id)
                 taskMgr.remove(taskName)
                 delayTime = max(timestamp - int(time.time()), 0)
-                taskMgr.doMethodLater(delayTime, self.removeBuff, taskName, extraArgs=[id])
+                taskMgr.doMethodLater(delayTime, self.removeBuff, taskName, extraArgs = [id])
 
     def d_setBuffs(self, buffs):
         self.sendUpdate('setBuffs', [buffs])
@@ -4584,23 +4584,23 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setBuffs(self, buffs):
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
-        
-    def setWarningCount(self, count):   
+
+    def setWarningCount(self, count):
         if 0 > count:
             count = 0
-            
+
         self.warningCount = count
-        
+
     def getWarningCount(self):
         return self.warningCount
-        
+
     def doWarningBan(self, msg):
         if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
             simbase.air.banManager.ban(self.doId, msg)
-        
+
     def incrementWarningCount(self):
         self.b_setWarningCount(int(self.getWarningCount()) + 1)
-        
+
     def decrementWarningCount(self):
         count = int(self.getWarningCount()) - 1
         if 0 > count:
@@ -4608,7 +4608,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         self.b_setWarningCount(count)
         del count
-  
+
     def checkWarningCount(self, noBan = False):
         if self.warningCount >= 3:
             self.setWarningCount(0)
@@ -4616,21 +4616,21 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS and not noBan:
                 self.doWarningBan("Three Strikes You're Out! - Auto Ban Manager")
                 return
-        
+
     def d_setWarningCount(self, count):
         if 0 > count:
             count = 0
-    
+
         self.sendUpdate("setWarningCount", [count])
-        
+
     def b_setWarningCount(self, count, noBan = False):
         if 0 > count:
             count = 0
-        
+
         self.checkWarningCount(noBan)
         self.setWarningCount(count)
         self.d_setWarningCount(count)
-        
+
     def magicTeleportResponse(self, requesterId, hoodId):
         toon = self.air.doId2do.get(requesterId)
         if toon:
@@ -4643,8 +4643,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.sendUpdate('magicTeleportInitiate', [hoodId, zoneId])
 
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
-def cheesyEffect(value, hood=0, expire=0):
+@magicWord(category = CATEGORY_PROGRAMMER, types = [str, int, int])
+def cheesyEffect(value, hood = 0, expire = 0):
     """
     Modify the target's cheesy effect.
     """
@@ -4667,7 +4667,7 @@ def cheesyEffect(value, hood=0, expire=0):
     invoker.b_setCheesyEffect(value)
     return 'Set your cheesy effect to: %d' % value
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def hp(hp):
     """
     Modify the invoker's current HP.
@@ -4679,7 +4679,7 @@ def hp(hp):
     invoker.b_setHp(hp)
     return 'Set your HP to: %d' % hp
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def maxHp(maxHp):
     """
     Modify the invoker's max HP.
@@ -4692,7 +4692,7 @@ def maxHp(maxHp):
     invoker.toonUp(maxHp - invoker.getHp())
     return 'Set your max HP to: %d' % maxHp
 
-@magicWord(category=CATEGORY_MODERATOR, types=[str])
+@magicWord(category = CATEGORY_MODERATOR, types = [str])
 def allSummons():
     """
     Max the invoker's summons
@@ -4705,8 +4705,8 @@ def allSummons():
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
 
-@magicWord(category=CATEGORY_MODERATOR, types=[str])
-def maxToon(missingTrack=None):
+@magicWord(category = CATEGORY_MODERATOR, types = [str])
+def maxToon(missingTrack = None):
     """
     Max the target's stats for end-level gameplay.
     """
@@ -4732,10 +4732,10 @@ def maxToon(missingTrack=None):
         if track:
             experience.experience[i] = (Experience.MaxSkill)
     target.b_setExperience(experience.makeNetString())
-    
+
     # Restock their inventory:
     inventory = target.inventory
-    inventory.NPCMaxOutInv(targetTrack=-1, maxLevelIndex=6)
+    inventory.NPCMaxOutInv(targetTrack = -1, maxLevelIndex = 6)
     target.b_setInventory(inventory.makeNetString())
 
     # Max out their Laff:
@@ -4760,10 +4760,10 @@ def maxToon(missingTrack=None):
         CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[3], # Sellbot
-        CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
+        CogDisguiseGlobals.PartsPerSuitBitmasks[4] # Boardbots
     ])
     target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
-    target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
+    target.b_setCogTypes([SuitDNA.suitsPerDept - 1] * 5)
 
     # Max their Cog gallery:
     deptCount = len(SuitDNA.suitDepts)
@@ -4775,7 +4775,7 @@ def maxToon(missingTrack=None):
 
     # Max out their racing tickets:
     target.b_setTickets(99999)
-    
+
     # Max out their toon level:
     target.b_setToonLevel(69)
 
@@ -4795,12 +4795,12 @@ def maxToon(missingTrack=None):
     # Finally, unlock all of their pet phrases:
     if simbase.wantPets:
         target.b_setPetTrickPhrases(range(7))
-     
+
     if target != spellbook.getInvoker():
         return "Maxed Target's Toon!"
     return "Maxed your Toon!"
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category = CATEGORY_PROGRAMMER)
 def unlocks():
     """
     Unlocks the invoker's teleport access, emotions, and pet trick phrases.
@@ -4830,7 +4830,7 @@ def unlocks():
 
     return 'Unlocked teleport access, emotions, and pet trick phrases!'
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int, str])
+@magicWord(category = CATEGORY_MODERATOR, types = [int, str])
 def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
@@ -4851,8 +4851,8 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d %s SOS cards." % (count, name)
-	
-@magicWord(category=CATEGORY_MODERATOR, types=[int, int])
+
+@magicWord(category = CATEGORY_MODERATOR, types = [int, int])
 def manualSos(count, npcId):
     """
     Modifies the invoker's specified SOS card count.
@@ -4866,8 +4866,8 @@ def manualSos(count, npcId):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given %d SOS cards of toon id %d." % (count, npcId)
-	
-@magicWord(category=CATEGORY_MODERATOR, types=[])
+
+@magicWord(category = CATEGORY_MODERATOR, types = [])
 def clearSOS():
     """
     Clear's the invoker's SOS card inventory
@@ -4876,8 +4876,8 @@ def clearSOS():
     invoker.b_setNPCFriendsDict({})
     return "Your sos cards have been cleared!"
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int])
-def unites(value=32767):
+@magicWord(category = CATEGORY_MODERATOR, types = [int])
+def unites(value = 32767):
     """
     Restock all resistance messages.
     """
@@ -4886,7 +4886,7 @@ def unites(value=32767):
     invoker.restockAllResistanceMessages(value)
     return 'Restocked %d unites!' % value
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int])
+@magicWord(category = CATEGORY_MODERATOR, types = [int])
 def fires(count):
     """
     Modifies the invoker's pink slip count.
@@ -4897,7 +4897,7 @@ def fires(count):
     invoker.b_setPinkSlips(count)
     return 'You were given %d fires.' % count
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def money(money):
     """
     Modifies the target's current money value.
@@ -4909,7 +4909,7 @@ def money(money):
     target.b_setMoney(money)
     return "Set %s's money value to %d!" % (target.getName(), money)
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [str, int])
 def bank(command, value):
     """
     Modifies the target's bank money values.
@@ -4943,7 +4943,7 @@ def bank(command, value):
     else:
         return 'Invalid command!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def setMaxMoney(moneyVal):
     """Set target's money and maxMoney values."""
     if not 40 <= moneyVal <= 250:
@@ -4952,7 +4952,7 @@ def setMaxMoney(moneyVal):
     spellbook.getTarget().b_setMoney(moneyVal)
     return 'maxMoney set to %s' % moneyVal
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def fishingRod(rod):
     """
     Modify the target's fishing rod value.
@@ -4966,7 +4966,7 @@ def fishingRod(rod):
     target.b_setFishingRod(rod)
     return "Set %s's fishing rod to %d!" % (target.getName(), rod)
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def maxFishTank(maxFishTank):
     """
     Modify the target's max fish tank value.
@@ -4977,8 +4977,8 @@ def maxFishTank(maxFishTank):
     target.b_setMaxFishTank(maxFishTank)
     return "Set %s's max fish tank value to %d!" % (target.getName(), maxFishTank)
 
-@magicWord(category=CATEGORY_MODERATOR, types=[str])
-def name(name=''):
+@magicWord(category = CATEGORY_MODERATOR, types = [str])
+def name(name = ''):
     """
     Modify the target's name.
     """
@@ -4989,9 +4989,9 @@ def name(name=''):
         return "Set %s's name to %s!" % (_name, name)
     else:
         return "%s's name is now empty!" % _name
-        
-@magicWord(category=CATEGORY_MODERATOR, types=[str])
-def tag(tag=''):
+
+@magicWord(category = CATEGORY_MODERATOR, types = [str])
+def tag(tag = ''):
     """
     Modify the target's tag.
     """
@@ -5003,8 +5003,8 @@ def tag(tag=''):
     else:
         return "%s's tag is now empty!" % _name
 
-@magicWord(category=CATEGORY_CREATIVE, types=[int, int])
-def hat(hatIndex, hatTex=0):
+@magicWord(category = CATEGORY_CREATIVE, types = [int, int])
+def hat(hatIndex, hatTex = 0):
     """
     Modify the invoker's hat.
     """
@@ -5016,8 +5016,8 @@ def hat(hatIndex, hatTex=0):
     invoker.b_setHat(hatIndex, hatTex, 0)
     return "Set %s's hat to %d, %d!" % (invoker.getName(), hatIndex, hatTex)
 
-@magicWord(category=CATEGORY_CREATIVE, types=[int, int])
-def glasses(glassesIndex, glassesTex=0):
+@magicWord(category = CATEGORY_CREATIVE, types = [int, int])
+def glasses(glassesIndex, glassesTex = 0):
     """
     Modify the invoker's glasses.
     """
@@ -5029,8 +5029,8 @@ def glasses(glassesIndex, glassesTex=0):
     invoker.b_setGlasses(glassesIndex, glassesTex, 0)
     return "Set %s's glasses to %d, %d!" % (invoker.getName(), glassesIndex, glassesTex)
 
-@magicWord(category=CATEGORY_CREATIVE, types=[int, int])
-def backpack(backpackIndex, backpackTex=0):
+@magicWord(category = CATEGORY_CREATIVE, types = [int, int])
+def backpack(backpackIndex, backpackTex = 0):
     """
     Modify the invoker's backpack.
     """
@@ -5042,8 +5042,8 @@ def backpack(backpackIndex, backpackTex=0):
     invoker.b_setBackpack(backpackIndex, backpackTex, 0)
     return "Set %s's backpack to %d, %d!" % (invoker.getName(), backpackIndex, backpackTex)
 
-@magicWord(category=CATEGORY_CREATIVE, types=[int, int])
-def shoes(shoesIndex, shoesTex=0):
+@magicWord(category = CATEGORY_CREATIVE, types = [int, int])
+def shoes(shoesIndex, shoesTex = 0):
     """
     Modify the invoker's shoes.
     """
@@ -5055,8 +5055,8 @@ def shoes(shoesIndex, shoesTex=0):
     invoker.b_setShoes(shoesIndex, shoesTex, 0)
     return "Set %s's shoes to %d, %d!" % (invoker.getName(), shoesIndex, shoesTex)
 
-@magicWord(category=CATEGORY_MEDIA, types=[int])
-def gmIcon(accessLevel=None):
+@magicWord(category = CATEGORY_MEDIA, types = [int])
+def gmIcon(accessLevel = None):
     """
     Toggles the target's GM icon. If an access level is provided, however, the
     target's GM icon will be overridden.
@@ -5100,7 +5100,7 @@ def gmIcon(accessLevel=None):
             return 'Your GM icon has been set to: ' + str(accessLevel)
         return "%s's GM icon has been set to: %d" % (target.getName(), accessLevel)
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def ghost():
     """
     Toggles invisibility on the invoker. Anyone with an access level below the
@@ -5114,7 +5114,7 @@ def ghost():
         invoker.b_setGhostMode(0)
         return 'Ghost mode is disabled.'
 
-@magicWord(category=CATEGORY_MODERATOR)
+@magicWord(category = CATEGORY_MODERATOR)
 def badName():
     """
     Revoke the target's name.
@@ -5130,7 +5130,7 @@ def badName():
     target.sendUpdate('WishNameState', ['REJECTED'])
     return "Revoked %s's name!" % _name
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def tickets(tickets):
     """
     Set the invoker's racing tickets value.
@@ -5141,7 +5141,7 @@ def tickets(tickets):
     invoker.b_setTickets(tickets)
     return 'Set your tickets to: %d' % tickets
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
+@magicWord(category = CATEGORY_ADMINISTRATOR, types = [int])
 def cogIndex(index):
     """
     Modifies the invoker's Cog index.
@@ -5152,8 +5152,8 @@ def cogIndex(index):
     invoker.b_setCogIndex(index)
     return 'Set your Cog index to %d!' % index
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
-def inventory(a, b=None, c=None):
+@magicWord(category = CATEGORY_PROGRAMMER, types = [str, int, int])
+def inventory(a, b = None, c = None):
     invoker = spellbook.getInvoker()
     inventory = invoker.inventory
     if a == 'reset':
@@ -5165,7 +5165,7 @@ def inventory(a, b=None, c=None):
             return 'Invalid target track index: ' + str(targetTrack)
         for track in xrange(0, len(ToontownBattleGlobals.Tracks)):
             if (targetTrack == -1) or (track == targetTrack):
-                inventory.inventory[track][:maxLevelIndex + 1] = [0] * (maxLevelIndex+1)
+                inventory.inventory[track][:maxLevelIndex + 1] = [0] * (maxLevelIndex + 1)
         invoker.b_setInventory(inventory.makeNetString())
         if targetTrack == -1:
             return 'Inventory reset.'
@@ -5180,7 +5180,7 @@ def inventory(a, b=None, c=None):
             return 'Invalid target track index: ' + str(targetTrack)
         if (targetTrack != -1) and (not invoker.hasTrackAccess(targetTrack)):
             return "You don't have target track index: " + str(targetTrack)
-        inventory.NPCMaxOutInv(targetTrack=targetTrack, maxLevelIndex=maxLevelIndex)
+        inventory.NPCMaxOutInv(targetTrack = targetTrack, maxLevelIndex = maxLevelIndex)
         invoker.b_setInventory(inventory.makeNetString())
         if targetTrack == -1:
             return 'Inventory restocked.'
@@ -5201,7 +5201,7 @@ def inventory(a, b=None, c=None):
         invoker.b_setInventory(inventory.makeNetString())
         return 'Restored %d Gags to: %d, %d' % (c, targetTrack, maxLevelIndex)
 
-@magicWord(category=CATEGORY_CREATIVE, types=[str, str])
+@magicWord(category = CATEGORY_CREATIVE, types = [str, str])
 def dna(part, value):
     """Modify a DNA part on the invoker."""
     invoker = spellbook.getTarget()
@@ -5353,13 +5353,13 @@ def dna(part, value):
         return 'Bottom texture color index set to: ' + str(dna.botTexColor)
 
     if part == 'save':
-        backup = simbase.backups.load('toon', (invoker.doId,), default={})
+        backup = simbase.backups.load('toon', (invoker.doId,), default = {})
         backup.setdefault('dna', {})[value] = invoker.getDNAString()
         simbase.backups.save('toon', (invoker.doId,), backup)
         return 'Saved a DNA backup for %s under the name: %s' % (invoker.getName(), value)
 
     if part == 'restore':
-        backup = simbase.backups.load('toon', (invoker.doId,), default={})
+        backup = simbase.backups.load('toon', (invoker.doId,), default = {})
         if value not in backup.get('dna', {}):
             return "Couldn't find a DNA backup for %s under the name: %s" % (invoker.getName(), value)
         invoker.b_setDNAString(backup['dna'][value])
@@ -5367,7 +5367,7 @@ def dna(part, value):
 
     return 'Invalid part: ' + part
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
+@magicWord(category = CATEGORY_ADMINISTRATOR, types = [int])
 def trophyScore(value):
     """
     Modifies the target's trophy score.
@@ -5378,8 +5378,8 @@ def trophyScore(value):
     simbase.air.trophyMgr.updateTrophyScore(target.doId, value)
     return "%s's trophy score has been set to: %d" % (target.getName(), value)
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[int, int])
-def givePies(pieType, numPies=0):
+@magicWord(category = CATEGORY_ADMINISTRATOR, types = [int, int])
+def givePies(pieType, numPies = 0):
     """
     Give the target (numPies) of (pieType) pies.
     """
@@ -5399,7 +5399,7 @@ def givePies(pieType, numPies=0):
     else:
         target.b_setNumPies(ToontownGlobals.FullPies)
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def trackBonus(trackIndex):
     """
     Modify the invoker's track bonus level.
@@ -5412,8 +5412,8 @@ def trackBonus(trackIndex):
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str, str, int])
-def track(command, track, value=None):
+@magicWord(category = CATEGORY_PROGRAMMER, types = [str, str, int])
+def track(command, track, value = None):
     try:
         index = ('toonup', 'trap', 'lure', 'sound', 'throw',
                  'squirt', 'zap', 'drop').index(track.lower())
@@ -5444,8 +5444,8 @@ def track(command, track, value=None):
         return 'Set the experience of the %s track to: %d!' % (track, value)
     return 'Invalid command.'
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str])
-def suit(command, suitName="hho"):
+@magicWord(category = CATEGORY_ADMINISTRATOR, types = [str, str])
+def suit(command, suitName = "hho"):
     invoker = spellbook.getInvoker()
     command = command.lower()
     if suitName not in SuitDNA.suitHeadTypes and command != 'deptinvasion':
@@ -5479,7 +5479,7 @@ def suit(command, suitName="hho"):
     else:
         return 'Invalid command.'
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [str, int])
 def achievements(command, achId):
     invoker = spellbook.getInvoker()
     if command.lower() == 'earn':
@@ -5487,23 +5487,23 @@ def achievements(command, achId):
         achievements.append(achId)
 
         invoker.b_setAchievements(achievements)
-        return 'Earnt Achievement %s'%(achId)
+        return 'Earnt Achievement %s' % (achId)
     elif command.lower() == 'remove':
         achievements = invoker.getAchievements()
         achievements.remove(achId)
 
         invoker.b_setAchievements(achievements)
-        return 'Removed Achievement %s'%(achId)
+        return 'Removed Achievement %s' % (achId)
     else:
-        return "Unknown Command '%s'"%(command)
+        return "Unknown Command '%s'" % (command)
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category = CATEGORY_PROGRAMMER)
 def getZone():
     invoker = spellbook.getInvoker()
     zone = invoker.zoneId
     return 'ZoneID: %s' % (zone)
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int])
+@magicWord(category = CATEGORY_MODERATOR, types = [int])
 def nametagStyle(nametagStyle):
     currentAccess = spellbook.getInvokerAccess()
     if nametagStyle >= len(TTLocalizer.NametagFontNames):
@@ -5517,7 +5517,7 @@ def nametagStyle(nametagStyle):
     target.b_setNametagStyle(nametagStyle)
     return 'Nametag style set to: %s.' % TTLocalizer.NametagFontNames[nametagStyle]
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
+@magicWord(category = CATEGORY_PROGRAMMER, types = [str, int, int])
 def disguise(command, suitIndex, value):
     invoker = spellbook.getTarget()
 
@@ -5545,18 +5545,18 @@ def disguise(command, suitIndex, value):
         return 'Merits set.'
     else:
         return 'Unknow command: %s' % command
-        
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def toonExp(exp):
     spellbook.getTarget().b_setToonExp(exp)
     return "Set %s 's Experience to %s" % (spellbook.getTarget().getName(), exp)
-    
-@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def toonLevel(level):
-    spellbook.getTarget().b_setToonLevel(level-1)
-    return "Set %s 's Level to %s" % (spellbook.getTarget().getName(), level-1)
-        
-@magicWord(category=CATEGORY_PROGRAMMER)
+    spellbook.getTarget().b_setToonLevel(level - 1)
+    return "Set %s 's Level to %s" % (spellbook.getTarget().getName(), level - 1)
+
+@magicWord(category = CATEGORY_PROGRAMMER)
 def printDNA():
     '''
     Print the targets DNA in a pretty fashion.
@@ -5564,8 +5564,8 @@ def printDNA():
     target = spellbook.getTarget()
     return str(target.dna.__str__())
 
-@magicWord(category=CATEGORY_MODERATOR, types=[str, int])
-def summonCogdo(track, difficulty=0):
+@magicWord(category = CATEGORY_MODERATOR, types = [str, int])
+def summonCogdo(track, difficulty = 0):
     """ Spawns a Field Office with the given type and difficulty """
     tracks = ['s', 'l']
     if track not in tracks:
@@ -5580,43 +5580,43 @@ def summonCogdo(track, difficulty=0):
         return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
 
     building.cogdoTakeOver(difficulty, 2, track)
-    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)    
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int])
+@magicWord(category = CATEGORY_MODERATOR, types = [int])
 def summonBuilding(suitIndex):
     return spellbook.getTarget().doBuildingTakeover(suitIndex)
-    
-@magicWord(category=CATEGORY_MODERATOR, types=[int])
+
+@magicWord(category = CATEGORY_MODERATOR, types = [int])
 def pouch(amt):
     """ Set the target's max gag limit. """
     spellbook.getTarget().b_setMaxCarry(amt)
     return "Set %s's pouch size to %d" % (spellbook.getTarget().getName(), amt)
-    
-@magicWord(category=CATEGORY_CREATIVE)
+
+@magicWord(category = CATEGORY_CREATIVE)
 def unlimitedGags():
     """ Restock avatar's gags at the start of each round. """
     av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
     av.setUnlimitedGags(not av.unlimitedGags)
     return 'Toggled unlimited gags %s for %s' % ('ON' if av.unlimitedGags else 'OFF', av.getName())
 
-@magicWord(category=CATEGORY_CREATIVE)
+@magicWord(category = CATEGORY_CREATIVE)
 def immortal():
     """ Make target (if 400+) or self (if 399-) immortal. """
     av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 400 else spellbook.getInvoker()
     av.setImmortalMode(not av.immortalMode)
     return 'Toggled immortal mode %s for %s' % ('ON' if av.immortalMode else 'OFF', av.getName())
 
-@magicWord(category=CATEGORY_MODERATOR, types=[int])
+@magicWord(category = CATEGORY_MODERATOR, types = [int])
 def goto(avIdShort):
     """ Teleport to the avId specified. """
-    avId = 100000000+avIdShort # To get target doId.
+    avId = 100000000 + avIdShort # To get target doId.
     toon = simbase.air.doId2do.get(avId)
     if not toon:
         return "Unable to teleport to target, they are not currently on this district."
     spellbook.getInvoker().magicWordTeleportRequests.append(avId)
-    toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()]) 
+    toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category = CATEGORY_PROGRAMMER)
 def dump_doId2do():
     """
     Please note that this MW should NOT be used more than it needs to be on a live
@@ -5640,10 +5640,10 @@ def dump_doId2do():
             objSizes[name] += sys.getsizeof(object)
     # Sort the dict by the size of the objects.
     # N.B.: This spits out a list of tuples, e.g: [('obj1', 1000), ('obj2', 1001)]
-    sorted_objSizes = sorted(objSizes.iteritems(), key=operator.itemgetter(1))
+    sorted_objSizes = sorted(objSizes.iteritems(), key = operator.itemgetter(1))
     # Create a temporary file that we can store to. This returns a tuple of a file
     # handler and an absolute file location. (handler, location)
-    temp_file = tempfile.mkstemp(prefix='doId2do-dump_', suffix='.txt', text=True)
+    temp_file = tempfile.mkstemp(prefix = 'doId2do-dump_', suffix = '.txt', text = True)
     # Screw the documents, the first value in temp_file is a useless pile of dog shit.
     # I hax and do like this. <3
     with open(temp_file[1], 'w+') as file:
@@ -5652,8 +5652,8 @@ def dump_doId2do():
         for name, size in sorted_objSizes:
             file.write('OBJ: %s | SIZE: %d\n' % (name, size))
     return "Dumped doId2do sizes (grouped by class) to '%s'." % temp_file[1]
-    
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def globalTeleport():
     """
     Activates the global teleport cheat for the invoker.
@@ -5662,11 +5662,11 @@ def globalTeleport():
     invoker.setTeleportOverride(1)
     return 'Global teleport has been activated.'
 
-    
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+
+@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
 def catalog():
     simbase.air.catalogManager.deliverCatalogFor(spellbook.getTarget())
-    
+
 @magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def shovelSkill(skill):
     target = spellbook.getTarget()
