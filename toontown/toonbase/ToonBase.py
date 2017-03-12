@@ -306,6 +306,12 @@ class ToonBase(OTPBase.OTPBase):
         self.wantInteractKey = settings.get('interactkey', False)
         
         self.accept('f4', self.toggleNametags)
+        
+        shgui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        self.shuffleUp = shgui.find('**/tt_t_gui_mat_shuffleUp')
+        self.shuffleDown = shgui.find('**/tt_t_gui_mat_shuffleDown')
+        
+        self.wantMobile = True
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(

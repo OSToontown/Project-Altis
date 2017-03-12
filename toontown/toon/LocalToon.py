@@ -441,11 +441,14 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.laffMeter.stop()
         self.expBar.start()
         
-        self.touchControls = TouchControls.TouchControls()
-        self.touchControls.setScale(1)
-        self.touchControls.reparentTo(base.a2dBottomLeft)
-        self.touchControls.setPos(0.5, 0.0, 0.5)
-        self.touchControls.start()
+        if base.wantMobile:
+            self.touchControls = TouchControls.TouchControls()
+            self.touchControls.setScale(1)
+            self.touchControls.reparentTo(base.a2dBottomLeft)
+            self.touchControls.setPos(0.5, 0.0, 0.5)
+            self.touchControls.start()
+        else:
+            self.touchControls = None
         
         self.questMap = QuestMap.QuestMap(self)
         self.questMap.stop()
