@@ -36,6 +36,21 @@ class ToontownLoadingScreen:
         return TTLocalizer.TipTitle + '\n' + random.choice(TTLocalizer.TipDict.get(tipCategory))
 
     def begin(self, range, label, gui, tipCategory, zoneId):
+        self.zone2background = {
+            ToontownGlobals.ToontownCentral: 'ttc.jpg',
+            ToontownGlobals.DonaldsDock: 'dd.jpg',
+            ToontownGlobals.DaisyGardens: 'dg.jpg',
+            ToontownGlobals.MinniesMelodyland: 'mml.jpg',
+            ToontownGlobals.TheBrrrgh: 'tb.jpg',
+            ToontownGlobals.DonaldsDreamland: 'ddl.jpg',
+            ToontownGlobals.OutdoorZone: 'aa.jpg',
+            ToontownGlobals.GoofySpeedway: 'gs.jpg',
+            ToontownGlobals.SellbotHQ: 'sbhq.jpg',
+            ToontownGlobals.SellbotFactoryExt: 'sbhqext.jpg',
+            ToontownGlobals.LawbotHQ: 'lbhq.jpg',
+            ToontownGlobals.CashbotHQ: 'cbhq.jpg',
+            ToontownGlobals.BossbotHQ: 'bbhq.jpg'
+            }
         self.zone2fontcolor = {
             ToontownGlobals.GoofySpeedway : VBase4(ToontownGlobals.GSCOLOR),
             ToontownGlobals.ToontownCentral : VBase4(ToontownGlobals.TTCOLOR),
@@ -85,7 +100,8 @@ class ToontownLoadingScreen:
             self.gui.setPos(0, -0.1, 0)
             self.gui.reparentTo(aspect2d, NO_FADE_SORT_INDEX)
             self.tip['text'] = self.getTip(tipCategory)
-            # self.gui.setTexture(self.background, 1)
+            bg = 'phase_3.5/maps/loading/' + self.zone2background.get(ZoneUtil.getBranchZone(zoneId), 'toon.jpg')
+            self.gui.setTexture(loader.loadTexture(bg), 1)
             self.logo.reparentTo(base.a2dpTopCenter, NO_FADE_SORT_INDEX)
         else:
             self.title.reparentTo(base.a2dpTopCenter, NO_FADE_SORT_INDEX)
