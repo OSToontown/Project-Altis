@@ -11,7 +11,6 @@ from direct.showbase.DirectObject import DirectObject
 from panda3d.core import TransparencyAttrib, Point3, VBase3, Vec4
 from toontown.dmenu import DMenuCredits
 from toontown.dmenu.DMenuGlobals import *
-from toontown.dmenu.DMenuLocalizer import *
 from toontown.dmenu.DMenuResources import *
 from toontown.dmenu import DMenuQuit
 from toontown.pickatoon import PickAToonOptions, PickAToon
@@ -56,7 +55,7 @@ class DMenuScreen(DirectObject):
         self.mobile = base.wantMobile
         def showMobile():
             if self.mobile:
-                FeatureComingSoonDialog.FeatureComingSoonDialog(text = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy Project Altis!')
+                FeatureComingSoonDialog.FeatureComingSoonDialog(text = TTLocalizer.PopupTouchControls)
 
         fadeSequence = Sequence(
             Func(base.transitions.fadeOut, .001),
@@ -65,7 +64,7 @@ class DMenuScreen(DirectObject):
             Func(showMobile),
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
         if base.showDisclaimer:
-            FeatureComingSoonDialog.FeatureComingSoonDialog(text = '\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!')
+            FeatureComingSoonDialog.FeatureComingSoonDialog(text = TTLocalizer.PopupAlphaDisclaimer)
         self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
         self.background2d.setScale(2, 1, 1)
         self.background2d.setBin('background', 1)
@@ -240,29 +239,29 @@ class DMenuScreen(DirectObject):
         mOptions = 'phase_3/maps/dmenu/dm_settings.png'
         mQuit = 'phase_3/maps/dmenu/dm_quit.png'
             
-        self.DiscordButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = "Discord", text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.openDiscord)
+        self.DiscordButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.DiscordButton, text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.openDiscord)
         self.DiscordButton.reparentTo(aspect2d)
         self.DiscordButton.setPos(DiscordBtnHidePos)
         self.DiscordButton.show()
         
         if not self.mobile:
-            self.PlayButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = PlayGame, text_pos = (0, -0.02), text_scale = .07, scale = 1.2, command = self.playGame)
+            self.PlayButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.PlayGame, text_pos = (0, -0.02), text_scale = .07, scale = 1.2, command = self.playGame)
             self.PlayButton.reparentTo(aspect2d)
             self.PlayButton.setPos(PlayBtnHidePos)
             self.PlayButton.show()
 
-            self.OptionsButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = Options, text_pos = (0, -0.02), text_scale = .08, scale = 0.95, command = self.openOptions)
+            self.OptionsButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.OptionsPageTitle, text_pos = (0, -0.02), text_scale = .08, scale = 0.95, command = self.openOptions)
             self.OptionsButton.reparentTo(aspect2d)
             self.OptionsButton.setPos(OptionsBtnHidePos)
             self.OptionsButton.show()
 
-            self.QuitButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = Quit, text_pos = (0, -0.02), text_scale = .08, scale = 0.95, command = self.quitGame)
+            self.QuitButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.lQuit, text_pos = (0, -0.02), text_scale = .08, scale = 0.95, command = self.quitGame)
             self.QuitButton.reparentTo(aspect2d)
             self.QuitButton.setPos(QuitBtnHidePos)
             self.QuitButton.show()
             
 
-            self.CreditsButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = "Credits", text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.startCredits)
+            self.CreditsButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.CreditsButton, text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.startCredits)
             self.CreditsButton.reparentTo(aspect2d)
             self.CreditsButton.setPos(CreditsBtnHidePos)
             self.CreditsButton.show()
@@ -512,17 +511,17 @@ class DMenuScreen(DirectObject):
         DMenuCredits.DMenuCredits()
 
     def createTabs(self):
-        self.PlayButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = PlayGame, text_scale = .1, scale = 0.95, command = self.playGame)
+        self.PlayButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = TTLocalizer.PlayGame, text_scale = .1, scale = 0.95, command = self.playGame)
         self.PlayButton.reparentTo(aspect2d)
         self.PlayButton.setPos(PlayBtnHidePos)
         self.PlayButton.show()
 
-        self.OptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = Options, text_scale = .1, scale = 0.95, command = self.openOptions)
+        self.OptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = TTLocalizer.OptionsPageTitle, text_scale = .1, scale = 0.95, command = self.openOptions)
         self.OptionsButton.reparentTo(aspect2d)
         self.OptionsButton.setPos(OptionsBtnHidePos)
         self.OptionsButton.show()
 
-        self.QuitButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = Quit, text_scale = .1, scale = 0.95, command = self.quitGame)
+        self.QuitButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = TTLocalizer.lQuit, text_scale = .1, scale = 0.95, command = self.quitGame)
         self.QuitButton.reparentTo(aspect2d)
         self.QuitButton.setPos(QuitBtnHidePos)
         self.QuitButton.show()
