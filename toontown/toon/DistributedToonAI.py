@@ -203,6 +203,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.magicWordTeleportRequests = []
         self.buffs = []
         self.interiorLayout = 0
+        self.cheesyEffects = [0]
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
