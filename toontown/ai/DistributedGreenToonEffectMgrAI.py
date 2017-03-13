@@ -17,4 +17,7 @@ class DistributedGreenToonEffectMgrAI(DistributedObjectAI, FSM):
     def addGreenToonEffect(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
-        av.b_setCheesyEffect(15, 0, 0)
+        if 15 not in av.cheesyEffects:
+            av.cheesyEffects.append(15)
+            av.b_setCheesyEffects(av.cheesyEffects)
+        av.b_setCheesyEffect(15)

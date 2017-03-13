@@ -4695,6 +4695,8 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doSnowManHeadSwitch(lerpTime, toSnowMan=True)
         elif effect == ToontownGlobals.CEVirtual:
             return self.__doVirtual()
+        elif effect == ToontownGlobals.CEGreenToon:
+            return self.__doGreenToon(lerpTime, toGreen = True)
         elif effect == ToontownGlobals.CEGhost:
             alpha = 0.25
             if base.localAvatar.getAdminAccess() < self.adminAccess:

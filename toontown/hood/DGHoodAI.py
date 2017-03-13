@@ -5,12 +5,14 @@ from toontown.safezone import DistributedButterflyAI
 from toontown.safezone import DistributedDGFlowerAI
 from toontown.safezone import DistributedTrolleyAI
 from toontown.toonbase import ToontownGlobals
-#from toontown.ai import DistributedGreenToonEffectMgrAI
+from toontown.ai import DistributedGreenToonEffectMgrAI
 from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
+from direct.showbase.DirectObject import DirectObject
 
-class DGHoodAI(HoodAI.HoodAI):
+class DGHoodAI(HoodAI.HoodAI, DirectObject):
     def __init__(self, air):
+        DirectObject.__init__(self)
         HoodAI.HoodAI.__init__(self, air,
                                ToontownGlobals.DaisyGardens,
                                ToontownGlobals.DaisyGardens)
@@ -33,8 +35,12 @@ class DGHoodAI(HoodAI.HoodAI):
         if simbase.config.GetBool('want-butterflies', True):
             self.createButterflies()
             
-        #self.GreenToonEffectManager = DistributedGreenToonEffectMgrAI.DistributedGreenToonEffectMgrAI(self.air)
-        #self.GreenToonEffectManager.generateWithRequired(5819)
+        if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.IDES_OF_MARCH):
+            self.GreenToonEffectManager = DistributedGreenToonEffectMgrAI.DistributedGreenToonEffectMgrAI(self.air)
+            self.GreenToonEffectManager.generateWithRequired(5819)
+            
+        self.accept('startIdes', self.startIdes)
+        self.accept('endIdes', self.endIdes)
         
         if simbase.air.wantHalloween:
             self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
@@ -44,6 +50,14 @@ class DGHoodAI(HoodAI.HoodAI):
             self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
             self.WinterCarolingTargetManager.generateWithRequired(5626)
 
+    def startIdes(self):
+        if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.IDES_OF_MARCH):
+            self.GreenToonEffectManager = DistributedGreenToonEffectMgrAI.DistributedGreenToonEffectMgrAI(self.air)
+            self.GreenToonEffectManager.generateWithRequired(5819)
+            
+    def endIdes(self):
+        self.GreenToonEffectManager.requestDelete()
+            
     def shutdown(self):
         HoodAI.HoodAI.shutdown(self)
 
