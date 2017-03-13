@@ -44,9 +44,6 @@ TOON_HALL_HPR = (-90, 0, 0)
 # To be used when going to menu
 HQ_POS = (14, 16, 8)
 HQ_HPR = (-48, 0, 0)
-
-MOBILE = False
-
 class DMenuScreen(DirectObject):
     notify = directNotify.newCategory('DMenuScreen')
 
@@ -56,11 +53,16 @@ class DMenuScreen(DirectObject):
         self.seq = None
         self.isBananaPlaying = False # .isPlaying() doesnt want to work
         base.cr.avChoice = None
-        
+        self.mobile = base.wantMobile
+        def showMobile():
+            if self.mobile:
+                FeatureComingSoonDialog.FeatureComingSoonDialog(text = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy Project Altis!')
+
         fadeSequence = Sequence(
             Func(base.transitions.fadeOut, .001),
             Wait(.5),
             Func(base.transitions.fadeIn, .5),
+            Func(showMobile),
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
         if base.showDisclaimer:
             FeatureComingSoonDialog.FeatureComingSoonDialog(text = '\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!')
@@ -243,7 +245,7 @@ class DMenuScreen(DirectObject):
         self.DiscordButton.setPos(DiscordBtnHidePos)
         self.DiscordButton.show()
         
-        if not MOBILE:
+        if not self.mobile:
             self.PlayButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = PlayGame, text_pos = (0, -0.02), text_scale = .07, scale = 1.2, command = self.playGame)
             self.PlayButton.reparentTo(aspect2d)
             self.PlayButton.setPos(PlayBtnHidePos)
@@ -356,7 +358,7 @@ class DMenuScreen(DirectObject):
         self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = 'Back', text_fg = (0, 0, 0, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.hideOptions)
         self.closeOptionsButton.reparentTo(base.a2dTopLeft, 2000)
         self.closeOptionsButton.setPos(0.5, 0, -0.07)
-        if not MOBILE:
+        if not self.mobile:
             Parallel(
                 self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
                 self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
@@ -408,7 +410,7 @@ class DMenuScreen(DirectObject):
         self.QuitButton['state'] = DGG.DISABLED
         self.DiscordButton['state'] = DGG.DISABLED
         self.CreditsButton['state'] = DGG.DISABLED
-        if not MOBILE:
+        if not self.mobile:
             Parallel(
                 self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
                 self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
@@ -427,7 +429,7 @@ class DMenuScreen(DirectObject):
 
     def quitGame(self):
         self.showQuitConfirmation()
-        if not MOBILE:
+        if not self.mobile:
             Parallel(
                 self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
                 self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
@@ -458,7 +460,7 @@ class DMenuScreen(DirectObject):
         
     def buttonInAnimation(self):
         logo = self.logo.posInterval(.5, Point3(0, 0, .5), blendType = 'easeInOut')
-        if not MOBILE:
+        if not self.mobile:
             play = self.PlayButton.posInterval(.5, Point3(PlayBtnPos), blendType = 'easeInOut')
             opt = self.OptionsButton.posInterval(.5, Point3(OptionsBtnPos), blendType = 'easeInOut')
             quit = self.QuitButton.posInterval(.5, Point3(QuitBtnPos), blendType = 'easeInOut')
