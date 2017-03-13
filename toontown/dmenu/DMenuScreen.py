@@ -54,11 +54,15 @@ class DMenuScreen(DirectObject):
         self.isBananaPlaying = False # .isPlaying() doesnt want to work
         base.cr.avChoice = None
         self.mobile = base.wantMobile
-        
+        def showMobile():
+            if self.mobile:
+                FeatureComingSoonDialog.FeatureComingSoonDialog(text = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy Project Altis!')
+
         fadeSequence = Sequence(
             Func(base.transitions.fadeOut, .001),
             Wait(.5),
             Func(base.transitions.fadeIn, .5),
+            Func(showMobile),
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
         if base.showDisclaimer:
             FeatureComingSoonDialog.FeatureComingSoonDialog(text = '\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!')

@@ -311,7 +311,10 @@ class ToonBase(OTPBase.OTPBase):
         self.shuffleUp = shgui.find('**/tt_t_gui_mat_shuffleUp')
         self.shuffleDown = shgui.find('**/tt_t_gui_mat_shuffleDown')
         
-        self.wantMobile = True
+        if 'experimental-touch' in settings:
+            self.wantMobile = settings.get('experimental-touch', False)
+        else:
+            self.wantMobile = False
 
     def updateAspectRatio(self):
         fadeSequence = Sequence(
