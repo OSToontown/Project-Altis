@@ -46,7 +46,7 @@ class DistributedLawOfficeElevatorExt(DistributedElevatorExt.DistributedElevator
         signText.setDepthWrite(0)
 
     def setupElevator(self):
-        self.elevatorModel = loader.loadModel('phase_10/models/cogHQ/mintElevator')
+        self.elevatorModel = loader.loadModel('phase_11/models/lawbotHQ/LB_ElevatorScaled')
         self.elevatorModel.reparentTo(render)
         self.leftDoor = self.elevatorModel.find('**/left_door')
         self.rightDoor = self.elevatorModel.find('**/right_door')
