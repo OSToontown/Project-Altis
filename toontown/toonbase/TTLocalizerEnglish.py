@@ -2123,6 +2123,7 @@ CheesyEffectId2Name = {
  9: 'Transparent',
  10: 'No Color',
  11: 'Invisible',
+ 15: 'Green Toon',
  77: 'Wireframe'}
 SuitFlunky = 'Flunky'
 SuitPencilPusher = 'Pencil Pusher'
