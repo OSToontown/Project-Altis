@@ -2,26 +2,24 @@ from panda3d.core import *
 import string
 import types
 try:
-    language = settings['language']
+    language = getConfigExpress().GetString('language', 'english')
+    checkLanguage = getConfigExpress().GetBool('check-language', 0)
 except:
-    language = 'English'
+    language = simbase.config.GetString('language', 'english')
+    checkLanguage = simbase.config.GetBool('check-language', 0)
 
 def getLanguage():
     return language
 
 
 print 'TTLocalizer: Running in language: %s' % language
-checkLanguage = 0
-if language == 'English':
-    _languageModule = 'toontown.toonbase.TTLocalizer' + language
-    from toontown.toonbase.TTLocalizerEnglish import *
-elif language == 'French':
-    checkLanguage = 1
-    _languageModule = 'toontown.toonbase.TTLocalizer' + language
-    from toontown.toonbase.TTLocalizerFrench import *
+if language == 'english':
+    _languageModule = 'toontown.toonbase.TTLocalizer' + language.capitalize()
 else:
-    _languageModule = 'toontown.toonbase.TTLocalizerEnglish'
-    from toontown.toonbase.TTLocalizerEnglish import *
+    checkLanguage = 1
+    _languageModule = 'toontown.toonbase.TTLocalizer_' + language
+print 'from ' + _languageModule + ' import *'
+from toontown.toonbase.TTLocalizerEnglish import *
 if checkLanguage:
     l = {}
     g = {}
