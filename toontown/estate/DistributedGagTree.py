@@ -29,6 +29,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.needToPlant = 0
         self.needToLoad = 0
         self.backupFruits = []
+        self.fruits = []
         self.signHasBeenStuck2Ground = False
         self.setName('DistributedGagTree')
         self.fruiting = 0

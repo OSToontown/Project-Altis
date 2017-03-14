@@ -60,7 +60,7 @@ class FactoryExterior(BattlePlace.BattlePlace):
         BattlePlace.BattlePlace.unload(self)
 
     def enter(self, requestStatus):
-        self.zoneId = requestStatus['zoneId']
+        self.zoneId = ZoneUtil.getBranchZone(requestStatus['zoneId'])
 
         # Load the CogHQ DNA file:
         dnaStore = DNAStorage()
