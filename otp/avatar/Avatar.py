@@ -123,7 +123,8 @@ class Avatar(Actor, ShadowCaster):
     def setPlayerType(self, playerType):
         self.playerType = playerType
         if not hasattr(self, 'nametag'):
-            pass
+            self.notify.warning('no nametag attributed, but would have been used.')
+            return
         
         if self.isUnderstandable():
             nametagColor = NametagGlobals.NametagColors[self.playerType]
@@ -191,14 +192,14 @@ class Avatar(Actor, ShadowCaster):
             self.understandable = 1
         else:
             self.understandable = 0
-        try:
+        if not hasattr(self, 'nametag'):
+            self.notify.warning('no nametag attributed, but would have been used')
+        else:
             nametagColor = NametagGlobals.NametagColors[self.playerType]
             self.nametag.setNametagColor(nametagColor)
             chatColor = NametagGlobals.ChatColors[self.playerType]
             self.nametag.setChatColor(chatColor)
             self.nametag.updateAll()
-        except:
-            pass
 
     def isUnderstandable(self):
         return self.understandable
