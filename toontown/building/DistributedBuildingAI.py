@@ -554,7 +554,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         return DistributedSuitInteriorAI.DistributedSuitInteriorAI(self.air, self.elevator)
 
     def _createCogdoInterior(self):
-        return DistributedCogdoInteriorAI(self.air, self.elevator)
+        return DistributedCogdoInteriorAI(self.air, self)
 
     def createSuitInterior(self):
         self.interior = self._createSuitInterior()
@@ -566,7 +566,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.interior = self._createCogdoInterior()
         (dummy, interiorZoneId) = self.getExteriorAndInteriorZoneId()
         self.interior.generateWithRequired(interiorZoneId)
-        self.interior.request('WaitForAllToonsInside')
+        self.interior.b_setState('WaitForAllToonsInside')
 
     def deleteSuitInterior(self):
         if hasattr(self, 'interior'):

@@ -180,7 +180,7 @@ Dev.Invincibility = False
 Dev.NoLegalEagleAttacks = False
 Audio = VariableContainer()
 Audio.Cutoff = 75.0
-Audio.MusicFiles = {'normal': 'phase_9/audio/bgm/CHQ_FACT_bg.ogg',
+Audio.MusicFiles = {'normal': 'phase_11/audio/bgm/LB_office.ogg',
  'end': 'phase_7/audio/bgm/encntr_toon_winning_indoor.ogg',
  'waiting': 'phase_7/audio/bgm/encntr_toon_winning_indoor.ogg',
  'invul': 'phase_9/audio/bgm/encntr_toon_winning.ogg',

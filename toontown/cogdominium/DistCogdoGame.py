@@ -181,7 +181,7 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         base.cr.playGame.getPlace().fsm.request('Game')
         self._rulesDoneEvent = self.uniqueName('cogdoGameRulesDone')
         self.accept(self._rulesDoneEvent, self._handleRulesDone)
-        self._rulesPanel = CogdoGameRulesPanel('CogdoGameRulesPanel', self.getTitle(), self.getInstructions(), self._rulesDoneEvent, timeout=duration)
+        self._rulesPanel = CogdoGameRulesPanel('CogdoGameRulesPanel', self.getTitle(), '', self._rulesDoneEvent, timeout=duration)
         self._rulesPanel.load()
         self._rulesPanel.enter()
 
