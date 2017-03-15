@@ -63,7 +63,7 @@ Piplup | New battle GUI concept
 Chandler | DNA Parser | Safely disclosing security issues
 Developers of Panda3D
 Developers of Astron
-Toontown Rewritten | Reviving the sprit of Toontown
+Toontown Rewritten | Reviving the spirit of Toontown
 '''
 
         self.text = OnscreenText(text = self.extremelylargecredits, style = 3, fg = (1, 1, 1, 1), align = TextNode.ACenter, scale = 0.08, wordwrap = 30, parent = aspect2d)
