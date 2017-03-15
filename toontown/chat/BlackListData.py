@@ -50,4 +50,13 @@ BLACKLIST = [
     "'n i gg eh r",
     "gg ay",
     "gg 1 ay",
+    "gg ay",
+    ":d icky",
+    ":d 1 icky",
+    "dd 1 icky",
+    "dd icky",
+    ":d sick",
+    ":d 1 sick",
+    "dd sick",
+    "dd 1 sick",
 ]
