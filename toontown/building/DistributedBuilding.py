@@ -709,12 +709,12 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         scaleFactor = avHeight * 0.3333333333
         track = Sequence(Func(camera.reparentTo, render),
         Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0),
-        Func(base.camLens.setMinFov, 52.0/(4./3.)),
+        Func(base.camLens.setMinFov, settings['fieldofview']/(4./3.)),
         Wait(VICTORY_RUN_TIME),
         Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 17, 0, 347, 0),
         Func(base.camLens.setMinFov, 75.0/(4./3.)),
         Wait(TO_TOON_BLDG_TIME),
-        Func(base.camLens.setMinFov, 52.0/(4./3.)),
+        Func(base.camLens.setMinFov, settings['fieldofview']/(4./3.)),
         Func(camera.wrtReparentTo, base.localAvatar),
         camera.posQuatInterval(1.5, (0, -9 * scaleFactor, avHeight), (0, 0, 0), other=base.localAvatar, blendType='easeInOut'))
         return track
