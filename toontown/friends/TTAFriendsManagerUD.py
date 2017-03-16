@@ -94,30 +94,36 @@ class RemoveFriendOperation(OperationFSM):
             self.demand('Error', 'Distributed Class was not a Toon.')
             return
 
-        self.demand('Retrieved', fields['setFriendsList'][0])
+        self.demand('Retrieved', fields['setFriendsList'][0], fields['setTrueFriends'][0])
 
-    def enterRetrieved(self, friendsList):
+    def enterRetrieved(self, friendsList, trueFriendsList):
         newList = []
         for i in xrange(len(friendsList)):
             if friendsList[i][0] == self.target:
                 continue
             newList.append(friendsList[i])
+        newTFList = []
+        for i in xrange(len(trueFriendsList)):
+            if trueFriendsList[i] == self.target:
+                continue
+            newTFList.append(trueFriendsList[i])
         if self.sender in self.mgr.onlineToons:
             dg = self.air.dclassesByName['DistributedToonUD'].aiFormatUpdate(
                     'setFriendsList', self.sender, self.sender,
-                    self.air.ourChannel, [newList])
+                   self.air.ourChannel, [newList])
             self.air.send(dg)
             if self.alert:
                 dg = self.air.dclassesByName['DistributedToonUD'].aiFormatUpdate(
-                     'friendsNotify', self.sender, self.sender,
-                     self.air.ourChannel, [self.target, 1])
+                    'friendsNotify', self.sender, self.sender,
+                    self.air.ourChannel, [self.target, 1])
                 self.air.send(dg)
-            self.demand('Off')
-            return
+                self.demand('Off')
+                return
+  
 
         self.air.dbInterface.updateObject(self.air.dbId, self.sender,
             self.air.dclassesByName['DistributedToonUD'],
-            {'setFriendsList' : [newList]})
+            {'setFriendsList' : [newList], 'setTrueFriends' : [newTFList]})
         
         self.demand('Off')
 
