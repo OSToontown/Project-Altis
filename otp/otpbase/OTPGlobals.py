@@ -512,7 +512,7 @@ AvatarSlotUnavailable = -2
 AvatarSlotAvailable = -3
 
 TF_CODE_EXPIRE = 172800 # How long the code lasts for, 2 days
-TF_COOLDOWN = 86400
+TF_COOLDOWN = 300
 TF_MAX_TRIES = 5
 TF_UNKNOWN_CODE = 0
 TF_SELF_CODE = 2

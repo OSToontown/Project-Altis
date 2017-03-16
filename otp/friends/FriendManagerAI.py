@@ -225,22 +225,26 @@ class AddTrueFriend:
             return
         
         friendsList = fields['setFriendsList'][0]
-        trueFriendsList = fields['setTrueFriends'][0]
+        try:
+            trueFriendsList = fields['setTrueFriends'][0]
+        except:
+            trueFriendsList = []
         name = fields['setName'][0]
         avId = self.av.doId
         
         if avId in trueFriendsList:
             self.manager.sendUpdateToAvatarId(avId, 'trueFriendResponse', [OTPGlobals.TF_ALREADY_FRIENDS, name])
+            print('%s is already tf with %s (%s)'%(avId, self.targetId, name))
             return
         elif avId not in friendsList:
             if len(friendsList) >= OTPGlobals.MaxFriends:
                 self.manager.sendUpdateToAvatarId(avId, 'trueFriendResponse', [OTPGlobals.TF_FRIENDS_FULL_TARGET, ''])
                 return
             
-            friendsList.append(avId)
+            friendsList.append((avId, 0))
         
         if self.targetId not in self.av.getFriendsList():
-            self.av.extendFriendsList(self.targetId)
+            self.av.extendFriendsList(self.targetId, 0)
         
         if hasattr(self.manager, 'data'):
             del self.manager.data[self.code]
@@ -251,5 +255,6 @@ class AddTrueFriend:
         trueFriendsList.append(avId)
         self.air.send(dclass.aiFormatUpdate('setFriendsList', self.targetId, self.targetId, self.air.ourChannel, [friendsList]))
         self.air.send(dclass.aiFormatUpdate('setTrueFriends', self.targetId, self.targetId, self.air.ourChannel, [trueFriendsList]))
+        self.air.dbInterface.updateObject(self.air.dbId, self.targetId, self.air.dclassesByName['DistributedToonAI'], {'setFriendsList' : [friendsList], 'setTrueFriends' : [trueFriendsList]})
         self.manager.sendUpdateToAvatarId(avId, 'trueFriendResponse', [OTPGlobals.TF_SUCCESS, name])
         del self.manager.trueFriendFSMs[avId]

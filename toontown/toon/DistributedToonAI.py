@@ -589,11 +589,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getTrueFriendRequest(self):
         return self.trueFriendRequests
 
-    def extendFriendsList(self, friendId):
+    def extendFriendsList(self, friendId, type = 0):
         if friendId in self.friendsList:
             return
 
-        self.friendsList.append(friendId)
+        self.friendsList.append((friendId, type))
         self.air.questManager.toonMadeFriend(self)
 
         if self.air.wantAchievements:

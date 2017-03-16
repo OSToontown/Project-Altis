@@ -227,9 +227,11 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         fg = ToontownGlobals.ColorNoChat
         if flags & ToontownGlobals.FriendChat:
             fg = ToontownGlobals.ColorAvatar
+        if base.localAvatar.isTrueFriends(avId):
+            fg = ToontownGlobals.ColorAvatar
         if playerId:
             fg = ToontownGlobals.ColorPlayer
-        if colorChoice:
+        if colorChoice and not base.localAvatar.isTrueFriends(avId):
             fg = colorChoice
         fontChoice = ToontownGlobals.getToonFont()
         fontScale = 0.04

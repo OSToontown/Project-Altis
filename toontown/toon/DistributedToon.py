@@ -517,10 +517,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if base.localAvatar.sleepFlag == 1:
                 base.cr.ttaFriendsManager.d_sleepAutoReply(fromAV)
        
-        newText, scrubbed = self.scrubTalk(chat, mods)
-        if base.localAvatar.getAdminAccess() >= 375:
-            if chat != newText:
-                newText = (newText + " \1WLEnter\1(%s)\2" %chat)
+        newText, scrubbed = self.scrubTalk(chat, mods, fromAV)
         base.talkAssistant.receiveOpenTalk(fromAV, avatarName, fromAC, None, newText)
         self.displayTalk(newText)
 
@@ -543,7 +540,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if not base.cr.identifyAvatar(fromAV) == base.localAvatar:
                 base.cr.ttaFriendsManager.d_sleepAutoReply(fromAV)
         
-        newText, scrubbed = self.scrubTalk(chat, mods)
+        newText, scrubbed = self.scrubTalk(chat, mods, fromAV)
         self.displayTalkWhisper(fromAV, avatarName, chat, mods)
         timestamp = time.strftime('%m-%d-%Y %H:%M:%S', time.localtime())
         print ':%s: receiveWhisperTalk: %r, %r, %r, %r, %r, %r, %r' % (timestamp, fromAV, avatarName, fromAC, None, self.doId, self.getName(), newText)
@@ -2631,7 +2628,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                         reply.status = newStatus
                         break
 
-    def scrubTalk(self, message, mods):
+    def scrubTalk(self, message, mods, fromId):
         scrubbed = 0
         text = copy.copy(message)
         for mod in mods:
@@ -2639,7 +2636,25 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             length = mod[1] - mod[0] + 1
             newText = text[0:index] + length * '\x07' + text[index + length:]
             text = newText
-
+        hasTrueFriends = len(base.localAvatar.trueFriends) > 0
+        if base.localAvatar.isTrueFriends(fromId) or (fromId == base.localAvatar.doId and hasTrueFriends):
+            newText = []
+            for word in message.split(' '):
+                if not base.whiteList.isWord(word):
+                    newText.append('\x01WLDisplay\x01' + word + '\x02')
+                else:
+                    newText.append(word)
+            msg = ' '.join(newText)
+            return (msg, 1)
+        if base.localAvatar.getAdminAccess() >= 375:
+            newText = []
+            for word in message.split(' '):
+                if not base.whiteList.isWord(word):
+                    newText.append('\x01WLEnter\x01' + word + '\x02')
+                else:
+                    newText.append(word)
+            msg = ' '.join(newText)
+            return (msg, 1)
         words = text.split(' ')
         newwords = []
         for word in words:
@@ -2653,7 +2668,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             else:
                 flag = 0
                 for friendId, flags in self.friendsList:
-                    if not flags & ToontownGlobals.FriendChat:
+                    if not base.localAvatar.isTrueFriends(friendId):
                         flag = 1
 
                 if flag:
