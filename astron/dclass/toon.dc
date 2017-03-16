@@ -307,6 +307,9 @@ dclass FriendManager : DistributedObject {
   requestSecretResponse(int8, string);
   submitSecret(string(0-256)) airecv clsend;
   submitSecretResponse(int8, int32);
+  requestTrueFriendCode() airecv clsend;
+  useTrueFriendCode(string) airecv clsend;
+  trueFriendResponse(uint8, string);
 };
 
 struct FriendInfo {
@@ -966,6 +969,8 @@ dclass DistributedToon : DistributedPlayer {
   setBattleId(uint32 = 0) required broadcast ram;
   setToonExp(int32 exp = 0) required broadcast ownrecv db;
   setToonLevel(int32 level = 0) required broadcast ownrecv db;
+  setTrueFriends(uint32[] = []) ownrecv required db airecv;
+  setTrueFriendRequest(uint32[] = [0, 0]) ram airecv;
   setExperience(blob = [0*16]) required broadcast db;
   setMaxCarry(uint8 = 20) required ownrecv db;
   setTrackAccess(uint16[] = [0,0,0,0,1,1,0,0]) required broadcast ownrecv db;
