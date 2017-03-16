@@ -38,25 +38,25 @@ class DistributedPartyJukeboxActivityBaseAI(DistributedPartyActivityAI):
         for toon in self.toonsPlaying:
             self.sendUpdateToAvatarId(toon, 'setSongInQueue', [song])
         if not self.playing:
-            #stop default party music...
+            # Stop default party music...
             self.d_setSongPlaying([0, ''], 0)
             self.__startPlaying()
 
     def __startPlaying(self):
         if len(self.queue) == 0:
-            #start default party music!
-            self.d_setSongPlaying([13, 'party_original_theme.ogg'], 0)
+            # Dont play regular party music, bcaue estates and stuff, ill make a method to detect which one u are in late rbut screw that
+            self.d_setSongPlaying([0, ''], 0)
             self.playing = False
             return
         self.playing = True
 
-        #get song information....
+        # Get song information....
         details = self.queue.pop(0)
         owner = self.owners.pop(0)
 
         songInfo = self.music[details[0]][details[1]]
 
-        #play song!
+        # Play song!
         self.d_setSongPlaying(details, owner)
 
         taskMgr.doMethodLater(songInfo[1]*PartyGlobals.getMusicRepeatTimes(songInfo[1]), self.__pause, 'playSong%d' % self.doId, extraArgs=[])

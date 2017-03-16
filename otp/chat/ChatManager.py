@@ -314,18 +314,13 @@ class ChatManager(DirectObject.DirectObject):
             self.whisperScButton['state'] = 'inactive'
             self.whisperButton['state'] = 'inactive'
             self.changeFrameText(OTPLocalizer.ChatManagerWhisperOffline % chatName)
-        
+        if online and chatToToon:
+            if self.wantBackgroundFocus:
+                self.chatInputNormal.chatEntry['backgroundFocus'] = 1
+            self.acceptOnce('enterNormalChat', self.fsm.request, ['whisperChat', [avatarName, avatarId]])
         self.whisperFrame.show()
         self.refreshWhisperFrame()
-        if avatarUnderstandable or playerUnderstandable:
-            if playerId and not chatToToon:
-                if self.wantBackgroundFocus:
-                    self.chatInputNormal.chatEntry['backgroundFocus'] = 1
-                self.acceptOnce('enterNormalChat', self.fsm.request, ['whisperChatPlayer', [avatarName, playerId]])
-            elif online and chatToToon:
-                if self.wantBackgroundFocus:
-                    self.chatInputNormal.chatEntry['backgroundFocus'] = 1
-                self.acceptOnce('enterNormalChat', self.fsm.request, ['whisperChat', [avatarName, avatarId]])
+
 
     def disablewhisperButton(self):
         pass
@@ -340,6 +335,9 @@ class ChatManager(DirectObject.DirectObject):
         self.whisperFrame['text'] = newText
 
     def exitWhisper(self):
+        if base.wantCustomControls:
+            base.localAvatar.controlManager.enableWASD()
+        self.chatInputNormal.deactivate()
         self.whisperFrame.hide()
         self.ignore('enterNormalChat')
         self.chatInputNormal.chatEntry['backgroundFocus'] = 0
@@ -365,10 +363,14 @@ class ChatManager(DirectObject.DirectObject):
         self.chatInputSpeedChat.hide()
 
     def enterWhisperChat(self, avatarName, avatarId):
+        if base.wantCustomControls:
+            base.localAvatar.controlManager.disableWASD()
         result = self.chatInputNormal.activateByData(avatarId)
         return result
 
     def exitWhisperChat(self):
+        if base.wantCustomControls:
+            base.localAvatar.controlManager.enableWASD()
         self.chatInputNormal.deactivate()
 
     def enterWhisperChatPlayer(self, avatarName, playerId):
@@ -522,6 +524,10 @@ class ChatManager(DirectObject.DirectObject):
     def reloadWASD(self):
         self.wantBackgroundFocus = not base.wantCustomControls
         if self.wantBackgroundFocus:
+            self.ignore(base.CHAT_HOTKEY)
             self.chatInputNormal.chatEntry['backgroundFocus'] = 1
         else:
             self.chatInputNormal.chatEntry['backgroundFocus'] = 0
+            
+    def disableBackgroundFocus(self):
+        self.chatInputNormal.chatEntry['backgroundFocus'] = 0

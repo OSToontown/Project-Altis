@@ -15,6 +15,9 @@ globalAvatarDetail = None
 
 def showAvatarDetail(avId, avName, playerId = None):
     global globalAvatarDetail
+    if globalAvatarDetail:
+        if globalAvatarDetail.avId == avId:
+            return
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None

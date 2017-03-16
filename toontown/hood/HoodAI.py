@@ -35,8 +35,7 @@ class HoodAI:
             dnaData = simbase.air.loadDNAFileAI(dnaStore, dnaFileName)
             self.air.dnaStoreMap[zoneId] = dnaStore
             self.air.dnaDataMap[zoneId] = dnaData
-        self.createTime()
-        #self.createRain()
+        self.createRain()
 
     def getZoneTable(self):
         zoneTable = [self.zoneId]
@@ -205,6 +204,6 @@ class HoodAI:
             
     def createRain(self):
         for zoneId in self.getZoneTable():
-            self.rainMgr = DistributedRainManagerAI.DistributedRainManagerAI(self.air)
+            self.rainMgr = DistributedRainManagerAI.DistributedRainManagerAI(self.air, zoneId)
             self.rainMgr.generateWithRequired(zoneId)
             self.notify.info('Rain Manager turned on for zone ' + str(zoneId))

@@ -2,11 +2,13 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from datetime import datetime
 from HolidayGlobals import *
+from direct.showbase.DirectObject import DirectObject
 
-class HolidayManagerAI():
+class HolidayManagerAI(DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('HolidayManagerAI')
 
     def __init__(self, air):
+        DirectObject.__init__(self)
         self.air = air
         self.currentHolidays = []
         self.xpMultiplier = 3 # for the rest of alpha if 5x isnt enabled
@@ -92,18 +94,36 @@ class HolidayManagerAI():
     def startHoliday(self, holidayId):
         if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
             self.air.newsManager.setMoreXpHolidayStart()
+        if holidayId == ToontownGlobals.TROLLEY_HOLIDAY:
+            simbase.air.trolleyHolidayMgr.start()
+        if holidayId == ToontownGlobals.IDES_OF_MARCH:
+            messenger.send('startIdes')
     
     def removeHoliday(self, holidayId):
         if self.holidayId in self.currentHolidays:
             self.currentHolidays.remove(holidayId)
+        if holidayId == ToontownGlobals.IDES_OF_MARCH:
+            messenger.send('endIdes')
         simbase.air.newsManager.d_setHolidayIdList([self.currentHolidays])
         
     def endHoliday(self, holidayId):
         if holidayId == ToontownGlobals.MORE_XP_HOLIDAY:
             self.xpMultiplier = 3 # for the rest of alpha if 5x isnt enabled
             self.air.newsManager.setMoreXpHolidayEnd()
+        if holidayId == ToontownGlobals.TROLLEY_HOLIDAY:
+            simbase.air.trolleyHolidayMgr.stop()
 
     def checkForHoliday(self, task):
+        for holiday in WEEKLY_HOLIDAYS:
+            holidayId = holiday[0]
+            day = holiday[1]
+            now = datetime.now()
+            if now.weekday == day and holidayId not in self.currentHolidays:
+                self.addHoliday(holidayId)
+                self.startHoliday(holidayId)
+            elif now.weekday != day and holidayId in self.currentHolidays:
+                self.removeHoliday(holidayId)
+                self.endHoliday(holidayId)
         for holiday in YEARLY_HOLIDAYS:
             holidayId = holiday[0]
             now = datetime.now()

@@ -157,6 +157,12 @@ class DistributedAvatar(DistributedActor, Avatar):
 
         return Avatar.setName(self, name)
 
+    def getToonTag(self):
+        return Avatar.getToonTag(self)
+
+    def setToonTag(self, tag):
+        return Avatar.setToonTag(self, tag)
+
     def showHpText(self, number, bonus = 0, scale = 1):
         if self.HpTextEnabled and not self.ghostMode:
             if number != 0:
@@ -252,7 +258,7 @@ class DistributedAvatar(DistributedActor, Avatar):
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def warp():
     """
-    warp the target to the invoker's current position, and rotation.
+    Warp the target to the invoker's current position, and rotation.
     """
     invoker = spellbook.getInvoker()
     target = spellbook.getTarget()
@@ -264,7 +270,7 @@ def warp():
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def loop(anim):
     """
-    animate the target using animation [anim] on the entire actor.
+    Animate the target using animation [anim] on the entire actor.
     """
     target = spellbook.getTarget()
     target.loop(anim)
@@ -273,7 +279,7 @@ def loop(anim):
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str, int, str])
 def pose(anim, frame, part=None):
     """
-    freeze the target on frame [frame] of animation [anim] on the entire actor,
+    Freeze the target on frame [frame] of animation [anim] on the entire actor,
     or optional [part] of the actor.
     """
     target = spellbook.getTarget()
@@ -283,7 +289,7 @@ def pose(anim, frame, part=None):
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str, int, int, str])
 def pingpong(anim, start=None, end=None, part=None):
     """
-    animate the target by bouncing back and forth between the start and end, or
+    Animate the target by bouncing back and forth between the start and end, or
     the optional frames <start>, and [end] of animation [anim] on the entire
     actor, or optional <part> of the actor.
     """
@@ -293,7 +299,7 @@ def pingpong(anim, start=None, end=None, part=None):
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def rightHand(prop=None):
     """
-    parents the optional <prop> to the target's right hand node.
+    Parents the optional <prop> to the target's right hand node.
     """
     target = spellbook.getTarget()
     rightHand = target.find('**/rightHand')
@@ -309,7 +315,7 @@ def rightHand(prop=None):
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def leftHand(prop=None):
     """
-    parents the optional <prop> to the target's left hand node.
+    Parents the optional <prop> to the target's left hand node.
     """
     target = spellbook.getTarget()
     leftHand = target.find('**/leftHand')

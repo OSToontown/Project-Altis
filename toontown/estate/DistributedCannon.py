@@ -65,7 +65,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
     DOWN_KEY = base.MOVE_DOWN
     LEFT_KEY = base.MOVE_LEFT
     RIGHT_KEY = base.MOVE_RIGHT
-    BUMPER_KEY = 'delete'
+    BUMPER_KEY = base.ACTION_BUTTON
     BUMPER_KEY2 = 'insert'
     INTRO_TASK_NAME = 'CannonGameIntro'
     INTRO_TASK_NAME_CAMERA_LERP = 'CannonGameIntroCamera'
@@ -254,7 +254,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
                 base.cr.playGame.getPlace().setState('fishing')
                 base.localAvatar.setTeleportAvailable(0)
                 base.localAvatar.collisionsOff()
-                base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 0)
+                base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 0)
                 base.setCellsActive([base.rightCells[1]], 0)
                 self.localToonShooting = 1
                 self.__makeGui()
@@ -271,7 +271,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             else:
                 self.notify.warning('Unknown avatar %d in cannon %d' % (self.avId, self.doId))
         if wasLocalToon and not self.localToonShooting:
-            base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 1)
+            base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 1)
             base.setCellsActive([base.rightCells[1]], 1)
 
     def __avatarGone(self):
@@ -466,7 +466,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         tag.setBillboardOffset(0)
         tag.setAvatar(self.toonHead)
         toon.nametag.add(tag)
-        tagPath = self.toonHead.attachNewNode(tag.upcastToPandaNode())
+        tagPath = self.toonHead.attachNewNode(tag)
         tagPath.setPos(0, 0, 1)
         self.toonHead.tag = tag
         self.__loadToonInCannon()
@@ -516,7 +516,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.cannonPosition[0] = zRot
         self.cannonPosition[1] = angle
         self.__updateCannonPosition(avId)
-        task = Task(self.__fireCannonTask)
+        task = PythonTask(self.__fireCannonTask)
         task.avId = avId
         ts = globalClockDelta.localElapsedTime(timestamp)
         task.fireTime = fireTime - ts
@@ -670,7 +670,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.upPressed = 0
         self.downPressed = 0
         self.cannonMoving = 0
-        task = Task(self.__localCannonMoveTask)
+        task = PythonTask(self.__localCannonMoveTask)
         task.lastPositionBroadcastTime = 0.0
         taskMgr.add(task, self.LOCAL_CANNON_MOVE_TASK)
 
@@ -830,9 +830,9 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.handler.setInPattern(self.uniqueName('cannonHit'))
         base.cTrav.addCollider(self.flyColNodePath, self.handler)
         self.accept(self.uniqueName('cannonHit'), self.__handleCannonHit)
-        shootTask = Task(self.__shootTask, self.taskNameShoot)
-        smokeTask = Task(self.__smokeTask, self.taskNameSmoke)
-        flyTask = Task(self.__flyTask, self.taskNameFly)
+        shootTask = PythonTask(self.__shootTask, self.taskNameShoot)
+        smokeTask = PythonTask(self.__smokeTask, self.taskNameSmoke)
+        flyTask = PythonTask(self.__flyTask, self.taskNameFly)
         shootTask.info = info
         flyTask.info = info
         seqTask = Task.sequence(shootTask, smokeTask, flyTask)
@@ -1232,7 +1232,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             for id in doIds:
                 t = self.cr.doId2do.get(id)
                 if t:
-                    pos = t.pos
+                    pos = t.nodePath.getPos()
                     rad = 10.5
                     height = 10.0
                     t_impact = trajectory.checkCollisionWithCylinderSides(pos, rad, height)

@@ -37,7 +37,7 @@ class BattleCalculatorAI:
         self.battle = battle
         self.SuitAttackers = {}
         self.currentlyLuredSuits = {}
-        self.currentlyWetSuits = []
+        self.currentlyWetSuits = {}
         self.successfulLures = {}
         self.toonAtkOrder = []
         self.toonHPAdjusts = {}
@@ -45,6 +45,8 @@ class BattleCalculatorAI:
         self.traps = {}
         self.npcTraps = {}
         self.suitAtkStats = {}
+        self.roundsToonsHit = 0
+        self.roundsCogsMiss = 0
         self.__clearBonuses(hp=1)
         self.__clearBonuses(hp=0)
         self.delayedUnlures = []
@@ -169,6 +171,13 @@ class BattleCalculatorAI:
             elif treebonus or propBonus:
                 self.notify.debug('using oragnic OR prop bonus lure accuracy')
                 propAcc = AvLureBonusAccuracy[atkLevel]
+        if atkTrack == ZAP:
+            for tgt in atkTargets:
+                if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
+                    propAcc += 20
+                    break
+                else:
+                    continue
         attackAcc = propAcc + trackExp + tgtDef
         currAtk = self.toonAtkOrder.index(attackIndex)
         if currAtk > 0 and atkTrack != HEAL:
@@ -494,11 +503,11 @@ class BattleCalculatorAI:
                 if attack[TOON_TRACK_COL] == NPCSOS and lureDidDamage != 1 or attack[TOON_TRACK_COL] == PETSOS:
                     attackDamage = atkHp
                     if atkTrack == ZAP:
-                        if self.__isWet(targetId) == 1:
+                        if self.__isWet(targetId) or self.__isRaining(toon):
                             if random.randint(0,99) <= InstaKillChance[atkLevel]:
                                 suit = self.battle.findSuit(targetId)
-                                if suit.getHP() > 500:
-                                    attackDamage = 500
+                                if suit.getHP() > 350:
+                                    attackDamage = 350
                                 else:
                                     suit.b_setSkeleRevives(0)
                                     attackDamage = suit.getHP()
@@ -508,6 +517,10 @@ class BattleCalculatorAI:
                         if self.__suitIsLured(targetId):
                             tgtPos = self.battle.activeSuits.index(targetList[currTarget])
                             attack[TOON_KBBONUS_COL][tgtPos] = atkHp * 0.5
+                    if atkTrack == FIRE:
+                        suit = self.battle.findSuit(targetId)
+                        suit.b_setSkeleRevives(0)
+                        attackDamage  = suit.getHP()
                 elif atkTrack == FIRE:
                     suit = self.battle.findSuit(targetId)
                     if suit:
@@ -528,14 +541,15 @@ class BattleCalculatorAI:
                     bonus = 0
                 elif atkTrack == SQUIRT:
                     if targetId not in self.currentlyWetSuits:
-                        self.currentlyWetSuits.append(targetId)	
+                        rounds = NumRoundsWet[attackLevel]
+                        self.__addWetSuitInfo(targetId, -1, rounds)
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
                     attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
                 elif atkTrack == ZAP:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
-                    if self.__isWet(targetId) == 1:
+                    if self.__isWet(targetId) or self.__isRaining(self.battle.getToon(toonId)):
                         if random.randint(0,99) <= InstaKillChance[atkLevel]:
                             suit = self.battle.findSuit(targetId)
                             if suit.getHP() > 500:
@@ -543,6 +557,7 @@ class BattleCalculatorAI:
                             else:
                                 suit.b_setSkeleRevives(0)
                                 attackDamage = suit.getHP()
+                            targetList
                         else:
                             attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 2
                     else:
@@ -637,12 +652,31 @@ class BattleCalculatorAI:
 
             return 0
 			
+    def __addWetSuitInfo(self, suitId, currRounds, maxRounds):
+        self.currentlyWetSuits[suitId] = [currRounds, maxRounds,]
+        self.notify.debug('__addWetSuitInfo: currWetSuits -> %s' % repr(self.currentlyWetSuits))
+			
     def __isWet(self, suit):
         if suit in self.currentlyWetSuits:
-            return 1
+            return True
         else:
-            return 0
-
+            return False
+			
+    def __isRaining(self, toon):
+        if simbase.air.isRaining == True and self.checkIfStreetZone(toon):
+            return True
+        else:
+            return False
+	   
+    def checkIfStreetZone(self, toon):
+	try:
+            if ZoneUtil.getWhereName(toon.zoneId, True) == 'street':
+                return True
+            else:
+                return False
+	except:
+            return False
+    
     def __attackDamageForTgt(self, attack, tgtPos, suit = 0):
         if suit:
             return attack[SUIT_HP_COL][tgtPos]
@@ -1092,7 +1126,7 @@ class BattleCalculatorAI:
     def __unlureAtk(self, attackIndex, toon = 1):
         attack = self.battle.toonAttacks[attackIndex]
         track = self.__getActualTrack(attack)
-        if toon and (track == THROW or track == SQUIRT or track == SOUND or track == ZAP):
+        if toon and (track == THROW or track == SQUIRT or track == SOUND):
             if self.notify.getDebug():
                 self.notify.debug('attack is an unlure')
             return 1
@@ -1321,6 +1355,22 @@ class BattleCalculatorAI:
 
         if self.notify.getDebug():
             self.notify.debug('Lured suits: ' + str(self.currentlyLuredSuits))
+			
+    def __updateWetTimeouts(self):
+        if self.notify.getDebug():
+            self.notify.debug('__updateWetTimeouts()')
+            self.notify.debug('Wet suits: ' + str(self.currentlyWetSuits))
+        noLongerWet = []
+        for currentlyWetSuit in self.currentlyWetSuits.keys():
+            self.__incWetCurrRound(currentlyWetSuit)
+            if self.__wetMaxRoundsReached(currentlyWetSuit):
+                noLongerWet.append(currentlyWetSuit)
+
+        for currentlyWetSuit in noLongerWet:
+            self.__removeWet(currentlyWetSuit)
+
+        if self.notify.getDebug():
+            self.notify.debug('Wet suits: ' + str(self.currentlyWetSuits))
 
     def __initRound(self):
         if CLEAR_SUIT_ATTACKERS:
@@ -1354,13 +1404,27 @@ class BattleCalculatorAI:
         toonsHit = 0
         cogsMiss = 0
         for special in specials:
-            npc_track = NPCToons.getNPCTrack(special[TOON_TGT_COL])
+            npc_track, rounds = NPCToons.getNPCTrackHp(special[TOON_TGT_COL])
             if npc_track == NPC_TOONS_HIT:
-                BattleCalculatorAI.toonsAlwaysHit = 1
-                toonsHit = 1
+                if self.roundsToonsHit < rounds:
+                    self.roundsToonsHit = rounds
+                    BattleCalculatorAI.toonsAlwaysHit = 1
+                    toonsHit = 1
+                else:
+                    BattleCalculatorAI.toonsAlwaysHit = 1
+                    toonsHit = 1
             elif npc_track == NPC_COGS_MISS:
-                BattleCalculatorAI.suitsAlwaysMiss = 1
-                cogsMiss = 1
+                if self.roundsCogsMiss < rounds:
+                    self.roundsCogsMiss = rounds
+                    BattleCalculatorAI.suitsAlwaysMiss = 1
+                    cogsMiss = 1
+                else:
+                    BattleCalculatorAI.suitsAlwaysMiss = 1
+                    cogsMiss = 1
+        if self.roundsToonsHit > 0:
+           toonsHit =1
+        if self.roundsCogsMiss > 0:
+           cogsMiss =1
 
         if self.notify.getDebug():
             self.notify.debug('Toon attack order: ' + str(self.toonAtkOrder))
@@ -1402,15 +1466,19 @@ class BattleCalculatorAI:
 
         self.__calculateToonAttacks()
         self.__updateLureTimeouts()
+        self.__updateWetTimeouts()
         self.__calculateSuitAttacks()
-        if toonsHit == 1:
+        if self.roundsToonsHit > 0:
+            self.roundsToonsHit -= 1
+        if self.roundsCogsMiss > 0:
+            self.roundsCogsMiss -= 1
+        if toonsHit == 1 and self.roundsToonsHit <= 0:
             BattleCalculatorAI.toonsAlwaysHit = 0
-        if cogsMiss == 1:
+        if cogsMiss == 1 and self.roundsCogsMiss <= 0:
             BattleCalculatorAI.suitsAlwaysMiss = 0
         if self.notify.getDebug():
             self.notify.debug('Toon skills gained after this round: ' + repr(self.toonSkillPtsGained))
             self.__printSuitAtkStats()
-        self.currentlyWetSuits = []
         
 
     def __calculateFiredCogs():
@@ -1478,6 +1546,10 @@ class BattleCalculatorAI:
         inList = suitId in self.currentlyLuredSuits
         if prevRound:
             return inList and self.currentlyLuredSuits[suitId][0] != -1
+        return inList
+		
+    def __suitIsWet(self, suitId, prevRound = 0):
+        inList = suitId in self.currentlyWetSuits
         return inList
 
     def __findAvailLureId(self, lurerId):
@@ -1571,6 +1643,17 @@ class BattleCalculatorAI:
 
     def __luredMaxRoundsReached(self, suitId):
         return self.__suitIsLured(suitId) and self.currentlyLuredSuits[suitId][0] >= self.currentlyLuredSuits[suitId][1]
+		
+    def __incWetCurrRound(self, suitId):
+        if self.__suitIsWet(suitId):
+            self.currentlyWetSuits[suitId][0] += 1
+
+    def __removeWet(self, suitId):
+        if self.__suitIsWet(suitId):
+            del self.currentlyWetSuits[suitId]
+
+    def __wetMaxRoundsReached(self, suitId):
+        return self.__suitIsWet(suitId) and self.currentlyWetSuits[suitId][0] >= self.currentlyWetSuits[suitId][1]
 
     def __luredWakeupTime(self, suitId):
         return self.__suitIsLured(suitId) and self.currentlyLuredSuits[suitId][0] > 0 and random.randint(0, 99) < self.currentlyLuredSuits[suitId][2]

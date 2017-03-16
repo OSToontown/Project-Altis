@@ -17,7 +17,7 @@ class CogPageManagerAI:
         cogCounts = toon.cogCounts
         cogs = toon.cogs
         for cog in killedCogs:
-            if cog['isSkelecog'] or cog['isVP'] or cog['isCFO']:
+            if cog['isSkelecog'] or cog['isBoss']:
                 continue
             if toon.getDoId() in cog['activeToons']:
                 deptIndex = SuitDNA.suitDepts.index(cog['track'])
@@ -27,7 +27,7 @@ class CogPageManagerAI:
                 buildingQuota = COG_QUOTAS[1][cogIndex % SuitDNA.suitsPerDept]
                 cogQuota = COG_QUOTAS[0][cogIndex % SuitDNA.suitsPerDept]
                 if cogCounts[cogIndex] >= buildingQuota:
-                    return
+                    continue
                 cogCounts[cogIndex] += 1
                 if cogCounts[cogIndex] < cogQuota:
                     cogs[cogIndex] = COG_DEFEATED
@@ -39,7 +39,7 @@ class CogPageManagerAI:
         toon.b_setCogStatus(cogs)
         newCogRadar = toon.cogRadar
         newBuildingRadar = toon.buildingRadar
-        for dept in xrange(len(SuitDNA.suitDepts)-1):
+        for dept in xrange(len(SuitDNA.suitDepts)):
             if newBuildingRadar[dept] == 1:
                 continue
             cogRadar = 1
@@ -48,8 +48,8 @@ class CogPageManagerAI:
                 status =  toon.cogs[dept*SuitDNA.suitsPerDept + cog]
                 if status != COG_COMPLETE2:
                     buildingRadar = 0
-                if status != COG_COMPLETE1 or status != COG_COMPLETE2:
-                    cogRadar = 0
+                    if status != COG_COMPLETE1:
+                        cogRadar = 0
             newCogRadar[dept] = cogRadar
             newBuildingRadar[dept] = buildingRadar
         toon.b_setCogRadar(newCogRadar)

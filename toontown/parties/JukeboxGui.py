@@ -1,8 +1,8 @@
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
-from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel
-from direct.gui.DirectGui import DirectScrolledListItem, DirectScrolledList
-from direct.gui import DirectGuiGlobals
+from toontown.pgui.DirectGui import DirectFrame, DirectButton, DirectLabel
+from toontown.pgui.DirectGui import DirectScrolledListItem, DirectScrolledList
+from toontown.pgui import DirectGuiGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.parties import PartyUtils
 

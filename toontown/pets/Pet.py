@@ -71,7 +71,6 @@ class Pet(Avatar.Avatar):
         self.soundTeleportIn = None
         self.soundTeleportOut = None
         self.teleportHole = None
-        return
 
     def isPet(self):
         return True
@@ -301,7 +300,6 @@ class Pet(Avatar.Avatar):
         if self.moodModel:
             self.moodModel.hide()
         self.moodModel = None
-        return
 
     def showMood(self, mood):
         #if base.cr.newsManager.isHolidayRunning(ToontownGlobals.APRIL_TOONS_WEEK) and mood != 'confusion':
@@ -328,7 +326,6 @@ class Pet(Avatar.Avatar):
         Sequence(
             self.moodModel.scaleInterval(.2, VBase3(1.1, 1.1, 1.1), blendType = 'easeInOut'),
             self.moodModel.scaleInterval(.09, VBase3(1, 1, 1), blendType = 'easeInOut')).start()
-        return
 
     def speakMood(self, mood):
         self.setChatAbsolute(random.choice(TTLocalizer.SpokenMoods[mood]), CFSpeech)
@@ -636,7 +633,6 @@ class Pet(Avatar.Avatar):
         if not self.lockedDown:
             self.animFSM.request(self.prevAnimState)
             self.prevAnimState = None
-        return
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]

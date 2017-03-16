@@ -1,25 +1,19 @@
-import math
-import random
-import time
-from pandac.PandaModules import TextNode, BitMask32, Point3, Vec3, Vec4, deg2Rad, Mat3, NodePath, VBase4, OdeTriMeshData, OdeTriMeshGeom, OdeRayGeom, CollisionTraverser, CollisionSegment, CollisionNode, CollisionHandlerQueue
+import math, random, time
+from panda3d.core import TextNode, BitMask32, Point3, Vec3, Vec4, deg2Rad, Mat3, NodePath, VBase4, CollisionTraverser, CollisionSegment, CollisionNode, CollisionHandlerQueue
+from panda3d.ode import OdeTriMeshData, OdeTriMeshGeom, OdeRayGeom
+from direct.actor import Actor
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
-from otp.otpbase import OTPGlobals
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownTimer
 from direct.gui.DirectGui import DirectWaitBar, DGG, DirectLabel
+from direct.interval.IntervalGlobal import *
 from direct.task import Task
 from direct.fsm.FSM import FSM
-from toontown.minigame import ArrowKeys
-from toontown.toonbase import ToonPythonUtil as PythonUtil
-from toontown.golf import BuildGeometry
-from toontown.golf import DistributedPhysicsWorld
-from toontown.golf import GolfGlobals
-from direct.interval.IntervalGlobal import Sequence, Parallel, LerpScaleInterval, LerpFunctionInterval, Func, Wait, SoundInterval, ParallelEndTogether, LerpPosInterval, ActorInterval, LerpPosHprInterval, LerpColorScaleInterval, WaitInterval
-from direct.actor import Actor
-from toontown.golf import GolfHoleBase
+from otp.otpbase import OTPGlobals
 from toontown.distributed import DelayDelete
+from toontown.minigame import ArrowKeys
+from toontown.toonbase import ToontownGlobals, TTLocalizer, TTLocalizer, ToontownTimer
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from toontown.golf import BuildGeometry, DistributedPhysicsWorld, GolfGlobals, GolfHoleBase
 
 class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, GolfHoleBase.GolfHoleBase):
     defaultTransitions = {'Off': ['Cleanup', 'ChooseTee', 'WatchTee'],
@@ -112,7 +106,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             self.__textGen.setGlyphScale(0.7)
         self.avIdList = []
         self.enterAimStart = 0
-        return
 
     def generate(self):
         self.notify.debug('Hole Generate')
@@ -182,7 +175,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             self.ballShadowDict[key].removeNode()
 
         self.dropShadowModel.removeNode()
-        return
 
     def sendReady(self):
         self.sendUpdate('setAvatarReadyHole', [])
@@ -391,7 +383,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         self.dropShadowModel.setColor(0, 0, 0, 0.5)
         self.dropShadowModel.flattenMedium()
         self.dropShadowModel.hide()
-        return
 
     def switchToAnimState(self, animStateName, forced = False):
         curAnimState = base.localAvatar.animFSM.getCurrentState()
@@ -509,7 +500,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         self.swingInfoSent = True
         if self.power < 15 and self.golfCourse.scores[localAvatar.doId][self.golfCourse.curHoleIndex] == 0:
             self.powerReminder = DirectLabel(text=TTLocalizer.GolfPowerReminder, text_shadow=(0, 0, 0, 1), text_fg=VBase4(1, 1, 0.0, 1), text_align=TextNode.ACenter, relief=None, pos=(0, 0, 0.8), scale=0.12)
-        return
 
     def updateWarning(self):
         retval = False
@@ -643,7 +633,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         self.skyContact = 1
         self.localToonHitControl = False
         self._adjustCamera()
-        return
 
     def exitAim(self):
         localAvatar.wrtReparentTo(render)
@@ -662,14 +651,12 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         if self.aimInstructions:
             self.aimInstructions.destroy()
             self.aimInstructions = None
-        return
 
     def timerExpired(self):
         taskMgr.remove(self.golfPowerTaskName)
         self.aimStart = None
         self.sendSwingInfo()
         self.resetPowerBar()
-        return
 
     def _adjustCamera(self, task=None, first=True):
         if task is None and first:
@@ -750,7 +737,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             self.teeTimer.countdown(self.chooseTeeDuration, self.teeTimerExpired)
         self.teeInstructions = DirectLabel(text=TTLocalizer.GolfChooseTeeInstructions, text_fg=VBase4(1, 1, 1, 1), text_align=TextNode.ACenter, text_shadow=(0, 0, 0, 1), relief=None, pos=(0, 0, -0.75), scale=TTLocalizer.DGHteeInstructions)
         self.powerBar.hide()
-        return
 
     def exitChooseTee(self):
         localAvatar.wrtReparentTo(render)
@@ -764,7 +750,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             self.teeTimer.destroy()
             self.teeTimer = None
         self.powerBar.show()
-        return
 
     def sendTeeInfo(self):
         self.sendUpdate('setAvatarTee', [self.localTempTee])
@@ -859,7 +844,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         if self.playBackDelayDelete:
             self.playBackDelayDelete.destroy()
             self.playBackDelayDelete = None
-        return
 
     def enterPlayback(self):
 
@@ -1017,7 +1001,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         if self.powerReminder:
             self.powerReminder.destroy()
             self.powerReminder = None
-        return
 
     def setLookingAtPutt(self, newVal):
         self.isLookingAtPutt = newVal
@@ -1227,7 +1210,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             self.sfxInterval.pause()
             self.sfxInterval = None
         self.cleanupGeom()
-        return
 
     def exitCleanup(self):
         pass
@@ -1343,7 +1325,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
     def __gotGolfCourse(self, golfCourse):
         self.golfCourseRequest = None
         self.golfCourse = golfCourse
-        return
 
     def __genText(self, text):
         self.__textGen.setText(text)
@@ -1385,7 +1366,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         messenger.send('wakeup')
         self.scoreBoard.hide()
         taskMgr.add(self.__updateGolfPower, self.golfPowerTaskName)
-        return
 
     def __endTossGolf(self):
         if self.aimStart == None:
@@ -1397,7 +1377,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         self.aimStart = None
         self.sendSwingInfo()
         self.resetPowerBar()
-        return
 
     def __updateGolfPower(self, task):
         if not self.powerBar:
@@ -1627,7 +1606,6 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
          fpsTime,
          self.frame))
         self.ballMovie2Client(cycleTime, avId, self.recording, self.aVRecording, self.ballInHoleFrame, self.ballTouchedHoleFrame, self.ballFirstTouchedHoleFrame)
-        return
 
     def handleBallHitNonGrass(self, c0, c1):
         if not self.inPlayBack:

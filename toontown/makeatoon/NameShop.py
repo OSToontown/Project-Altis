@@ -36,7 +36,7 @@ class NameShop(StateData.StateData):
 
     def __init__(self, makeAToon, doneEvent, avList, index, isPaid):
         StateData.StateData.__init__(self, doneEvent)
-        self.wantTypeAName = False
+        self.wantTypeAName = True
         self.makeAToon = makeAToon
         self.isPaid = isPaid
         self.avList = avList
@@ -700,7 +700,10 @@ class NameShop(StateData.StateData):
         self.nameResult['text'] = self.names[0]
 
     def findTempName(self):
-        colorstring = TTLocalizer.NumToColor[self.toon.style.headColor]
+        try:
+            colorstring = TTLocalizer.NumToColor[self.toon.style.headColor]
+        except:
+            colorstring = "Colorful"
         animaltype = TTLocalizer.AnimalToSpecies[self.toon.style.getAnimal()]
         tempname = colorstring + ' ' + animaltype
         if not TTLocalizer.NScolorPrecede:

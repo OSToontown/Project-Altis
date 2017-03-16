@@ -53,7 +53,6 @@ class Movie(DirectObject.DirectObject):
         self.reset()
         self.rewardHasBeenReset = 0
         self.resetReward()
-        return
 
     def cleanup(self):
         self.reset()
@@ -66,7 +65,6 @@ class Movie(DirectObject.DirectObject):
             self.rewardPanel.cleanup()
         self.rewardPanel = None
         self.rewardCallback = None
-        return
 
     def needRestoreColor(self):
         self.restoreColor = 1
@@ -107,7 +105,6 @@ class Movie(DirectObject.DirectObject):
             self.renderProps.remove(prop)
 
     def restore(self):
-        return
         for toon in self.battle.activeToons:
             toon.loop('neutral')
             origPos, origHpr = self.battle.getActorPosHpr(toon)
@@ -185,13 +182,11 @@ class Movie(DirectObject.DirectObject):
             MovieUtil.removeProp(prop)
 
         self.renderProps = []
-        return
 
     def _deleteTrack(self):
         if self.track:
             DelayDelete.cleanupDelayDeletes(self.track)
             self.track = None
-        return
 
     def reset(self, finish = 0):
         if self.hasBeenReset == 1:
@@ -225,7 +220,6 @@ class Movie(DirectObject.DirectObject):
         if self.rewardPanel != None:
             self.rewardPanel.destroy()
         self.rewardPanel = None
-        return
 
     def play(self, ts, callback):
         self.hasBeenReset = 0
@@ -263,11 +257,9 @@ class Movie(DirectObject.DirectObject):
             self.track.delayDeletes.append(DelayDelete.DelayDelete(toon, 'Movie.play'))
 
         self.track.start(ts)
-        return None
 
     def finish(self):
         self.track.finish()
-        return None
 
     def playReward(self, ts, name, callback, noSkip = False):
         self.rewardHasBeenReset = 0
@@ -292,7 +284,6 @@ class Movie(DirectObject.DirectObject):
         skipper.setIvals((self.track,), 0.0)
         skipper.setBattle(self.battle)
         self.track.start(ts)
-        return None
 
     def playTutorialReward(self, ts, name, callback):
         self.rewardHasBeenReset = 0
@@ -323,7 +314,6 @@ class Movie(DirectObject.DirectObject):
         self.track += self.rewardPanel.getTrackIntervalList(base.localAvatar, THROW_TRACK, 0, 1, 0)
         self.track.append(Func(self.tutRewardDialog_1.show))
         self.track.start()
-        return
 
     def playTutorialReward_2(self, value):
         self.tutRewardDialog_1.cleanup()
@@ -335,7 +325,6 @@ class Movie(DirectObject.DirectObject):
         self.track += self.rewardPanel.getTrackIntervalList(base.localAvatar, SQUIRT_TRACK, 0, 1, 0)
         self.track.append(Func(self.tutRewardDialog_2.show))
         self.track.start()
-        return
 
     def playTutorialReward_3(self, value):
         self.tutRewardDialog_2.cleanup()
@@ -379,7 +368,6 @@ class Movie(DirectObject.DirectObject):
             self.track1.start()
         else:
             self.playTutorialReward_4(0)
-        return
 
     def playTutorialReward_4(self, value):
         base.localAvatar.setH(270)
@@ -387,7 +375,6 @@ class Movie(DirectObject.DirectObject):
         self.tutorialTom.delete()
         self.questList = None
         self.rewardCallback()
-        return
 
     def stop(self):
         if self.track:
@@ -406,7 +393,6 @@ class Movie(DirectObject.DirectObject):
             self.rewardPanel.hide()
         if self.playByPlayText:
             self.playByPlayText.hide()
-        return
 
     def __doToonAttacks(self):
         if base.config.GetBool('want-toon-attack-anims', 1):
@@ -467,7 +453,6 @@ class Movie(DirectObject.DirectObject):
                 return (track, camTrack)
         else:
             return (None, None)
-        return None
 
     def genRewardDicts(self, id0, origExp0, earnedExp0, origQuests0, items0, missedItems0, origMerits0, merits0, parts0, id1, origExp1, earnedExp1, origQuests1, items1, missedItems1, origMerits1, merits1, parts1, id2, origExp2, earnedExp2, origQuests2, items2, missedItems2, origMerits2, merits2, parts2, id3, origExp3, earnedExp3, origQuests3, items3, missedItems3, origMerits3, merits3, parts3, deathList, uberList, helpfulToonsList):
         self.deathList = deathList
@@ -795,7 +780,7 @@ class Movie(DirectObject.DirectObject):
         setCapture = 0
         tp = []
         for ta in self.toonAttackDicts:
-            if ta['track'] == track or track == NPCSOS and 'sepcial' in ta:
+            if ta['track'] == track or track == NPCSOS and 'special' in ta:
                 tp.append(ta)
                 if track == SQUIRT:
                     setCapture = 1
@@ -886,8 +871,6 @@ class Movie(DirectObject.DirectObject):
                 else:
                     self.notify.warning('genSuitAttackDicts() - target gone!')
 
-        return
-
     def __doSuitAttacks(self):
         if base.config.GetBool('want-suit-anims', 1):
             track = Sequence(name='suit-attacks')
@@ -917,4 +900,3 @@ class Movie(DirectObject.DirectObject):
             return (track, camTrack)
         else:
             return (None, None)
-        return

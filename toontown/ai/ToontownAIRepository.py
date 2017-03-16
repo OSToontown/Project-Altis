@@ -1,5 +1,6 @@
+import httplib, json
 from direct.distributed.PyDatagram import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.ai.AIZoneData import AIZoneDataStore
 from otp.ai.MagicWordManagerAI import MagicWordManagerAI
 from otp.ai.TimeManagerAI import TimeManagerAI
@@ -19,7 +20,6 @@ from toontown.ai.QuestManagerAI import QuestManagerAI
 from toontown.ai import DistributedSillyMeterMgrAI, DistributedHydrantZeroMgrAI, DistributedMailboxZeroMgrAI, DistributedTrashcanZeroMgrAI
 from toontown.building.DistributedTrophyMgrAI import DistributedTrophyMgrAI
 from toontown.catalog.CatalogManagerAI import CatalogManagerAI
-from toontown.catalog.PopularItemManagerAI import PopularItemManagerAI
 from toontown.coghq import CountryClubManagerAI
 from toontown.coghq import FactoryManagerAI
 from toontown.coghq import LawOfficeManagerAI
@@ -29,6 +29,8 @@ from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 from toontown.dna.DNAParser import loadDNAFileAI
 from toontown.estate.EstateManagerAI import EstateManagerAI
+from toontown.fishing.BingoHolidayMgrAI import BingoHolidayMgrAI
+from toontown.fishing.BingoWeekendMgrAI import BingoWeekendMgrAI
 from toontown.hood import BRHoodAI
 from toontown.hood import BossbotHQAI
 from toontown.hood import CashbotHQAI
@@ -43,6 +45,8 @@ from toontown.hood import OZHoodAI
 from toontown.hood import SellbotHQAI
 from toontown.hood import TTHoodAI
 from toontown.hood import ZoneUtil
+from toontown.minigame.TrolleyHolidayMgrAI import TrolleyHolidayMgrAI
+from toontown.minigame.TrolleyWeekendMgrAI import TrolleyWeekendMgrAI
 from toontown.pets.PetManagerAI import PetManagerAI
 from toontown.safezone.SafeZoneManagerAI import SafeZoneManagerAI
 from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
@@ -73,6 +77,13 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.countryClubMgr = None
         self.startTime = startTime
         import pymongo
+        self.isRaining = False
+        self.invLastPop = None
+        self.invLastStatus = None
+
+        import pymongo
+        
+        # Mongo stuff to store seperate database things
         self.dbConn = pymongo.MongoClient(config.GetString('mongodb-url', 'localhost'))
         self.dbGlobalCursor = self.dbConn.altis
         self.dbCursor = self.dbGlobalCursor['air-%d' % self.ourChannel]
@@ -93,6 +104,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
+        self.wantGardening = self.config.GetBool('want-gardening', True)
         self.cogSuitMessageSent = False
         self.weatherCycleDuration = self.config.GetInt('weather-cycle-duration', 100)
 
@@ -128,7 +140,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trashcanZeroMgr = DistributedTrashcanZeroMgrAI.DistributedTrashcanZeroMgrAI(self)
         self.trashcanZeroMgr.generateWithRequired(2)
         self.dialogueManager = DialogueManagerAI(self)
+        self.bingoHolidayMgr = BingoHolidayMgrAI(self, ToontownGlobals.FISH_BINGO_NIGHT)
+        self.bingoWeekendMgr = BingoWeekendMgrAI(self, ToontownGlobals.SILLY_SATURDAY_BINGO)
+        self.trolleyHolidayMgr = TrolleyHolidayMgrAI(self, ToontownGlobals.TROLLEY_HOLIDAY)
+        self.trolleyWeekendMgr = TrolleyWeekendMgrAI(self, ToontownGlobals.TROLLEY_WEEKEND)
         self.holidayManager = HolidayManagerAI(self)
+        
         
         if self.wantFishing:
             self.fishManager = FishManagerAI(self)
@@ -138,7 +155,6 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.estateManager.generateWithRequired(2)
             self.catalogManager = CatalogManagerAI(self)
             self.catalogManager.generateWithRequired(2)
-            self.popularItemManager = PopularItemManagerAI(self)
             self.deliveryManager = self.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
             self.mailManager = self.generateGlobalObject(OTP_DO_ID_TOONTOWN_MAIL_MANAGER, 'DistributedMailManager')
         
@@ -225,6 +241,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Making district available...')
         self.distributedDistrict.b_setAvailable(1)
         self.notify.info('Done.')
+        
+        self.notify.info("Starting Invasion Tracker...")
+        taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
+        self.notify.info("Invasion Tracker Started!")
 
     def lookupDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)
@@ -267,3 +287,31 @@ class ToontownAIRepository(ToontownInternalRepository):
 
     def trueUniqueName(self, name):
         return self.uniqueName(name)
+        
+    def updateInvasionTrackerTask(self, task):
+        task.delayTime = 10 # Set it to 10 after doing it the first time
+        statusToType = {
+        0: 'None',
+        1: 'Bossbot',
+        2: 'Lawbot',
+        3: 'Cashbot',
+        4: 'Sellbot',
+        5: 'Boardbot'}
+        pop = self.districtStats.getAvatarCount()
+        invstatus = statusToType.get(self.districtStats.getInvasionStatus(), 'None')
+      #  if pop == self.invLastPop and invstatus == self.invLastStatus:
+      #      return task.again # Don't attempt to update the database, its a waste
+	  # No it's not a waste. PLZ
+        
+        self.invLastPop = pop
+        self.invLastStatus = invstatus
+        
+        if invstatus == 'None':
+            httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
+            httpReqkill.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/0/%s/1/1' % (self.districtName, pop, invstatus))
+        else:
+            httpReq = httplib.HTTPSConnection('www.projectaltis.com')
+            httpReq.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
+            print(json.loads(httpReq.getresponse().read()))
+
+        return task.again

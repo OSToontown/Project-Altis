@@ -48,7 +48,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         return TTLocalizer.PartyCogInstructions
 
     def pieThrow(self, toonId, timestamp, h, x, y, z, power):
-        if toonId not in self.toonIds:
+        if toonId not in self.toonIds[0] and toonId not in self.toonIds[1]:
             return
         if toonId != base.localAvatar.doId:
             self.view.pieThrow(toonId, timestamp, h, Point3(x, y, z), power)

@@ -1,16 +1,13 @@
+import math, random, time
+from panda3d.core import *
 from direct.distributed import DistributedObject
-from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
-from math import *
-import math
-from direct.fsm.FSM import FSM
-from toontown.toonbase import ToonPythonUtil as PythonUtil
-from direct.task import Task
 from direct.distributed.ClockDelta import *
-from toontown.golf import BuildGeometry
-from toontown.golf import GolfGlobals
-import random, time
+from direct.directnotify import DirectNotifyGlobal
+from direct.fsm.FSM import FSM
+from direct.task import Task
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToonPythonUtil as PythonUtil
+from toontown.golf import BuildGeometry, GolfGlobals
 
 def scalp(vec, scal):
     vec0 = vec[0] * scal
@@ -20,7 +17,7 @@ def scalp(vec, scal):
 
 
 def length(vec):
-    return sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2)
+    return math.sqrt(vec[0] ** 2 + vec[1] ** 2 + vec[2] ** 2)
 
 
 class PhysicsWorldBase:
@@ -57,7 +54,7 @@ class PhysicsWorldBase:
         self.timingCycleLength = 10.0
         self.timingCycleOffset = 0.0
         self.timingSimTime = 0.0
-        self.FPS = 90.0
+        self.FPS = 90
         self.refFPS = 60.0
         self.DTAStep = 1.0 / self.FPS
         self.refCon = 1.2
@@ -133,8 +130,8 @@ class PhysicsWorldBase:
         self.world.setSurfaceEntry(3, 3, 150, 0.0, 9.1, 0.9, 1e-05, 0.0, 0.4 / self.refCon)
         self.world.setSurfaceEntry(4, 4, 150, 0.0, 9.1, 0.9, 1e-05, 0.0, 0.4 / self.refCon)
         self.world.setSurfaceEntry(1, 4, 150, 0.0, 99.1, 0.9, 1e-05, 0.0, 0.001 / self.refCon)
-        self.world.setSurfaceEntry(pos1=0, pos2=1, mu=80, bounce=0.15, bounce_vel=0.1, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.35 / self.refCon)
-        self.world.setSurfaceEntry(pos1=2, pos2=1, mu=1500, bounce=0.9, bounce_vel=0.01, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.001 / self.refCon)
+        self.world.setSurfaceEntry(pos1=0, pos2=1, mu=80, bounce=0.5, bounce_vel=.4, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.02 / self.refCon)
+        self.world.setSurfaceEntry(pos1=2, pos2=1, mu=1500, bounce=2, bounce_vel=.6, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.001 / self.refCon)
         self.floor = OdePlaneGeom(self.space, Vec4(0.0, 0.0, 1.0, -20.0))
         self.floor.setCollideBits(BitMask32(0))
         self.floor.setCategoryBits(BitMask32(3840))

@@ -905,32 +905,6 @@ class CatalogScreen(DirectFrame):
 
     def setClarabelleChat(self, str, timeout = 6, type = None):
         self.clearClarabelleChat()
-        if type == 'greeting':
-            if not self.clarabelleGreetingSfx:
-                clarabelleGreeting1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_1.ogg')
-                clarabelleGreeting2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                self.clarabelleGreetingSfx = [clarabelleGreeting1, clarabelleGreeting2]
-            base.playSfx(random.choice(self.clarabelleGreetingSfx))
-        elif type == 'goodbye':
-            if not self.clarabelleGoodbyeSfx:
-                clarabelleGoodbye1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_1.ogg')
-                clarabelleGoodbye2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_2.ogg')
-                clarabelleGoodbye3 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_3.ogg')
-                clarabelleGoodbye4 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_4.ogg')
-                self.clarabelleGoodbyeSfx = [clarabelleGoodbye1, clarabelleGoodbye2, clarabelleGoodbye3, clarabelleGoodbye4]
-            base.playSfx(random.choice(self.clarabelleGoodbyeSfx))
-        elif type == 'error':
-            if not self.clarabelleErrorSfx:
-                clarabelleError1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                self.clarabelleChatterSfx = [clarabelleError1]
-            base.playSfx(random.choice(self.clarabelleErrorSfx))
-        else:
-            if not self.clarabelleChatterSfx:
-                clarabelleChatter1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_1.ogg')
-                clarabelleChatter2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                clarabelleChatter3 = base.loadSfx('phase_5.5/audio/dial/clarabelle_gen_2.ogg')
-                self.clarabelleChatterSfx = [clarabelleChatter1, clarabelleChatter2, clarabelleChatter3]
-            base.playSfx(random.choice(self.clarabelleChatterSfx))
         if not self.clarabelleChatBalloon:
             self.clarabelleChatBalloon = loader.loadModel('phase_3/models/props/chatbox')
         
@@ -1073,7 +1047,7 @@ class CatalogScreen(DirectFrame):
 
     def __giftToggle(self):
         messenger.send('wakeup')
-        FeatureComingSoonDialog.FeatureComingSoonDialog("Woah! That feature will is \n\1textShadow\1coming soon\2! Sorry about that!")
+        FeatureComingSoonDialog.FeatureComingSoonDialog("Woah! That feature is \n\1textShadow\1coming soon\2! Sorry about that!")
         '''
         if self.gifting == -1:
             self.gifting = 1

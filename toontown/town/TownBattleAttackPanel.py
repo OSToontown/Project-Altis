@@ -66,7 +66,7 @@ class TownBattleAttackPanel(StateData.StateData):
         doneStatus = {'mode': 'Fire'}
         messenger.send(self.doneEvent, [doneStatus])
 
-    def __handleInventory(self, track, level):
+    def __handleInventory(self, track, level, viaKeyboard = False):
         if not base.cr.isPaid() and gagIsPaidOnly(track, level):
             self._teaserPanel = TeaserPanel(pageName='useGags')
             return
@@ -76,8 +76,10 @@ class TownBattleAttackPanel(StateData.StateData):
             doneStatus['track'] = track
             doneStatus['level'] = level
             messenger.send(self.doneEvent, [doneStatus])
+        elif viaKeyboard is True:
+            pass
         else:
-            self.notify.error("An item we don't have: track %s level %s was selected." % [track, level])
+            self.notify.warning("An item we don't have: track %s level %s was selected." % [track, level])
 
     def __handleHide(self):
         if AttackPanelHidden:

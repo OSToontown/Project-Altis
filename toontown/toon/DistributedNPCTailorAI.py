@@ -143,7 +143,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         if avId in self.air.doId2do:
             av = self.air.doId2do.get(avId)
             if finished == 2 and which > 0:
-                if self.freeClothes or av.takeMoney(self.jbCost, bUseBank = True):
+                if self.freeClothes or self.air.questManager.removeClothingTicket(av, self) or av.takeMoney(self.jbCost, bUseBank = True):
                     av.b_setDNAString(blob)
                     if which & ClosetGlobals.SHIRT:
                         if av.addToClothesTopsList(self.customerDNA.topTex, self.customerDNA.topTexColor, self.customerDNA.sleeveTex, self.customerDNA.sleeveTexColor) == 1:

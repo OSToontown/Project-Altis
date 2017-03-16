@@ -236,6 +236,12 @@ class Quest:
 
     def checkNumCFOs(self, num):
         self.check(num > 0, 'invalid number of CFOs: %s' % num)
+		
+    def checkNumCJs(self, num):
+        self.check(num > 0, 'invalid number of CJs: %s' % num)
+		
+    def checkNumCEOs(self, num):
+        self.check(num > 0, 'invalid number of CEOs: %s' % num)
 
     def checkNumBuildings(self, num):
         self.check(1, 'invalid num buildings: %s' % num)
@@ -689,6 +695,82 @@ class CogLevelQuest(CogQuest):
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         questCogLevel = self.getCogLevel()
         return questCogLevel <= cogDict['level'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
+		
+class CogTrackLevelQuest(CogQuest):
+    trackCodes = ['c',
+     'l',
+     'm',
+     's',
+     'g']
+    trackNamesS = [TTLocalizer.BossbotS,
+     TTLocalizer.LawbotS,
+     TTLocalizer.CashbotS,
+     TTLocalizer.SellbotS,
+     TTLocalizer.BoardbotS]
+    trackNamesP = [TTLocalizer.BossbotP,
+     TTLocalizer.LawbotP,
+     TTLocalizer.CashbotP,
+     TTLocalizer.SellbotP,
+     TTLocalizer.BoardbotP]
+
+    def __init__(self, id, quest):
+        CogQuest.__init__(self, id, quest)
+        if self.__class__ == CogTrackQuest:
+            self.checkNumCogs(self.quest[1])
+            self.checkCogTrack(self.quest[2])
+            self.checkCogLevel(self.quest[3])
+
+    def getCogTrack(self):
+        return self.quest[2]
+		
+    def getCogLevel(self):
+        return self.quest[3]
+
+    def getProgressString(self, avatar, questDesc):
+        if self.getCompletionStatus(avatar, questDesc) == COMPLETE:
+            return CompleteString
+        elif self.getNumCogs() == 1:
+            return ''
+        else:
+            return TTLocalizer.QuestsCogTrackQuestProgress % {'progress': questDesc[4],
+             'numCogs': self.getNumCogs()}
+
+    def getObjectiveStrings(self):
+        numCogs = self.getNumCogs()
+        level = self.getCogLevel()
+        track = self.trackCodes.index(self.getCogTrack())
+        if numCogs == 1:
+            text = TTLocalizer.QuestsCogLevelQuestDesc % {'level': level, 'name': self.trackNamesS[track]}
+        else:
+            text = TTLocalizer.QuestsCogLevelQuestDescC % {'count': numCogs, 'level': level, 'name': self.trackNamesP[track]}
+        return (text,)
+
+    def getString(self):
+        return TTLocalizer.QuestsCogLevelQuestDefeat % self.getObjectiveStrings()[0]
+
+    def getSCStrings(self, toNpcId, progress):
+        if progress >= self.getNumCogs():
+            return getFinishToonTaskSCStrings(toNpcId)
+        count = self.getNumCogs()
+        level = self.getCogLevel()
+        track = self.trackCodes.index(self.getCogTrack())
+        if count == 1:
+            text = TTLocalizer.QuestsCogLevelQuestDesc
+        else:
+            text = TTLocalizer.QuestsCogLevelQuestDescI
+        objective = text % {'level': level,
+         'name': self.trackNamesP[track]}
+        location = self.getLocationName()
+        return TTLocalizer.QuestsCogLevelQuestSCString % {'objective': objective,
+         'location': location}
+
+    def getHeadlineString(self):
+        return TTLocalizer.QuestsCogTrackQuestHeadline
+
+    def doesCogCount(self, avId, cogDict, zoneId):
+        questCogTrack = self.getCogTrack()
+        questCogLevel = self.getCogLevel()
+        return questCogTrack == cogDict['track'] and questCogLevel <= cogDict['level'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
 
 
 class SkelecogQBase:
@@ -856,10 +938,10 @@ class VPQuest(CogQuest):
             return TTLocalizer.CogVPs
 
     def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return 0
+        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
 
     def doesVPCount(self, avId, cogDict, zoneId, avList):
-        return self.isLocationMatch(zoneId)
+        return self.doesCogCount(avId, cogDict, zoneId, avList)
 
 
 class VPNewbieQuest(VPQuest, NewbieQuest):
@@ -933,10 +1015,10 @@ class CFOQuest(CogQuest):
             return TTLocalizer.CogCFOs
 
     def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return 0
+        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
 
     def doesCFOCount(self, avId, cogDict, zoneId, avList):
-        return self.isLocationMatch(zoneId)
+        return self.doesCogCount(avId, cogDict, zoneId, avList)
 
 
 class CFONewbieQuest(CFOQuest, NewbieQuest):
@@ -955,7 +1037,84 @@ class CFONewbieQuest(CFOQuest, NewbieQuest):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
+			
+class CJQuest(CogQuest):
+    def __init__(self, id, quest):
+        CogQuest.__init__(self, id, quest)
+        self.checkNumCJs(self.quest[1])
 
+    def getCogType(self):
+        return Any
+
+    def getCogNameString(self):
+        numCogs = self.getNumCogs()
+        if numCogs == 1:
+            return TTLocalizer.ACogCJ
+        else:
+            return TTLocalizer.CogCJs
+
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
+        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
+
+    def doesCJCount(self, avId, cogDict, zoneId, avList):
+        return self.doesCogCount(avId, cogDict, zoneId, avList)
+
+
+class CJNewbieQuest(CJQuest, NewbieQuest):
+    def __init__(self, id, quest):
+        CJQuest.__init__(self, id, quest)
+        self.checkNewbieLevel(self.quest[2])
+
+    def getNewbieLevel(self):
+        return self.quest[2]
+
+    def getString(self):
+        return NewbieQuest.getString(self)
+
+    def doesCJCount(self, avId, cogDict, zoneId, avList):
+        if CJQuest.doesCJCount(self, avId, cogDict, zoneId, avList):
+            return self.getNumNewbies(avId, avList)
+        else:
+            return 0
+			
+class CEOQuest(CogQuest):
+    def __init__(self, id, quest):
+        CogQuest.__init__(self, id, quest)
+        self.checkNumCEOs(self.quest[1])
+
+    def getCogType(self):
+        return Any
+
+    def getCogNameString(self):
+        numCogs = self.getNumCogs()
+        if numCogs == 1:
+            return TTLocalizer.ACogCEO
+        else:
+            return TTLocalizer.CogCEOs
+
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
+        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
+
+    def doesCEOCount(self, avId, cogDict, zoneId, avList):
+        return self.doesCogCount(avId, cogDict, zoneId, avList)
+
+
+class CEONewbieQuest(CEOQuest, NewbieQuest):
+    def __init__(self, id, quest):
+        CEOQuest.__init__(self, id, quest)
+        self.checkNewbieLevel(self.quest[2])
+
+    def getNewbieLevel(self):
+        return self.quest[2]
+
+    def getString(self):
+        return NewbieQuest.getString(self)
+
+    def doesCEOCount(self, avId, cogDict, zoneId, avList):
+        if CEOQuest.doesCEOCount(self, avId, cogDict, zoneId, avList):
+            return self.getNumNewbies(avId, avList)
+        else:
+            return 0
 
 class RescueQuest(VPQuest):
     def __init__(self, id, quest):
@@ -2539,7 +2698,7 @@ QuestDict = {
 	   2322,
 	   NA,
 	   601,
-	   TTLocalizer.QuestDialogDict[600]),
+       DefaultDialog),
  601: (TT_TIER,
        Start,
 	   (CogQuest,
@@ -3314,7 +3473,7 @@ QuestDict = {
          Anywhere,
          1,
          2007,
-         Medium,
+         VeryEasy,
          'mm'),
         2003,
         Same,
@@ -3327,7 +3486,7 @@ QuestDict = {
          Anywhere,
          1,
          2007,
-         Medium,
+         VeryEasy,
          'ac'),
         Same,
         Same,
@@ -3340,7 +3499,7 @@ QuestDict = {
          Anywhere,
          1,
          2007,
-         Medium,
+         VeryEasy,
          'bc'),
         Same,
         Same,
@@ -3353,7 +3512,7 @@ QuestDict = {
          Anywhere,
          1,
          2007,
-         Medium,
+         VeryEasy,
          'gh'),
         Same,
         Same,
@@ -3366,7 +3525,7 @@ QuestDict = {
          Anywhere,
          1,
          2007,
-         Medium,
+         VeryEasy,
          'mdm'),
         Same,
         Same,
@@ -3737,6 +3896,17 @@ QuestDict = {
 		TTLocalizer.QuestDialogDict[1304]),
  1305: (DD_TIER,
 		Cont,
+		(CogTrackQuest,
+		 1400,
+		 8,
+		 's'),
+		Same,
+		Same,
+		NA,
+		1306,
+		TTLocalizer.QuestDialogDict[1305]),
+ 1306: (DD_TIER,
+		Cont,
         (BuildingQuest,
          ToontownGlobals.DonaldsDock,
          1,
@@ -3745,9 +3915,9 @@ QuestDict = {
 		Same,
 		Same,
 		NA,
-		(1306, 1307),
-		TTLocalizer.QuestDialogDict[1305]),
- 1306: (DD_TIER,
+		(1307, 1308),
+		TTLocalizer.QuestDialogDict[1306]),
+ 1307: (DD_TIER,
 		Cont,
 		(RecoverItemQuest,
 		 1100,
@@ -3759,8 +3929,8 @@ QuestDict = {
 		Same,
 		NA,
 		401,
-		TTLocalizer.QuestDialogDict[1306]),
- 1307: (DD_TIER,
+		TTLocalizer.QuestDialogDict[1307]),
+ 1308: (DD_TIER,
 		Cont,
 		(RecoverItemQuest,
 		 1100,
@@ -3772,7 +3942,7 @@ QuestDict = {
 		Same,
 		NA,
 		401,
-		TTLocalizer.QuestDialogDict[1307]),
+		TTLocalizer.QuestDialogDict[1308]),
  401: (DD_TIER,
        Cont,
        (TrackChoiceQuest,),
@@ -4662,7 +4832,7 @@ QuestDict = {
          10,
          Any),
         Any,
-        Any,
+        ToonHQ,
         Any,
         NA,
         DefaultDialog),
@@ -4673,7 +4843,7 @@ QuestDict = {
          11,
          Any),
         Any,
-        Any,
+        ToonHQ,
         Any,
         NA,
         DefaultDialog),
@@ -4684,7 +4854,7 @@ QuestDict = {
          12,
          Any),
         Any,
-        Any,
+        ToonHQ,
         Any,
         NA,
         DefaultDialog),
@@ -4695,7 +4865,7 @@ QuestDict = {
          13,
          Any),
         Any,
-        Any,
+        ToonHQ,
         Any,
         NA,
         DefaultDialog),
@@ -4874,18 +5044,16 @@ QuestDict = {
 		Start,
 		(VisitQuest,),
 		Any,
-		1125,
+		1404,
 		NA,
 		2219,
 		TTLocalizer.QuestDialogDict[2218]),
  2219: (DD_TIER + 1,
 		Start,
-		(RecoverItemQuest,
-		1100,
-		4,
-		28,
-		Medium,
-		AnyFish),
+		(CogTrackQuest,
+		 1400,
+		 10,
+		 's'),
 		1125,
 		Same,
 		NA,
@@ -4894,42 +5062,44 @@ QuestDict = {
  2220: (DD_TIER + 1,
 		Cont,
 		(CogLevelQuest,
-		ToontownGlobals.DonaldsDock,
-		7,
-		5),
+		 1400,
+		 7,
+		 5),
 		Same,
 		Same,
-		100,
+		102,
 		NA,
 		TTLocalizer.QuestDialogDict[2220]),
  2221: (DD_TIER + 1,
 		Start,
 		(VisitQuest,),
 		Any,
-		1319,
+		1414,
 		NA,
 		2222,
 		TTLocalizer.QuestDialogDict[2221]),
  2222: (DD_TIER + 1,
 		Start,
-		(CogQuest,
-		Anywhere,
-		5,
-		'ds'),
-		1319,
+		(CogTrackQuest,
+		 ToontownGlobals.DonaldsDock,
+		 10,
+		 'c'),
+		1414,
 		Same,
 		NA,
 		2223,
 		TTLocalizer.QuestDialogDict[2222]),
  2223: (DD_TIER + 1,
 		Cont,
-		(CogQuest,
-		Anywhere,
-		5,
-		'bs'),
+		(RecoverItemQuest,
+		 1400,
+		 1,
+		 67,
+		 Medium,
+		 Any),
 		Same,
 		Same,
-		102,
+		100,
 		NA,
 		TTLocalizer.QuestDialogDict[2223]),
  2224: (DD_TIER + 1,
@@ -5969,19 +6139,19 @@ QuestDict = {
         Start,
         (VisitQuest,),
         Any,
-        5309,
+        5402,
         NA,
         3205,
         TTLocalizer.QuestDialogDict[3204]),
  3205: (DG_TIER + 1,
-        Start,
+        Cont,
         (RecoverItemQuest,
-         5300,
+         5400,
          1,
          33,
-         VeryHard,
-         'nd'),
-        5309,
+         Medium,
+         'ym'),
+        5402,
         Same,
         100,
         NA,
@@ -6209,7 +6379,7 @@ QuestDict = {
         Any,
         5224,
         NA,
-        3251,
+        (3251, 3300),
         TTLocalizer.QuestDialogDict[3250]),
  3251: (DG_TIER + 1,
         Start,
@@ -6242,6 +6412,45 @@ QuestDict = {
         NA,
         3254,
         TTLocalizer.QuestDialogDict[3253]),
+ 3300: (DG_TIER + 1, 
+		Start,
+		(VisitQuest,),
+		5224,
+		5413,
+		NA,
+		3301,
+		TTLocalizer.QuestDialogDict[3300]),
+ 3301: (DG_TIER + 1,
+		Cont,
+		(CogTrackQuest,
+		 5400,
+		 10,
+		 'c'),
+		5413,
+		Same,
+		NA,
+		3302,
+		TTLocalizer.QuestDialogDict[3301]),
+ 3302: (DG_TIER + 1,
+		Cont,
+		(BuildingQuest,
+		 ToontownGlobals.DaisyGardens,
+		 3,
+		 'c',
+		 1),
+		 Same,
+		 Same,
+		 NA,
+		 3303,
+		 TTLocalizer.QuestDialogDict[3302]),
+ 3303: (DG_TIER + 1,
+        Cont,
+        (VisitQuest,),
+        Same,
+        5224,
+        502,
+        NA,
+        TTLocalizer.QuestDialogDict[3303]),
  3254: (DG_TIER + 1,
         Cont,
         (VisitQuest,),
@@ -6321,7 +6530,7 @@ QuestDict = {
         NA,
         TTLocalizer.QuestDialogDict[3255]),
  3262: (DG_TIER + 1,
-        Start,
+        OBSOLETE,
         (VisitQuest,),
         Any,
         5202,
@@ -6329,7 +6538,7 @@ QuestDict = {
         3263,
         TTLocalizer.QuestDialogDict[3262]),
  3263: (DG_TIER + 1,
-        Start,
+        OBSOLETE,
         (RecoverItemQuest,
 		 5200,
 		 10,
@@ -6342,6 +6551,63 @@ QuestDict = {
         702,
         NA,
         TTLocalizer.QuestDialogDict[3263]),
+ 3304: (DG_TIER + 1,
+		Start,
+		(VisitQuest,),
+		Any,
+		5415,
+		NA,
+		3305,
+		TTLocalizer.QuestDialogDict[3304]),
+ 3305: (DG_TIER + 1,
+		Start,
+		(VisitQuest,),
+		5415,
+		5410,
+		NA,
+		3306,
+		TTLocalizer.QuestDialogDict[3305]),
+ 3306: (DG_TIER + 1,
+		Cont,
+		(CogQuest,
+		 ToontownGlobals.DaisyGardens,
+		 5,
+		 'mm'),
+		5410,
+		Same,
+		NA,
+		3307,
+		TTLocalizer.QuestDialogDict[3306]),
+ 3307: (DG_TIER + 1,
+		Cont,
+		(VisitQuest,),
+		Same,
+		5415,
+		NA,
+		3308,
+		TTLocalizer.QuestDialogDict[3307]),
+ 3308: (DG_TIER + 1,
+		Cont,
+		(VisitQuest,),
+		5415,
+		5411,
+		NA,
+		3309,
+		TTLocalizer.QuestDialogDict[3308]),
+ 3309: (DG_TIER + 1,
+		Cont,
+		(RecoverItemQuest,
+		 5400,
+		 5,
+		 68,
+		 80,
+		 'm',
+		 'track'),
+		5411,
+		Same,
+		702,
+		NA,
+		TTLocalizer.QuestDialogDict[3309]),
  3264: (DG_TIER + 1,
 		Start,
 		(VisitQuest,),
@@ -7457,17 +7723,17 @@ QuestDict = {
         Start,
         (VisitQuest,),
         Any,
-        4324,
+        4405,
         NA,
         4212,
         TTLocalizer.QuestDialogDict[4211]),
  4212: (MM_TIER,
         Start,
         (CogTrackQuest,
-         4300,
+         4400,
          10,
          'g'),
-        4324,
+        4405,
         Same,
         NA,
         4213,
@@ -7475,7 +7741,7 @@ QuestDict = {
  4213: (MM_TIER,
         Cont,
         (CogQuest,
-         4300,
+         4400,
          5,
          'mdm'),
         Same,
@@ -7486,8 +7752,8 @@ QuestDict = {
  4214: (MM_TIER,
         Cont,
         (BuildingQuest,
-         4300,
-         1,
+         ToontownGlobals.MinniesMelodyland,
+         4,
          Any,
          3),
         Same,
@@ -7713,7 +7979,7 @@ QuestDict = {
 		Start,
 		(VisitQuest,),
 		Any,
-		4125,
+		4404,
 		NA,
 		4237,
 		TTLocalizer.QuestDialogDict[4236]),
@@ -7723,9 +7989,9 @@ QuestDict = {
 		 ToontownGlobals.MinniesMelodyland,
 		 10,
 		 37,
-		 Medium,
+		 Easy,
 		 Any),
-		4125,
+		4404,
 		Same,
 		101,
 		NA,
@@ -16540,7 +16806,7 @@ QuestDict = {
          DefaultDialog),
  10124: (ELDER_TIER,
          OBSOLETE,
-         (RescueQuest, ToontownGlobals.SellbotHQ, 2),
+         (CFOQuest, ToontownGlobals.CashbotHQ, 2),
          Any,
          ToonHQ,
          Any,
@@ -16608,11 +16874,19 @@ QuestDict = {
          NA,
          DefaultDialog),
  10143: (ELDER_TIER,
-         Start,
-         (CFOQuest, ToontownGlobals.CashbotHQ, 2),
+         OBSOLETE,
+         (CJQuest, ToontownGlobals.LawbotHQ, 2),
          Any,
          ToonHQ,
-         623,
+         Any,
+         NA,
+         DefaultDialog),
+ 10144: (ELDER_TIER,
+         OBSOLETE,
+         (CEOQuest, ToontownGlobals.BossbotHQ, 2),
+         Any,
+         ToonHQ,
+         Any,
          NA,
          DefaultDialog),
  10145: (ELDER_TIER,
@@ -16697,7 +16971,7 @@ QuestDict = {
 		 Same,
 		 NA,
 		 10302,
-		 TTLocalizer.QuestDialogDict[10301],
+		 DefaultDialog,
 		 5000),
  10302: (ELDER_TIER,
 		 Cont,
@@ -16839,7 +17113,7 @@ QuestDict = {
          NA,
          DefaultDialog),
  10208: (ELDER_TIER,
-         Start,
+         OBSOLETE,
          (CogdoQuest,
           Anywhere,
           10,
@@ -16850,7 +17124,7 @@ QuestDict = {
          NA,
          DefaultDialog),
  10209: (ELDER_TIER,
-         Start,
+         OBSOLETE,
          (CogdoQuest,
           Anywhere,
           8,
@@ -16861,7 +17135,7 @@ QuestDict = {
          NA,
          DefaultDialog),
  10210: (ELDER_TIER,
-         Start,
+         OBSOLETE,
          (CogdoQuest,
           Anywhere,
           8,
@@ -17724,7 +17998,9 @@ class CheesyEffectReward(Reward):
 
     def sendRewardAI(self, av):
         expireTime = time.time() + int(self.getDurationMinutes()*60)
-        av.b_setCheesyEffect(self.getEffect(), self.getHoodId(), expireTime)
+        if not self.getEffect() in av.getCheesyEffects():
+            av.cheesyEffects.append(self.getEffect())
+            av.b_setCheesyEffects(av.getCheesyEffects())
 
     def countReward(self, qrc):
         pass
@@ -17743,20 +18019,7 @@ class CheesyEffectReward(Reward):
         if effect == 77:
             effect = 12
         desc = TTLocalizer.CheesyEffectDescriptions[effect][1]
-        if hoodId == 0:
-            whileStr = ''
-        elif hoodId == 1:
-            whileStr = TTLocalizer.CheesyEffectExceptIn % TTLocalizer.ToontownCentral[-1]
-        else:
-            hoodName = base.cr.hoodMgr.getFullnameFromId(hoodId)
-            whileStr = TTLocalizer.CheesyEffectWhileYouAreIn % hoodName
-        if duration:
-            return string % {'time': duration,
-             'effectName': desc,
-             'whileIn': whileStr}
-        else:
-            return TTLocalizer.CheesyEffectIndefinite % {'effectName': desc,
-             'whileIn': whileStr}
+        return TTLocalizer.CheesyEffectIndefinite % {'effectName': desc}
 
     def getPosterString(self):
         effect = self.getEffect()
