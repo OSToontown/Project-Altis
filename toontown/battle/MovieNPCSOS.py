@@ -100,6 +100,10 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
     ee = Func(npc.addActive)
     if npc.nametag.getText() == 'Donald Frump':
         text = random.choice(TTLocalizer.FrumpGreetings)
+    elif npc.nametag.getText() == 'Jakebooy':
+        text = random.choice(TTLocalizer.JakebooySOSGreetings)
+    elif npc.nametag.getText() == 'Ask Alice':
+        text = TTLocalizer.AliceSOSGreeting
     else:
         text = TTLocalizer.MovieNPCSOSGreeting % attack['toon'].getName()
     f = Func(npc.setChatAbsolute, text, CFSpeech | CFTimeout)
@@ -122,6 +126,10 @@ def teleportOut(attack, npc):
         a = ActorInterval(npc, 'curtsy')
     if npc.nametag.getText() == 'Donald Frump':
         text = "Oh, by the way, you're fired. Get 'em out of here!"
+    elif npc.nametag.getText() == 'Jakebooy':
+        text = random.choice(TTLocalizer.JakebooySOSGoodbyes)
+    elif npc.nametag.getText() == 'Ask Alice':
+        text = TTLocalizer.AliceSOSLeave
     else:
         text = TTLocalizer.MovieNPCSOSGoodbye
     b = Func(npc.setChatAbsolute, text, CFSpeech | CFTimeout)

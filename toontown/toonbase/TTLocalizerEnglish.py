@@ -2046,6 +2046,10 @@ MovieSOSWhisperHelp = '%s needs help in battle!'
 MovieSOSObserverHelp = 'HELP!'
 MovieNPCSOSGreeting = 'Hi %s! Glad to help!'
 FrumpGreetings = ["I'm all in on this for a small loan of a million jellybeans.", 'Did one of you mention a wall?', "TOGETHER... WE WILL MAKE TOONTOWN GREAT AGAIN!!!", 'This is gonna be yuge.', "They are all filthy cogs, I'm sure some of them are great robots.", 'We are going to build a wall and make Loonyville pay for it!']
+JakebooySOSGreetings = ["You called for some rakes?", "Rake 'em in, boys!", "This won't rake long!" "These cogs are about to have a Pounding Headrake!", "Why are you calling me? The rake is a lie.", "IT's time to rake up!", "Let them eat rake!", "It's time to put the icing on the rake!", "It's time to rake up!", "I rake it that you need some help?", "It's time to rake them cogs pay!"]
+JakebooySOSGoodbyes = ["So head on down to Jakes Rakes today! Goodbye.", "Rake it or leaf it!", "Rake ya later!", "Rake me up when september ends."]
+AliceSOSLeave = "I'll be going back to my rabbit hole now."
+AliceSOSGreeting = "Off with their heads!"
 MovieNPCSOSGoodbye = 'See you later!'
 MovieNPCSOSToonsHit = 'Toons Always Hit!'
 MovieNPCSOSToonsHitS = 'Toons Always Hit\nFor One Round!'
@@ -7719,7 +7723,9 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7009: 'Jimmy Thelock',
  91917: 'Prince Frizzy',
  91918: 'Squeaker',
- 91919: 'Sir Tubby Cheezyfish'}
+ 91919: 'Sir Tubby Cheezyfish',
+ 91920: 'Jakebooy',
+ 91925: 'Ask Alice'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
  2514: ('Toontown Bank', ''),
  2516: ('Toontown School House', ''),
@@ -8537,7 +8543,7 @@ TipDict = {TIP_NONE: ('',),
               'During a battle, Cogs have a light on them that displays their health; green is healthy, red is nearly destroyed.',
               'A maximum of four Toons can battle at once.',
               'On the street, Cogs are more likely to join a fight against multiple Toons than just one Toon.',
-              'The two highest ranking Cogs of each type are only found in buildings.',
+              'The highest ranking Cog of each type can only be found in buildings.',
               'Drop gags never work against lured Cogs.',
               'Cogs tend to attack the Toon that has done them the most damage.',
               'Sound gags do not get bonus damage against lured Cogs.',
