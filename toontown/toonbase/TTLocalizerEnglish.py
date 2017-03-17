@@ -9949,40 +9949,9 @@ InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  5: 'Super Squirt!',
  6: ''}
 PlayingCardUnknown = 'Card Name is unknown'
-YinTitle = 'Are you absolutely sure?'
-YinNotCat = 'Sorry, I only make cats black.'
-YinAlreadyBlack = "You're already black!"
-YinPickColor = 'Are you sure you want to be a black cat?'
-YinEnjoy = 'Enjoy! You are now permanently a black cat.'
-YinGoodbye = 'Okay, then. See you later!'
-YangTitle = 'Are you absolutely sure?'
-YangNotBear = 'Sorry, I only make bears white.'
-YangAlreadyWhite = "You're already white!"
-YangPickColor = 'Are you sure you want to be a polar bear?'
-YangEnjoy = 'Enjoy! You are now permanently a polar bear.'
-YangGoodbye = 'Okay, then. See you later!'
-
-# Buffs
-
-buffIdStrings = {
-  0: ('Your movement speed will be slightly increased for the next %d %s.',
-      'Reward: Increased movement speed'),
-  1: ('Your gag accuracy will be slight increased for the next %d %s.',
-      'Reward: Increased gag accuracy')
-}
 
 # Controls
 RemapPrompt = 'Choose the keys you wish to remap.'
 RemapPopup = 'Press the key you wish to remap this control to.'
 Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
             'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
-
-def getBuffString(buffId, buffTime):
-    if buffTime < 60:
-        return buffIdStrings[buffId][0] % (buffTime, 'minutes')
-    else:
-        return buffIdStrings[buffId][0] % (buffTime / 60, 'hours')
-
-
-def getBuffPosterString(buffId):
-    return buffIdStrings[buffId][1]
