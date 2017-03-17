@@ -2628,7 +2628,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                         reply.status = newStatus
                         break
 
-    def scrubTalk(self, message, mods, fromId):
+    def scrubTalk(self, message, mods, fromId = 0):
         scrubbed = 0
         text = copy.copy(message)
         for mod in mods:
