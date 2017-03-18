@@ -93,9 +93,12 @@ class RemoveFriendOperation(OperationFSM):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
             self.demand('Error', 'Distributed Class was not a Toon.')
             return
+        try:
+            self.demand('Retrieved', fields['setFriendsList'][0], fields['setTrueFriends'][0])
+        except: 
+            self.demand('Retrieved', fields['setFriendsList'][0], [])
 
-        self.demand('Retrieved', fields['setFriendsList'][0], fields['setTrueFriends'][0])
-
+        
     def enterRetrieved(self, friendsList, trueFriendsList):
         newList = []
         for i in xrange(len(friendsList)):
