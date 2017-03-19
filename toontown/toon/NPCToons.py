@@ -12676,7 +12676,7 @@ def getBuildingTitle(zoneId):
 HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK, 5, ToontownGlobals.MaxHpLimit, 5),
  2132: (ToontownBattleGlobals.HEAL_TRACK, 5, 70, 4),
  2121: (ToontownBattleGlobals.HEAL_TRACK, 5, 45, 3),
- 2011: (ToontownBattleGlobals.TRAP_TRACK, 4, 180, 5),
+ 2011: (ToontownBattleGlobals.TRAP_TRACK, 4, 200, 5),
  3007: (ToontownBattleGlobals.TRAP_TRACK, 4, 120, 4),
  1001: (ToontownBattleGlobals.TRAP_TRACK, 4, 100, 3),
  3112: (ToontownBattleGlobals.LURE_TRACK, 5, 0, 5),
