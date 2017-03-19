@@ -62,7 +62,6 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
     def createLightning(self, task):
         x = random.randrange(-150, 150)
         y = random.randrange(-150, 150)
-        print('Lightning struck at %s %s' %(x, y))
         task.delay = random.randrange(5, 30)
         self.sendUpdate("spawnLightning", [x, y])
         return task.again
