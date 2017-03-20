@@ -36,7 +36,7 @@ class DMenuQuit(DirectObject):
         self.confNode = aspect2d.attachNewNode('confNode')
         self.confNode.reparentTo(aspect2d, 4000)
         base.transitions.fadeScreen(0.5)
-        gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        gui = base.matGui
         shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')
 

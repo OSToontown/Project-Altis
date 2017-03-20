@@ -7,7 +7,7 @@ class TouchControls(DirectFrame, DirectObject):
 
     def __init__(self):
         DirectFrame.__init__(self, relief = None, sortOrder = 5000)
-        gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        gui = base.matGui
         fwd = 'phase_3/maps/android/tui_move_up.png'
         left = 'phase_3/maps/android/tui_move_l.png'
         right = 'phase_3/maps/android/tui_move_r.png'

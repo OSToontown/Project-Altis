@@ -368,12 +368,7 @@ def __trapRake(trap, trapProps, explode):
     toon = trap['toon']
     if 'npc' in trap:
     	toon = trap['npc']
-    targets = trap['target']
-    count = 0
-    for target in targets:
-        suit = trap['target'][count]['suit']
-        print count
-        count = count + 1
+    suit = trap['target'][0]['suit']
     notify.debug('toon: %s lays rake in front of suit: %d' % (toon.getName(), suit.doId))
     rakes = trapProps
     return __createThrownTrapMultiTrack(trap, rakes, 'rake', anim=1, explode=explode)

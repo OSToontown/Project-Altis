@@ -307,15 +307,36 @@ class ToonBase(OTPBase.OTPBase):
         
         self.accept('f4', self.toggleNametags)
         
-        shgui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
-        self.shuffleUp = shgui.find('**/tt_t_gui_mat_shuffleUp')
-        self.shuffleDown = shgui.find('**/tt_t_gui_mat_shuffleDown')
-        
         if 'experimental-touch' in settings:
             self.wantMobile = settings.get('experimental-touch', False)
         else:
             self.wantMobile = False
+            
+        def sp1(*args):
+            self.patgui = args[0]
+        
+        def sp2(*args):
+            self.gui2 = args[0]     
+            
+        def sp3(*args):
+            self.newGui = args[0]     
+            
+        def sp4(*args):
+            self.matGui = args[0]
+            self.shuffleUp = self.matGui.find('**/tt_t_gui_mat_shuffleUp')
+            self.shuffleDown = self.matGui.find('**/tt_t_gui_mat_shuffleDown')
+            
+        # Speed up the pat loading abit, have these pre-load
+        asyncloader.loadModel('phase_3/models/gui/pick_a_toon_gui', callback = sp1)
+        self.notify.info("Pre-loading PICK A TOON GUI")
+        asyncloader.loadModel('phase_3/models/gui/quit_button', callback = sp2)
+        self.notify.info("Pre-loading Button UI")
+        asyncloader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui', callback = sp3)
+        self.notify.info("Pre-loading PICK A TOON GUI 2")
+        asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
+        self.notify.info("Pre-loading MAKE A TOON GUI")
 
+            
     def updateAspectRatio(self):
         fadeSequence = Sequence(
             Func(base.transitions.fadeOut, .2),

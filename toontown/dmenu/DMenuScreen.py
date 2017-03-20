@@ -231,7 +231,7 @@ class DMenuScreen(DirectObject):
 
     def createButtons(self):
         buttonImage = GuiModel.find('**/QuitBtn_RLVR')
-        gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        gui = base.matGui
         shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')
         
@@ -389,8 +389,7 @@ class DMenuScreen(DirectObject):
         # base.camera.posHprInterval(1, Point3(TOON_HALL_POS), VBase3(TOON_HALL_HPR), blendType = 'easeInOut').start()
         Sequence(
             Func(self.doPlayButton),
-            Wait(1),
-            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .2)),
+            LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .2)),
             # Func(self.murder),
             Func(self.enterGame)).start()
             # Func(base.transitions.fadeIn, 1)).start()
