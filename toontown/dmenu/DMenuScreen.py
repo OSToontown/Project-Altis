@@ -389,8 +389,7 @@ class DMenuScreen(DirectObject):
         # base.camera.posHprInterval(1, Point3(TOON_HALL_POS), VBase3(TOON_HALL_HPR), blendType = 'easeInOut').start()
         Sequence(
             Func(self.doPlayButton),
-            Wait(1),
-            LerpColorScaleInterval(self.background2d, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .2)),
+            LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .2)),
             # Func(self.murder),
             Func(self.enterGame)).start()
             # Func(base.transitions.fadeIn, 1)).start()
