@@ -5207,6 +5207,50 @@ def inventory(a, b=None, c=None):
         invoker.b_setInventory(inventory.makeNetString())
         return 'Restored %d Gags to: %d, %d' % (c, targetTrack, maxLevelIndex)
 
+@magicWord(category =  CATEGORY_CREATIVE, types = [str, int, int, int])
+def color(part, r, g, b):
+    invoker = spellbook.getTarget()
+
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(invoker.getDNAString())
+
+    if r > 255 or g > 255 or b > 255 or r < 0 or g < 0 or b < 0:
+        return("R, G, and B  values must be in between 0 and 255")
+    
+    part = part.lower()
+    r = r/255.0
+    g = g/255.0
+    b = b/255.0
+    
+    value = (r, g, b, 1.0)
+
+    if part == 'head':
+        dna.headColor = value
+        invoker.b_setDNAString(dna.makeNetString())
+        return 'Head color index set to: ' + str(dna.headColor)
+
+    if part == 'arms':
+        dna.armColor = value
+        invoker.b_setDNAString(dna.makeNetString())
+        return 'Arm color index set to: ' + str(dna.armColor)
+
+    if part == 'legs':
+        dna.legColor = value
+        invoker.b_setDNAString(dna.makeNetString())
+        return 'Leg color index set to: ' + str(dna.legColor)
+
+    if part == 'color':
+        dna.headColor = value
+        dna.armColor = value
+        dna.legColor = value
+        invoker.b_setDNAString(dna.makeNetString())
+        return 'Color index set to: ' + str(dna.headColor)
+
+    if part == 'gloves':
+        dna.gloveColor = value
+        invoker.b_setDNAString(dna.makeNetString())
+        return 'Glove color set to: ' + str(dna.gloveColor)
+        
 @magicWord(category=CATEGORY_CREATIVE, types=[str, str])
 def dna(part, value):
     """Modify a DNA part on the invoker."""
@@ -5271,44 +5315,6 @@ def dna(part, value):
         dna.legs = ToonDNA.toonLegTypes[value]
         invoker.b_setDNAString(dna.makeNetString())
         return 'Legs set to: ' + dna.legs
-
-    if part == 'headcolor':
-        if value not in ToonDNA.defaultColorList:
-            return 'Invalid head color index: ' + str(value)
-        dna.headColor = value
-        invoker.b_setDNAString(dna.makeNetString())
-        return 'Head color index set to: ' + str(dna.headColor)
-
-    if part == 'armcolor':
-        if value not in ToonDNA.defaultColorList:
-            return 'Invalid arm color index: ' + str(value)
-        dna.armColor = value
-        invoker.b_setDNAString(dna.makeNetString())
-        return 'Arm color index set to: ' + str(dna.armColor)
-
-    if part == 'legcolor':
-        if value not in ToonDNA.defaultColorList:
-            return 'Invalid leg color index: ' + str(value)
-        dna.legColor = value
-        invoker.b_setDNAString(dna.makeNetString())
-        return 'Leg color index set to: ' + str(dna.legColor)
-
-    if part == 'color':
-        if value not in ToonDNA.defaultColorList:
-            return 'Invalid color index: ' + str(value)
-        dna.headColor = value
-        dna.armColor = value
-        dna.legColor = value
-        invoker.b_setDNAString(dna.makeNetString())
-        return 'Color index set to: ' + str(dna.headColor)
-
-    if part == 'gloves':
-        value = int(value)
-        if value != 0:
-            return 'Invalid glove color: ' + str(value)
-        dna.gloveColor = value
-        invoker.b_setDNAString(dna.makeNetString())
-        return 'Glove color set to: ' + str(dna.gloveColor)
 
     if part == 'toptex':
         if not 0 <= value <= len(ToonDNA.Shirts):
