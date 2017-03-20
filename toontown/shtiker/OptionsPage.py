@@ -279,7 +279,7 @@ class OptionsTabPage(DirectFrame):
         options_text_scale = 0.052
         disabled_arrow_color = Vec4(0.6, 0.6, 0.6, 1.0)
         self.speed_chat_scale = 0.055
-        gui2 = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        gui2 = base.matGui
         shuffleUp = gui2.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui2.find('**/tt_t_gui_mat_shuffleDown')
         self.soundButton = DirectButton(relief = None, text_style = 3, image3_color=disabledImageColor, image = (shuffleUp, shuffleDown, shuffleUp), text_pos = (0, -0.02), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = 'Sound', text_scale = .1, scale = 0.6, command = self.displaySoundOptions)

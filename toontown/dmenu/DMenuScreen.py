@@ -231,7 +231,7 @@ class DMenuScreen(DirectObject):
 
     def createButtons(self):
         buttonImage = GuiModel.find('**/QuitBtn_RLVR')
-        gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        gui = base.matGui
         shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')
         
