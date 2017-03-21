@@ -64,7 +64,13 @@ class DistributedBetaEventTTCAI(DistributedEventAI):
     
     def exitEvent(self):
         pass
-    
+        
+    def enterHoncho(self):
+        pass
+                
+    def exitHoncho(self):
+        pass
+        
     def enterGotoHq(self):
         self.systemMessageAll("Toon HQ: All toons are being teleported to Loony Labs!")
         # magic teleport everyone to Boardbot HQ

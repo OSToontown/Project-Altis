@@ -37,7 +37,19 @@ class DistributedBetaEventTTC(DistributedEvent):
         self.prepostera.blinkEyes()
         self.prepostera.head = self.prepostera.find('**/__Actor_head')
         self.prepostera.initializeBodyCollisions('toon')
-
+        
+        self.headHoncho1 = DistributedSuitBase.DistributedSuitBase(self.cr)
+        headHoncho1suitDNA = SuitDNA.SuitDNA()
+        headHoncho1suitDNA.newSuit('hho')
+        self.headHoncho1.setDNA(headHoncho1suitDNA)
+        self.headHoncho1.setDisplayName('???')
+        self.headHoncho1.setPickable(0)
+        self.headHoncho1.setPosHpr(0, 0, 0, 0, 0, 0)
+        self.headHoncho1.reparentTo(render)
+        self.headHoncho1.doId = 0
+        self.headHoncho1.hide()
+        self.headHoncho1.initializeBodyCollisions('toon')
+        
         #base.musicManager.stopAllSounds()
         self.toonMusic = loader.loadMusic('phase_14/audio/bgm/tt2_ambient_1.mp3') # Placeholder
         self.invasion1 = loader.loadMusic('phase_14/audio/bgm/event_temp_1.ogg') # Placeholder
@@ -92,7 +104,17 @@ class DistributedBetaEventTTC(DistributedEvent):
     
     def exitEvent(self):
         pass
-
+        
+    def enterHoncho(self, timestamp):
+        Sequence(
+                self.headHoncho1.beginSupaFlyMove(Vec3(68, -2, 4.024), True, "firstCogInvadeFlyIn", walkAfterLanding=False),
+                Func(self.headHoncho1.loop, 'walk'),
+                self.headHoncho1.hprInterval(2, VBase3(90, 0, 0)),
+                Func(self.headHoncho1.loop, 'neutral')).start()
+                
+    def exitHoncho(self):
+        pass
+                
     def enterCogTv(self, timestamp):
         # Todo: Make the models and make the tv code.
         '''
