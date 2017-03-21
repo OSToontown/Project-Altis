@@ -4587,6 +4587,7 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+CodePageTitle = 'Codes'
 ItemsPageTitle = 'Items'
 ItemsPageNametagStyle = 'Nametag Style'
 ItemsPageFishingRods = "Fishing Rod"
