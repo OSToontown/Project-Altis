@@ -96,7 +96,12 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
                 text = ("Press SHIFT to interact with %s" %self.name)
             else:
                 text = "Press SHIFT to interact"
-            self.enterText = OnscreenText(text = text, style = 3, scale = .09, parent = base.a2dBottomCenter, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.5))
+                
+            if base.wantMobile:
+                self.enterText = DirectButton(relief = None, parent = base.a2dBottomCenter, image = (base.shuffleUp, base.shuffleUp, base.shuffleDown), image_scale = (1, 0.7, 0.7), image1_scale = (1.02, 0.7, 0.7), image2_scale = (1.02, 0.7, 0.7), text = ("Tap to interact"), text_style = 3, text_scale = .07, text_pos = (0, -0.02), text_fg = (1, 0.9, 0.1, 1), scale = 1.5, pos = (0.0, 0.0, 0.5), command = self.activate, extraArgs = [collEntry])
+            else:                
+                self.enterText = OnscreenText(text = text, style = 3, scale = .09, parent = base.a2dBottomCenter, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.5))
+
             self.colorSeq = Sequence(
             LerpColorScaleInterval(self.enterText, .8, VBase4(.5, .6, 1, .9)),
             LerpColorScaleInterval(self.enterText, .8, VBase4(1, 1, 1, 1))).loop()

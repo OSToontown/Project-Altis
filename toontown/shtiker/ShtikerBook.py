@@ -31,6 +31,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.hide()
         self.setPos(0, 0, 0.1)
         self.pageOrder = [TTLocalizer.OptionsPageTitle,
+         TTLocalizer.CodePageTitle,
          TTLocalizer.ShardPageTitle,
          TTLocalizer.MapPageTitle,
          TTLocalizer.InventoryPageTitle,
@@ -207,6 +208,11 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         if pageName == TTLocalizer.OptionsPageTitle:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
             iconGeom = iconModels.find('**/switch')
+            iconModels.detachNode()
+        elif pageName == TTLocalizer.CodePageTitle:
+            iconGeom = iconModels = OnscreenImage(image='phase_3/maps/cdricon.png')
+            iconGeom.setTransparency(TransparencyAttrib.MAlpha)
+            iconScale = (0.6, 0.6, 0.6)
             iconModels.detachNode()
         elif pageName == TTLocalizer.ShardPageTitle:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')

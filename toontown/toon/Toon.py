@@ -3702,6 +3702,9 @@ class Toon(Avatar.Avatar, ToonHead):
     def __doGreenToon(self, lerpTime, toGreen):
         track = Sequence()
         greenTrack = Parallel()
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to give a toon the luck of the Irish!")
+            return
 
         def getDustCloudIval():
             dustCloud = DustCloud.DustCloud(fBillboard=0, wantSound=1)
@@ -3732,6 +3735,9 @@ class Toon(Avatar.Avatar, ToonHead):
         return track
         
     def __colorToonSkin(self, color, lerpTime):
+        if not self.getGeomNode():
+            self.notify.warning("A error has occured when attempting to color a Toon's skin!")
+            return
         track = Sequence()
         colorTrack = Parallel()
         torsoPieces = self.getPieces(('torso', ('arms', 'neck')))
@@ -4695,6 +4701,8 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doSnowManHeadSwitch(lerpTime, toSnowMan=True)
         elif effect == ToontownGlobals.CEVirtual:
             return self.__doVirtual()
+        elif effect == ToontownGlobals.CEGreenToon:
+            return self.__doGreenToon(lerpTime, toGreen = True)
         elif effect == ToontownGlobals.CEGhost:
             alpha = 0.25
             if base.localAvatar.getAdminAccess() < self.adminAccess:

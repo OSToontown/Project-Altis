@@ -7,6 +7,7 @@ from toontown.toon import DistributedToon
 from toontown.toon import LaffMeter
 from toontown.toon import ExperienceBar
 from toontown.toon import Toon
+from toontown.touch import TouchControls
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.gui import DirectGuiGlobals
@@ -54,6 +55,7 @@ from toontown.shtiker import SuitPage
 from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
 from toontown.shtiker import ItemsPage
+from toontown.shtiker import CodePage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
 import StreamerMode, ChatLog
@@ -294,6 +296,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         del self.laffMeter
         self.expBar.destroy()
         del self.expBar
+        if self.touchControls:
+            self.touchControls.destroy()
+            del self.touchControls
         self.questMap.destroy()
         self.questMap = None
         if hasattr(self, 'purchaseButton'):
@@ -379,6 +384,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.optionsPage = OptionsPage.OptionsPage()
         self.optionsPage.load()
         self.book.addPage(self.optionsPage, pageName=TTLocalizer.OptionsPageTitle)
+        self.codePage = CodePage.CodePage()
+        self.codePage.load()
+        self.book.addPage(self.codePage, pageName=TTLocalizer.CodePageTitle)
         self.shardPage = ShardPage.ShardPage()
         self.shardPage.load()
         self.book.addPage(self.shardPage, pageName=TTLocalizer.ShardPageTitle)
@@ -436,6 +444,16 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.laffMeter.setPos(0.133, 0.0, 0.13)
         self.laffMeter.stop()
         self.expBar.start()
+        
+        if base.wantMobile:
+            self.touchControls = TouchControls.TouchControls()
+            self.touchControls.setScale(1)
+            self.touchControls.reparentTo(base.a2dBottomLeft)
+            self.touchControls.setPos(0.5, 0.0, 0.5)
+            self.touchControls.start()
+        else:
+            self.touchControls = None
+        
         self.questMap = QuestMap.QuestMap(self)
         self.questMap.stop()
         if not base.cr.isPaid():

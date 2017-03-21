@@ -7,6 +7,7 @@ from direct.interval.MetaInterval import Sequence, Parallel
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.battle import SuitBattleGlobals
+from toontown.suit import SuitDNA
 from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
 from toontown.cogdominium.CogdoFlyingLocalPlayer import CogdoFlyingLocalPlayer
 from toontown.cogdominium.CogdoGameAudioManager import CogdoGameAudioManager
@@ -33,15 +34,11 @@ class CogdoFlyingGame(DirectObject):
         self.localPlayer = None
         self._hints = {'targettedByEagle': False,
             'invulnerable': False}
-        
-        self.invSuit = False
 
     def _initLegalEagles(self):
         nestIndex = 1
         nests = self.level.root.findAllMatches('**/%s;+s' % Globals.Level.LegalEagleNestName)
-        self.invSuit = base.cr.newsManager.getInvading()
-        if not self.invSuit:
-            self.invSuit = 'le'
+        self.invSuit = 'le'
         for nest in nests:
             legalEagle = CogdoFlyingLegalEagle(nest, nestIndex, self.invSuit)
             self.legalEagles.append(legalEagle)

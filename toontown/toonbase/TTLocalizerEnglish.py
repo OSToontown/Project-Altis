@@ -55,7 +55,7 @@ GM_NAMES = ('TOON COUNCIL',
  'TOON TROOPER',
  'RESISTANCE RANGER',
  'GC')
-ProductPrefix = 'TT'
+ProductPrefix = 'TTPA'
 Mickey = 'Mickey'
 VampireMickey = 'VampireMickey'
 Minnie = 'Minnie'
@@ -84,8 +84,8 @@ lFunnyFarm = 'Funny Farm'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
 lGoofySpeedway = 'Goofy Speedway'
-lOutdoorZone = "Chip 'n Dale's Acorn Acres"
-lGolfZone = "Chip 'n Dale's MiniGolf"
+lOutdoorZone = "Acorn Acres"
+lGolfZone = "MiniGolf"
 lPartyHood = 'Party Grounds'
 GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1000: ('to the', 'in the', 'Playground'),
@@ -707,7 +707,7 @@ QuestDialogDict = {160: {GREETING: '',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  164: {QUEST: 'Phew, tired yet?\x07You know... You look like you could use some new gags.\x07Go see %s, maybe he can help you out._where_' % Flippy},
- 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formerly introduced myself...\x07I\'m Flippy, President of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07You see, every time you hit a Cog with one of your gags it increases your experience.\x07When you get enough experience, you\'ll be able to buy an even better gag.\x07Why not try it out?\x07To get some practice in, try defeating 4 of those Cogs on the streets.'},
+ 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formally introduced myself...\x07I\'m Flippy, President of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07You see, every time you hit a Cog with one of your gags it increases your experience.\x07When you get enough experience, you\'ll be able to buy an even better gag.\x07Why not try it out?\x07To get some practice in, try defeating 4 of those Cogs on the streets.'},
  166: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Bossbots I talked about!'},
  167: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Lawbots I talked about!'},
  168: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in lin...\nAnd Boardbots that represent them all...e\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Sellbots I talked about!'},
@@ -2048,6 +2048,10 @@ MovieSOSWhisperHelp = '%s needs help in battle!'
 MovieSOSObserverHelp = 'HELP!'
 MovieNPCSOSGreeting = 'Hi %s! Glad to help!'
 FrumpGreetings = ["I'm all in on this for a small loan of a million jellybeans.", 'Did one of you mention a wall?', "TOGETHER... WE WILL MAKE TOONTOWN GREAT AGAIN!!!", 'This is gonna be yuge.', "They are all filthy cogs, I'm sure some of them are great robots.", 'We are going to build a wall and make Loonyville pay for it!']
+JakebooySOSGreetings = ["You called for some rakes?", "Rake 'em in, boys!", "This won't rake long!", "These cogs are about to have a Pounding Headrake!", "Why are you calling me? The rake is a lie.", "It's time to rake up!", "Let them eat rake!", "It's time to put the icing on the rake!", "It's time to rake up!", "I rake it that you need some help?", "It's time to rake them cogs pay!"]
+JakebooySOSGoodbyes = ["So head on down to Jakes Rakes today!", "Rake it or leaf it!", "Rake ya later!", "Rake me up when september ends."]
+AliceSOSLeave = "I'll be going back to my rabbit hole now."
+AliceSOSGreeting = "Off with their heads!"
 MovieNPCSOSGoodbye = 'See you later!'
 MovieNPCSOSToonsHit = 'Toons Always Hit!'
 MovieNPCSOSToonsHitS = 'Toons Always Hit\nFor One Round!'
@@ -2125,6 +2129,7 @@ CheesyEffectId2Name = {
  9: 'Transparent',
  10: 'No Color',
  11: 'Invisible',
+ 15: 'Green Toon',
  77: 'Wireframe'}
 SuitFlunky = 'Flunky'
 SuitPencilPusher = 'Pencil Pusher'
@@ -4584,6 +4589,7 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+CodePageTitle = 'Codes'
 ItemsPageTitle = 'Items'
 ItemsPageNametagStyle = 'Nametag Style'
 ItemsPageFishingRods = "Fishing Rod"
@@ -5309,6 +5315,12 @@ GagShopPlayerDisconnected = '%s has disconnected'
 GagShopPlayerExited = '%s has exited'
 GagShopPlayerPlayAgain = 'Play Again'
 GagShopPlayerBuying = 'Buying'
+PopupTouchControls = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy Project Altis!'
+PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!'
+QuitConfirm = 'Are you sure you want to quit?'
+PlayGame = 'Pick-A-Toon'
+DiscordButton = 'Discord'
+CreditsButton = 'Credits'
 GenderShopQuestionMickey = 'To make a boy toon, click on me!'
 GenderShopQuestionMinnie = 'To make a girl toon, click on me!'
 GenderShopFollow = 'Follow me!'
@@ -7714,7 +7726,9 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7009: 'Jimmy Thelock',
  91917: 'Prince Frizzy',
  91918: 'Squeaker',
- 91919: 'Sir Tubby Cheezyfish'}
+ 91919: 'Sir Tubby Cheezyfish',
+ 91920: 'Jakebooy',
+ 91925: 'Ask Alice'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
  2514: ('Toontown Bank', ''),
  2516: ('Toontown School House', ''),
@@ -8532,7 +8546,7 @@ TipDict = {TIP_NONE: ('',),
               'During a battle, Cogs have a light on them that displays their health; green is healthy, red is nearly destroyed.',
               'A maximum of four Toons can battle at once.',
               'On the street, Cogs are more likely to join a fight against multiple Toons than just one Toon.',
-              'The two highest ranking Cogs of each type are only found in buildings.',
+              'The highest ranking Cog of each type can only be found in buildings.',
               'Drop gags never work against lured Cogs.',
               'Cogs tend to attack the Toon that has done them the most damage.',
               'Sound gags do not get bonus damage against lured Cogs.',
@@ -9944,40 +9958,9 @@ InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  5: 'Super Squirt!',
  6: ''}
 PlayingCardUnknown = 'Card Name is unknown'
-YinTitle = 'Are you absolutely sure?'
-YinNotCat = 'Sorry, I only make cats black.'
-YinAlreadyBlack = "You're already black!"
-YinPickColor = 'Are you sure you want to be a black cat?'
-YinEnjoy = 'Enjoy! You are now permanently a black cat.'
-YinGoodbye = 'Okay, then. See you later!'
-YangTitle = 'Are you absolutely sure?'
-YangNotBear = 'Sorry, I only make bears white.'
-YangAlreadyWhite = "You're already white!"
-YangPickColor = 'Are you sure you want to be a polar bear?'
-YangEnjoy = 'Enjoy! You are now permanently a polar bear.'
-YangGoodbye = 'Okay, then. See you later!'
-
-# Buffs
-
-buffIdStrings = {
-  0: ('Your movement speed will be slightly increased for the next %d %s.',
-      'Reward: Increased movement speed'),
-  1: ('Your gag accuracy will be slight increased for the next %d %s.',
-      'Reward: Increased gag accuracy')
-}
 
 # Controls
 RemapPrompt = 'Choose the keys you wish to remap.'
 RemapPopup = 'Press the key you wish to remap this control to.'
 Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
             'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
-
-def getBuffString(buffId, buffTime):
-    if buffTime < 60:
-        return buffIdStrings[buffId][0] % (buffTime, 'minutes')
-    else:
-        return buffIdStrings[buffId][0] % (buffTime / 60, 'hours')
-
-
-def getBuffPosterString(buffId):
-    return buffIdStrings[buffId][1]

@@ -33,7 +33,7 @@ BUTTONPOSITIONS = (
  (0.6, 0, 0.5),
  (1, 0, 0.5)
  )
-            
+
 BUTTONPOSITIONSCLASSIC = (
  Vec3(-0.840167, 0, 0.359333),
  Vec3(0.00933349, 0, 0.306533),
@@ -107,10 +107,10 @@ class PickAToon(DirectObject):
                 button['command'] = self.selectToonClassic
             else:
                 button['command'] = self.makeToonClassic
-                
+
             button.posHprScaleInterval(1, position, Vec3(0, 0, 0), Vec3(1.01, 1.01, 1.01), blendType = 'easeInOut').start()
         self.play.hide()
-        
+
     def hideClassic(self):
         self.isClassic = False
         self.classicButton['text'] = "Classic"
@@ -122,7 +122,7 @@ class PickAToon(DirectObject):
         self.play.show()
         if self.backgroundClassic:
             LerpColorScaleInterval(self.backgroundClassic, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, 1), blendType = 'easeInOut').start()
-        
+
     def enter(self):
         base.disableMouse()
         if base.showDisclaimer:
@@ -146,12 +146,12 @@ class PickAToon(DirectObject):
     def load(self):
         self.patNode = render.attachNewNode('patNode')
         self.patNode2d = aspect2d.attachNewNode('patNode2d')
-        gui = asyncloader.loadModel('phase_3/models/gui/pick_a_toon_gui')
-        gui2 = asyncloader.loadModel('phase_3/models/gui/quit_button')
-        newGui = asyncloader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui')
-        matGui = asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
-        shuffleUp = matGui.find('**/tt_t_gui_mat_shuffleUp')
-        shuffleDown = matGui.find('**/tt_t_gui_mat_shuffleDown')
+        gui = base.patgui
+        gui2 = base.gui2
+        newGui = base.newGui
+        matGui = base.matGui
+        shuffleUp = base.shuffleUp
+        shuffleDown = base.shuffleDown
 
         self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon, scale = TTLocalizer.ACtitle, parent = hidden, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.82))
 
@@ -172,10 +172,6 @@ class PickAToon(DirectObject):
         self.shardsButton.reparentTo(base.a2dBottomLeft)
         self.shardsButton.setPos(0.25, 0, 0.2)
 
-        gui.removeNode()
-        gui2.removeNode()
-        newGui.removeNode()
-
         # Area toon is in
         self.area = OnscreenText(parent = self.patNode2d, font = ToontownGlobals.getToonFont(),
                                  pos = (-.1, -.1), scale = .075, text = '', shadow = (0, 0, 0, 1), fg = COLORS[self.selectedToon])
@@ -188,41 +184,24 @@ class PickAToon(DirectObject):
         self.toon.reparentTo(self.patNode)
         self.toon.stopLookAroundNow()
 
-        def spawnToonButtons(*args):
-            self.pickAToonGui = args[0]
-            self.buttonBgs = []
-            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareRed'))
-            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareGreen'))
-            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePurple'))
-            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareBlue'))
-            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePink'))
-            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareYellow'))
-            buttonIndex = []
-            for av in self.avatarList:
-                self.setupButtons(av, position = av.position)
-                buttonIndex.append(av.position)
+        self.pickAToonGui = newGui
+        self.buttonBgs = []
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareRed'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareGreen'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePurple'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareBlue'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePink'))
+        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareYellow'))
+        buttonIndex = []
+        for av in self.avatarList:
+            self.setupButtons(av, position = av.position)
+            buttonIndex.append(av.position)
 
-            for pos in xrange(0, 6):
-                if pos not in buttonIndex:
-                    button = self.setupButtons(position = pos)
-            if self.Seq:
-                self.Seq.finish()
-                del self.Seq
-                self.loadingCircle.removeNode()
-                del self.loadingCircle
-            if settings['patMode'].lower() == "classic":
-                self.showClassic()
-        self.loadingCircle = OnscreenImage(image = 'phase_3/maps/dmenu/loading_circle.png')
-        self.loadingCircle.show()
-        self.loadingCircle.setScale(0.1)
-        self.loadingCircle.setTransparency(TransparencyAttrib.MAlpha)
-        self.loadingCircle.reparentTo(aspect2d)
+        for pos in xrange(0, 6):
+            if pos not in buttonIndex:
+                button = self.setupButtons(position = pos)
+
         base.graphicsEngine.renderFrame()
-        self.Seq = Sequence(
-            Func(self.loadingCircle.setHpr, VBase3(0, 0, 0)),
-            self.loadingCircle.hprInterval(1, VBase3(0, 0, 360)))
-        self.Seq.loop()
-        asyncloader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui', callback = spawnToonButtons)
         self.changeName = DirectButton(relief = None, image = (quitHover, quitHover, quitHover), text = 'NAME THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.045, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.4, pos = (0, 0, -0.75), command = self.__handleNameYourToon, parent = self.patNode2d)
 
     def toggleClassic(self):
@@ -230,11 +209,11 @@ class PickAToon(DirectObject):
             self.hideClassic()
         else:
             self.showClassic()
-        
+
     def selectToon(self, slot):
         self.selectedToon = slot
         self.updateFunc()
-        
+
     def selectToonClassic(self, slot):
         self.selectedToon = slot
         doneStatus = {'mode': 'chose', 'choice': slot}
@@ -312,12 +291,12 @@ class PickAToon(DirectObject):
     def makeToon(self, position = None):
         doneStatus = {'mode': 'create', 'choice': self.selectedToon}
         messenger.send(self.doneEvent, [doneStatus])
-        
+
     def makeToonClassic(self, position):
         self.selectToon(position)
         doneStatus = {'mode': 'create', 'choice': self.selectedToon}
         messenger.send(self.doneEvent, [doneStatus])
-        
+
     def setupButtons(self, av = None, position = 0):
         deleteButton = None
         button = DirectButton(text = ('', '', ''), text_scale = TTLocalizer.ACplayThisToon, text_fg = (1, 0.9, 0.1, 1), relief = None, text_font = ToontownGlobals.getSignFont(), command = self.selectToon, extraArgs = [position], image = self.buttonBgs[position])
@@ -350,7 +329,7 @@ class PickAToon(DirectObject):
         self.buttonList.append(button)
         if deleteButton:
             self.deleteButtons.append(deleteButton)
-    
+
     def unload(self):
         taskMgr.remove('turnHead')
         cleanupDialog('globalDialog')
@@ -434,7 +413,7 @@ class PickAToon(DirectObject):
         self.shardPicker.hidePicker()
         self.shardsButton['text'] = 'Districts'
         self.shardsButton['command'] = self.openShardPicker
-        
+
     def quitGame(self):
         self.showQuitConfirmation()
         self.optionsButton.hide()
@@ -442,14 +421,14 @@ class PickAToon(DirectObject):
         self.quitButton.hide()
         self.patNode2d.hide()
         self.patNode.hide()
-            
+
     def showQuitConfirmation(self):
         LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .5), startColorScale = Vec4(.6, .1, .1, 0)).start()
         self.quitConfirmation.showConf()
-            
+
     def doQuitFunc(self):
         base.exitFunc()
-        
+
     def doCancelQuitFunc(self):
         LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, 0), startColorScale = Vec4(.6, .1, .1, .5)).start()
         self.quitConfirmation.hideConf()

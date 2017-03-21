@@ -1788,3 +1788,11 @@ BGagAccuracy = 1
 BGagAccuracyMultiplier = 1.3
                             # 1-default # 2 # 3 # 4
 HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]
+
+CODE_SUCCESS = 0
+CODE_INVALID = 1
+CODE_EXPIRED = 2
+CODE_INELIGIBLE = 3
+CODE_REWARD_ERROR = 4
+CODE_TOO_MANY_ATTEMPTS = 5
+CODE_UNAVAILABLE = 6

@@ -230,11 +230,7 @@ class CogdoFlyingMinion(CogdoFlyingObstacle):
         self.prop = None
         self.suit = Suit.Suit()
         d = SuitDNA.SuitDNA()
-        invSuit = base.cr.newsManager.getInvading()
-        if invSuit:
-            d.newSuit(invSuit)
-        else:
-            d.newSuit(random.choice(Globals.Gameplay.MinionDnaName))
+        d.newSuit(random.choice(Globals.Gameplay.MinionDnaName))
         
         self.suit.setDNA(d)
         self.suit.setScale(Globals.Gameplay.MinionScale)

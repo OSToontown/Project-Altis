@@ -68,7 +68,7 @@ class FriendHandle:
             understandable = 1
         elif base.localAvatar.commonChatFlags & ToontownGlobals.SuperChat:
             understandable = 1
-        elif base.cr.getFriendFlags(self.doId) & ToontownGlobals.FriendChat:
+        elif base.localAvatar.isTrueFriends(self.doId):
             understandable = 1
         elif self.whitelistChatFlags & base.localAvatar.whitelistChatFlags:
             understandable = 1
