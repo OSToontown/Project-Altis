@@ -57,6 +57,7 @@ class ItemsPage(ShtikerPage.ShtikerPage):
         self.fishingRods_preview.bind(DirectGuiGlobals.ENTER, self.enterHoverFishing)
         self.fishingRods_preview.bind(DirectGuiGlobals.EXIT, self.exitHoverFishing)
         self.geom = None
+        self.geomRotate = None
         
     def unload(self):
         ShtikerPage.ShtikerPage.unload(self)

@@ -175,6 +175,9 @@ class Avatar(Actor, ShadowCaster):
         elif base.cr.getFriendFlags(self.doId) & OTPGlobals.FriendChat:
             self.understandable = 1
             self.setPlayerType(NametagGlobals.CCFreeChat)
+        elif base.localAvatar.isTrueFriends(self.doId):
+              self.understandable = 2
+              self.setPlayerType(NametagGlobals.CCNormal)
         elif base.cr.playerFriendsManager.findPlayerIdFromAvId(self.doId) is not None:
             playerInfo = base.cr.playerFriendsManager.findPlayerInfoFromAvId(self.doId)
             if playerInfo.openChatFriendshipYesNo:

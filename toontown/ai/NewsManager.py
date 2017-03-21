@@ -71,12 +71,13 @@ class NewsManager(DistributedObject.DistributedObject):
         base.localAvatar.setSystemMessage(style, message)
 
     def setInvasionStatus(self, msgType, suitType, remaining, flags):
-        if suitType in SuitDNA.suitHeadTypes:
-            suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
-            suitNamePlural = SuitBattleGlobals.SuitAttributes[suitType]['pluralname']
-        elif suitType in SuitDNA.suitDepts:
+        try:
             suitName = SuitDNA.getDeptFullname(suitType)
             suitNamePlural = SuitDNA.getDeptFullnameP(suitType)
+        except:
+            suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
+            suitNamePlural = SuitBattleGlobals.SuitAttributes[suitType]['pluralname']
+
 
         messages = []
 

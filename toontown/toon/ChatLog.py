@@ -2,6 +2,7 @@ from panda3d.core import *
 from toontown.pgui.DirectGui import *
 from toontown.pgui import DirectGuiGlobals
 from direct.showbase.DirectObject import DirectObject
+from otp.avatar import Avatar
 
 class ChatLog(DirectFrame, DirectObject):
     def __init__(self):
@@ -50,9 +51,9 @@ class ChatLog(DirectFrame, DirectObject):
         self.toggleBtn.destroy()
         base.cr.chatLog = None
         
-    def addToLog(self, msg):
+    def addToLog(self, msg, avId = 0):
         msg = msg.replace('\n', ' ')
-        msgd = DirectButton(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25, text_shadow=(0, 0, 0, 1))
+        msgd = DirectButton(relief = None, text = msg, text_scale = 0.035, text_pos = (-.44, 0), text_style = 3, text_align = TextNode.ALeft, text_wordwrap = 25, text_shadow=(0, 0, 0, 1), command = self.buttonizeIt, extraArgs = [avId])
         self.log.addItem(msgd)
         self.log.scrollTo(len(self.log['items']) - 1)
         
@@ -70,3 +71,11 @@ class ChatLog(DirectFrame, DirectObject):
 			
     def updateTransparency(self, transparency):
         self.log.itemFrame_geom_color[3] = transparency
+
+    def buttonizeIt(self, avId):
+        av = base.cr.doId2do.get(avId)
+        if not av:
+            return
+        if str(avId)[:2] != "10":
+            return
+        av.clickedNametag()

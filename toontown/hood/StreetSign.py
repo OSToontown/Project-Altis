@@ -11,7 +11,7 @@ class StreetSign(DistributedObject.DistributedObject):
     RedownloadTaskName = 'RedownloadStreetSign'
     StreetSignFileName = config.GetString('street-sign-filename', 'texture.jpg')
     StreetSignBaseDir = config.GetString('street-sign-base-dir', 'sign')
-    StreetSignUrl = base.config.GetString('street-sign-url', 'http://cdn.toontown.disney.go.com/toontown/en/street-signs/img/')
+    StreetSignUrl = base.config.GetString('street-sign-url', 'https://raw.githubusercontent.com/altisofficial/ProjectAltis-docs/master/sign/')
     notify = DirectNotifyGlobal.directNotify.newCategory('StreetSign')
 
     def __init__(self):
@@ -20,13 +20,14 @@ class StreetSign(DistributedObject.DistributedObject):
         self.startDownload = datetime.datetime.now()
         self.endDownload = datetime.datetime.now()
         self.notify.info('Street sign url is %s' % self.StreetSignUrl)
-        #self.redownloadStreetSign()
+        taskMgr.add(self.redownloadStreetSign, 'download')
 
     def replaceTexture(self):
         searchPath = DSearchPath()
         searchPath.appendDirectory(self.directory)
 
-    def redownloadStreetSign(self):
+    def redownloadStreetSign(self, task):
+        self.notify.info("Redownloading street signs")
         self.precentDownload = 0.0
         self.startRedownload = datetime.datetime.now()
         self.downloadingStreetSign = True
@@ -51,6 +52,9 @@ class StreetSign(DistributedObject.DistributedObject):
             self.ch.beginGetDocument(doc)
             self.ch.downloadToFile(localFilename)
             taskMgr.add(self.downloadStreetSignTask, self.RedownloadTaskName)
+        taskMgr.doMethodLater(900, self.redownloadStreetSign, 'redownloadLater')
+        
+        
 
     def downloadStreetSignTask(self, task):
         if self.ch.run():
@@ -62,5 +66,5 @@ class StreetSign(DistributedObject.DistributedObject):
         if not self.ch.isValid():
             self.redownloadingStreetSign = False
             return task.done
-        self.notify.info('Down downloading street sign')
+        self.notify.info('Done downloading street sign')
         return task.done

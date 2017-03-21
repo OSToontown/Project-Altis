@@ -188,6 +188,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
+        self.trueFriends = []
         self.interiorLayout = 0
 
     def disable(self):
@@ -516,10 +517,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if base.localAvatar.sleepFlag == 1:
                 base.cr.ttaFriendsManager.d_sleepAutoReply(fromAV)
        
-        newText, scrubbed = self.scrubTalk(chat, mods)
-        if base.localAvatar.getAdminAccess() >= 375:
-            if chat != newText:
-                newText = (newText + " \1WLEnter\1(%s)\2" %chat)
+        newText, scrubbed = self.scrubTalk(chat, mods, fromAV)
         base.talkAssistant.receiveOpenTalk(fromAV, avatarName, fromAC, None, newText)
         self.displayTalk(newText)
 
@@ -542,7 +540,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if not base.cr.identifyAvatar(fromAV) == base.localAvatar:
                 base.cr.ttaFriendsManager.d_sleepAutoReply(fromAV)
         
-        newText, scrubbed = self.scrubTalk(chat, mods)
+        newText, scrubbed = self.scrubTalk(chat, mods, fromAV)
         self.displayTalkWhisper(fromAV, avatarName, chat, mods)
         timestamp = time.strftime('%m-%d-%Y %H:%M:%S', time.localtime())
         print ':%s: receiveWhisperTalk: %r, %r, %r, %r, %r, %r, %r' % (timestamp, fromAV, avatarName, fromAC, None, self.doId, self.getName(), newText)
@@ -2618,7 +2616,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                         reply.status = newStatus
                         break
 
-    def scrubTalk(self, message, mods):
+    def scrubTalk(self, message, mods, fromId = 0):
         scrubbed = 0
         text = copy.copy(message)
         for mod in mods:
@@ -2626,7 +2624,25 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             length = mod[1] - mod[0] + 1
             newText = text[0:index] + length * '\x07' + text[index + length:]
             text = newText
-
+        hasTrueFriends = len(base.localAvatar.trueFriends) > 0
+        if base.localAvatar.isTrueFriends(fromId) or (fromId == base.localAvatar.doId and hasTrueFriends):
+            newText = []
+            for word in message.split(' '):
+                if not base.whiteList.isWord(word):
+                    newText.append('\x01WLDisplay\x01' + word + '\x02')
+                else:
+                    newText.append(word)
+            msg = ' '.join(newText)
+            return (msg, 1)
+        if base.localAvatar.getAdminAccess() >= 375:
+            newText = []
+            for word in message.split(' '):
+                if not base.whiteList.isWord(word):
+                    newText.append('\x01WLEnter\x01' + word + '\x02')
+                else:
+                    newText.append(word)
+            msg = ' '.join(newText)
+            return (msg, 1)
         words = text.split(' ')
         newwords = []
         for word in words:
@@ -2640,7 +2656,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             else:
                 flag = 0
                 for friendId, flags in self.friendsList:
-                    if not flags & ToontownGlobals.FriendChat:
+                    if not base.localAvatar.isTrueFriends(friendId):
                         flag = 1
 
                 if flag:
@@ -2770,7 +2786,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_getConnected', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_creative', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*')
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*')
         ]
         
         #Now we need to caculate our index. 
@@ -2780,6 +2797,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             index = 3
         elif gmType in [390]:
             index = 2
+        elif gmType in [398]:
+            index = 5
         elif gmType >= 400:
             index = 4
         else:
@@ -2904,6 +2923,13 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         base.cr.playGame.getPlace().fsm.forceTransition('teleportOut', requestStatus)
 
 
+    def setTrueFriends(self, trueFriends):
+        Avatar.reconsiderAllUnderstandable()
+        self.trueFriends = trueFriends
+
+    def isTrueFriends(self, doId):
+        return doId in self.trueFriends
+
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def zone(zoneId):
     """
@@ -2927,7 +2953,7 @@ def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
 	
 @magicWord(category=CATEGORY_CREATIVE, types=[int])
-def streetGoto(streetZone):
+def globalTp(streetZone):
     spellbook.getInvoker().magicTeleportInitiate(ZoneUtil.getHoodId(streetZone), streetZone)
     return "Teleporting to zone %d!" % streetZone 
     

@@ -12,16 +12,16 @@ collections.namedtuple = lambda *x: list
 # get any special perms or anything of the sort.
 __builtin__.__dev__ = False
 
-#def __runfunc(*args, **kw):
+# def __runfunc(*args, **kw):
 #    raise SystemExit
 
 # replace these methods to prevent injection...
-#__builtin__.exec = __runfunc
-#__builtin__.eval = __runfunc
-#__builtin__.compile = __runfunc
-#__builtin__.execfile = __runfunc
-#__builtin__.globals = __runfunc
-#__builtin__.locals = __runfunc
+# __builtin__.exec = __runfunc
+# __builtin__.eval = __runfunc
+# __builtin__.compile = __runfunc
+# __builtin__.execfile = __runfunc
+# __builtin__.globals = __runfunc
+# __builtin__.locals = __runfunc
 
 # TODO: append resources
 import aes
@@ -30,11 +30,11 @@ import niraidata
 iv = '\0' * 16
 key = 'g89a1hU0acBrlcru'
 
-#config = niraidata.CONFIG
-#config = aes.decrypt(config, key, iv)
+# config = niraidata.CONFIG
+# config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.7.3]
+window-title Project Altis [ALPHA 1.7.8]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -202,7 +202,7 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.7.3
+server-version TTPA-Alpha-1.7.8
 shard-low-pop 100
 shard-mid-pop 200
 
@@ -245,7 +245,7 @@ for line in io.readlines():
     if line.startswith('#'):
         continue
 
-    #print line
+    # print line
     # load the prc file value
     loadPrcFileData('', line)
 

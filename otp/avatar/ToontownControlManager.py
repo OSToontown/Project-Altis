@@ -185,6 +185,26 @@ class ToontownControlManager(ControlManager.ControlManager):
                     token.release()
                 self.forceTokens = []
 
+
+    def disableControls(self):
+        # Forces all keys to return 0.
+        self.forceTokens = [
+            inputState.force('jump', 0, 'ToontownControlManager.disableWASD'),
+            inputState.force('forward', 0, 'ToontownControlManager.disableWASD'),
+            inputState.force('turnLeft', 0, 'ToontownControlManager.disableWASD'),
+            inputState.force('slideLeft', 0, 'ToontownControlManager.disableWASD'),
+            inputState.force('reverse', 0, 'ToontownControlManager.disableWASD'),
+            inputState.force('turnRight', 0, 'ToontownControlManager.disableWASD'),
+            inputState.force('slideRight', 0, 'ToontownControlManager.disableWASD')
+        ]
+
+    def enableControls(self):
+        # Releases all the forced keys we added earlier.
+        if self.forceTokens:
+            for token in self.forceTokens:
+                token.release()
+            self.forceTokens = []
+                
     def reload(self):
         # Called to reload the ControlManager ingame
         # Reload wantWASD

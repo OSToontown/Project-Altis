@@ -30,6 +30,7 @@ from toontown.toonbase import ToontownAccess
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toontowngui import TTDialog
 from toontown.options import GraphicsOptions
+from toontown.audio.AltisAudio import AltisAudio
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 
 class ToonBase(OTPBase.OTPBase):
@@ -111,6 +112,8 @@ class ToonBase(OTPBase.OTPBase):
             self.win.setSort(sort)
             self.graphicsEngine.renderFrame()
             self.graphicsEngine.renderFrame()
+        
+        self.audioMgr = AltisAudio()
         
         self.disableShowbaseMouse()
         self.addCullBins()
@@ -303,7 +306,37 @@ class ToonBase(OTPBase.OTPBase):
         self.wantInteractKey = settings.get('interactkey', False)
         
         self.accept('f4', self.toggleNametags)
+        
+        if 'experimental-touch' in settings:
+            self.wantMobile = settings.get('experimental-touch', False)
+        else:
+            self.wantMobile = False
+            
+        def sp1(*args):
+            self.patgui = args[0]
+        
+        def sp2(*args):
+            self.gui2 = args[0]     
+            
+        def sp3(*args):
+            self.newGui = args[0]     
+            
+        def sp4(*args):
+            self.matGui = args[0]
+            self.shuffleUp = self.matGui.find('**/tt_t_gui_mat_shuffleUp')
+            self.shuffleDown = self.matGui.find('**/tt_t_gui_mat_shuffleDown')
+            
+        # Speed up the pat loading abit, have these pre-load
+        asyncloader.loadModel('phase_3/models/gui/pick_a_toon_gui', callback = sp1)
+        self.notify.info("Pre-loading PICK A TOON GUI")
+        asyncloader.loadModel('phase_3/models/gui/quit_button', callback = sp2)
+        self.notify.info("Pre-loading Button UI")
+        asyncloader.loadModel('phase_3/models/gui/tt_m_gui_pat_mainGui', callback = sp3)
+        self.notify.info("Pre-loading PICK A TOON GUI 2")
+        asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
+        self.notify.info("Pre-loading MAKE A TOON GUI")
 
+            
     def updateAspectRatio(self):
         fadeSequence = Sequence(
             Func(base.transitions.fadeOut, .2),
@@ -645,6 +678,12 @@ class ToonBase(OTPBase.OTPBase):
 
     def playMusic(self, *args, **kw):
         OTPBase.OTPBase.playMusic(self, *args, **kw)
+        
+    def fadeMusicIn(self, musicFile, looping = 1):
+        self.audioMgr.fadeInMusic(musicFile, looping)
+        
+    def fadeMusicOut(self, musicFile):
+        self.audioMgr.fadeOutMusic(musicFile)
 
     def exitOSX(self):
         self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=TTLocalizer.OptionsPageExitConfirm, 

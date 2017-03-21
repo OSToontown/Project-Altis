@@ -183,7 +183,7 @@ CRBootedReasons = {1: 'An unexpected problem has occurred.  Your connection has 
  100: 'You have been disconnected because someone else just logged in using your account on another computer.',
  120: 'You have been disconnected because of a problem with your authorization to use keyboard chat.',
  122: 'There was an error authenticating! Not to worry though, you should be able to just restart and hop straight back into Project Altis!',
- 124: 'Your installed files are out of date.  Please launch the game from the official launcher so that it can install updates.  If you continue to get this error, contact support.',
+ 124: 'Your installed files are out of date. Make sure you run the launcher in Administrator mode by right clicking and clicking "Run as Administrator" to allow it to update your files.',
  125: 'Your installed files appear to be invalid.  Please use the Play button on the official website to run.',
  126: 'You are not authorized to use administrator privileges.',
  127: 'A problem has occurred with your Toon.  Please contact Member Services via phone or email and reference Error Code 127.  Thank you.',
@@ -320,7 +320,7 @@ FriendSecretGotSecret = "Here is your new True Friend Code.  Be sure to write it
 FriendSecretTooMany = "Sorry, you can't have any more True Friend Codes today.  You've already had more than your fair share!\n\nTry again tomorrow."
 FriendSecretTryingSecret = 'Trying True Friend Code. . .'
 FriendSecretNotImplemented = 'True Friends has not been implemented yet!'
-FriendSecretEnteredSecretSuccess = 'You are now True Friends with %s!'
+FriendSecretEnteredSecretSuccess = 'You are now True Friends with %s!\n(You may have to relog for the True Friends to take effect)'
 FriendSecretTimeOut = 'Sorry, secrets are not working right now.'
 FriendSecretEnteredSecretUnknown = "That's not anyone's True Friend Code.  Are you sure you spelled it correctly?\n\nIf you did type it correctly, it may have expired.  Ask your friend to get a new True Friend Code for you (or get a new one yourself and give it to your friend)."
 FriendSecretEnteredSecretFull = "You can't be friends with %s because one of you has too many friends on your friends list."
@@ -334,6 +334,8 @@ FriendSecretDetermineSecretAvatar = 'Avatar'
 FriendSecretDetermineSecretAvatarRollover = 'A friend only in this game'
 FriendSecretDetermineSecretAccount = 'Account'
 FriendSecretDetermineSecretAccountRollover = 'A friend across the Project Altis network'
+FriendSecretTooFast = "You are entering True Friend Codes too fast!"
+FriendSecretAlreadyFriends = "You are already True Friends with %s!"
 GuildMemberTitle = 'Member Options'
 GuildMemberPromote = 'Make Officer'
 GuildMemberPromoteInvite = 'Make Veteran'

@@ -24,6 +24,9 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
         DistributedWeatherMGRAI.announceGenerate(self)
         if self.zoneId in [3000, 3100, 3200, 3300]:
             rainState = 'Snow'
+        elif self.zoneId == 6000:
+            self.b_setState('ThunderStorm')
+            return            
         else:
             rainState = 'Rain'
         Sequence(
@@ -43,6 +46,12 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
 
     def exitSnow(self):
         pass
+
+    def enterThunderStorm(self):
+        taskMgr.doMethodLater(5, self.createLightning, 'doLightningStrike')
+        
+    def exitThunderStorm(self):
+        pass
         
     def enterSunny(self):
         simbase.air.isRaining = False
@@ -50,7 +59,9 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
     def exitSunny(self):
         simbase.air.isRaining = True
         
-    def createLightning(self):
-        x = random.random() * 100
-        y = random.random() * 100
+    def createLightning(self, task):
+        x = random.randrange(-150, 150)
+        y = random.randrange(-150, 150)
+        task.delay = random.randrange(5, 30)
         self.sendUpdate("spawnLightning", [x, y])
+        return task.again

@@ -186,10 +186,12 @@ class PlantingGUI(DirectFrame):
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         self.beanBank = DirectLabel(self, relief=None, image=guiItems.find('**/bean_bank'), text=str(base.localAvatar.getMoney() + base.localAvatar.getBankMoney()), text_align=TextNode.ARight, text_scale=0.11, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.75, -0.81), text_font=ToontownGlobals.getSignFont(), pos=(-0.85, 0, 0.2), scale=0.5)
         self.matchBoxesToAvailableMoney()
+        base.localAvatar.controlManager.disableControls()
         if PICKER_ALWAYS_UP:
             self.spiffyBeanBoxClicked(0)
 
     def destroy(self):
+        base.localAvatar.controlManager.enableControls()
         if self.boxList:
             for box in self.boxList:
                 box.destroy()
@@ -208,7 +210,7 @@ class PlantingGUI(DirectFrame):
                 photo.destroy()
 
             self.specialPhotoList = []
-
+        
     def __cancel(self):
         messenger.send(self.doneEvent, [0, '', -1])
         messenger.send('wakeup')

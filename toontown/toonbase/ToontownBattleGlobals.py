@@ -159,11 +159,10 @@ CarryLimits = (
 MaxProps = ((15, 40), (30, 60), (75, 80))
 DLF_SKELECOG = 1
 DLF_FOREMAN = 2
-DLF_VP = 4
-DLF_CFO = 8
-DLF_SUPERVISOR = 16
-DLF_VIRTUAL = 32
-DLF_REVIVES = 64
+DLF_BOSS = 4
+DLF_SUPERVISOR = 8
+DLF_VIRTUAL = 16
+DLF_REVIVES = 32
 pieNames = ['tart',
  'fruitpie-slice',
  'creampie-slice',
@@ -358,13 +357,13 @@ AvPropDamage = ((((8, 10), (Levels[0][0], Levels[0][1])),
   ((60, 70), (Levels[0][4], Levels[0][5])),
   ((90, 120), (Levels[0][5], Levels[0][6])),
   ((210, 210), (Levels[0][6], MaxSkill))),
- (((10, 12), (Levels[1][0], Levels[1][1])),
-  ((18, 20), (Levels[1][1], Levels[1][2])),
-  ((30, 35), (Levels[1][2], Levels[1][3])),
-  ((45, 50), (Levels[1][3], Levels[1][4])),
-  ((60, 70), (Levels[1][4], Levels[1][5])),
-  ((90, 180), (Levels[1][5], Levels[1][6])),
-  ((195, 195), (Levels[1][6], MaxSkill))),
+ (((10, 20), (Levels[1][0], Levels[1][1])),
+  ((25, 30), (Levels[1][1], Levels[1][2])),
+  ((40, 45), (Levels[1][2], Levels[1][3])),
+  ((55, 60), (Levels[1][3], Levels[1][4])),
+  ((65, 85), (Levels[1][4], Levels[1][5])),
+  ((110, 200), (Levels[1][5], Levels[1][6])),
+  ((215, 215), (Levels[1][6], MaxSkill))),
  (((0, 0), (0, 0)),
   ((0, 0), (0, 0)),
   ((0, 0), (0, 0)),

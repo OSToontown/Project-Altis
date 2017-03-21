@@ -307,6 +307,9 @@ dclass FriendManager : DistributedObject {
   requestSecretResponse(int8, string);
   submitSecret(string(0-256)) airecv clsend;
   submitSecretResponse(int8, int32);
+  requestTrueFriendCode() airecv clsend;
+  useTrueFriendCode(string) airecv clsend;
+  trueFriendResponse(uint8, string);
 };
 
 struct FriendInfo {
@@ -976,6 +979,8 @@ dclass DistributedToon : DistributedPlayer {
   setBattleId(uint32 = 0) required broadcast ram;
   setToonExp(int32 exp = 0) required broadcast ownrecv db;
   setToonLevel(int32 level = 0) required broadcast ownrecv db;
+  setTrueFriends(uint32[] = []) ownrecv required db airecv;
+  setTrueFriendRequest(uint32[] = [0, 0]) ram airecv;
   setExperience(blob = [0*16]) required broadcast db;
   setMaxCarry(uint8 = 20) required ownrecv db;
   setTrackAccess(uint16[] = [0,0,0,0,1,1,0,0]) required broadcast ownrecv db;
@@ -1060,6 +1065,7 @@ dclass DistributedToon : DistributedPlayer {
   setQuestCarryLimit(uint8 = 1) required ownrecv db;
   requestDeleteQuest(uint32[]) ownsend airecv;
   setCheesyEffect(int16 = 0, uint32 = 0, uint32 = 0) required broadcast ownrecv db;
+  setCheesyEffects(int16[] = [0]) required broadcast ownrecv db;
   setGhostMode(uint8) broadcast ownrecv ram;
   setPosIndex(uint8 = 0) required ownrecv db;
   setFishCollection(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
@@ -1159,6 +1165,7 @@ dclass DistributedToon : DistributedPlayer {
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
   requestNametagStyle(uint8) airecv ownsend;
   requestFishingRod(uint8) airecv ownsend;
+  requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
 };

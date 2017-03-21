@@ -131,6 +131,8 @@ def getSoundTrack(fileName, delay = 0.01, duration = None, node = None):
 
 def __createThrownTrapMultiTrack(trap, propList, propName, propPos = None, propHpr = None, anim = 0, explode = 0):
     toon = trap['toon']
+    if 'npc' in trap:
+    	toon = trap['npc']
     level = trap['level']
     battle = trap['battle']
     target = trap['target']
@@ -277,7 +279,6 @@ def __createThrownTrapMultiTrack(trap, propList, propName, propPos = None, propH
     toonTrack = Sequence(Func(toon.headsUp, battle, targetPos), ActorInterval(toon, 'toss'), Func(toon.loop, 'neutral'))
     return Parallel(propTrack, throwTrack, toonTrack)
 
-
 def __createPlacedTrapMultiTrack(trap, prop, propName, propPos = None, propHpr = None, explode = 0, visibleOnlyForThisSuitId = None):
     toon = trap['toon']
     if 'npc' in trap:
@@ -353,7 +354,11 @@ def __createPlacedTrapMultiTrack(trap, prop, propName, propPos = None, propHpr =
 
 def __trapBanana(trap, trapProps, explode):
     toon = trap['toon']
-    suit = trap['target'][0]['suit']
+    if 'npc' in trap:
+    	toon = trap['npc']
+    targets = trap['target']
+    for target in targets:
+    	suit = trap['target'][0]['suit']
     notify.debug('toon: %s lays banana peel in front of suit: %d' % (toon.getName(), suit.doId))
     bananas = trapProps
     return __createThrownTrapMultiTrack(trap, bananas, 'banana', anim=1, explode=explode)
@@ -361,6 +366,8 @@ def __trapBanana(trap, trapProps, explode):
 
 def __trapRake(trap, trapProps, explode):
     toon = trap['toon']
+    if 'npc' in trap:
+    	toon = trap['npc']
     suit = trap['target'][0]['suit']
     notify.debug('toon: %s lays rake in front of suit: %d' % (toon.getName(), suit.doId))
     rakes = trapProps
@@ -369,7 +376,11 @@ def __trapRake(trap, trapProps, explode):
 
 def __trapMarbles(trap, trapProps, explode):
     toon = trap['toon']
-    suit = trap['target'][0]['suit']
+    if 'npc' in trap:
+    	toon = trap['npc']
+    targets = trap['target']
+    for target in targets:
+    	suit = trap['target'][0]['suit']
     notify.debug('toon: %s lays marbles in front of suit: %d' % (toon.getName(), suit.doId))
     bothMarbles = trapProps
     pos = Point3(0, 0, 0)
@@ -400,7 +411,11 @@ def __trapTrapdoor(trap, trapProps, explode):
 
 def __trapTNT(trap, trapProps, explode):
     toon = trap['toon']
-    suit = trap['target'][0]['suit']
+    if 'npc' in trap:
+    	toon = trap['npc']
+    targets = trap['target']
+    for target in targets:
+    	suit = trap['target'][0]['suit']
     notify.debug('toon: %s lays TNT in front of suit: %d' % (toon.getName(), suit.doId))
     tnts = trapProps
     return __createThrownTrapMultiTrack(trap, tnts, 'tnt', anim=0, explode=explode)
