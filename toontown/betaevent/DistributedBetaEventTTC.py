@@ -12,6 +12,8 @@ from toontown.suit import DistributedSuitBase, SuitDNA
 from toontown.toon import NPCToons
 from toontown.betaevent import BetaEventGlobals as BEGlobals
 from toontown.battle import BattleParticles
+from toontown.dna.DNAStorage import DNAStorage
+from toontown.dna.DNAParser import loadDNAFileAI
 
 class DistributedBetaEventTTC(DistributedEvent):
     notify = directNotify.newCategory('DistributedBetaEventTTC')
@@ -38,16 +40,36 @@ class DistributedBetaEventTTC(DistributedEvent):
 
         #base.musicManager.stopAllSounds()
         self.toonMusic = loader.loadMusic('phase_14/audio/bgm/tt2_ambient_1.mp3') # Placeholder
+        self.invasion1 = loader.loadMusic('phase_14/audio/bgm/event_temp_1.mp3') # Placeholder
         #base.playMusic(self.toonMusic, looping = 1)
 
     def announceGenerate(self):
         DistributedEvent.announceGenerate(self)
+        dnaStore = DNAStorage()
+        dnaFileToLoad = 'phase_4/dna/toontown_central_sz.pdna'
+        loadDNAFileAI(dnaStore, dnaFileToLoad)
+
+        # Collect all of the vis group zone IDs:
+        zoneVisDict = {}
+        for i in xrange(dnaStore.getNumDNAVisGroupsAI()):
+            groupFullName = dnaStore.getDNAVisGroupName(i)
+            visGroup = dnaStore.getDNAVisGroupAI(i)
+            visZoneId = int(base.cr.hoodMgr.extractGroupName(groupFullName))
+            visibles = []
+            for i in xrange(visGroup.getNumVisibles()):
+                visibles.append(int(visGroup.visibles[i]))
+            visibles.append(ZoneUtil.getBranchZone(visZoneId))
+            zoneVisDict[visZoneId] = visibles
+
+        # Next, we want interest in all vis groups due to this being a Cog HQ:
+        self.cr.sendSetZoneMsg(self.zoneId, zoneVisDict.values()[0])
         
     def start(self):
-        self.prepostera.setChatAbsolute("If you don't see me in the future, call 911, because that would mean Drew probably killed me.", CFThought)
+        self.prepostera.setChatAbsolute("Just sitting here waiting to be coded", CFThought)
 
     def delete(self):
         DistributedEvent.delete(self)
+        base.unlockMusic()
         self.prepostera.delete()
         
     def enterPreEvent(self, timestamp):
@@ -84,6 +106,13 @@ class DistributedBetaEventTTC(DistributedEvent):
     def exitCogTv(self):
         pass
     
+    def enterInvasion(self, timestamp):
+        base.musicManager.stopAllSounds()
+        base.lockMusic()
+        base.playMusic(self.invasion1, looping = 1)
+        
+    def exitInvasion(self):
+        pass
     
     def enterGotoHq(self, timestamp):
         self.prepostera.animFSM.request('TeleportOut')

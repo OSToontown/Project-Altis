@@ -335,7 +335,8 @@ class ToonBase(OTPBase.OTPBase):
         self.notify.info("Pre-loading PICK A TOON GUI 2")
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
         self.notify.info("Pre-loading MAKE A TOON GUI")
-
+        
+        self.lockedMusic = False
             
     def updateAspectRatio(self):
         fadeSequence = Sequence(
@@ -675,9 +676,15 @@ class ToonBase(OTPBase.OTPBase):
             config.GetInt('shard-mid-pop', ToontownGlobals.MID_POP),
             config.GetInt('shard-high-pop', ToontownGlobals.HIGH_POP)
         )
+    def lockMusic(self):
+        self.lockedMusic = True
 
+    def unlockMusic(self):
+        self.lockedMusic = False
+        
     def playMusic(self, *args, **kw):
-        OTPBase.OTPBase.playMusic(self, *args, **kw)
+        if not self.lockedMusic:
+            OTPBase.OTPBase.playMusic(self, *args, **kw)
         
     def fadeMusicIn(self, musicFile, looping = 1):
         self.audioMgr.fadeInMusic(musicFile, looping)

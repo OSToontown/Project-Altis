@@ -2,7 +2,7 @@ from DistributedEventAI import DistributedEventAI
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
 from direct.task.TaskManagerGlobal import taskMgr
-
+from toontown.suit.DistributedSuitPlannerAI import DistributedSuitPlannerAI
 
 class DistributedBetaEventTTCAI(DistributedEventAI):
     notify = directNotify.newCategory('DistributedBetaEventTTCAI')
@@ -14,6 +14,32 @@ class DistributedBetaEventTTCAI(DistributedEventAI):
 
     def start(self):
         DistributedEventAI.start(self)
+                
+    def setVisGroups(self, visGroups):
+        self.sendUpdate('setVisGroups', [visGroups])
+
+    def setupDNA(self, suitPlanner):
+        if suitPlanner.dnaStore:
+            return None
+
+        suitPlanner.dnaStore = DNAStorage()
+        loadDNAFileAI(suitPlanner.dnaStore, 'phase_4/dna/toontown_central_sz_old.pdna')
+
+        visGroups = {}
+        for visGroup in suitPlanner.dnaStore.DNAVisGroups:
+            zone = int(visGroup.name)
+            if zone == 2000:
+                visGroups[2000] = self.zoneId
+            else:
+                visGroups[zone] = self.air.allocateZone()
+            visGroup.name = str(visGroups[zone])
+
+        for suitEdges in suitPlanner.dnaStore.suitEdges.values():
+            for suitEdge in suitEdges:
+                suitEdge.setZoneId(visGroups[suitEdge.zoneId])
+
+        self.setVisGroups(visGroups.values())
+        suitPlanner.initDNAInfo()
         
     def systemMessageAll(self, text):
         # Whisper to everyone if we need to
@@ -51,6 +77,17 @@ class DistributedBetaEventTTCAI(DistributedEventAI):
     def exitGotoHq(self):
         pass
 
+    def enterInvasion(self):
+        self.suitPlanner = DistributedSuitPlannerAI(self.air, self.zoneId)
+        self.suitPlanner.generateWithRequired(self.zoneId)
+        self.suitPlanner.d_setZoneId(self.zoneId)
+        self.suitPlanner.initTasks()
+    
+    def exitInvasion(self):
+        if self.suitPlanner:  
+            self.suitPlanner.cleanup()  
+            self.suitPlanner = None
+        
     def enterCogTv(self):
         pass
     
