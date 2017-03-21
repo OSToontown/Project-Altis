@@ -141,9 +141,11 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  19200: ('to the', 'in the', 'Board Office'),
  19500: ('to the', 'in the', 'Board Office A'),
  19600: ('to the', 'in the', 'Board Office B'),
- 19700: ('to the', 'in the', 'Board Office C')}
+ 19700: ('to the', 'in the', 'Board Office C'),
+ 20000: ('to the', 'in the', 'Playground')}
 DonaldsDock = ('to', 'in', lDonaldsDock)
 ToontownCentral = ('to', 'in', lToontownCentral)
+ToontownCentralOld = ('to', 'in', 'Toontown Central\n(September 19, 2013)')
 TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)

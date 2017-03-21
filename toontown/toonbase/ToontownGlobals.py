@@ -190,13 +190,15 @@ RoseValley = 5400
 LullabyLane = 9100
 PajamaPlace = 9200
 ToonHall = 2513
+ToontownCentralOld = 20000
 HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
- GoofySpeedway: ()}
+ GoofySpeedway: (),
+ ToontownCentralOld: ()}
 WelcomeValleyToken = 0
 
 # Colors for Loading Screens / Title Text
@@ -463,6 +465,7 @@ MinigameReleaseDates = {IceGameId: (2008, 8, 5),
 KeyboardTimeout = 300
 phaseMap = {Tutorial: 4,
  ToontownCentral: 4,
+ ToontownCentralOld: 4,
  MyEstate: 5.5,
  DonaldsDock: 6,
  MinniesMelodyland: 6,
@@ -479,7 +482,9 @@ phaseMap = {Tutorial: 4,
  BoardbotHQ: 14,
  GolfZone: 6,
  PartyHood: 13}
-streetPhaseMap = {ToontownCentral: 5,
+streetPhaseMap = {
+ ToontownCentral: 5,
+ ToontownCentralOld: 5,
  DonaldsDock: 6,
  MinniesMelodyland: 6,
  GoofySpeedway: 6,
@@ -496,6 +501,7 @@ streetPhaseMap = {ToontownCentral: 5,
  PartyHood: 13}
 dnaMap = {Tutorial: 'toontown_central',
  ToontownCentral: 'toontown_central',
+ ToontownCentralOld: 'toontown_central_old',
  DonaldsDock: 'donalds_dock',
  MinniesMelodyland: 'minnies_melody_land',
  GoofySpeedway: 'goofy_speedway',
@@ -512,6 +518,7 @@ dnaMap = {Tutorial: 'toontown_central',
  GolfZone: 'golf_zone'}
 hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  ToontownCentral: TTLocalizer.ToontownCentral,
+ ToontownCentralOld: TTLocalizer.ToontownCentralOld,
  TheBrrrgh: TTLocalizer.TheBrrrgh,
  MinniesMelodyland: TTLocalizer.MinniesMelodyland,
  DaisyGardens: TTLocalizer.DaisyGardens,
@@ -531,6 +538,7 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
 safeZoneCountMap = {MyEstate: 8,
  Tutorial: 6,
  ToontownCentral: 6,
+ ToontownCentralOld: 6,
  DonaldsDock: 10,
  MinniesMelodyland: 5,
  GoofySpeedway: 500,
@@ -544,6 +552,7 @@ safeZoneCountMap = {MyEstate: 8,
 townCountMap = {MyEstate: 8,
  Tutorial: 40,
  ToontownCentral: 37,
+ ToontownCentralOld: 37,
  DonaldsDock: 40,
  MinniesMelodyland: 40,
  GoofySpeedway: 40,
@@ -556,6 +565,7 @@ townCountMap = {MyEstate: 8,
 hoodCountMap = {MyEstate: 2,
  Tutorial: 2,
  ToontownCentral: 2,
+ ToontownCentralOld: 2,
  DonaldsDock: 2,
  MinniesMelodyland: 2,
  GoofySpeedway: 2,

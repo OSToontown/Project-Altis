@@ -23,13 +23,13 @@ class DistributedBetaEventTTCAI(DistributedEventAI):
             return None
 
         suitPlanner.dnaStore = DNAStorage()
-        loadDNAFileAI(suitPlanner.dnaStore, 'phase_4/dna/toontown_central_sz_old.pdna')
+        loadDNAFileAI(suitPlanner.dnaStore, 'phase_4/dna/toontown_central_old_sz.pdna')
 
         visGroups = {}
         for visGroup in suitPlanner.dnaStore.DNAVisGroups:
             zone = int(visGroup.name)
-            if zone == 2000:
-                visGroups[2000] = self.zoneId
+            if zone == 20000:
+                visGroups[20000] = self.zoneId
             else:
                 visGroups[zone] = self.air.allocateZone()
             visGroup.name = str(visGroups[zone])
@@ -54,7 +54,7 @@ class DistributedBetaEventTTCAI(DistributedEventAI):
         for doId in simbase.air.doId2do:
             if str(doId)[:2] == '10':
                 player = simbase.air.doId2do.get(doId)
-                player.magicTeleportInitiate(doId, 2000, 2000)
+                player.magicTeleportInitiate(doId, 2900, 2900)
                 
     def exitPreEvent(self):
         pass

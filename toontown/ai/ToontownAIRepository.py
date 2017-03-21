@@ -45,6 +45,7 @@ from toontown.hood import MMHoodAI
 from toontown.hood import OZHoodAI
 from toontown.hood import SellbotHQAI
 from toontown.hood import TTHoodAI
+from toontown.hood import TTOHoodAI
 from toontown.hood import ZoneUtil
 from toontown.hood import BoardbotHQAI
 from toontown.minigame.TrolleyHolidayMgrAI import TrolleyHolidayMgrAI
@@ -199,7 +200,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.hoods.append(OZHoodAI.OZHoodAI(self))
         if self.config.GetBool('want-golf-zone', True):
             self.hoods.append(GZHoodAI.GZHoodAI(self))
-
+        self.hoods.append(TTOHoodAI.TTOHoodAI(self))
     def createCogHeadquarters(self):
         NPCToons.generateZone2NpcDict()
         if self.config.GetBool('want-sellbot-headquarters', True):

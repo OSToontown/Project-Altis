@@ -8,7 +8,7 @@ from toontown.dna.DNAParser import DNASuitPoint, DNAStorage, DNAInteractiveProp,
 class SuitPlannerBase:
     notify = directNotify.newCategory('SuitPlannerBase')
 
-    SuitHoodInfo = [[ToontownGlobals.ToontownCentral, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 40, 0, 0, 20), (5, 6, 7, 8), []],
+    SuitHoodInfo = [[ToontownGlobals.ToontownCentralOld, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 40, 0, 0, 20), (5, 6, 7, 8), []],
     [ToontownGlobals.SillyStreet, 8, 20, 0, 5, 20, 3, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (2, 3, 4), []],
     [ToontownGlobals.LoopyLane, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (30, 40, 5, 5, 20), (1, 2, 3), []],
     [ToontownGlobals.PunchlinePlace, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (5, 5, 40, 40, 10), (1, 2, 3), []],
@@ -96,7 +96,7 @@ class SuitPlannerBase:
         phase = ToontownGlobals.streetPhaseMap[hoodId]
         if hoodId == zoneId:
             zoneId = 'sz'
-        if zoneId == 2000:
+        if zoneId == 20000:
             phase = 4
         return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
 

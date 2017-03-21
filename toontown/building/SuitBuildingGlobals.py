@@ -49,7 +49,7 @@ SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
  ((1, 1), (10, 12), (12, 12), (206, 206), (1, 1, 1, 1, 1), (1,))) # CEO Diner Cogs (Only uses level range and revives flag, cogs are decided based on tables served)
 
 buildingMinMax = {
-    ToontownGlobals.ToontownCentral: (0, 0),
+    ToontownGlobals.ToontownCentralOld: (0, 0),
     ToontownGlobals.SillyStreet: (config.GetInt('silly-street-building-min', 0),
                                   config.GetInt('silly-street-building-max', 3)),
     ToontownGlobals.LoopyLane: (config.GetInt('loopy-lane-building-min', 0),
@@ -101,7 +101,7 @@ buildingMinMax = {
 }
 
 buildingChance = {
-    ToontownGlobals.ToontownCentral: 0.0,
+    ToontownGlobals.ToontownCentralOld: 0.0,
     ToontownGlobals.SillyStreet: config.GetFloat('silly-street-building-chance', 2.0),
     ToontownGlobals.LoopyLane: config.GetFloat('loopy-lane-building-chance', 2.0),
     ToontownGlobals.PunchlinePlace: config.GetFloat('punchline-place-building-chance', 2.0),

@@ -246,7 +246,7 @@ def genDNAFileName(zoneId):
     hoodId = getCanonicalHoodId(zoneId)
     hood = dnaMap[hoodId]
     phase = streetPhaseMap[hoodId]
-    if zoneId == 2000:
+    if zoneId == 20000:
         phase = 4
     if hoodId == zoneId:
         zoneId = 'sz'

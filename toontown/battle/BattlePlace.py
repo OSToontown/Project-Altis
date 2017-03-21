@@ -107,7 +107,7 @@ class BattlePlace(Place.Place):
         hoodId = ZoneUtil.getCanonicalHoodId(zoneId)
         hood = ToontownGlobals.dnaMap[hoodId]
         phase = ToontownGlobals.streetPhaseMap[hoodId]
-        if zoneId == 2000:
+        if zoneId == 20000:
             phase = 4
         if hoodId == zoneId:
             zoneId = 'sz'

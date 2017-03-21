@@ -40,13 +40,13 @@ class DistributedBetaEventTTC(DistributedEvent):
 
         #base.musicManager.stopAllSounds()
         self.toonMusic = loader.loadMusic('phase_14/audio/bgm/tt2_ambient_1.mp3') # Placeholder
-        self.invasion1 = loader.loadMusic('phase_14/audio/bgm/event_temp_1.mp3') # Placeholder
+        self.invasion1 = loader.loadMusic('phase_14/audio/bgm/event_temp_1.ogg') # Placeholder
         #base.playMusic(self.toonMusic, looping = 1)
 
     def announceGenerate(self):
         DistributedEvent.announceGenerate(self)
         dnaStore = DNAStorage()
-        dnaFileToLoad = 'phase_4/dna/toontown_central_sz.pdna'
+        dnaFileToLoad = 'phase_4/dna/toontown_central_old_sz.pdna'
         loadDNAFileAI(dnaStore, dnaFileToLoad)
 
         # Collect all of the vis group zone IDs:

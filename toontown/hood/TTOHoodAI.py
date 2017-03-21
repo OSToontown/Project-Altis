@@ -10,12 +10,12 @@ from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
 from toontown.betaevent import DistributedBetaEventTTCAI
 
-class TTHoodAI(HoodAI.HoodAI):
+class TTOHoodAI(HoodAI.HoodAI):
     
     def __init__(self, air):
         HoodAI.HoodAI.__init__(self, air,
-                               ToontownGlobals.ToontownCentral,
-                               ToontownGlobals.ToontownCentral)
+                               ToontownGlobals.ToontownCentralOld,
+                               ToontownGlobals.ToontownCentralOld)
 
         self.trolley = None
         self.classicChar = None
@@ -40,6 +40,10 @@ class TTHoodAI(HoodAI.HoodAI):
         if simbase.air.wantChristmas:
             self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
             self.WinterCarolingTargetManager.generateWithRequired(2659)
+        
+        self.event = DistributedBetaEventTTCAI.DistributedBetaEventTTCAI(self.air)
+        self.event.generateWithRequired(self.zoneId)
+        self.event.start()
 
     def shutdown(self):
         HoodAI.HoodAI.shutdown(self)
