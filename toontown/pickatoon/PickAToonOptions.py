@@ -47,7 +47,6 @@ class PickAToonOptions:
         self.optionsNode = aspect2d.attachNewNode('optionsNode')
         self.optionsNode.reparentTo(aspect2d)
 
-
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
         quitHover = gui.find('**/QuitBtn_RLVR')
@@ -248,25 +247,31 @@ class NewPickAToonOptions:
         self.displaySettingsBorderless = None
         self.displaySettingsApi = None
         self.displaySettingsApiChanged = 0
-        
+
         self.animations_Label = None
         self.animations_toggleButton = None
 
     def showOptions(self):
         # base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
         self.displayOptions()
-        zoomIn = (LerpScaleInterval(self.optionsNode, .1, Vec3(1, 1, 1), Vec3(.9, .9, .9), blendType = 'easeOut')).start()
+        base.transitions.fadeScreen(0.5)
+        self.optionsNode.setColorScale(1, 1, 1, 0)
+        self.optionsNode.setPos(0, 0, -.15)
+        self.optionsNode.posInterval(.15, Point3(0, 0, 0)).start()
+        LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
 
     def hideOptions(self):
         # base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
-        zoomOut = (LerpScaleInterval(self.optionsNode, .1, Vec3(.5, .5, .5), Vec3(1, 1, 1), blendType = 'easeIn')).start()
+        self.optionsNode.setColorScale(1, 1, 1, 1)
+        self.optionsNode.posInterval(.15, Point3(0, 0, -.15)).start()
+        LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
         Sequence (
-        Wait(.1),
+        Wait(.15),
         Func(self.delAllOptions)).start()
 
     def displayOptions(self):
         self.optionsNode = aspect2d.attachNewNode('optionsNode')
-        self.optionsNode.reparentTo(aspect2d)
+        self.optionsNode.reparentTo(aspect2d, 4000)
 
         self.guimodel = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         self.guiButton = loader.loadModel('phase_3/models/gui/quit_button')
@@ -280,21 +285,18 @@ class NewPickAToonOptions:
 
         self.soundOptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = 'Sound', text_scale = .1, scale = 0.95, command = self.displaySoundOptions)
         self.soundOptionsButton.reparentTo(self.optionsNode)
-        self.soundOptionsButton.setPos(-.6, 0, .6)
+        self.soundOptionsButton.setPos(-.6, 0, .7)
         self.soundOptionsButton.show()
-        self.soundOptionsButton.posInterval(.2, Point3(-.6, 0, .7), blendType = 'easeInOut').start()
 
         self.controlOptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = 'Controls', text_scale = .1, scale = 0.95, command = self.displayControlOptions)
         self.controlOptionsButton.reparentTo(self.optionsNode)
-        self.controlOptionsButton.setPos(0, 0, .6)
+        self.controlOptionsButton.setPos(0, 0, .7)
         self.controlOptionsButton.show()
-        self.controlOptionsButton.posInterval(.2, Point3(0, 0, .7), blendType = 'easeInOut').start()
 
         self.videoOptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = 'Video', text_scale = .1, scale = 0.95, command = self.displayVideoOptions)
         self.videoOptionsButton.reparentTo(self.optionsNode)
-        self.videoOptionsButton.setPos(.6, 0, .6)
+        self.videoOptionsButton.setPos(.6, 0, .7)
         self.videoOptionsButton.show()
-        self.videoOptionsButton.posInterval(.2, Point3(.6, 0, .7), blendType = 'easeInOut').start()
 
         self.displaySoundOptions()
 
@@ -373,8 +375,8 @@ class NewPickAToonOptions:
         self.fov_resetButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Reset FOV', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.2), command = self.__resetFov)
         self.fovsliderText = OnscreenText('0.0', scale = .3, pos = (0, .1), fg = (1, 1, 1, 1), style = 3)
         self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
-        self.animations_Label = DirectLabel(parent=self.optionsNode, relief=None, text='', text_align=TextNode.ACenter, text_scale=0.052, text_wordwrap=16, pos=(0, 0, -.3))
-        self.animations_toggleButton = DirectButton(parent=self.optionsNode, relief=None, image=(self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text='', text_scale=0.052, text_pos=(0, -.02), pos=(0, 0, -.4), command=self.__doToggleAnimations)
+        self.animations_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, -.3))
+        self.animations_toggleButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = '', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.4), command = self.__doToggleAnimations)
         self.__doFovLevel()
         self.__setDisplaySettings()
         self.__setAnimationsButton()
@@ -448,8 +450,9 @@ class NewPickAToonOptions:
             self.animations_Label = None
             self.animations_toggleButton.destroy()
             self.animations_toggleButton = None
-            
+
     def delAllOptions(self):
+        base.transitions.noFade()
         self.delSoundOptions()
         self.delControlOptions()
         self.delVideoOptions()
@@ -587,7 +590,7 @@ class NewPickAToonOptions:
             settings['smoothanimations'] = True
         self.settingsChanged = 1
         self.__setAnimationsButton()
-		
+
     def __setAnimationsButton(self):
         if settings['smoothanimations'] == True:
             self.animations_Label['text'] = 'Smooth Animations ON'
