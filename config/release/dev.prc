@@ -36,3 +36,5 @@ want-instant-parties #f
 
 # Weather
 weather-cycle-duration 100
+
+audio-library-name p3openal_audio
