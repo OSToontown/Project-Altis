@@ -6,7 +6,7 @@ from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, ActorInterval
 from direct.showbase import Audio3DManager
 from direct.showbase.DirectObject import DirectObject
-from panda3d.core import TransparencyAttrib, Point3, VBase3, Vec4
+from panda3d.core import TransparencyAttrib, Point3, VBase3, Vec4, Vec3
 import random
 import webbrowser
 
@@ -63,10 +63,11 @@ class DMenuScreen(DirectObject):
         if base.showDisclaimer:
             FeatureComingSoonDialog.FeatureComingSoonDialog(text = TTLocalizer.PopupAlphaDisclaimer)
         self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
-        self.background2d.setScale(2, 1, 1)
+        self.background2d.setScale(render2d, Vec3(1))
         self.background2d.setBin('background', 1)
         self.background2d.setTransparency(1)
         self.background2d.setColorScale(1, 1, 1, .2)
+        self.accept('window-event', self.windowEvent)
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
         self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
@@ -358,18 +359,17 @@ class DMenuScreen(DirectObject):
         self.optionsMgr.showOptions()
         if not hasattr(self, 'closeOptionsButton'):
             self.closeOptionsButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = 'Back', text_fg = (0, 0, 0, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.hideOptions)
-            self.closeOptionsButton.reparentTo(base.a2dTopLeft, 4000)
-            self.closeOptionsButton.setPos(0.5, 1, -0.07)
-            self.closeOptionsButton.wrt_reparent_to(aspect2d, 4000)
+        self.closeOptionsButton.reparent_to(self.optionsMgr.optionsNode)
+        self.closeOptionsButton.setPos(0, 1, -.75)
         self.closeOptionsButton.show()
         for button in self.allButtons:
-            LerpColorScaleInterval(button, .5, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
+            LerpColorScaleInterval(button, .15, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
 
     def hideOptions(self):
         self.optionsMgr.hideOptions()
         self.closeOptionsButton.hide()
         for button in self.allButtons:
-            LerpColorScaleInterval(button, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+            LerpColorScaleInterval(button, .15, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
 
     def playGame(self):
         self.ignore('doQuitGame')
@@ -516,3 +516,6 @@ class DMenuScreen(DirectObject):
         self.QuitButton.reparentTo(aspect2d)
         self.QuitButton.setPos(QuitBtnHidePos)
         self.QuitButton.show()
+
+    def windowEvent(self, win):
+        self.background2d.setScale(render2d, Vec3(1))

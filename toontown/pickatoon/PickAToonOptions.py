@@ -7,7 +7,8 @@ Created on Apr 2, 2016
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, LerpScaleInterval
 from direct.showbase.DirectObject import DirectObject
-from panda3d.core import TransparencyAttrib, Point3, Vec4, TextNode, Vec3
+from panda3d.core import TransparencyAttrib, Point3, Vec4, TextNode, Vec3, \
+    VBase3
 
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -25,7 +26,7 @@ resolution_table = [
     (1280, 720),
     (1920, 1080)]
 # I will be revamping the options screen, here is the class for it
-class NewPickAToonOptions:
+class NewPickAToonOptions(DirectObject):
 
     def __init__(self):
         self.optionsOpenSfx = None # base.loadSfx(DMenuResources.Settings_Open) # ALTIS: TODO: Add sound effects
@@ -70,10 +71,13 @@ class NewPickAToonOptions:
         self.optionsNode.setColorScale(1, 1, 1, 0)
         self.optionsNode.setPos(0, 0, -.15)
         self.optionsNode.posInterval(.15, Point3(0, 0, 0)).start()
+        self.accept('window-event', self.windowEvent)
+
         LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
 
     def hideOptions(self):
         # base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
+        self.ignore('window-event')
         self.optionsNode.setColorScale(1, 1, 1, 1)
         self.optionsNode.posInterval(.15, Point3(0, 0, -.15)).start()
         LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
@@ -92,7 +96,7 @@ class NewPickAToonOptions:
         self.optionsBox = OnscreenImage(image = 'phase_3/maps/stat_board.png')
         self.optionsBox.setTransparency(TransparencyAttrib.MAlpha)
         self.optionsBox.setPos(0, 0, 0)
-        self.optionsBox.setScale(1.3, 1, 1)
+        self.optionsBox.setScale(render2d, VBase3(1))
         self.optionsBox.reparentTo(self.optionsNode)
 
         self.soundOptionsButton = DirectButton(relief = None, text_style = 3, text_fg = (1, 1, 1, 1), text = 'Sound', text_scale = .1, scale = 0.95, command = self.displaySoundOptions)
@@ -484,3 +488,6 @@ class NewPickAToonOptions:
         else:
             self.interactKey_Label['text'] = 'NPC Interact Hotkey is DISABLED'
             self.interactKey_toggleButton['text'] = 'Turn On'
+
+    def windowEvent(self, win):
+        self.optionsBox.setScale(render2d, Vec3(1))
