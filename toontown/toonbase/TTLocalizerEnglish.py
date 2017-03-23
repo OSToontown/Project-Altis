@@ -705,7 +705,7 @@ QuestDialogDict = {160: {GREETING: '',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  164: {QUEST: 'Phew, tired yet?\x07You know... You look like you could use some new gags.\x07Go see %s, maybe he can help you out._where_' % Flippy},
- 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formerly introduced myself...\x07I\'m Flippy, President of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07You see, every time you hit a Cog with one of your gags it increases your experience.\x07When you get enough experience, you\'ll be able to buy an even better gag.\x07Why not try it out?\x07To get some practice in, try defeating 4 of those Cogs on the streets.'},
+ 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formally introduced myself...\x07I\'m Flippy, President of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07You see, every time you hit a Cog with one of your gags it increases your experience.\x07When you get enough experience, you\'ll be able to buy an even better gag.\x07Why not try it out?\x07To get some practice in, try defeating 4 of those Cogs on the streets.'},
  166: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Bossbots I talked about!'},
  167: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Lawbots I talked about!'},
  168: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in lin...\nAnd Boardbots that represent them all...e\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Sellbots I talked about!'},
@@ -4587,6 +4587,7 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+CodePageTitle = 'Codes'
 ItemsPageTitle = 'Items'
 ItemsPageNametagStyle = 'Nametag Style'
 ItemsPageFishingRods = "Fishing Rod"

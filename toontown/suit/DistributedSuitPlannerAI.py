@@ -90,7 +90,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     ]
     TOTAL_SUIT_BUILDING_PCT = 18 * CogdoPopFactor
     BUILDING_HEIGHT_DISTRIBUTION = [14, 18, 25, 23, 20]
-    ALLOWED_COGDO_TYPES = ['l']
+    ALLOWED_COGDO_TYPES = ['s', 'l']
     defaultSuitName = simbase.config.GetString('suit-type', 'random')
     if defaultSuitName == 'random':
         defaultSuitName = None

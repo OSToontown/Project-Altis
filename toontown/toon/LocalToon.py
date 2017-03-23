@@ -55,6 +55,7 @@ from toontown.shtiker import SuitPage
 from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
 from toontown.shtiker import ItemsPage
+from toontown.shtiker import CodePage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
 import StreamerMode, ChatLog
@@ -383,6 +384,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.optionsPage = OptionsPage.OptionsPage()
         self.optionsPage.load()
         self.book.addPage(self.optionsPage, pageName=TTLocalizer.OptionsPageTitle)
+        self.codePage = CodePage.CodePage()
+        self.codePage.load()
+        self.book.addPage(self.codePage, pageName=TTLocalizer.CodePageTitle)
         self.shardPage = ShardPage.ShardPage()
         self.shardPage.load()
         self.book.addPage(self.shardPage, pageName=TTLocalizer.ShardPageTitle)

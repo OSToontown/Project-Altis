@@ -10,13 +10,15 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from panda3d.core import *
+
 from toontown.dmenu import DMenuQuit
 from toontown.hood import SkyUtil
 from toontown.pickatoon import PickAToonOptions
 from toontown.pickatoon import ShardPicker
-from toontown.toon import ToonDNA, Toon, ToonHead
+from toontown.toon import ToonDNA, Toon, ToonHead, LaffMeter
 from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui.TTDialog import *
+
 
 COLORS = (Vec4(0.917, 0.164, 0.164, 1),
  Vec4(0.152, 0.75, 0.258, 1),
@@ -69,7 +71,7 @@ class PickAToon(DirectObject):
         self.doneEvent = doneEvent
         self.jumpIn = None
         self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
-        self.background2d.setScale(2, 1, 1)
+        self.background2d.setScale(render2d, Vec3(1))
         self.background2d.setBin('background', 2)
         self.background2d.setTransparency(1)
         self.background2d.setColorScale(.6, .1, .1, 0)
@@ -82,6 +84,7 @@ class PickAToon(DirectObject):
         self.isClassic = False
         self.deleteButtons = []
         self.hasToons = {}
+        self.accept('window-event', self.windowEvent)
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -146,6 +149,10 @@ class PickAToon(DirectObject):
     def load(self):
         self.patNode = render.attachNewNode('patNode')
         self.patNode2d = aspect2d.attachNewNode('patNode2d')
+        self.patNode.setTransparency(1)
+        self.patNode2d.setTransparency(1)
+        self.patNode.setColorScale(1, 1, 1, 0)
+        self.patNode2d.setColorScale(1, 1, 1, 0)
         gui = base.patgui
         gui2 = base.gui2
         newGui = base.newGui
@@ -153,7 +160,7 @@ class PickAToon(DirectObject):
         shuffleUp = base.shuffleUp
         shuffleDown = base.shuffleDown
 
-        self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon, scale = TTLocalizer.ACtitle, parent = hidden, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.82))
+        self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon, font = ToontownGlobals.getSignFont(), scale = TTLocalizer.ACtitle, parent = hidden, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.82))
 
         # Quit Button
         quitHover = gui.find('**/QuitBtn_RLVR')
@@ -204,6 +211,9 @@ class PickAToon(DirectObject):
         base.graphicsEngine.renderFrame()
         self.changeName = DirectButton(relief = None, image = (quitHover, quitHover, quitHover), text = 'NAME THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.045, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.4, pos = (0, 0, -0.75), command = self.__handleNameYourToon, parent = self.patNode2d)
 
+        LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+        LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+
     def toggleClassic(self):
         if self.isClassic:
             self.hideClassic()
@@ -224,6 +234,9 @@ class PickAToon(DirectObject):
         self.area['fg'] = COLORS[self.selectedToon]
         if self.jumpIn:
             self.jumpIn.finish()
+        if hasattr(self, 'laffMeter'):
+            self.laffMeter.destroy()
+            del self.laffMeter
         if self.haveToon:
             self.showToon()
             taskMgr.add(self.turnHead, 'turnHead')
@@ -241,7 +254,6 @@ class PickAToon(DirectObject):
     def showToon(self):
         av = [x for x in self.avatarList if x.position == self.selectedToon][0]
         dna = av.dna
-
         if av.allowedName == 1:
             self.toon.setName(av.name + '\n\1textShadow\1NAME REJECTED!\2')
             self.changeName.show()
@@ -252,6 +264,10 @@ class PickAToon(DirectObject):
             self.toon.setName(av.name)
             self.changeName.hide()
         self.toon.setDNAString(dna)
+        self.laffMeter = LaffMeter.LaffMeter(ToonDNA.ToonDNA(dna), av.hp, av.maxHp)
+        self.laffMeter.set_pos(-.5, 0, 0)
+        self.laffMeter.reparent_to(self.patNode2d)
+        self.laffMeter.start()
         # self.jumpIn = Sequence(
         #         Func(self.toon.animFSM.request, 'PATTeleportIn'),
         #         Wait(2),
@@ -390,6 +406,8 @@ class PickAToon(DirectObject):
 
     def openOptions(self):
         self.optionsMgr.showOptions()
+        self.optionsButton.reparent_to(self.optionsMgr.optionsNode)
+        self.optionsButton.setPos(0, 1, -.75)
         self.optionsButton['text'] = 'Back'
         self.optionsButton['command'] = self.hideOptions
         self.shardsButton.hide()
@@ -398,6 +416,8 @@ class PickAToon(DirectObject):
 
     def hideOptions(self):
         self.optionsMgr.hideOptions()
+        self.optionsButton.wrt_reparent_to(base.a2dBottomRight)
+        self.optionsButton.setPos(-0.25, 0, 0.075)
         self.optionsButton['text'] = 'Options'
         self.optionsButton['command'] = self.openOptions
         self.shardsButton.show()
@@ -419,8 +439,8 @@ class PickAToon(DirectObject):
         self.optionsButton.hide()
         self.shardsButton.hide()
         self.quitButton.hide()
-        self.patNode2d.hide()
-        self.patNode.hide()
+        LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
+        LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
 
     def showQuitConfirmation(self):
         LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .5), startColorScale = Vec4(.6, .1, .1, 0)).start()
@@ -435,5 +455,8 @@ class PickAToon(DirectObject):
         self.optionsButton.show()
         self.shardsButton.show()
         self.quitButton.show()
-        self.patNode2d.show()
-        self.patNode.show()
+        LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+        LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+
+    def windowEvent(self, win):
+        self.background2d.setScale(render2d, Vec3(1))

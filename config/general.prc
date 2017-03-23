@@ -88,7 +88,7 @@ change-display-settings #t
 change-display-api #f
 
 #Code Redemption
-want-code-redemption #f
+want-code-redemption #t
 
 # Safe zone settings:
 want-treasure-planners #t

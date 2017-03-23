@@ -34,7 +34,7 @@ key = 'g89a1hU0acBrlcru'
 # config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.7.8]
+window-title Project Altis [ALPHA 1.7.9]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -202,9 +202,9 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.7.8
-shard-low-pop 100
-shard-mid-pop 200
+server-version TTPA-Alpha-1.7.9
+shard-low-pop 50
+shard-mid-pop 80
 
 # DC File
 dc-file config/toon.dc
