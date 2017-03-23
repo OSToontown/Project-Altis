@@ -124,13 +124,13 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             self.air.writeServerEvent('suspicious', avId = avId, issue = 'Avatar doesnt exist')
             return
 
-        code = str(code.lower()) # Convert to str and use lowercase bc fuck case sensitivity
+        code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
 
-        if code == "sillymeter" or code == "silly meter" or code == "silly-meter":
+        if code == "sillymeter":
             shirt = CatalogClothingItem(1753, 0)
             return [shirt]
 
-        if code == "getconnected" or code == "get connected" or code == "get_connected":
+        if code == "getconnected":
             shirt = CatalogClothingItem(1752, 0)
             return [shirt]
 
