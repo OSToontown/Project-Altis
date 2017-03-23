@@ -451,11 +451,11 @@ class DMenuScreen(DirectObject):
     def buttonInAnimation(self):
         logo = self.logo.posInterval(.5, Point3(0, 0, .5), blendType = 'easeInOut')
         if not self.mobile:
-            play = self.PlayButton.posInterval(.5, Point3(PlayBtnPos), blendType = 'easeInOut')
-            opt = self.OptionsButton.posInterval(.5, Point3(OptionsBtnPos), blendType = 'easeInOut')
-            quit = self.QuitButton.posInterval(.5, Point3(QuitBtnPos), blendType = 'easeInOut')
-            discord = self.DiscordButton.posInterval(.5, Point3(DiscordBtnPos), blendType = 'easeInOut')
-            credits = self.CreditsButton.posInterval(.5, Point3(CreditsBtnPos), blendType = 'easeInOut')
+            play = self.PlayButton.posInterval(.2, Point3(PlayBtnPos), blendType = 'easeInOut')
+            opt = self.OptionsButton.posInterval(.2, Point3(OptionsBtnPos), blendType = 'easeInOut')
+            quit = self.QuitButton.posInterval(.2, Point3(QuitBtnPos), blendType = 'easeInOut')
+            discord = self.DiscordButton.posInterval(.2, Point3(DiscordBtnPos), blendType = 'easeInOut')
+            credits = self.CreditsButton.posInterval(.2, Point3(CreditsBtnPos), blendType = 'easeInOut')
         else:
             play = self.PlayButton.posInterval(.5, Point3(MPlayBtnPos), blendType = 'easeInOut')
             opt = self.OptionsButton.posInterval(.5, Point3(MOptionsBtnPos), blendType = 'easeInOut')
