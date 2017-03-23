@@ -86,5 +86,6 @@ class DNADoor(DNAGroup.DNAGroup):
         doorNode = node.copyTo(frontNode)
         block = dnaStorage.getBlock(nodePath.getName())
         DNADoor.setupDoor(doorNode, nodePath, nodePath.find('**/*door_origin'), dnaStorage, block, self.color)
-
+        node.removeNode()
+        
 setupDoor = DNADoor.setupDoor
