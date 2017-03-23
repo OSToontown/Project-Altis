@@ -10,6 +10,7 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from panda3d.core import *
+
 from toontown.dmenu import DMenuQuit
 from toontown.hood import SkyUtil
 from toontown.pickatoon import PickAToonOptions
@@ -17,6 +18,7 @@ from toontown.pickatoon import ShardPicker
 from toontown.toon import ToonDNA, Toon, ToonHead, LaffMeter
 from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui.TTDialog import *
+
 
 COLORS = (Vec4(0.917, 0.164, 0.164, 1),
  Vec4(0.152, 0.75, 0.258, 1),

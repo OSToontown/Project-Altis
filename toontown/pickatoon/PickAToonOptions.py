@@ -4,19 +4,17 @@ Created on Apr 2, 2016
 @author: Drew
 '''
 
+from decimal import Decimal
 from direct.gui.DirectGui import *
-from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, LerpScaleInterval
+from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval
 from direct.showbase.DirectObject import DirectObject
-from panda3d.core import TransparencyAttrib, Point3, Vec4, TextNode, Vec3, \
-    VBase3
+from panda3d.core import (TransparencyAttrib, Point3, Vec4,
+                          TextNode, Vec3, VBase3)
 
-from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownGlobals
-from toontown.toontowngui.TTGui import btnDn, btnRlvr, btnUp
-from toontown.toontowngui import TTDialog
 from toontown.options import GraphicsOptions
 from toontown.shtiker import ControlRemapDialog, DisplaySettingsDialog
-from decimal import Decimal
+from toontown.toonbase import TTLocalizer
+
 
 resolution_table = [
     (800, 600),
@@ -25,7 +23,7 @@ resolution_table = [
     (1600, 1200),
     (1280, 720),
     (1920, 1080)]
-# I will be revamping the options screen, here is the class for it
+
 class NewPickAToonOptions(DirectObject):
 
     def __init__(self):
