@@ -5664,7 +5664,7 @@ QuestScript10301_2 = "We sell the freshest swedish meatballs in all of Toontown!
 QuestScript10301_3 = "What would you like to order?"
 QuestScript10301_4 = "Meatballs! A Fan favorite. Great choice! Let me just check in with Jimmy."
 QuestScript10301_5 = "JIMMY!!"
-QuestScript10301_6 = "Oh. That's right."
+QuestScript10301_6 = "Oh, That's right."
 QuestScript10301_7 = "Jimmy was loafing around earlier so I tossed him in the pond."
 QuestScript10301_8 = "Can you be a darling and go fish him out and bring him back for me?"
 
