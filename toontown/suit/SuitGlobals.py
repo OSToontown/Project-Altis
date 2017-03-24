@@ -18,7 +18,7 @@ ColdCallerHead = VBase4(0.25, 0.35, 1.0, 1.0) # Head used by Cold Caller
 suitProperties = {
       'f': (4.0 / cSize, SuitDNA.corpPolyColor, ['flunky', 'glasses'], '', 4.88),
       'p': (3.35 / bSize, SuitDNA.corpPolyColor, ['pencilpusher'], '', 5.0),
-      'ym': (4.125 / aSize, SuitDNA.corpPolyColor, ['yesman'], '', 5.28),
+      'ym': (4.125 / aSize, SuitDNA.corpPolyColor, ['yesman'], 'yes_man.jpg', 5.28),
       'mm': (2.5 / cSize, SuitDNA.corpPolyColor, ['micromanager'], '', 3.25),
       'ds': (4.5 / bSize, SuitDNA.corpPolyColor, ['beancounter'], '', 6.08),
       'hh': (6.5 / aSize, SuitDNA.corpPolyColor, ['headhunter'], '', 7.45),

@@ -44,7 +44,20 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         hasExpired = False
         isEligible = True
         beenDelivered = False
-    
+        
+        avCodes = av.getRedeemedCodes()
+        print avCodes
+        if not avCodes:
+            avCodes = [code]
+            av.setRedeemedCodes(avCodes)
+        else:
+            if not code in avCodes:
+                avCodes.append(code)
+                av.setRedeemedCodes(avCodes)
+                isEligible = True
+            else:
+                isEligible = False
+                
         avId = self.air.getAvatarIdFromSender()
         print("%s entered %s" %(avId, code))
         if not avId:
