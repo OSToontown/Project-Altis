@@ -165,9 +165,6 @@ class DMenuScreen(DirectObject):
         self.bananaClicker.addCollider(self.bananaRayNP, self.collHandlerQueue)
         self.accept('mouse1', self.slipAndSlideOnThisBananaPeelHaHaHa)
 
-        for frame in render.findAllMatches('*/doorFrame*'):
-            frame.removeNode()
-
         self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
         SkyUtil.startCloudSky(self)
         base.camera.setPosHpr(MAIN_POS, MAIN_HPR)
