@@ -5603,6 +5603,7 @@ QuestScript101_11 = "OH NO! There's a Cog outside my shop!"
 QuestScript101_12 = 'HELP ME, PLEASE! Defeat that Cog!'
 QuestScript101_13 = 'Here is your first ToonTask!'
 QuestScript101_14 = 'Hurry up! Go defeat that Flunky!'
+
 QuestScript110_1 = 'Good work defeating that Flunky. Let me give you a Shticker Book...'
 QuestScript110_2 = 'The book is full of good stuff.'
 QuestScript110_3 = "Open it, and I'll show you."
@@ -5614,6 +5615,7 @@ QuestScript110_8 = 'Take a ride on the trolley, and earn jelly beans to buy gags
 QuestScript110_9 = 'To get to the trolley, go out the door behind me and head for the playground.'
 QuestScript110_10 = 'Now, close the book and find the trolley!'
 QuestScript110_11 = 'Return to Toon HQ when you are done. Bye!'
+
 QuestScriptTutorialBlocker_1 = 'Why, hello there!'
 QuestScriptTutorialBlocker_2 = 'Hello?'
 QuestScriptTutorialBlocker_3 = "Oh! You don't know how to use SpeedChat!"
@@ -5622,6 +5624,7 @@ QuestScriptTutorialBlocker_5 = 'Very good!\x07Where you are going there are many
 QuestScriptTutorialBlocker_6 = "If you want to chat with other Toons using the keyboard, there's another button you can use."
 QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. You need to turn on Speedchat Plus in your Account Manager on the Project Altis Website to use it."
 QuestScriptTutorialBlocker_8 = 'Good luck! See you later!'
+
 QuestScriptGagShop_1 = 'Welcome to the Gag Shop!'
 QuestScriptGagShop_1a = 'This is where Toons come to buy gags to use against the Cogs.'
 QuestScriptGagShop_3 = 'To buy gags, click on the gag buttons. Try getting some now!'
@@ -5630,25 +5633,24 @@ QuestScriptGagShop_5 = "Here's a peek at the advanced throw and squirt gags..."
 QuestScriptGagShop_6 = "When you're done buying gags, click this button to return to the Playground."
 QuestScriptGagShop_7 = 'Normally you can use this button to play another Trolley Game...'
 QuestScriptGagShop_8 = "...but there's no time for another game right now. You're needed in Toon HQ!"
+
 QuestScript120_1 = "Good job finding the trolley!\x07By the way, have you met Banker Bob?\x07He has quite a sweet tooth.\x07Why don't you introduce yourself by taking him this candy bar as a gift."
 QuestScript120_2 = 'Banker Bob is over in the Toontown Bank.'
+
 QuestScript121_1 = "Yum, thank you for the Candy Bar.\x07Say, if you can help me, I'll give you a reward.\x07Those Cogs stole the keys to my safe. Defeat Cogs to find a stolen key.\x07When you find a key, bring it back to me."
+
 QuestScript130_1 = 'Good job finding the trolley!\x07By the way, I received a package for Professor Pete today.\x07It must be his new chalk he ordered.\x07Can you please take it to him?\x07He is over in the school house.'
 QuestScript131_1 = 'Oh, thanks for the chalk.\x07What?!?\x07Those Cogs stole my blackboard. Defeat Cogs to find my stolen blackboard.\x07When you find it, bring it back to me.'
+
 QuestScript140_1 = 'Good job finding the trolley!\x07By the way, I have this friend, Librarian Larry, who is quite a book worm.\x07I picked this book up for him last time I was over in ' + lDonaldsDock + '.\x07Could you take it over to him, he is usually in the Library.'
 QuestScript141_1 = 'Oh, yes, this book almost completes my collection.\x07Let me see...\x07Uh oh...\x07Now where did I put my glasses?\x07I had them just before those Cogs took over my building.\x07Defeat Cogs to find my stolen glasses.\x07When you find them, bring them back to me for a reward.'
 QuestScript145_1 = 'I see you had no problem with the trolley!\x07Listen, the Cogs have stolen our blackboard eraser.\x07Go into the streets and fight Cogs until you recover the eraser.\x07To reach the streets go through one of the tunnels like this:'
 QuestScript145_2 = "When you find our eraser, bring it back here.\x07Don't forget, if you need gags, ride the trolley.\x07Also, if you need to recover Laff points, collect ice cream cones in the Playground."
+
 QuestScript150_1 = 'Great work!\x07Toontown is more fun when you have friends!'
 QuestScript150_2 = 'To make friends, find another player, and use the New Friend button.'
 QuestScript150_3 = 'Once you have made a friend, come back here.'
 QuestScript150_4 = 'Some tasks are too difficult to do alone!'
-QuestScript600_1 = "Welcome to Toontown: Project Altis!"
-QuestScript600_2 = "There are many shop keepers out there who will require your help."
-QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
-QuestScript600_4 = "Jester Chester can help you get used to this habbit."
-QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
-QuestScript600_6 = "Have fun in Toontown: Project Altis!"
 
 QuestScript600_1 = "Welcome to Toontown: Project Altis!"
 QuestScript600_2 = "There are many shop keepers out there who will require your help."
