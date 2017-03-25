@@ -1158,6 +1158,7 @@ dclass DistributedToon : DistributedPlayer {
   requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
+  setRedeemedCodes(string [] = []) required ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {

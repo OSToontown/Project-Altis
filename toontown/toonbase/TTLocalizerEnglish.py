@@ -1447,7 +1447,7 @@ QuestDialogDict = {160: {GREETING: '',
         INCOMPLETE_PROGRESS: '',
         COMPLETE: "Whew! Am I ever relieved to have this.\x07Here's your reward...",
         QUEST: "Super! You'd better run these back to _toNpcName_!"},
- 5313: {QUEST: "Checkpoint!\x07_toNpcName_ wants to test your skills to see if you're eligable to continue your Gag Training._where_"},
+ 5313: {QUEST: "Checkpoint!\x07_toNpcName_ wants to test your skills to see if you're eligible to continue your Gag Training._where_"},
  5314: {QUEST: "Now that you are halfway done, you should be able to take down one of the biggest Cog Buildings around the town.\x07If you cannot, don't bother finishing your Gag Training.",
         LEAVING: '',
         COMPLETE: "I stand corrected..."},
@@ -4610,6 +4610,7 @@ CdrPageTitle = 'Enter a Code'
 CdrInstructions = 'Enter your code to receive a special item in your mailbox.'
 CdrResultSuccess = 'Congratulations! Check your mailbox to claim your item!'
 CdrResultInvalidCode = "You've entered an invalid code. Please check the code and try again."
+CdrResultIneligibleCode = "You are not eligible for this code!"
 CdrResultExpiredCode = "We're sorry. This code has expired."
 CdrResultUnknownError = "We're sorry. This code cannot be applied to your Toon."
 CdrResultMailboxFull = 'Your mailbox is full. Please remove an item, then enter your code again.'
