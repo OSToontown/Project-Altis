@@ -1,4 +1,5 @@
 from otp.otpgui.OTPDialog import *
+from direct.interval.IntervalGlobal import *
 
 class TTDialog(OTPDialog):
 
@@ -6,6 +7,9 @@ class TTDialog(OTPDialog):
         self.path = 'phase_3/models/gui/dialog_box_buttons_gui'
         OTPDialog.__init__(self, parent, style, **kw)
         self.initialiseoptions(TTDialog)
+        Sequence(
+            LerpScaleInterval(self, .2, Vec3(1.1, 1.1, 1.1), Vec3(0, 0, 0), blendType='easeInOut'),
+            LerpScaleInterval(self, .09, Vec3(1, 1, 1), Vec3(1.1, 1.1, .1), blendType='easeInOut')).start()
 
 
 class TTGlobalDialog(GlobalDialog):
@@ -14,3 +18,6 @@ class TTGlobalDialog(GlobalDialog):
         self.path = 'phase_3/models/gui/dialog_box_buttons_gui'
         GlobalDialog.__init__(self, message, doneEvent, style, okButtonText, cancelButtonText, **kw)
         self.initialiseoptions(TTGlobalDialog)
+        Sequence(
+            LerpScaleInterval(self, .2, Vec3(1.1, 1.1, 1.1), Vec3(0, 0, 0), blendType='easeInOut'),
+            LerpScaleInterval(self, .09, Vec3(1, 1, 1), Vec3(1.1, 1.1, 1.1), blendType='easeInOut')).start()
