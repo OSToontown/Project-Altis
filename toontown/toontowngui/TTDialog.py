@@ -19,5 +19,5 @@ class TTGlobalDialog(GlobalDialog):
         GlobalDialog.__init__(self, message, doneEvent, style, okButtonText, cancelButtonText, **kw)
         self.initialiseoptions(TTGlobalDialog)
         Sequence(
-            LerpScaleInterval(self, .2, Vec3(1.1, 1.1, 1.1), Vec3(0, 0, 0), blendType='easeInOut'),
-            LerpScaleInterval(self, .09, Vec3(1, 1, 1), Vec3(1.1, 1.1, 1.1), blendType='easeInOut')).start()
+            LerpScaleInterval(self, .2, Vec3(1.1), Vec3(0), blendType='easeInOut'),
+            LerpScaleInterval(self, .09, Vec3(1), blendType='easeInOut')).start()
