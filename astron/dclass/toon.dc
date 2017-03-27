@@ -3807,8 +3807,8 @@ struct PotentialToon {
   string avDNA;
   uint8 avPosition;
   uint8 aname;
-  uint16 hp;
-  uint16 maxHp;
+  int16 hp;
+  int16 maxHp;
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
