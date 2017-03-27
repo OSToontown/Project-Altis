@@ -6,6 +6,7 @@ Created on Mar 21, 2017
 
 from direct.distributed.DistributedObject import DistributedObject
 from direct.directnotify.DirectNotifyGlobal import directNotify
+from datetime import datetime
 
 class TTCodeRedemptionMgr(DistributedObject):
     neverDisable = 1
@@ -31,6 +32,7 @@ class TTCodeRedemptionMgr(DistributedObject):
 
     def redeemCode(self, code, callback):
         context = self._contextGen.next()
+        print(datetime.now())
         self._context2callback[context] = callback
         self.notify.debug('redeemCode(%s, %s)' % (context, code))
         self.sendUpdate('redeemCode', [context, code])

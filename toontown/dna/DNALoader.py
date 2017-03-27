@@ -66,6 +66,8 @@ class DNALoader(object):
         self.curStore = None
 
     def loadDNAFile(self, store, _file):
+        #if base.wantHighPerformance:
+        #    _file = _file [:-5] + "_m.pdna"
         self.loadDNAFileBase(store, _file)
 
         if not self.curComp:
