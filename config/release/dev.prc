@@ -2,7 +2,7 @@
 model-path ../resources
 
 # Server:
-server-version TTPA-Alpha-1.7.8
+server-version TTPA-Alpha-1.7.10
 min-access-level 600
 accountdb-type local
 shard-low-pop 50
@@ -36,3 +36,5 @@ want-instant-parties #f
 
 # Weather
 weather-cycle-duration 100
+
+audio-library-name p3openal_audio

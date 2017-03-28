@@ -606,16 +606,11 @@ class Suit(Avatar.Avatar):
         modelRoot.find('**/hands').setTexture(handTex, 1)
 
     def generateHead(self, headType):
-        if config.GetBool('want-new-cogs', 0):
-            filePrefix, phase = HeadModelDict[self.style.body]
-        else:
-            filePrefix, phase = ModelDict[self.style.body]
+        filePrefix, phase = ModelDict[self.style.body]
         headModel = loader.loadModel('phase_' + str(phase) + filePrefix + 'heads')
         headReferences = headModel.findAllMatches('**/' + headType)
         for i in xrange(0, headReferences.getNumPaths()):
-            headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'to_head')
-            if not headPart:
-                headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
+            headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
             if self.headTexture:
                 headTex = loader.loadTexture('phase_' + str(phase) + '/maps/' + self.headTexture)
                 headTex.setMinfilter(Texture.FTLinearMipmapLinear)

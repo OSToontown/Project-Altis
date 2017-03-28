@@ -5,6 +5,7 @@ Created on Mar 21, 2017
 '''
 
 import time
+from datetime import datetime
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.catalog import CatalogItem
@@ -18,7 +19,7 @@ from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
 from toontown.catalog.CatalogRentalItem import CatalogRentalItem
 from toontown.catalog.CatalogGardenItem import CatalogGardenItem
 from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem
-from toontown.coderedemption import TTCodeRedemptionConsts
+from toontown.coderedemption import TTCodeRedemptionConsts, TTCodeRedemptionGlobals
 from toontown.toonbase import ToontownGlobals
 
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
@@ -38,13 +39,43 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         pass
 
     def redeemCode(self, context, code):
+        avId = self.air.getAvatarIdFromSender()
+        if not avId:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to redeem a code from an invalid avId')
+            return
+
+        av = self.air.doId2do.get(avId)
+        if not av:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid avatar tried to redeem a code')
+            return
+            
         # Default values. They will get modified if needed
-        
         isValid = True
         hasExpired = False
         isEligible = True
         beenDelivered = False
-    
+        code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
+
+        avCodes = av.getRedeemedCodes()
+        print avCodes
+        if not avCodes:
+            avCodes = [code]
+            av.setRedeemedCodes(avCodes)
+        else:
+            if not code in avCodes:
+                avCodes.append(code)
+                av.setRedeemedCodes(avCodes)
+                isEligible = True
+            else:
+                isEligible = False
+                
+        expirationDate = TTCodeRedemptionGlobals.codeToExpiration.get(code)
+        if not expirationDate:
+            hasExpired = False
+        else:
+            if datetime.now() > expirationDate:
+                hasExpired = True
+                
         avId = self.air.getAvatarIdFromSender()
         print("%s entered %s" %(avId, code))
         if not avId:
@@ -111,13 +142,13 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             self.air.writeServerEvent('suspicious', avId = avId, issue = 'Avatar doesnt exist')
             return
 
-        code = str(code.lower()) # Convert to str and use lowercase bc fuck case sensitivity
+        code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
 
-        if code == "sillymeter" or code == "silly meter" or code == "silly-meter":
+        if code == "sillymeter":
             shirt = CatalogClothingItem(1753, 0)
             return [shirt]
 
-        if code == "getconnected" or code == "get connected" or code == "get_connected":
+        if code == "getconnected":
             shirt = CatalogClothingItem(1752, 0)
             return [shirt]
 

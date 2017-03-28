@@ -179,6 +179,8 @@ class RewardPanel(DirectFrame):
             questLabel.hide()
 
         for i in range(len(avQuests)):
+            if i > ToontownGlobals.MaxQuestCarryLimit - 1:
+                return
             questDesc = avQuests[i]
             questId, npcId, toNpcId, rewardId, toonProgress = questDesc
             quest = Quests.getQuest(questId)
