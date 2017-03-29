@@ -432,11 +432,9 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         savedBy = []
         for v in victors:
             tuple = self.savedByMap.get(v)
-            try:
+            if v != None:
                 toon = self.air.doId2do.get(v)
                 self.giveJbReward(toon)
-            except:
-                continue
             if tuple:
                 savedBy.append([v, tuple[0], tuple[1]])
                 continue
