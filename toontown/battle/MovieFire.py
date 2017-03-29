@@ -363,6 +363,8 @@ def __throwPie(throw, i, delay, hitCount, showCannon = 1):
         suit.setPos(0, 0, 0)
         suit.setHpr(0, -90, 0)
         suitLevel = suit.getActualLevel()
+        if suitLevel > 12:
+            suitLevel = 12
         deep = 2.5 + suitLevel * 0.2
         suitScale = 0.9
         import math
