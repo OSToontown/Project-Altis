@@ -12,16 +12,16 @@ collections.namedtuple = lambda *x: list
 # get any special perms or anything of the sort.
 __builtin__.__dev__ = False
 
-#def __runfunc(*args, **kw):
+# def __runfunc(*args, **kw):
 #    raise SystemExit
 
 # replace these methods to prevent injection...
-#__builtin__.exec = __runfunc
-#__builtin__.eval = __runfunc
-#__builtin__.compile = __runfunc
-#__builtin__.execfile = __runfunc
-#__builtin__.globals = __runfunc
-#__builtin__.locals = __runfunc
+# __builtin__.exec = __runfunc
+# __builtin__.eval = __runfunc
+# __builtin__.compile = __runfunc
+# __builtin__.execfile = __runfunc
+# __builtin__.globals = __runfunc
+# __builtin__.locals = __runfunc
 
 # TODO: append resources
 import aes
@@ -30,11 +30,11 @@ import niraidata
 iv = '\0' * 16
 key = 'g89a1hU0acBrlcru'
 
-#config = niraidata.CONFIG
-#config = aes.decrypt(config, key, iv)
+# config = niraidata.CONFIG
+# config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.7.5]
+window-title Project Altis [ALPHA 1.7.10]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -59,12 +59,11 @@ model-cache-textures #f
 default-model-extension .bam
 
 # Performance
-smooth-enable-prediction 0
+smooth-enable-prediction 1
 smooth-enable-smoothing 1
-smooth-lag 0.1
-smooth-max-future 0.1
+smooth-lag 0.2
+smooth-max-future 1.0
 smooth-min-suggest-resync 1
-
 
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0
@@ -202,9 +201,9 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.7.5
-shard-low-pop 100
-shard-mid-pop 200
+server-version TTPA-Alpha-1.7.10
+shard-low-pop 50
+shard-mid-pop 80
 
 # DC File
 dc-file config/toon.dc
@@ -245,7 +244,7 @@ for line in io.readlines():
     if line.startswith('#'):
         continue
 
-    #print line
+    # print line
     # load the prc file value
     loadPrcFileData('', line)
 

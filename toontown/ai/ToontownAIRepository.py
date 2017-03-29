@@ -17,6 +17,7 @@ from toontown.ai.HolidayManagerAI import HolidayManagerAI
 from toontown.ai.DialogueManagerAI import DialogueManagerAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
 from toontown.ai.QuestManagerAI import QuestManagerAI
+from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 from toontown.ai import DistributedSillyMeterMgrAI, DistributedHydrantZeroMgrAI, DistributedMailboxZeroMgrAI, DistributedTrashcanZeroMgrAI
 from toontown.building.DistributedTrophyMgrAI import DistributedTrophyMgrAI
 from toontown.catalog.CatalogManagerAI import CatalogManagerAI
@@ -76,6 +77,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.lawOfficeMgr = None
         self.countryClubMgr = None
         self.startTime = startTime
+        import pymongo
         self.isRaining = False
         self.invLastPop = None
         self.invLastStatus = None
@@ -170,7 +172,8 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.charityCounter.generateWithRequired(2)
             self.charityCounter.start()
 
-        self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
+        self.codeRedemptionMgr = TTCodeRedemptionMgrAI(self) 
+        self.codeRedemptionMgr.generateWithRequired(2)
         self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
 
     def createSafeZones(self):

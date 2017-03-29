@@ -163,18 +163,6 @@ class OptionsPage(ShtikerPage.ShtikerPage, DirectObject):
             image3_color = diabledColor, text_fg = Vec4(0.2, 0.1, 0, 1),
             command = self.setMode, extraArgs = [PageMode.Options],
             pos = (-0.64, 0, 0.77))
-        self.codesTab = DirectButton(
-            parent=self, relief=None, text=TTLocalizer.OptionsPageCodesTab,
-            text_scale=TTLocalizer.OPoptionsTab, text_align=TextNode.ALeft,
-            text_pos=(-0.035, 0.0, 0.0),
-            image=gui.find('**/tabs/polySurface2'), image_pos=(0.12, 1, -0.91),
-            image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035),
-            image_color=normalColor, image1_color=clickColor,
-            image2_color=rolloverColor, image3_color=diabledColor,
-            text_fg=Vec4(0.2, 0.1, 0, 1),
-            #command=self.setMode,
-            #extraArgs=[PageMode.Codes],
-            pos=(-0.12, 0, 0.77))
         gui.removeNode()
 
     def enter(self):
@@ -205,10 +193,6 @@ class OptionsPage(ShtikerPage.ShtikerPage, DirectObject):
             self.optionsTab.destroy()
             self.optionsTab = None
 
-        if self.codesTab is not None:
-            self.codesTab.destroy()
-            self.codesTab = None
-
         ShtikerPage.ShtikerPage.unload(self)
 
     def setMode(self, mode, updateAnyways = 0):
@@ -224,13 +208,11 @@ class OptionsPage(ShtikerPage.ShtikerPage, DirectObject):
             self.title['text'] = TTLocalizer.OptionsPageTitle
             self.optionsTab['state'] = DGG.DISABLED
             self.optionsTabPage.enter()
-            self.codesTab['state'] = DGG.NORMAL
             self.codesTabPage.exit()
         elif mode == PageMode.Codes:
             self.title['text'] = TTLocalizer.CdrPageTitle
             self.optionsTab['state'] = DGG.NORMAL
             self.optionsTabPage.exit()
-            self.codesTab['state'] = DGG.DISABLED
             self.codesTabPage.enter()
 
 class OptionsTabPage(DirectFrame):
@@ -279,7 +261,7 @@ class OptionsTabPage(DirectFrame):
         options_text_scale = 0.052
         disabled_arrow_color = Vec4(0.6, 0.6, 0.6, 1.0)
         self.speed_chat_scale = 0.055
-        gui2 = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
+        gui2 = base.matGui
         shuffleUp = gui2.find('**/tt_t_gui_mat_shuffleUp')
         shuffleDown = gui2.find('**/tt_t_gui_mat_shuffleDown')
         self.soundButton = DirectButton(relief = None, text_style = 3, image3_color=disabledImageColor, image = (shuffleUp, shuffleDown, shuffleUp), text_pos = (0, -0.02), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = 'Sound', text_scale = .1, scale = 0.6, command = self.displaySoundOptions)

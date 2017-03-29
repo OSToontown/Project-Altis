@@ -65,8 +65,7 @@ class QuestManagerAI:
                 # Check if it's the required NPC.
                 if npc.npcId == toNpcId:
                     track, level = questClass.getGagType()
-                    av.inventory.setItem(track, level, av.inventory.numItem(track, level) - 
-questClass.getNumGags())
+                    av.inventory.setItem(track, level, av.inventory.numItem(track, level) - questClass.getNumGags())
                     av.b_setInventory(av.inventory.makeNetString())
 
             # If they've completed a quest.
@@ -122,6 +121,9 @@ questClass.getNumGags())
         # Get the avatar.
         av = self.air.doId2do.get(avId)
         if not av:
+            return
+			
+        if len(av.quests) > av.getQuestCarryLimit():
             return
 
         # Get the npcIds
@@ -432,8 +434,7 @@ questClass.getNumGags())
         av.b_setQuests(questList)
 		
     def toonKilledCogdo(self, av, type, difficulty, zoneId, activeToons):
-        self.notify.debug("toonKilledCogdo(%s, '%s', %s, %d, %s)" % (str(av), type, str(difficulty), 
-zoneId, str(activeToons)))
+        self.notify.debug("toonKilledCogdo(%s, '%s', %s, %d, %s)" % (str(av), type, str(difficulty), zoneId, str(activeToons)))
         # Get the avatars current quests.
         avQuests = av.getQuests()
         questList = []

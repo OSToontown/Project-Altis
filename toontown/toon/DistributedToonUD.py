@@ -563,3 +563,6 @@ class DistributedToonUD(DistributedAvatarUD.DistributedAvatarUD):
 
     def setStats(self, stats):
         pass
+    def setTrueFriends(self, trueFriends):
+        pass
+    

@@ -55,7 +55,7 @@ GM_NAMES = ('TOON COUNCIL',
  'TOON TROOPER',
  'RESISTANCE RANGER',
  'GC')
-ProductPrefix = 'TT'
+ProductPrefix = 'TTPA'
 Mickey = 'Mickey'
 VampireMickey = 'VampireMickey'
 Minnie = 'Minnie'
@@ -84,8 +84,8 @@ lFunnyFarm = 'Funny Farm'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
 lGoofySpeedway = 'Goofy Speedway'
-lOutdoorZone = "Chip 'n Dale's Acorn Acres"
-lGolfZone = "Chip 'n Dale's MiniGolf"
+lOutdoorZone = "Acorn Acres"
+lGolfZone = "MiniGolf"
 lPartyHood = 'Party Grounds'
 GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1000: ('to the', 'in the', 'Playground'),
@@ -705,7 +705,7 @@ QuestDialogDict = {160: {GREETING: '',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  164: {QUEST: 'Phew, tired yet?\x07You know... You look like you could use some new gags.\x07Go see %s, maybe he can help you out._where_' % Flippy},
- 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formerly introduced myself...\x07I\'m Flippy, President of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07You see, every time you hit a Cog with one of your gags it increases your experience.\x07When you get enough experience, you\'ll be able to buy an even better gag.\x07Why not try it out?\x07To get some practice in, try defeating 4 of those Cogs on the streets.'},
+ 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formally introduced myself...\x07I\'m Flippy, President of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07You see, every time you hit a Cog with one of your gags it increases your experience.\x07When you get enough experience, you\'ll be able to buy an even better gag.\x07Why not try it out?\x07To get some practice in, try defeating 4 of those Cogs on the streets.'},
  166: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Bossbots I talked about!'},
  167: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Lawbots I talked about!'},
  168: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in lin...\nAnd Boardbots that represent them all...e\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Sellbots I talked about!'},
@@ -1447,7 +1447,7 @@ QuestDialogDict = {160: {GREETING: '',
         INCOMPLETE_PROGRESS: '',
         COMPLETE: "Whew! Am I ever relieved to have this.\x07Here's your reward...",
         QUEST: "Super! You'd better run these back to _toNpcName_!"},
- 5313: {QUEST: "Checkpoint!\x07_toNpcName_ wants to test your skills to see if you're eligable to continue your Gag Training._where_"},
+ 5313: {QUEST: "Checkpoint!\x07_toNpcName_ wants to test your skills to see if you're eligible to continue your Gag Training._where_"},
  5314: {QUEST: "Now that you are halfway done, you should be able to take down one of the biggest Cog Buildings around the town.\x07If you cannot, don't bother finishing your Gag Training.",
         LEAVING: '',
         COMPLETE: "I stand corrected..."},
@@ -2046,6 +2046,10 @@ MovieSOSWhisperHelp = '%s needs help in battle!'
 MovieSOSObserverHelp = 'HELP!'
 MovieNPCSOSGreeting = 'Hi %s! Glad to help!'
 FrumpGreetings = ["I'm all in on this for a small loan of a million jellybeans.", 'Did one of you mention a wall?', "TOGETHER... WE WILL MAKE TOONTOWN GREAT AGAIN!!!", 'This is gonna be yuge.', "They are all filthy cogs, I'm sure some of them are great robots.", 'We are going to build a wall and make Loonyville pay for it!']
+JakebooySOSGreetings = ["You called for some rakes?", "Rake 'em in, boys!", "This won't rake long!", "These cogs are about to have a Pounding Headrake!", "Why are you calling me? The rake is a lie.", "It's time to rake up!", "Let them eat rake!", "It's time to put the icing on the rake!", "It's time to rake up!", "I rake it that you need some help?", "It's time to rake them cogs pay!"]
+JakebooySOSGoodbyes = ["So head on down to Jakes Rakes today!", "Rake it or leaf it!", "Rake ya later!", "Rake me up when september ends."]
+AliceSOSLeave = "I'll be going back to my rabbit hole now."
+AliceSOSGreeting = "Off with their heads!"
 MovieNPCSOSGoodbye = 'See you later!'
 MovieNPCSOSToonsHit = 'Toons Always Hit!'
 MovieNPCSOSToonsHitS = 'Toons Always Hit\nFor One Round!'
@@ -2123,6 +2127,7 @@ CheesyEffectId2Name = {
  9: 'Transparent',
  10: 'No Color',
  11: 'Invisible',
+ 15: 'Green Toon',
  77: 'Wireframe'}
 SuitFlunky = 'Flunky'
 SuitPencilPusher = 'Pencil Pusher'
@@ -4600,6 +4605,7 @@ OptionsPageChange = 'Change'
 OptionsPageDisplaySettings = 'Display: %(screensize)s, %(api)s'
 OptionsPageDisplaySettingsNoApi = 'Display: %(screensize)s'
 OptionsPageExitConfirm = 'Exit Toontown?'
+CodePageTitle = 'Codes'
 ItemsPageTitle = 'Items'
 ItemsPageNametagStyle = 'Nametag Style'
 ItemsPageFishingRods = "Fishing Rod"
@@ -4622,6 +4628,7 @@ CdrPageTitle = 'Enter a Code'
 CdrInstructions = 'Enter your code to receive a special item in your mailbox.'
 CdrResultSuccess = 'Congratulations! Check your mailbox to claim your item!'
 CdrResultInvalidCode = "You've entered an invalid code. Please check the code and try again."
+CdrResultIneligibleCode = "You are not eligible for this code!"
 CdrResultExpiredCode = "We're sorry. This code has expired."
 CdrResultUnknownError = "We're sorry. This code cannot be applied to your Toon."
 CdrResultMailboxFull = 'Your mailbox is full. Please remove an item, then enter your code again.'
@@ -5325,6 +5332,12 @@ GagShopPlayerDisconnected = '%s has disconnected'
 GagShopPlayerExited = '%s has exited'
 GagShopPlayerPlayAgain = 'Play Again'
 GagShopPlayerBuying = 'Buying'
+PopupTouchControls = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy Project Altis!'
+PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!'
+QuitConfirm = 'Are you sure you want to quit?'
+PlayGame = 'Pick-A-Toon'
+DiscordButton = 'Discord'
+CreditsButton = 'Credits'
 GenderShopQuestionMickey = 'To make a boy toon, click on me!'
 GenderShopQuestionMinnie = 'To make a girl toon, click on me!'
 GenderShopFollow = 'Follow me!'
@@ -5609,6 +5622,7 @@ QuestScript101_11 = "OH NO! There's a Cog outside my shop!"
 QuestScript101_12 = 'HELP ME, PLEASE! Defeat that Cog!'
 QuestScript101_13 = 'Here is your first ToonTask!'
 QuestScript101_14 = 'Hurry up! Go defeat that Flunky!'
+
 QuestScript110_1 = 'Good work defeating that Flunky. Let me give you a Shticker Book...'
 QuestScript110_2 = 'The book is full of good stuff.'
 QuestScript110_3 = "Open it, and I'll show you."
@@ -5620,6 +5634,7 @@ QuestScript110_8 = 'Take a ride on the trolley, and earn jelly beans to buy gags
 QuestScript110_9 = 'To get to the trolley, go out the door behind me and head for the playground.'
 QuestScript110_10 = 'Now, close the book and find the trolley!'
 QuestScript110_11 = 'Return to Toon HQ when you are done. Bye!'
+
 QuestScriptTutorialBlocker_1 = 'Why, hello there!'
 QuestScriptTutorialBlocker_2 = 'Hello?'
 QuestScriptTutorialBlocker_3 = "Oh! You don't know how to use SpeedChat!"
@@ -5628,6 +5643,7 @@ QuestScriptTutorialBlocker_5 = 'Very good!\x07Where you are going there are many
 QuestScriptTutorialBlocker_6 = "If you want to chat with other Toons using the keyboard, there's another button you can use."
 QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. You need to turn on Speedchat Plus in your Account Manager on the Project Altis Website to use it."
 QuestScriptTutorialBlocker_8 = 'Good luck! See you later!'
+
 QuestScriptGagShop_1 = 'Welcome to the Gag Shop!'
 QuestScriptGagShop_1a = 'This is where Toons come to buy gags to use against the Cogs.'
 QuestScriptGagShop_3 = 'To buy gags, click on the gag buttons. Try getting some now!'
@@ -5636,25 +5652,24 @@ QuestScriptGagShop_5 = "Here's a peek at the advanced throw and squirt gags..."
 QuestScriptGagShop_6 = "When you're done buying gags, click this button to return to the Playground."
 QuestScriptGagShop_7 = 'Normally you can use this button to play another Trolley Game...'
 QuestScriptGagShop_8 = "...but there's no time for another game right now. You're needed in Toon HQ!"
+
 QuestScript120_1 = "Good job finding the trolley!\x07By the way, have you met Banker Bob?\x07He has quite a sweet tooth.\x07Why don't you introduce yourself by taking him this candy bar as a gift."
 QuestScript120_2 = 'Banker Bob is over in the Toontown Bank.'
+
 QuestScript121_1 = "Yum, thank you for the Candy Bar.\x07Say, if you can help me, I'll give you a reward.\x07Those Cogs stole the keys to my safe. Defeat Cogs to find a stolen key.\x07When you find a key, bring it back to me."
+
 QuestScript130_1 = 'Good job finding the trolley!\x07By the way, I received a package for Professor Pete today.\x07It must be his new chalk he ordered.\x07Can you please take it to him?\x07He is over in the school house.'
 QuestScript131_1 = 'Oh, thanks for the chalk.\x07What?!?\x07Those Cogs stole my blackboard. Defeat Cogs to find my stolen blackboard.\x07When you find it, bring it back to me.'
+
 QuestScript140_1 = 'Good job finding the trolley!\x07By the way, I have this friend, Librarian Larry, who is quite a book worm.\x07I picked this book up for him last time I was over in ' + lDonaldsDock + '.\x07Could you take it over to him, he is usually in the Library.'
 QuestScript141_1 = 'Oh, yes, this book almost completes my collection.\x07Let me see...\x07Uh oh...\x07Now where did I put my glasses?\x07I had them just before those Cogs took over my building.\x07Defeat Cogs to find my stolen glasses.\x07When you find them, bring them back to me for a reward.'
 QuestScript145_1 = 'I see you had no problem with the trolley!\x07Listen, the Cogs have stolen our blackboard eraser.\x07Go into the streets and fight Cogs until you recover the eraser.\x07To reach the streets go through one of the tunnels like this:'
 QuestScript145_2 = "When you find our eraser, bring it back here.\x07Don't forget, if you need gags, ride the trolley.\x07Also, if you need to recover Laff points, collect ice cream cones in the Playground."
+
 QuestScript150_1 = 'Great work!\x07Toontown is more fun when you have friends!'
 QuestScript150_2 = 'To make friends, find another player, and use the New Friend button.'
 QuestScript150_3 = 'Once you have made a friend, come back here.'
 QuestScript150_4 = 'Some tasks are too difficult to do alone!'
-QuestScript600_1 = "Welcome to Toontown: Project Altis!"
-QuestScript600_2 = "There are many shop keepers out there who will require your help."
-QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
-QuestScript600_4 = "Jester Chester can help you get used to this habbit."
-QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
-QuestScript600_6 = "Have fun in Toontown: Project Altis!"
 
 QuestScript600_1 = "Welcome to Toontown: Project Altis!"
 QuestScript600_2 = "There are many shop keepers out there who will require your help."
@@ -5668,7 +5683,7 @@ QuestScript10301_2 = "We sell the freshest swedish meatballs in all of Toontown!
 QuestScript10301_3 = "What would you like to order?"
 QuestScript10301_4 = "Meatballs! A Fan favorite. Great choice! Let me just check in with Jimmy."
 QuestScript10301_5 = "JIMMY!!"
-QuestScript10301_6 = "Oh. That's right."
+QuestScript10301_6 = "Oh, That's right."
 QuestScript10301_7 = "Jimmy was loafing around earlier so I tossed him in the pond."
 QuestScript10301_8 = "Can you be a darling and go fish him out and bring him back for me?"
 
@@ -7730,7 +7745,9 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7009: 'Jimmy Thelock',
  91917: 'Prince Frizzy',
  91918: 'Squeaker',
- 91919: 'Sir Tubby Cheezyfish'}
+ 91919: 'Sir Tubby Cheezyfish',
+ 91920: 'Jakebooy',
+ 91925: 'Ask Alice'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
  2514: ('Toontown Bank', ''),
  2516: ('Toontown School House', ''),
@@ -8548,7 +8565,7 @@ TipDict = {TIP_NONE: ('',),
               'During a battle, Cogs have a light on them that displays their health; green is healthy, red is nearly destroyed.',
               'A maximum of four Toons can battle at once.',
               'On the street, Cogs are more likely to join a fight against multiple Toons than just one Toon.',
-              'The two highest ranking Cogs of each type are only found in buildings.',
+              'The highest ranking Cog of each type can only be found in buildings.',
               'Drop gags never work against lured Cogs.',
               'Cogs tend to attack the Toon that has done them the most damage.',
               'Sound gags do not get bonus damage against lured Cogs.',
@@ -9149,6 +9166,7 @@ SummonDlgInvasionSuccess = "You have successfully summoned the Cogs. It's an inv
 SummonDlgInvasionBusy = 'A %s cannot be found now.  Try again when the Cog invasion is over.'
 SummonDlgInvasionFail = 'Sorry, the Cog invasion has failed.'
 SummonDlgShopkeeper = 'The Shopkeeper '
+ShopkeeperThanks = 'Thanks for saving my shop!! Have this reward of %s jellybeans!'
 PolarPlaceEffect1 = NPCToonNames[3306] + ': Welcome to Polar Place!'
 PolarPlaceEffect2 = NPCToonNames[3306] + ': Try this on for size.'
 PolarPlaceEffect3 = NPCToonNames[3306] + ': Your new look will only work in ' + lTheBrrrgh + '.'
@@ -9960,40 +9978,9 @@ InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  5: 'Super Squirt!',
  6: ''}
 PlayingCardUnknown = 'Card Name is unknown'
-YinTitle = 'Are you absolutely sure?'
-YinNotCat = 'Sorry, I only make cats black.'
-YinAlreadyBlack = "You're already black!"
-YinPickColor = 'Are you sure you want to be a black cat?'
-YinEnjoy = 'Enjoy! You are now permanently a black cat.'
-YinGoodbye = 'Okay, then. See you later!'
-YangTitle = 'Are you absolutely sure?'
-YangNotBear = 'Sorry, I only make bears white.'
-YangAlreadyWhite = "You're already white!"
-YangPickColor = 'Are you sure you want to be a polar bear?'
-YangEnjoy = 'Enjoy! You are now permanently a polar bear.'
-YangGoodbye = 'Okay, then. See you later!'
-
-# Buffs
-
-buffIdStrings = {
-  0: ('Your movement speed will be slightly increased for the next %d %s.',
-      'Reward: Increased movement speed'),
-  1: ('Your gag accuracy will be slight increased for the next %d %s.',
-      'Reward: Increased gag accuracy')
-}
 
 # Controls
 RemapPrompt = 'Choose the keys you wish to remap.'
 RemapPopup = 'Press the key you wish to remap this control to.'
 Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
             'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
-
-def getBuffString(buffId, buffTime):
-    if buffTime < 60:
-        return buffIdStrings[buffId][0] % (buffTime, 'minutes')
-    else:
-        return buffIdStrings[buffId][0] % (buffTime / 60, 'hours')
-
-
-def getBuffPosterString(buffId):
-    return buffIdStrings[buffId][1]

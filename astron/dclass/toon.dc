@@ -307,6 +307,9 @@ dclass FriendManager : DistributedObject {
   requestSecretResponse(int8, string);
   submitSecret(string(0-256)) airecv clsend;
   submitSecretResponse(int8, int32);
+  requestTrueFriendCode() airecv clsend;
+  useTrueFriendCode(string) airecv clsend;
+  trueFriendResponse(uint8, string);
 };
 
 struct FriendInfo {
@@ -966,6 +969,8 @@ dclass DistributedToon : DistributedPlayer {
   setBattleId(uint32 = 0) required broadcast ram;
   setToonExp(int32 exp = 0) required broadcast ownrecv db;
   setToonLevel(int32 level = 0) required broadcast ownrecv db;
+  setTrueFriends(uint32[] = []) ownrecv required db airecv;
+  setTrueFriendRequest(uint32[] = [0, 0]) ram airecv;
   setExperience(blob = [0*16]) required broadcast db;
   setMaxCarry(uint8 = 20) required ownrecv db;
   setTrackAccess(uint16[] = [0,0,0,0,1,1,0,0]) required broadcast ownrecv db;
@@ -1154,6 +1159,7 @@ dclass DistributedToon : DistributedPlayer {
   setWarningCount(uint8) ownrecv db;
   setStats(uint32[] = [0*11]) required ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
+  setRedeemedCodes(string [] = []) required ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -3802,6 +3808,8 @@ struct PotentialToon {
   string avDNA;
   uint8 avPosition;
   uint8 aname;
+  int16 hp;
+  int16 maxHp;
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
@@ -3848,10 +3856,9 @@ dclass NonRepeatableRandomSourceClient {
 
 dclass TTCodeRedemptionMgr : DistributedObject, NonRepeatableRandomSourceClient {
   giveAwardToToonResult(uint32, uint32);
-  deliverItem(uint32, uint32, blob) airecv;
   redeemCode(uint32, char [0-256]) airecv clsend;
-  redeemCodeAiToUd(DoId, uint32, string);
-  redeemCodeResultUdToAi(uint32, uint32, uint32, uint32) airecv;
+  redeemCodeAiToUd(uint32, DoId, uint32, string, uint32);
+  redeemCodeResultUdToAi(uint32, uint32, uint32, uint32, uint32) airecv;
   redeemCodeResult(uint32, uint32, uint32);
 };
 

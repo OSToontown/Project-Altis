@@ -2,6 +2,7 @@ from pandac.PandaModules import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from otp.otpbase import OTPGlobals
+import code
 
 class FriendManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('FriendManager')
@@ -112,3 +113,14 @@ class FriendManager(DistributedObject.DistributedObject):
 
     def submitSecretResponse(self, result, avId):
         messenger.send('submitSecretResponse', [result, avId])
+        
+    def requestTrueFriendCode(self, callback):
+        self.tfCallback = callback
+        self.sendUpdate('requestTrueFriendCode')
+        
+    def useTrueFriendCode(self, code, callback):
+        self.tfCallback = callback
+        self.sendUpdate('useTrueFriendCode', [code])
+        
+    def trueFriendResponse(self, response, code):
+        self.tfCallback(response, code)
