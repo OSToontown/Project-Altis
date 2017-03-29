@@ -34,6 +34,14 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.underwaterSound = base.loader.loadSfx('phase_4/audio/sfx/AV_ambient_water.ogg')
         self.swimSound = base.loader.loadSfx('phase_4/audio/sfx/AV_swim_single_stroke.ogg')
         self.submergeSound = base.loader.loadSfx('phase_5.5/audio/sfx/AV_jump_in_water.ogg')
+        
+        binMgr = CullBinManager.getGlobalPtr()
+        binMgr.addBin('water', CullBinManager.BTFixed, 29)
+        binMgr = CullBinManager.getGlobalPtr()
+        water = self.geom.find('**/Water*')
+        water.setTransparency(1)
+        water.setColorScale(.3, .3, 1, .5)
+        water.setBin('water', 51, 1)
 
     def exit(self):
         SafeZoneLoader.exit(self)

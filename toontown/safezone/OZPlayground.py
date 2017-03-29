@@ -11,7 +11,7 @@ from toontown.safezone import GolfKart
 from direct.task.Task import Task
 
 class OZPlayground(Playground.Playground):
-    waterLevel = -0.53
+    waterLevel = 3
 
     def __init__(self, loader, parentFSM, doneEvent):
         Playground.Playground.__init__(self, loader, parentFSM, doneEvent)
@@ -60,7 +60,7 @@ class OZPlayground(Playground.Playground):
         return Task.cont
 
     def __checkToonUnderwater(self, task):
-        if base.localAvatar.getZ() < -4.0:
+        if base.localAvatar.getZ() < 3.0:
             self.__submergeToon()
         else:
             self.__emergeToon()
