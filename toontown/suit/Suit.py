@@ -124,6 +124,7 @@ cn = (('speak', 'speak', 5),
  ('throw-paper', 'throw-paper', 5),
  ('effort', 'effort', 5),     
  ('magic3', 'magic3', 5),
+ ('phone', 'phone', 5),
  ('finger-wag', 'finger-wag', 5))
 sw = (('phone', 'phone', 5),
  ('pickpocket', 'pickpocket', 5),
