@@ -75,17 +75,17 @@ Dale = 'Dale'
 JailbirdDale = 'JailbirdDale'
 PoliceChip = 'PoliceChip'
 lTheBrrrgh = 'The Brrrgh'
-lDaisyGardens = 'Daisy Gardens'
-lDonaldsDock = "Donald's Dock"
-lDonaldsDreamland = "Donald's Dreamland"
-lMinniesMelodyland = "Minnie's Melodyland"
+lDaisyGardens = 'Daffodil Gardens'
+lDonaldsDock = "Dock"
+lDonaldsDreamland = "Dreamland"
+lMinniesMelodyland = "Melodyland"
 lToontownCentral = 'Toontown Central'
-lFunnyFarm = 'Funny Farm'
+lFunnyFarm = 'lul never coming'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
-lGoofySpeedway = 'Goofy Speedway'
+lGoofySpeedway = 'Grand-Prix Speedway'
 lOutdoorZone = "Acorn Acres"
-lGolfZone = "MiniGolf"
+lGolfZone = "Minigame Hub"
 lPartyHood = 'Party Grounds'
 GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1000: ('to the', 'in the', 'Playground'),
@@ -176,7 +176,7 @@ lNo = 'No'
 SleepAutoReply = '%s is sleeping right now.'
 lHQOfficerF = 'HQ Officer'
 lHQOfficerM = 'HQ Officer'
-MickeyMouse = 'Mickey Mouse'
+MickeyMouse = 'please tell me if this is used it shouldnt be'
 AIStartDefaultDistrict = 'Sillyville'
 Cog = 'Cog'
 Cogs = 'Cogs'
@@ -8452,7 +8452,6 @@ BlockerLoadingTexts = ['Rewriting history',
  'Balancing scale for weighing 1 Ton weights',
  'Practicing Victory Dances',
  'Preparing wackiness',
- "Giving Mickey Mouse the 'five minutes' sign",
  'Testing white gloves',
  'Bending underwater rings',
  'Spooling red tape',
@@ -9166,10 +9165,10 @@ PinballScoreHolder = '%s\n'
 GagTreeFeather = 'Feather Gag Tree'
 GagTreeJugglingBalls = 'Juggling Balls Gag Tree'
 StatuaryFountain = 'Fountain'
-StatuaryDonald = 'Donald Statue'
-StatuaryMinnie = 'Minnie Statue'
-StatuaryMickey1 = 'Mickey Statue'
-StatuaryMickey2 = 'Mickey Fountain'
+StatuaryDonald = 'Statue'
+StatuaryMinnie = 'Statue'
+StatuaryMickey1 = 'Statue'
+StatuaryMickey2 = 'Fountain'
 StatuaryToon = 'Toon Statue'
 StatuaryToonWave = 'Toon Wave Statue'
 StatuaryToonVictory = 'Toon Victory Statue'
