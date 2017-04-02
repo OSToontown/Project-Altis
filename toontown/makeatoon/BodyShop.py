@@ -19,6 +19,7 @@ class BodyShop(StateData.StateData):
         self.legChoice = 0
         self.headChoice = 0
         self.speciesChoice = 0
+        self.speciesButtons = []
 
     def enter(self, toon, shopsVisited = []):
         base.disableMouse()
@@ -44,7 +45,7 @@ class BodyShop(StateData.StateData):
         else:
             torsoStyle = 'd'
             torsoPool = ToonDNA.toonTorsoTypes[3:6]
-        self.__swapSpecies(0)
+        self.__setSpecies(self.speciesStart)
         self.__swapHead(0)
         self.__swapTorso(0)
         self.__swapLegs(0)
@@ -64,10 +65,14 @@ class BodyShop(StateData.StateData):
 
     def showButtons(self):
         self.parentFrame.show()
+        for btn in self.speciesButtons:
+            btn.show()
 
     def hideButtons(self):
         self.parentFrame.hide()
         self.memberButton.hide()
+        for btn in self.speciesButtons:
+            btn.hide()
 
     def exit(self):
         try:
@@ -97,15 +102,7 @@ class BodyShop(StateData.StateData):
         self.parentFrame = DirectFrame(relief=DGG.RAISED, pos=(0.98, 0, 0.416), frameColor=(1, 0, 0, 0))
         self.parentFrame.setPos(-0.36, 0, -0.5)
         self.parentFrame.reparentTo(base.a2dTopRight)
-        self.speciesFrame = DirectFrame(parent=self.parentFrame, image=shuffleFrame, image_scale=halfButtonInvertScale, relief=None, pos=(0, 0, -0.073), hpr=(0, 0, 0), scale=1.3, frameColor=(1, 1, 1, 1), text='Species', text_scale=0.0625, text_pos=(-0.001, -0.015), text_fg=(1, 1, 1, 1))
-        self.speciesLButton = DirectButton(parent=self.speciesFrame, relief=None, image=(shuffleArrowUp,
-         shuffleArrowDown,
-         shuffleArrowRollover,
-         shuffleArrowDisabled), image_scale=halfButtonScale, image1_scale=halfButtonHoverScale, image2_scale=halfButtonHoverScale, pos=(-0.2, 0, 0), command=self.__swapSpecies, extraArgs=[-1])
-        self.speciesRButton = DirectButton(parent=self.speciesFrame, relief=None, image=(shuffleArrowUp,
-         shuffleArrowDown,
-         shuffleArrowRollover,
-         shuffleArrowDisabled), image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.__swapSpecies, extraArgs=[1])
+        self.createSpeciesButtons()
         self.headFrame = DirectFrame(parent=self.parentFrame, image=shuffleFrame, image_scale=halfButtonInvertScale, relief=None, pos=(0, 0, -0.3), hpr=(0, 0, 2), scale=0.9, frameColor=(1, 1, 1, 1), text=TTLocalizer.BodyShopHead, text_scale=0.0625, text_pos=(-0.001, -0.015), text_fg=(1, 1, 1, 1))
         self.headLButton = DirectButton(parent=self.headFrame, relief=None, image=(shuffleArrowUp,
          shuffleArrowDown,
@@ -149,12 +146,9 @@ class BodyShop(StateData.StateData):
         self.upsellModel.removeNode()
         del self.upsellModel
         self.parentFrame.destroy()
-        self.speciesFrame.destroy()
         self.headFrame.destroy()
         self.bodyFrame.destroy()
         self.legsFrame.destroy()
-        self.speciesLButton.destroy()
-        self.speciesRButton.destroy()
         self.headLButton.destroy()
         self.headRButton.destroy()
         self.torsoLButton.destroy()
@@ -163,12 +157,9 @@ class BodyShop(StateData.StateData):
         self.legRButton.destroy()
         self.memberButton.destroy()
         del self.parentFrame
-        del self.speciesFrame
         del self.headFrame
         del self.bodyFrame
         del self.legsFrame
-        del self.speciesLButton
-        del self.speciesRButton
         del self.headLButton
         del self.headRButton
         del self.torsoLButton
@@ -176,6 +167,10 @@ class BodyShop(StateData.StateData):
         del self.legLButton
         del self.legRButton
         del self.memberButton
+        for button in self.speciesButtons:
+            button.destroy()
+            del button
+        self.speciesButtons = []
         self.shuffleButton.unload()
         self.ignore('MAT-newToonCreated')
 
@@ -253,7 +248,43 @@ class BodyShop(StateData.StateData):
         self.__updateScrollButtons(self.speciesChoice, length, self.speciesStart, self.speciesLButton, self.speciesRButton)
         self.species = ToonDNA.toonSpeciesTypes[self.speciesChoice]
         self.headList = ToonDNA.getHeadList(self.species)
-        self.__changeSpeciesName(self.species)
+        maxHeadChoice = len(self.headList) - 1
+        if self.headChoice > maxHeadChoice:
+            self.headChoice = maxHeadChoice
+        self.__updateHead()
+        
+    def createSpeciesButtons(self):
+        gui = base.matGui
+        shuffleUp = gui.find('**/tt_t_gui_mat_shuffleUp')
+        shuffleDown = gui.find('**/tt_t_gui_mat_shuffleDown')
+        pos = ((.3, 0, .3),  (.6, 0, .3),  (.9, 0, .3),
+               (.3, 0, .1),  (.6, 0, .1),  (.9, 0, .1),
+               (.3, 0, -.1), (.6, 0, -.1), (.9, 0, -.1),
+                             (.6, 0, -.3)
+              )
+        
+        for x in range(len(ToonDNA.toonSpeciesTypes)):
+            print(x)
+            name = TTLocalizer.AllSpecies[x]
+            btn = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp, shuffleDown), 
+            image_scale = (0.6, 0.7, 0.7), image1_scale = (0.63, 0.7, 0.7), image2_scale = (0.63, 0.7, 0.7),
+            text_fg = (1, 1, 1, 1), text = name, text_pos = (0, -0.02), text_scale = .08,
+            scale = 0.95, command = self.__setSpecies, extraArgs = [x])
+            btn.reparentTo(base.a2dLeftCenter)
+            btn.setPos(pos[x])
+            btn.hide()
+            self.speciesButtons.append(btn)
+        
+    def __setSpecies(self, offset):
+        for btn in self.speciesButtons:
+            btn['state'] = DGG.NORMAL
+            
+        self.speciesButtons[offset]['state'] = DGG.DISABLED
+        
+        length = len(ToonDNA.toonSpeciesTypes)
+        self.speciesChoice = (offset) % length
+        self.species = ToonDNA.toonSpeciesTypes[self.speciesChoice]
+        self.headList = ToonDNA.getHeadList(self.species)
         maxHeadChoice = len(self.headList) - 1
         if self.headChoice > maxHeadChoice:
             self.headChoice = maxHeadChoice
@@ -324,7 +355,7 @@ class BodyShop(StateData.StateData):
         oldHeadIndex = ToonDNA.toonHeadTypes.index(oldHead) - ToonDNA.getHeadStartIndex(ToonDNA.getSpecies(oldHead))
         oldTorsoIndex = ToonDNA.toonTorsoTypes.index(self.toon.style.torso)
         oldLegsIndex = ToonDNA.toonLegTypes.index(self.toon.style.legs)
-        self.__swapSpecies(newSpeciesIndex - oldSpeciesIndex)
+        self.__setSpecies(random.randrange(0, 9))
         self.__swapHead(newHeadIndex - oldHeadIndex)
         self.__swapTorso(newTorsoIndex - oldTorsoIndex)
         self.__swapLegs(newLegsIndex - oldLegsIndex)
@@ -332,36 +363,3 @@ class BodyShop(StateData.StateData):
     def getCurrToonSetting(self):
         return [self.toon.style.head, self.toon.style.torso, self.toon.style.legs]
 
-    def __changeSpeciesName(self, species):
-        if species == 'd':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['dog']
-            self.memberButton.hide()
-        elif species == 'c':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['cat']
-            self.memberButton.hide()
-        elif species == 'm':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['mouse']
-            self.memberButton.hide()
-        elif species == 'h':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['horse']
-            self.memberButton.show()
-        elif species == 'r':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['rabbit']
-            self.memberButton.hide()
-        elif species == 'f':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['duck']
-            self.memberButton.hide()
-        elif species == 'p':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['monkey']
-            self.memberButton.show()
-        elif species == 'b':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['bear']
-            self.memberButton.show()
-        elif species == 's':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['pig']
-            self.memberButton.hide()
-        elif species == 'x':
-            self.speciesFrame['text'] = TTLocalizer.AnimalToSpecies['deer']
-            self.memberButton.hide()
-        if base.cr.isPaid():
-            self.memberButton.hide()
