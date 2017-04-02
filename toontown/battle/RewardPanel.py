@@ -179,6 +179,8 @@ class RewardPanel(DirectFrame):
             questLabel.hide()
 
         for i in range(len(avQuests)):
+            if i > ToontownGlobals.MaxQuestCarryLimit - 1:
+                return
             questDesc = avQuests[i]
             questId, npcId, toNpcId, rewardId, toonProgress = questDesc
             quest = Quests.getQuest(questId)
@@ -246,7 +248,7 @@ class RewardPanel(DirectFrame):
                 meritBar.hide()
                 meritLabel.hide()
 
-        for i in range(len(expList)):
+        for i in xrange(len(expList)):
             curExp = expList[i]
             trackBar = self.trackBars[i]
             trackLabel = self.trackLabels[i]
@@ -305,14 +307,19 @@ class RewardPanel(DirectFrame):
          ToontownBattleGlobals.TrackColors[track][2] * 0.8, 1)
 
     def incrementMerits(self, toon, dept, newValue, totalMerits):
-        self.notify.debug("incrementMerits() was called!")
         meritBar = self.meritBars[dept]
-        promoStatus = toon.promotionStatus[dept]
+        oldValue = meritBar['value']
         if totalMerits:
             newValue = min(totalMerits, newValue)
             meritBar['range'] = totalMerits
             meritBar['value'] = newValue
-            if promoStatus != ToontownGlobals.PendingPromotion:
+            if newValue == totalMerits:
+                meritBar['text'] = TTLocalizer.RewardPanelMeritAlert
+                meritBar['barColor'] = (DisguisePage.DeptColors[dept][0],
+                 DisguisePage.DeptColors[dept][1],
+                 DisguisePage.DeptColors[dept][2],
+                 1)
+            else:
                 meritBar['text'] = '%s/%s %s' % (newValue, totalMerits, TTLocalizer.RewardPanelMeritBarLabels[dept])
 
     def resetMeritBarColor(self, dept):

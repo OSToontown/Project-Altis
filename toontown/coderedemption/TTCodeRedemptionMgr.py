@@ -1,5 +1,12 @@
+'''
+Created on Mar 21, 2017
+
+@author: Drew
+'''
+
 from direct.distributed.DistributedObject import DistributedObject
 from direct.directnotify.DirectNotifyGlobal import directNotify
+from datetime import datetime
 
 class TTCodeRedemptionMgr(DistributedObject):
     neverDisable = 1
@@ -10,21 +17,22 @@ class TTCodeRedemptionMgr(DistributedObject):
 
     def announceGenerate(self):
         DistributedObject.announceGenerate(self)
-        base.codeRedemptionMgr = self
+        base.cr.codeRedemptionMgr = self
         self._contextGen = SerialMaskedGen(4294967295L)
         self._context2callback = {}
 
     def delete(self):
-        if hasattr(base, 'codeRedemptionMgr'):
-            if base.codeRedemptionMgr is self:
-                del base.codeRedemptionMgr
-        
+        if hasattr(base.cr, 'codeRedemptionMgr'):
+            if base.cr.codeRedemptionMgr is self:
+                del base.cr.codeRedemptionMgr
+
         self._context2callback = None
         self._contextGen = None
         DistributedObject.delete(self)
 
     def redeemCode(self, code, callback):
         context = self._contextGen.next()
+        print(datetime.now())
         self._context2callback[context] = callback
         self.notify.debug('redeemCode(%s, %s)' % (context, code))
         self.sendUpdate('redeemCode', [context, code])

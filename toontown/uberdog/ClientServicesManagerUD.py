@@ -810,8 +810,7 @@ class GetAvatarsFSM(AvatarOperationFSM):
             elif wishNameState == 'REJECTED':
                 nameState = 4
 
-            potentialAvs.append([avId, name, fields['setDNAString'][0],
-                                 index, nameState])
+            potentialAvs.append([avId, name, fields['setDNAString'][0], index, nameState, fields['setHp'][0], fields['setMaxHp'][0]])
 
         self.csm.sendUpdateToAccountId(self.target, 'setAvatars', [potentialAvs])
         self.demand('Off')

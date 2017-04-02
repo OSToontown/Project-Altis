@@ -1168,6 +1168,7 @@ dclass DistributedToon : DistributedPlayer {
   requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
+  setRedeemedCodes(string [] = []) required ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -3861,6 +3862,8 @@ struct PotentialToon {
   string avDNA;
   uint8 avPosition;
   uint8 aname;
+  int16 hp;
+  int16 maxHp;
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
@@ -3907,10 +3910,9 @@ dclass NonRepeatableRandomSourceClient {
 
 dclass TTCodeRedemptionMgr : DistributedObject, NonRepeatableRandomSourceClient {
   giveAwardToToonResult(uint32, uint32);
-  deliverItem(uint32, uint32, blob) airecv;
   redeemCode(uint32, char [0-256]) airecv clsend;
-  redeemCodeAiToUd(DoId, uint32, string);
-  redeemCodeResultUdToAi(uint32, uint32, uint32, uint32) airecv;
+  redeemCodeAiToUd(uint32, DoId, uint32, string, uint32);
+  redeemCodeResultUdToAi(uint32, uint32, uint32, uint32, uint32) airecv;
   redeemCodeResult(uint32, uint32, uint32);
 };
 

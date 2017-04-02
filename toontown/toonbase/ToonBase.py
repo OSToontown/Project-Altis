@@ -339,11 +339,7 @@ class ToonBase(OTPBase.OTPBase):
         self.lockedMusic = False
             
     def updateAspectRatio(self):
-        fadeSequence = Sequence(
-            Func(base.transitions.fadeOut, .2),
-            Wait(.2),
-            Func(self.setRatio),
-            Func(base.transitions.fadeIn, .2)).start()
+        self.setRatio()
 
     def setRatio(self): # Set the aspect ratio
         print(GraphicsOptions.AspectRatios[self.Widescreen])
@@ -414,7 +410,6 @@ class ToonBase(OTPBase.OTPBase):
             aspect2d.show()
         else:
             aspect2d.hide()
-            
 
     def toggleNametags(self):
         nametags3d = render.findAllMatches('**/nametag3d')

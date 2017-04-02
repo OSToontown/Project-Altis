@@ -206,6 +206,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.trueFriendRequests = (0, 0)
         self.interiorLayout = 0
         self.cheesyEffects = [0]
+        self.redeemedCodes = []
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -4648,6 +4649,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.magicWordTeleportRequests.remove(targetId)
         self.sendUpdate('magicTeleportInitiate', [hoodId, zoneId])
 
+    def getRedeemedCodes(self):
+        return self.redeemedCodes
+
+    def setRedeemedCodes(self, redeemedCodes):
+        self.redeemedCodes = redeemedCodes
+
+    def b_setRedeemedCodes(self, redeemedCodes):
+        self.setRedeemedCodes(redeemedCodes)
+        self.d_setRedeemedCodes(redeemedCodes)
+
+    def d_setRedeemedCodes(self, redeemedCodes):
+        self.sendUpdate('setRedeemedCodes', [redeemedCodes])
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def cheesyEffect(value, hood=0, expire=0):

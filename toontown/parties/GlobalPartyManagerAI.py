@@ -48,7 +48,7 @@ class GlobalPartyManagerAI(DistributedObjectGlobalAI):
         pass
 
     def d_partyDone(self, partyId):
-        self.sendUpdate('partyDone', int([partyId]))
+        self.sendUpdate('partyDone', [int(partyId)])
         
     def partyDone(self, partyId):
         pass

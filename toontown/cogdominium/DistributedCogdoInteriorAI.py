@@ -330,7 +330,13 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         self.battle.setInitialMembers(self.toons, self.suits)
         self.battle.generateWithRequired(self.zoneId)
         mult = getCreditMultiplier(self.curFloor)
-        self.battle.battleCalc.setSkillCreditMultiplier(self.battle.battleCalc.getSkillCreditMultiplier() * mult)
+        if self.air.holidayManager.isMoreXpHolidayRunning() and self.air.suitInvasionManager.getInvading():
+            mult *= simbase.air.holidayManager.getXpMultiplier() + getInvasionMultiplier()
+        elif self.air.holidayManager.isMoreXpHolidayRunning():
+            mult *= simbase.air.holidayManager.getXpMultiplier()
+        elif self.air.suitInvasionManager.getInvading():
+            mult *= getInvasionMultiplier()
+        self.battle.battleCalc.setSkillCreditMultiplier(mult)
 
     def enterBattleDone(self, toonIds):
         toonIds = toonIds[0]

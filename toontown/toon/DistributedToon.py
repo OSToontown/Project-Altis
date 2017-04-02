@@ -190,6 +190,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.buffs = []
         self.trueFriends = []
         self.interiorLayout = 0
+        self.redeemedCodes = []
 
     def disable(self):
         for soundSequence in self.soundSequenceList:
@@ -2929,6 +2930,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def isTrueFriends(self, doId):
         return doId in self.trueFriends
+        
+    def setRedeemedCodes(self, redeemedCodes):
+        self.redeemedCodes = redeemedCodes
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def zone(zoneId):

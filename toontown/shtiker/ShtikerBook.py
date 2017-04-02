@@ -21,6 +21,8 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.currPageTabIndex = None
         self.pageTabFrame = DirectFrame(parent=self, relief=None, pos=(0.93, 1, 0.575), scale=1.25)
         self.pageTabFrame.hide()
+        self.pageTabFrame2 = DirectFrame(parent=self, relief=None, pos=(-0.93, 1, 0.575), scale=1.25)
+        self.pageTabFrame2.hide()
         self.currPageIndex = None
         self.pageBeforeNews = None
         self.entered = 0
@@ -28,9 +30,11 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.__obscured = 0
         self.__shown = 0
         self.__isOpen = 0
+        self.numTabsPerSide = 14
         self.hide()
         self.setPos(0, 0, 0.1)
         self.pageOrder = [TTLocalizer.OptionsPageTitle,
+         TTLocalizer.CodePageTitle,
          TTLocalizer.ShardPageTitle,
          TTLocalizer.MapPageTitle,
          TTLocalizer.InventoryPageTitle,
@@ -76,6 +80,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             self.accept(ToontownGlobals.StickerBookHotkey, self.__close)
             self.accept(ToontownGlobals.OptionsPageHotkey, self.__close)
             self.pageTabFrame.show()
+            self.pageTabFrame2.show()
         self.pages[self.currPageIndex].enter()
         if hasattr(localAvatar, 'newsButtonMgr') and localAvatar.newsButtonMgr:
             localAvatar.newsButtonMgr.hideNewIssueButton()
@@ -108,6 +113,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.hideButton()
         cleanupDialog('globalDialog')
         self.pageTabFrame.hide()
+        self.pageTabFrame2.hide()
         self.ignore('shtiker-page-done')
         self.ignore(ToontownGlobals.StickerBookHotkey)
         self.ignore(ToontownGlobals.OptionsPageHotkey)
@@ -197,7 +203,10 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             localAvatar.newsButtonMgr.setGoingToNewsPageFromStickerBook(False)
             localAvatar.newsButtonMgr.showAppropriateButton()
 
-        yOffset = 0.07 * pageIndex
+        factor = pageIndex
+        if not pageIndex < self.numTabsPerSide:
+            factor = pageIndex - self.numTabsPerSide
+        yOffset = 0.07 * factor
         iconGeom = None
         iconImage = None
         iconScale = 1
@@ -207,6 +216,11 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         if pageName == TTLocalizer.OptionsPageTitle:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
             iconGeom = iconModels.find('**/switch')
+            iconModels.detachNode()
+        elif pageName == TTLocalizer.CodePageTitle:
+            iconGeom = iconModels = OnscreenImage(image='phase_3/maps/cdricon.png')
+            iconGeom.setTransparency(TransparencyAttrib.MAlpha)
+            iconScale = (0.6, 0.6, 0.6)
             iconModels.detachNode()
         elif pageName == TTLocalizer.ShardPageTitle:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
@@ -283,15 +297,23 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             extraArgs = [page]
         if pageName == TTLocalizer.OptionsPageTitle:
             pageName = TTLocalizer.OptionsTabTitle
-        pageTab = DirectButton(parent=self.pageTabFrame, relief=DGG.RAISED, frameSize=(-0.575,
-         0.575,
-         -0.575,
-         0.575), borderWidth=(0.05, 0.05), text=('',
-         '',
-         pageName,
-         ''), text_align=TextNode.ALeft, text_pos=(1, -0.2), text_scale=TTLocalizer.SBpageTab, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), image=iconImage, image_scale=iconScale, geom=iconGeom, geom_scale=iconScale, geom_color=iconColor, pos=(0, 0, -yOffset), scale=0.06, command=buttonPressedCommand, extraArgs=extraArgs)
+        if pageIndex < self.numTabsPerSide:
+            pageTab = DirectButton(parent=self.pageTabFrame, relief=DGG.RAISED, frameSize=(-0.575,
+             0.575,
+             -0.575,
+             0.575), borderWidth=(0.05, 0.05), text=('',
+             '',
+             pageName,
+             ''), text_align=TextNode.ALeft, text_pos=(1, -0.2), text_scale=TTLocalizer.SBpageTab, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), image=iconImage, image_scale=iconScale, geom=iconGeom, geom_scale=iconScale, geom_color=iconColor, pos=(0, 0, -yOffset), scale=0.06, command=buttonPressedCommand, extraArgs=extraArgs)
+        else:
+            pageTab = DirectButton(parent=self.pageTabFrame2, relief=DGG.RAISED, frameSize=(-0.575,
+             0.575,
+             -0.575,
+             0.575), borderWidth=(0.05, 0.05), text=('',
+             '',
+             pageName,
+             ''), text_align=TextNode.ARight, text_pos=(-1, -0.2), text_scale=TTLocalizer.SBpageTab, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), image=iconImage, image_scale=iconScale, geom=iconGeom, geom_scale=iconScale, geom_color=iconColor, pos=(0, 0, -yOffset), scale=0.06, command=buttonPressedCommand, extraArgs=extraArgs)
         self.pageTabs.insert(pageIndex, pageTab)
-        return
 
     def setPage(self, page, enterPage = True):
         if self.currPageIndex is not None:
@@ -304,7 +326,6 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         from toontown.shtiker import NewsPage
         if not isinstance(page, NewsPage.NewsPage):
             self.pageBeforeNews = page
-        return
 
     def setPageBeforeNews(self, enterPage = True):
         self.setPage(self.pageBeforeNews, enterPage)
@@ -316,7 +337,6 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             self.pageTabs[self.currPageTabIndex]['relief'] = DGG.RAISED
         self.currPageTabIndex = pageTabIndex
         self.pageTabs[self.currPageTabIndex]['relief'] = DGG.SUNKEN
-        return
 
     def isOnPage(self, page):
         result = False

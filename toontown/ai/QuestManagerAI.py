@@ -122,6 +122,9 @@ class QuestManagerAI:
         av = self.air.doId2do.get(avId)
         if not av:
             return
+			
+        if len(av.quests) > av.getQuestCarryLimit():
+            return
 
         # Get the npcIds
         fromNpcId = npc.npcId
