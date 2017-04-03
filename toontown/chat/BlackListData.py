@@ -17,8 +17,6 @@ BLACKLIST = [
     'niggas',
     'nigger',
     'niggers',
-    'dan kk',
-    'dan k',
     'k k k',
     'kk k',
     'k kk',
