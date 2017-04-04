@@ -85,7 +85,7 @@ lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
 lGoofySpeedway = 'Goofy Speedway'
 lOutdoorZone = 'Acorn Acres'
-lGolfZone = 'Minigolf'
+lGolfZone = 'Acorn Acres Minigames'
 lPartyHood = 'Party Grounds'
 GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1000: ('to the', 'in the', 'Playground'),
