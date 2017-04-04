@@ -330,7 +330,7 @@ class Avatar(Actor, ShadowCaster):
         self.playDialogue(type, length)
 
     def playDialogue(self, type, length):
-        sound = self.getDialogueSfx()
+        sound = self.getDialogueSfx(type, length)
         base.playSfx(sound, node=self)
 
     def getDialogueSfx(self, type, length):
