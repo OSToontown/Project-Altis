@@ -80,12 +80,12 @@ lDonaldsDock = "Donald's Dock"
 lDonaldsDreamland = "Donald's Dreamland"
 lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
-lFunnyFarm = 'Funny Farm'
+lFunnyFarm = 'Funny Farms'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
 lGoofySpeedway = 'Goofy Speedway'
-lOutdoorZone = "Acorn Acres"
-lGolfZone = "MiniGolf"
+lOutdoorZone = 'Acorn Acres'
+lGolfZone = 'Acorn Acres Minigames'
 lPartyHood = 'Party Grounds'
 GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1000: ('to the', 'in the', 'Playground'),
@@ -176,7 +176,7 @@ lNo = 'No'
 SleepAutoReply = '%s is sleeping right now.'
 lHQOfficerF = 'HQ Officer'
 lHQOfficerM = 'HQ Officer'
-MickeyMouse = 'Mickey Mouse'
+MickeyMouse = 'please tell me if this is used it shouldnt be'
 AIStartDefaultDistrict = 'Sillyville'
 Cog = 'Cog'
 Cogs = 'Cogs'
@@ -5511,6 +5511,7 @@ AnimalToSpecies = {'dog': 'Dog',
  'bear': 'Bear',
  'pig': 'Pig',
  'deer': 'Deer'}
+AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer')
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
@@ -8452,7 +8453,6 @@ BlockerLoadingTexts = ['Rewriting history',
  'Balancing scale for weighing 1 Ton weights',
  'Practicing Victory Dances',
  'Preparing wackiness',
- "Giving Mickey Mouse the 'five minutes' sign",
  'Testing white gloves',
  'Bending underwater rings',
  'Spooling red tape',
@@ -9148,6 +9148,7 @@ SummonDlgInvasionSuccess = "You have successfully summoned the Cogs. It's an inv
 SummonDlgInvasionBusy = 'A %s cannot be found now.  Try again when the Cog invasion is over.'
 SummonDlgInvasionFail = 'Sorry, the Cog invasion has failed.'
 SummonDlgShopkeeper = 'The Shopkeeper '
+ShopkeeperThanks = 'Thanks for saving my shop!! Have this reward of %s jellybeans!'
 PolarPlaceEffect1 = NPCToonNames[3306] + ': Welcome to Polar Place!'
 PolarPlaceEffect2 = NPCToonNames[3306] + ': Try this on for size.'
 PolarPlaceEffect3 = NPCToonNames[3306] + ': Your new look will only work in ' + lTheBrrrgh + '.'
@@ -9165,10 +9166,10 @@ PinballScoreHolder = '%s\n'
 GagTreeFeather = 'Feather Gag Tree'
 GagTreeJugglingBalls = 'Juggling Balls Gag Tree'
 StatuaryFountain = 'Fountain'
-StatuaryDonald = 'Donald Statue'
-StatuaryMinnie = 'Minnie Statue'
-StatuaryMickey1 = 'Mickey Statue'
-StatuaryMickey2 = 'Mickey Fountain'
+StatuaryDonald = 'Statue'
+StatuaryMinnie = 'Statue'
+StatuaryMickey1 = 'Statue'
+StatuaryMickey2 = 'Fountain'
 StatuaryToon = 'Toon Statue'
 StatuaryToonWave = 'Toon Wave Statue'
 StatuaryToonVictory = 'Toon Victory Statue'

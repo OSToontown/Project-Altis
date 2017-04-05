@@ -867,7 +867,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         if not toons:
             return seq
         self.notify.debug('battleNode=%s camLoc=%s' % (battleNode, camLoc))
-        seq.append(Func(camera.setPosHpr, battleNode, *camLoc))
+        seq.append(base.camera.posHprInterval(1, Point3(camLoc[0], camLoc[1], camLoc[2]), Point3(camLoc[3], camLoc[4], camLoc[5]), other = battleNode, blendType = 'easeInOut'))
         suitsOff = Parallel()
         if arrayOfObjs:
             toonArray = toons
