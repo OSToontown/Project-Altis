@@ -264,7 +264,6 @@ class BodyShop(StateData.StateData):
               )
         
         for x in range(len(ToonDNA.toonSpeciesTypes)):
-            print(x)
             name = TTLocalizer.AllSpecies[x]
             btn = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp, shuffleDown), 
             image_scale = (0.6, 0.7, 0.7), image1_scale = (0.63, 0.7, 0.7), image2_scale = (0.63, 0.7, 0.7),
