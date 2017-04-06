@@ -30,9 +30,9 @@ class DistributedBoardOfficeElevatorExt(DistributedElevatorExt.DistributedElevat
 
     def setBoardOfficeId(self, boardofficeId):
         self.boardofficeId = boardofficeId
-        boardofficeId2originId = {ToontownGlobals.BoardOfficeIntA: 1,
-         ToontownGlobals.BoardOfficeIntB: 2,
-         ToontownGlobals.BoardOfficeIntC: 0}
+        boardofficeId2originId = {ToontownGlobals.BoardOfficeIntA: 0,
+         ToontownGlobals.BoardOfficeIntB: 1,
+         ToontownGlobals.BoardOfficeIntC: 2}
         originId = boardofficeId2originId[self.boardofficeId]
         geom = self.cr.playGame.hood.loader.geom
         locator = geom.find('**/elevator_origin_%s' % originId)
