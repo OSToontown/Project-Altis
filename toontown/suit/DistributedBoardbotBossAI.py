@@ -213,9 +213,9 @@ class DistributedBoardbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.F
                 return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_NERFED_VP_SKELECOGS, 1)
         else:
             if battleNumber == 1:
-                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP, 0)
+                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_CM, 0)
             else:
-                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS, 1)
+                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_CM_SKELECOGS, 1)
 
     def removeToon(self, avId):
         toon = simbase.air.doId2do.get(avId)
