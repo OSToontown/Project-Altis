@@ -1865,6 +1865,8 @@ StageBossTaunt = "My Justice isn't Blind."
 StageBossBattleTaunt = 'I am above the Law.'
 CountryClubBossTaunt = "I'm the Club President."
 CountryClubBossBattleTaunt = 'You need to talk to the Club President.'
+BoardOfficeBossTaunt = "I'm the Executive Board Member."
+BoardOfficeBossBattleTaunt = 'You need to talk to the Executive Board Member.'
 ForcedLeaveCountryClubAckMsg = 'The Club President was defeated before you could reach him. You did not recover any Stock Options.'
 ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['Why do male deer need braces?', "Because they have 'buck teeth'!"],
