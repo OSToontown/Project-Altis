@@ -40,12 +40,12 @@ class DistributedBoardOfficeElevatorExt(DistributedElevatorExt.DistributedElevat
             self.elevatorModel.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
         else:
             self.notify.error('No origin found for originId: %s' % originId)
-        locator = geom.find('**/elevator_signorigin_%s' % originId)
-        backgroundGeom = geom.find('**/ElevatorFrameFront_%d' % originId)
-        backgroundGeom.node().setEffect(DecalEffect.make())
-        signText = DirectGui.OnscreenText(text=TextEncoder.upper(TTLocalizer.GlobalStreetNames[boardofficeId][-1]), font=ToontownGlobals.getSuitFont(), scale=TTLocalizer.DMEEsignText, fg=(0.87, 0.87, 0.87, 1), mayChange=False, parent=backgroundGeom)
-        signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
-        signText.setDepthWrite(0)
+        # locator = geom.find('**/elevator_signorigin_%s' % originId)
+        # backgroundGeom = geom.find('**/ElevatorFrameFront_%d' % originId)
+        # backgroundGeom.node().setEffect(DecalEffect.make())
+        # signText = DirectGui.OnscreenText(text=TextEncoder.upper(TTLocalizer.GlobalStreetNames[boardofficeId][-1]), font=ToontownGlobals.getSuitFont(), scale=TTLocalizer.DMEEsignText, fg=(0.87, 0.87, 0.87, 1), mayChange=False, parent=backgroundGeom)
+        # signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
+        # signText.setDepthWrite(0)
 
     def setupElevator(self):
         self.elevatorModel = loader.loadModel('phase_11/models/lawbotHQ/LB_ElevatorScaled')

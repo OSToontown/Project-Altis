@@ -30,7 +30,7 @@ class BoardbotCogHQLoader(CogHQLoader.CogHQLoader):
 
         self.musicFile = 'phase_14/audio/bgm/BD_courtyard.ogg'
         self.cogHQExteriorModelPath = 'phase_14/models/boardbotHQ/boardbot_courtyard'
-        self.factoryExteriorModelPath = 'phase_11/models/lawbotHQ/LB_DA_Lobby'
+        self.factoryExteriorModelPath = 'phase_14/models/boardbotHQ/boardbot_factory_exterior'
         self.cogHQLobbyModelPath = 'phase_10/models/cogHQ/VaultLobby'
         self.geom = None
         return
