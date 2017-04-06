@@ -27,6 +27,8 @@ class BoardbotHQAI(CogHQAI.CogHQAI):
         CogHQAI.CogHQAI.startup(self)
 
         self.createBoardOfficeElevators()
+        self.makeCogHQDoor(ToontownGlobals.BoardbotOfficeLobby, 0, 0)
+        self.makeCogHQDoor(ToontownGlobals.BoardbotOfficeLobby, 0, 1)
         if simbase.config.GetBool('want-boarding-groups', True):
             self.createBoardOfficeBoardingParty()
         if simbase.config.GetBool('want-suit-planners', True):
@@ -34,6 +36,15 @@ class BoardbotHQAI(CogHQAI.CogHQAI):
         self.event = DistributedBetaEventAI.DistributedBetaEventAI(self.air)
         self.event.generateWithRequired(self.zoneId)
         self.event.start()
+		
+    def makeCogHQDoor(self, destinationZone, intDoorIndex, extDoorIndex, lock=0):
+        # For Boardbot HQ, the lobby door index is 2, even though that index
+        # should be for the Boardbot office exterior door.
+        if destinationZone == self.lobbyZoneId:
+            extDoorIndex = 2
+
+        return CogHQAI.CogHQAI.makeCogHQDoor(
+            self, destinationZone, intDoorIndex, extDoorIndex, lock=lock)
 
     def createBoardOfficeElevators(self):
         destZones = (
@@ -46,7 +57,7 @@ class BoardbotHQAI(CogHQAI.CogHQAI):
             boardofficeElevator = DistributedBoardOfficeElevatorExtAI(
                 self.air, self.air.boardofficeMgr, destZones[i],
                 antiShuffle=0, minLaff=mins[i])
-            boardofficeElevator.generateWithRequired(self.zoneId)
+            boardofficeElevator.generateWithRequired(ToontownGlobals.BoardbotOfficeLobby)
             self.boardofficeElevators.append(boardofficeElevator)
 
     def createBoardOfficeBoardingParty(self):

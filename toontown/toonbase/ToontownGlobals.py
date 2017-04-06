@@ -237,6 +237,7 @@ LawbotStageIntD = 13600
 
 BoardbotHQ = 19000
 BoardbotLobby = 19100
+BoardbotOfficeLobby = 19200
 BoardOfficeIntA = 19500
 BoardOfficeIntB = 19600
 BoardOfficeIntC = 19700
