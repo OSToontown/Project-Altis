@@ -759,9 +759,9 @@ class Suit(Avatar.Avatar):
         if not self.healthBar:
             return
         
-        self.healthBar.setColor(self.healthColors[4], 1)
-        self.healthBarGlow.setColor(self.healthGlowColors[4], 1)
-        if self.healthCondition == 5:
+        self.healthBar.setColor(self.healthColors[9], 1)
+        self.healthBarGlow.setColor(self.healthGlowColors[9], 1)
+        if self.healthCondition == 10:
             self.healthBar.setScale(1.0)
         
         return Task.done
