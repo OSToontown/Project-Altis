@@ -67,7 +67,7 @@ class BoardOfficeInterior(BattlePlace.BattlePlace):
     def load(self):
         self.parentFSM.getStateNamed('boardofficeInterior').addChild(self.fsm)
         BattlePlace.BattlePlace.load(self)
-        self.music = base.loader.loadMusic('phase_14/audio/bgm/BD_office_bg.mid')
+        self.music = base.loader.loadMusic('phase_14/audio/bgm/BD_office_bg.ogg')
 
     def unload(self):
         self.parentFSM.getStateNamed('boardofficeInterior').removeChild(self.fsm)
