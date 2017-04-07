@@ -592,7 +592,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         car1 = loader.loadModel('phase_10/models/cogHQ/CashBotBoxCar')
         car2 = loader.loadModel('phase_10/models/cogHQ/CashBotTankCar')
         trainPassingSfx = base.loadSfx('phase_10/audio/sfx/CBHQ_TRAIN_pass.ogg')
-        boomSfx = loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+        flattenSfx = loader.loadSfx('phase_9/audio/sfx/toon_decompress.ogg')
         rollThroughDoor = self.rollBossToPoint(fromPos=Point3(120, -280, 0), fromHpr=None, toPos=Point3(120, -250, 0), toHpr=None, reverse=0)
         rollTrack = Sequence(Func(self.getGeomNode().setH, 180), rollThroughDoor[0], Func(self.getGeomNode().setH, 0))
         g = 80.0 / 300.0
@@ -642,11 +642,10 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 Func(car1.detachNode),
                 Func(car2.detachNode),
                 Wait(2))),
-            (9.5, SoundInterval(boomSfx)),
+            (9.5, SoundInterval(flattenSfx)),
             (9.5, Sequence(
-                Func(self.setChatAbsolute, 'Ow... Ok I guess you win.', CFSpeech|CFTimeout),
-                self.posInterval(0.4, Point3(0, -250, 0)),
-                Func(self.stash))))
+                self.scaleInterval(0.1, Point3(2, 2, 0.025)),
+                Func(self.pose, 'Ff_neutral', 0))))
         return bossTrack
 
     def grabObject(self, obj):
