@@ -49,6 +49,8 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
         def getSuitDict(spec, cogId, level = level, track = track):
             suitDict = {}
+            if track == 'mixedCogs':
+                track = random.choice(['s', 'm', 'l', 'c', 'g'])
             suitDict['track'] = track
             suitDict.update(spec)
             suitDict['zoneId'] = self.level.getEntityZoneId(spec['parentEntId'])
