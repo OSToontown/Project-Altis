@@ -112,7 +112,7 @@ else:
 
 from toontown.toonbase import ToontownGlobals
 tempLoader = Loader()
-backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
+
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 
@@ -132,6 +132,7 @@ launcher.setPandaErrorCode(0)
 launcher.setPandaWindowOpen()
 ConfigVariableDouble('decompressor-step-time').setValue(0.01)
 ConfigVariableDouble('extractor-step-time').setValue(0.01)
+backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
 backgroundNodePath = aspect2d.attachNewNode(backgroundNode, 0)
 backgroundNodePath.setPos(0.0, 0.0, 0.0)
 backgroundNodePath.setScale(render2d, VBase3(1))

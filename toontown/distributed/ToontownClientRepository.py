@@ -54,7 +54,7 @@ from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
-from toontown.dmenu import DMenuScreen
+from toontown.dmenu import DMenuScreen, DMenuDisclaimer
 from toontown.friends import ToontownFriendSecret
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
@@ -155,6 +155,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                     print e
         self.DMENU_SCREEN = None
         
+        self.accept('AgreeToGame', self.acceptGame)
+        
     def congratulations(self, avatarChoice):
         self.acceptedScreen = loader.loadModel('phase_3/models/gui/toon_council')
         self.acceptedScreen.setScale(0.667)
@@ -202,6 +204,10 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             avid,
             lambda: self.loginFSM.request('waitForAvatarList'))
 
+    def acceptGame(self):
+        self.dmenu = DMenuScreen.DMenuScreen
+        self.dmenu()
+            
     def enterChooseAvatar(self, avList):
         ModelPool.garbageCollect()
         TexturePool.garbageCollect()
@@ -220,13 +226,14 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.avChoiceDoneEvent = 'avatarChooserDone'
         
         self.avChoice = None # Will be set in the main menu
+                
+        self.disclaimer = DMenuDisclaimer.DMenuDisclaimer
+        self.disclaimer()
         
         self.PAT_AVLIST = avList
         self.PAT_LOGINFSM = self.loginFSM
         self.PAT_DONEEVENT = self.avChoiceDoneEvent
-        
-        self.dmenu = DMenuScreen.DMenuScreen
-        self.dmenu()
+
         
         self.accept(self.avChoiceDoneEvent, self.__handleAvatarChooserDone, [avList])
         if config.GetBool('want-gib-loader', 1):

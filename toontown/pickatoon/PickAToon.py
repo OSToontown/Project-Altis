@@ -70,7 +70,7 @@ class PickAToon(DirectObject):
         self.selectedToon = 0
         self.doneEvent = doneEvent
         self.jumpIn = None
-        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
+        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = render2d)
         self.background2d.setScale(render2d, Vec3(1))
         self.background2d.setBin('background', 2)
         self.background2d.setTransparency(1)
@@ -84,7 +84,6 @@ class PickAToon(DirectObject):
         self.isClassic = False
         self.deleteButtons = []
         self.hasToons = {}
-        self.accept('window-event', self.windowEvent)
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -457,6 +456,3 @@ class PickAToon(DirectObject):
         self.quitButton.show()
         LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
         LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
-
-    def windowEvent(self, win):
-        self.background2d.setScale(render2d, Vec3(1))

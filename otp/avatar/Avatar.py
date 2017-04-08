@@ -330,28 +330,8 @@ class Avatar(Actor, ShadowCaster):
         self.playDialogue(type, length)
 
     def playDialogue(self, type, length):
-        dialogueArray = self.getDialogueArray()
-        if dialogueArray == None:
-            return
-        sfxIndex = None
-        if type == 'statementA' or type == 'statementB':
-            if length == 1:
-                sfxIndex = 0
-            elif length == 2:
-                sfxIndex = 1
-            elif length >= 3:
-                sfxIndex = 2
-        elif type == 'question':
-            sfxIndex = 3
-        elif type == 'exclamation':
-            sfxIndex = 4
-        elif type == 'special':
-            sfxIndex = 5
-        else:
-            notify.error('unrecognized dialogue type: ', type)
-        
-        if sfxIndex != None and sfxIndex < len(dialogueArray) and dialogueArray[sfxIndex] != None:
-            base.playSfx(dialogueArray[sfxIndex], node=self)
+        sound = self.getDialogueSfx(type, length)
+        base.playSfx(sound, node=self)
 
     def getDialogueSfx(self, type, length):
         retval = None

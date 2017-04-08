@@ -139,6 +139,7 @@ class ShuffleButton:
     def cleanHistory(self):
         self.history = [0]
         self.historyPtr = 0
-        self.shuffleFrame.hide()
-        self.incBtn.hide()
-        self.decBtn.hide()
+        if hasattr(self, 'shuffleFrame'):
+            self.shuffleFrame.hide()
+            self.incBtn.hide()
+            self.decBtn.hide()
