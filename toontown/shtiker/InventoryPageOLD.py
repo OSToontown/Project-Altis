@@ -26,6 +26,7 @@ class InventoryPageOLD(ShtikerPage.ShtikerPage):
         self.trackProgress.hide()
         jarGui = loader.loadModel('phase_3.5/models/gui/jar_gui')
         self.moneyDisplay = DirectLabel(parent=self, relief=None, pos=(0.55, 0, -0.5), scale=0.8, text=str(base.localAvatar.getMoney()), text_scale=0.18, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), image=jarGui.find('**/Jar'), text_font=ToontownGlobals.getSignFont())
+        self.bankDisplay = DirectLabel(parent=self.moneyDisplay, relief=None, pos=(0, 0, -0.1), scale=0.8, text=str(base.localAvatar.getBankMoney()), text_scale=0.09, text_fg=(0.95, 0.95, 0.5, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), text_font=ToontownGlobals.getSignFont())
         jarGui.removeNode()
 
     def unload(self):
@@ -34,6 +35,9 @@ class InventoryPageOLD(ShtikerPage.ShtikerPage):
 
     def __moneyChange(self, money):
         self.moneyDisplay['text'] = str(money)
+		
+    def __bankMoneyChange(self, money):
+        self.bankDisplay['text'] = str(money)
 
     def enter(self):
         ShtikerPage.ShtikerPage.enter(self)
@@ -41,11 +45,13 @@ class InventoryPageOLD(ShtikerPage.ShtikerPage):
         base.localAvatar.inventory.show()
         base.localAvatar.inventory.reparentTo(self)
         self.moneyDisplay['text'] = str(base.localAvatar.getMoney())
+        self.bankDisplay['text'] = str(base.localAvatar.getBankMoney())
         self.accept('enterBookDelete', self.enterDeleteMode)
         self.accept('exitBookDelete', self.exitDeleteMode)
         self.accept('enterTrackFrame', self.updateTrackInfo)
         self.accept('exitTrackFrame', self.clearTrackInfo)
         self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
+        self.accept(localAvatar.uniqueName('bankMoneyChange'), self.__bankMoneyChange)
 
     def exit(self):
         ShtikerPage.ShtikerPage.exit(self)
@@ -137,9 +143,11 @@ class InventoryPageOLD(ShtikerPage.ShtikerPage):
         base.localAvatar.inventory.show()
         base.localAvatar.inventory.reparentTo(self)
         self.moneyDisplay['text'] = str(base.localAvatar.getMoney())
+        self.bankDisplay['text'] = str(base.localAvatar.getBankMoney())
         self.accept('enterTrackFrame', self.updateTrackInfo)
         self.accept('exitTrackFrame', self.clearTrackInfo)
         self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
+        self.accept(localAvatar.uniqueName('bankMoneyChange'), self.__bankMoneyChange)
         self.reparentTo(aspect2d)
         self.title.hide()
         self.show()
@@ -151,6 +159,7 @@ class InventoryPageOLD(ShtikerPage.ShtikerPage):
         self.ignore('enterTrackFrame')
         self.ignore('exitTrackFrame')
         self.ignore(localAvatar.uniqueName('moneyChange'))
+        self.ignore(localAvatar.uniqueName('bankMoneyChange'))
         base.localAvatar.inventory.hide()
         base.localAvatar.inventory.reparentTo(hidden)
         self.reparentTo(self.book)
