@@ -11,6 +11,7 @@ from otp.ai.AIBaseGlobal import *
 from toontown.battle import BattleBase
 from toontown.battle import DistributedBattleBldgAI
 from toontown.toonbase.ToontownBattleGlobals import *
+from toontown.toonbase import TTLocalizer
 
 class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
     
@@ -431,6 +432,9 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         savedBy = []
         for v in victors:
             tuple = self.savedByMap.get(v)
+            if v != None:
+                toon = self.air.doId2do.get(v)
+                self.giveJbReward(toon)
             if tuple:
                 savedBy.append([v, tuple[0], tuple[1]])
                 continue
@@ -439,3 +443,8 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
 
     def exitReward(self):
         pass
+		
+    def giveJbReward(self, toon):
+        floor2jbAmount = [50, 100, 200, 300, 400, 500]
+        toon.addMoney(floor2jbAmount[self.topFloor])
+        toon.d_setSystemMessage(0, TTLocalizer.ShopkeeperThanks % floor2jbAmount[self.topFloor])

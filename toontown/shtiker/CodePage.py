@@ -106,12 +106,15 @@ class CodePage(ShtikerPage.ShtikerPage):
         if result == 0:
             self.resultPanel['image'] = self.resultPanelSuccessGui
             self.resultPanel['text'] = TTLocalizer.CdrResultSuccess
-        elif result == 1 or result == 3:
+        elif result == 1:
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultInvalidCode
         elif result == 2:
             self.resultPanel['image'] = self.resultPanelFailureGui
             self.resultPanel['text'] = TTLocalizer.CdrResultExpiredCode
+        elif result == 3:
+            self.resultPanel['image'] = self.resultPanelFailureGui
+            self.resultPanel['text'] = TTLocalizer.CdrResultIneligibleCode
         elif result == 4:
             self.resultPanel['image'] = self.resultPanelErrorGui
             if awardMgrResult == 0:

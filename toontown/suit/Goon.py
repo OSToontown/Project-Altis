@@ -9,9 +9,11 @@ from toontown.suit import SuitDNA
 import math
 
 AnimDict = {'pg': (('walk', '-walk'), ('collapse', '-collapse'), ('recovery', '-recovery')),
- 'sg': (('walk', '-walk'), ('collapse', '-collapse'), ('recovery', '-recovery'))}
+ 'sg': (('walk', '-walk'), ('collapse', '-collapse'), ('recovery', '-recovery')),
+ 'gg': (('walk', '-walk'), ('collapse', '-collapse'), ('recovery', '-recovery'))}
 ModelDict = {'pg': 'phase_9/models/char/Cog_Goonie',
- 'sg': 'phase_9/models/char/Cog_Goonie'}
+ 'sg': 'phase_9/models/char/Cog_Goonie',
+ 'gg': 'phase_9/models/char/Cog_Goonie'}
 
 class Goon(Avatar.Avatar):
 
@@ -106,6 +108,12 @@ class Goon(Avatar.Avatar):
             self.hat.find('**/security_hat').hide()
         elif self.type == 'sg':
             self.hat.find('**/hard_hat').hide()
+        elif self.type == 'gg':
+            self.hat.find('**/security_hat').hide()
+            self.hat.find('**/hard_hat').hide()
+            hat = loader.loadModel('phase_4/models/accessories/tt_m_chr_avt_acc_hat_golfHat')
+            hat.setScale(0.5)
+            hat.reparentTo(self.hat)
         else:
             self.hat.find('**/security_hat').hide()
             self.hat.find('**/hard_hat').hide()
@@ -143,6 +151,8 @@ class Goon(Avatar.Avatar):
             colorList = GoonGlobals.PG_COLORS
         elif self.type == 'sg':
             colorList = GoonGlobals.SG_COLORS
+        elif self.type == 'gg':
+            colorList = GoonGlobals.GG_COLORS
         else:
             return
         

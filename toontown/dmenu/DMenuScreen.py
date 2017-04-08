@@ -62,12 +62,11 @@ class DMenuScreen(DirectObject):
             base.camera.posHprInterval(1, Point3(MAIN_POS), VBase3(MAIN_HPR), blendType = 'easeInOut')).start()
         if base.showDisclaimer:
             FeatureComingSoonDialog.FeatureComingSoonDialog(text = TTLocalizer.PopupAlphaDisclaimer)
-        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
+        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = render2d)
         self.background2d.setScale(render2d, Vec3(1))
         self.background2d.setBin('background', 1)
         self.background2d.setTransparency(1)
         self.background2d.setColorScale(1, 1, 1, .2)
-        self.accept('window-event', self.windowEvent)
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
         self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
@@ -164,9 +163,6 @@ class DMenuScreen(DirectObject):
         self.bananaRayNode.addSolid(self.ray)
         self.bananaClicker.addCollider(self.bananaRayNP, self.collHandlerQueue)
         self.accept('mouse1', self.slipAndSlideOnThisBananaPeelHaHaHa)
-
-        for frame in render.findAllMatches('*/doorFrame*'):
-            frame.removeNode()
 
         self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
         SkyUtil.startCloudSky(self)
@@ -516,6 +512,3 @@ class DMenuScreen(DirectObject):
         self.QuitButton.reparentTo(aspect2d)
         self.QuitButton.setPos(QuitBtnHidePos)
         self.QuitButton.show()
-
-    def windowEvent(self, win):
-        self.background2d.setScale(render2d, Vec3(1))
