@@ -23,7 +23,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
         SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.playgroundClass = OZPlayground
         self.musicFile = 'phase_6/audio/bgm/AA_nbrhood.ogg'
-        self.activityMusicFile = 'phase_6/audio/bgm/GS_KartShop.ogg'
+        self.activityMusicFile = 'phase_6/audio/bgm/AA_SZ_activity.ogg'
         self.dnaFile = 'phase_6/dna/outdoor_zone_sz.pdna'
         self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.pdna'
 
