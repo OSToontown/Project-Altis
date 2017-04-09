@@ -32,13 +32,15 @@ NumTreasures = {ToontownGlobals.ToontownCentral: 2,
  ToontownGlobals.DaisyGardens: 2,
  ToontownGlobals.MinniesMelodyland: 2,
  ToontownGlobals.TheBrrrgh: 1,
- ToontownGlobals.DonaldsDreamland: 1}
+ ToontownGlobals.DonaldsDreamland: 1,
+ ToontownGlobals.OutdoorZone: 1}
 NumPenalties = {ToontownGlobals.ToontownCentral: 0,
  ToontownGlobals.DonaldsDock: 1,
  ToontownGlobals.DaisyGardens: 1,
  ToontownGlobals.MinniesMelodyland: 1,
  ToontownGlobals.TheBrrrgh: 2,
- ToontownGlobals.DonaldsDreamland: 2}
+ ToontownGlobals.DonaldsDreamland: 2,
+ ToontownGlobals.OutdoorZone: 3}
 Obstacles = {ToontownGlobals.ToontownCentral: (),
  ToontownGlobals.DonaldsDock: ((0, 0),),
  ToontownGlobals.DaisyGardens: ((MinWall[0] / 2, 0), (MaxWall[0] / 2, 0)),
@@ -50,10 +52,15 @@ Obstacles = {ToontownGlobals.ToontownCentral: (),
  ToontownGlobals.DonaldsDreamland: ((MinWall[0] / 2, MinWall[1] / 2),
                                     (MinWall[0] / 2, MaxWall[1] / 2),
                                     (MaxWall[0] / 2, MinWall[1] / 2),
+                                    (MaxWall[0] / 2, MaxWall[1] / 2)),
+ ToontownGlobals.OutdoorZone: ((MinWall[0] / 2, MinWall[1] / 2),
+                                    (MinWall[0] / 2, MaxWall[1] / 2),
+                                    (MaxWall[0] / 2, MinWall[1] / 2),
                                     (MaxWall[0] / 2, MaxWall[1] / 2))}
 ObstacleShapes = {ToontownGlobals.ToontownCentral: True,
  ToontownGlobals.DonaldsDock: True,
  ToontownGlobals.DaisyGardens: True,
  ToontownGlobals.MinniesMelodyland: True,
  ToontownGlobals.TheBrrrgh: False,
- ToontownGlobals.DonaldsDreamland: False}
+ ToontownGlobals.DonaldsDreamland: False,
+ ToontownGlobals.OutdoorZone: False}

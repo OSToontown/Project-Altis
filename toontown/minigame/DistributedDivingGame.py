@@ -393,6 +393,10 @@ class DistributedDivingGame(DistributedMinigame):
          ToontownGlobals.DonaldsDreamland: [3,
                                             1.0,
                                             65,
+                                            1],
+         ToontownGlobals.OutdoorZone: [3,
+                                            1.0,
+                                            65,
                                             1]}
         pattern = self.difficultyPatterns[self.getSafezoneId()]
         self.NUMCRABS = pattern[0]

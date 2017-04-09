@@ -20,7 +20,8 @@ SafeZones = [ToontownGlobals.ToontownCentral,
  ToontownGlobals.DaisyGardens,
  ToontownGlobals.MinniesMelodyland,
  ToontownGlobals.TheBrrrgh,
- ToontownGlobals.DonaldsDreamland]
+ ToontownGlobals.DonaldsDreamland,
+ ToontownGlobals.OutdoorZone]
 
 def getDifficulty(trolleyZone):
     hoodZone = getSafezoneId(trolleyZone)
