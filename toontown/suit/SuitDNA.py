@@ -44,7 +44,7 @@ boardPolyColor = VBase4(.45, 0.45, .45, 1.0)
 suitsPerLevel = [1, 1, 1, 1, 1, 1, 1, 1, 1]
 suitsPerDept = 8
 levelsPerSuit = 5
-goonTypes = ['pg', 'sg']
+goonTypes = ['pg', 'sg', 'gg']
 
 def getSuitBodyType(name):
     if name in suitATypes:
