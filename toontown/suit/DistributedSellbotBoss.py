@@ -481,7 +481,8 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             Func(self.cagedToon.headsUp, localAvatar),
             Func(self.cagedToon.setLocalPageChat, speech, 0),
             Func(camera.reparentTo, localAvatar),
-            base.camera.posHprInterval(1, Point3(0, -9, 9), Point3(0, 0, -15), blendType = 'easeInOut'), name=name)
+            Func(camera.setPos, 0, -9, 9),
+            Func(camera.lookAt, self.cagedToon, Point3(0, 0, 2)), name=name)
         return seq
 
     def __showOnscreenMessage(self, text):

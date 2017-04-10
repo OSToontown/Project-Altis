@@ -2800,11 +2800,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_creative', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*')
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_insomnia', '**/whistleIcon*')
         ]
         
         #Now we need to caculate our index. 
-        if gmType in [275]:
+        if gmType in [274]:
+            index = 6
+        elif gmType in [275]:
             index = 1
         elif gmType in [300, 375]:
             index = 3
