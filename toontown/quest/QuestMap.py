@@ -264,6 +264,10 @@ class QuestMap(DirectFrame):
             if not buildingMarker.isEmpty():
                 buildingMarker.setScale((math.sin(task.time * 16.0 + i * math.pi / 3.0) + 1) * 0.005 + 0.04)
                 i = i + 1
+        for buildingMarker in self.suitBuildingMarkers:
+            if not buildingMarker.isEmpty():
+                buildingMarker.setScale((math.sin(task.time * 16.0 + i * math.pi / 3.0) + 1) * 0.005 + 0.04)
+                i = i + 1
                 
         return Task.cont
 
