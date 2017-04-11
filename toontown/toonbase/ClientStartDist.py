@@ -40,7 +40,7 @@ icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
 
-#Altis Engine 3.0
+# Altis Engine 3.0
 want-vive #f
 want-android #f
 want-headless #f
