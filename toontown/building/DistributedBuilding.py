@@ -388,9 +388,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         sideBldgNodes.append(newNP)
         soundPlayed = 0
         tracks = Parallel(name=self.taskName('toSuitTrack'))
-        for i in sideBldgNodes:
-            if not i.isEmpty():
-                i.setColorScale(Suit.Suit.medallionColors[chr(self.track)])
             name = i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME * 0.85
             if name[0] == 's':
@@ -455,7 +452,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             buildingTitle += TTLocalizer.CogsIncExt
         sideBldgNodes = self.getNodePaths()
         for node in sideBldgNodes:
-            node.setColor(Suit.Suit.medallionColors[chr(self.track)] * .8)
+            node.setColor(Suit.Suit.medallionColors[chr(self.track)])
         buildingTitle += '\n%s' % SuitDNA.getDeptFullname(chr(self.track))
         textNode = TextNode('sign')
         textNode.setTextColor(1.0, 1.0, 1.0, 1.0)
