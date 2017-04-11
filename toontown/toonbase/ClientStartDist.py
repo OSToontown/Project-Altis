@@ -49,7 +49,7 @@ want-cuda #t
 want-crossplat #t
 allow-portal-cull #t 
 framebuffer-multisample	#t
-gl-cheap-textures #t
+gl-cheap-textures #f
 geom-cache-size	2500
 glsl-preprocess #f
 interpolate-frames #t
@@ -57,8 +57,8 @@ keep-texture-ram #t
 display-lists #t
 driver-compress-textures #t
 gl-immutable-texture-storage #t
-loader-num-threads 25
-loader-thread-priority high
+loader-num-threads 20
+loader-thread-priority normal
 
 # Debug
 default-directnotify-level info
