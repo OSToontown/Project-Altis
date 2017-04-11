@@ -176,6 +176,7 @@ AhoyAvenue = 1400
 SillyStreet = 2100
 LoopyLane = 2200
 PunchlinePlace = 2300
+WackyWay = 2400
 WalrusWay = 3100
 SleetStreet = 3200
 PolarPlace = 3300
@@ -190,7 +191,7 @@ RoseValley = 5400
 LullabyLane = 9100
 PajamaPlace = 9200
 ToonHall = 2513
-HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
+HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace, WackyWay),
  DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
@@ -244,7 +245,8 @@ DynamicZonesEnd = 1 << 20
 cogDept2index = {'c': 0,
  'l': 1,
  'm': 2,
- 's': 3}
+ 's': 3,
+ 'g': 4}
 cogIndex2dept = invertDict(cogDept2index)
 HQToSafezone = {SellbotHQ: DaisyGardens,
  CashbotHQ: DonaldsDreamland,

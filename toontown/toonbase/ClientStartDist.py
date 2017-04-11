@@ -40,6 +40,26 @@ icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
 
+# Altis Engine 3.0
+want-vive #f
+want-android #f
+want-headless #f
+want-live-updates #f
+want-cuda #t
+want-crossplat #t
+allow-portal-cull #t 
+framebuffer-multisample	#t
+gl-cheap-textures #t
+geom-cache-size	2500
+glsl-preprocess #f
+interpolate-frames #t
+keep-texture-ram #t
+display-lists #t
+driver-compress-textures #t
+gl-immutable-texture-storage #t
+loader-num-threads 25
+loader-thread-priority high
+
 # Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
