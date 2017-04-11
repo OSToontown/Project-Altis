@@ -18,11 +18,13 @@ from toontown.distributed import DelayDelete
 from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.hood import ZoneUtil
+from toontown.suit import Suit
 
 FO_DICT = {'s': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
  'l': 'tt_m_ara_cbe_fieldOfficeLegalEagle',
  'm': 'tt_m_ara_cbe_fieldOfficeLoanShark',
- 'c': 'tt_m_ara_cbe_fieldOfficeMoverShaker'}
+ 'c': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
+ 'g': 'tt_m_ara_cbe_fieldOfficeMoverShaker'}
 
 class DistributedBuilding(DistributedObject.DistributedObject):
     SUIT_INIT_HEIGHT = 125
@@ -324,7 +326,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 corpIcon = cogIcons.find('**/BoardIcon').copyTo(self.cab)
             corpIcon.setPos(0, 6.79, 6.8)
             corpIcon.setScale(3)
-            from toontown.suit import Suit
             corpIcon.setColor(Suit.Suit.medallionColors[dept])
             cogIcons.removeNode()
         self.leftDoor = self.elevatorModel.find('**/left-door')
@@ -388,6 +389,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         soundPlayed = 0
         tracks = Parallel(name=self.taskName('toSuitTrack'))
         for i in sideBldgNodes:
+            if not i.isEmpty():
+                i.setColorScale(Suit.Suit.medallionColors[chr(self.track)])
             name = i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME * 0.85
             if name[0] == 's':
@@ -431,6 +434,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         dnaStore = self.cr.playGame.dnaStore
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode('suit_landmark_' + chr(self.track) + str(level))
+        suitNP.setColor(Suit.Suit.medallionColors[chr(self.track)])
         
         # if the suit node path is not in the dna store, dont setup
         # the building specified
@@ -449,6 +453,9 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             buildingTitle = TTLocalizer.CogsInc
         else:
             buildingTitle += TTLocalizer.CogsIncExt
+        sideBldgNodes = self.getNodePaths()
+        for node in sideBldgNodes:
+            node.setColor(Suit.Suit.medallionColors[chr(self.track)] * .8)
         buildingTitle += '\n%s' % SuitDNA.getDeptFullname(chr(self.track))
         textNode = TextNode('sign')
         textNode.setTextColor(1.0, 1.0, 1.0, 1.0)
