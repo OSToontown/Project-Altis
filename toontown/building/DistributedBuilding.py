@@ -388,6 +388,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         sideBldgNodes.append(newNP)
         soundPlayed = 0
         tracks = Parallel(name=self.taskName('toSuitTrack'))
+        for i in sideBldgNodes:
             name = i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME * 0.85
             if name[0] == 's':
