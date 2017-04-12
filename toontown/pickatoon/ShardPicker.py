@@ -60,7 +60,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.textDisabledColor = Vec4(0.4, 0.8, 0.4, 1)
         self.ShardInfoUpdateInterval = 5.0
         self.lowPop, self.midPop, self.highPop = base.getShardPopLimits()
-        self.showPop = True # config.GetBool('show-total-population', 1)
+        self.showPop = False # config.GetBool('show-total-population', 1)
         self.adminForceReload = 0
         self.load()
 
@@ -79,8 +79,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         helpText_ycoord = 0.403
         shardPop_ycoord = helpText_ycoord - 0.523
         totalPop_ycoord = shardPop_ycoord - 0.26
-        self.totalPopulationText = DirectLabel(parent = self, relief = None, text = TTLocalizer.ShardPagePopulationTotal % 1, text_scale = main_text_scale, text_wordwrap = 8, textMayChange = 1, text_align = TextNode.ACenter, pos = (0.65, 0, totalPop_ycoord), text_style = 3, text_fg = (1, 1, 1, 1))
-        self.totalPopulationText.show()
         self.gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         self.listXorigin = -0.02
         self.listFrameSizeX = 0.67
@@ -99,8 +97,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.scrollList.destroy()
         del self.scrollList
         del self.shardButtons
-        self.totalPopulationText.destroy()
-        del self.totalPopulationText
         taskMgr.remove('ShardPageUpdateTask-doLater')
         ShtikerPage.ShtikerPage.unload(self)
 
@@ -287,7 +283,6 @@ class ShardPicker(ShtikerPage.ShtikerPage):
 
         if anyChanges or self.adminForceReload:
             self.regenerateScrollList()
-        self.totalPopulationText['text'] = TTLocalizer.ShardPagePopulationTotal % totalPop
         helpText = TTLocalizer.ShardPageHelpIntro
         if shardName:
             if currentShardId == ToontownGlobals.WelcomeValleyToken:
