@@ -15,6 +15,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
 
     def __init__(self, air):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
+        self.air = air
         self.ownerId = 0
         self.petName = 'unnamed'
         self.traitSeed = 0
@@ -438,7 +439,10 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         if trickId == PetTricks.Tricks.BALK:
             return
         aptitude = self.getTrickAptitude(trickId)
-        self.setTrickAptitude(trickId, aptitude + PetTricks.AptitudeIncrementDidTrick)
+        increment = PetTricks.AptitudeIncrementDidTrick
+        if self.air.suitInvasionManager.getInvading():
+            increment *= 2
+        self.setTrickAptitude(trickId, aptitude + increment)
         self.addToMood('fatigue', lerp(PetTricks.MaxTrickFatigue, PetTricks.MinTrickFatigue, aptitude))
         self.d_setDominantMood(self.mood.getDominantMood())
 
