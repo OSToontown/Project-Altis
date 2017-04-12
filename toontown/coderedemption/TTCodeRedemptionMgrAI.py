@@ -152,7 +152,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             
         codefile.close()
         
-        if code in allinsomniacodes:
+        if code in allinsomniacodes and code != '':
             with open('data/insomnia_codes.txt', 'w') as file:
                 allinsomniacodes.remove(code)
                 for code in allinsomniacodes:
