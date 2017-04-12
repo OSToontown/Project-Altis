@@ -1,0 +1,51 @@
+DefaultSettings = {
+'fullscreen': False,
+'music': True,
+'sfx': True,
+'musicVol': 1.0,
+'sfxVol': 1.0,
+'loadDisplay': 'pandagl',
+'toonChatSounds': True,
+'newGui': False,
+'show-disclaimer': True,
+'fieldofview': 52,
+'show-cog-levels': True,
+'health-meter-mode': 2,
+'experienceBarMode': True,
+'smoothanimations': True,
+'tpmsgs': True,
+'friendstatusmsgs': True,
+'doorkey': True,
+'interactkey': True,
+'experimental-touch': False,
+'anisotropic-filtering': 0,
+'anti-aliasing': False,
+'vertical-sync': False,
+'language': 'English',
+'Widescreen': 0
+}
+
+AnistrophicOptions = [0, 2, 4, 8, 16]
+
+# Taken from toontown.options.GraphicsOptions
+AspectRatios = [
+             0, # Adaptive
+             (1.33333), # 4:3
+             (1.25), # 5:4
+             (1.77777), # 16:9
+             (2.33333) ] # 21:9
+
+AspectRatioLabels = [
+             "Adaptive",
+             "4:3",
+             "5:3",
+             "16:9",
+             "21:9"]
+             
+resolution_table = [
+    (800, 600),
+    (1024, 768),
+    (1280, 1024),
+    (1600, 1200),
+    (1280, 720),
+    (1920, 1080)]
