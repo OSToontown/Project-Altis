@@ -144,19 +144,21 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             return
 
         code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
-       
         allinsomniacodes = []
-        insomniacodes = open('data/insomnia_codes.txt', 'r').read()
+        codefile = open('data/insomnia_codes.txt', 'r')
+        insomniacodes = codefile.read().split('\n')
         for line in insomniacodes:
             allinsomniacodes.append(line)
             
-            allinsomniacodes.remove(code)
-            
-        with open('data/insomnia_codes.txt', 'w') as file:
-            for code in allinsomniacodes:
-                file.write(code)
-            
+        codefile.close()
+        
         if code in allinsomniacodes:
+            with open('data/insomnia_codes.txt', 'w') as file:
+                allinsomniacodes.remove(code)
+                for code in allinsomniacodes:
+                    file.write(code)
+                file.close()
+                
             shirt = CatalogClothingItem(4120, 0)
             shorts = CatalogClothingItem(4121, 0)
             return [shirt, shorts]
@@ -180,6 +182,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         if code == "sweet":
             beans = CatalogBeanItem(12000, tagCode = 2)
             return [beans]
+
 
         return []
 
