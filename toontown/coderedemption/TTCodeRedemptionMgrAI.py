@@ -132,6 +132,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, ToontownGlobals.CODE_SUCCESS, 0])
 
     def getItemsForCode(self, code):
+    
         avId = self.air.getAvatarIdFromSender()
         if not avId:
             self.air.writeServerEvent('suspicious', avId = avId, issue = 'AVID is none')
@@ -143,7 +144,23 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             return
 
         code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
-
+       
+        allinsomniacodes = []
+        insomniacodes = open('data/insomnia_codes.txt', 'r').read()
+        for line in insomniacodes:
+            allinsomniacodes.append(line)
+            
+            allinsomniacodes.remove(code)
+            
+        with open('data/insomnia_codes.txt', 'w') as file:
+            for code in allinsomniacodes:
+                file.write(code)
+            
+        if code in allinsomniacodes:
+            shirt = CatalogClothingItem(4120, 0)
+            shorts = CatalogClothingItem(4121, 0)
+            return [shirt, shorts]
+            
         if code == "sillymeter":
             shirt = CatalogClothingItem(1753, 0)
             return [shirt]
