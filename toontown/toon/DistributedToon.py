@@ -2801,7 +2801,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_insomnia', '**/whistleIcon*')
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_insomnia', '**/fistIcon*')
         ]
         
         #Now we need to caculate our index. 

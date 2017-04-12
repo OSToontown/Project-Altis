@@ -67,6 +67,7 @@ Props = ((5, 'partyBall', 'partyBall'),
  (5, 'whistle', 'whistle'),
  (5, 'singing', 'singing'),
  (3.5, 'creampie', 'tart'),
+ (3.5, 'cupcake', 'cupcake'),
  (5, 'fruitpie-slice', 'fruit-pie-slice'),
  (5, 'creampie-slice', 'cream-pie-slice'),
  (5,
@@ -206,13 +207,13 @@ CreampieColor = VBase4(250.0 / 255.0, 241.0 / 255.0, 24.0 / 255.0, 1.0)
 FruitpieColor = VBase4(55.0 / 255.0, 40.0 / 255.0, 148.0 / 255.0, 1.0)
 BirthdayCakeColor = VBase4(253.0 / 255.0, 119.0 / 255.0, 220.0 / 255.0, 1.0)
 SnowballColor = VBase4(1.0, 1.0, 1.0, 1.0)
-Splats = {'tart': (0.3, FruitpieColor),
+Splats = {'cupcake': (0.3, FruitpieColor),
  'fruitpie-slice': (0.5, FruitpieColor),
  'creampie-slice': (0.5, CreampieColor),
  'fruitpie': (0.7, FruitpieColor),
  'creampie': (0.7, CreampieColor),
  'birthday-cake': (0.9, BirthdayCakeColor)}
-Variants = ('tart',
+Variants = ('cupcake',
  'fruitpie',
  'splat-tart',
  'dust',
@@ -261,8 +262,8 @@ class PropPool:
                 self.propTypes[propName] = 'model'
                 self.propStrings[propName] = (propPath,)
 
-        propName = 'tart'
-        self.propStrings[propName] = (self.getPath(3.5, 'tart'),)
+        propName = 'cupcake'
+        self.propStrings[propName] = (self.getPath(3.5, 'cupcake'),)
         self.propTypes[propName] = 'model'
         propName = 'fruitpie'
         self.propStrings[propName] = (self.getPath(3.5, 'tart'),)
