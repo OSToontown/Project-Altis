@@ -54,7 +54,7 @@ geom-cache-size	2500
 glsl-preprocess #f
 interpolate-frames #t
 keep-texture-ram #t
-driver-compress-textures #t
+driver-compress-textures #f
 gl-immutable-texture-storage #t
 loader-num-threads 100
 loader-thread-priority normal
