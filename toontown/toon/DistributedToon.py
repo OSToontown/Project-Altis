@@ -2990,7 +2990,7 @@ def i60Pan():
     base.cam.reparentTo(render)
     base.cam.setZ(40)
     base.cam.setP(-25)
-    base.localAvatar.panSeq = Sequence(base.cam.hprInterval(60, (360, -25, 0)), base.cam.hprInterval(60, (360, 0, 0)))
+    base.localAvatar.panSeq = base.cam.hprInterval(60, (360, -25, 0))
     base.localAvatar.panSeq.loop()
 	
 @magicWord(category=CATEGORY_CREATIVE)
