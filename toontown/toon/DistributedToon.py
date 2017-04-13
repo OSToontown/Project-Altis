@@ -2996,10 +2996,10 @@ def i60Pan():
 @magicWord(category=CATEGORY_CREATIVE)
 def i60PanStop():
     base.cam.setZ(0)
-    base.cam.setP(0)
     base.localAvatar.attachCamera()
     base.localAvatar.setCameraPositionByIndex(base.localAvatar.cameraIndex)
     base.oobe()
     base.oobe()
     if base.localAvatar.panSeq:
         base.localAvatar.panSeq.finish()
+    base.cam.setP(0)
