@@ -156,7 +156,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             with open('data/insomnia_codes.txt', 'w') as file:
                 allinsomniacodes.remove(code)
                 for code in allinsomniacodes:
-                    file.write(code)
+                    file.write(code + "\n")
                 file.close()
                 
             shirt = CatalogClothingItem(4120, 0)
