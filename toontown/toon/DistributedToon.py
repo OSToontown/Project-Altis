@@ -3000,5 +3000,6 @@ def i60PanStop():
     base.localAvatar.setCameraPositionByIndex(base.localAvatar.cameraIndex)
     if base.localAvatar.panSeq:
         base.localAvatar.panSeq.finish()
+    base.cam.setP(0)
     base.oobe()
     base.oobe()
