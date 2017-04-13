@@ -5698,7 +5698,7 @@ def shovelSkill(skill):
     target = spellbook.getTarget()
     target.b_setShovelSkill(skill)
 	
-@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
 def i60Skip():
     """
     Set the target's stats for insomnia gamplay
@@ -5760,7 +5760,7 @@ def i60Skip():
         return "Set toon stats for i60 demo."
     return "Set toon stats for i60 demo."
 	
-@magicWord(category = CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
 def i60Reset():
     """
     Reset the target's stats for insomnia gamplay
