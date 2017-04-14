@@ -5697,3 +5697,138 @@ def catalog():
 def shovelSkill(skill):
     target = spellbook.getTarget()
     target.b_setShovelSkill(skill)
+	
+@magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
+def i60Skip():
+    """
+    Set the target's stats for insomnia gamplay
+    """
+    target = spellbook.getTarget()
+
+    # First, unlock the target's Gag tracks:
+    gagTracks = random.choice([[1, 0, 0, 1, 1, 1, 1, 0], [0, 0, 1, 1, 1, 1, 1, 0], [0, 1, 1, 0, 1, 1, 1, 0], [0, 1, 1, 1, 1, 1, 0, 0]])
+    target.b_setTrackAccess(gagTracks)
+    target.b_setMaxCarry(35)
+
+    # Next, max out their experience for the tracks they have:
+    experience = Experience.Experience(target.getExperience(), target)
+    for i, track in enumerate(target.getTrackAccess()):
+        if track:
+            experience.experience[i] = (random.randint(1500, 3000))
+    target.b_setExperience(experience.makeNetString())
+    
+    # Restock their inventory:
+    inventory = target.inventory
+    inventory.NPCMaxOutInv(targetTrack=-1, maxLevelIndex=6)
+    target.b_setInventory(inventory.makeNetString())
+
+    # Max out their Laff:
+    target.b_setMaxHp(41)
+    target.toonUp(target.getMaxHp() - target.hp)
+
+    # Unlock all of the emotes:
+    emotes = list(target.getEmoteAccess())
+    for emoteId in OTPLocalizer.EmoteFuncDict.values():
+        if emoteId >= len(emotes):
+            continue
+        # The following emotions are ignored because they are unable to be
+        # obtained:
+        if emoteId in (17, 18, 19):
+            continue
+        emotes[emoteId] = 1
+    target.b_setEmoteAccess(emotes)
+
+    # Give them teleport access to respective areas:
+    hoods = [1000, 2000, 5000, 8000]
+    hoodsVisit = [1000, 2000, 5000, 4000, 8000]
+    target.b_setHoodsVisited(hoodsVisit)
+    target.b_setTeleportAccess(hoods)
+
+    # Mid game settings:
+    target.b_setQuests([])
+    target.b_setQuestCarryLimit(4)
+    target.b_setRewardHistory(10, [])
+    target.b_setMaxMoney(80)
+    target.b_setMoney(target.getMaxMoney())
+    target.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
+
+    # Finally, unlock all of their pet phrases:
+    if simbase.wantPets:
+        target.b_setPetTrickPhrases(range(7))
+     
+    if target != spellbook.getInvoker():
+        return "Set toon stats for i60 demo."
+    return "Set toon stats for i60 demo."
+	
+@magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
+def i60Reset():
+    """
+    Reset the target's stats for insomnia gamplay
+    """
+    target = spellbook.getTarget()
+
+    # First, reset the target's gag tracks
+    target.b_setTrackAccess([0, 0, 0, 0, 1, 1, 0, 0])
+    target.b_setMaxCarry(20)
+
+    # Next, reset their experience for the tracks they have:
+    experience = Experience.Experience(target.getExperience(), target)
+    for i, track in enumerate(target.getTrackAccess()):
+        experience.experience[i] = 0
+    target.b_setExperience(experience.makeNetString())
+    
+    # Reset their inventory:
+    inventory = target.inventory
+    inventory.zeroInv(1)
+    target.b_setInventory(inventory.makeNetString())
+
+    # Reset out their Laff:
+    target.b_setMaxHp(15)
+    target.toonUp(target.getMaxHp() - target.hp)
+
+    # Unlock all of the emotes:
+    emotes = list(target.getEmoteAccess())
+    for emoteId in OTPLocalizer.EmoteFuncDict.values():
+        if emoteId >= len(emotes):
+            continue
+        # The following emotions are ignored because they are unable to be
+        # obtained:
+        if emoteId in (17, 18, 19):
+            continue
+        emotes[emoteId] = 1
+    target.b_setEmoteAccess(emotes)
+
+    # Give them teleport access nowhere
+    hoods = [2000]
+    target.b_setHoodsVisited(hoods)
+    target.b_setTeleportAccess([])
+
+    # Start game settings:
+    target.b_setQuests([])
+    target.b_setQuestCarryLimit(1)
+    target.b_setRewardHistory(0, [])
+    target.b_setMaxMoney(40)
+    target.b_setMoney(0)
+    target.b_setBankMoney(0)
+
+    # Finally, remove all of their pet phrases:
+    if simbase.wantPets:
+        target.b_setPetTrickPhrases([])
+		
+    # Set their stuff to insomnia garb:
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(target.getDNAString())
+    dna.newToonRandom()
+    dna.topTex = 148
+    dna.topTexColor = 27
+    dna.sleeveTex = 135
+    dna.sleeveTexColor = 27
+    dna.botTex = 57
+    dna.botTexColor = 27
+    dna.gender = 'm' # Skirts still aren't supported atm, damnit drew
+    target.b_setDNAString(dna.makeNetString())
+
+    if target != spellbook.getInvoker():
+        return "Reset toon stats for i60 demo."
+    return "Reset toon stats for i60 demo."
+	
