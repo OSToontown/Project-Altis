@@ -385,16 +385,16 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             if self.isDoorHit():
                 if base.wantDoorKey:
                     if not hasattr(self, "enterText"):
-                        self.accept("shift", self.enterDoor)
+                        self.accept(base.INTERACT, self.enterDoor)
                         name = self.cr.playGame.dnaStore.getTitleFromBlockNumber(self.block)
                         if ZoneUtil.isInterior(self.zoneId):
                             state = "exit"
                         else:
                             state = "enter"
                         if name != '':
-                            text = ("Press SHIFT to %s %s" % (state, name))
+                            text = ("Press " + str(base.INTERACT).upper() + " to %s %s" % (state, name))
                         else:
-                            text = ("Press SHIFT to %s" % state)
+                            text = ("Press " + str(base.INTERACT).upper() + " to %s" % state)
                         if base.wantMobile:
                             self.enterText = DirectButton(relief = None, parent = base.a2dBottomCenter, image = (base.shuffleUp, base.shuffleUp, base.shuffleDown), image_scale = (1, 0.7, 0.7), image1_scale = (1.02, 0.7, 0.7), image2_scale = (1.02, 0.7, 0.7), text = ("Tap to %s" % state), text_style = 3, text_scale = .07, text_pos = (0, -0.02), text_fg = (1, 0.9, 0.1, 1), scale = 1.5, pos = (0.0, 0.0, 0.5), command = self.enterDoor)
                         else:   
