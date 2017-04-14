@@ -208,7 +208,10 @@ class ItemsPage(ShtikerPage.ShtikerPage):
             self.fishingRods_previewPanel.hide()
             
     def __updateCheesyEffect(self):
-        self.cheesyEffect_preview['text'] = TTLocalizer.CheesyEffectId2Name.get(base.localAvatar.cheesyEffects[self.cheesyEffect_index], 'Unknown Effect')
+        try:
+            self.cheesyEffect_preview['text'] = TTLocalizer.CheesyEffectId2Name.get(base.localAvatar.cheesyEffects[self.cheesyEffect_index])
+        except:
+            self.cheesyEffect_preview['text'] = TTLocalizer.CheesyEffectId2Name.get('Unknown Effect ID: %s' % self.cheesyEffect_index)
         ceCount = len(base.localAvatar.cheesyEffects)            
         if ceCount == 0:
             self.cheesyEffect_rightButton.hide()
