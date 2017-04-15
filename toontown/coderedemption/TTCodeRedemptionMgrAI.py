@@ -57,7 +57,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
 
         avCodes = av.getRedeemedCodes()
-        print avCodes
         if not avCodes:
             avCodes = [code]
             av.b_setRedeemedCodes(avCodes)
@@ -77,7 +76,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
                 hasExpired = True
                 
         avId = self.air.getAvatarIdFromSender()
-        print("%s entered %s" %(avId, code))
         if not avId:
             self.air.writeServerEvent('suspicious', avId = avId, issue = 'Tried to redeem a code from an invalid avId')
             return
