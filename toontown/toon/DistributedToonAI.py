@@ -1396,6 +1396,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
              0]
         else:
             self.cogMerits = merits
+			
+    def addMerits(self, dept, merits):
+        # if not CogDisguiseGlobals.isSuitComplete(self.getCogParts(), dept): This block here is for disallowed merit gain if the suit isn't complete, I'll do this later with better code
+            # pass
+        newMerits = self.getCogMerits()
+        totalMerits = CogDisguiseGlobals.getTotalMerits(self, dept)
+        if (newMerits[dept] + merits) >= totalMerits:
+            newMerits[dept] == totalMerits
+        else:
+            newMerits[dept] += merits
+        self.b_setCogMerits(newMerits)
 
     def d_setCogMerits(self, merits):
         self.sendUpdate('setCogMerits', [merits])

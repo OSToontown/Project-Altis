@@ -18068,6 +18068,37 @@ class CogSuitPartReward(Reward):
         return TTLocalizer.QuestsCogSuitPartRewardPoster % {'cogTrack': self.getCogTrackName(),
          'part': self.getCogPartName()}
 		 
+class CogMeritReward(Reward):
+    meritNames = TTLocalizer.RewardPanelMeritBarLabels
+
+    def __init__(self, id, reward):
+        Reward.__init__(self, id, reward)
+
+    def getMeritType(self):
+        return self.reward[0]
+
+    def getNumMerits(self):
+        return self.reward[1]
+
+    def sendRewardAI(self, av):
+        dept = self.getMeritType()
+        num = self.getNumMerits()
+        av.addMerits(dept, num)
+
+    def countReward(self, qrc):
+        pass
+
+    def getMeritName(self):
+        return CogMeritReward.meritNames[self.getMeritType()]
+
+    def getString(self):
+        return TTLocalizer.QuestsCogSuitMeritReward % {'numMerits': self.getNumMerits(),
+         'meritType': self.getMeritName()}
+
+    def getPosterString(self):
+        return TTLocalizer.QuestsCogSuitMeritRewardPoster % {'numMerits': self.getNumMerits(),
+         'meritType': self.getMeritName()}
+		 
 def getRewardClass(id):
     reward = RewardDict.get(id)
     if reward:
@@ -18752,7 +18783,57 @@ RewardDict = {100: (MaxHpReward, 1),
  4213: (CogSuitPartReward, 'c', CogDisguiseGlobals.leftArmHand),
  4214: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmUpper),
  4215: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmLower),
- 4216: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmHand)}
+ 4216: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmHand),
+ 4300: (CogMeritReward, 0, 100),
+ 4301: (CogMeritReward, 0, 200),
+ 4302: (CogMeritReward, 0, 300),
+ 4303: (CogMeritReward, 0, 400),
+ 4304: (CogMeritReward, 0, 500),
+ 4305: (CogMeritReward, 0, 600),
+ 4306: (CogMeritReward, 0, 700),
+ 4307: (CogMeritReward, 0, 800),
+ 4308: (CogMeritReward, 0, 900),
+ 4309: (CogMeritReward, 0, 1000),
+ 4310: (CogMeritReward, 1, 100),
+ 4311: (CogMeritReward, 1, 200),
+ 4312: (CogMeritReward, 1, 300),
+ 4313: (CogMeritReward, 1, 400),
+ 4314: (CogMeritReward, 1, 500),
+ 4315: (CogMeritReward, 1, 600),
+ 4316: (CogMeritReward, 1, 700),
+ 4317: (CogMeritReward, 1, 800),
+ 4318: (CogMeritReward, 1, 900),
+ 4319: (CogMeritReward, 1, 1000),
+ 4320: (CogMeritReward, 2, 100),
+ 4321: (CogMeritReward, 2, 200),
+ 4322: (CogMeritReward, 2, 300),
+ 4323: (CogMeritReward, 2, 400),
+ 4324: (CogMeritReward, 2, 500),
+ 4325: (CogMeritReward, 2, 600),
+ 4326: (CogMeritReward, 2, 700),
+ 4327: (CogMeritReward, 2, 800),
+ 4328: (CogMeritReward, 2, 900),
+ 4329: (CogMeritReward, 2, 1000),
+ 4330: (CogMeritReward, 3, 100),
+ 4331: (CogMeritReward, 3, 200),
+ 4332: (CogMeritReward, 3, 300),
+ 4333: (CogMeritReward, 3, 400),
+ 4334: (CogMeritReward, 3, 500),
+ 4335: (CogMeritReward, 3, 600),
+ 4336: (CogMeritReward, 3, 700),
+ 4337: (CogMeritReward, 3, 800),
+ 4338: (CogMeritReward, 3, 900),
+ 4339: (CogMeritReward, 3, 1000),
+ 4340: (CogMeritReward, 4, 100),
+ 4341: (CogMeritReward, 4, 200),
+ 4342: (CogMeritReward, 4, 300),
+ 4343: (CogMeritReward, 4, 400),
+ 4344: (CogMeritReward, 4, 500),
+ 4345: (CogMeritReward, 4, 600),
+ 4346: (CogMeritReward, 4, 700),
+ 4347: (CogMeritReward, 4, 800),
+ 4348: (CogMeritReward, 4, 900),
+ 4349: (CogMeritReward, 4, 1000)}
 
 def getNumTiers():
     return len(RequiredRewardTrackDict) - 1
@@ -19034,7 +19115,9 @@ OptionalRewardTrackDict = {TT_TIER: (),
            2309,
            2310,
            2311,
-           2312),
+           2312,
+           4330,
+           4331),
  BR_TIER + 1: (1000,
                606,
                606,
@@ -19053,7 +19136,9 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2309,
                2310,
                2311,
-               2312),
+               2312,
+               4330,
+               4331),
  BR_TIER + 2: (1000,
                606,
                606,
@@ -19072,7 +19157,9 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2309,
                2310,
                2311,
-               2312),
+               2312,
+               4330,
+               4331),
  DL_TIER: (607,
            607,
            607,
@@ -19088,7 +19175,11 @@ OptionalRewardTrackDict = {TT_TIER: (),
            2909,
            2910,
            2911,
-           2912),
+           2912,
+           4331,
+           4330,
+           4321,
+           4320),
  DL_TIER + 1: (1000,
                607,
                607,
@@ -19105,7 +19196,11 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2929,
                2930,
                2931,
-               2932),
+               2932,
+               4330,
+               4331,
+               4320,
+               4321),
  DL_TIER + 2: (608,
                608,
                608,
@@ -19123,7 +19218,13 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2949,
                2950,
                2951,
-               2952),
+               2952,
+               4330,
+               4331,
+               4320,
+               4321,
+               4310,
+               4311),
  DL_TIER + 3: (1000,
                609,
                609,
@@ -19142,7 +19243,15 @@ OptionalRewardTrackDict = {TT_TIER: (),
                2969,
                2970,
                2971,
-               2972),
+               2972,
+               4330,
+               4331,
+               4320,
+               4321,
+               4310,
+               4311,
+               4300,
+               4301),
  ELDER_TIER: (1000,
               1000,
               610,
@@ -19165,7 +19274,19 @@ OptionalRewardTrackDict = {TT_TIER: (),
               2969,
               2970,
               2971,
-              2972)}
+              2972,
+              4334,
+              4335,
+              4336,
+              4324,
+              4325,
+              4326,
+              4314,
+              4315,
+              4316,
+              4304,
+              4305,
+              4306)}
 
 def isRewardOptional(tier, rewardId):
     return OptionalRewardTrackDict.has_key(tier) and rewardId in OptionalRewardTrackDict[tier]
