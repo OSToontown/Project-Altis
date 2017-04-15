@@ -60,11 +60,11 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         print avCodes
         if not avCodes:
             avCodes = [code]
-            av.setRedeemedCodes(avCodes)
+            av.b_setRedeemedCodes(avCodes)
         else:
             if not code in avCodes:
                 avCodes.append(code)
-                av.setRedeemedCodes(avCodes)
+                av.b_setRedeemedCodes(avCodes)
                 isEligible = True
             else:
                 isEligible = False
