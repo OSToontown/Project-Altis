@@ -219,7 +219,7 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.7.15
+server-version TTPA-Alpha-1.7.16
 shard-low-pop 50
 shard-mid-pop 80
 
