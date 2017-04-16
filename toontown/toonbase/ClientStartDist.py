@@ -81,9 +81,9 @@ default-model-extension .bam
 # Performance
 smooth-enable-prediction 1
 smooth-enable-smoothing 1
-smooth-lag 0.2
+smooth-lag 0.4
 smooth-max-future 1.0
-smooth-min-suggest-resync 1
+smooth-min-suggest-resync 0
 
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0
