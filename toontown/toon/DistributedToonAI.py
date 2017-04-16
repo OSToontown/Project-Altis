@@ -1367,7 +1367,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setCogParts(parts)
 
     def loseCogParts(self, dept):
-        self.notify.warning('Tried to remove a cog part, skipping')
+        partsLost = random.randrange(CogDisguiseGlobals.MinPartLoss, CogDisguiseGlobals.MaxPartLoss + 1)
+        parts = self.getCogParts()
+        partBitmask = parts[dept]
+        partLen = range(17)
+        while partsLost > 0 and partLen:
+            losePart = random.choice(partLen)
+            partLen.remove(losePart)
+            losePartBit = 1 << losePart
+            if partBitmask & losePartBit:
+                partBitmask &= ~losePartBit
+                partsLost -= 1
+
+        parts[dept] = partBitmask
+        self.b_setCogParts(parts)
 
     def b_setCogMerits(self, merits):
         self.setCogMerits(merits)
@@ -1383,6 +1396,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
              0]
         else:
             self.cogMerits = merits
+			
+    def addMerits(self, dept, merits):
+        # if not CogDisguiseGlobals.isSuitComplete(self.getCogParts(), dept): This block here is for disallowed merit gain if the suit isn't complete, I'll do this later with better code
+            # pass
+        newMerits = self.getCogMerits()
+        totalMerits = CogDisguiseGlobals.getTotalMerits(self, dept)
+        if (newMerits[dept] + merits) >= totalMerits:
+            newMerits[dept] == totalMerits
+        else:
+            newMerits[dept] += merits
+        self.b_setCogMerits(newMerits)
 
     def d_setCogMerits(self, merits):
         self.sendUpdate('setCogMerits', [merits])

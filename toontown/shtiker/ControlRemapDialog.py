@@ -14,6 +14,7 @@ class ControlRemap:
     OPTIONS_PAGE_HOTKEY = 6
     CHAT_HOTKEY = 7
     SCREENSHOT_KEY = 8
+    INTERACT = 9
 
     def __init__(self):
         self.dialog = TTDialog.TTGlobalDialog(
@@ -100,6 +101,14 @@ class ControlRemap:
             command=self.enterWaitForKey, extraArgs=[self.SCREENSHOT_KEY],
             wantLabel=True, labelOrientation='top', labelPos=labelPos,
             labelText=Controls[8])
+			
+        self.interactKey = OptionButton(
+            parent=self.dialog,
+            text=base.INTERACT,
+            pos=(button_x + 1.2, 0.0, button_y - 0.6),
+            command=self.enterWaitForKey, extraArgs=[self.INTERACT],
+            wantLabel=True, labelOrientation='top', labelPos=labelPos,
+            labelText=Controls[9])
             
         self.controlsToBeSaved = {
             self.UP: base.MOVE_UP,
@@ -110,7 +119,8 @@ class ControlRemap:
             self.ACTION_BUTTON: base.ACTION_BUTTON,
             self.OPTIONS_PAGE_HOTKEY: OptionsPageHotkey,
             self.CHAT_HOTKEY: base.CHAT_HOTKEY,
-            self.SCREENSHOT_KEY: base.SCREENSHOT_KEY
+            self.SCREENSHOT_KEY: base.SCREENSHOT_KEY,
+            self.INTERACT: base.INTERACT
         }
 
         self.popupDialog = None
@@ -174,6 +184,8 @@ class ControlRemap:
             self.chatHotkey['text'] = keyName
         elif controlNum == self.SCREENSHOT_KEY:
             self.screenshotKey['text'] = keyName
+        elif controlNum == self.INTERACT:
+            self.interactKey['text'] = keyName
         self.dialog.show()    
         self.exitWaitForKey(controlNum, keyName)
         
@@ -197,6 +209,7 @@ class ControlRemap:
         keymap['OPTIONS_PAGE_HOTKEY'] = self.controlsToBeSaved[self.OPTIONS_PAGE_HOTKEY]
         keymap['CHAT_HOTKEY'] = self.controlsToBeSaved[self.CHAT_HOTKEY]
         keymap['SCREENSHOT_KEY'] = self.controlsToBeSaved[self.SCREENSHOT_KEY]
+        keymap['INTERACT'] = self.controlsToBeSaved[self.INTERACT]
         settings['keymap'] = keymap
 
         base.reloadControls()
