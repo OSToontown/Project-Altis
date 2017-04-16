@@ -1672,7 +1672,8 @@ BottomStyles = {'bbs1': [0, [0,
  'hw_gs6': [55, [27]],
  'hw_gs7': [56, [27]],
  'hw_gsk1': [53, [27]],
- 'ins_bt1': [57, [27]]}
+ 'ins_bs1': [57, [27]],
+ 'ins_gs1': [62, [27]]}
 MAKE_A_TOON = 1
 TAMMY_TAILOR = 2004
 LONGJOHN_LEROY = 1007

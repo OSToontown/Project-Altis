@@ -21,6 +21,7 @@ from toontown.catalog.CatalogGardenItem import CatalogGardenItem
 from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem
 from toontown.coderedemption import TTCodeRedemptionConsts, TTCodeRedemptionGlobals
 from toontown.toonbase import ToontownGlobals
+from toontown.toon import ToonDNA
 
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("TTCodeRedemptionMgrAI")
@@ -158,7 +159,12 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
                 file.close()
                 
             shirt = CatalogClothingItem(4120, 0)
-            shorts = CatalogClothingItem(4121, 0)
+            dna = ToonDNA.ToonDNA()
+            dna.makeFromNetString(av.getDNAString())
+            if dna.gender == 'm':
+                shorts = CatalogClothingItem(4121, 0)
+            else:
+                shorts = CatalogClothingItem(4122, 0)        
             return [shirt, shorts]
             
         if code == "sillymeter":
