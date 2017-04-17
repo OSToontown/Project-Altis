@@ -1160,7 +1160,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             effect = ToontownGlobals.CEGhost
         
         self.applyCheesyEffect(effect, lerpTime=lerpTime)
-
+        
+    def getCheesyEffects(self):
+        return self.cheesyEffects
+        
+    def setCheesyEffects(self, ce):
+        self.cheesyEffects = ce
+        
+    def requestCheesyEffects(self, ce):
+        if ce not in self.cheesyEffects:
+            return
+            
+        self.sendUpdate('requestCheesyEffects', [ce])
+        
     def setGhostMode(self, flag):
         if self.ghostMode != flag:
             self.ghostMode = flag
@@ -2267,7 +2279,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             nametagStyle = 0
         self.nametagStyle = nametagStyle
         self.setDisplayName(self.getName())
-        
+
     def getNametagStyles(self):
         return self.nametagStyles
         
@@ -2958,7 +2970,7 @@ def disableGC():
 @magicWord(category=CATEGORY_CREATIVE)
 def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
-    
+	
 @magicWord(category=CATEGORY_CREATIVE)
 def oldttc():
     spellbook.getInvoker().magicTeleportInitiate(20000, 20000)
