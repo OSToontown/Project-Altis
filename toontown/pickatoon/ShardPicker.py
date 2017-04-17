@@ -66,12 +66,9 @@ class ShardPicker(ShtikerPage.ShtikerPage):
 
     def showPicker(self):
         self.enter()
-        self.posInterval(0.25, Point3(0.3, 0, .9), blendType = 'easeInOut').start()
 
     def hidePicker(self):
-        Sequence(
-            self.posInterval(0.25, Point3(0.3, 0, -1), blendType = 'easeInOut'),
-            Func(self.exit)).start()
+        self.exit()
 
     def load(self):
         main_text_scale = 0.06
@@ -90,7 +87,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.buttonXstart = self.itemFrameXorigin + 0.293
         self.regenerateScrollList()
         self.reparentTo(base.a2dBottomLeft)
-        self.setPos(0.3, 0, -1)
+        self.setPos(0.3, 0, .9)
 
     def unload(self):
         self.gui.removeNode()
