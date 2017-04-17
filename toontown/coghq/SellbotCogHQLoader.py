@@ -195,12 +195,18 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
     def unload(self):
         CogHQLoader.CogHQLoader.unload(self)
         Toon.unloadSellbotHQAnims()
-        self.spot1Sequence.finish()
-        self.spot2Sequence.finish()
-        self.spot3Sequence.finish()
-        self.spot4Sequence.finish()
-        self.spot5Sequence.finish()
-        self.spot6Sequence.finish()
+        if self.spot1Sequence:
+            self.spot1Sequence.finish()
+        if self.spot2Sequence:
+            self.spot2Sequence.finish()
+        if self.spot3Sequence:
+            self.spot3Sequence.finish()
+        if self.spot4Sequence:
+            self.spot4Sequence.finish()
+        if self.spot5Sequence:
+            self.spot5Sequence.finish()
+        if self.spot6Sequence:
+            self.spot6Sequence.finish()
 
     def enterFactoryExterior(self, requestStatus):
         self.placeClass = FactoryExterior.FactoryExterior
