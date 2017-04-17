@@ -867,7 +867,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         if not toons:
             return seq
         self.notify.debug('battleNode=%s camLoc=%s' % (battleNode, camLoc))
-        seq.append(Func(camera.setPosHpr, battleNode, *camLoc))
+        seq.append(base.camera.posHprInterval(1, Point3(camLoc[0], camLoc[1], camLoc[2]), Point3(camLoc[3], camLoc[4], camLoc[5]), other = battleNode, blendType = 'easeInOut'))
         suitsOff = Parallel()
         if arrayOfObjs:
             toonArray = toons
@@ -885,8 +885,9 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             dustCloud.setDepthWrite(0)
             dustCloud.setBin('fixed', 0)
             dustCloud.createTrack()
-            suitsOff.append(Sequence(Func(dustCloud.reparentTo, toon), Parallel(dustCloud.track, Sequence(Wait(0.3), Func(toon.takeOffSuit), Func(toon.sadEyes), Func(toon.blinkEyes), Func(toon.play, 'slip-backward'), Wait(0.7))), Func(dustCloud.detachNode), Func(dustCloud.destroy)))
-
+            suitsOff.append(Sequence(Func(dustCloud.reparentTo, toon), Parallel(dustCloud.track, Sequence(Wait(0.3), Func(toon.takeOffSuit), Func(toon.sadEyes), Func(toon.blinkEyes), Func(toon.play, 'slip-backward'), Wait(0.7))), Func(dustCloud.detachNode), Func(toon.normalEyes), Func(dustCloud.destroy)))
+        snd = loader.loadSfx('phase_5/audio/sfx/tt_s_ara_cfg_propellerBreaks.ogg')
+        seq.append(Func(snd.play))
         seq.append(suitsOff)
         return seq
 

@@ -32,7 +32,7 @@ class CodePage(ShtikerPage.ShtikerPage):
         self.resultPanelErrorGui = cdrGui.find('**/tt_t_gui_sbk_cdrResultPanel_error')
         self.successSfx = base.loadSfx('phase_3.5/audio/sfx/tt_s_gui_sbk_cdrSuccess.ogg')
         self.failureSfx = base.loadSfx('phase_3.5/audio/sfx/tt_s_gui_sbk_cdrFailure.ogg')
-        self.instructionPanel = DirectFrame(parent = self, relief = None, image_scale = 0.8, text = TTLocalizer.CdrInstructions, text_pos = TTLocalizer.OPCodesInstructionPanelTextPos, text_align = TextNode.ACenter, text_scale = TTLocalizer.OPCodesResultPanelTextScale, text_wordwrap = 13, pos = (0, 0, -0.2))
+        self.instructionPanel = DirectFrame(parent = self, relief = None, image_scale = 0.8, text = TTLocalizer.CdrInstructions + '\n\n' + TTLocalizer.InsomniaReusableCodes, text_pos = TTLocalizer.OPCodesInstructionPanelTextPos, text_align = TextNode.ACenter, text_scale = TTLocalizer.OPCodesResultPanelTextScale, text_wordwrap = 13, pos = (0, 0, -0.2))
         self.codeBox = DirectFrame(parent = self, relief = None, image = codeBoxGui, pos = (0, 0, 0.35))
         # self.flippyFrame = DirectFrame(parent=self, relief=None, image=flippyGui, pos=(0.44, 0, -0.353))
         self.codeInput = DirectEntry(parent = self.codeBox, relief = DGG.GROOVE, scale = 0.08, pos = (-0.33, 0, -0.006), borderWidth = (0.05, 0.05), frameColor = ((1, 1, 1, 1), (1, 1, 1, 1), (0.5, 0.5, 0.5, 0.5)), state = DGG.NORMAL, text_align = TextNode.ALeft, text_scale = TTLocalizer.OPCodesInputTextScale, width = 10.5, numLines = 1, focus = 1, backgroundFocus = 0, cursorKeys = 1, text_fg = (0, 0, 0, 1), suppressMouse = 1, autoCapitalize = 0, command = self.__submitCode)

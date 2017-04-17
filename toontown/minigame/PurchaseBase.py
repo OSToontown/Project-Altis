@@ -29,7 +29,7 @@ class PurchaseBase(StateData.StateData):
         self.frame.hide()
         self.title = DirectLabel(parent=self.frame, relief=None, pos=(0.0, 0.0, 0.83), scale=1.2, image=purchaseModels.find('**/Goofys_Sign'), text=TTLocalizer.GagShopName, text_fg=(0.6, 0.2, 0, 1), text_scale=0.09, text_wordwrap=10, text_pos=(0, 0.025, 0), text_font=ToontownGlobals.getSignFont())
         self.pointDisplay = DirectLabel(parent=self.frame, relief=None, pos=(-1.15, 0.0, 0.16), text=str(self.toon.getMoney()), text_scale=0.2, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), image=self.jarImage, text_font=ToontownGlobals.getSignFont())
-        self.statusLabel = DirectLabel(parent=self.frame, relief=None, pos=(-0.25, 0, 0.625), text=TTLocalizer.GagShopYouHave % self.toon.getMoney(), text_scale=TTLocalizer.PBstatusLabel, text_fg=(0.05, 0.14, 0.4, 1))
+        self.statusLabel = DirectLabel(parent=self.frame, relief=None, pos=(-0.25, 0, 0.675), text=TTLocalizer.GagShopYouHave % self.toon.getMoney(), text_scale=TTLocalizer.PBstatusLabel, text_fg=(0.05, 0.14, 0.4, 1))
         if self.toon.getMoney() == 1:
             self.statusLabel['text'] = TTLocalizer.GagShopYouHaveOne
         self.isBroke = 0

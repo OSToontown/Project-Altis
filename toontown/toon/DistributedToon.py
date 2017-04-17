@@ -2788,11 +2788,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_creative', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*')
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_insomnia', '**/fistIcon*')
         ]
         
         #Now we need to caculate our index. 
-        if gmType in [275]:
+        if gmType in [274]:
+            index = 6
+        elif gmType in [275]:
             index = 1
         elif gmType in [300, 375]:
             index = 3
@@ -2973,3 +2976,22 @@ def sleep():
     else:
         base.localAvatar.enableSleeping()
         return "Sleeping has been activated for the current session."
+		
+@magicWord(category=CATEGORY_CREATIVE)
+def i60Pan():
+    base.cam.reparentTo(render)
+    base.cam.setZ(40)
+    base.cam.setP(-25)
+    base.localAvatar.panSeq = Sequence(base.cam.hprInterval(60, (360, -25, 0)), Func(base.cam.setH, 0))
+    base.localAvatar.panSeq.loop()
+	
+@magicWord(category=CATEGORY_CREATIVE)
+def i60PanStop():
+    base.cam.setZ(0)
+    base.localAvatar.attachCamera()
+    base.localAvatar.setCameraPositionByIndex(base.localAvatar.cameraIndex)
+    if base.localAvatar.panSeq:
+        base.localAvatar.panSeq.finish()
+    base.cam.setP(0)
+    base.oobe()
+    base.oobe()

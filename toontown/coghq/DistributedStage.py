@@ -23,6 +23,7 @@ class DistributedStage(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.titleColor = (1, 1, 1, 1)
         self.titleText = OnscreenText.OnscreenText('', fg=self.titleColor, shadow=(0, 0, 0, 1), font=ToontownGlobals.getSuitFont(), pos=(0, -0.5), scale=0.1, drawOrder=0, mayChange=1)
+        self.smallTitleText = OnscreenText.OnscreenText('', fg=self.titleColor, font=ToontownGlobals.getSuitFont(), pos=(0.65, 0.9), scale=0.08, drawOrder=0, mayChange=1, bg=(0.5, 0.5, 0.5, 0.5), align=TextNode.ARight)
         self.titleSequence = None
         self.pendingZoneChange = 0
 
@@ -67,6 +68,7 @@ class DistributedStage(DistributedObject.DistributedObject):
         self.floorNum = num
         bboard.post(DistributedStage.FloorNum, num)
         self.layout = StageLayout.StageLayout(self.stageId, self.floorNum, self.layoutIndex)
+        self.smallTitleText.setText(TTLocalizer.MintFloorTitle % (self.floorNum + 1))
 
     def setRoomDoIds(self, roomDoIds):
         self.roomDoIds = roomDoIds
@@ -196,6 +198,10 @@ class DistributedStage(DistributedObject.DistributedObject):
                 room.getGeom().stash()
             else:
                 room.getGeom().unstash()
+				
+    def camEnterZone(self, zoneNum):
+        DistributedLevel.notify.debug('camEnterZone%s' % zoneNum)
+        self.enterZone(zoneNum)
 
     def setBossConfronted(self, avId):
         if avId == base.localAvatar.doId:
@@ -224,6 +230,9 @@ class DistributedStage(DistributedObject.DistributedObject):
             self.titleSequence.finish()
         self.titleSequence = None
         self.ignoreAll()
+        if self.smallTitleText:
+            self.smallTitleText.cleanup()
+            self.smallTitleText = None
         if self.titleText:
             self.titleText.cleanup()
             self.titleText = None

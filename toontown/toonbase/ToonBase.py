@@ -267,6 +267,7 @@ class ToonBase(OTPBase.OTPBase):
         self.JUMP = 'control'
         self.ACTION_BUTTON = 'delete'
         self.SCREENSHOT_KEY = 'f9'
+        self.INTERACT = 'shift'
         keymap = settings.get('keymap', {})
         if self.wantCustomControls:
             self.MOVE_UP = keymap.get('MOVE_UP', self.MOVE_UP)
@@ -276,6 +277,7 @@ class ToonBase(OTPBase.OTPBase):
             self.JUMP = keymap.get('JUMP', self.JUMP)
             self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
             self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
+            self.INTERACT = keymap.get('INTERACT', self.INTERACT)
             ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
         
         self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 't')
@@ -727,6 +729,7 @@ class ToonBase(OTPBase.OTPBase):
             self.JUMP = keymap.get('JUMP', self.JUMP)
             self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
             self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
+            self.INTERACT = keymap.get('INTERACT', self.INTERACT)
             ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
         else:
             self.MOVE_UP = 'arrow_up'
@@ -736,6 +739,7 @@ class ToonBase(OTPBase.OTPBase):
             self.JUMP = 'control'
             self.ACTION_BUTTON = 'delete'
             self.SCREENSHOT_KEY = 'f9'
+            self.INTERACT = 'shift'
     
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 

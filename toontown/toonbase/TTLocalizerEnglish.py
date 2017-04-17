@@ -75,17 +75,17 @@ Dale = 'Dale'
 JailbirdDale = 'JailbirdDale'
 PoliceChip = 'PoliceChip'
 lTheBrrrgh = 'The Brrrgh'
-lDaisyGardens = 'Daffodil Gardens'
-lDonaldsDock = "Dock"
-lDonaldsDreamland = "Dreamland"
-lMinniesMelodyland = "Melodyland"
+lDaisyGardens = 'Daisy Gardens'
+lDonaldsDock = "Donald's Dock"
+lDonaldsDreamland = "Donald's Dreamland"
+lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
-lFunnyFarm = 'lul never coming'
+lFunnyFarm = 'Funny Farms'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
-lGoofySpeedway = 'Grand-Prix Speedway'
-lOutdoorZone = "Acorn Acres"
-lGolfZone = "Minigame Hub"
+lGoofySpeedway = 'Goofy Speedway'
+lOutdoorZone = 'Acorn Acres'
+lGolfZone = 'Acorn Acres Minigames'
 lPartyHood = 'Party Grounds'
 GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  1000: ('to the', 'in the', 'Playground'),
@@ -97,6 +97,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  2100: ('to', 'on', 'Silly Street'),
  2200: ('to', 'on', 'Loopy Lane'),
  2300: ('to', 'on', 'Punchline Place'),
+ 2400: ('to', 'on', 'Wacky Way'),
  3000: ('to the', 'in the', 'Playground'),
  3100: ('to', 'on', 'Walrus Way'),
  3200: ('to', 'on', 'Sleet Street'),
@@ -175,6 +176,7 @@ FactoryTypeLeg = 'Leg'
 FactoryTypeArm = 'Arm'
 FactoryTypeTorso = 'Torso'
 MintFloorTitle = 'Floor %s'
+CGCFloorTitle = 'Hole %s'
 lCancel = 'Cancel'
 lClose = 'Close'
 lOK = 'OK'
@@ -484,6 +486,8 @@ TIPQuestsClothingTicketRewardPoster = 'Reward: TIP Clothing Ticket'
 QuestsCheesyEffectRewardPoster = 'Reward: %s'
 QuestsCogSuitPartReward = 'You now have a %(cogTrack)s %(part)s Cog Suit Part.'
 QuestsCogSuitPartRewardPoster = 'Reward: %(cogTrack)s %(part)s Part'
+QuestsCogSuitMeritReward = 'You have earned %(numMerits)s %(meritType)s'
+QuestsCogSuitMeritRewardPoster = 'Reward: %(numMerits)s %(meritType)s'
 QuestsStreetLocationThisPlayground = 'in this playground'
 QuestsStreetLocationThisStreet = 'on this street'
 QuestsStreetLocationNamedPlayground = 'in the %s playground'
@@ -2085,6 +2089,8 @@ MoviePetSOSTrickFail = 'Sigh'
 MoviePetSOSTrickSucceedBoy = 'Good boy!'
 MoviePetSOSTrickSucceedGirl = 'Good girl!'
 MovieSuitCancelled = 'CANCELLED\nCANCELLED\nCANCELLED'
+CogHQBonus = '2x BONUS - Cog HQ!'
+CogInvasionBonus = '2x BONUS - Cog Invasion!'
 RewardPanelToonTasks = 'ToonTasks'
 RewardPanelItems = 'Items Recovered'
 RewardPanelMissedItems = 'Items Not Recovered'
@@ -4034,7 +4040,7 @@ AvatarChoiceNameApproved = 'Name\nApproved!'
 AvatarChoiceNameReview = 'Under\nReview'
 AvatarChoiceNameYourToon = 'Name\nYour Toon!'
 AvatarChoiceDeletePasswordText = 'Careful! This will delete %s forever.  To delete this Toon, enter your password.'
-AvatarChoiceDeleteConfirmText = 'Careful! This will delete %(name)s forever.  If you are sure you want to do this, type "%(confirm)s" and click OK.'
+AvatarChoiceDeleteConfirmText = 'Careful! This will delete %(name)s forever.  If you are sure you want to do this, type %(confirm)s and click OK.'
 AvatarChoiceDeleteConfirmUserTypes = 'delete'
 AvatarChoiceDeletePasswordTitle = 'Delete Toon?'
 AvatarChoicePassword = 'Password'
@@ -4638,6 +4644,7 @@ CdrResultTooManyFails = "We're sorry. You've tried to enter an incorrect code to
 CdrResultServiceUnavailable = "We're sorry. This feature is temporarily unavailable. Please try again during your next login."
 CdrResultClosetFull = 'Your closet is full. Please remove an item, then enter your code again.'
 CdrResultTrunkFull = 'Your trunk is full. Please remove an item, then enter your code again.'
+InsomniaReusableCodes = 'If you are using an Insomnia 60 code, keep it! You can reuse the code when beta comes along!'
 TrackPageTitle = 'Gag Track Training'
 TrackPageShortTitle = 'Gag Training'
 TrackPageSubtitle = 'Complete ToonTasks to learn how to use new gags!'
@@ -5527,6 +5534,7 @@ AnimalToSpecies = {'dog': 'Dog',
  'bear': 'Bear',
  'pig': 'Pig',
  'deer': 'Deer'}
+AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer')
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
@@ -7147,6 +7155,11 @@ NPCToonNames = {20000: 'Tutorial Tom',
  2321: 'Punchy',
  2322: 'Jester Chester',
  2323: 'Loopy Goopy Googlenerd',
+ 2401: 'Oily Oswald',
+ 2402: 'Louise Connection',
+ 2403: 'Wacky Wally',
+ 2404: 'Rancid Robert',
+ 2405: 'Limey',
  1001: 'Will',
  1002: 'Bill',
  1003: lHQOfficerM,
@@ -9115,6 +9128,7 @@ LawbotBossNeedMoreEvidence = 'You need to get more evidence!'
 LawbotBossDefenseWins1 = 'Impossible! The defense won?'
 LawbotBossDefenseWins2 = 'No. I declare a mistrial! A new one will be scheduled.'
 LawbotBossDefenseWins3 = "Hrrmpphh. I'll be in my chambers."
+LawbotBossDefenseWins4 = "Oh, I forgot about the paperwork needed to file a mistrial..."
 LawbotBossProsecutionWins = 'I find in favor of the plaintiff'
 LawbotBossReward = 'I award a promotion and the ability to summon Cogs'
 LawbotBossLeaveCannon = 'Leave cannon'
@@ -9949,7 +9963,8 @@ CogdoFlyingGameMemoIntro = 'Memos prevent Laff Barrels in\nthe Stomper Room from
 CogdoFlyingGameOutOfTime = 'Oh No! You ran out of time!'
 CogdoFlyingGameYouMadeIt = 'You made it on time!'
 CogdoFlyingGameYouMadeIt = 'Good work, you made it on time!'
-CogdoFlyingGameTakingMemos = 'The legal eagles took all your memos!'
+CogdoFlyingGameTakingMemos = 'The Legal Eagles took all your memos!'
+CogdoFlyingGameTakingMemosInvasion = 'The %s took all your memos!'
 CogdoElevatorRewardLaff = 'Great job, Toons!\nYou get a Toon-Up from the jokes you saved!'
 CogdoExecutiveSuiteTitle = 'Executive Suite'
 CogdoExecutiveSuiteIntroMessage = "Oh no, they've got the shop keeper!\nDefeat the Cogs and free the captive."
@@ -9981,4 +9996,4 @@ PlayingCardUnknown = 'Card Name is unknown'
 RemapPrompt = 'Choose the keys you wish to remap.'
 RemapPopup = 'Press the key you wish to remap this control to.'
 Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
-            'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
+            'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:', 'Interact Key:']

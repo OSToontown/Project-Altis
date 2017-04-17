@@ -1553,8 +1553,15 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.notify.debug('__enterProsecutionCol')
 
     def makeVictoryMovie(self):
+        paperwork = loader.loadModel('phase_11/models/lawbotHQ/LB_paper_big_stacks3')
+        paperwork.setScale(3)
+        whistleSfx = base.loadSfx('phase_5/audio/sfx/incoming_whistleALT.ogg')
+        dropSfx = base.loadSfx('phase_5/audio/sfx/AA_drop_safe_miss.ogg')
         myFromPos = Point3(ToontownGlobals.LawbotBossBattleThreePosHpr[0], ToontownGlobals.LawbotBossBattleThreePosHpr[1], ToontownGlobals.LawbotBossBattleThreePosHpr[2])
+        paperwork.setPos(myFromPos)
         myToPos = Point3(myFromPos[0], myFromPos[1] + 30, myFromPos[2])
+        paperPosStart = Point3(myFromPos[0], myFromPos[1] + 30, myFromPos[2]+30)
+        paperToPos = Point3(myFromPos[0], myFromPos[1] + 36, myFromPos[2])
         rollThroughDoor = self.rollBossToPoint(fromPos=myFromPos, fromHpr=None, toPos=myToPos, toHpr=None, reverse=0)
         rollTrack = Sequence(
             Func(self.getGeomNode().setH, 180),
@@ -1563,7 +1570,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         rollTrackDuration = rollTrack.getDuration()
         self.notify.debug('rollTrackDuration = %f' % rollTrackDuration)
         doorStartPos = self.door3.getPos()
-        doorEndPos = Point3(doorStartPos[0], doorStartPos[1], doorStartPos[2] + 25)
+        doorEndPos = Point3(doorStartPos[0], doorStartPos[1], doorStartPos[2] + 35)
         bossTrack = Track(
             (0.5, Sequence(
                 Func(self.clearChat),
@@ -1577,7 +1584,16 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 rollTrack,
                 Func(self.setChatAbsolute, TTLocalizer.LawbotBossDefenseWins3, CFSpeech),
                 self.door3.posInterval(2, doorEndPos, startPos=doorStartPos))),
-            (13.1, Sequence(self.door3.posInterval(1, doorStartPos))))
+            (13.1, Sequence(Parallel(SoundInterval(whistleSfx),
+                   Sequence(
+                       Func(self.setChatAbsolute, TTLocalizer.LawbotBossDefenseWins4, CFSpeech),
+                       LerpScaleInterval(self.dropShadow, 3, Point3(15, 15, 15)),
+                       Func(paperwork.reparentTo, render),
+                       Parallel(LerpPosInterval(paperwork, 0.1, paperToPos, startPos = paperPosStart), 
+                       SoundInterval(dropSfx),
+                       Func(self.stash)),
+                       Func(paperwork.detachNode))))),
+            (17, Sequence(self.door3.posInterval(1, doorStartPos))))
         retTrack = Parallel(bossTrack, ActorInterval(self, 'Ff_speech', loop=1))
         return bossTrack
 

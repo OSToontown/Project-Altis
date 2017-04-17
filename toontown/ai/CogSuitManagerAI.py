@@ -1,6 +1,7 @@
 from toontown.coghq import CogDisguiseGlobals
 
 suitTrackIndex = {
+'g' : 4,
 's' : 3,
 'm' : 2,
 'l' : 1,

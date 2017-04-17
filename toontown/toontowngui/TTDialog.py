@@ -8,8 +8,8 @@ class TTDialog(OTPDialog):
         OTPDialog.__init__(self, parent, style, **kw)
         self.initialiseoptions(TTDialog)
         Sequence(
-            LerpScaleInterval(self, .2, Vec3(1.1, 1.1, 1.1), Vec3(0, 0, 0), blendType='easeInOut'),
-            LerpScaleInterval(self, .09, Vec3(1, 1, 1), Vec3(1.1, 1.1, .1), blendType='easeInOut')).start()
+            LerpScaleInterval(self, .2, Vec3(1.1), Vec3(0), blendType='easeInOut'),
+            LerpScaleInterval(self, .09, Vec3(1), blendType='easeInOut')).start()
 
 
 class TTGlobalDialog(GlobalDialog):

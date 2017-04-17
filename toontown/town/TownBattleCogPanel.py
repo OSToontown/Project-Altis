@@ -15,26 +15,30 @@ from toontown.toonbase import TTLocalizer
 
 class TownBattleCogPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownBattleCogPanel')
-    healthColors = (Vec4(0, 1, 0, 1),
-     Vec4(1, 1, 0, 1),
-     Vec4(1, 0.5, 0, 1),
-     Vec4(1, 0, 0, 1),
-     Vec4(0.3, 0.3, 0.3, 1),
-     Vec4(0.3, 0.3, 0.3, 1),
-     Vec4(0.3, 0.3, 0.3, 1),
-     Vec4(0.3, 0.3, 0.3, 1),
-     Vec4(0.3, 0.3, 0.3, 1),
-     Vec4(0.3, 0.3, 0.3, 1))
-    healthGlowColors = (Vec4(0.25, 1, 0.25, 0.5),
-     Vec4(1, 1, 0.25, 0.5),
-     Vec4(1, 0.5, 0.25, 0.5),
-     Vec4(1, 0.25, 0.25, 0.5),
-     Vec4(0.3, 0.3, 0.3, 0),
-     Vec4(0.3, 0.3, 0.3, 0),
-     Vec4(0.3, 0.3, 0.3, 0),
-     Vec4(0.3, 0.3, 0.3, 0),
-     Vec4(0.3, 0.3, 0.3, 0),
-     Vec4(0.3, 0.3, 0.3, 0))
+    healthColors = (
+        Vec4(0, 1, 0, 1),
+        Vec4(0.5, 1, 0, 1), 
+        Vec4(0.75, 1, 0, 1),  
+        Vec4(1, 1, 0, 1),
+        Vec4(1, 0.866, 0, 1), 
+        Vec4(1, 0.6, 0, 1),
+        Vec4(1, 0.5, 0, 1),
+        Vec4(1, 0.25, 0, 1.0),
+        Vec4(1, 0, 0, 1),
+        Vec4(0.3, 0.3, 0.3, 1)
+    )
+    healthGlowColors = (
+        Vec4(0.25, 1, 0.25, 0.5),
+        Vec4(0.5, 1, 0.25, .5),
+        Vec4(0.75, 1, 0.25, .5),
+        Vec4(1, 1, 0.25, 0.5),
+        Vec4(1, 0.866, 0.25, .5),
+        Vec4(1, 0.6, 0.25, .5),
+        Vec4(1, 0.5, 0.25, 0.5),
+        Vec4(1, 0.25, 0.25, 0.5),
+        Vec4(1, 0.25, 0.25, 0.5),
+        Vec4(0.3, 0.3, 0.3, 0)
+    )
 
     def __init__(self, id):
         if settings['newGui'] == True:
@@ -101,9 +105,13 @@ class TownBattleCogPanel(DirectFrame):
 
     def updateHealthBar(self):
         condition = self.cog.healthCondition
-        if condition == 4:
+        if condition == 9:
             self.blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task.pause(0.1))
             taskMgr.add(self.blinkTask, self.uniqueName('blink-task'))
+        elif condition == 10:
+            taskMgr.remove(self.uniqueName('blink-task'))
+            blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.25), Task(self.__blinkGray), Task.pause(0.1))
+            taskMgr.add(blinkTask, self.uniqueName('blink-task'))
         else:
             taskMgr.remove(self.uniqueName('blink-task'))
             if not self.button.isEmpty():
@@ -136,10 +144,19 @@ class TownBattleCogPanel(DirectFrame):
 
     def __blinkRed(self, task):
         if not self.button.isEmpty():
-            self.button.setColor(self.healthColors[3], 1)
+            self.button.setColor(self.healthColors[8], 1)
 
         if not self.glow.isEmpty():
-            self.glow.setColor(self.healthGlowColors[3], 1)
+            self.glow.setColor(self.healthGlowColors[8], 1)
+        
+        return Task.done
+		
+    def __blinkGray(self, task):
+        if not self.button.isEmpty():
+            self.button.setColor(self.healthColors[9], 1)
+
+        if not self.glow.isEmpty():
+            self.glow.setColor(self.healthGlowColors[9], 1)
         
         return Task.done
 

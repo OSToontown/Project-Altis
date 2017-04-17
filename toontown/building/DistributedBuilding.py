@@ -18,11 +18,13 @@ from toontown.distributed import DelayDelete
 from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.hood import ZoneUtil
+from toontown.suit import Suit
 
 FO_DICT = {'s': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
  'l': 'tt_m_ara_cbe_fieldOfficeLegalEagle',
  'm': 'tt_m_ara_cbe_fieldOfficeLoanShark',
- 'c': 'tt_m_ara_cbe_fieldOfficeMoverShaker'}
+ 'c': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
+ 'g': 'tt_m_ara_cbe_fieldOfficeMoverShaker'}
 
 class DistributedBuilding(DistributedObject.DistributedObject):
     SUIT_INIT_HEIGHT = 125
@@ -324,7 +326,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 corpIcon = cogIcons.find('**/BoardIcon').copyTo(self.cab)
             corpIcon.setPos(0, 6.79, 6.8)
             corpIcon.setScale(3)
-            from toontown.suit import Suit
             corpIcon.setColor(Suit.Suit.medallionColors[dept])
             cogIcons.removeNode()
         self.leftDoor = self.elevatorModel.find('**/left-door')
@@ -431,6 +432,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         dnaStore = self.cr.playGame.dnaStore
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode('suit_landmark_' + chr(self.track) + str(level))
+        suitNP.setColor(Suit.Suit.medallionColors[chr(self.track)])
         
         # if the suit node path is not in the dna store, dont setup
         # the building specified
@@ -442,11 +444,16 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
         suitBuildingNP = suitNP.copyTo(newParentNP)
+        if self.block not in dnaStore.suitBlocks:
+            dnaStore.storeSuitBlock(self.block, chr(self.track))
         buildingTitle = dnaStore.getTitleFromBlockNumber(self.block)
         if not buildingTitle:
             buildingTitle = TTLocalizer.CogsInc
         else:
             buildingTitle += TTLocalizer.CogsIncExt
+        sideBldgNodes = self.getNodePaths()
+        for node in sideBldgNodes:
+            node.setColor(Suit.Suit.medallionColors[chr(self.track)])
         buildingTitle += '\n%s' % SuitDNA.getDeptFullname(chr(self.track))
         textNode = TextNode('sign')
         textNode.setTextColor(1.0, 1.0, 1.0, 1.0)
@@ -542,6 +549,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
         suitBuildingNP = suitNP.copyTo(newParentNP)
+        if self.block not in dnaStore.suitBlocks:
+            dnaStore.storeCogdoBlock(self.block, chr(self.track))
         buildingTitle = dnaStore.getTitleFromBlockNumber(self.block)
         if not buildingTitle:
             buildingTitle = TTLocalizer.Cogdominiums

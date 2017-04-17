@@ -70,7 +70,7 @@ class PickAToon(DirectObject):
         self.selectedToon = 0
         self.doneEvent = doneEvent
         self.jumpIn = None
-        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
+        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = render2d)
         self.background2d.setScale(render2d, Vec3(1))
         self.background2d.setBin('background', 2)
         self.background2d.setTransparency(1)
@@ -84,7 +84,6 @@ class PickAToon(DirectObject):
         self.isClassic = False
         self.deleteButtons = []
         self.hasToons = {}
-        self.accept('window-event', self.windowEvent)
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -384,13 +383,41 @@ class PickAToon(DirectObject):
         self.selectToon(position)
         av = [x for x in self.avatarList if x.position == position][0]
 
-        def diagDone():
-            mode = delDialog.doneStatus
+        def dodelete(itreallywantstohaveanargumentheresoletsjustputonethatwontbeusedatall = None):
+            if self.passwordEntry.get().lower() == av.name.lower():
+                self.deleteWithPasswordFrame.destroy()
+                delDialog.cleanup()
+                base.transitions.noFade()
+                messenger.send(self.doneEvent, [{'mode': 'delete'}])
+            else:
+                self.passwordEntry.enterText('')
+                
+        def cancel():
+            self.deleteWithPasswordFrame.destroy()
             delDialog.cleanup()
             base.transitions.noFade()
+        
+        def diagDone():
+            mode = delDialog.doneStatus
             if mode == 'ok':
-                messenger.send(self.doneEvent, [{'mode': 'delete'}])
-
+                buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
+                buttons.flattenMedium()
+                nameBalloon = loader.loadModel('phase_3/models/props/chatbox_input')
+                nameBalloon.flattenMedium()
+                okButtonImage = (buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr'))
+                cancelButtonImage = (buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr'))
+                deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % {
+                'name': av.name,
+                'confirm': "your Toon's name"}
+                self.deleteWithPasswordFrame = DirectFrame(pos=(0.0, 0.1, 0.2), parent=aspect2dp, relief=None, image=DGG.getDefaultDialogGeom(), image_color=ToontownGlobals.GlobalDialogColor, image_scale=(1.4, 1.0, 1.0), text=deleteText, text_wordwrap=19, text_scale=TTLocalizer.ACdeleteWithPasswordFrame, text_pos=(0, 0.25), textMayChange=1, sortOrder=NO_FADE_SORT_INDEX)
+                self.passwordEntry = DirectEntry(parent=self.deleteWithPasswordFrame, relief=None, image=nameBalloon, image1_color=(0.8, 0.8, 0.8, 1.0), scale=0.064, pos=(-0.3, 0.0, -0.2), width=10, numLines=1, focus=1, cursorKeys=1, command=dodelete)
+                self.passwordEntry.flattenMedium()
+                DirectButton(parent=self.deleteWithPasswordFrame, image=okButtonImage, relief=None, text=TTLocalizer.AvatarChoiceDeletePasswordOK, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(-0.22, 0.0, -0.35), command=dodelete)
+                DirectButton(parent=self.deleteWithPasswordFrame, image=cancelButtonImage, relief=None, text=TTLocalizer.AvatarChoiceDeletePasswordCancel, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=1, pos=(0.2, 0.0, -0.35), command=cancel)
+            else:
+                delDialog.cleanup()
+                base.transitions.noFade()
+                
         base.acceptOnce('pat-del-diag-done', diagDone)
         delDialog = TTGlobalDialog(message = DEL % av.name, style = YesNo,
                                    doneEvent = 'pat-del-diag-done')
@@ -457,6 +484,3 @@ class PickAToon(DirectObject):
         self.quitButton.show()
         LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
         LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
-
-    def windowEvent(self, win):
-        self.background2d.setScale(render2d, Vec3(1))

@@ -25,6 +25,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         self.lastCamEnterRoom = 0
         self.titleColor = (1, 1, 1, 1)
         self.titleText = OnscreenText.OnscreenText('', fg=self.titleColor, shadow=(0, 0, 0, 1), font=ToontownGlobals.getSignFont(), pos=(0, -0.5), scale=0.1, drawOrder=0, mayChange=1)
+        self.smallTitleText = OnscreenText.OnscreenText('', fg=self.titleColor, font=ToontownGlobals.getSuitFont(), pos=(0.65, 0.9), scale=0.08, drawOrder=0, mayChange=1, bg=(0.5, 0.5, 0.5, 0.5), align=TextNode.ARight)
         self.titleSequence = None
 
     def generate(self):
@@ -82,6 +83,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         DistributedCountryClub.notify.debug('floorNum: %s' % num)
         self.floorNum = num
         self.layout = CountryClubLayout.CountryClubLayout(self.countryClubId, self.floorNum, self.layoutIndex)
+        self.smallTitleText.setText(TTLocalizer.CGCFloorTitle % (self.floorNum + 1))
 
     def setLayoutIndex(self, layoutIndex):
         self.layoutIndex = layoutIndex
@@ -237,6 +239,12 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
         self.titleSequence = None
         self.__cleanupHighSky()
         self.ignoreAll()
+        if self.smallTitleText:
+            self.smallTitleText.cleanup()
+            self.smallTitleText = None
+        if self.titleText:
+            self.titleText.cleanup()
+            self.titleText = None
         for hallway in self.hallways:
             hallway.exit()
 

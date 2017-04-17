@@ -18,6 +18,7 @@ from toontown.toon import InventoryBase
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import NPCToons
 from otp.ai.MagicWordGlobal import *
+from toontown.hood import ZoneUtil
 from toontown.pets import DistributedPetProxyAI
 
 class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBase):
@@ -50,7 +51,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.toonMerits = {}
         self.toonParts = {}
         self.battleCalc = BattleCalculatorAI(self, tutorialFlag)
-        if self.air.suitInvasionManager.getInvading():
+        if self.air.suitInvasionManager.getInvading() or ZoneUtil.isCogHQZone(self.zoneId):
             mult = getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
         if self.air.holidayManager.isMoreXpHolidayRunning():
