@@ -32,7 +32,7 @@ class CharityScreen(DistributedObject):
             if not self.screenObject:
                 return
             self.screenObject.reparentTo(render)
-            text = "Insomnia 60 starts April 14th\nand runs through April 17th,\nbe sure to keep an eye out\nfor streams and giveaways!"
+            text = "Wacky Way is now open!\nGo check it out!"
             if ZoneUtil.getHoodId(zoneId) == ToontownGlobals.MinniesMelodyland:
                 self.screenObject.reparentTo(self.cr.playGame.getPlace().loader.geom.find('**/center_icon'))
             self.screenObject.setPos(self.zone2pos.get(ZoneUtil.getHoodId(zoneId), (0, 0, 6)))
