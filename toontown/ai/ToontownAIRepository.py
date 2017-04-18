@@ -203,6 +203,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.config.GetBool('want-golf-zone', True):
             self.hoods.append(GZHoodAI.GZHoodAI(self))
         self.hoods.append(TTOHoodAI.TTOHoodAI(self))
+        
     def createCogHeadquarters(self):
         NPCToons.generateZone2NpcDict()
         if self.config.GetBool('want-sellbot-headquarters', True):
@@ -217,9 +218,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.config.GetBool('want-bossbot-headquarters', True):
             self.countryClubMgr = CountryClubManagerAI.CountryClubManagerAI(self)
             self.cogHeadquarters.append(BossbotHQAI.BossbotHQAI(self))
-        if self.config.GetBool('want-bdhq', True):
-            self.boardofficeMgr = BoardOfficeManagerAI.BoardOfficeManagerAI(self)
-            self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
+        #if self.config.GetBool('want-bdhq', True):
+        #    self.boardofficeMgr = BoardOfficeManagerAI.BoardOfficeManagerAI(self)
+        #    self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
 
     def handleConnected(self):
         self.districtId = self.allocateChannel()
