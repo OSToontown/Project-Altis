@@ -136,9 +136,17 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  13300: ('to the', 'in the', 'Lawbot A Office'),
  13400: ('to the', 'in the', 'Lawbot B Office'),
  13500: ('to the', 'in the', 'Lawbot C Office'),
- 13600: ('to the', 'in the', 'Lawbot D Office')}
+ 13600: ('to the', 'in the', 'Lawbot D Office'),
+ 19000: ('to the', 'in the', 'Boardbot HQ Courtyard'),
+ 19100: ('to the', 'in the', 'Boardroom Lobby'),
+ 19200: ('to the', 'in the', 'Board Office Lobby'),
+ 19500: ('to the', 'in the', 'Board Office A'),
+ 19600: ('to the', 'in the', 'Board Office B'),
+ 19700: ('to the', 'in the', 'Board Office C'),
+ 20000: ('to the', 'in the', 'Playground')}
 DonaldsDock = ('to', 'in', lDonaldsDock)
 ToontownCentral = ('to', 'in', lToontownCentral)
+ToontownCentralOld = ('to', 'in', 'Toontown Central\n(September 19, 2013)')
 TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
@@ -150,6 +158,7 @@ BossbotHQ = ('to', 'in', 'Bossbot HQ')
 SellbotHQ = ('to', 'in', 'Sellbot HQ')
 CashbotHQ = ('to', 'in', 'Cashbot HQ')
 LawbotHQ = ('to', 'in', 'Lawbot HQ')
+BoardbotHQ = ('to', 'in', 'Boardbot HQ')
 Tutorial = ('to the', 'in the', 'Toon-torial')
 MyEstate = ('to', 'in', 'your house')
 WelcomeValley = ('to', 'in', 'Welcome Valley')
@@ -206,9 +215,12 @@ APresident = 'a Club President'
 Clerk = 'Clerk'
 ClerkP = 'Clerks'
 AClerk = 'a Clerk'
-CogCFO = Cog + ' CFO'
-CogCFOs = "Cog CFOs"
-ACogCFO = ACog + ' CFO'
+BoardExecutive = 'Executive Board Member'
+BoardExecutiveP = 'Executive Board Members'
+ABoardExecutive = 'a Executive Board Member'
+CogCFO = Cog + ' C.F.O.'
+CogCFOs = "Cog C.F.O.'s"
+ACogCFO = ACog + ' C.F.O.'
 CogCJ = Cog + ' CJ'
 CogCJs = "Cog CJs"
 ACogCJ = ACog + ' CJ'
@@ -1857,6 +1869,8 @@ StageBossTaunt = "My Justice isn't Blind."
 StageBossBattleTaunt = 'I am above the Law.'
 CountryClubBossTaunt = "I'm the Club President."
 CountryClubBossBattleTaunt = 'You need to talk to the Club President.'
+BoardOfficeBossTaunt = "I'm the Executive Board Member."
+BoardOfficeBossBattleTaunt = 'You need to talk to the Executive Board Member.'
 ForcedLeaveCountryClubAckMsg = 'The Club President was defeated before you could reach him. You did not recover any Stock Options.'
 ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['Why do male deer need braces?', "Because they have 'buck teeth'!"],
@@ -2096,7 +2110,7 @@ RewardPanelMeritBarLabels = ['Stock Options',
  'Jury Notices',
  'Cogbucks',
  'Merits',
- 'Gears']
+ 'Invoices']
 RewardPanelMeritAlert = 'Ready for promotion!'
 RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
@@ -3008,6 +3022,7 @@ FADoorCodes_SB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon
 FADoorCodes_CB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Cashbot Disguise first!\n\nBuild your Cashbot Disguise out of parts from the Mints."
 FADoorCodes_LB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Lawbot Disguise first!\n\nBuild your Lawbot Disguise out of parts from the DA Offices."
 FADoorCodes_BB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Bossbot Disguise first!\n\nBuild your Bossbot Disguise out of parts from the Cog Golf Courses."
+FADoorCodes_BD_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Boardbot Disguise first!\n\nBuild your Boardbot Disguise out of parts from the Board Offices."
 KnockKnockJokes = [['Who', "Bad echo in here, isn't there?"],
  ['Dozen', 'Dozen anybody want to let me in?'],
  ['Freddie', 'Freddie or not, here I come.'],
@@ -5182,6 +5197,7 @@ HeadingToFactoryTitle = '%s'
 ForemanConfrontedMsg = '%s is battling the ' + Foreman + '!'
 MintBossConfrontedMsg = '%s is battling the Supervisor!'
 StageBossConfrontedMsg = '%s is battling the Clerk!'
+BoardOfficeBossConfrontedMsg = '%s is battling the Executive Board Member!'
 stageToonEnterElevator = '%s \nhas entered the elevator'
 ForcedLeaveStageAckMsg = 'The Law was defeated before you could reach him. You did not recover any Jury Notices.'
 MinigameWaitingForOtherPlayers = 'Waiting for other players to join...'
@@ -5681,6 +5697,7 @@ MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'
 LawbotBossName = 'Chief Justice'
+BoardbotBossName = 'Chairman'
 BossCogNameWithDept = '%(name)s\n%(dept)s'
 BossCogPromoteDoobers = 'You are hereby promoted to full-fledged %s.  Congratulations!'
 BossCogDoobersAway = {'s': 'Go!  And make that sale!'}

@@ -8,6 +8,9 @@ from toontown.coghq import GoonClipPlane
 from toontown.coghq import MintProduct
 from toontown.coghq import MintProductPallet
 from toontown.coghq import MintShelf
+from toontown.coghq.boardbothq import BoardOfficeProduct
+from toontown.coghq.boardbothq import BoardOfficeProductPallet
+from toontown.coghq.boardbothq import BoardOfficeShelf
 from toontown.coghq import PathMasterEntity
 from toontown.coghq import RenderingEntity
 
@@ -39,6 +42,9 @@ class FactoryEntityCreator(EntityCreator.EntityCreator):
          'mintProduct': MintProduct.MintProduct,
          'mintProductPallet': MintProductPallet.MintProductPallet,
          'mintShelf': MintShelf.MintShelf,
+         'boardOfficeProduct': BoardOfficeProduct.BoardOfficeProduct,
+         'boardOfficeProductPallet': BoardOfficeProductPallet.BoardOfficeProductPallet,
+         'boardOfficeShelf': BoardOfficeShelf.BoardOfficeShelf,
          'mover': nonlocal,
          'paintMixer': PaintMixer.PaintMixer,
          'pathMaster': PathMasterEntity.PathMasterEntity,

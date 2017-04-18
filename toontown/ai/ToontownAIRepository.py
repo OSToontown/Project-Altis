@@ -25,6 +25,7 @@ from toontown.coghq import CountryClubManagerAI
 from toontown.coghq import FactoryManagerAI
 from toontown.coghq import LawOfficeManagerAI
 from toontown.coghq import MintManagerAI
+from toontown.coghq.boardbothq import BoardOfficeManagerAI
 from toontown.distributed.ToontownDistrictAI import ToontownDistrictAI
 from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
@@ -45,7 +46,9 @@ from toontown.hood import MMHoodAI
 from toontown.hood import OZHoodAI
 from toontown.hood import SellbotHQAI
 from toontown.hood import TTHoodAI
+from toontown.hood import TTOHoodAI
 from toontown.hood import ZoneUtil
+from toontown.hood import BoardbotHQAI
 from toontown.minigame.TrolleyHolidayMgrAI import TrolleyHolidayMgrAI
 from toontown.minigame.TrolleyWeekendMgrAI import TrolleyWeekendMgrAI
 from toontown.pets.PetManagerAI import PetManagerAI
@@ -76,9 +79,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.mintMgr = None
         self.lawOfficeMgr = None
         self.countryClubMgr = None
+        self.boardofficeMgr = None
         self.startTime = startTime
         import pymongo
         self.isRaining = False
+        self.betaEventTTC = None
+        self.betaEventBDHQ = None
         self.invLastPop = None
         self.invLastStatus = None
 
@@ -196,7 +202,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.hoods.append(OZHoodAI.OZHoodAI(self))
         if self.config.GetBool('want-golf-zone', True):
             self.hoods.append(GZHoodAI.GZHoodAI(self))
-
+        self.hoods.append(TTOHoodAI.TTOHoodAI(self))
     def createCogHeadquarters(self):
         NPCToons.generateZone2NpcDict()
         if self.config.GetBool('want-sellbot-headquarters', True):
@@ -211,6 +217,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.config.GetBool('want-bossbot-headquarters', True):
             self.countryClubMgr = CountryClubManagerAI.CountryClubManagerAI(self)
             self.cogHeadquarters.append(BossbotHQAI.BossbotHQAI(self))
+        if self.config.GetBool('want-bdhq', True):
+            self.boardofficeMgr = BoardOfficeManagerAI.BoardOfficeManagerAI(self)
+            self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
 
     def handleConnected(self):
         self.districtId = self.allocateChannel()

@@ -209,6 +209,10 @@ PlayGroundToPartyClockColors = {'the_burrrgh': (53.0 / 255.0,
  'toontown_central': (77.0 / 255.0,
                       137.0 / 255.0,
                       52.0 / 255.0,
+                      1.0),
+ 'toontown_central_old': (77.0 / 255.0,
+                      137.0 / 255.0,
+                      52.0 / 255.0,
                       1.0)}
 PartyGridUnitLength = [14.4, 14.6]
 PartyGridHeadingConverter = 15.0

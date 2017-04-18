@@ -1,5 +1,5 @@
 # Window settings:
-window-title Project Altis [ALPHA]
+window-title Project Altis [BETA]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur

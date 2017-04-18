@@ -2270,7 +2270,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'nametagStyle'):
             return self.nametagStyle
 
-        return 0
+        return 1
 
     def setNametagStyle(self, nametagStyle):
         if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
@@ -2971,6 +2971,10 @@ def disableGC():
 def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
 	
+@magicWord(category=CATEGORY_CREATIVE)
+def oldttc():
+    spellbook.getInvoker().magicTeleportInitiate(20000, 20000)
+   	
 @magicWord(category=CATEGORY_CREATIVE, types=[int])
 def globalTp(streetZone):
     spellbook.getInvoker().magicTeleportInitiate(ZoneUtil.getHoodId(streetZone), streetZone)
