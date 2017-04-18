@@ -53,7 +53,7 @@ class Nametag3d(Nametag, Clickable3d):
 
     def doBillboardEffect(self):
         billboardEffect = BillboardEffect.make(
-            Vec3(0, 0, 1), True, False, self.billboardOffset, base.cam,
+            Vec3(0, 0, 1), False, False, self.billboardOffset, base.cam,
             Point3(0, 0, 0))
         self.contents.setEffect(billboardEffect)
 
@@ -172,7 +172,7 @@ class Nametag3d(Nametag, Clickable3d):
         textNodePath = self.contents.attachNewNode(self.textNode, 1)
         textNodePath.setTransparency(foreground[3] < 1)
         textNodePath.setAttrib(DepthWriteAttrib.make(0))
-        textNodePath.setY(self.TEXT_Y_OFFSET)
+        textNodePath.setY(-0.1)
 
         # Attach a panel behind the TextNode:
         self.panel = NametagGlobals.cardModel.copyTo(self.contents, 0)
