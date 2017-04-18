@@ -29,3 +29,4 @@ Beta 1.0.0
 - Updated Nametags
 - Added and tweaked some speedchat phrases
 - A ton of backend changes and support for future content and areas
+- The estate target game's score panel only shows for a few seconds when the score updates, then hides
