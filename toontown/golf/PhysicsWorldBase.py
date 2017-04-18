@@ -54,7 +54,7 @@ class PhysicsWorldBase:
         self.timingCycleLength = 10.0
         self.timingCycleOffset = 0.0
         self.timingSimTime = 0.0
-        self.FPS = 60
+        self.FPS = 90.0
         self.refFPS = 60.0
         self.DTAStep = 1.0 / self.FPS
         self.refCon = 1.2
@@ -130,8 +130,8 @@ class PhysicsWorldBase:
         self.world.setSurfaceEntry(3, 3, 150, 0.0, 9.1, 0.9, 1e-05, 0.0, 0.4 / self.refCon)
         self.world.setSurfaceEntry(4, 4, 150, 0.0, 9.1, 0.9, 1e-05, 0.0, 0.4 / self.refCon)
         self.world.setSurfaceEntry(1, 4, 150, 0.0, 99.1, 0.9, 1e-05, 0.0, 0.001 / self.refCon)
-        self.world.setSurfaceEntry(pos1=0, pos2=1, mu=80, bounce=0.30, bounce_vel=0.4, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.35 / self.refCon)
-        self.world.setSurfaceEntry(pos1=2, pos2=1, mu=1500, bounce=0.9, bounce_vel=0.04, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.001 / self.refCon)
+        self.world.setSurfaceEntry(pos1=0, pos2=1, mu=80, bounce=0.15, bounce_vel=0.1, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.35 / self.refCon)
+        self.world.setSurfaceEntry(pos1=2, pos2=1, mu=1500, bounce=0.9, bounce_vel=0.01, soft_erp=0.9, soft_cfm=1e-05, slip=0.0, dampen=0.001 / self.refCon)
         self.floor = OdePlaneGeom(self.space, Vec4(0.0, 0.0, 1.0, -20.0))
         self.floor.setCollideBits(BitMask32(0))
         self.floor.setCategoryBits(BitMask32(3840))
