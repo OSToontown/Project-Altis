@@ -253,7 +253,6 @@ class DMenuScreen(DirectObject):
             self.QuitButton.setPos(QuitBtnHidePos)
             self.QuitButton.show()
 
-
             self.CreditsButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.CreditsButton, text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.startCredits)
             self.CreditsButton.reparentTo(aspect2d)
             self.CreditsButton.setPos(CreditsBtnHidePos)
@@ -277,7 +276,6 @@ class DMenuScreen(DirectObject):
             self.QuitButton.setPos(MQuitBtnHidePos)
             self.QuitButton.setTransparency(1)
             self.QuitButton.show()
-
 
             self.CreditsButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = "Credits", text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.startCredits)
             self.CreditsButton.reparentTo(aspect2d)
