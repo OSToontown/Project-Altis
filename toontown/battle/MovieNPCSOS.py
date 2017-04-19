@@ -13,6 +13,8 @@ from toontown.toon import LaughingManGlobals
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
+from toontown.chat import ResistanceChat
+from toontown.speedchat import TTSCDecoders
 
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieNPCSOS')
 soundFiles = ('AA_heal_tickle.ogg', 'AA_heal_telljoke.ogg', 'AA_heal_smooch.ogg', 'AA_heal_happydance.ogg', 'AA_heal_pixiedust.ogg', 'AA_heal_juggle.ogg')
@@ -186,44 +188,18 @@ def __doSprinkle(attack, recipients, hp = 0):
     return track
 
 
-def __doSmooch(attack, hp = 0):
+def __doUnite(attack, hp = 0, index = 108):
     toon = NPCToons.createLocalNPC(attack['npcId'])
+    chatString = TTSCDecoders.decodeTTSCResistanceMsg(index)
+    delay = 2
     if toon == None:
         return
     targets = attack['toons']
-    level = 2
-    battle = attack['battle']
     track = Sequence(teleportIn(attack, toon))
-    lipstick = globalPropPool.getProp('lipstick')
-    lipstick2 = MovieUtil.copyProp(lipstick)
-    lipsticks = [lipstick, lipstick2]
-    rightHands = toon.getRightHands()
-    dScale = 0.5
-    lipstickTrack = Sequence(Func(MovieUtil.showProps, lipsticks, rightHands, Point3(-0.27, -0.24, -0.95), Point3(-118, -10.6, -25.9)), MovieUtil.getScaleIntervals(lipsticks, dScale, MovieUtil.PNT3_NEARZERO, MovieUtil.PNT3_ONE), Wait(toon.getDuration('smooch') - 2.0 * dScale), MovieUtil.getScaleIntervals(lipsticks, dScale, MovieUtil.PNT3_ONE, MovieUtil.PNT3_NEARZERO))
-    lips = globalPropPool.getProp('lips')
-    dScale = 0.5
-    tLips = 2.5
-    tThrow = 115.0 / toon.getFrameRate('smooch')
-    dThrow = 0.5
-
-    def getLipPos(toon = toon):
-        toon.pose('smooch', 57)
-        toon.update(0)
-        hand = toon.getRightHands()[0]
-        return hand.getPos(render)
-
-    effectTrack = Sequence()
-    for target in targets:
-        lipcopy = MovieUtil.copyProp(lips)
-        lipsTrack = Sequence(Wait(tLips), Func(MovieUtil.showProp, lipcopy, render, getLipPos), Func(lipcopy.setBillboardPointWorld), LerpScaleInterval(lipcopy, dScale, Point3(3, 3, 3), startScale=MovieUtil.PNT3_NEARZERO), Wait(tThrow - tLips - dScale), LerpPosInterval(lipcopy, dThrow, Point3(target.getPos() + Point3(0, 0, target.getHeight()))), Func(MovieUtil.removeProp, lipcopy))
-        delay = tThrow + dThrow
-        mtrack = Parallel(lipstickTrack, lipsTrack, __getSoundTrack(level, 2, node=toon), Sequence(ActorInterval(toon, 'smooch')), Sequence(Wait(delay), ActorInterval(target, 'conked')), Sequence(Wait(delay), Func(__healToon, target, hp)))
-        effectTrack.append(mtrack)
-
-    effectTrack.append(Func(MovieUtil.removeProps, lipsticks))
-    track.append(effectTrack)
+    track.append(Func(toon.setChatAbsolute, chatString, CFSpeech | CFTimeout))
+    track.append(Func(ResistanceChat.doEffect, index, toon, targets))
+    track.append(Wait(delay))
     track.append(teleportOut(attack, toon))
-    track.append(Func(target.clearChat))
     return track
 
 
@@ -250,26 +226,35 @@ def __doCogsMiss(attack, level, hp):
 
 
 def __doRestockGags(attack, level, hp):
-    track = __doSmooch(attack, hp)
     pbpText = attack['playByPlayText']
     if level == ToontownBattleGlobals.HEAL_TRACK:
         text = TTLocalizer.MovieNPCSOSHeal
+        index = 100
     elif level == ToontownBattleGlobals.TRAP_TRACK:
         text = TTLocalizer.MovieNPCSOSTrap
+        index = 101
     elif level == ToontownBattleGlobals.LURE_TRACK:
         text = TTLocalizer.MovieNPCSOSLure
+        index = 102
     elif level == ToontownBattleGlobals.SOUND_TRACK:
         text = TTLocalizer.MovieNPCSOSSound
+        index = 103
     elif level == ToontownBattleGlobals.THROW_TRACK:
         text = TTLocalizer.MovieNPCSOSThrow
+        index = 104
     elif level == ToontownBattleGlobals.SQUIRT_TRACK:
         text = TTLocalizer.MovieNPCSOSSquirt
+        index = 105
     elif level == ToontownBattleGlobals.ZAP_TRACK:
         text = TTLocalizer.MovieNPCSOSZap
+        index = 106
     elif level == ToontownBattleGlobals.DROP_TRACK:
         text = TTLocalizer.MovieNPCSOSDrop
+        index = 107
     elif level == -1:
         text = TTLocalizer.MovieNPCSOSAll
+        index = 108
+    track = __doUnite(attack, hp, index)
     pbpTrack = pbpText.getShowInterval(TTLocalizer.MovieNPCSOSRestockGags % text, track.getDuration())
     return (track, pbpTrack)
 
