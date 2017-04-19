@@ -24,7 +24,7 @@ class DistributedMintBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI)
         return self.level.mintId
 
     def handleToonsWon(self, toons):
-        extraMerits = [0, 0, 0, 0, 0]
+        extraMerits = [0 * ToontownGlobals.NumSuitDepts]
         amount = ToontownGlobals.MintCogBuckRewards[self.level.mintId]
         index = ToontownGlobals.cogHQZoneId2deptIndex(self.level.mintId)
         extraMerits[index] = amount
