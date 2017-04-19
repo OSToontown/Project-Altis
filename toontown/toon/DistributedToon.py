@@ -1608,7 +1608,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             del self.splatTracks[sequence]
 
     def pieSplat(self, x, y, z, sequence, pieCode, timestamp32):
-        if self.isLocal():
+        pass # Causes lag when done in mass, we need to optimize this
+        '''if self.isLocal():
             return
         elapsed = globalClock.getFrameTime() - self.lastTossedPie
         if elapsed > 30:
@@ -1640,7 +1641,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         
         splat = Sequence(splat, Func(self.pieFinishedSplatting, sequence))
         self.splatTracks[sequence] = splat
-        splat.start(startTime)
+        splat.start(startTime)'''
 
     def cleanupPies(self):
         for track in self.pieTracks.values():
