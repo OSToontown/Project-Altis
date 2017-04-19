@@ -103,6 +103,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cogLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
+        self.hat = [0, 0, 0]
+        self.glasses = [0, 0, 0]
+        self.backpack = [0, 0, 0]
+        self.shoes = [0, 0, 0]
         self.trackBonusLevel = [-1, -1, -1, -1, -1, -1, -1, -1]
         self.inventoryNetString = None
         self.savedCheesyEffect = ToontownGlobals.CENormal
@@ -298,15 +302,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setHat(self, idx, textureIdx, colorIdx):
         Toon.Toon.setHat(self, idx, textureIdx, colorIdx)
+        self.hat = [idx, textureIdx, colorIdx]
 
     def setGlasses(self, idx, textureIdx, colorIdx):
         Toon.Toon.setGlasses(self, idx, textureIdx, colorIdx)
+        self.glasses = [idx, textureIdx, colorIdx]
 
     def setBackpack(self, idx, textureIdx, colorIdx):
         Toon.Toon.setBackpack(self, idx, textureIdx, colorIdx)
+        self.backpack = [idx, textureIdx, colorIdx]
 
     def setShoes(self, idx, textureIdx, colorIdx):
         Toon.Toon.setShoes(self, idx, textureIdx, colorIdx)
+        self.shoes = [idx, textureIdx, colorIdx]
 
     def setGM(self, type):
         wasGM = self._isGM

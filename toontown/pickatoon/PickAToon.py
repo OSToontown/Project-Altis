@@ -267,6 +267,10 @@ class PickAToon(DirectObject):
         self.laffMeter.set_pos(-.5, 0, 0)
         self.laffMeter.reparent_to(self.patNode2d)
         self.laffMeter.start()
+        self.toon.setHat(av.hat[0], av.hat[1], av.hat[2])
+        self.toon.setGlasses(av.glasses[0], av.glasses[1], av.glasses[2])
+        self.toon.setBackpack(av.backpack[0], av.backpack[1], av.backpack[2])
+        self.toon.setShoes(av.shoes[0], av.shoes[1], av.shoes[2])
         # self.jumpIn = Sequence(
         #         Func(self.toon.animFSM.request, 'PATTeleportIn'),
         #         Wait(2),
