@@ -6,7 +6,8 @@ from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval, Parallel, ActorInterval
 from direct.showbase import Audio3DManager
 from direct.showbase.DirectObject import DirectObject
-from panda3d.core import TransparencyAttrib, Point3, VBase3, Vec4, Vec3
+from panda3d.core import TransparencyAttrib, Point3, VBase3, Vec4, Vec3, \
+    TextNode
 import random
 import webbrowser
 
@@ -14,12 +15,13 @@ from toontown.dmenu import DMenuCredits
 from toontown.dmenu import DMenuQuit
 from toontown.dmenu.DMenuGlobals import *
 from toontown.dmenu.DMenuResources import *
+from toontown.dmenu import DMenuNewsManager
 from toontown.hood import SkyUtil
 from toontown.nametag.NametagGlobals import *
 from toontown.nametag.NametagGroup import *
 from toontown.pickatoon import PickAToonOptions, PickAToon
 from toontown.toon import Toon, ToonDNA
-from toontown.toonbase import TTLocalizer
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import FeatureComingSoonDialog
 from toontown.toontowngui.TTGui import btnDn, btnRlvr, btnUp
 
@@ -175,12 +177,15 @@ class DMenuScreen(DirectObject):
         self.logo.setPos(0, 0, .5)
         self.logo.setColorScale(Vec4(0, 0, 0, 0))
         fadeInLogo = (LerpColorScaleInterval(self.logo, 1, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0))).start()
-
+        self.releaseNotesBox = None
+        self.releaseNotesText = None
         self.createButtons()
 
         self.fadeOut = None
         self.optionsMgr = PickAToonOptions.NewPickAToonOptions()
         self.quitConfirmation = DMenuQuit.DMenuQuit()
+        self.newsMgr = DMenuNewsManager.DMenuNewsManager()
+
         self.accept('doQuitGame', self.doQuitFunc)
         self.accept('doCancelQuitGame', self.doCancelQuitFunc)
         self.patNode = None
@@ -189,6 +194,46 @@ class DMenuScreen(DirectObject):
         self.patAvList = base.cr.PAT_AVLIST
         self.patFSM = base.cr.PAT_LOGINFSM
         self.patDoneEvent = base.cr.PAT_DONEEVENT
+
+    def enterReleaseNotes(self):
+        if not self.releaseNotesBox:
+            # Release Notes Box
+            self.releaseNotesBox = OnscreenImage(image = 'phase_3/maps/stat_board.png')
+            self.releaseNotesBox.set_transparency(TransparencyAttrib.MAlpha)
+            self.releaseNotesBox.reparent_to(render2d)
+            self.releaseNotesBox.set_pos(0, 0, 0)
+            self.releaseNotesBox.set_scale(render2d, VBase3(1))
+
+            # Release Notes Text
+            self.releaseNotesText = OnscreenText(text = 'Fetching Release Notes...', align = TextNode.ALeft, scale = .05)
+            self.releaseNotesText.reparent_to(base.a2dTopLeft)
+            self.releaseNotesText.set_pos(.4, 0, -.4)
+            taskMgr.doMethodLater(.1, self.getReleaseNotes, 'getReleaseNotes')
+
+        for button in self.allButtons:
+            button.hide()
+        self.logo.hide()
+        self.releaseNotesBox.show()
+        self.releaseNotesText.show()
+        if not hasattr(self, 'closeReleaseNotesButton'):
+            self.closeReleaseNotesButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = 'Back', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.exitReleaseNotes)
+        self.closeReleaseNotesButton.reparent_to(aspect2d)
+        self.closeReleaseNotesButton.setPos(0, 1, -.75)
+        self.closeReleaseNotesButton.show()
+
+    def getReleaseNotes(self, task):
+        # TODO: Make this threaded so it doesnt freeze
+        releaseNotes = self.newsMgr.fetchReleaseNotes()
+        self.releaseNotesText['text'] = 'Release Notes:\n' + self.newsMgr.fetchReleaseNotes()
+        return task.done
+
+    def exitReleaseNotes(self):
+        self.releaseNotesBox.hide()
+        self.releaseNotesText.hide()
+        self.closeReleaseNotesButton.hide()
+        for button in self.allButtons:
+            button.show()
+        self.logo.show()
 
     def slipAndSlideOnThisBananaPeelHaHaHa(self):
         if base.mouseWatcherNode.hasMouse():
@@ -232,10 +277,10 @@ class DMenuScreen(DirectObject):
         mOptions = 'phase_3/maps/dmenu/dm_settings.png'
         mQuit = 'phase_3/maps/dmenu/dm_quit.png'
 
-        self.DiscordButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.DiscordButton, text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.openDiscord)
-        self.DiscordButton.reparentTo(aspect2d)
-        self.DiscordButton.setPos(DiscordBtnHidePos)
-        self.DiscordButton.show()
+        self.NewsButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.DiscordButton, text_pos = (0, -0.02), text_scale = .07, scale = 0.95, command = self.enterReleaseNotes)
+        self.NewsButton.reparentTo(aspect2d)
+        self.NewsButton.setPos(DiscordBtnHidePos)
+        self.NewsButton.show()
 
         if not self.mobile:
             self.PlayButton = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.7, 0.7), image2_scale = (0.83, 0.7, 0.7), text_fg = (1, 1, 1, 1), text = TTLocalizer.PlayGame, text_pos = (0, -0.02), text_scale = .07, scale = 1.2, command = self.playGame)
@@ -282,13 +327,13 @@ class DMenuScreen(DirectObject):
             self.CreditsButton.setPos(MCreditsBtnHidePos)
             self.CreditsButton.show()
 
-            self.DiscordButton.hide()
+            self.NewsButton.hide()
 
         self.allButtons.append(self.PlayButton)
         self.allButtons.append(self.OptionsButton)
         self.allButtons.append(self.QuitButton)
         self.allButtons.append(self.CreditsButton)
-        self.allButtons.append(self.DiscordButton)
+        self.allButtons.append(self.NewsButton)
 
         self.buttonInAnimation()
 
@@ -320,9 +365,9 @@ class DMenuScreen(DirectObject):
             self.QuitButton.destroy()
             self.QuitButton = None
 
-        if self.DiscordButton:
-            self.DiscordButton.destroy()
-            self.DiscordButton = None
+        if self.NewsButton:
+            self.NewsButton.destroy()
+            self.NewsButton = None
 
         if self.CreditsButton:
             self.CreditsButton.destroy()
@@ -337,6 +382,11 @@ class DMenuScreen(DirectObject):
         if self.dimm:
             self.dimm.delete()
 
+        if self.releaseNotesBox:
+            self.releaseNotesBox.remove_node()
+            self.releaseNotesText.destroy()
+            self.releaseNotesBox = None
+            self.releaseNotesText = None
 
         del self.bananaRayNode
         del self.bananaRayNP
@@ -392,14 +442,14 @@ class DMenuScreen(DirectObject):
         self.PlayButton['state'] = DGG.DISABLED
         self.OptionsButton['state'] = DGG.DISABLED
         self.QuitButton['state'] = DGG.DISABLED
-        self.DiscordButton['state'] = DGG.DISABLED
+        self.NewsButton['state'] = DGG.DISABLED
         self.CreditsButton['state'] = DGG.DISABLED
         if not self.mobile:
             Parallel(
                 self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
                 self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
                 self.QuitButton.posInterval(.2, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
-                self.DiscordButton.posInterval(.2, Point3(DiscordBtnHidePos), blendType = 'easeInOut'),
+                self.NewsButton.posInterval(.2, Point3(DiscordBtnHidePos), blendType = 'easeInOut'),
                 self.CreditsButton.posInterval(.2, Point3(CreditsBtnHidePos), blendType = 'easeInOut'),
                 self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
         else:
@@ -407,7 +457,7 @@ class DMenuScreen(DirectObject):
                 self.PlayButton.posInterval(.2, Point3(MPlayBtnHidePos), blendType = 'easeInOut'),
                 self.OptionsButton.posInterval(.2, Point3(MOptionsBtnHidePos), blendType = 'easeInOut'),
                 self.QuitButton.posInterval(.2, Point3(MQuitBtnHidePos), blendType = 'easeInOut'),
-                self.DiscordButton.posInterval(.2, Point3(MDiscordBtnHidePos), blendType = 'easeInOut'),
+                self.NewsButton.posInterval(.2, Point3(MDiscordBtnHidePos), blendType = 'easeInOut'),
                 self.CreditsButton.posInterval(.2, Point3(MCreditsBtnHidePos), blendType = 'easeInOut'),
                 self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
 
@@ -418,7 +468,7 @@ class DMenuScreen(DirectObject):
                 self.PlayButton.posInterval(.2, Point3(PlayBtnHidePos), blendType = 'easeInOut'),
                 self.OptionsButton.posInterval(.2, Point3(OptionsBtnHidePos), blendType = 'easeInOut'),
                 self.QuitButton.posInterval(.2, Point3(QuitBtnHidePos), blendType = 'easeInOut'),
-                self.DiscordButton.posInterval(.2, Point3(DiscordBtnHidePos), blendType = 'easeInOut'),
+                self.NewsButton.posInterval(.2, Point3(DiscordBtnHidePos), blendType = 'easeInOut'),
                 self.CreditsButton.posInterval(.2, Point3(CreditsBtnHidePos), blendType = 'easeInOut'),
                 self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
         else:
@@ -426,7 +476,7 @@ class DMenuScreen(DirectObject):
                 self.PlayButton.posInterval(.2, Point3(MPlayBtnHidePos), blendType = 'easeInOut'),
                 self.OptionsButton.posInterval(.2, Point3(MOptionsBtnHidePos), blendType = 'easeInOut'),
                 self.QuitButton.posInterval(.2, Point3(MQuitBtnHidePos), blendType = 'easeInOut'),
-                self.DiscordButton.posInterval(.2, Point3(MDiscordBtnHidePos), blendType = 'easeInOut'),
+                self.NewsButton.posInterval(.2, Point3(MDiscordBtnHidePos), blendType = 'easeInOut'),
                 self.CreditsButton.posInterval(.2, Point3(MCreditsBtnHidePos), blendType = 'easeInOut'),
                 self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
 
@@ -448,13 +498,13 @@ class DMenuScreen(DirectObject):
             play = self.PlayButton.posInterval(.2, Point3(PlayBtnPos), blendType = 'easeInOut')
             opt = self.OptionsButton.posInterval(.2, Point3(OptionsBtnPos), blendType = 'easeInOut')
             quit = self.QuitButton.posInterval(.2, Point3(QuitBtnPos), blendType = 'easeInOut')
-            discord = self.DiscordButton.posInterval(.2, Point3(DiscordBtnPos), blendType = 'easeInOut')
+            discord = self.NewsButton.posInterval(.2, Point3(DiscordBtnPos), blendType = 'easeInOut')
             credits = self.CreditsButton.posInterval(.2, Point3(CreditsBtnPos), blendType = 'easeInOut')
         else:
             play = self.PlayButton.posInterval(.5, Point3(MPlayBtnPos), blendType = 'easeInOut')
             opt = self.OptionsButton.posInterval(.5, Point3(MOptionsBtnPos), blendType = 'easeInOut')
             quit = self.QuitButton.posInterval(.5, Point3(MQuitBtnPos), blendType = 'easeInOut')
-            discord = self.DiscordButton.posInterval(.5, Point3(MDiscordBtnPos), blendType = 'easeInOut')
+            discord = self.NewsButton.posInterval(.5, Point3(MDiscordBtnPos), blendType = 'easeInOut')
             credits = self.CreditsButton.posInterval(.5, Point3(MCreditsBtnPos), blendType = 'easeInOut')
 
 
