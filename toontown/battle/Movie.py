@@ -307,7 +307,9 @@ class Movie(DirectObject.DirectObject):
          0,
          0,
          0,
+         0,
          0], [0,
+         0,
          0,
          0,
          0], noSkip=True))

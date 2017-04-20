@@ -76,10 +76,9 @@ class TownBattleAttackPanel(StateData.StateData):
             doneStatus['track'] = track
             doneStatus['level'] = level
             messenger.send(self.doneEvent, [doneStatus])
-        elif viaKeyboard is True:
-            pass
         else:
-            self.notify.warning("An item we don't have: track %s level %s was selected." % [track, level])
+            if not viaKeyboard:
+                self.notify.warning("An item we don't have: track %(track)s level %(level)s was selected." % {'track': track, 'level': level})
 
     def __handleHide(self):
         if AttackPanelHidden:
