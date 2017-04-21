@@ -230,6 +230,7 @@ DialogLength1 = 6
 DialogLength2 = 12
 DialogLength3 = 20
 GlobalSpeedChatName = 'SpeedChat'
+GlobalChatLogName = 'Chat Log'
 SCMenuPromotion = 'PROMOTIONAL'
 SCMenuEmotions = 'EMOTIONS'
 SCMenuCustom = 'MY PHRASES'

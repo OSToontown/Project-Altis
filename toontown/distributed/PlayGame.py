@@ -400,7 +400,7 @@ class PlayGame(StateData.StateData):
         base.localAvatar.book.obscureButton(1)
         base.localAvatar.book.setSafeMode(1)
         base.localAvatar.laffMeter.obscure(1)
-        base.localAvatar.chatMgr.obscure(1, 1)
+        base.localAvatar.chatMgr.obscure(1, 1, 1)
         base.localAvatar.obscureFriendsListButton(1)
         requestStatus['how'] = 'tutorial'
         if base.config.GetString('language', 'english') == 'japanese':
@@ -414,7 +414,7 @@ class PlayGame(StateData.StateData):
         base.localAvatar.book.obscureButton(0)
         base.localAvatar.book.setSafeMode(0)
         base.localAvatar.laffMeter.obscure(0)
-        base.localAvatar.chatMgr.obscure(0, 0)
+        base.localAvatar.chatMgr.obscure(0, 0, 0)
         base.localAvatar.obscureFriendsListButton(-1)
 
     def enterEstateHood(self, requestStatus):
