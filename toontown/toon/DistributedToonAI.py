@@ -2544,6 +2544,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         else:
             self.b_setMoney(self.money - deltaMoney)
         return True
+		
+    def takeBankMoney(self, deltaMoney, bUseJar = True):
+        totalMoney = self.bankMoney
+        if bUseJar:
+            totalMoney += self.money
+        if deltaMoney > totalMoney:
+            self.notify.warning('Not enough money! AvId: %s Has:%s Charged:%s' % (self.doId, totalMoney, deltaMoney))
+            return False
+        if bUseJar and deltaMoney > self.bankMoney:
+            self.b_setMoney(self.money - (deltaMoney - self.bankMoney))
+            self.b_setBankMoney(0)
+        else:
+            self.b_setBankMoney(self.bankMoney - deltaMoney)
+        return True
 
     def b_setMoney(self, money):
         if bboard.get('autoRich-%s' % self.doId, False):
