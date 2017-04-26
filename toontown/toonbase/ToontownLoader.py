@@ -3,9 +3,10 @@ from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader as nLoader
 from toontown.toontowngui import ToontownLoadingScreen
 from toontown.dna.DNAParser import *
+import traceback
 
 class ToontownLoader(nLoader.Loader):
-    TickPeriod = 0.2
+    TickPeriod = 0.1
 
     def __init__(self, base):
         nLoader.Loader.__init__(self, base)
@@ -32,7 +33,7 @@ class ToontownLoader(nLoader.Loader):
         self._lastTickT = globalClock.getRealTime()
         self.blockName = name
         self.loadingScreen.begin(range, label, gui, tipCategory, zoneId)
-
+         
     def endBulkLoad(self, name):
         if not self.inBulkBlock:
             nLoader.Loader.notify.warning("Tried to end a block ('%s'), but not in one" % name)
@@ -62,10 +63,8 @@ class ToontownLoader(nLoader.Loader):
             if now - self._lastTickT > self.TickPeriod:
                 self._lastTickT += self.TickPeriod
                 self.loadingScreen.tick()
-                try:
+                if hasattr(base, 'cr'):
                     base.cr.considerHeartbeat()
-                except:
-                    pass
 
     def loadModel(self, *args, **kw):
         ret = nLoader.Loader.loadModel(self, *args, **kw)
@@ -101,14 +100,18 @@ class ToontownLoader(nLoader.Loader):
             gsg = base.win.getGsg()
             if gsg:
                 ret.prepareScene(gsg)
-        
+        self.tick()
         return ret
 
     def pdnaFont(self, *args, **kw):
-        return nLoader.Loader.loadFont(self, *args, **kw)
+        ret = nLoader.Loader.loadFont(self, *args, **kw)
+        self.tick()
+        return ret
 
     def pdnaTexture(self, texturePath, alphaPath = None, okMissing = False):
-        return nLoader.Loader.loadTexture(self, texturePath, alphaPath, okMissing=okMissing)
+        ret = nLoader.Loader.loadTexture(self, texturePath, alphaPath, okMissing=okMissing)
+        self.tick()
+        return ret
 
     def loadSfx(self, soundPath):
         ret = nLoader.Loader.loadSfx(self, soundPath)

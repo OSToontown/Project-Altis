@@ -208,7 +208,7 @@ class DMenuScreen(DirectObject):
             self.releaseNotesText = OnscreenText(text = 'Fetching Release Notes...', align = TextNode.ALeft, scale = .05)
             self.releaseNotesText.reparent_to(base.a2dTopLeft)
             self.releaseNotesText.set_pos(.4, 0, -.4)
-            taskMgr.doMethodLater(.1, self.getReleaseNotes, 'getReleaseNotes')
+            callAsync(self.getReleaseNotes).start()
 
         for button in self.allButtons:
             button.hide()
@@ -221,12 +221,11 @@ class DMenuScreen(DirectObject):
         self.closeReleaseNotesButton.setPos(0, 1, -.75)
         self.closeReleaseNotesButton.show()
 
-    def getReleaseNotes(self, task):
+    def getReleaseNotes(self):
         # TODO: Make this threaded so it doesnt freeze
         releaseNotes = self.newsMgr.fetchReleaseNotes()
         self.releaseNotesText['text'] = 'Release Notes:\n' + self.newsMgr.fetchReleaseNotes()
-        return task.done
-
+        
     def exitReleaseNotes(self):
         self.releaseNotesBox.hide()
         self.releaseNotesText.hide()

@@ -6,10 +6,12 @@ from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from direct.interval.IntervalGlobal import Sequence, Wait
 import random
+from direct.stdpy import threading
 
-class ToontownLoadingScreen:
+class ToontownLoadingScreen(threading.Thread):
 
     def __init__(self):
+        threading.Thread.__init__(self)
         self.__expectedCount = 0
         self.__count = 0
         self.gui = loader.loadModel('phase_3/models/gui/progress-background.bam')
@@ -126,4 +128,5 @@ class ToontownLoadingScreen:
 
     def tick(self):
         self.__count = self.__count + 1
+        base.graphicsEngine.renderFrame()
         self.waitBar.update(self.__count)

@@ -168,6 +168,9 @@ class ToonBase(OTPBase.OTPBase):
         self.asyncLoader = ToontownAsyncLoader.ToontownAsyncLoader(self)
         __builtins__['asyncloader'] = self.asyncLoader
         
+        self.asyncCall = ToontownAsyncLoader.AsyncCall
+        __builtins__['callAsync'] = self.asyncCall
+        
         __builtins__['NO_FADE_SORT_INDEX'] = 4000
         oldLoader.destroy()
         self.accept('PandaPaused', self.disableAllAudio)
