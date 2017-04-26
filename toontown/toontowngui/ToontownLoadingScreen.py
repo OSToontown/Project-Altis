@@ -92,10 +92,10 @@ class ToontownLoadingScreen(threading.Thread):
         }
 
         self.waitBar['barColor'] = self.zone2fontcolor.get(ZoneUtil.getBranchZone(zoneId), ToontownGlobals.DEFAULTCOLOR)
-        self.waitBar['range'] = range
+        self.waitBar['range'] = range*2
         self.title['text'] = label
         self.__count = 0
-        self.__expectedCount = range
+        self.__expectedCount = range*2
         if gui:
             self.title.reparentTo(base.a2dpBottomCenter, NO_FADE_SORT_INDEX)
             self.title.setPos(0, 0, 0.23)
