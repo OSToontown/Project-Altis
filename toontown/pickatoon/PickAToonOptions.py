@@ -6,6 +6,7 @@ Created on Apr 2, 2016
 
 from decimal import Decimal
 from direct.gui.DirectGui import *
+from direct.gui import DirectGuiGlobals
 from direct.interval.IntervalGlobal import Wait, Func, Sequence, LerpColorScaleInterval
 from direct.showbase.DirectObject import DirectObject
 from panda3d.core import (TransparencyAttrib, Point3, Vec4,
@@ -14,6 +15,7 @@ from panda3d.core import (TransparencyAttrib, Point3, Vec4,
 from toontown.options import GraphicsOptions
 from toontown.shtiker import ControlRemapDialog, DisplaySettingsDialog
 from toontown.toonbase import TTLocalizer
+from toontown.toontowngui import OptionHelp
 
 
 resolution_table = [
@@ -48,9 +50,13 @@ class NewPickAToonOptions(DirectObject):
         self.fov_resetButton = None
         self.doorKey_Label = None
         self.doorKey_toggleButton = None
+        self.doorKey_helpButton = None
         self.interactKey_Label = None
         self.interactKey_toggleButton = None
-
+        self.interactKey_helpButton = None
+        self.interactKey_help = None
+        self.doorKey_help = None
+        
         self.displaySettings = None
         self.displaySettingsChanged = 0
         self.displaySettingsSize = (None, None)
@@ -169,6 +175,10 @@ class NewPickAToonOptions(DirectObject):
                                               text_pos = (0, -.02),
                                               pos = (0, 0, 0),
                                               command = self.__doToggleInteractKey)
+                                              
+        self.interactKey_helpButton = DirectButton(self.interactKey_toggleButton, relief = None, image = 'phase_3/maps/dmenu/help.png', scale = .05, pos = (.3, 0, 0))
+        self.interactKey_helpButton.setTransparency(1)
+
 
         self.doorKey_Label = DirectLabel(self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter,
                                       text_scale = .052, text_wordwrap = 16,
@@ -180,7 +190,19 @@ class NewPickAToonOptions(DirectObject):
                                               text_pos = (0, -.02),
                                               pos = (0, 0, -.2),
                                               command = self.__doToggleDoorKey)
+        self.doorKey_helpButton = DirectButton(self.doorKey_toggleButton, relief = None, image = 'phase_3/maps/dmenu/help.png', scale = .05, pos = (.3, 0, 0))
+        self.doorKey_helpButton.setTransparency(1)
+        
+        self.__doHelpInteractKey()
+        self.__doHelpDoorKey()
+        self.interactKey_help.hide()
+        self.doorKey_help.hide()
 
+        self.interactKey_helpButton.bind(DirectGuiGlobals.ENTER, self.showInteractKeyHelp)
+        self.interactKey_helpButton.bind(DirectGuiGlobals.EXIT, self.hideInteractKeyHelp)
+        self.doorKey_helpButton.bind(DirectGuiGlobals.ENTER, self.showDoorKeyHelp)
+        self.doorKey_helpButton.bind(DirectGuiGlobals.EXIT, self.hideDoorKeyHelp)
+        
         # Set Button Text
         self.__setWASDButton()
         self.__setDoorKey()
@@ -268,6 +290,10 @@ class NewPickAToonOptions(DirectObject):
             self.doorKey_toggleButton.destroy()
             self.doorKey_toggleButton = None
 
+        if self.doorKey_helpButton:
+            self.doorKey_helpButton.destroy()
+            self.doorKey_helpButton = None
+            
         if self.interactKey_Label:
             self.interactKey_Label.destroy()
             self.interactKey_Label = None
@@ -275,7 +301,18 @@ class NewPickAToonOptions(DirectObject):
         if self.interactKey_toggleButton:
             self.interactKey_toggleButton.destroy()
             self.interactKey_toggleButton = None
-
+            
+        if self.interactKey_helpButton:
+            self.interactKey_helpButton.destroy()
+            self.interactKey_helpButton = None
+            
+        if self.interactKey_help:
+            self.interactKey_help.destroy()
+            self.interactKey_help = None
+        if self.doorKey_help:
+            self.doorKey_help.destroy()
+            self.doorKey_help = None
+        
     def delVideoOptions(self):
         if self.Widescreen_Label:
             self.Widescreen_Label.destroy()
@@ -491,3 +528,25 @@ class NewPickAToonOptions(DirectObject):
 
     def windowEvent(self, win):
         self.optionsBox.setScale(render2d, Vec3(1))
+        
+    def __doHelpInteractKey(self):
+        self.interactKey_help = OptionHelp.OptionHelp(parent = self.interactKey_helpButton, helpText = 'Enabling this option will require a key to be pressed before interacting with an NPC.', moviePath = 'phase_3/movies/ttpa_help_npc_interaction.mp4')
+        self.interactKey_help.setScale(20)
+        self.interactKey_help.setPos(1.5, 0, 0)
+    
+    def __doHelpDoorKey(self):
+        self.doorKey_help = OptionHelp.OptionHelp(parent = self.doorKey_helpButton, helpText = 'Enabling this option will require a key to be pressed before using a door.', moviePath = 'phase_3/movies/ttpa_help_door_interaction.mp4')
+        self.doorKey_help.setScale(20)
+        self.doorKey_help.setPos(1.5, 0, 0)
+        
+    def showInteractKeyHelp(self, event):
+        self.interactKey_help.show()
+        
+    def hideInteractKeyHelp(self, event):
+        self.interactKey_help.hide()
+                
+    def showDoorKeyHelp(self, event):
+        self.doorKey_help.show()
+        
+    def hideDoorKeyHelp(self, event):
+        self.doorKey_help.hide()
