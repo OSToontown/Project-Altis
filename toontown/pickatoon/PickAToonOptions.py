@@ -62,26 +62,28 @@ class NewPickAToonOptions(DirectObject):
         self.animations_Label = None
         self.animations_toggleButton = None
 
-    def showOptions(self):
+    def showOptions(self, animate = True):
         # base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
         self.displayOptions()
         base.transitions.fadeScreen(0.5)
-        self.optionsNode.setColorScale(1, 1, 1, 0)
-        self.optionsNode.setPos(0, 0, -.15)
-        self.optionsNode.posInterval(.15, Point3(0, 0, 0)).start()
-        self.accept('window-event', self.windowEvent)
-
-        LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
-
-    def hideOptions(self):
+        if animate:
+            self.optionsNode.setColorScale(1, 1, 1, 0)
+            self.optionsNode.setPos(0, 0, -.15)
+            self.optionsNode.posInterval(.15, Point3(0, 0, 0)).start()
+            LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+ 
+    def hideOptions(self, animate = True):
         # base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
         self.ignore('window-event')
-        self.optionsNode.setColorScale(1, 1, 1, 1)
-        self.optionsNode.posInterval(.15, Point3(0, 0, -.15)).start()
-        LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
-        Sequence (
-        Wait(.15),
-        Func(self.delAllOptions)).start()
+        if animate:
+            self.optionsNode.setColorScale(1, 1, 1, 1)
+            self.optionsNode.posInterval(.15, Point3(0, 0, -.15)).start()
+            LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1)).start()
+            Sequence (
+            Wait(.15),
+            Func(self.delAllOptions)).start()
+        else:
+            self.delAllOptions()
 
     def displayOptions(self):
         self.optionsNode = aspect2d.attachNewNode('optionsNode')
