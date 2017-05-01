@@ -201,7 +201,7 @@ class TrunkGUI(StateData.StateData):
             currGlassesIdx = self.glasses.index(currGlasses)
         except:
             self.glasses.append(currGlasses)
-            currGlassesIdx = self.hats.index(currGlasses)
+            currGlassesIdx = self.glasses.index(currGlasses)
         self.swapGlasses(currGlassesIdx - self.glassesChoice)
         currBackpack = self.toon.backpack
         try:
