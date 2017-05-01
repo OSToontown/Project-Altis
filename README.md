@@ -19,6 +19,7 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 * Alice | Web Developer | **Signed NDA**
 * Ben | Launcher Developer | **Signed NDA**
 * Judge2020 | Launcher Developer | **Signed NDA**
+* Matthew | Game Developer | **Signed NDA**
 * Roast Duck | Game Developer | Pending NDA
 
 ### Creative Team
