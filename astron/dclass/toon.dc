@@ -3809,10 +3809,10 @@ struct PotentialToon {
   uint8 aname;
   int16 hp;
   int16 maxHp;
-  uint16 [] hat;
-  uint16 [] glasses;
-  uint16 [] backpack;
-  uint16 [] shoes;
+  uint8[] hat;
+  uint8[] glasses;
+  uint8[] backpack;
+  uint8[] shoes;
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
