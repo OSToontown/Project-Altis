@@ -141,7 +141,7 @@ class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
     def lookup(self, username, callback):
-        httpReq = httplib.HTTPConnection('www.projectaltis.com')
+        httpReq = httplib.HTTPConnection(accountServerHostname)
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
         
         try:
@@ -781,11 +781,15 @@ class GetAvatarsFSM(AvatarOperationFSM):
 
     def enterSendAvatars(self):
         potentialAvs = []
-
+        names = []
+        print self.account.get("ACCOUNT_ID", 0)
+        #print dir(self.account)
+        #print self.account.viewkeys()
         for avId, fields in self.avatarFields.items():
             index = self.avList.index(avId)
             wishNameState = fields.get('WishNameState', [''])[0]
             name = fields['setName'][0]
+            names.append(name.replace(" ","%20") + "%7C" + str(avId))
             nameState = 0
 
             if wishNameState == 'OPEN':
@@ -817,6 +821,30 @@ class GetAvatarsFSM(AvatarOperationFSM):
             potentialAvs.append([avId, name, fields['setDNAString'][0], index, nameState, fields['setHp'][0], fields['setMaxHp'][0], fields['setHat'], fields['setGlasses'], fields['setBackpack'], fields['setShoes']])
 
         self.csm.sendUpdateToAccountId(self.target, 'setAvatars', [potentialAvs])
+        #print dir(self)
+        while len(names) < 6:
+            names.append("0")
+        for na in names:
+            print(na)
+
+        playtoken = self.account.get("ACCOUNT_ID", 0)
+        #print '/api/toondata/%s/%s/%s/%s/%s/%s/%s/%s' % (accountServerAPIKey, playtoken, names[0], names[1], names[2], names[3], names[4], names[5])
+        try:
+            httpReq = httplib.HTTPSConnection(accountServerHostname)
+            loc = '/api/toondata/%s/%s/%s/%s/%s/%s/%s/%s' % (accountServerAPIKey, playtoken, names[0], names[1], names[2], names[3], names[4], names[5])
+            #loc = '/api/toondata/key/token/0/0/0/0/0/0'
+            httpReq.request('GET', loc)
+            try:
+                XXX = httpReq.getresponse().read()
+                #print XXX
+                response = json.loads(XXX)
+                #print response
+            except:
+                print "toondata api response failure"
+                pass
+        except:
+            print "toondata api request failure"
+
         self.demand('Off')
 
 # This inherits from GetAvatarsFSM, because the delete operation ends in a
