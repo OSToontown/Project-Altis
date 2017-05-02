@@ -31,6 +31,10 @@ minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
 accountServerEndpoint = simbase.config.GetString(
     'account-server-endpoint', 'https://projectaltis.com/api/')
+accountServerHostname = simbase.config.GetString(
+    'account-server-endpoint-hostname', 'www.projectaltis.com')
+accountServerAPIKey = simbase.config.GetString(
+    'account-server-apikey', 'key') #default is key because the key must be secret, only in config
 accountServerSecret = simbase.config.GetString(
     'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
@@ -161,7 +165,7 @@ class LocalAccountDB(AccountDB):
                       'reason': 'Invalid Cookie Specified!'})
             return
 
-        sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
+        sanityChecks = httplib.HTTPConnection(accountServerHostname)
         sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
         
         try:
@@ -229,8 +233,8 @@ class LocalAccountDB(AccountDB):
         # add type a name
         self.notify.debug("adding name from %s : %s" %(avId, name))
         try:
-            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
+            nameCheck = httplib.HTTPSConnection(accountServerHostname)
+            nameCheck.request('GET', '/api/addtypeaname2/%s/%s/%s' % (accountServerAPIKey, avId, name))
             resp = json.loads(nameCheck.getresponse().read())
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
@@ -240,8 +244,8 @@ class LocalAccountDB(AccountDB):
         # check type a name
         self.notify.debug("debug: checking name from %s" %(avId))
         try:
-            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
+            nameCheck = httplib.HTTPSConnection(accountServerHostname)
+            nameCheck.request('GET', '/api/checktypeaname/%s/avid/%s' % (accountServerAPIKey,avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
             
             if resp[u"error"] == "true":
