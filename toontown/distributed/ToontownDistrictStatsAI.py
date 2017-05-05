@@ -10,6 +10,7 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
         self.avatarCount = 0
         self.newAvatarCount = 0
         self.invasionStatus = 0
+        self.invasionType = 0
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -72,9 +73,15 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
     def d_setInvasionStatus(self, invasionStatus):
         self.sendUpdate('setInvasionStatus', [invasionStatus])
 
+    def setInvasionType(self, invasionType):
+        self.invasionType = invasionType
+
     def b_setInvasionStatus(self, invasionStatus):
         self.setInvasionStatus(invasionStatus)
         self.d_setInvasionStatus(invasionStatus)
 
     def getInvasionStatus(self):
         return self.invasionStatus
+
+    def getInvasionType(self):
+        return self.invasionType

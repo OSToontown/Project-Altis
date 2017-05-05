@@ -292,15 +292,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         
     def updateInvasionTrackerTask(self, task):
         task.delayTime = 10 # Set it to 10 after doing it the first time
-        statusToType = {
-        0: 'None',
-        1: 'Bossbot',
-        2: 'Lawbot',
-        3: 'Cashbot',
-        4: 'Sellbot',
-        5: 'Boardbot'}
         pop = self.districtStats.getAvatarCount()
-        invstatus = statusToType.get(self.districtStats.getInvasionStatus(), 'None')
+        tupleStatus = (self.districtStats.getInvasionStatus(), self.districtStats.getInvasionType())
+        invstatus = self.statusToType(tupleStatus)
         accountServerAPIKey = simbase.config.GetString('account-server-apikey', 'key')
         accountServerHostname = simbase.config.GetString('account-server-endpoint-hostname', 'www.projectaltis.com')
       #  if pop == self.invLastPop and invstatus == self.invLastStatus:
@@ -323,3 +317,74 @@ class ToontownAIRepository(ToontownInternalRepository):
             print(json.loads(httpReq.getresponse().read()))
 
         return task.again
+
+
+    def statusToType(self, tupleInvasionStatus):
+		try:
+			statusToSuit = {
+				0: 'None',
+				1: 'Bossbot',
+				2: 'Lawbot',
+				3: 'Cashbot',
+				4: 'Sellbot',
+				5: 'Boardbot'
+			}
+			suit = statusToSuit.get(tupleInvasionStatus[0], 'None')
+			if suit == 'None':
+				return suit
+			# combo of Suit index and Type index, +1
+			comboToType = {
+				'10': 'Department Invasion',
+				'11': 'Flunky',
+				'12': 'Pencil Pusher',
+				'13': 'Yesman',
+				'14': 'Micromanager',
+				'15': 'Downsizer',
+				'16': 'Head Hunter',
+				'17': 'Corporate Raider',
+				'18': 'The Big Cheese',
+				'20': 'Department Invasion',
+				'21': 'Bottom Feeder',
+				'22': 'Bloodsucker',
+				'23': 'Double Talker',
+				'24': 'Ambulance Chaser',
+				'25': 'Back Stabber',
+				'26': 'Spin Doctor',
+				'27': 'Legal Eagle',
+				'28': 'Big Wig',
+				'30': 'Department Invasion',
+				'31': 'Short Change',
+				'32': 'Penny Pincher',
+				'33': 'Tightwad',
+				'34': 'Bean Counter',
+				'35': 'Number Cruncher',
+				'36': 'Money Bags',
+				'37': 'Loan Shark',
+				'38': 'Robber Baron',
+				'40': 'Department Invasion',
+				'41': 'Cold Caller',
+				'42': 'Telemarketer',
+				'43': 'Name Dropper',
+				'44': 'Glad Hander',
+				'45': 'Mover and Shaker',
+				'46': 'Two Face',
+				'47': 'The Mingler',
+				'48': 'Mr. Hollywood',
+				'50': 'Department Invasion',
+				'51': 'Con Artist',
+				'52': 'Connoisseur',
+				'53': 'The Swindler',
+				'54': 'Middleman',
+				'55': 'Toxic Manager',
+				'56': 'Magnate',
+				'57': 'Big Fish',
+				'58': 'Head Honcho'
+			}
+			Type = comboToType.get(str(tupleInvasionStatus[0]) + str(tupleInvasionStatus[1]), 'None')
+			Type = Type.replace(' ', '%20')
+			if Type == 'None':
+				return Type
+			return Type + '%7C' + suit
+		except:
+			return 'None'
+
