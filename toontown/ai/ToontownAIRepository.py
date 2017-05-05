@@ -289,10 +289,12 @@ class ToontownAIRepository(ToontownInternalRepository):
 
     def trueUniqueName(self, name):
         return self.uniqueName(name)
-        
+
     def updateInvasionTrackerTask(self, task):
         task.delayTime = 10 # Set it to 10 after doing it the first time
         pop = self.districtStats.getAvatarCount()
+        total = self.districtStats.getInvasionTotal()
+        defeated = total - self.districtStats.getInvasionRemaining()
         tupleStatus = (self.districtStats.getInvasionStatus(), self.districtStats.getInvasionType())
         invstatus = self.statusToType(tupleStatus)
         accountServerAPIKey = simbase.config.GetString('account-server-apikey', 'key')
@@ -306,14 +308,15 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         if self.districtName == "Test Canvas":
             return task.again
-
         if invstatus == 'None':
             httpReqkill = httplib.HTTPSConnection(accountServerHostname)
-            httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/1/1' % (accountServerAPIKey,self.districtName, pop, invstatus))
+            httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (accountServerAPIKey,self.districtName,
+                                                                               pop, invstatus))
             print(json.loads(httpReqkill.getresponse().read()))
         else:
             httpReq = httplib.HTTPSConnection(accountServerHostname)
-            httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/1/1' % (accountServerAPIKey,self.districtName, pop, invstatus))
+            httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/%s/%s' % (accountServerAPIKey,self.districtName,
+                                                                           pop, invstatus, total, defeated))
             print(json.loads(httpReq.getresponse().read()))
 
         return task.again

@@ -17,6 +17,8 @@ class SuitInvasionManagerAI:
         self.suitTypeIndex = None
         self.flags = 0
 
+        taskMgr.doMethodLater(10, self.updateInvasionCountTask, 'updateInvasionCount-%d' % self.air.ourChannel)
+
         self.air.netMessenger.accept(
             'startInvasion', self, self.handleStartInvasion)
         self.air.netMessenger.accept(
@@ -27,6 +29,10 @@ class SuitInvasionManagerAI:
         self.air.netMessenger.accept('queryShardStatus', self, self.sendInvasionStatus)
 
         self.sendInvasionStatus()
+
+    def updateInvasionCountTask(self, task):
+        self.air.districtStats.setInvasionCount(self.total, self.remaining)
+        return task.again
 
     def getInvading(self):
         return self.invading
