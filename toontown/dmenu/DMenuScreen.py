@@ -15,11 +15,11 @@ from toontown.dmenu import DMenuCredits
 from toontown.dmenu import DMenuQuit
 from toontown.dmenu.DMenuGlobals import *
 from toontown.dmenu.DMenuResources import *
-from toontown.dmenu import DMenuNewsManager
+from toontown.dmenu import DMenuNewsManager, DMenuOptions
 from toontown.hood import SkyUtil
 from toontown.nametag.NametagGlobals import *
 from toontown.nametag.NametagGroup import *
-from toontown.pickatoon import PickAToonOptions, PickAToon
+from toontown.pickatoon import PickAToon
 from toontown.toon import Toon, ToonDNA
 from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.toontowngui import FeatureComingSoonDialog
@@ -176,7 +176,7 @@ class DMenuScreen(DirectObject):
         self.createButtons()
 
         self.fadeOut = None
-        self.optionsMgr = PickAToonOptions.NewPickAToonOptions()
+        self.optionsMgr = DMenuOptions.DMenuOptions()
         self.quitConfirmation = DMenuQuit.DMenuQuit()
         self.newsMgr = DMenuNewsManager.DMenuNewsManager()
 
