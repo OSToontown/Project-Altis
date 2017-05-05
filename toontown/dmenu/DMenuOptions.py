@@ -130,7 +130,7 @@ class DMenuOptions(DirectObject, FSM):
         
     def enterSound(self):
         if not self.isSoundLoaded:
-            callAsync(self.loadSoundOptions).start()
+            self.loadSoundOptions()
         else:
             self.Music_Label.show()
             self.Music_toggleSlider.show()
@@ -149,8 +149,6 @@ class DMenuOptions(DirectObject, FSM):
             self.ToonChatSounds_Label.hide()
 
     def loadSoundOptions(self):
-        # Music Label
-        self.Music_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Music Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.4))
         # Music Slider
         self.Music_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, 0.3),
                                                value = settings['musicVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doMusicLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
@@ -161,8 +159,6 @@ class DMenuOptions(DirectObject, FSM):
         self.SoundFX_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0.0, 0.1),
                                                value = settings['sfxVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doSfxLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.SoundFX_toggleSlider.setScale(0.4, 0.4, 0.4)
-        # SFX Label
-        self.SoundFX_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'SFX Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.2))
 
         # Toon Chat Sound Effects
         self.ToonChatSounds_toggleButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'),
@@ -170,8 +166,11 @@ class DMenuOptions(DirectObject, FSM):
          self.guiButton.find('**/QuitBtn_RLVR'),
          self.guiButton.find('**/QuitBtn_UP')), image3_color = Vec4(0.5, 0.5, 0.5, 0.5), image_scale = (0.7, 1, 1), text = '', text3_fg = (0.5, 0.5, 0.5, 0.75), text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.1), command = self.__doToggleToonChatSounds)
         self.ToonChatSounds_toggleButton.setScale(0.8)
+        
+        self.SoundFX_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'SFX Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.2))
         self.ToonChatSounds_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Toon Chat Sounds', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0))
-
+        self.Music_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Music Volume', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, 0.4))
+        
         # Set Button Text
         self.__setToonChatSoundsButton()
         self.Music_Label.show()
@@ -185,7 +184,7 @@ class DMenuOptions(DirectObject, FSM):
         
     def enterControl(self):
         if not self.isControlLoaded:
-            callAsync(self.loadControlOptions).start()
+            self.loadControlOptions()
         else:
             self.WASD_Label.show()
             self.WASD_toggleButton.show()
@@ -210,15 +209,10 @@ class DMenuOptions(DirectObject, FSM):
         
     def loadControlOptions(self):
         # Key Remapping
-        self.WASD_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, .4))
         self.WASD_toggleButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = '', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, .3), command = self.__doToggleWASD)
 
         self.keymapDialogButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Change Keybinds', text_scale = (0.03, 0.05, 1), text_pos = (0, -.02), pos = (0, 0, .2), command = self.__openKeyRemapDialog)
         self.keymapDialogButton.setScale(1.55, 1.0, 1.0)
-
-        self.interactKey_Label = DirectLabel(self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter,
-                                      text_scale = .052, text_wordwrap = 16,
-                                      pos = (0, 0, .1))
 
         self.interactKey_toggleButton = DirectButton(self.optionsNode, relief = None, image = (
         self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')),
@@ -231,9 +225,7 @@ class DMenuOptions(DirectObject, FSM):
         self.interactKey_helpButton.setTransparency(1)
 
 
-        self.doorKey_Label = DirectLabel(self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter,
-                                      text_scale = .052, text_wordwrap = 16,
-                                      pos = (0, 0, -.1))
+
 
         self.doorKey_toggleButton = DirectButton(self.optionsNode, relief = None, image = (
         self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')),
@@ -244,6 +236,17 @@ class DMenuOptions(DirectObject, FSM):
         self.doorKey_helpButton = DirectButton(self.doorKey_toggleButton, relief = None, image = 'phase_3/maps/dmenu/help.png', scale = .05, pos = (.3, 0, 0))
         self.doorKey_helpButton.setTransparency(1)
         
+        self.WASD_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, .4))
+        self.doorKey_Label = DirectLabel(self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter,
+                                      text_scale = .052, text_wordwrap = 16,
+                                      pos = (0, 0, -.1))
+                                
+
+        self.interactKey_Label = DirectLabel(self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter,
+                                      text_scale = .052, text_wordwrap = 16,
+                                      pos = (0, 0, .1))
+
+                                      
         self.__doHelpInteractKey()
         self.__doHelpDoorKey()
         self.interactKey_help.hide()
@@ -273,7 +276,8 @@ class DMenuOptions(DirectObject, FSM):
         
     def enterVideo(self):
         if not self.isVideoLoaded:
-            callAsync(self.loadVideoOptions).start()
+            #callAsync(self.loadVideoOptions).start()
+            self.loadVideoOptions()
         else:
             self.AspectRatioList.show()
             self.Widescreen_Label.show()
@@ -310,21 +314,22 @@ class DMenuOptions(DirectObject, FSM):
         self.guiButton.find('**/QuitBtn_RLVR'),
         self.guiButton.find('**/QuitBtn_UP')), image_scale = 8, image3_color = Vec4(0.5, 0.5, 0.5, 0.5), text = '', text3_fg = (0.5, 0.5, 0.5, 0.75), text_pos = (0, -.02), pos = (0, 0, .3), image_pos = (0, 0, 0), item_text_align = TextNode.ACenter, popupMenu_text_scale = .5, item_relief = None, item_pressEffect = 1, scale = 0.1)
         self.AspectRatioList.set(base.Widescreen)
-        self.Widescreen_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Aspect Ratio', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, .4))
-
-        self.DisplaySettings_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, .2))
         self.DisplaySettingsButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image3_color = Vec4(0.5, 0.5, 0.5, 0.5), image_scale = (0.7, 1, 1), text = TTLocalizer.OptionsPageChange, text3_fg = (0.5, 0.5, 0.5, 0.75), text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, .1), command = self.__doDisplaySettings)
-
-        self.fov_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Field of view', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, 0))
-
+        
         self.fov_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, -.1),
                                                value = settings['fieldofview'], pageSize = 5, range = (30, 120), command = self.__doFovLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.fov_toggleSlider.setScale(0.25)
         self.fov_resetButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Reset FOV', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.2), command = self.__resetFov)
         self.fovsliderText = OnscreenText('0.0', scale = .3, pos = (0, .1), fg = (1, 1, 1, 1), style = 3)
         self.fovsliderText.reparentTo(self.fov_toggleSlider.thumb)
-        self.animations_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, -.3))
         self.animations_toggleButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = '', text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, -.4), command = self.__doToggleAnimations)
+      
+        self.Widescreen_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Aspect Ratio', text_align = TextNode.ACenter, text_scale = 0.052, pos = (0, 0, .4))
+        self.DisplaySettings_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, .2))
+        self.animations_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, -.3))
+        self.fov_Label = DirectLabel(parent = self.optionsNode, relief = None, text = 'Field of view', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, 0))
+        self.animations_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (0, 0, -.3))
+
         self.__doFovLevel()
         self.__setDisplaySettings()
         self.__setAnimationsButton()
