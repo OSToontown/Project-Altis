@@ -115,7 +115,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             if len(av.mailboxContents) + len(av.onOrder) >= ToontownGlobals.MaxMailboxContents:
                 self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_MailboxFull])
 
-            if not av.takeBankMoney(price):
+            if not av.takeMoney(price):
                 return
 
             item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
@@ -125,7 +125,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_ItemOnOrder])
             taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs=[avId, 'purchaseItemComplete', []])
         else:
-            if not av.takeBankMoney(price):
+            if not av.takeMoney(price):
                 return
 
             resp = item.recordPurchase(av, optional)
@@ -163,7 +163,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         else:
             return
          
-        if not av.takeBankMoney(price):
+        if not av.takeMoney(price):
             return
 
         resp = item.recordPurchase(av, optional)
