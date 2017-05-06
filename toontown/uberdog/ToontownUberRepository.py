@@ -9,7 +9,7 @@ import toontown.minigame.MinigameCreatorAI
 from toontown.rpc.ToontownRPCServer import ToontownRPCServer
 from toontown.rpc.ToontownRPCHandler import ToontownRPCHandler
 
-if config.GetBool('want-mongo-client', True):
+if config.GetBool('want-mongo-client', False):
     import pymongo
 
 class ToontownUberRepository(ToontownInternalRepository):

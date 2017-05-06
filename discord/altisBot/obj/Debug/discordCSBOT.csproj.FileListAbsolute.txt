@@ -1,0 +1,55 @@
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.Audio.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.Commands.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.Modules.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Newtonsoft.Json.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Nito.AsyncEx.Concurrent.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Nito.AsyncEx.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Nito.AsyncEx.Enlightenment.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\WebSocket4Net.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\RestSharp.dll
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.pdb
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.Audio.pdb
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.Commands.pdb
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Discord.Net.Modules.pdb
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\discordCSBOT.csprojResolveAssemblyReference.cache
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\MainWindow.g.cs
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\App.g.cs
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\discordCSBOT.Properties.Resources.resources
+d:\users\drew\documents\visual studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\discordCSBOT.csproj.GenerateResource.Cache
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Microsoft.Expression.Drawing.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\de\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\es\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\fr\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\it\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ja\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ko\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ru\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\zh-Hans\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\zh-Hant\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Drews Discord Bot 2.exe.config
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Drews Discord Bot 2.exe.manifest
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Drews Discord Bot 2.application
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Drews Discord Bot 2.exe
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\Drews Discord Bot 2.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\Drews Discord Bot 2_MarkupCompile.cache
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\Drews Discord Bot 2_MarkupCompile.lref
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\MainWindow.baml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\Drews Discord Bot 2.g.resources
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\Drews Discord Bot 2.exe.manifest
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\Drews Discord Bot 2.application
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\Drews Discord Bot 2.exe
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\Drews Discord Bot 2.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\WrapYoutubeDl.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\WrapYoutubeDl.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\MaterialDesignColors.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\obj\Debug\App.baml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ConsoleControl.WPF.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ConsoleControlAPI.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ConsoleControl.WPF.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ConsoleControl.WPF.xml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ConsoleControlAPI.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\discordCSBOT\discordCSBOT\bin\Debug\ConsoleControlAPI.xml

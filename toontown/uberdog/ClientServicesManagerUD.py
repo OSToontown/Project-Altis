@@ -31,10 +31,6 @@ minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
 accountServerEndpoint = simbase.config.GetString(
     'account-server-endpoint', 'https://projectaltis.com/api/')
-accountServerHostname = simbase.config.GetString(
-    'account-server-endpoint-hostname', 'www.projectaltis.com')
-accountServerAPIKey = simbase.config.GetString(
-    'account-server-apikey', 'key') #default is key because the key must be secret, only in config
 accountServerSecret = simbase.config.GetString(
     'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
@@ -141,7 +137,7 @@ class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
     def lookup(self, username, callback):
-        httpReq = httplib.HTTPConnection(accountServerHostname)
+        httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
         
         try:
@@ -165,7 +161,7 @@ class LocalAccountDB(AccountDB):
                       'reason': 'Invalid Cookie Specified!'})
             return
 
-        sanityChecks = httplib.HTTPConnection(accountServerHostname)
+        sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
         sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
         
         try:
@@ -233,8 +229,8 @@ class LocalAccountDB(AccountDB):
         # add type a name
         self.notify.debug("adding name from %s : %s" %(avId, name))
         try:
-            nameCheck = httplib.HTTPSConnection(accountServerHostname)
-            nameCheck.request('GET', '/api/addtypeaname2/%s/%s/%s' % (accountServerAPIKey, avId, name))
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
             resp = json.loads(nameCheck.getresponse().read())
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
@@ -244,8 +240,8 @@ class LocalAccountDB(AccountDB):
         # check type a name
         self.notify.debug("debug: checking name from %s" %(avId))
         try:
-            nameCheck = httplib.HTTPSConnection(accountServerHostname)
-            nameCheck.request('GET', '/api/checktypeaname/%s/avid/%s' % (accountServerAPIKey,avId)) # this should just use avid
+            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
             
             if resp[u"error"] == "true":
@@ -781,15 +777,11 @@ class GetAvatarsFSM(AvatarOperationFSM):
 
     def enterSendAvatars(self):
         potentialAvs = []
-        names = []
-        print self.account.get("ACCOUNT_ID", 0)
-        #print dir(self.account)
-        #print self.account.viewkeys()
+
         for avId, fields in self.avatarFields.items():
             index = self.avList.index(avId)
             wishNameState = fields.get('WishNameState', [''])[0]
             name = fields['setName'][0]
-            names.append(name.replace(" ","%20") + "%7C" + str(avId))
             nameState = 0
 
             if wishNameState == 'OPEN':
@@ -821,30 +813,6 @@ class GetAvatarsFSM(AvatarOperationFSM):
             potentialAvs.append([avId, name, fields['setDNAString'][0], index, nameState, fields['setHp'][0], fields['setMaxHp'][0], fields['setHat'], fields['setGlasses'], fields['setBackpack'], fields['setShoes']])
 
         self.csm.sendUpdateToAccountId(self.target, 'setAvatars', [potentialAvs])
-        #print dir(self)
-        while len(names) < 6:
-            names.append("0")
-        for na in names:
-            print(na)
-
-        playtoken = self.account.get("ACCOUNT_ID", 0)
-        #print '/api/toondata/%s/%s/%s/%s/%s/%s/%s/%s' % (accountServerAPIKey, playtoken, names[0], names[1], names[2], names[3], names[4], names[5])
-        try:
-            httpReq = httplib.HTTPSConnection(accountServerHostname)
-            loc = '/api/toondata/%s/%s/%s/%s/%s/%s/%s/%s' % (accountServerAPIKey, playtoken, names[0], names[1], names[2], names[3], names[4], names[5])
-            #loc = '/api/toondata/key/token/0/0/0/0/0/0'
-            httpReq.request('GET', loc)
-            try:
-                XXX = httpReq.getresponse().read()
-                #print XXX
-                response = json.loads(XXX)
-                #print response
-            except:
-                print "toondata api response failure"
-                pass
-        except:
-            print "toondata api request failure"
-
         self.demand('Off')
 
 # This inherits from GetAvatarsFSM, because the delete operation ends in a

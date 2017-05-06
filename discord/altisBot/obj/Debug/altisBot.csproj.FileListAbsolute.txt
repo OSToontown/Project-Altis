@@ -1,0 +1,102 @@
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\altisBot.csprojResolveAssemblyReference.cache
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\MainWindow.baml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\MainWindow.g.cs
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\App.g.cs
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ConsoleControl.WPF.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ConsoleControlAPI.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.Audio.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.Commands.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.Modules.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\MaterialDesignColors.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Microsoft.Expression.Drawing.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Newtonsoft.Json.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Nito.AsyncEx.Concurrent.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Nito.AsyncEx.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Nito.AsyncEx.Enlightenment.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\WebSocket4Net.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\WrapYoutubeDl.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\RestSharp.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ConsoleControl.WPF.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ConsoleControl.WPF.xml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ConsoleControlAPI.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ConsoleControlAPI.xml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.Audio.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.Commands.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Discord.Net.Modules.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\WrapYoutubeDl.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\de\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\es\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\fr\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\it\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ja\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ko\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\ru\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\zh-Hans\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\zh-Hant\Microsoft.Expression.Drawing.resources.dll
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\App.baml
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\discordCSBOT.Properties.Resources.resources
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\altisBot.csproj.GenerateResource.Cache
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Project Altis Bot.exe.config
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Project Altis Bot.exe.manifest
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Project Altis Bot.application
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Project Altis Bot.exe
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\bin\Debug\Project Altis Bot.pdb
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\Project Altis Bot_MarkupCompile.cache
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\Project Altis Bot_MarkupCompile.lref
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\Project Altis Bot.g.resources
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\Project Altis Bot.exe.manifest
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\Project Altis Bot.application
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\Project Altis Bot.exe
+D:\Users\Drew\Documents\Visual Studio 2015\Projects\altisBot\altisBot\obj\Debug\Project Altis Bot.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\Project Altis Bot.exe.config
+E:\Altis\Source\discord\altisBot\bin\Debug\Project Altis Bot.exe.manifest
+E:\Altis\Source\discord\altisBot\bin\Debug\Project Altis Bot.application
+E:\Altis\Source\discord\altisBot\bin\Debug\Project Altis Bot.exe
+E:\Altis\Source\discord\altisBot\bin\Debug\Project Altis Bot.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\ConsoleControl.WPF.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\ConsoleControlAPI.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\MaterialDesignColors.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\MaterialDesignThemes.Wpf.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\Microsoft.Expression.Drawing.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\Newtonsoft.Json.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\WrapYoutubeDl.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\RestSharp.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\ConsoleControl.WPF.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\ConsoleControl.WPF.xml
+E:\Altis\Source\discord\altisBot\bin\Debug\ConsoleControlAPI.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\ConsoleControlAPI.xml
+E:\Altis\Source\discord\altisBot\bin\Debug\Discord.Net.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\Discord.Net.Audio.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\Discord.Net.Commands.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\Discord.Net.Modules.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\MaterialDesignThemes.Wpf.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\MaterialDesignThemes.Wpf.xml
+E:\Altis\Source\discord\altisBot\bin\Debug\WrapYoutubeDl.pdb
+E:\Altis\Source\discord\altisBot\bin\Debug\de\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\es\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\fr\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\it\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\ja\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\ko\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\ru\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\zh-Hans\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\bin\Debug\zh-Hant\Microsoft.Expression.Drawing.resources.dll
+E:\Altis\Source\discord\altisBot\obj\Debug\altisBot.csprojResolveAssemblyReference.cache
+E:\Altis\Source\discord\altisBot\obj\Debug\MainWindow.baml
+E:\Altis\Source\discord\altisBot\obj\Debug\MainWindow.g.cs
+E:\Altis\Source\discord\altisBot\obj\Debug\App.g.cs
+E:\Altis\Source\discord\altisBot\obj\Debug\Project Altis Bot_MarkupCompile.cache
+E:\Altis\Source\discord\altisBot\obj\Debug\Project Altis Bot_MarkupCompile.lref
+E:\Altis\Source\discord\altisBot\obj\Debug\App.baml
+E:\Altis\Source\discord\altisBot\obj\Debug\Project Altis Bot.g.resources
+E:\Altis\Source\discord\altisBot\obj\Debug\discordCSBOT.Properties.Resources.resources
+E:\Altis\Source\discord\altisBot\obj\Debug\altisBot.csproj.GenerateResource.Cache
+E:\Altis\Source\discord\altisBot\obj\Debug\Project Altis Bot.exe.manifest
+E:\Altis\Source\discord\altisBot\obj\Debug\Project Altis Bot.application
+E:\Altis\Source\discord\altisBot\obj\Debug\Project Altis Bot.exe
+E:\Altis\Source\discord\altisBot\obj\Debug\Project Altis Bot.pdb
