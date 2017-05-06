@@ -375,7 +375,13 @@ class Quest:
 
     def doesCFOCount(self, avId, cogDict, zoneId, avList):
         return 0
+		
+    def doesCJCount(self, avId, cogDict, zoneId, avList):
+        return 0
 
+    def doesCEOCount(self, avId, cogDict, zoneId, avList):
+        return 0
+		
     def doesFactoryCount(self, avId, location, avList):
         return 0
 
