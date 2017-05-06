@@ -281,6 +281,9 @@ class Quest:
 
     def checkGagTrack(self, track):
         self.check(track >= ToontownBattleGlobals.MIN_TRACK_INDEX and track <= ToontownBattleGlobals.MAX_TRACK_INDEX, 'invalid gag track: %s' % track)
+		
+    def checkExperienceAmount(self, num):
+        self.check(num > 0, 'invalid track experience amount: %s' % num)
 
     def checkGagItem(self, item):
         self.check(item >= ToontownBattleGlobals.MIN_LEVEL_INDEX and item <= ToontownBattleGlobals.MAX_LEVEL_INDEX, 'invalid gag item: %s' % item)
@@ -570,6 +573,72 @@ class CogNewbieQuest(CogQuest, NewbieQuest):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
+			
+class TrackExpQuest(LocationBasedQuest):
+    def __init__(self, id, quest):
+        LocationBasedQuest.__init__(self, id, quest)
+        if self.__class__ == TrackExpQuest:
+            self.checkGagTrack(self.quest[1])
+            self.checkExperienceAmount(self.quest[2])
+
+    def getTrackType(self):
+        return self.quest[1]
+
+    def getNumQuestItems(self):
+        return self.getNumExp()
+
+    def getNumExp(self):
+        return self.quest[2]
+
+    def getCompletionStatus(self, av, questDesc, npc = None):
+        questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
+        questComplete = toonProgress >= self.getNumExp()
+        return getCompleteStatusWithNpc(questComplete, toNpcId, npc)
+
+    def getProgressString(self, avatar, questDesc):
+        if self.getCompletionStatus(avatar, questDesc) == COMPLETE:
+            return CompleteString
+        elif self.getNumExp() == 1:
+            return ''
+        else:
+            return TTLocalizer.QuestsExpQuestProgress % {'progress': questDesc[4],
+             'numExp': self.getNumExp()}
+
+    def getObjectiveStrings(self):
+        trackName = self.getTrackType()
+        numExp = self.getNumExp()
+        if numExp == 1:
+            text = trackName
+        else:
+            text = TTLocalizer.QuestsExpQuestCollectDesc % {'track': TTLocalizer.BattleGlobalTracks[trackName],
+             'experience': numExp}
+        return (text,)
+
+    def getString(self):
+        trackName = self.getTrackType()
+        numExp = self.getNumExp()
+        return TTLocalizer.QuestsExpQuestCollect % {'experience': numExp,
+             'track': TTLocalizer.BattleGlobalTracks[trackName]}
+
+    def getSCStrings(self, toNpcId, progress):
+        if progress >= self.getNumExp():
+            return getFinishToonTaskSCStrings(toNpcId)
+        trackName = self.getTrackType()
+        numExp = self.getNumExp()
+        if numExp == 1:
+            text = TTLocalizer.QuestsExpQuestSCStringS
+        else:
+            text = TTLocalizer.QuestsExpQuestSCStringP
+        return text % {'track': TTLocalizer.BattleGlobalTracks[trackName],
+         'experience': numExp}
+
+    def getHeadlineString(self):
+        return TTLocalizer.QuestsExpQuestHeadline
+
+    def doesExpCount(self, avId, expArray):
+        trackType = self.getTrackType()
+        return (expArray[trackType] > 0)
+
 
 
 class CogTrackQuest(CogQuest):

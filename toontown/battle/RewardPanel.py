@@ -682,6 +682,9 @@ class RewardPanel(DirectFrame):
                     questItem = quest.getItem()
                     if questItem in itemList:
                         earned = itemList.count(questItem)
+                elif quest.getType() == Quests.TrackExpQuest:
+                    track = quest.getTrackType()
+                    earned = earnedExp[track]
                 else:
                     for cogDict in cogList:
                         if cogDict['isBoss']:
