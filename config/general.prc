@@ -5,6 +5,13 @@ icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
 
+# API:
+want-api #t
+account-server-endpoint https://projectaltis.com/api/
+account-server-endpoint-hostname www.projectaltis.com
+account-server-apikey 441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428
+account-server-secret sjHgh43h43ZMcHnJ
+
 # Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info

@@ -2544,6 +2544,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         else:
             self.b_setMoney(self.money - deltaMoney)
         return True
+		
+    def takeBankMoney(self, deltaMoney, bUseJar = True):
+        totalMoney = self.bankMoney
+        if bUseJar:
+            totalMoney += self.money
+        if deltaMoney > totalMoney:
+            self.notify.warning('Not enough money! AvId: %s Has:%s Charged:%s' % (self.doId, totalMoney, deltaMoney))
+            return False
+        if bUseJar and deltaMoney > self.bankMoney:
+            self.b_setMoney(self.money - (deltaMoney - self.bankMoney))
+            self.b_setBankMoney(0)
+        else:
+            self.b_setBankMoney(self.bankMoney - deltaMoney)
+        return True
 
     def b_setMoney(self, money):
         if bboard.get('autoRich-%s' % self.doId, False):
@@ -5202,7 +5216,7 @@ def cogIndex(index):
     invoker.b_setCogIndex(index)
     return 'Set your Cog index to %d!' % index
 
-@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
+@magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str, int, int])
 def inventory(a, b=None, c=None):
     invoker = spellbook.getInvoker()
     inventory = invoker.inventory
@@ -5665,7 +5679,10 @@ def immortal():
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def goto(avIdShort):
     """ Teleport to the avId specified. """
-    avId = 100000000+avIdShort # To get target doId.
+    if len(str(avIdShort)) == 9:
+        avId = avIdShort
+    else:
+        avId = 100000000+avIdShort # To get target doId.
     toon = simbase.air.doId2do.get(avId)
     if not toon:
         return "Unable to teleport to target, they are not currently on this district."
