@@ -5673,7 +5673,10 @@ def immortal():
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def goto(avIdShort):
     """ Teleport to the avId specified. """
-    avId = 100000000+avIdShort # To get target doId.
+    if len(str(avIdShort)) == 9:
+        avId = avIdShort
+    else:
+        avId = 100000000+avIdShort # To get target doId.
     toon = simbase.air.doId2do.get(avId)
     if not toon:
         return "Unable to teleport to target, they are not currently on this district."
