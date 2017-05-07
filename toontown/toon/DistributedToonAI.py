@@ -122,15 +122,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.glasses = (0, 0, 0)
         self.backpack = (0, 0, 0)
         self.shoes = (0, 0, 0)
-        self.cogTypes = [0 * ToontownGlobals.NumSuitDepts]
-        self.cogLevel = [0 * ToontownGlobals.NumSuitDepts]
-        self.cogParts = [0 * ToontownGlobals.NumSuitDepts]
-        self.cogRadar = [0 * ToontownGlobals.NumSuitDepts]
+        self.cogTypes = [0, 0, 0, 0, 0]
+        self.cogLevel = [0, 0, 0, 0, 0]
+        self.cogParts = [0, 0, 0, 0, 0]
+        self.cogRadar = [0, 0, 0, 0, 0]
         self.trackBonusLevel = [0] * 9
         self.cogIndex = -1
         self.disguisePageFlag = 0
         self.sosPageFlag = 0
-        self.buildingRadar = [0 * ToontownGlobals.NumSuitDepts]
+        self.buildingRadar = [0, 0, 0, 0, 0]
         self.fishingRod = 0
         self.fishingTrophies = []
         self.trackArray = []
@@ -199,7 +199,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self._dbCheckDoLater = None
         self.teleportOverride = 0
         self._gmDisabled = False
-        self.promotionStatus = [0 * ToontownGlobals.NumSuitDepts]
+        self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
         self.trueFriends = []
@@ -4803,16 +4803,10 @@ def maxToon(missingTrack=None):
         CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
         CogDisguiseGlobals.PartsPerSuitBitmasks[3], # Sellbot
-        CogDisguiseGlobals.PartsPerSuitBitmasks[4], # Boardbots
-        0,
-        0,
-        0,
-        0,
-        0,
+        CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
     ])
-    target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * ToontownGlobals.NumSuitDepts)
-    target.b_setCogTypes([SuitDNA.suitsPerDept-1] * ToontownGlobals.NumSuitDepts)
-    target.b_setCogMerits([0] * ToontownGlobals.NumSuitDepts)
+    target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
     deptCount = len(SuitDNA.suitDepts)
@@ -5577,7 +5571,7 @@ def nametagStyle(nametagStyle):
 def disguise(command, suitIndex, value):
     invoker = spellbook.getTarget()
 
-    if suitIndex > ToontownGlobals.NumSuitDepts - 1:
+    if suitIndex > 4:
         return 'Invalid suit index: %s' % suitIndex
     if value < 0:
         return 'Invalid value: %s' % value
