@@ -28,17 +28,11 @@ notify.info('Reading %s...' % preferencesFilename)
 __builtin__.settings = Settings(preferencesFilename)
 from toontown.settings import ToontownSettings
 __builtin__.ttsettings = ToontownSettings
-import copy
-originalsettings = copy.deepcopy(settings)
-for setting in originalsettings:
-    if setting not in ttsettings.DefaultSettings:
-        print(setting + " not a real setting! remove!")
-        del settings[setting]
+
 for setting in ttsettings.DefaultSettings:
     if setting not in settings:
         settings[setting] = ttsettings.DefaultSettings[setting]
 
-    
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])
