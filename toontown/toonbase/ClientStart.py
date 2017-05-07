@@ -32,7 +32,7 @@ __builtin__.ttsettings = ToontownSettings
 for setting in ttsettings.DefaultSettings:
     if setting not in settings:
         settings[setting] = ttsettings.DefaultSettings[setting]
-    
+
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])

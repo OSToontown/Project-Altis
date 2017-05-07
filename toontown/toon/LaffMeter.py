@@ -1,27 +1,77 @@
 from pandac.PandaModules import Vec4
-from direct.gui.DirectGui import DirectFrame, DirectLabel
+from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownIntervals
+from toontown.toonbase import TTLocalizer
 
 class LaffMeter(DirectFrame):
     deathColor = Vec4(0.58039216, 0.80392157, 0.34117647, 1.0)
 
-    def __init__(self, avdna, hp, maxHp):
+    def __init__(self, avdna, hp, maxHp, isLocalHealth = False):
         DirectFrame.__init__(self, relief=None, sortOrder=50)
         self.initialiseoptions(LaffMeter)
-        self.container = DirectFrame(parent=self, relief=None)
         self.style = avdna
         self.av = None
         self.hp = hp
         self.maxHp = maxHp
         self.__obscured = 0
+        self.isLocalHealth = isLocalHealth
+        self.container = DirectFrame(parent = self, relief = None)
+        
         if self.style.type == 't':
             self.isToon = 1
         else:
             self.isToon = 0
         
         self.load()
+        
+    def showGags(self):
+        self.showDetailsButton['command'] = self.backToDetails
+        self.gagsBtn.hide()
+        self.toontasksButton.hide()
+        messenger.send('home')
+        self.accept('home-up', self.backToDetails)
+        self.accept('end-up', self.backToDetails)
+        
+    def showTasks(self):
+        self.showDetailsButton['command'] = self.backToDetails
+        self.gagsBtn.hide()
+        self.toontasksButton.hide()
+        messenger.send('end')
+        self.accept('home-up', self.backToDetails)
+        self.accept('end-up', self.backToDetails)
+        
+    def backToDetails(self):
+        self.showDetailsButton['command'] = self.hideDetailsPopup
+        self.gagsBtn.show()
+        self.toontasksButton.show()
+        self.ignore('home-up')
+        self.ignore('end-up')
+        messenger.send('home-up')
+        messenger.send('end-up')
 
+    def showDetailsPopup(self):
+        # TODO: Bring up a little popup with buttons to choose between showing tasks and showing gags
+        self.showDetailsButton.setColorScale(1, 1, 1, 1)
+        gagicnmodel = loader.loadModel('phase_3.5/models/gui/inventory_icons')
+        gagicon = gagicnmodel.find('**/inventory_tart')
+        gagicnmodel.removeNode()
+        self.gagsBtn = DirectButton(parent = aspect2d, relief = None, pos = (-.4, 0, 0), text_style = 3, text_pos = (0, -.3), text_scale = 0.08, text = TTLocalizer.InventoryPageTitle, geom = gagicon, geom_scale = 2, scale = 1, command = self.showGags)
+        tasksicnmodel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+        tasksicon = tasksicnmodel.find('**/questCard')
+        tasksicnmodel.removeNode()
+        self.toontasksButton = DirectButton(parent = aspect2d, relief = None, pos = (.4, 0, 0), text_style = 3, text_pos = (0, -.3), text_scale = 0.08, text = TTLocalizer.QuestPageToonTasks, geom = tasksicon, geom_scale = .35, scale = 1, command = self.showTasks)
+        self.backToDetails()
+        
+    def hideDetailsPopup(self):
+        self.showDetailsButton.setColorScale(1, 1, 1, 0)
+        messenger.send('home-up')
+        messenger.send('end-up')
+        self.gagsBtn.destroy()
+        self.toontasksButton.destroy()
+        
+        self.showDetailsButton['command'] = self.showDetailsPopup
+        
     def obscure(self, obscured):
         self.__obscured = obscured
         if self.__obscured:
@@ -93,6 +143,10 @@ class LaffMeter(DirectFrame):
              0.5,
              0.666666,
              0.833333]
+            if self.isLocalHealth: # Embed a little invisible button to show gags when clicking on the laff
+                self.showDetailsButton = DirectButton(relief = None, parent = self.container, image = 'phase_3/maps/android/tui_move_l.png', scale = (1), command = self.showDetailsPopup)
+                self.showDetailsButton.setTransparency(1)
+                self.showDetailsButton.setColorScale(1, 1, 1, 0) # Make it invisible - it still recognizes clicks
         gui.removeNode()
 
     def destroy(self):

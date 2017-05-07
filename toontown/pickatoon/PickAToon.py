@@ -11,9 +11,8 @@ from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from panda3d.core import *
 
-from toontown.dmenu import DMenuQuit
+from toontown.dmenu import DMenuQuit, DMenuOptions
 from toontown.hood import SkyUtil
-from toontown.pickatoon import PickAToonOptions
 from toontown.pickatoon import ShardPicker
 from toontown.toon import ToonDNA, Toon, ToonHead, LaffMeter
 from toontown.toonbase import TTLocalizer, ToontownGlobals
@@ -77,7 +76,7 @@ class PickAToon(DirectObject):
         self.background2d.setColorScale(.6, .1, .1, 0)
         self.backgroundClassic = None
         # self.optionsMgr = PickAToonOptions.PickAToonOptions()
-        self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
+        self.optionsMgr = DMenuOptions.DMenuOptions() # This is for the revamped options screen
         self.shardPicker = ShardPicker.ShardPicker()
         self.buttonList = []
         self.quitConfirmation = DMenuQuit.DMenuQuit()
@@ -240,7 +239,7 @@ class PickAToon(DirectObject):
             self.showToon()
             taskMgr.add(self.turnHead, 'turnHead')
             camZ = self.toon.getHeight()
-            base.camera.setPos(-60, 0, 8 + camZ)
+            base.camera.setPos(-60, 0, 8 + camZ)            
         else:
             self.changeName.hide()
             self.toon.hide()

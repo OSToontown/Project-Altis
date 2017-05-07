@@ -35,6 +35,7 @@ class HoodAI:
             dnaData = simbase.air.loadDNAFileAI(dnaStore, dnaFileName)
             self.air.dnaStoreMap[zoneId] = dnaStore
             self.air.dnaDataMap[zoneId] = dnaData
+        #self.createTime()
         self.createRain()
 
     def getZoneTable(self):
