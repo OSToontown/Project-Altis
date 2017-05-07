@@ -511,7 +511,7 @@ class DMenuOptions(DirectObject, FSM):
         ratio = self.AspectRatioList.selectedIndex
         if base.Widescreen != ratio:
             base.Widescreen = ratio
-            settings['Widescreen'] = ratio
+            settings['aspect-ratio'] = ratio
             self.settingsChanged = 1
             base.updateAspectRatio()
 

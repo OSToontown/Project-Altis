@@ -287,7 +287,7 @@ class ToonBase(OTPBase.OTPBase):
         
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 
-        self.Widescreen = settings.get('Widescreen', 0)
+        self.Widescreen = settings.get('aspect-ratio', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
         self.setTextureScale()
         self.setRatio()

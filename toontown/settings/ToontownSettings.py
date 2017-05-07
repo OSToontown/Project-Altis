@@ -22,7 +22,15 @@ DefaultSettings = {
 'anti-aliasing': False,
 'vertical-sync': False,
 'language': 'English',
-'Widescreen': 0
+'aspect-ratio': 0,
+'streamerMode': False,
+'lastNametag': {},
+'lastEffect': {},
+'lastRod': {},
+'keymap': {},
+'acceptingNewFriends': {},
+'acceptingNonFriendWhispers': {},
+'want-Custom-Controls': False
 }
 
 AnistrophicOptions = [0, 2, 4, 8, 16]

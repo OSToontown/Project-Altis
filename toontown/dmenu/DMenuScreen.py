@@ -210,13 +210,26 @@ class DMenuScreen(DirectObject):
         self.releaseNotesBox.show()
         self.releaseNotesText.show()
         if not hasattr(self, 'closeReleaseNotesButton'):
+        
             self.closeReleaseNotesButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = 'Back', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_scale = TTLocalizer.AClogoutButton, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.7, command = self.exitReleaseNotes)
+            
+            self.news_DiscordButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = 'Discord', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_scale = TTLocalizer.AClogoutButton * .8, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.65, command = webbrowser.open_new_tab, extraArgs = ['https://discord.me/ttprojectaltis'])
+            
+            self.news_RedditButton = DirectButton(relief = None, image = (btnUp, btnDn, btnRlvr), text = 'Reddit', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_scale = TTLocalizer.AClogoutButton * .8, text_pos = (0, -0.035), image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 0.65, command = webbrowser.open_new_tab, extraArgs = ['https://www.reddit.com/r/ttprojectaltis/'])
+            
         self.closeReleaseNotesButton.reparent_to(aspect2d)
         self.closeReleaseNotesButton.setPos(0, 1, -.75)
         self.closeReleaseNotesButton.show()
+        
+        self.news_DiscordButton.reparent_to(aspect2d)
+        self.news_DiscordButton.setPos(-1, 1, -.75)
+        self.news_DiscordButton.show()
+        
+        self.news_RedditButton.reparent_to(aspect2d)
+        self.news_RedditButton.setPos(1, 1, -.75)
+        self.news_RedditButton.show()
 
     def getReleaseNotes(self):
-        # TODO: Make this threaded so it doesnt freeze
         releaseNotes = self.newsMgr.fetchReleaseNotes()
         self.releaseNotesText['text'] = 'Release Notes:\n' + self.newsMgr.fetchReleaseNotes()
         
@@ -224,6 +237,8 @@ class DMenuScreen(DirectObject):
         self.releaseNotesBox.hide()
         self.releaseNotesText.hide()
         self.closeReleaseNotesButton.hide()
+        self.news_DiscordButton.hide()
+        self.news_RedditButton.hide()
         for button in self.allButtons:
             button.show()
         self.logo.show()
@@ -354,6 +369,12 @@ class DMenuScreen(DirectObject):
             self.releaseNotesText.destroy()
             self.releaseNotesBox = None
             self.releaseNotesText = None
+            self.closeReleaseNotesButton.destroy()
+            del self.closeReleaseNotesButton
+            self.news_DiscordButton.destroy()
+            del self.news_DiscordButton
+            self.news_RedditButton.destroy()
+            del self.news_RedditButton
 
         del self.bananaRayNode
         del self.bananaRayNP

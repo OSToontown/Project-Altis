@@ -17,5 +17,4 @@ class DMenuNewsManager(DirectObject):
         req = httplib.HTTPSConnection('raw.githubusercontent.com')
         req.request('GET', RELEASE_NOTES_URL)
         self.releaseNotes = req.getresponse().read()
-        print(self.releaseNotes)
         return self.releaseNotes
