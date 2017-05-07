@@ -168,6 +168,9 @@ class ToonBase(OTPBase.OTPBase):
         self.asyncLoader = ToontownAsyncLoader.ToontownAsyncLoader(self)
         __builtins__['asyncloader'] = self.asyncLoader
         
+        self.asyncCall = ToontownAsyncLoader.AsyncCall
+        __builtins__['callAsync'] = self.asyncCall
+        
         __builtins__['NO_FADE_SORT_INDEX'] = 4000
         oldLoader.destroy()
         self.accept('PandaPaused', self.disableAllAudio)
@@ -284,7 +287,7 @@ class ToonBase(OTPBase.OTPBase):
         
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 
-        self.Widescreen = settings.get('Widescreen', 0)
+        self.Widescreen = settings.get('aspect-ratio', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
         self.setTextureScale()
         self.setRatio()

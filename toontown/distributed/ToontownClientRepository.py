@@ -54,7 +54,7 @@ from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
-from toontown.dmenu import DMenuScreen, DMenuDisclaimer
+from toontown.dmenu import DMenuScreen, DMenuDisclaimer, DMenuMobileScreen
 from toontown.friends import ToontownFriendSecret
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
@@ -205,7 +205,10 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             lambda: self.loginFSM.request('waitForAvatarList'))
 
     def acceptGame(self):
-        self.dmenu = DMenuScreen.DMenuScreen
+        if base.wantMobile:
+            self.dmenu = DMenuMobileScreen.DMenuMobileScreen
+        else:
+            self.dmenu = DMenuScreen.DMenuScreen
         self.dmenu()
             
     def enterChooseAvatar(self, avList):
