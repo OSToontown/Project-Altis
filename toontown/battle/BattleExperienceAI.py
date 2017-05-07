@@ -182,4 +182,4 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
         else:
             simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
             simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
-                simbase.air.questManager.toonCollectedExp(toon, expArray)
+            simbase.air.questManager.toonCollectedExp(toon, expArray)
