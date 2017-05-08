@@ -842,7 +842,7 @@ class CogTrackLevelQuest(CogQuest):
     def getHeadlineString(self):
         return TTLocalizer.QuestsCogTrackQuestHeadline
 
-    def doesCogCount(self, avId, cogDict, zoneId):
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
         questCogTrack = self.getCogTrack()
         questCogLevel = self.getCogLevel()
         return questCogTrack == cogDict['track'] and questCogLevel <= cogDict['level'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
@@ -2714,8 +2714,8 @@ QuestDict = {
        (CogTrackLevelQuest,
         Anywhere,
         4,
-        2,
-        'c'),
+        'c',
+        2),
        Same,
        Same,
        NA,
@@ -2726,8 +2726,8 @@ QuestDict = {
        (CogTrackLevelQuest,
         Anywhere,
         4,
-        2,
-        'l'),
+        'l',
+        2),
        Same,
        Same,
        NA,
@@ -2738,8 +2738,8 @@ QuestDict = {
        (CogTrackLevelQuest,
         Anywhere,
         4,
-        2,
-        'm'),
+        'm',
+        2),
        Same,
        Same,
        NA,
@@ -2750,8 +2750,8 @@ QuestDict = {
        (CogTrackLevelQuest,
         Anywhere,
         4,
-        2,
-        's'),
+        's',
+        2),
        Same,
        Same,
        NA,
@@ -2762,8 +2762,8 @@ QuestDict = {
        (CogTrackLevelQuest,
         Anywhere,
         4,
-        2,
-        'g'),
+        'g',
+        2),
        Same,
        Same,
        NA,

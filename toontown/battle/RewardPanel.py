@@ -613,7 +613,7 @@ class RewardPanel(DirectFrame):
         intervalList = [Func(self.promotion, toon, dept), Wait(finalDelay), Func(self.cleanupPromotion)]
         return intervalList
 
-    def getQuestIntervalList(self, toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList = []):
+    def getQuestIntervalList(self, toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList = [], earnedExp = []):
         self.notify.debug("getQuestIntervalList() was called!")
         avId = toon.getDoId()
         tickDelay = 0.2
@@ -808,7 +808,7 @@ class RewardPanel(DirectFrame):
                 track.append(Wait(0.25))
                 track += partList
                 track.append(Wait(0.5))
-        questList = self.getQuestIntervalList(toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList)
+        questList = self.getQuestIntervalList(toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList, earnedExp)
         if questList:
             avQuests = []
             for i in xrange(0, len(origQuestsList), 5):
