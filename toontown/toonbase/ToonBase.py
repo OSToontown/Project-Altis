@@ -291,6 +291,8 @@ class ToonBase(OTPBase.OTPBase):
         self.currentScale = settings.get('texture-scale', 1.0)
         self.setTextureScale()
         self.setRatio()
+        self.updateAntiAliasing()
+        self.updateAnisotrophicFiltering()
         
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
@@ -340,13 +342,19 @@ class ToonBase(OTPBase.OTPBase):
         self.notify.info("Pre-loading PICK A TOON GUI 2")
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
         self.notify.info("Pre-loading MAKE A TOON GUI")
-
-            
+        
+    def updateAntiAliasing(self):
+        loadPrcFileData('', 'framebuffer-multisample %s' %settings.get('anti-aliasing'))
+    
     def updateAspectRatio(self):
         self.setRatio()
 
+    def updateAnisotrophicFiltering(self):
+        level = ttsettings.AnistrophicOptions[settings.get('anisotropic-filtering')]
+        
+        loadPrcFileData('', 'texture-anisotropic-degree %d' % level)
+        
     def setRatio(self): # Set the aspect ratio
-        print(GraphicsOptions.AspectRatios[self.Widescreen])
         base.setAspectRatio(GraphicsOptions.AspectRatios[self.Widescreen])
             
     def setTextureScale(self): # Set the global texture scale (TODO)
