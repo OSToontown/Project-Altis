@@ -345,6 +345,9 @@ class ToonBase(OTPBase.OTPBase):
         
         self.lockedMusic = False
             
+    def updateAntiAliasing(self):
+        loadPrcFileData('', 'framebuffer-multisample %s' %settings.get('anti-aliasing'))
+            
     def updateAspectRatio(self):
         self.setRatio()
 
