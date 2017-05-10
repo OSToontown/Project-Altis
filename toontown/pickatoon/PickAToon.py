@@ -444,11 +444,19 @@ class PickAToon(DirectObject):
         self.shardPicker.showPicker()
         self.shardsButton['text'] = 'Back'
         self.shardsButton['command'] = self.hideShardPicker
+        for button in self.buttonList:
+            button.hide()
+        if hasattr(self, 'laffMeter'):
+            self.laffMeter.hide()
 
     def hideShardPicker(self):
         self.shardPicker.hidePicker()
         self.shardsButton['text'] = 'Districts'
         self.shardsButton['command'] = self.openShardPicker
+        for button in self.buttonList:
+            button.show()
+        if hasattr(self, 'laffMeter'):
+            self.laffMeter.show()
 
     def quitGame(self):
         self.showQuitConfirmation()
