@@ -89,7 +89,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.buttonXstart = self.itemFrameXorigin + 0.293
         self.regenerateScrollList()
         self.reparentTo(base.a2dBottomLeft)
-        self.setPos(0.3, 0, .9)
+        self.setPos(0.5, 0, 1.1)
 
     def unload(self):
         self.gui.removeNode()
@@ -114,7 +114,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
          self.gui.find('**/FndsLst_ScrollUp')), incButton_relief = None, incButton_scale = (self.arrowButtonScale, self.arrowButtonScale, -self.arrowButtonScale), incButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin - 0.999), incButton_image3_color = Vec4(1, 1, 1, 0.2), decButton_image = (self.gui.find('**/FndsLst_ScrollUp'),
          self.gui.find('**/FndsLst_ScrollDN'),
          self.gui.find('**/FndsLst_ScrollUp_Rllvr'),
-         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief = None, decButton_scale = (self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin + 0.227), decButton_image3_color = Vec4(1, 1, 1, 0.2), itemFrame_pos = (self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale = 1.0, itemFrame_relief = DGG.SUNKEN, itemFrame_frameSize = (self.listXorigin,
+         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief = None, decButton_scale = (self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin + 0.125), decButton_image3_color = Vec4(1, 1, 1, 0.2), itemFrame_pos = (self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale = 1.0, itemFrame_relief = DGG.SUNKEN, itemFrame_frameSize = (self.listXorigin,
          self.listXorigin + self.listFrameSizeX,
          self.listZorigin,
          self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor = (0.4, 0.4, 1, 0.5), itemFrame_borderWidth = (0.01, 0.01), numItemsVisible = 15, forceHeight = 0.065, items = self.shardButtons)
