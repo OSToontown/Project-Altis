@@ -307,7 +307,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.invLastStatus = invstatus
 
         if self.districtName == "Test Canvas":
-            return task.again
+            return
         if invstatus == 'None':
             httpReqkill = httplib.HTTPSConnection(accountServerHostname)
             httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (accountServerAPIKey,self.districtName,

@@ -7,6 +7,7 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
+        self.air = air
         self.districtId = 0
         self.avatarCount = 0
         self.newAvatarCount = 0
@@ -95,7 +96,7 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
         self.invasionTotal = total
 
     def getInvasionRemaining(self):
-        return self.invasionRemaining
+        return self.air.suitInvasionManager.remaining
 
     def getInvasionTotal(self):
-        return self.invasionTotal
+        return self.air.suitInvasionManager.total
