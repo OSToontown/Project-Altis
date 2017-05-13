@@ -445,6 +445,9 @@ class ToonBase(OTPBase.OTPBase):
                 nametag.show()
 
     def takeScreenShot(self):
+        if hasattr(self, 'screenShotNotice') and self.screenShotNotice:
+            self.screenShotNotice.destroy()
+            taskMgr.remove('clearScreenshot')
         if not os.path.exists(TTLocalizer.ScreenshotPath):
             os.mkdir(TTLocalizer.ScreenshotPath)
             self.notify.info('Made new directory to save screenshots.')
@@ -477,16 +480,16 @@ class ToonBase(OTPBase.OTPBase):
         self.lastScreenShotTime = globalClock.getRealTime()
         pandafile = Filename(str(ExecutionEnvironment.getCwd()) + '/' + str(screenshot))
         winfile = pandafile.toOsSpecific()
-        screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
-        screenShotNotice.reparentTo(base.a2dBottomCenter)
-        screenShotNotice.setBin('gui-popup', 0)
+        self.screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
+        self.screenShotNotice.reparentTo(base.a2dBottomCenter)
+        self.screenShotNotice.setBin('gui-popup', 0)
         if coordOnScreen:
             if strTextLabel is not None:
                 strTextLabel.destroy()
             coordTextLabel.destroy()
             
         def clearScreenshotMsg(task):
-            screenShotNotice.destroy()
+            self.screenShotNotice.destroy()
             return task.done
 
         taskMgr.doMethodLater(5.0, clearScreenshotMsg, 'clearScreenshot')
