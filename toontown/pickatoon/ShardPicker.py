@@ -60,7 +60,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.textDisabledColor = Vec4(0.4, 0.8, 0.4, 1)
         self.ShardInfoUpdateInterval = 5.0
         self.lowPop, self.midPop, self.highPop = base.getShardPopLimits()
-        self.showPop = False # config.GetBool('show-total-population', 1)
+        self.showPop = True # config.GetBool('show-total-population', 1)
         self.adminForceReload = 0
         self.load()
 
@@ -77,6 +77,8 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         shardPop_ycoord = helpText_ycoord - 0.523
         totalPop_ycoord = shardPop_ycoord - 0.26
         self.gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
+        self.totalPopulationText = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPagePopulationTotal % 1, text_scale=main_text_scale, text_wordwrap=8, textMayChange=1, text_align=TextNode.ACenter, pos=(0.65, 0, totalPop_ycoord), text_style = 3, text_fg = (1, 1, 1, 1))
+        self.totalPopulationText.show()
         self.listXorigin = -0.02
         self.listFrameSizeX = 0.67
         self.listZorigin = -0.96
@@ -87,7 +89,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
         self.buttonXstart = self.itemFrameXorigin + 0.293
         self.regenerateScrollList()
         self.reparentTo(base.a2dBottomLeft)
-        self.setPos(0.3, 0, .9)
+        self.setPos(0.5, 0, 1.1)
 
     def unload(self):
         self.gui.removeNode()
@@ -112,12 +114,12 @@ class ShardPicker(ShtikerPage.ShtikerPage):
          self.gui.find('**/FndsLst_ScrollUp')), incButton_relief = None, incButton_scale = (self.arrowButtonScale, self.arrowButtonScale, -self.arrowButtonScale), incButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin - 0.999), incButton_image3_color = Vec4(1, 1, 1, 0.2), decButton_image = (self.gui.find('**/FndsLst_ScrollUp'),
          self.gui.find('**/FndsLst_ScrollDN'),
          self.gui.find('**/FndsLst_ScrollUp_Rllvr'),
-         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief = None, decButton_scale = (self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin + 0.227), decButton_image3_color = Vec4(1, 1, 1, 0.2), itemFrame_pos = (self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale = 1.0, itemFrame_relief = DGG.SUNKEN, itemFrame_frameSize = (self.listXorigin,
+         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief = None, decButton_scale = (self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos = (self.buttonXstart, 0, self.itemFrameZorigin + 0.125), decButton_image3_color = Vec4(1, 1, 1, 0.2), itemFrame_pos = (self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale = 1.0, itemFrame_relief = DGG.SUNKEN, itemFrame_frameSize = (self.listXorigin,
          self.listXorigin + self.listFrameSizeX,
          self.listZorigin,
          self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor = (0.4, 0.4, 1, 0.5), itemFrame_borderWidth = (0.01, 0.01), numItemsVisible = 15, forceHeight = 0.065, items = self.shardButtons)
         self.scrollList.scrollTo(selectedIndex)
-
+        
     def askForShardInfoUpdate(self, task = None):
         ToontownDistrictStats.refresh('shardInfoUpdated')
         taskMgr.doMethodLater(self.ShardInfoUpdateInterval, self.askForShardInfoUpdate, 'ShardPageUpdateTask-doLater')
@@ -280,6 +282,9 @@ class ShardPicker(ShtikerPage.ShtikerPage):
 
         if anyChanges or self.adminForceReload:
             self.regenerateScrollList()
+            
+        self.totalPopulationText['text'] = TTLocalizer.ShardPagePopulationTotal % totalPop
+            
         helpText = TTLocalizer.ShardPageHelpIntro
         if shardName:
             if currentShardId == ToontownGlobals.WelcomeValleyToken:

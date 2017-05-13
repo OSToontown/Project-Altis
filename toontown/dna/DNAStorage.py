@@ -135,7 +135,7 @@ class DNAStorage(object):
         filename = nodes[code][0]
         search = nodes[code][1]
         try:
-           model = NodePath(Loader.getGlobalPtr().loadSync(Filename(filename)))
+           model = loader.pdnaModel(Filename(filename))
         except:
            print "DNAStorage: Failed to load %s!" % (filename)
            return

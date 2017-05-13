@@ -359,7 +359,6 @@ FT_FullSuit = 'fullSuit'
 FT_Leg = 'leg'
 FT_Arm = 'arm'
 FT_Torso = 'torso'
-NumSuitDepts = 10
 factoryId2factoryType = {MockupFactoryId: FT_FullSuit,
  SellbotFactoryInt: FT_FullSuit,
  LawbotOfficeInt: FT_FullSuit}

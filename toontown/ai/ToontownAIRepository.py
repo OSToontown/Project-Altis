@@ -53,6 +53,7 @@ from toontown.minigame.TrolleyHolidayMgrAI import TrolleyHolidayMgrAI
 from toontown.minigame.TrolleyWeekendMgrAI import TrolleyWeekendMgrAI
 from toontown.pets.PetManagerAI import PetManagerAI
 from toontown.safezone.SafeZoneManagerAI import SafeZoneManagerAI
+from toontown.suit import SuitInvasionGlobals
 from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
@@ -299,7 +300,7 @@ class ToontownAIRepository(ToontownInternalRepository):
 
     def trueUniqueName(self, name):
         return self.uniqueName(name)
-        
+
     def updateInvasionTrackerTask(self, task):
         task.delayTime = 10 # Set it to 10 after doing it the first time
         statusToType = {
@@ -311,6 +312,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         5: 'Boardbot'}
         pop = self.districtStats.getAvatarCount()
         invstatus = statusToType.get(self.districtStats.getInvasionStatus(), 'None')
+        total = self.districtStats.getInvasionTotal()
+        defeated = total - self.districtStats.getInvasionRemaining()
+        tupleStatus = (self.districtStats.getInvasionStatus(), self.districtStats.getInvasionType())
+        invstatus = self.statusToType(tupleStatus)
+        accountServerAPIKey = simbase.config.GetString('account-server-apikey', 'key')
+        accountServerHostname = simbase.config.GetString('account-server-endpoint-hostname', 'www.projectaltis.com')
       #  if pop == self.invLastPop and invstatus == self.invLastStatus:
       #      return task.again # Don't attempt to update the database, its a waste
 	  # No it's not a waste. PLZ
@@ -324,6 +331,41 @@ class ToontownAIRepository(ToontownInternalRepository):
         else:
             httpReq = httplib.HTTPSConnection('www.projectaltis.com')
             httpReq.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
+
+        if self.districtName == "Test Canvas":
+            return
+        if invstatus == 'None':
+            httpReqkill = httplib.HTTPSConnection(accountServerHostname)
+            httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (accountServerAPIKey,self.districtName,
+                                                                               pop, invstatus))
+            print(json.loads(httpReqkill.getresponse().read()))
+        else:
+            httpReq = httplib.HTTPSConnection(accountServerHostname)
+            httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/%s/%s' % (accountServerAPIKey,self.districtName,
+                                                                           pop, invstatus, total, defeated))
+
             print(json.loads(httpReq.getresponse().read()))
 
         return task.again
+
+    def statusToType(self, tupleInvasionStatus):
+        try:
+            statusToSuit = {
+                0: 'None',
+                1: 'Bossbot',
+                2: 'Lawbot',
+                3: 'Cashbot',
+                4: 'Sellbot',
+                5: 'Boardbot'
+            }
+            suit = statusToSuit.get(tupleInvasionStatus[0], 'None')
+            if suit == 'None':
+                return suit
+
+            Type = SuitInvasionGlobals.comboToType.get(str(tupleInvasionStatus[0]) + str(tupleInvasionStatus[1]), 'None')
+            Type = Type.replace(' ', '%20')
+            if Type == 'None':
+                return Type
+            return Type + '%7C' + suit
+        except:
+            return 'None'

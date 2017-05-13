@@ -1,3 +1,4 @@
+import traceback
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.parties import PartyGlobals
@@ -20,7 +21,8 @@ class DistributedPartyGateAI(DistributedObjectAI):
         try:
             self.sendUpdateToAvatarId(avId, 'listAllPublicParties', [partyManager.getPublicParties()])
         except:
-            pass
+            print(traceback.format_exc())
+            
     def partyChoiceRequest(self, avId, shardId, zoneId):
         # Try to get a spot for them in the party
         # find partyId

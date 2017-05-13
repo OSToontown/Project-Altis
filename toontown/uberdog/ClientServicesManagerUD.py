@@ -1252,6 +1252,11 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def requestAvatars(self):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))
         self.runAccountFSM(GetAvatarsFSM)
+        
+    def requestMOTD(self):
+        acc = self.air.getAccountIdFromSender()
+        motd = '[SHOULD NOT SEE]'
+        self.sendUpdateToAccountId(acc, 'setMOTD', [motd])
 
     def createAvatar(self, dna, index, uber, tracks, pg):
         self.runAccountFSM(CreateAvatarFSM, dna, index, uber, tracks, pg)

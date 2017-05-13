@@ -31,7 +31,7 @@ class DistributedStageBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI
             self.suitsKilledPerFloor[floor].extend(self.suitsKilledThisBattle)
 
     def handleToonsWon(self, toons):
-        extraMerits = [0 * ToontownGlobals.NumSuitDepts]
+        extraMerits = [0, 0, 0, 0]
         amount = ToontownGlobals.StageNoticeRewards[self.level.stageId]
         index = ToontownGlobals.cogHQZoneId2deptIndex(self.level.stageId)
         extraMerits[index] = amount

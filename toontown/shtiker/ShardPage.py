@@ -73,12 +73,8 @@ class ShardPage(ShtikerPage.ShtikerPage):
         self.lowPop = config.GetInt('shard-low-pop', 150)
         self.midPop = config.GetInt('shard-mid-pop', 300)
         self.highPop = -1
-        if base.localAvatar.getAdminAccess() >= 375:
-            self.showPop = True
-            self.showTotalPop = True
-        else:
-            self.showPop = False
-            self.showTotalPop = False
+        self.showPop = True
+        self.showTotalPop = True
         self.noTeleport = config.GetBool('shard-page-disable', False)
 
     def load(self):

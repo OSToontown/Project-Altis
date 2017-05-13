@@ -48,7 +48,6 @@ want-live-updates #f
 want-cuda #t
 want-crossplat #t
 allow-portal-cull #t 
-framebuffer-multisample	#f
 gl-cheap-textures #f
 geom-cache-size	2500
 glsl-preprocess #f
@@ -88,8 +87,6 @@ smooth-min-suggest-resync 0
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0
 
-# Textures:
-texture-anisotropic-degree 8
 
 # Preferences:
 preferences-filename preferences.json

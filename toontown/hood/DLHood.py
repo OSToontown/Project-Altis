@@ -19,3 +19,8 @@ class DLHood(ToonHood):
       ToontownGlobals.WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DL.pdna'],
       ToontownGlobals.HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_DL.pdna'],
       ToontownGlobals.SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_DL.pdna']}
+      
+    def load(self):
+        ToonHood.load(self)
+
+        self.fog = Fog('DLFog')

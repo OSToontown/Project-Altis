@@ -50,6 +50,11 @@ class ClientServicesManager(DistributedObjectGlobal):
 
     def requestAvatars(self):
         self.sendUpdate('requestAvatars')
+        
+        #self.sendUpdate('requestMOTD')
+        
+    def setMOTD(self, motd):
+        base.cr.motdText = motd
 
     def setAvatars(self, avatars):
         avList = []
