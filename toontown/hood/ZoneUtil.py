@@ -62,6 +62,8 @@ def getToonWhereName(zoneId):
 
 
 def isPlayground(zoneId):
+    if zoneId == 15000:
+        return True
     whereName = getWhereName(zoneId, False)
     if whereName == 'cogHQExterior':
         return True
