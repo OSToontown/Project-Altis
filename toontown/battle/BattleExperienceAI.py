@@ -133,9 +133,11 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
 
     for toon in activeToonList:
         toonExp = 0
+        expArray = []
         for i in xrange(len(ToontownBattleGlobals.Tracks)):
             uberIndex = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
             exp = getSkillGained(toonSkillPtsGained, toon.doId, i)
+            expArray.append(exp)
             needed = ToontownBattleGlobals.Levels[i][ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1] + ToontownBattleGlobals.UberSkill
             hasUber = 0
             totalExp = exp + toon.experience.getExp(i)
@@ -172,6 +174,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                 # Notify the AI that the toon killed cogs
                 simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
                 simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
+                simbase.air.questManager.toonCollectedExp(toon, expArray)
 
             # Looks like the toon wasnt too helpful...
             else:
@@ -179,3 +182,4 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
         else:
             simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
             simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
+            simbase.air.questManager.toonCollectedExp(toon, expArray)

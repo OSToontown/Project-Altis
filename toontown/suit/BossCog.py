@@ -21,7 +21,8 @@ GenericModel = 'phase_9/models/char/bossCog'
 ModelDict = {'s': 'phase_9/models/char/sellbotBoss',
  'm': 'phase_10/models/char/cashbotBoss',
  'l': 'phase_11/models/char/lawbotBoss',
- 'c': 'phase_12/models/char/bossbotBoss'}
+ 'c': 'phase_12/models/char/bossbotBoss',
+ 'g': 'phase_12/models/char/bossbotBoss'}
 AnimList = ('Ff_speech', 'ltTurn2Wave', 'wave', 'Ff_lookRt', 'turn2Fb', 'Ff_neutral', 'Bb_neutral', 'Ff2Bb_spin', 'Bb2Ff_spin', 'Fb_neutral', 'Bf_neutral', 'Fb_firstHit', 'Fb_downNeutral', 'Fb_downHit', 'Fb_fall', 'Fb_down2Up', 'Fb_downLtSwing', 'Fb_downRtSwing', 'Fb_DownThrow', 'Fb_UpThrow', 'Fb_jump', 'golf_swing')
 
 
@@ -194,23 +195,33 @@ class BossCog(Avatar.Avatar):
         health = 1.0 - float(self.bossDamage) / float(self.bossMaxDamage)
         if health > 0.95:
             condition = 0
-        elif health > 0.7:
+        elif health > 0.9:
             condition = 1
-        elif health > 0.3:
+        elif health > 0.8:
             condition = 2
-        elif health > 0.05:
+        elif health > 0.7:
             condition = 3
-        elif health > 0.0:
+        elif health > 0.6:
             condition = 4
-        else:
+        elif health > 0.5:
             condition = 5
+        elif health > 0.3:
+            condition = 6
+        elif health > 0.15:
+            condition = 7
+        elif health > 0.05:
+            condition = 8
+        elif health > 0.0:
+            condition = 9
+        else:
+            condition = 10
         
         if self.healthCondition != condition:
-            if condition == 4:
+            if condition == 9:
                 blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task(self.__blinkGray), Task.pause(0.1))
                 taskMgr.add(blinkTask, self.uniqueName('blink-task'))
-            elif condition == 5:
-                if self.healthCondition == 4:
+            elif condition == 10:
+                if self.healthCondition == 9:
                     taskMgr.remove(self.uniqueName('blink-task'))
                 blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.25), Task(self.__blinkGray), Task.pause(0.1))
                 taskMgr.add(blinkTask, self.uniqueName('blink-task'))

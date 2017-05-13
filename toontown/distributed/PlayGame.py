@@ -8,6 +8,7 @@ from direct.task.Task import Task
 from ToontownMsgTypes import *
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import TTHood
+from toontown.hood import TTOHood
 from toontown.hood import DDHood
 from toontown.hood import MMHood
 from toontown.hood import BRHood
@@ -16,7 +17,7 @@ from toontown.hood import DLHood
 from toontown.hood import GSHood
 from toontown.hood import OZHood
 from toontown.hood import GZHood
-from toontown.hood import SellbotHQ, CashbotHQ, LawbotHQ, BossbotHQ
+from toontown.hood import SellbotHQ, CashbotHQ, LawbotHQ, BossbotHQ, BoardbotHQ
 from toontown.hood import TutorialHood
 from direct.task import TaskManagerGlobal
 from toontown.hood import QuietZoneState
@@ -30,6 +31,7 @@ from toontown.dna.DNAParser import *
 class PlayGame(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('PlayGame')
     Hood2ClassDict = {ToontownGlobals.ToontownCentral: TTHood.TTHood,
+     ToontownGlobals.ToontownCentralOld: TTOHood.TTOHood,
      ToontownGlobals.DonaldsDock: DDHood.DDHood,
      ToontownGlobals.TheBrrrgh: BRHood.BRHood,
      ToontownGlobals.MinniesMelodyland: MMHood.MMHood,
@@ -44,8 +46,10 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.CashbotHQ: CashbotHQ.CashbotHQ,
      ToontownGlobals.LawbotHQ: LawbotHQ.LawbotHQ,
      ToontownGlobals.GolfZone: GZHood.GZHood,
-     ToontownGlobals.PartyHood: PartyHood.PartyHood}
+     ToontownGlobals.PartyHood: PartyHood.PartyHood,
+     ToontownGlobals.BoardbotHQ: BoardbotHQ.BoardbotHQ}
     Hood2StateDict = {ToontownGlobals.ToontownCentral: 'TTHood',
+     ToontownGlobals.ToontownCentralOld: 'TTOHood',
      ToontownGlobals.DonaldsDock: 'DDHood',
      ToontownGlobals.TheBrrrgh: 'BRHood',
      ToontownGlobals.MinniesMelodyland: 'MMHood',
@@ -60,13 +64,15 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.CashbotHQ: 'CashbotHQ',
      ToontownGlobals.LawbotHQ: 'LawbotHQ',
      ToontownGlobals.GolfZone: 'GZHood',
-     ToontownGlobals.PartyHood: 'PartyHood'}
+     ToontownGlobals.PartyHood: 'PartyHood',
+     ToontownGlobals.BoardbotHQ: 'BoardbotHQ'}
 
     def __init__(self, parentFSM, doneEvent):
         StateData.StateData.__init__(self, doneEvent)
         self.place = None
         self.fsm = ClassicFSM.ClassicFSM('PlayGame', [State.State('start', self.enterStart, self.exitStart, ['quietZone']),
          State.State('quietZone', self.enterQuietZone, self.exitQuietZone, ['TTHood',
+          'TTOHood',
           'DDHood',
           'BRHood',
           'MMHood',
@@ -81,8 +87,10 @@ class PlayGame(StateData.StateData):
           'BossbotHQ',
           'TutorialHood',
           'EstateHood',
-          'PartyHood']),
+          'PartyHood',
+          'BoardbotHQ']),
          State.State('TTHood', self.enterTTHood, self.exitTTHood, ['quietZone']),
+         State.State('TTOHood', self.enterTTOHood, self.exitTTOHood, ['quietZone']),
          State.State('DDHood', self.enterDDHood, self.exitDDHood, ['quietZone']),
          State.State('BRHood', self.enterBRHood, self.exitBRHood, ['quietZone']),
          State.State('MMHood', self.enterMMHood, self.exitMMHood, ['quietZone']),
@@ -97,7 +105,8 @@ class PlayGame(StateData.StateData):
          State.State('LawbotHQ', self.enterLawbotHQ, self.exitLawbotHQ, ['quietZone']),
          State.State('TutorialHood', self.enterTutorialHood, self.exitTutorialHood, ['quietZone']),
          State.State('EstateHood', self.enterEstateHood, self.exitEstateHood, ['quietZone']),
-         State.State('PartyHood', self.enterPartyHood, self.exitPartyHood, ['quietZone'])], 'start', 'start')
+         State.State('PartyHood', self.enterPartyHood, self.exitPartyHood, ['quietZone']),
+         State.State('BoardbotHQ', self.enterBoardbotHQ, self.exitBoardbotHQ, ['quietZone'])], 'start', 'start')
         self.fsm.enterInitialState()
         self.parentFSM = parentFSM
         self.parentFSM.getStateNamed('playGame').addChild(self.fsm)
@@ -294,6 +303,13 @@ class PlayGame(StateData.StateData):
     def exitTTHood(self):
         self._destroyHood()
 
+    def enterTTOHood(self, requestStatus):
+        self.accept(self.hoodDoneEvent, self.handleHoodDone)
+        self.hood.enter(requestStatus)
+
+    def exitTTOHood(self):
+        self._destroyHood()
+        
     def enterDDHood(self, requestStatus):
         self.accept(self.hoodDoneEvent, self.handleHoodDone)
         self.hood.enter(requestStatus)
@@ -384,7 +400,7 @@ class PlayGame(StateData.StateData):
         base.localAvatar.book.obscureButton(1)
         base.localAvatar.book.setSafeMode(1)
         base.localAvatar.laffMeter.obscure(1)
-        base.localAvatar.chatMgr.obscure(1, 1)
+        base.localAvatar.chatMgr.obscure(1, 1, 1)
         base.localAvatar.obscureFriendsListButton(1)
         requestStatus['how'] = 'tutorial'
         if base.config.GetString('language', 'english') == 'japanese':
@@ -398,7 +414,7 @@ class PlayGame(StateData.StateData):
         base.localAvatar.book.obscureButton(0)
         base.localAvatar.book.setSafeMode(0)
         base.localAvatar.laffMeter.obscure(0)
-        base.localAvatar.chatMgr.obscure(0, 0)
+        base.localAvatar.chatMgr.obscure(0, 0, 0)
         base.localAvatar.obscureFriendsListButton(-1)
 
     def enterEstateHood(self, requestStatus):
@@ -551,5 +567,12 @@ class PlayGame(StateData.StateData):
     def getPlaceId(self):
         if self.hood:
             return self.hood.hoodId
+        else:
+            return None
+        
+    def enterBoardbotHQ(self, requestStatus):
+        self.accept(self.hoodDoneEvent, self.handleHoodDone)
+        self.hood.enter(requestStatus)
 
-        return None
+    def exitBoardbotHQ(self):
+        self._destroyHood()

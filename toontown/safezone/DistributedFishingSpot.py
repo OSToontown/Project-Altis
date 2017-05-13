@@ -130,7 +130,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.generateInit(self)
         self.nodePath = NodePath(self.uniqueName('FishingSpot'))
         self.angleNP = self.nodePath.attachNewNode(self.uniqueName('FishingSpotAngleNP'))
-        self.collSphere = CollisionSphere(0, 0, 0, self.getSphereRadius())
+        self.collSphere = CollisionSphere(0, -1, 1, self.getSphereRadius())
         self.collSphere.setTangible(0)
         self.collNode = CollisionNode(self.uniqueName('FishingSpotSphere'))
         self.collNode.setCollideMask(ToontownGlobals.WallBitmask)

@@ -337,7 +337,8 @@ Shirts = ['phase_3/maps/desat_shirt_1.jpg',
  'phase_4/maps/tt_t_chr_avt_shirt_trolley05.jpg',
  'phase_4/maps/tt_t_chr_avt_shirt_saveBuilding4.jpg',
  'phase_4/maps/tt_t_chr_avt_shirt_saveBuilding05.jpg',
- 'phase_4/maps/tt_t_chr_avt_shirt_anniversary.jpg']
+ 'phase_4/maps/tt_t_chr_avt_shirt_anniversary.jpg',
+ 'phase_4/maps/i60_shirt.jpg']
 BoyShirts = [(0, 0),
  (1, 1),
  (2, 2),
@@ -519,7 +520,8 @@ Sleeves = ['phase_3/maps/desat_sleeve_1.jpg',
  'phase_4/maps/tt_t_chr_avt_shirtSleeve_trolley05.jpg',
  'phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding4.jpg',
  'phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding05.jpg',
- 'phase_4/maps/tt_t_chr_avt_shirtSleeve_anniversary.jpg']
+ 'phase_4/maps/tt_t_chr_avt_shirtSleeve_anniversary.jpg',
+ 'phase_4/maps/i60_sleeves.jpg']
 BoyShorts = ['phase_3/maps/desat_shorts_1.jpg',
  'phase_3/maps/desat_shorts_2.jpg',
  'phase_3/maps/desat_shorts_4.jpg',
@@ -576,7 +578,8 @@ BoyShorts = ['phase_3/maps/desat_shorts_1.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_golf04.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_golf05.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_racing04.jpg',
- 'phase_4/maps/tt_t_chr_avt_shorts_racing05.jpg']
+ 'phase_4/maps/tt_t_chr_avt_shorts_racing05.jpg',
+ 'phase_4/maps/i60_shorts.jpg']
 SHORTS = 0
 SKIRT = 1
 GirlBottoms = [('phase_3/maps/desat_skirt_1.jpg', SKIRT),
@@ -640,7 +643,8 @@ GirlBottoms = [('phase_3/maps/desat_skirt_1.jpg', SKIRT),
  ('phase_4/maps/tt_t_chr_avt_skirt_golf03.jpg', SKIRT),
  ('phase_4/maps/tt_t_chr_avt_skirt_golf04.jpg', SKIRT),
  ('phase_4/maps/tt_t_chr_avt_skirt_racing04.jpg', SKIRT),
- ('phase_4/maps/tt_t_chr_avt_skirt_racing05.jpg', SKIRT)]
+ ('phase_4/maps/tt_t_chr_avt_skirt_racing05.jpg', SKIRT),
+ ('phase_4/maps/i60_shorts.jpg', SHORTS)]
 ClothesColors = [VBase4(0.933594, 0.265625, 0.28125, 1.0),
  VBase4(0.863281, 0.40625, 0.417969, 1.0),
  VBase4(0.710938, 0.234375, 0.4375, 1.0),
@@ -1240,7 +1244,8 @@ ShirtStyles = {'bss1': [0, 0, [(0, 0),
  'jb_1': [112, 99, [(27, 27)]],
  'jb_2': [113, 100, [(27, 27)]],
  'ugcms': [117, 104, [(27, 27)]],
- 'lb_1': [119, 106, [(27, 27)]]}
+ 'lb_1': [119, 106, [(27, 27)]],
+ 'ins_sh1': [148, 135, [(27, 27)]]}
 BottomStyles = {'bbs1': [0, [0,
            1,
            2,
@@ -1666,7 +1671,9 @@ BottomStyles = {'bbs1': [0, [0,
  'hw_gs5': [54, [27]],
  'hw_gs6': [55, [27]],
  'hw_gs7': [56, [27]],
- 'hw_gsk1': [53, [27]]}
+ 'hw_gsk1': [53, [27]],
+ 'ins_bs1': [57, [27]],
+ 'ins_gs1': [62, [27]]}
 MAKE_A_TOON = 1
 TAMMY_TAILOR = 2004
 LONGJOHN_LEROY = 1007

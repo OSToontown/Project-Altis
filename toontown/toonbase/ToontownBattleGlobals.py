@@ -163,7 +163,7 @@ DLF_BOSS = 4
 DLF_SUPERVISOR = 8
 DLF_VIRTUAL = 16
 DLF_REVIVES = 32
-pieNames = ['tart',
+pieNames = ['cupcake',
  'fruitpie-slice',
  'creampie-slice',
  'fruitpie',
@@ -500,6 +500,11 @@ def getMintCreditMultiplier(mintId):
 
 def getStageCreditMultiplier(floor):
     return getCreditMultiplier(floor)
+
+def getBoardOfficeCreditMultiplier(boardofficeId):
+    return {BoardOfficeIntA: 2.0,
+     BoardOfficeIntB: 2.5,
+     BoardOfficeIntC: 3.0}.get(boardofficeId, 1.0)
 
 
 def getCountryClubCreditMultiplier(countryClubId):

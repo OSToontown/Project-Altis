@@ -7,6 +7,7 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from toontown.quest import Quests
 from toontown.suit import SuitPlannerBase
+from toontown.suit import SuitDNA
 from toontown.quest import QuestMapGlobals
 
 class QuestMap(DirectFrame):
@@ -132,27 +133,33 @@ class QuestMap(DirectFrame):
         return
         
     def putSuitBuildingMarker(self, pos, hpr = (0, 0, 0), blockNumber = None, track = None):
-        marker = DirectLabel(parent = self.container, text = '', text_pos = (-0.05, -0.15), text_fg = (1, 1, 1, 1),  relief = None)
-        icon = self.getSuitIcon(track)
-        iconNP = aspect2d.attachNewNode('suitBlock-%s' % blockNumber)
-        icon.reparentTo(iconNP)
-        marker['image'] = iconNP
-        marker['image_scale'] = 1
-        marker.setScale(0.05)
-        relX, relY = self.transformAvPos(pos)
-        marker.setPos(relX, 0, relY)
-        self.suitBuildingMarkers.append(marker)
-        iconNP.removeNode()
+        if base.localAvatar.buildingRadar[SuitDNA.suitDepts.index(track)]:
+            marker = DirectLabel(parent = self.container, text = '', text_pos = (-0.05, -0.15), text_fg = (1, 1, 1, 1),  relief = None)
+            icon = self.getSuitIcon(track)
+            iconNP = aspect2d.attachNewNode('suitBlock-%s' % blockNumber)
+            icon.reparentTo(iconNP)
+            marker['image'] = iconNP
+            marker['image_scale'] = 1
+            marker.setScale(0.05)
+            relX, relY = self.transformAvPos(pos)
+            marker.setPos(relX, 0, relY)
+            self.suitBuildingMarkers.append(marker)
+            iconNP.removeNode()
+        else:
+            pass
 
     def putCogdoBuildingMarker(self, pos, hpr = (0, 0, 0), blockNumber = None, track = None):
-        marker = DirectLabel(parent = self.container, text = '', relief = None)
-        marker['image'] = self.getCogdoIcon(track)
-        marker['image_scale'] = .5
-        marker.setTransparency(1)
-        marker.setScale(0.05)
-        relX, relY = self.transformAvPos(pos)
-        marker.setPos(relX, 0, relY)
-        self.suitBuildingMarkers.append(marker)
+        if base.localAvatar.buildingRadar[SuitDNA.suitDepts.index(track)]:
+            marker = DirectLabel(parent = self.container, text = '', relief = None)
+            marker['image'] = self.getCogdoIcon(track)
+            marker['image_scale'] = .5
+            marker.setTransparency(1)
+            marker.setScale(0.05)
+            relX, relY = self.transformAvPos(pos)
+            marker.setPos(relX, 0, relY)
+            self.suitBuildingMarkers.append(marker)
+        else:
+            pass
         
     def getSuitIcon(self, dept):
         icons = loader.loadModel('phase_3/models/gui/cog_icons')

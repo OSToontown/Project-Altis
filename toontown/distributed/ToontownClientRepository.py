@@ -54,7 +54,7 @@ from ToontownMsgTypes import *
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.ai import DistributedSillyMeterMgr, DistributedHydrantZeroMgr, DistributedMailboxZeroMgr, DistributedTrashcanZeroMgr
 from toontown.hood import StreetSign
-from toontown.dmenu import DMenuScreen, DMenuDisclaimer
+from toontown.dmenu import DMenuScreen, DMenuDisclaimer, DMenuMobileScreen
 from toontown.friends import ToontownFriendSecret
 
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
@@ -155,6 +155,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                     print e
         self.DMENU_SCREEN = None
         
+        self.hasAccepted = False
+        
         self.accept('AgreeToGame', self.acceptGame)
         
     def congratulations(self, avatarChoice):
@@ -205,7 +207,10 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             lambda: self.loginFSM.request('waitForAvatarList'))
 
     def acceptGame(self):
-        self.dmenu = DMenuScreen.DMenuScreen
+        if base.wantMobile:
+            self.dmenu = DMenuMobileScreen.DMenuMobileScreen
+        else:
+            self.dmenu = DMenuScreen.DMenuScreen
         self.dmenu()
             
     def enterChooseAvatar(self, avList):
@@ -226,9 +231,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.avChoiceDoneEvent = 'avatarChooserDone'
         
         self.avChoice = None # Will be set in the main menu
-                
-        self.disclaimer = DMenuDisclaimer.DMenuDisclaimer
-        self.disclaimer()
+        
+        if not self.hasAccepted:
+            self.disclaimer = DMenuDisclaimer.DMenuDisclaimer
+            self.disclaimer()
+        else:
+            self.acceptGame()
         
         self.PAT_AVLIST = avList
         self.PAT_LOGINFSM = self.loginFSM

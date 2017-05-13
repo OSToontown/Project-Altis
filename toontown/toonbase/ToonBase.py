@@ -168,6 +168,9 @@ class ToonBase(OTPBase.OTPBase):
         self.asyncLoader = ToontownAsyncLoader.ToontownAsyncLoader(self)
         __builtins__['asyncloader'] = self.asyncLoader
         
+        self.asyncCall = ToontownAsyncLoader.AsyncCall
+        __builtins__['callAsync'] = self.asyncCall
+        
         __builtins__['NO_FADE_SORT_INDEX'] = 4000
         oldLoader.destroy()
         self.accept('PandaPaused', self.disableAllAudio)
@@ -267,6 +270,7 @@ class ToonBase(OTPBase.OTPBase):
         self.JUMP = 'control'
         self.ACTION_BUTTON = 'delete'
         self.SCREENSHOT_KEY = 'f9'
+        self.INTERACT = 'shift'
         keymap = settings.get('keymap', {})
         if self.wantCustomControls:
             self.MOVE_UP = keymap.get('MOVE_UP', self.MOVE_UP)
@@ -276,16 +280,19 @@ class ToonBase(OTPBase.OTPBase):
             self.JUMP = keymap.get('JUMP', self.JUMP)
             self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
             self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
+            self.INTERACT = keymap.get('INTERACT', self.INTERACT)
             ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
         
         self.CHAT_HOTKEY = keymap.get('CHAT_HOTKEY', 't')
         
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 
-        self.Widescreen = settings.get('Widescreen', 0)
+        self.Widescreen = settings.get('aspect-ratio', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
         self.setTextureScale()
         self.setRatio()
+        self.updateAntiAliasing()
+        self.updateAnisotrophicFiltering()
         
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
@@ -335,13 +342,21 @@ class ToonBase(OTPBase.OTPBase):
         self.notify.info("Pre-loading PICK A TOON GUI 2")
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
         self.notify.info("Pre-loading MAKE A TOON GUI")
-
+        
+        self.lockedMusic = False
+            
+    def updateAntiAliasing(self):
+        loadPrcFileData('', 'framebuffer-multisample %s' %settings.get('anti-aliasing'))
             
     def updateAspectRatio(self):
         self.setRatio()
 
+    def updateAnisotrophicFiltering(self):
+        level = ttsettings.AnistrophicOptions[settings.get('anisotropic-filtering')]
+        
+        loadPrcFileData('', 'texture-anisotropic-degree %d' % level)
+        
     def setRatio(self): # Set the aspect ratio
-        print(GraphicsOptions.AspectRatios[self.Widescreen])
         base.setAspectRatio(GraphicsOptions.AspectRatios[self.Widescreen])
             
     def setTextureScale(self): # Set the global texture scale (TODO)
@@ -670,9 +685,15 @@ class ToonBase(OTPBase.OTPBase):
             config.GetInt('shard-mid-pop', ToontownGlobals.MID_POP),
             config.GetInt('shard-high-pop', ToontownGlobals.HIGH_POP)
         )
+    def lockMusic(self):
+        self.lockedMusic = True
 
+    def unlockMusic(self):
+        self.lockedMusic = False
+        
     def playMusic(self, *args, **kw):
-        OTPBase.OTPBase.playMusic(self, *args, **kw)
+        if not self.lockedMusic:
+            OTPBase.OTPBase.playMusic(self, *args, **kw)
         
     def fadeMusicIn(self, musicFile, looping = 1):
         self.audioMgr.fadeInMusic(musicFile, looping)
@@ -720,6 +741,7 @@ class ToonBase(OTPBase.OTPBase):
             self.JUMP = keymap.get('JUMP', self.JUMP)
             self.ACTION_BUTTON = keymap.get('ACTION_BUTTON', self.ACTION_BUTTON)
             self.SCREENSHOT_KEY = keymap.get('SCREENSHOT_KEY', self.SCREENSHOT_KEY)
+            self.INTERACT = keymap.get('INTERACT', self.INTERACT)
             ToontownGlobals.OptionsPageHotkey = keymap.get('OPTIONS-PAGE', ToontownGlobals.OptionsPageHotkey)
         else:
             self.MOVE_UP = 'arrow_up'
@@ -729,6 +751,7 @@ class ToonBase(OTPBase.OTPBase):
             self.JUMP = 'control'
             self.ACTION_BUTTON = 'delete'
             self.SCREENSHOT_KEY = 'f9'
+            self.INTERACT = 'shift'
     
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 

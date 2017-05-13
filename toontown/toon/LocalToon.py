@@ -104,6 +104,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         friendsButtonPressed = friendsGui.find('**/FriendsBox_Rollover')
         friendsButtonRollover = friendsGui.find('**/FriendsBox_Rollover')
         newScale = oldScale = 0.8
+        panSeq = None
         if WantNewsPage:
             newScale = oldScale * ToontownGlobals.NewsPageScaleAdjust
         self.bFriendsList = DirectButton(image=(friendsButtonNormal, friendsButtonPressed, friendsButtonRollover), relief=None, pos=(-0.141, 0, -0.125), parent=base.a2dTopRight, scale=newScale, text=('', TTLocalizer.FriendsListLabel, TTLocalizer.FriendsListLabel), text_scale=0.09, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -0.18), text_font=ToontownGlobals.getInterfaceFont(), command=self.sendFriendsListEvent)
@@ -430,7 +431,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if WantNewsPage:
             self.addNewsPage()
         self.book.setPage(self.mapPage, enterPage=False)
-        self.laffMeter = LaffMeter.LaffMeter(self.style, self.hp, self.maxHp)
+        self.laffMeter = LaffMeter.LaffMeter(self.style, self.hp, self.maxHp, isLocalHealth = True)
         self.laffMeter.setAvatar(self)
         self.laffMeter.setScale(0.075)
         self.laffMeter.reparentTo(base.a2dBottomLeft)

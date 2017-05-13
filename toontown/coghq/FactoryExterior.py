@@ -66,7 +66,7 @@ class FactoryExterior(BattlePlace.BattlePlace):
         dnaStore = DNAStorage()
         dnaFileName = self.genDNAFileName(self.zoneId)
 
-        if not dnaFileName.endswith('13200.pdna'):
+        if not (dnaFileName.endswith('13200.pdna') or dnaFileName.endswith('19200.pdna')):
 
             loadDNAFileAI(dnaStore, dnaFileName)
 
@@ -175,6 +175,9 @@ class FactoryExterior(BattlePlace.BattlePlace):
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
         elif where == 'stageInterior':
+            self.doneStatus = doneStatus
+            messenger.send(self.doneEvent)
+        elif where == 'boardofficeInterior':
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
         else:

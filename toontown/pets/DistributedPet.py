@@ -395,6 +395,10 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.avDelayDelete = DelayDelete.DelayDelete(av, 'Pet.setUpMovieAvatar')
         av.headsUp(self, 0, 0, 0)
         av.stopLookAround()
+        pos = render.getRelativePoint(av, Point3(0, 2.5, 0))
+        self.setPos(pos)
+        self.lookAt(av)
+        self.setHpr(self.getH(), 0, 0)
 
     def holdPetDownForMovie(self):
         self.lockPet()

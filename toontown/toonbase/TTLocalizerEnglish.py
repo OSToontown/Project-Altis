@@ -138,9 +138,17 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  13300: ('to the', 'in the', 'Lawbot A Office'),
  13400: ('to the', 'in the', 'Lawbot B Office'),
  13500: ('to the', 'in the', 'Lawbot C Office'),
- 13600: ('to the', 'in the', 'Lawbot D Office')}
+ 13600: ('to the', 'in the', 'Lawbot D Office'),
+ 19000: ('to the', 'in the', 'Boardbot HQ Courtyard'),
+ 19100: ('to the', 'in the', 'Boardroom Lobby'),
+ 19200: ('to the', 'in the', 'Board Office Lobby'),
+ 19500: ('to the', 'in the', 'Board Office A'),
+ 19600: ('to the', 'in the', 'Board Office B'),
+ 19700: ('to the', 'in the', 'Board Office C'),
+ 20000: ('to the', 'in the', 'Playground')}
 DonaldsDock = ('to', 'in', lDonaldsDock)
 ToontownCentral = ('to', 'in', lToontownCentral)
+ToontownCentralOld = ('to', 'in', 'Toontown Central\n(September 19, 2013)')
 TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
@@ -152,6 +160,7 @@ BossbotHQ = ('to', 'in', 'Bossbot HQ')
 SellbotHQ = ('to', 'in', 'Sellbot HQ')
 CashbotHQ = ('to', 'in', 'Cashbot HQ')
 LawbotHQ = ('to', 'in', 'Lawbot HQ')
+BoardbotHQ = ('to', 'in', 'Boardbot HQ')
 Tutorial = ('to the', 'in the', 'Toon-torial')
 MyEstate = ('to', 'in', 'your house')
 WelcomeValley = ('to', 'in', 'Welcome Valley')
@@ -169,6 +178,7 @@ FactoryTypeLeg = 'Leg'
 FactoryTypeArm = 'Arm'
 FactoryTypeTorso = 'Torso'
 MintFloorTitle = 'Floor %s'
+CGCFloorTitle = 'Hole %s'
 lCancel = 'Cancel'
 lClose = 'Close'
 lOK = 'OK'
@@ -207,9 +217,12 @@ APresident = 'a Club President'
 Clerk = 'Clerk'
 ClerkP = 'Clerks'
 AClerk = 'a Clerk'
-CogCFO = Cog + ' CFO'
-CogCFOs = "Cog CFOs"
-ACogCFO = ACog + ' CFO'
+BoardExecutive = 'Executive Board Member'
+BoardExecutiveP = 'Executive Board Members'
+ABoardExecutive = 'a Executive Board Member'
+CogCFO = Cog + ' C.F.O.'
+CogCFOs = "Cog C.F.O.'s"
+ACogCFO = ACog + ' C.F.O.'
 CogCJ = Cog + ' CJ'
 CogCJs = "Cog CJs"
 ACogCJ = ACog + ' CJ'
@@ -279,9 +292,15 @@ def getLocalNum(num):
 
 QuestsItemNameAndNum = '%(num)s %(name)s'
 QuestsCogQuestProgress = '%(progress)s of %(numCogs)s defeated'
+QuestsExpQuestProgress = '%(progress)s of %(numExp)s collected'
 QuestsCogQuestHeadline = 'WANTED'
 QuestsCogQuestSCStringS = 'I need to defeat %(cogName)s%(cogLoc)s.'
 QuestsCogQuestSCStringP = 'I need to defeat some %(cogName)s%(cogLoc)s.'
+QuestsExpQuestHeadline = 'COLLECT'
+QuestsExpQuestSCStringS = 'I need to collect %(experience)s %(track)s point.'
+QuestsExpQuestSCStringP = 'I need to collect %(experience)s %(track)s points.'
+QuestsExpQuestCollect = 'Collect %(experience)s %(track)s points'
+QuestsExpQuestCollectDesc = '%(experience)s %(track)s points'
 QuestsCogQuestDefeat = 'Defeat %s'
 QuestsCogQuestDefeatDesc = '%(numCogs)s %(cogName)s'
 QuestsCogNewNewbieQuestObjective = 'Help a new Toon defeat %s'
@@ -475,6 +494,8 @@ TIPQuestsClothingTicketRewardPoster = 'Reward: TIP Clothing Ticket'
 QuestsCheesyEffectRewardPoster = 'Reward: %s'
 QuestsCogSuitPartReward = 'You now have a %(cogTrack)s %(part)s Cog Suit Part.'
 QuestsCogSuitPartRewardPoster = 'Reward: %(cogTrack)s %(part)s Part'
+QuestsCogSuitMeritReward = 'You have earned %(numMerits)s %(meritType)s'
+QuestsCogSuitMeritRewardPoster = 'Reward: %(numMerits)s %(meritType)s'
 QuestsStreetLocationThisPlayground = 'in this playground'
 QuestsStreetLocationThisStreet = 'on this street'
 QuestsStreetLocationNamedPlayground = 'in the %s playground'
@@ -489,6 +510,8 @@ QuestsLargePouch = 'Large Pouch'
 QuestsSmallBag = 'Small Bag'
 QuestsMediumBag = 'Medium Bag'
 QuestsLargeBag = 'Large Bag'
+QuestsExtraLargeBag = 'Extra Large Bag'
+QuestsExtraLargeBackpack = 'Extra Large Backpack'
 QuestsSmallBackpack = 'Small Backpack'
 QuestsMediumBackpack = 'Medium Backpack'
 QuestsLargeBackpack = 'Large Backpack'
@@ -708,14 +731,14 @@ QuestDialogDict = {160: {GREETING: '',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  164: {QUEST: 'Phew, tired yet?\x07You know... You look like you could use some new gags.\x07Go see %s, maybe he can help you out._where_' % Flippy},
- 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formally introduced myself...\x07I\'m Flippy, President of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07You see, every time you hit a Cog with one of your gags it increases your experience.\x07When you get enough experience, you\'ll be able to buy an even better gag.\x07Why not try it out?\x07To get some practice in, try defeating 4 of those Cogs on the streets.'},
- 166: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Bossbots I talked about!'},
- 167: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Lawbots I talked about!'},
- 168: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in lin...\nAnd Boardbots that represent them all...e\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Sellbots I talked about!'},
- 169: {QUEST: 'Oooh, nice work! Got a new gag yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07Here, let\'s practice. Go defeat 4 of those Cashbots I talked about!'},
- 170: {QUEST: 'Oh good, you\'re back. I was getting worried that you got lost!\x07Do you understand the difference between the 5 Cogs now?\x07I think that you\'re ready to go ahead and start training for a new gag track.\x07_toNpcName_ is an expert on gags. He can give you some expert advice on your next track._where_'},
- 171: {QUEST: 'Oh good, you\'re back. I was getting worried that you got lost!\x07Do you understand the difference between the 5 Cogs now?\x07I think that you\'re ready to go ahead and start training for a new gag track.\x07_toNpcName_ is an expert on gags. He can give you some expert advice on your next track._where_'},
- 172: {QUEST: 'Oh good, you\'re back. I was getting worried that you got lost!\x07Do you understand the difference between the 5 Cogs now?\x07I think that you\'re ready to go ahead and start training for a new gag track.\x07_toNpcName_ is an expert on gags. She can give you some expert advice on your next track._where_'},
+ 165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formally introduced myself...\x07I\'m Flippy, Mayor of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07First, I want you to start by defeating 3 Cogs.'},
+ 166: {QUEST: 'Nice work, citizen!\x07Now, if you haven\'t noticed yet, you get experience points each time you use a gag.\x07Please return to me once you\'ve earned 10 Throw points.\x07This should also leave you with a new throw gag!'},
+ 167: {QUEST: 'Now I want you to earn 10 Squirt points.'},
+ 168: {QUEST: 'Oooh, nice work! Got those new gags yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07With those new gags, you should be able to defeat higher leveled Cogs as well.\x07Try defeating some Bossbots that aren\'t level 1.'},
+ 169: {QUEST: 'Oooh, nice work! Got those new gags yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07With those new gags, you should be able to defeat higher leveled Cogs as well.\x07Try defeating some Lawbots that aren\'t level 1.'},
+ 170: {QUEST: 'Oooh, nice work! Got those new gags yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07With those new gags, you should be able to defeat higher leveled Cogs as well.\x07Try defeating some Cashbots that aren\'t level 1.'},
+ 171: {QUEST: 'Oooh, nice work! Got those new gags yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07With those new gags, you should be able to defeat higher leveled Cogs as well.\x07Try defeating some Sellbots that aren\'t level 1.'},
+ 172: {QUEST: 'Oooh, nice work! Got those new gags yet?\x07You know, the Cogs come in five different types.\x07There are Sellbots for marketing...\x07Cashbots for accounting...\x07Lawbots for legal advice...\x07Bossbots to keep them all in line...\nAnd Boardbots that represent them all...\x07They all wear different suits and nametags, so you\'ll be able to see the difference easily.\x07Check your Shticker Book if you need some help identifying them.\x07With those new gags, you should be able to defeat higher leveled Cogs as well.\x07Try defeating some Boardbots that aren\'t level 1.'},
  400: {GREETING: '',
        QUEST: 'Throw and Squirt are great, but you\'re going to need more gags to fight those higher level Cogs.\x07When you team up with other Toons against the Cogs, you can combine your gags for even more giggles!\x07Try different combinations of gags to see what works best.\x07I understand it\'s a tough decision, so take your time to choose wisely.\x07You may want to ask a few friends what they think so you can plan strategies together.\x07When you are ready to decide, come back here and take your pick.',
        INCOMPLETE_PROGRESS: 'Back so soon?  Are you ready to choose?',
@@ -1856,6 +1879,8 @@ StageBossTaunt = "My Justice isn't Blind."
 StageBossBattleTaunt = 'I am above the Law.'
 CountryClubBossTaunt = "I'm the Club President."
 CountryClubBossBattleTaunt = 'You need to talk to the Club President.'
+BoardOfficeBossTaunt = "I'm the Executive Board Member."
+BoardOfficeBossBattleTaunt = 'You need to talk to the Executive Board Member.'
 ForcedLeaveCountryClubAckMsg = 'The Club President was defeated before you could reach him. You did not recover any Stock Options.'
 ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['Why do male deer need braces?', "Because they have 'buck teeth'!"],
@@ -2095,7 +2120,7 @@ RewardPanelMeritBarLabels = ['Stock Options',
  'Jury Notices',
  'Cogbucks',
  'Merits',
- 'Gears']
+ 'Invoices']
 RewardPanelMeritAlert = 'Ready for promotion!'
 RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
@@ -3007,6 +3032,7 @@ FADoorCodes_SB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon
 FADoorCodes_CB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Cashbot Disguise first!\n\nBuild your Cashbot Disguise out of parts from the Mints."
 FADoorCodes_LB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Lawbot Disguise first!\n\nBuild your Lawbot Disguise out of parts from the DA Offices."
 FADoorCodes_BB_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Bossbot Disguise first!\n\nBuild your Bossbot Disguise out of parts from the Cog Golf Courses."
+FADoorCodes_BD_DISGUISE_INCOMPLETE = "You'll get caught going in there as a Toon! You need to complete your Boardbot Disguise first!\n\nBuild your Boardbot Disguise out of parts from the Board Offices."
 KnockKnockJokes = [['Who', "Bad echo in here, isn't there?"],
  ['Dozen', 'Dozen anybody want to let me in?'],
  ['Freddie', 'Freddie or not, here I come.'],
@@ -4024,7 +4050,7 @@ AvatarChoiceNameApproved = 'Name\nApproved!'
 AvatarChoiceNameReview = 'Under\nReview'
 AvatarChoiceNameYourToon = 'Name\nYour Toon!'
 AvatarChoiceDeletePasswordText = 'Careful! This will delete %s forever.  To delete this Toon, enter your password.'
-AvatarChoiceDeleteConfirmText = 'Careful! This will delete %(name)s forever.  If you are sure you want to do this, type "%(confirm)s" and click OK.'
+AvatarChoiceDeleteConfirmText = 'Careful! This will delete %(name)s forever.  If you are sure you want to do this, type %(confirm)s and click OK.'
 AvatarChoiceDeleteConfirmUserTypes = 'delete'
 AvatarChoiceDeletePasswordTitle = 'Delete Toon?'
 AvatarChoicePassword = 'Password'
@@ -4629,6 +4655,7 @@ CdrResultTooManyFails = "We're sorry. You've tried to enter an incorrect code to
 CdrResultServiceUnavailable = "We're sorry. This feature is temporarily unavailable. Please try again during your next login."
 CdrResultClosetFull = 'Your closet is full. Please remove an item, then enter your code again.'
 CdrResultTrunkFull = 'Your trunk is full. Please remove an item, then enter your code again.'
+InsomniaReusableCodes = 'If you are using an Insomnia 60 code, keep it! You can reuse the code when beta comes along!'
 TrackPageTitle = 'Gag Track Training'
 TrackPageShortTitle = 'Gag Training'
 TrackPageSubtitle = 'Complete ToonTasks to learn how to use new gags!'
@@ -5181,6 +5208,7 @@ HeadingToFactoryTitle = '%s'
 ForemanConfrontedMsg = '%s is battling the ' + Foreman + '!'
 MintBossConfrontedMsg = '%s is battling the Supervisor!'
 StageBossConfrontedMsg = '%s is battling the Clerk!'
+BoardOfficeBossConfrontedMsg = '%s is battling the Executive Board Member!'
 stageToonEnterElevator = '%s \nhas entered the elevator'
 ForcedLeaveStageAckMsg = 'The Law was defeated before you could reach him. You did not recover any Jury Notices.'
 MinigameWaitingForOtherPlayers = 'Waiting for other players to join...'
@@ -5325,7 +5353,7 @@ PopupTouchControls = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch contr
 PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!'
 QuitConfirm = 'Are you sure you want to quit?'
 PlayGame = 'Pick-A-Toon'
-DiscordButton = 'Discord'
+DiscordButton = 'News'
 CreditsButton = 'Credits'
 GenderShopQuestionMickey = 'To make a boy toon, click on me!'
 GenderShopQuestionMinnie = 'To make a girl toon, click on me!'
@@ -5681,6 +5709,7 @@ MissingKeySanityCheck = 'Ignore me'
 SellbotBossName = 'Senior V. P.'
 CashbotBossName = 'C. F. O.'
 LawbotBossName = 'Chief Justice'
+BoardbotBossName = 'Chairman'
 BossCogNameWithDept = '%(name)s\n%(dept)s'
 BossCogPromoteDoobers = 'You are hereby promoted to full-fledged %s.  Congratulations!'
 BossCogDoobersAway = {'s': 'Go!  And make that sale!'}
@@ -7143,6 +7172,17 @@ NPCToonNames = {20000: 'Tutorial Tom',
  2403: 'Wacky Wally',
  2404: 'Rancid Robert',
  2405: 'Limey',
+ 2406: 'Al Hare-ington',
+ 2407: "Good Ol' Honkin' Sally",
+ 2408: 'P.I. Multiply',
+ 2409: 'Bookworm Bork',
+ 2410: 'Professor Proton',
+ 2411: 'B.R. Bea',
+ 2412: 'Chef Foolery',
+ 2413: 'R.E. Versed',
+ 2414: 'Roy',
+ 2415: 'Pants On Fire',
+ 2416: 'Liar Liar',
  1001: 'Will',
  1002: 'Bill',
  1003: lHQOfficerM,
@@ -7844,6 +7884,24 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  2837: ('Hardy Harr Seminars', ''),
  2839: ('Barely Palatable Pasta', ''),
  2841: ('', ''),
+ 2901: ('Gasonline', ''),
+ 2902: ('Wacky Way Wonderworld', ''),
+ 2903: ('Toon Mobile', ''),
+ 2904: ('Pies Are Squared', ''),
+ 2905: ('Wacky Way-ving Inflatable Arm Flailing Tube Man', ''),
+ 2907: ('A Gaggle of Gags', ''), 
+ 2908: ('Dogs of Wisdom', ''),
+ 2909: ('The Circuit Breaker', ''),
+ 2910: ('', ''),
+ 2911: ('Recessed is in Session', ''),
+ 2914: ('Lying Birthday Cakes', ''),
+ 2915: ('No, the Building Beside Me is Telling the Truth', ''),
+ 2916: ('The Building Beside Me is Lying to you', ''),
+ 2917: ('The Mehvie Theatre', ''),
+ 2919: ("Roy's Kones", ''),
+ 2920: ('Topsy Turvey Tailors', ''),
+ 2922: ('Slip and Slide', ''),
+ 2923: ("Limey's Limes", ''),
  1506: ('Gag Shop', ''),
  1507: ('Toon Headquarters', ''),
  1508: ('Clothing Shop', ''),
@@ -9946,7 +10004,8 @@ CogdoFlyingGameMemoIntro = 'Memos prevent Laff Barrels in\nthe Stomper Room from
 CogdoFlyingGameOutOfTime = 'Oh No! You ran out of time!'
 CogdoFlyingGameYouMadeIt = 'You made it on time!'
 CogdoFlyingGameYouMadeIt = 'Good work, you made it on time!'
-CogdoFlyingGameTakingMemos = 'The legal eagles took all your memos!'
+CogdoFlyingGameTakingMemos = 'The Legal Eagles took all your memos!'
+CogdoFlyingGameTakingMemosInvasion = 'The %s took all your memos!'
 CogdoElevatorRewardLaff = 'Great job, Toons!\nYou get a Toon-Up from the jokes you saved!'
 CogdoExecutiveSuiteTitle = 'Executive Suite'
 CogdoExecutiveSuiteIntroMessage = "Oh no, they've got the shop keeper!\nDefeat the Cogs and free the captive."
@@ -9978,4 +10037,4 @@ PlayingCardUnknown = 'Card Name is unknown'
 RemapPrompt = 'Choose the keys you wish to remap.'
 RemapPopup = 'Press the key you wish to remap this control to.'
 Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
-            'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:']
+            'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:', 'Interact Key:']

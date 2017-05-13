@@ -4,6 +4,7 @@ import random
 from toontown.suit import SuitDNA
 from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase.ToontownBattleGlobals import getInvasionMultiplier
+from toontown.toonbase import ToontownGlobals
 from toontown.hood.ZoneUtil import isCogHQZone
 MeritMultiplier = 1.0
 

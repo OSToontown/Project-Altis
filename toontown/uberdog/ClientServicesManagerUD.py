@@ -810,7 +810,7 @@ class GetAvatarsFSM(AvatarOperationFSM):
             elif wishNameState == 'REJECTED':
                 nameState = 4
 
-            potentialAvs.append([avId, name, fields['setDNAString'][0], index, nameState, fields['setHp'][0], fields['setMaxHp'][0]])
+            potentialAvs.append([avId, name, fields['setDNAString'][0], index, nameState, fields['setHp'][0], fields['setMaxHp'][0], fields['setHat'], fields['setGlasses'], fields['setBackpack'], fields['setShoes']])
 
         self.csm.sendUpdateToAccountId(self.target, 'setAvatars', [potentialAvs])
         self.demand('Off')
@@ -1252,6 +1252,11 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def requestAvatars(self):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))
         self.runAccountFSM(GetAvatarsFSM)
+        
+    def requestMOTD(self):
+        acc = self.air.getAccountIdFromSender()
+        motd = '[SHOULD NOT SEE]'
+        self.sendUpdateToAccountId(acc, 'setMOTD', [motd])
 
     def createAvatar(self, dna, index, uber, tracks, pg):
         self.runAccountFSM(CreateAvatarFSM, dna, index, uber, tracks, pg)

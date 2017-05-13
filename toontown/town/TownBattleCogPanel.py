@@ -105,9 +105,13 @@ class TownBattleCogPanel(DirectFrame):
 
     def updateHealthBar(self):
         condition = self.cog.healthCondition
-        if condition == 4:
+        if condition == 9:
             self.blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task.pause(0.1))
             taskMgr.add(self.blinkTask, self.uniqueName('blink-task'))
+        elif condition == 10:
+            taskMgr.remove(self.uniqueName('blink-task'))
+            blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.25), Task(self.__blinkGray), Task.pause(0.1))
+            taskMgr.add(blinkTask, self.uniqueName('blink-task'))
         else:
             taskMgr.remove(self.uniqueName('blink-task'))
             if not self.button.isEmpty():
@@ -140,10 +144,19 @@ class TownBattleCogPanel(DirectFrame):
 
     def __blinkRed(self, task):
         if not self.button.isEmpty():
-            self.button.setColor(self.healthColors[3], 1)
+            self.button.setColor(self.healthColors[8], 1)
 
         if not self.glow.isEmpty():
-            self.glow.setColor(self.healthGlowColors[3], 1)
+            self.glow.setColor(self.healthGlowColors[8], 1)
+        
+        return Task.done
+		
+    def __blinkGray(self, task):
+        if not self.button.isEmpty():
+            self.button.setColor(self.healthColors[9], 1)
+
+        if not self.glow.isEmpty():
+            self.glow.setColor(self.healthGlowColors[9], 1)
         
         return Task.done
 

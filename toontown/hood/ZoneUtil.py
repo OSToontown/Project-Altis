@@ -9,7 +9,7 @@ def isGoofySpeedwayZone(zoneId):
 
 
 def isCogHQZone(zoneId):
-    return zoneId >= 10000 and zoneId < 15000
+    return zoneId >= 10000 and zoneId < 15000 or (zoneId >= 19000 and zoneId <= 19999)
 
 
 def isMintInteriorZone(zoneId):
@@ -104,6 +104,8 @@ def getWhereName(zoneId, isToon):
                     where = 'factoryInterior'
                 elif getHoodId(zoneId) == CashbotHQ:
                     where = 'mintInterior'
+                elif getHoodId(zoneId) == BoardbotHQ:
+                    where = 'boardofficeInterior'
                 else:
                     zoneUtilNotify.error('unknown cogHQ interior for hood: ' + str(getHoodId(zoneId)))
             else:
@@ -238,3 +240,14 @@ def getWakeInfo(hoodId = None, zoneId = None):
         pass
 
     return (showWake, wakeWaterHeight)
+    
+def genDNAFileName(zoneId):
+    zoneId = getCanonicalZoneId(zoneId)
+    hoodId = getCanonicalHoodId(zoneId)
+    hood = dnaMap[hoodId]
+    phase = streetPhaseMap[hoodId]
+    if zoneId == 20000:
+        phase = 4
+    if hoodId == zoneId:
+        zoneId = 'sz'
+    return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)

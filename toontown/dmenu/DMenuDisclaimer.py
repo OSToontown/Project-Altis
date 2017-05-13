@@ -10,7 +10,7 @@ class DMenuDisclaimer(DirectObject):
     def __init__(self):
         DirectObject.__init__(self)
         base.setBackgroundColor(0, 0, 0)
-        disclaimerText = "Project Altis is a not-for-profit fanmade parody made under Fair Use. Project Altis is not affiliated with The Walt Disney Company and/or the Disney Interactive Media Group (collectively referred to as \"Disney\") by clicking I agree you herby agree that you acknowledge this fact."
+        disclaimerText = "Project Altis is a not-for-profit fanmade parody made under Fair Use. Project Altis is not affiliated with The Walt Disney Company and/or the Disney Interactive Media Group (collectively referred to as \"Disney\") by clicking I agree you hereby agree that you acknowledge this fact."
         self.disclaimer = OnscreenText(text = disclaimerText, font = ToontownGlobals.getMinnieFont(), style = 3, wordwrap = 30, scale = .08, pos = (0, .3, 0))
         gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui.bam')
         yesUp = gui.find('**/tt_t_gui_mat_okUp')
@@ -28,7 +28,7 @@ class DMenuDisclaimer(DirectObject):
         self.deny.destroy()
         base.graphicsEngine.renderFrame()
         messenger.send("AgreeToGame")
-        
+        base.cr.hasAccepted = True
         self.disclaimer.removeNode()
         
     def deny(self):

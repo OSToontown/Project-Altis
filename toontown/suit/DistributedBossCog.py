@@ -885,7 +885,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             dustCloud.setDepthWrite(0)
             dustCloud.setBin('fixed', 0)
             dustCloud.createTrack()
-            suitsOff.append(Sequence(Func(dustCloud.reparentTo, toon), Parallel(dustCloud.track, Sequence(Wait(0.3), Func(toon.takeOffSuit), Func(toon.sadEyes), Func(toon.blinkEyes), Func(toon.play, 'slip-backward'), Wait(0.7))), Func(dustCloud.detachNode), Func(dustCloud.destroy)))
+            suitsOff.append(Sequence(Func(dustCloud.reparentTo, toon), Parallel(dustCloud.track, Sequence(Wait(0.3), Func(toon.takeOffSuit), Func(toon.sadEyes), Func(toon.blinkEyes), Func(toon.play, 'slip-backward'), Wait(0.7))), Func(dustCloud.detachNode), Func(toon.normalEyes), Func(dustCloud.destroy)))
         snd = loader.loadSfx('phase_5/audio/sfx/tt_s_ara_cfg_propellerBreaks.ogg')
         seq.append(Func(snd.play))
         seq.append(suitsOff)

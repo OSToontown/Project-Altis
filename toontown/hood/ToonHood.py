@@ -29,6 +29,7 @@ class ToonHood(Hood):
         self.suitInteriorDoneEvent = 'suitInteriorDone'
         self.minigameDoneEvent = 'minigameDone'
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
+        self.dreamlandFogColor = Vec4(.55, .55, .65, 1)
         self.fsm = ClassicFSM.ClassicFSM('Hood', [State.State('start', self.enterStart, self.exitStart, ['townLoader', 'safeZoneLoader']),
          State.State('townLoader', self.enterTownLoader, self.exitTownLoader, ['quietZone',
           'safeZoneLoader',
@@ -244,6 +245,15 @@ class ToonHood(Hood):
     def setWhiteFog(self):
         if base.wantFog:
             self.fog.setColor(self.whiteFogColor)
+            self.fog.setLinearRange(0.0, 400.0)
+            render.clearFog()
+            render.setFog(self.fog)
+            self.sky.clearFog()
+            self.sky.setFog(self.fog)
+            
+    def setDreamlandFog(self):
+        if base.wantFog:
+            self.fog.setColor(self.dreamlandFogColor)
             self.fog.setLinearRange(0.0, 400.0)
             render.clearFog()
             render.setFog(self.fog)

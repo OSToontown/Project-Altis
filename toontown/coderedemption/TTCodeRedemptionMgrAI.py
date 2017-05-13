@@ -21,6 +21,7 @@ from toontown.catalog.CatalogGardenItem import CatalogGardenItem
 from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem
 from toontown.coderedemption import TTCodeRedemptionConsts, TTCodeRedemptionGlobals
 from toontown.toonbase import ToontownGlobals
+from toontown.toon import ToonDNA
 
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("TTCodeRedemptionMgrAI")
@@ -57,14 +58,13 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
 
         avCodes = av.getRedeemedCodes()
-        print avCodes
         if not avCodes:
             avCodes = [code]
-            av.setRedeemedCodes(avCodes)
+            av.b_setRedeemedCodes(avCodes)
         else:
             if not code in avCodes:
                 avCodes.append(code)
-                av.setRedeemedCodes(avCodes)
+                av.b_setRedeemedCodes(avCodes)
                 isEligible = True
             else:
                 isEligible = False
@@ -77,7 +77,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
                 hasExpired = True
                 
         avId = self.air.getAvatarIdFromSender()
-        print("%s entered %s" %(avId, code))
         if not avId:
             self.air.writeServerEvent('suspicious', avId = avId, issue = 'Tried to redeem a code from an invalid avId')
             return
@@ -132,6 +131,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, ToontownGlobals.CODE_SUCCESS, 0])
 
     def getItemsForCode(self, code):
+    
         avId = self.air.getAvatarIdFromSender()
         if not avId:
             self.air.writeServerEvent('suspicious', avId = avId, issue = 'AVID is none')
@@ -143,7 +143,30 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             return
 
         code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
-
+        allinsomniacodes = []
+        codefile = open('data/insomnia_codes.txt', 'r')
+        insomniacodes = codefile.read().split('\n')
+        for line in insomniacodes:
+            allinsomniacodes.append(line)
+            
+        codefile.close()
+        
+        if code in allinsomniacodes and code != '':
+            with open('data/insomnia_codes.txt', 'w') as file:
+                allinsomniacodes.remove(code)
+                for code in allinsomniacodes:
+                    file.write(code + "\n")
+                file.close()
+                
+            shirt = CatalogClothingItem(4120, 0)
+            dna = ToonDNA.ToonDNA()
+            dna.makeFromNetString(av.getDNAString())
+            if dna.gender == 'm':
+                shorts = CatalogClothingItem(4121, 0)
+            else:
+                shorts = CatalogClothingItem(4122, 0)        
+            return [shirt, shorts]
+            
         if code == "sillymeter":
             shirt = CatalogClothingItem(1753, 0)
             return [shirt]
@@ -163,6 +186,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         if code == "sweet":
             beans = CatalogBeanItem(12000, tagCode = 2)
             return [beans]
+
 
         return []
 

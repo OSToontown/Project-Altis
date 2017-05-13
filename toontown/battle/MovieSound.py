@@ -118,11 +118,14 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
     return tracks
 	
 def headExplodeTrack(suit, battle):
-    head = suit.getHeadParts()[0]
+    headParts = suit.getHeadParts()
     suitTrack = Sequence()
     suitPos, suitHpr = battle.getActorPosHpr(suit)
     suitTrack.append(Wait(0.15))
-    suitTrack.append(Func(MovieUtil.miscHide, head))
+    explodeTrack = Parallel()
+    for part in headParts:
+        explodeTrack.append(Func(MovieUtil.miscHide, part))
+    suitTrack.append(explodeTrack)
     deathSound = base.loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
     deathSoundTrack = Sequence(SoundInterval(deathSound, volume=0.8))
     BattleParticles.loadParticles()

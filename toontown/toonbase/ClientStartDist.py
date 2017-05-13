@@ -34,11 +34,30 @@ key = 'g89a1hU0acBrlcru'
 # config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [ALPHA 1.7.14]
+window-title Project Altis [BETA 1.0.0]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
+
+# Altis Engine 3.0
+want-vive #f
+want-android #f
+want-headless #f
+want-live-updates #f
+want-cuda #t
+want-crossplat #t
+allow-portal-cull #t 
+gl-cheap-textures #f
+geom-cache-size	2500
+glsl-preprocess #f
+interpolate-frames #t
+keep-texture-ram #t
+driver-compress-textures #f
+gl-immutable-texture-storage #t
+loader-num-threads 100
+loader-thread-priority normal
+preload-textures #t
 
 # Debug
 default-directnotify-level info
@@ -61,15 +80,13 @@ default-model-extension .bam
 # Performance
 smooth-enable-prediction 1
 smooth-enable-smoothing 1
-smooth-lag 0.2
+smooth-lag 0.4
 smooth-max-future 1.0
-smooth-min-suggest-resync 1
+smooth-min-suggest-resync 0
 
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0
 
-# Textures:
-texture-anisotropic-degree 16
 
 # Preferences:
 preferences-filename preferences.json
@@ -88,8 +105,6 @@ sync-video #f
 texture-power-2 none
 gl-check-errors #f
 garbage-collect-states #f
-loader-num-threads 100
-preload-textures #t
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
@@ -201,7 +216,7 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Alpha-1.7.14
+server-version TTPA-Beta-1.0.0
 shard-low-pop 50
 shard-mid-pop 80
 
