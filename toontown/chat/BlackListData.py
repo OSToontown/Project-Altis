@@ -96,4 +96,12 @@ BLACKLIST = [
     "vagina",
     "boob",
     "boobs",
+    "numb digger",
+    "kill ur self",
+    "kill u self",
+    "numb 1 digger",
+    "kill 1 ur 1 self",
+    "kill 1 ur self",
+    "kill ur 1 self",
+	
 ]
