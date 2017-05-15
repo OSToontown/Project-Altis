@@ -104,7 +104,7 @@ FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
 CEVirtual = 14
-MaxHpLimit = 149
+MaxHpLimit = 159
 ExpLaffBoost = 1
 ExpMoneyCarryReward = 50
 ExpGagCarryReward = 2
@@ -117,6 +117,8 @@ CogSuitHPLevels = (15 - 1,
  20 - 1,
  30 - 1,
  40 - 1,
+ 50 - 1)
+CogReviveSuitHPLevels = (25 - 1,
  50 - 1)
 ExperienceHPLevels = (10 - 1,
 20 - 1,

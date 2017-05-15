@@ -101,6 +101,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.buildingRadar = [0, 0, 0, 0, 0]
         self.cogTypes = [0, 0, 0, 0, 0]
         self.cogLevels = [0, 0, 0, 0, 0]
+        self.cogReviveLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
         self.hat = [0, 0, 0]
@@ -1008,6 +1009,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getCogLevels(self):
         return self.cogLevels
+		
+    def setCogReviveLevels(self, levels):
+        self.cogReviveLevels = levels
+        if self.disguisePage:
+            self.disguisePage.updatePage()
+
+    def getCogReviveLevels(self):
+        return self.cogReviveLevels
 
     def setCogParts(self, parts):
         self.cogParts = parts
