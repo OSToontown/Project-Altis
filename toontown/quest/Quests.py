@@ -16782,6 +16782,13 @@ def filterQuests(entireQuestPool, currentNpc, av):
                 notify.debug('filterQuests: Removed %s because of filterFunc' % questId)
             validQuestPool[questId] = 0
             continue
+        if getQuestClass(questId) == TrackExpQuest:
+            quest = QuestDict.get(questId)
+            track = quest.getTrackType()
+            trackAccess = av.getTrackAccess()
+            if trackAccess[track] == 0:
+                validQuestPool[questId] = 0
+            continue
         for quest in currentQuests:
             fromNpcId = quest[1]
             toNpcId = quest[2]
