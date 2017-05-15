@@ -13,10 +13,10 @@ class ExperienceRewardManagerAI:
         av.addMoney(av.getToonLevel() * self.getMoneyMult(av))
         if av.getToonLevel() in ToontownGlobals.ExperienceHPLevels:
             self.addLaff(av)
-        #if av.getToonLevel() in ToontownGlobals.ExperienceGagLevels:
-            #self.addGagCapacity(av)
-        #if av.getToonLevel() in ToontownGlobals.ExperienceMoneyLevels:
-            #self.addMaxMoney(av)
+        if av.getToonLevel() in ToontownGlobals.ExperienceGagLevels:
+            self.addGagCapacity(av)
+        if av.getToonLevel() in ToontownGlobals.ExperienceMoneyLevels:
+            self.addMaxMoney(av)
 		
     def addLaff(self, av):
         av.b_setMaxHp(av.getMaxHp() + ToontownGlobals.ExpLaffBoost)

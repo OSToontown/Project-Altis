@@ -106,6 +106,8 @@ SPMinniesPiano = 4
 CEVirtual = 14
 MaxHpLimit = 149
 ExpLaffBoost = 1
+ExpMoneyCarryReward = 50
+ExpGagCarryReward = 2
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
@@ -123,6 +125,60 @@ ExperienceHPLevels = (10 - 1,
 50 - 1,
 60 - 1,
 70 - 1)
+ExperienceGagLevels = (4 - 1,
+8 - 1,
+12 - 1,
+16 - 1,
+20 - 1,
+24 - 1,
+28 - 1,
+32 - 1,
+36 - 1,
+40 - 1,
+44 - 1,
+48 - 1,
+52 - 1,
+56 - 1,
+60 - 1,
+64 - 1,
+68 - 1,
+72 - 1,
+76 - 1,
+80 - 1,
+84 - 1,
+88 - 1,
+92 - 1,
+96 - 1,
+100 - 1,
+104 - 1,
+108 - 1,
+112 - 1,
+116 - 1,
+120 - 1)
+ExperienceMoneyLevels = (5 - 1,
+10 - 1,
+15 - 1,
+20 - 1,
+25 - 1,
+30 - 1,
+35 - 1,
+40 - 1,
+45 - 1,
+50 - 1,
+55 - 1,
+60 - 1,
+65 - 1,
+70 - 1,
+75 - 1,
+80 - 1,
+85 - 1,
+90 - 1,
+95 - 1,
+100 - 1,
+105 - 1,
+110 - 1,
+115 - 1,
+120 - 1)
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog
