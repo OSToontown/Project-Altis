@@ -2530,7 +2530,7 @@ QuestDict = {
        (CogQuest,
         Anywhere,
         1,
-        'f'),
+        Any),
        Any,
        ToonHQ,
        NA,
@@ -2678,7 +2678,7 @@ QuestDict = {
  171: (TT_TIER + 1, Cont, (CogTrackLevelQuest, Anywhere, 4, 's', 2), Same, Same, NA, 400, TTLocalizer.QuestDialogDict[171]),
  172: (TT_TIER + 1, Cont, (CogTrackLevelQuest, Anywhere, 4, 'g', 2), Same, Same, NA, 400, TTLocalizer.QuestDialogDict[172]),
  400: (TT_TIER + 1, Cont, (TrackChoiceQuest,), Same, Same, 400, NA, TTLocalizer.QuestDialogDict[400]),
- 600: (TT_TIER,
+ 600: (TT_TIER + 1,
        Start,
 	   (VisitQuest,),
 	   Any,
@@ -2686,7 +2686,7 @@ QuestDict = {
 	   NA,
 	   601,
        DefaultDialog),
- 601: (TT_TIER,
+ 601: (TT_TIER + 1,
        Start,
 	   (CogQuest,
 	    2200,
@@ -18636,9 +18636,8 @@ def getRewardIdFromTrackId(trackId):
     return 401 + trackId
 
 
-RequiredRewardTrackDict = {TT_TIER: (500,
-               100),
- TT_TIER + 1: (400,),
+RequiredRewardTrackDict = {TT_TIER: (100,),
+ TT_TIER + 1: (500, 400),
  TT_TIER + 2: (100,
                801,
                200,
