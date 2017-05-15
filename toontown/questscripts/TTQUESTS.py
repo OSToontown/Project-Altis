@@ -320,7 +320,7 @@ LOCAL_CHAT_CONFIRM npc QuestScript110_4 harryDialogue_04
 ARROWS_ON 0.85 -0.75 -90 0.85 -0.75 -90
 SHOW bookNextArrow
 LOCAL_CHAT_PERSIST npc QuestScript110_5 harryDialogue_05
-WAIT_EVENT "stickerBookPageChange-3"
+WAIT_EVENT "stickerBookPageChange-4"
 HIDE bookPrevArrow
 HIDE bookNextArrow
 ARROWS_OFF
@@ -330,7 +330,7 @@ LOCAL_CHAT_CONFIRM npc QuestScript110_6 harryDialogue_06
 ARROWS_ON 0.85 -0.75 -90 0.85 -0.75 -90
 SHOW bookNextArrow
 LOCAL_CHAT_PERSIST npc QuestScript110_7 harryDialogue_07
-WAIT_EVENT "stickerBookPageChange-4"
+WAIT_EVENT "stickerBookPageChange-5"
 HIDE bookNextArrow
 HIDE bookPrevArrow
 ARROWS_OFF

@@ -87,7 +87,7 @@ lGoofySpeedway = 'Goofy Speedway'
 lOutdoorZone = 'Acorn Acres'
 lGolfZone = 'Acorn Acres Minigames'
 lPartyHood = 'Party Grounds'
-GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
+GlobalStreetNames = {15000: ('to', 'on', 'Tutorial Terrace'),
  1000: ('to the', 'in the', 'Playground'),
  1100: ('to', 'on', 'Barnacle Boulevard'),
  1200: ('to', 'on', 'Seaweed Street'),
@@ -5635,9 +5635,9 @@ QuestScript101_10 = 'A happy Toon is a healthy Toon!'
 QuestScript101_11 = "OH NO! There's a Cog outside my shop!"
 QuestScript101_12 = 'HELP ME, PLEASE! Defeat that Cog!'
 QuestScript101_13 = 'Here is your first ToonTask!'
-QuestScript101_14 = 'Hurry up! Go defeat that Flunky!'
+QuestScript101_14 = 'Hurry up! Go defeat that Cog!'
 
-QuestScript110_1 = 'Good work defeating that Flunky. Let me give you a Shticker Book...'
+QuestScript110_1 = 'Good work defeating that Cog. Let me give you a Shticker Book...'
 QuestScript110_2 = 'The book is full of good stuff.'
 QuestScript110_3 = "Open it, and I'll show you."
 QuestScript110_4 = "The map shows where you've been."
