@@ -661,7 +661,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
 
         Example response: [100000001, ...]
         """
-        if not config.GetBool('want-mongo-client', False):
+        if not config.GetBool('want-mongo-client', True):
             return []
         if not needle:
             return []

@@ -1,15 +1,20 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from toontown.distributed import ToontownDistrictStats
 
 class ToontownDistrictStatsAI(DistributedObjectAI):
     notify = directNotify.newCategory('ToontownDistrictStatsAI')
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
+        self.air = air
         self.districtId = 0
         self.avatarCount = 0
         self.newAvatarCount = 0
         self.invasionStatus = 0
+        self.invasionType = 0
+        self.invasionRemaining = 0
+        self.invasionTotal = 0
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
@@ -72,9 +77,26 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
     def d_setInvasionStatus(self, invasionStatus):
         self.sendUpdate('setInvasionStatus', [invasionStatus])
 
+    def setInvasionType(self, invasionType):
+        self.invasionType = invasionType
+
     def b_setInvasionStatus(self, invasionStatus):
         self.setInvasionStatus(invasionStatus)
         self.d_setInvasionStatus(invasionStatus)
 
     def getInvasionStatus(self):
         return self.invasionStatus
+
+    def getInvasionType(self):
+        return self.invasionType
+
+    def setInvasionCount(self, total, remaining):
+        ToontownDistrictStats._ToontownDistrictInvasionRemaining = remaining
+        self.invasionRemaining = remaining
+        self.invasionTotal = total
+
+    def getInvasionRemaining(self):
+        return self.air.suitInvasionManager.remaining
+
+    def getInvasionTotal(self):
+        return self.air.suitInvasionManager.total

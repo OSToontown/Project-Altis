@@ -194,23 +194,33 @@ class BossCog(Avatar.Avatar):
         health = 1.0 - float(self.bossDamage) / float(self.bossMaxDamage)
         if health > 0.95:
             condition = 0
-        elif health > 0.7:
+        elif health > 0.9:
             condition = 1
-        elif health > 0.3:
+        elif health > 0.8:
             condition = 2
-        elif health > 0.05:
+        elif health > 0.7:
             condition = 3
-        elif health > 0.0:
+        elif health > 0.6:
             condition = 4
-        else:
+        elif health > 0.5:
             condition = 5
+        elif health > 0.3:
+            condition = 6
+        elif health > 0.15:
+            condition = 7
+        elif health > 0.05:
+            condition = 8
+        elif health > 0.0:
+            condition = 9
+        else:
+            condition = 10
         
         if self.healthCondition != condition:
-            if condition == 4:
+            if condition == 9:
                 blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.75), Task(self.__blinkGray), Task.pause(0.1))
                 taskMgr.add(blinkTask, self.uniqueName('blink-task'))
-            elif condition == 5:
-                if self.healthCondition == 4:
+            elif condition == 10:
+                if self.healthCondition == 9:
                     taskMgr.remove(self.uniqueName('blink-task'))
                 blinkTask = Task.loop(Task(self.__blinkRed), Task.pause(0.25), Task(self.__blinkGray), Task.pause(0.1))
                 taskMgr.add(blinkTask, self.uniqueName('blink-task'))

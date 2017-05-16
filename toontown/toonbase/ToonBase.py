@@ -168,6 +168,9 @@ class ToonBase(OTPBase.OTPBase):
         self.asyncLoader = ToontownAsyncLoader.ToontownAsyncLoader(self)
         __builtins__['asyncloader'] = self.asyncLoader
         
+        self.asyncCall = ToontownAsyncLoader.AsyncCall
+        __builtins__['callAsync'] = self.asyncCall
+        
         __builtins__['NO_FADE_SORT_INDEX'] = 4000
         oldLoader.destroy()
         self.accept('PandaPaused', self.disableAllAudio)
@@ -284,10 +287,12 @@ class ToonBase(OTPBase.OTPBase):
         
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
 
-        self.Widescreen = settings.get('Widescreen', 0)
+        self.Widescreen = settings.get('aspect-ratio', 0)
         self.currentScale = settings.get('texture-scale', 1.0)
         self.setTextureScale()
         self.setRatio()
+        self.updateAntiAliasing()
+        self.updateAnisotrophicFiltering()
         
         self.showDisclaimer = settings.get('show-disclaimer', True) # Show this the first time the user starts the game, it is set in the settings to False once they pick a toon
 
@@ -337,13 +342,19 @@ class ToonBase(OTPBase.OTPBase):
         self.notify.info("Pre-loading PICK A TOON GUI 2")
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
         self.notify.info("Pre-loading MAKE A TOON GUI")
-
-            
+        
+    def updateAntiAliasing(self):
+        loadPrcFileData('', 'framebuffer-multisample %s' %settings.get('anti-aliasing'))
+    
     def updateAspectRatio(self):
         self.setRatio()
 
+    def updateAnisotrophicFiltering(self):
+        level = ttsettings.AnistrophicOptions[settings.get('anisotropic-filtering')]
+        
+        loadPrcFileData('', 'texture-anisotropic-degree %d' % level)
+        
     def setRatio(self): # Set the aspect ratio
-        print(GraphicsOptions.AspectRatios[self.Widescreen])
         base.setAspectRatio(GraphicsOptions.AspectRatios[self.Widescreen])
             
     def setTextureScale(self): # Set the global texture scale (TODO)
@@ -434,6 +445,9 @@ class ToonBase(OTPBase.OTPBase):
                 nametag.show()
 
     def takeScreenShot(self):
+        if hasattr(self, 'screenShotNotice') and self.screenShotNotice:
+            self.screenShotNotice.destroy()
+            taskMgr.remove('clearScreenshot')
         if not os.path.exists(TTLocalizer.ScreenshotPath):
             os.mkdir(TTLocalizer.ScreenshotPath)
             self.notify.info('Made new directory to save screenshots.')
@@ -466,16 +480,16 @@ class ToonBase(OTPBase.OTPBase):
         self.lastScreenShotTime = globalClock.getRealTime()
         pandafile = Filename(str(ExecutionEnvironment.getCwd()) + '/' + str(screenshot))
         winfile = pandafile.toOsSpecific()
-        screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
-        screenShotNotice.reparentTo(base.a2dBottomCenter)
-        screenShotNotice.setBin('gui-popup', 0)
+        self.screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
+        self.screenShotNotice.reparentTo(base.a2dBottomCenter)
+        self.screenShotNotice.setBin('gui-popup', 0)
         if coordOnScreen:
             if strTextLabel is not None:
                 strTextLabel.destroy()
             coordTextLabel.destroy()
             
         def clearScreenshotMsg(task):
-            screenShotNotice.destroy()
+            self.screenShotNotice.destroy()
             return task.done
 
         taskMgr.doMethodLater(5.0, clearScreenshotMsg, 'clearScreenshot')

@@ -14,6 +14,7 @@ from toontown.toonbase.ToonPythonUtil import lerp
 class BattleCalculatorAI:
     AccuracyBonuses = [0, 20, 40, 60]
     DamageBonuses = [0, 20, 20, 20]
+    DamageBonusesDrop = [0, 30, 40, 50]
     AttackExpPerTrack = [0, 10, 20, 30, 40, 50, 60]
     TRAP_CONFLICT = -2
     APPLY_HEALTH_ADJUSTMENTS = 1
@@ -877,12 +878,18 @@ class BattleCalculatorAI:
                     attackIdx = currTgt[currAtkType][numDmgs - 1][0]
                     attackerId = self.toonAtkOrder[attackIdx]
                     attack = self.battle.toonAttacks[attackerId]
+                    atkTrack = self.__getActualTrack(attack)
                     if hp:
-                        attack[TOON_HPBONUS_COL] = math.ceil(totalDmgs * (DamageBonuses[numDmgs - 1] * 0.01))
+                        if atkTrack == DROP:
+                            attack[TOON_HPBONUS_COL] = math.ceil(totalDmgs * (DamageBonusesDrop[numDmgs - 1] * 0.01))
+                        elif atkTrack == ZAP:
+                            attack[TOON_HPBONUS_COL] = 0
+                        else:
+                            attack[TOON_HPBONUS_COL] = math.ceil(totalDmgs * (DamageBonuses[numDmgs - 1] * 0.01))
                         if self.notify.getDebug():
                             self.notify.debug('Applying hp bonus to track ' + str(attack[TOON_TRACK_COL]) + ' of ' + str(attack[TOON_HPBONUS_COL]))
                     elif len(attack[TOON_KBBONUS_COL]) > tgtPos:
-                        attack[TOON_KBBONUS_COL][tgtPos] = totalDmgs * 0.5
+                        attack[TOON_KBBONUS_COL][tgtPos] = math.ceil(totalDmgs * 0.5)
                         if self.notify.getDebug():
                             self.notify.debug('Applying kb bonus to track ' + str(attack[TOON_TRACK_COL]) + ' of ' + str(attack[TOON_KBBONUS_COL][tgtPos]) + ' to target ' + str(tgtPos))
                     else:

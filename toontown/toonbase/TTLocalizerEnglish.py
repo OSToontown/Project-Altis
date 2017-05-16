@@ -4025,7 +4025,7 @@ AvatarChoiceNameApproved = 'Name\nApproved!'
 AvatarChoiceNameReview = 'Under\nReview'
 AvatarChoiceNameYourToon = 'Name\nYour Toon!'
 AvatarChoiceDeletePasswordText = 'Careful! This will delete %s forever.  To delete this Toon, enter your password.'
-AvatarChoiceDeleteConfirmText = 'Careful! This will delete %(name)s forever.  If you are sure you want to do this, type "%(confirm)s" and click OK.'
+AvatarChoiceDeleteConfirmText = 'Careful! This will delete %(name)s forever.  If you are sure you want to do this, type %(confirm)s and click OK.'
 AvatarChoiceDeleteConfirmUserTypes = 'delete'
 AvatarChoiceDeletePasswordTitle = 'Delete Toon?'
 AvatarChoicePassword = 'Password'
@@ -5325,7 +5325,7 @@ PopupTouchControls = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch contr
 PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an ALPHA build of Project Altis! Expect the server to restart a lot, and expect crashes and other bugs. Please report bugs to the team. Thanks, and enjoy Project Altis!'
 QuitConfirm = 'Are you sure you want to quit?'
 PlayGame = 'Pick-A-Toon'
-DiscordButton = 'Discord'
+DiscordButton = 'News'
 CreditsButton = 'Credits'
 GenderShopQuestionMickey = 'To make a boy toon, click on me!'
 GenderShopQuestionMinnie = 'To make a girl toon, click on me!'
@@ -7143,6 +7143,17 @@ NPCToonNames = {20000: 'Tutorial Tom',
  2403: 'Wacky Wally',
  2404: 'Rancid Robert',
  2405: 'Limey',
+ 2406: 'Al Hare-ington',
+ 2407: "Good Ol' Honkin' Sally",
+ 2408: 'P.I. Multiply',
+ 2409: 'Bookworm Bork',
+ 2410: 'Professor Proton',
+ 2411: 'B.R. Bea',
+ 2412: 'Chef Foolery',
+ 2413: 'R.E. Versed',
+ 2414: 'Roy',
+ 2415: 'Pants On Fire',
+ 2416: 'Liar Liar',
  1001: 'Will',
  1002: 'Bill',
  1003: lHQOfficerM,
@@ -7844,6 +7855,24 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  2837: ('Hardy Harr Seminars', ''),
  2839: ('Barely Palatable Pasta', ''),
  2841: ('', ''),
+ 2901: ('Gasonline', ''),
+ 2902: ('Wacky Way Wonderworld', ''),
+ 2903: ('Toon Mobile', ''),
+ 2904: ('Pies Are Squared', ''),
+ 2905: ('Wacky Way-ving Inflatable Arm Flailing Tube Man', ''),
+ 2907: ('A Gaggle of Gags', ''), 
+ 2908: ('Dogs of Wisdom', ''),
+ 2909: ('The Circuit Breaker', ''),
+ 2910: ('', ''),
+ 2911: ('Recessed is in Session', ''),
+ 2914: ('Lying Birthday Cakes', ''),
+ 2915: ('No, the Building Beside Me is Telling the Truth', ''),
+ 2916: ('The Building Beside Me is Lying to you', ''),
+ 2917: ('The Mehvie Theatre', ''),
+ 2919: ("Roy's Kones", ''),
+ 2920: ('Topsy Turvey Tailors', ''),
+ 2922: ('Slip and Slide', ''),
+ 2923: ("Limey's Limes", ''),
  1506: ('Gag Shop', ''),
  1507: ('Toon Headquarters', ''),
  1508: ('Clothing Shop', ''),

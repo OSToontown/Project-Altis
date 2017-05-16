@@ -5,6 +5,13 @@ icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
 
+# API:
+want-api #t
+account-server-endpoint https://projectaltis.com/api/
+account-server-endpoint-hostname www.projectaltis.com
+account-server-apikey 441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428
+account-server-secret sjHgh43h43ZMcHnJ
+
 # Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
@@ -26,9 +33,9 @@ default-model-extension .bam
 # Performance
 smooth-enable-prediction 1
 smooth-enable-smoothing 1
-smooth-lag 0.2
+smooth-lag 0.4
 smooth-max-future 1.0
-smooth-min-suggest-resync 1
+smooth-min-suggest-resync 0
 
 average-frame-rate-interval 60.0
 clock-frame-rate 60.0

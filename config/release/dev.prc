@@ -2,7 +2,7 @@
 model-path ../resources
 
 # Server:
-server-version TTPA-Alpha-1.7.16
+server-version TTPA-Alpha-1.7.17
 min-access-level 600
 accountdb-type local
 shard-low-pop 50

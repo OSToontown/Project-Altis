@@ -11,9 +11,8 @@ from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from panda3d.core import *
 
-from toontown.dmenu import DMenuQuit
+from toontown.dmenu import DMenuQuit, DMenuOptions
 from toontown.hood import SkyUtil
-from toontown.pickatoon import PickAToonOptions
 from toontown.pickatoon import ShardPicker
 from toontown.toon import ToonDNA, Toon, ToonHead, LaffMeter
 from toontown.toonbase import TTLocalizer, ToontownGlobals
@@ -77,7 +76,7 @@ class PickAToon(DirectObject):
         self.background2d.setColorScale(.6, .1, .1, 0)
         self.backgroundClassic = None
         # self.optionsMgr = PickAToonOptions.PickAToonOptions()
-        self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
+        self.optionsMgr = DMenuOptions.DMenuOptions() # This is for the revamped options screen
         self.shardPicker = ShardPicker.ShardPicker()
         self.buttonList = []
         self.quitConfirmation = DMenuQuit.DMenuQuit()
@@ -240,7 +239,7 @@ class PickAToon(DirectObject):
             self.showToon()
             taskMgr.add(self.turnHead, 'turnHead')
             camZ = self.toon.getHeight()
-            base.camera.setPos(-60, 0, 8 + camZ)
+            base.camera.setPos(-60, 0, 8 + camZ)            
         else:
             self.changeName.hide()
             self.toon.hide()
@@ -267,6 +266,10 @@ class PickAToon(DirectObject):
         self.laffMeter.set_pos(-.5, 0, 0)
         self.laffMeter.reparent_to(self.patNode2d)
         self.laffMeter.start()
+        self.toon.setHat(av.hat[0], av.hat[1], av.hat[2])
+        self.toon.setGlasses(av.glasses[0], av.glasses[1], av.glasses[2])
+        self.toon.setBackpack(av.backpack[0], av.backpack[1], av.backpack[2])
+        self.toon.setShoes(av.shoes[0], av.shoes[1], av.shoes[2])
         # self.jumpIn = Sequence(
         #         Func(self.toon.animFSM.request, 'PATTeleportIn'),
         #         Wait(2),
@@ -383,13 +386,41 @@ class PickAToon(DirectObject):
         self.selectToon(position)
         av = [x for x in self.avatarList if x.position == position][0]
 
-        def diagDone():
-            mode = delDialog.doneStatus
+        def dodelete(itreallywantstohaveanargumentheresoletsjustputonethatwontbeusedatall = None):
+            if self.passwordEntry.get().lower() == av.name.lower():
+                self.deleteWithPasswordFrame.destroy()
+                delDialog.cleanup()
+                base.transitions.noFade()
+                messenger.send(self.doneEvent, [{'mode': 'delete'}])
+            else:
+                self.passwordEntry.enterText('')
+                
+        def cancel():
+            self.deleteWithPasswordFrame.destroy()
             delDialog.cleanup()
             base.transitions.noFade()
+        
+        def diagDone():
+            mode = delDialog.doneStatus
             if mode == 'ok':
-                messenger.send(self.doneEvent, [{'mode': 'delete'}])
-
+                buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
+                buttons.flattenMedium()
+                nameBalloon = loader.loadModel('phase_3/models/props/chatbox_input')
+                nameBalloon.flattenMedium()
+                okButtonImage = (buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr'))
+                cancelButtonImage = (buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr'))
+                deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % {
+                'name': av.name,
+                'confirm': "your Toon's name"}
+                self.deleteWithPasswordFrame = DirectFrame(pos=(0.0, 0.1, 0.2), parent=aspect2dp, relief=None, image=DGG.getDefaultDialogGeom(), image_color=ToontownGlobals.GlobalDialogColor, image_scale=(1.4, 1.0, 1.0), text=deleteText, text_wordwrap=19, text_scale=TTLocalizer.ACdeleteWithPasswordFrame, text_pos=(0, 0.25), textMayChange=1, sortOrder=NO_FADE_SORT_INDEX)
+                self.passwordEntry = DirectEntry(parent=self.deleteWithPasswordFrame, relief=None, image=nameBalloon, image1_color=(0.8, 0.8, 0.8, 1.0), scale=0.064, pos=(-0.3, 0.0, -0.2), width=10, numLines=1, focus=1, cursorKeys=1, command=dodelete)
+                self.passwordEntry.flattenMedium()
+                DirectButton(parent=self.deleteWithPasswordFrame, image=okButtonImage, relief=None, text=TTLocalizer.AvatarChoiceDeletePasswordOK, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(-0.22, 0.0, -0.35), command=dodelete)
+                DirectButton(parent=self.deleteWithPasswordFrame, image=cancelButtonImage, relief=None, text=TTLocalizer.AvatarChoiceDeletePasswordCancel, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=1, pos=(0.2, 0.0, -0.35), command=cancel)
+            else:
+                delDialog.cleanup()
+                base.transitions.noFade()
+                
         base.acceptOnce('pat-del-diag-done', diagDone)
         delDialog = TTGlobalDialog(message = DEL % av.name, style = YesNo,
                                    doneEvent = 'pat-del-diag-done')

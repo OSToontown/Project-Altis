@@ -15,14 +15,22 @@ DefaultSettings = {
 'smoothanimations': True,
 'tpmsgs': True,
 'friendstatusmsgs': True,
-'doorkey': True,
-'interactkey': True,
+'doorkey': False,
+'interactkey': False,
 'experimental-touch': False,
 'anisotropic-filtering': 0,
 'anti-aliasing': False,
 'vertical-sync': False,
 'language': 'English',
-'Widescreen': 0
+'aspect-ratio': 0,
+'streamerMode': False,
+'lastNametag': {},
+'lastEffect': {},
+'lastRod': {},
+'keymap': {},
+'acceptingNewFriends': {},
+'acceptingNonFriendWhispers': {},
+'want-Custom-Controls': False
 }
 
 AnistrophicOptions = [0, 2, 4, 8, 16]
