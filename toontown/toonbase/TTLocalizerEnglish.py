@@ -514,7 +514,7 @@ QuestsSmallBackpack = 'Small Backpack'
 QuestsMediumBackpack = 'Medium Backpack'
 QuestsLargeBackpack = 'Large Backpack'
 QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
- 2: ['Key', 'Keys', 'a '],
+ 2: ['Fish', 'Fish', 'a '],
  3: ['Blackboard', 'Blackboards', 'a '],
  4: ['Book', 'Books', 'a '],
  5: ['Candy Bar', 'Candy Bars', 'a '],
@@ -705,27 +705,27 @@ TheBrrrghTrackQuestDict = {GREETING: '',
 QuestDialog_3225 = {QUEST: "Oh, thanks for coming, _avName_!\x07The Cogs in the neighborhood frightened away my delivery person.\x07I don't have anyone to deliver this salad to _toNpcName_!\x07Can you do it for me? Thanks so much!_where_"}
 QuestDialog_2910 = {QUEST: 'Back so soon?\x07Great job on those Cogs.\x07Now I need one more favor.\x07Could you get some flour from _toNpcName_ for me?\x07I\'m running really low in supply of that._where_'}
 QuestDialogDict = {160: {GREETING: '',
-       QUEST: "Ok, now I think you are ready for something more rewarding.\x07If you can defeat 3 Bossbots I'll give you a little bonus.",
-       INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       QUEST: "Thanks for getting that back for us!\x07Now, each individual Cog has it's own place in line down the corporate ladder.\x07Why don't we send you to Professor Pete who will inform you about that?_where_",
+       INCOMPLETE_PROGRESS: "Did Pete have anything to say?",
+       INCOMPLETE_WRONG_NPC: "I'm not Professor Pete?_where_",
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  161: {GREETING: '',
-       QUEST: "Ok, now I think you are ready for something more rewarding.\x07Come back after you defeat 3 Lawbots and I'll have a little something for you.",
+       QUEST: "Heya, kiddo. How can I help you?\x07Ah, so you wish to learn about the corporate ladder, huh?\x07Each Cog has a spot on the ladder, rank one to eight.\x07They'll do anything they can to earn a promotion, including making toons go sad!\x07Why not show those weak rank one cogs who's boss? They won't get that promotion!\x07Go out and defeat a couple Bottom Feeders.\x07If you're having trouble finding them, check Loopy Lane.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to Professor Pete for your next step!',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  162: {GREETING: '',
-       QUEST: 'Ok, now I think you are ready for something more rewarding.\x07Defeat 3 Cashbots and come back here to claim the bounty.',
+       QUEST: "Heya, kiddo. How can I help you?\x07Ah, so you wish to learn about the corporate ladder, huh?\x07Each Cog has a spot on the ladder, rank one to eight.\x07They'll do anything they can to earn a promotion, including making toons go sad!\x07Why not show those weak rank one cogs who's boss? They won't get that promotion!\x07Go out and defeat a couple Cold Callers.\x07If you're having trouble finding them, check Punchline Place.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to Professor Pete for your next step!',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  163: {GREETING: '',
-       QUEST: "Ok, now I think you are ready for something more rewarding.\x07Come see us after you defeat 3 Sellbots and we'll hook you up.",
+       QUEST: "Heya, kiddo. How can I help you?\x07Ah, so you wish to learn about the corporate ladder, huh?\x07Each Cog has a spot on the ladder, rank one to eight.\x07They'll do anything they can to earn a promotion, including making toons go sad!\x07Why not show those weak rank one cogs who's boss? They won't get that promotion!\x07Go out and defeat a couple Short Changes.\x07If you're having trouble finding them, check Punchline Place.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to Professor Pete for your next step!',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  164: {QUEST: 'Phew, tired yet?\x07You know... You look like you could use some new gags.\x07Go see %s, maybe he can help you out._where_' % Flippy},
@@ -5644,10 +5644,10 @@ QuestScript110_4 = "The map shows where you've been."
 QuestScript110_5 = 'Turn the page to see your gags...'
 QuestScript110_6 = 'Uh oh! You have no gags! I will assign you a task.'
 QuestScript110_7 = 'Turn the page to see your tasks.'
-QuestScript110_8 = 'Take a ride on the trolley, and earn jelly beans to buy gags!'
-QuestScript110_9 = 'To get to the trolley, go out the door behind me and head for the playground.'
-QuestScript110_10 = 'Now, close the book and find the trolley!'
-QuestScript110_11 = 'Return to Toon HQ when you are done. Bye!'
+QuestScript110_8 = 'You\'ll need a way to get beans.'
+QuestScript110_9 = 'Luckily, Banker Bob knows a thing or two on how to earn some!'
+QuestScript110_10 = 'Now, close the book and find the bank!'
+QuestScript110_11 = 'When Bob is finished with you, please return to the Toon HQ.'
 
 QuestScriptTutorialBlocker_1 = 'Why, hello there!'
 QuestScriptTutorialBlocker_2 = 'Hello?'
@@ -5667,17 +5667,17 @@ QuestScriptGagShop_6 = "When you're done buying gags, click this button to retur
 QuestScriptGagShop_7 = 'Normally you can use this button to play another Trolley Game...'
 QuestScriptGagShop_8 = "...but there's no time for another game right now. You're needed in Toon HQ!"
 
-QuestScript120_1 = "Good job finding the trolley!\x07By the way, have you met Banker Bob?\x07He has quite a sweet tooth.\x07Why don't you introduce yourself by taking him this candy bar as a gift."
-QuestScript120_2 = 'Banker Bob is over in the Toontown Bank.'
+QuestScript120_1 = "Ah, yes. You need to earn beans, don't you?\x07One way toons can earn their beans is through riding the trolley."
+QuestScript120_2 = 'Once you ride the trolley, please return to me.\x07You should have enough beans to purchase more gags once you\'re done.'
 
-QuestScript121_1 = "Yum, thank you for the Candy Bar.\x07Say, if you can help me, I'll give you a reward.\x07Those Cogs stole the keys to my safe. Defeat Cogs to find a stolen key.\x07When you find a key, bring it back to me."
+QuestScript121_1 = "Another way you can earn beans is through fishings.\x07Why not go catch two fish and then return to me? Just so you get the hang of it.\x07However, you do need beans with you in order to fish."
 
-QuestScript130_1 = 'Good job finding the trolley!\x07By the way, I received a package for Professor Pete today.\x07It must be his new chalk he ordered.\x07Can you please take it to him?\x07He is over in the school house.'
+QuestScript130_1 = 'Great job fishing!\x07Now, return to the Toon Headquarters.'
 QuestScript131_1 = 'Oh, thanks for the chalk.\x07What?!?\x07Those Cogs stole my blackboard. Defeat Cogs to find my stolen blackboard.\x07When you find it, bring it back to me.'
 
 QuestScript140_1 = 'Good job finding the trolley!\x07By the way, I have this friend, Librarian Larry, who is quite a book worm.\x07I picked this book up for him last time I was over in ' + lDonaldsDock + '.\x07Could you take it over to him, he is usually in the Library.'
 QuestScript141_1 = 'Oh, yes, this book almost completes my collection.\x07Let me see...\x07Uh oh...\x07Now where did I put my glasses?\x07I had them just before those Cogs took over my building.\x07Defeat Cogs to find my stolen glasses.\x07When you find them, bring them back to me for a reward.'
-QuestScript145_1 = 'I see you had no problem with the trolley!\x07Listen, the Cogs have stolen our blackboard eraser.\x07Go into the streets and fight Cogs until you recover the eraser.\x07To reach the streets go through one of the tunnels like this:'
+QuestScript145_1 = 'I see you had no problem with Bob!\x07Listen, the Cogs have stolen our blackboard eraser.\x07Go into the streets and fight Cogs until you recover the eraser.\x07To reach the streets go through one of the tunnels like this:'
 QuestScript145_2 = "When you find our eraser, bring it back here.\x07Don't forget, if you need gags, ride the trolley.\x07Also, if you need to recover Laff points, collect ice cream cones in the Playground."
 
 QuestScript150_1 = 'Great work!\x07Toontown is more fun when you have friends!'
