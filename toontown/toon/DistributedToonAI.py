@@ -2568,10 +2568,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             simbase.air.experienceMgr.checkForLevelUpReward(self)
             if level in ToontownGlobals.ExperienceHPLevels:
                 self.sendUpdate('notifyExpReward', [level, 0])
-            #if level in ToontownGlobals.ExperienceGagLevels: Leftovers, might take some reworking to get these working
-                #self.sendUpdate('notifyExpReward', [level, 1])
-            #if level in ToontownGlobals.ExperienceMoneyLevels:
-                #self.sendUpdate('notifyExpReward', [level, 2])
+            if level in ToontownGlobals.ExperienceGagLevels:
+                self.sendUpdate('notifyExpReward', [level, 1])
+            if level in ToontownGlobals.ExperienceMoneyLevels:
+                self.sendUpdate('notifyExpReward', [level, 2])
 
     def d_setToonLevel(self, level):
         self.sendUpdate('setToonLevel', [level])
