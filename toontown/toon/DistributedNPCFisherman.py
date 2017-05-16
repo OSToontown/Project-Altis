@@ -46,6 +46,7 @@ class DistributedNPCFisherman(DistributedNPCToonBase):
 
     def announceGenerate(self):
         DistributedNPCToonBase.announceGenerate(self)
+        self.setHat(18, 0, 0)
 
     def initToonState(self):
         self.setAnimState('neutral', 1.05, None, None)

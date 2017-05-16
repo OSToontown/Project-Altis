@@ -38,6 +38,15 @@ class DistributedNPCHQOfficer(DistributedNPCToonBase):
         self.cleanupMovie()
 
         DistributedNPCToonBase.disable(self)
+        
+    def announceGenerate(self):
+        DistributedNPCToonBase.announceGenerate(self)
+        if base.cr.playGame.hood.hoodId == 1000:
+            if self.posIndex in [0, 3]:
+                self.setHat(16, 0, 0)
+            else:
+                self.setHat(48, 0, 0)
+            self.setGlasses(20, 0, 0)
 
     def cleanupMovie(self):
         self.clearChat()
