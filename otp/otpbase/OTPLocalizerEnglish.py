@@ -230,6 +230,7 @@ DialogLength1 = 6
 DialogLength2 = 12
 DialogLength3 = 20
 GlobalSpeedChatName = 'SpeedChat'
+GlobalChatLogName = 'Chat Log'
 SCMenuPromotion = 'PROMOTIONAL'
 SCMenuEmotions = 'EMOTIONS'
 SCMenuCustom = 'MY PHRASES'
@@ -1140,7 +1141,10 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  1127: "Let's go to Bossbot HQ!",
  1128: "Let's go fight the CEO!",
  1129: "Let's go in the Cog Golf Courses!",
- 1130: "Let's go take over a Field Office!",
+ 1130: "Let's go to Boardbot HQ!",
+ 1131: "Let's go fight the Chairman!",
+ 1132: "Let's go in the Board Offices!",
+ 1133: "Let's go take over a Field Office!",
  1200: 'What ToonTask are you working on?',
  1201: "Let's work on that.",
  1202: "This isn't what I'm looking for.",
@@ -1154,9 +1158,11 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  1210: 'I need more Cogbucks.',
  1211: 'I need more Jury Notices.',
  1212: 'I need more Stock Options.',
- 1213: 'I need more Cashbot Suit Parts.',
- 1214: 'I need more Lawbot Suit Parts.',
- 1215: 'I need more Bossbot Suit Parts.',
+ 1213: 'I need more Invoices.',
+ 1214: 'I need more Cashbot Suit Parts.',
+ 1215: 'I need more Lawbot Suit Parts.',
+ 1216: 'I need more Bossbot Suit Parts.',
+ 1217: 'I need more Boardbot Suit Parts.',
  1299: 'I need to get a ToonTask.',
  1300: 'I think you should choose Toon-up.',
  1301: 'I think you should choose Sound.',
@@ -2101,7 +2107,7 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  30507: "I hope that gets fixed soon.",
  30508: "Looks like I crashed!",
  30509: "Have you reported that bug?",
- 30510: "You should report that on the bug tracker on the website.",
+ 30510: "You should report that in the bugs channel on the Discord.",
  30511: "Let's use zap!",
  30512: "Looks like a bug!",
  30513: "That bug needs to be fixed!",

@@ -345,9 +345,9 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         
         for x in xrange(7):
             self.accept('control-%d' % (x+1), self.__handleSelection, extraArgs=[
-                self.activeTab, x])
+                self.activeTab, x, True])
 
-    def __handleSelection(self, track, level):
+    def __handleSelection(self, track, level, viaKeyboard = False):
         if self.activateMode == 'purchaseDelete' or self.activateMode == 'bookDelete' or self.activateMode == 'storePurchaseDelete':
             if self.numItem(track, level):
                 self.useItem(track, level)
@@ -355,7 +355,7 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
                 messenger.send('inventory-deletion', [track, level])
                 self.showDetail(track, level)
         elif self.activateMode == 'purchase' or self.activateMode == 'storePurchase':
-            messenger.send('inventory-selection', [track, level])
+            messenger.send('inventory-selection', [track, level, viaKeyboard])
             self.showDetail(track, level)
         elif self.gagTutMode:
             pass

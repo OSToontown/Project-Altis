@@ -6,21 +6,21 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 ## Contributors
 
 ### Management Team
-* Dubito / James | Founder & Director
+* Dubito / Luke | Founder & Director
 * Bethy / Limey Mouse | Director | **Signed NDA**
-* Smirky Bumberpop | External Community Manager | Pending NDA
-* Loopy Goopy Googlenerd | Content Director | Pending NDA
+* Loopy Goopy Googlenerd | Content Director | **Signed NDA**
 * Judge | Investor | **Signed NDA**
-* Drew | Technical Team Lead | Pending NDA
+* Jakebooy | Web Developer / Discord Manager | **Signed NDA**
 
 ### Technical Team
-* Sir Tubby Cheezyfish | Lead Game Developer | Pending NDA
-* Barks | Game Developer | Pending NDA
-* Dan | Game Developer | Pending NDA
-* Malverde | Game Developer | Pending NDA
+* Sir Tubby Cheezyfish | Lead Game Developer | **Signed NDA**
+* Barks | Game Developer | **Signed NDA**
+* Dan | Game Developer | **Signed NDA**
 * Alice | Web Developer | **Signed NDA**
-* Ben | Launcher Developer | Pending NDA
-* Jakebooy | Web Developer | **Signed NDA**
+* Ben | Launcher Developer | **Signed NDA**
+* Judge2020 | Launcher Developer | **Signed NDA**
+* Matthew | Game Developer | **Signed NDA**
+* Roast Duck | Game Developer | Pending NDA
 
 ### Creative Team
 * Bethy / Limey Mouse | Lead Artist | NDA Not Needed
@@ -42,6 +42,13 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 * Developers of Panda3D
 * Developers of Astron
 * Toontown Rewritten | Reviving the sprit of Toontown
+
+### Ex-staff
+Thanks to those who have contributed to the game in the past.
+* Smirky Bumberpop | External Community Manager | **Signed NDA**
+* Drew | Technical Team Lead | **Signed NDA**
+* Malverde | Game Developer | No NDA 
+
 
 ## License
 Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at

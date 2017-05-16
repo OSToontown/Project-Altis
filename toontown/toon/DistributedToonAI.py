@@ -123,7 +123,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.backpack = (0, 0, 0)
         self.shoes = (0, 0, 0)
         self.cogTypes = [0, 0, 0, 0, 0]
-        self.cogLevel = [0, 0, 0, 0, 0]
+        self.cogLevels = [0, 0, 0, 0, 0]
+        self.cogReviveLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogRadar = [0, 0, 0, 0, 0]
         self.trackBonusLevel = [0] * 9
@@ -1255,6 +1256,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getCogLevels(self):
         return self.cogLevels
+		
+    def d_setCogTypes(self, types):
+        self.sendUpdate('setCogTypes', [types])
+
+    def getCogTypes(self):
+        return self.cogTypes
 
     def incCogLevel(self, dept):
         newLevel = self.cogLevels[dept] + 1
@@ -1281,6 +1288,56 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.b_setMaxHp(maxHp)
                     self.toonUp(maxHp)
         self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
+		
+    def b_setCogReviveLevels(self, levels):
+        self.setCogReviveLevels(levels)
+        self.d_setCogReviveLevels(levels)
+
+    def setCogReviveLevels(self, levels):
+        if not levels:
+            self.notify.warning('cogLevels set to bad value: %s. Resetting to [0,0,0,0,0]' % levels)
+            self.cogReviveLevels = [0,
+             0,
+             0,
+             0,
+             0]
+        else:
+            self.cogReviveLevels = levels
+
+    def d_setCogReviveLevels(self, levels):
+        self.sendUpdate('setCogReviveLevels', [levels])
+
+    def getCogReviveLevels(self):
+        return self.cogReviveLevels
+
+    def incCogReviveLevel(self, dept):
+        newLevel = self.cogReviveLevels[dept] + 1
+        if newLevel == 0:
+            self.cogTypes[dept] = 0
+            self.d_setCogTypes(self.cogTypes)
+        cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+        lastCog = self.cogTypes[dept] >= SuitDNA.suitsPerDept - 1
+        if not lastCog:
+            maxLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+        else:
+            maxLevel = ToontownGlobals.MaxCogSuitLevel
+        if newLevel > maxLevel:
+            if not lastCog:
+                self.cogTypes[dept] += 1
+                self.d_setCogTypes(self.cogTypes)
+                cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+                self.cogReviveLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+                self.d_setCogReviveLevels(self.cogReviveLevels)
+        else:
+            self.cogReviveLevels[dept] += 1
+            self.d_setCogReviveLevels(self.cogReviveLevels)
+            if lastCog:
+                if self.cogReviveLevels[dept] in ToontownGlobals.CogReviveSuitHPLevels:
+                    maxHp = self.getMaxHp()
+                    maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
+                    self.b_setMaxHp(maxHp)
+                    self.toonUp(maxHp)
+        self.air.writeServerEvent('cogReviveSuit', self.doId, '%s|%s|%s' % (dept, self.cogTypes[dept], self.cogReviveLevels[dept]))
 
     def getNumPromotions(self, dept):
         if dept not in SuitDNA.suitDepts:
@@ -1346,7 +1403,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setCogParts(parts)
 
     def loseCogParts(self, dept):
-        self.notify.warning('Tried to remove a cog part, skipping')
+        partsLost = random.randrange(CogDisguiseGlobals.MinPartLoss, CogDisguiseGlobals.MaxPartLoss + 1)
+        parts = self.getCogParts()
+        partBitmask = parts[dept]
+        partLen = range(17)
+        while partsLost > 0 and partLen:
+            losePart = random.choice(partLen)
+            partLen.remove(losePart)
+            losePartBit = 1 << losePart
+            if partBitmask & losePartBit:
+                partBitmask &= ~losePartBit
+                partsLost -= 1
+
+        parts[dept] = partBitmask
+        self.b_setCogParts(parts)
 
     def b_setCogMerits(self, merits):
         self.setCogMerits(merits)
@@ -1362,6 +1432,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
              0]
         else:
             self.cogMerits = merits
+			
+    def addMerits(self, dept, merits):
+        # if not CogDisguiseGlobals.isSuitComplete(self.getCogParts(), dept): This block here is for disallowed merit gain if the suit isn't complete, I'll do this later with better code
+            # pass
+        newMerits = self.getCogMerits()
+        totalMerits = CogDisguiseGlobals.getTotalMerits(self, dept)
+        if (newMerits[dept] + merits) >= totalMerits:
+            newMerits[dept] == totalMerits
+        else:
+            newMerits[dept] += merits
+        self.b_setCogMerits(newMerits)
 
     def d_setCogMerits(self, merits):
         self.sendUpdate('setCogMerits', [merits])
@@ -1369,16 +1450,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogMerits(self):
         return self.cogMerits
 
-    def b_promote(self, dept):
-        self.promote(dept)
-        self.d_promote(dept)
+    def b_promote(self, dept, hardFlag = 0):
+        self.promote(dept, hardFlag)
+        self.d_promote(dept, hardFlag)
 
-    def promote(self, dept):
+    def promote(self, dept, hardFlag):
         if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
             self.cogMerits[dept] = 0
-        self.incCogLevel(dept)
+        if self.cogLevels[dept] >= ToontownGlobals.MaxCogSuitLevel and hardFlag == 1:
+            self.incCogReviveLevel(dept)
+        else:
+            self.incCogLevel(dept)
 
-    def d_promote(self, dept):
+    def d_promote(self, dept, hardFlag):
         merits = self.getCogMerits()
         if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
             merits[dept] = 0
@@ -4786,6 +4870,7 @@ def maxToon(missingTrack=None):
         CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
     ])
     target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    target.b_setCogReviveLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
     target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
@@ -4822,6 +4907,14 @@ def maxToon(missingTrack=None):
     if target != spellbook.getInvoker():
         return "Maxed Target's Toon!"
     return "Maxed your Toon!"
+	
+@magicWord(category=CATEGORY_PROGRAMMER, types = [int, int])
+def promote(dept, revive = 0):
+    """
+    Promotes the invoker by 1 level, if flag is defined, it promotes the v2.0 suit by one level.
+    """
+    invoker = spellbook.getInvoker()
+    invoker.b_promote(dept, revive)
 
 @magicWord(category=CATEGORY_PROGRAMMER)
 def unlocks():
@@ -5105,6 +5198,7 @@ def gmIcon(accessLevel=None):
             if not invokerAccess >= CATEGORY_PROGRAMMER.defaultAccess:
                 accessLevel = target.getGMType()
         if accessLevel not in (0,
+                               274,
                                CATEGORY_MEDIA.defaultAccess,
                                CATEGORY_COMMUNITY_MANAGER.defaultAccess,
                                CATEGORY_MODERATOR.defaultAccess,
@@ -5552,7 +5646,7 @@ def disguise(command, suitIndex, value):
 
     if suitIndex > 4:
         return 'Invalid suit index: %s' % suitIndex
-    if value < 0:
+    if value < 0 and command != 'reviveLevel':
         return 'Invalid value: %s' % value
 
     if command == 'parts':
@@ -5568,6 +5662,10 @@ def disguise(command, suitIndex, value):
         invoker.cogLevels[suitIndex] = value
         invoker.d_setCogLevels(invoker.cogLevels)
         return 'Level set.'
+    elif command == 'reviveLevel':
+        invoker.cogReviveLevels[suitIndex] = value
+        invoker.d_setCogReviveLevels(invoker.cogLevels)
+        return 'Revive level set.'
     elif command == 'merits':
         invoker.cogMerits[suitIndex] = value
         invoker.d_setCogMerits(invoker.cogMerits)
@@ -5700,3 +5798,138 @@ def catalog():
 def shovelSkill(skill):
     target = spellbook.getTarget()
     target.b_setShovelSkill(skill)
+	
+@magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
+def i60Skip():
+    """
+    Set the target's stats for insomnia gamplay
+    """
+    target = spellbook.getTarget()
+
+    # First, unlock the target's Gag tracks:
+    gagTracks = random.choice([[1, 0, 0, 1, 1, 1, 1, 0], [0, 0, 1, 1, 1, 1, 1, 0], [0, 1, 1, 0, 1, 1, 1, 0], [0, 1, 1, 1, 1, 1, 0, 0]])
+    target.b_setTrackAccess(gagTracks)
+    target.b_setMaxCarry(35)
+
+    # Next, max out their experience for the tracks they have:
+    experience = Experience.Experience(target.getExperience(), target)
+    for i, track in enumerate(target.getTrackAccess()):
+        if track:
+            experience.experience[i] = (random.randint(1500, 3000))
+    target.b_setExperience(experience.makeNetString())
+    
+    # Restock their inventory:
+    inventory = target.inventory
+    inventory.NPCMaxOutInv(targetTrack=-1, maxLevelIndex=6)
+    target.b_setInventory(inventory.makeNetString())
+
+    # Max out their Laff:
+    target.b_setMaxHp(41)
+    target.toonUp(target.getMaxHp() - target.hp)
+
+    # Unlock all of the emotes:
+    emotes = list(target.getEmoteAccess())
+    for emoteId in OTPLocalizer.EmoteFuncDict.values():
+        if emoteId >= len(emotes):
+            continue
+        # The following emotions are ignored because they are unable to be
+        # obtained:
+        if emoteId in (17, 18, 19):
+            continue
+        emotes[emoteId] = 1
+    target.b_setEmoteAccess(emotes)
+
+    # Give them teleport access to respective areas:
+    hoods = [1000, 2000, 5000, 8000]
+    hoodsVisit = [1000, 2000, 5000, 4000, 8000]
+    target.b_setHoodsVisited(hoodsVisit)
+    target.b_setTeleportAccess(hoods)
+
+    # Mid game settings:
+    target.b_setQuests([])
+    target.b_setQuestCarryLimit(4)
+    target.b_setRewardHistory(10, [])
+    target.b_setMaxMoney(80)
+    target.b_setMoney(target.getMaxMoney())
+    target.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
+
+    # Finally, unlock all of their pet phrases:
+    if simbase.wantPets:
+        target.b_setPetTrickPhrases(range(7))
+     
+    if target != spellbook.getInvoker():
+        return "Set toon stats for i60 demo."
+    return "Set toon stats for i60 demo."
+	
+@magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
+def i60Reset():
+    """
+    Reset the target's stats for insomnia gamplay
+    """
+    target = spellbook.getTarget()
+
+    # First, reset the target's gag tracks
+    target.b_setTrackAccess([0, 0, 0, 0, 1, 1, 0, 0])
+    target.b_setMaxCarry(20)
+
+    # Next, reset their experience for the tracks they have:
+    experience = Experience.Experience(target.getExperience(), target)
+    for i, track in enumerate(target.getTrackAccess()):
+        experience.experience[i] = 0
+    target.b_setExperience(experience.makeNetString())
+    
+    # Reset their inventory:
+    inventory = target.inventory
+    inventory.zeroInv(1)
+    target.b_setInventory(inventory.makeNetString())
+
+    # Reset out their Laff:
+    target.b_setMaxHp(15)
+    target.toonUp(target.getMaxHp() - target.hp)
+
+    # Unlock all of the emotes:
+    emotes = list(target.getEmoteAccess())
+    for emoteId in OTPLocalizer.EmoteFuncDict.values():
+        if emoteId >= len(emotes):
+            continue
+        # The following emotions are ignored because they are unable to be
+        # obtained:
+        if emoteId in (17, 18, 19):
+            continue
+        emotes[emoteId] = 1
+    target.b_setEmoteAccess(emotes)
+
+    # Give them teleport access nowhere
+    hoods = [2000]
+    target.b_setHoodsVisited(hoods)
+    target.b_setTeleportAccess([])
+
+    # Start game settings:
+    target.b_setQuests([])
+    target.b_setQuestCarryLimit(1)
+    target.b_setRewardHistory(0, [])
+    target.b_setMaxMoney(40)
+    target.b_setMoney(0)
+    target.b_setBankMoney(0)
+
+    # Finally, remove all of their pet phrases:
+    if simbase.wantPets:
+        target.b_setPetTrickPhrases([])
+		
+    # Set their stuff to insomnia garb:
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(target.getDNAString())
+    dna.newToonRandom()
+    dna.topTex = 148
+    dna.topTexColor = 27
+    dna.sleeveTex = 135
+    dna.sleeveTexColor = 27
+    dna.botTex = 57
+    dna.botTexColor = 27
+    dna.gender = 'm' # Skirts still aren't supported atm, damnit drew
+    target.b_setDNAString(dna.makeNetString())
+
+    if target != spellbook.getInvoker():
+        return "Reset toon stats for i60 demo."
+    return "Reset toon stats for i60 demo."
+	

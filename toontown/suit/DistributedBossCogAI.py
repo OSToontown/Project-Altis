@@ -94,7 +94,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         if not av is None:
             if av.getHp() <= 0:
                 if avId not in self.punishedToons:
-                    self.air.cogSuitMgr.removeParts(av, self.deptIndex)
+                    #self.air.cogSuitMgr.removeParts(av, self.deptIndex)
                     self.punishedToons.append(avId)
 
         if avId in self.looseToons:
@@ -535,7 +535,36 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.notify.debug('%s.toons = %s' % (self.doId, str[2:]))
 
     def getDamageMultiplier(self):
-        return 1.0
+        if self.bossDamage != 0:
+            hp = float(self.bossMaxDamage - self.bossDamage) / float(self.bossMaxDamage)
+        else:
+            hp = 1.0
+        if hp > 0.95:
+            mult = 1.0
+        elif hp > 0.9:
+            mult = 1.1
+        elif hp > 0.8:
+            mult = 1.2
+        elif hp > 0.7:
+            mult = 1.3
+        elif hp > 0.6:
+            mult = 1.4
+        elif hp > 0.6:
+            mult = 1.5
+        elif hp > 0.5:
+            mult = 1.6
+        elif hp > 0.4:
+            mult = 1.7
+        elif hp > 0.3:
+            mult = 1.8
+        elif hp > 0.2:
+            mult = 1.9
+        elif hp > 0.1:
+            mult = 2.0
+        else:
+            mult = 3.0
+
+        return mult
 
     def zapToon(self, x, y, z, h, p, r, bpx, bpy, attackCode, timestamp):
         avId = self.air.getAvatarIdFromSender()

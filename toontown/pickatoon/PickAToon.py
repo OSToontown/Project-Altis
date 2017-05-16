@@ -11,9 +11,8 @@ from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from panda3d.core import *
 
-from toontown.dmenu import DMenuQuit
+from toontown.dmenu import DMenuQuit, DMenuOptions
 from toontown.hood import SkyUtil
-from toontown.pickatoon import PickAToonOptions
 from toontown.pickatoon import ShardPicker
 from toontown.toon import ToonDNA, Toon, ToonHead, LaffMeter
 from toontown.toonbase import TTLocalizer, ToontownGlobals
@@ -31,9 +30,9 @@ BUTTONPOSITIONS = (
  (-1, 0, 0.5),
  (-.6, 0, 0.5),
  (-.2, 0, 0.5),
- (.2, 0, 0.5),
- (0.6, 0, 0.5),
- (1, 0, 0.5)
+ (-1, 0, 0),
+ (-.6, 0, 0),
+ (-.2,0, 0)
  )
 
 BUTTONPOSITIONSCLASSIC = (
@@ -70,21 +69,20 @@ class PickAToon(DirectObject):
         self.selectedToon = 0
         self.doneEvent = doneEvent
         self.jumpIn = None
-        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = aspect2d)
+        self.background2d = OnscreenImage(image = 'phase_3.5/maps/loading/toon.jpg', parent = render2d)
         self.background2d.setScale(render2d, Vec3(1))
         self.background2d.setBin('background', 2)
         self.background2d.setTransparency(1)
         self.background2d.setColorScale(.6, .1, .1, 0)
         self.backgroundClassic = None
         # self.optionsMgr = PickAToonOptions.PickAToonOptions()
-        self.optionsMgr = PickAToonOptions.NewPickAToonOptions() # This is for the revamped options screen
+        self.optionsMgr = DMenuOptions.DMenuOptions() # This is for the revamped options screen
         self.shardPicker = ShardPicker.ShardPicker()
         self.buttonList = []
         self.quitConfirmation = DMenuQuit.DMenuQuit()
         self.isClassic = False
         self.deleteButtons = []
         self.hasToons = {}
-        self.accept('window-event', self.windowEvent)
 
     def skyTrack(self, task):
         return SkyUtil.cloudSkyTrack(task)
@@ -187,8 +185,8 @@ class PickAToon(DirectObject):
         self.play = DirectButton(relief = None, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'PLAY THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.035, scale = 1.4, pos = (0, 0, -0.90), command = self.playGame, parent = self.patNode2d)
 
         self.toon = Toon.Toon()
-        self.toon.setPosHpr(-46, 0, 8.1, 90, 0, 0)
-        self.toon.reparentTo(self.patNode)
+        self.toon.setPosHpr(Vec3(5, 0, 0), Vec3(150, 0, 0))
+        self.toon.reparentTo(base.cr.DMENU_SCREEN.background)
         self.toon.stopLookAroundNow()
 
         self.pickAToonGui = newGui
@@ -239,14 +237,10 @@ class PickAToon(DirectObject):
             del self.laffMeter
         if self.haveToon:
             self.showToon()
-            taskMgr.add(self.turnHead, 'turnHead')
-            camZ = self.toon.getHeight()
-            base.camera.setPos(-60, 0, 8 + camZ)
+            camZ = self.toon.getHeight()    
         else:
             self.changeName.hide()
             self.toon.hide()
-            base.camera.setPos(-60, 0, 11)
-            taskMgr.remove('turnHead')
 
         self.checkPlayButton()
         self.area['text'] = ''
@@ -265,26 +259,21 @@ class PickAToon(DirectObject):
             self.changeName.hide()
         self.toon.setDNAString(dna)
         self.laffMeter = LaffMeter.LaffMeter(ToonDNA.ToonDNA(dna), av.hp, av.maxHp)
-        self.laffMeter.set_pos(-.5, 0, 0)
+        self.laffMeter.set_pos(-.6, 0, -.5)
         self.laffMeter.reparent_to(self.patNode2d)
         self.laffMeter.start()
-        # self.jumpIn = Sequence(
-        #         Func(self.toon.animFSM.request, 'PATTeleportIn'),
-        #         Wait(2),
-        #         Func(self.toon.animFSM.request, 'neutral'))
-        # self.jumpIn.start() # ALTIS: TODO: Add the states to Toon.py
+        self.toon.setHat(av.hat[0], av.hat[1], av.hat[2])
+        self.toon.setGlasses(av.glasses[0], av.glasses[1], av.glasses[2])
+        self.toon.setBackpack(av.backpack[0], av.backpack[1], av.backpack[2])
+        self.toon.setShoes(av.shoes[0], av.shoes[1], av.shoes[2])
+        self.jumpIn = Sequence(
+                Func(self.toon.loop, 'wave'),
+                Wait(self.toon.getDuration('wave')),
+                Func(self.toon.animFSM.request, 'neutral'))
+        self.jumpIn.start() # ALTIS: TODO: Add the states to Toon.py
         self.toon.animFSM.request('neutral')
         self.toon.show()
 
-    def turnHead(self, task):
-        def clamprotation(i, mn = -1, mx = 1):
-            return min(max(i, mn), mx)
-        if base.mouseWatcherNode.hasMouse():
-            mpos = base.mouseWatcherNode.getMouse()
-            self.toon.getGeomNode().find('**/__Actor_head').setP(clamprotation(mpos.getY()) * 25)
-            self.toon.getGeomNode().find('**/__Actor_head').setH(clamprotation(mpos.getX()) * 40)
-
-        return Task.cont
 
     def checkPlayButton(self):
         if self.toonList[self.selectedToon]:
@@ -347,7 +336,6 @@ class PickAToon(DirectObject):
             self.deleteButtons.append(deleteButton)
 
     def unload(self):
-        taskMgr.remove('turnHead')
         cleanupDialog('globalDialog')
         self.ignoreAll()
         self.background2d.removeNode()
@@ -384,13 +372,41 @@ class PickAToon(DirectObject):
         self.selectToon(position)
         av = [x for x in self.avatarList if x.position == position][0]
 
-        def diagDone():
-            mode = delDialog.doneStatus
+        def dodelete(itreallywantstohaveanargumentheresoletsjustputonethatwontbeusedatall = None):
+            if self.passwordEntry.get().lower() == av.name.lower():
+                self.deleteWithPasswordFrame.destroy()
+                delDialog.cleanup()
+                base.transitions.noFade()
+                messenger.send(self.doneEvent, [{'mode': 'delete'}])
+            else:
+                self.passwordEntry.enterText('')
+                
+        def cancel():
+            self.deleteWithPasswordFrame.destroy()
             delDialog.cleanup()
             base.transitions.noFade()
+        
+        def diagDone():
+            mode = delDialog.doneStatus
             if mode == 'ok':
-                messenger.send(self.doneEvent, [{'mode': 'delete'}])
-
+                buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
+                buttons.flattenMedium()
+                nameBalloon = loader.loadModel('phase_3/models/props/chatbox_input')
+                nameBalloon.flattenMedium()
+                okButtonImage = (buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr'))
+                cancelButtonImage = (buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr'))
+                deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % {
+                'name': av.name,
+                'confirm': "your Toon's name"}
+                self.deleteWithPasswordFrame = DirectFrame(pos=(0.0, 0.1, 0.2), parent=aspect2dp, relief=None, image=DGG.getDefaultDialogGeom(), image_color=ToontownGlobals.GlobalDialogColor, image_scale=(1.4, 1.0, 1.0), text=deleteText, text_wordwrap=19, text_scale=TTLocalizer.ACdeleteWithPasswordFrame, text_pos=(0, 0.25), textMayChange=1, sortOrder=NO_FADE_SORT_INDEX)
+                self.passwordEntry = DirectEntry(parent=self.deleteWithPasswordFrame, relief=None, image=nameBalloon, image1_color=(0.8, 0.8, 0.8, 1.0), scale=0.064, pos=(-0.3, 0.0, -0.2), width=10, numLines=1, focus=1, cursorKeys=1, command=dodelete)
+                self.passwordEntry.flattenMedium()
+                DirectButton(parent=self.deleteWithPasswordFrame, image=okButtonImage, relief=None, text=TTLocalizer.AvatarChoiceDeletePasswordOK, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=0, pos=(-0.22, 0.0, -0.35), command=dodelete)
+                DirectButton(parent=self.deleteWithPasswordFrame, image=cancelButtonImage, relief=None, text=TTLocalizer.AvatarChoiceDeletePasswordCancel, text_scale=0.05, text_pos=(0.0, -0.1), textMayChange=1, pos=(0.2, 0.0, -0.35), command=cancel)
+            else:
+                delDialog.cleanup()
+                base.transitions.noFade()
+                
         base.acceptOnce('pat-del-diag-done', diagDone)
         delDialog = TTGlobalDialog(message = DEL % av.name, style = YesNo,
                                    doneEvent = 'pat-del-diag-done')
@@ -428,11 +444,19 @@ class PickAToon(DirectObject):
         self.shardPicker.showPicker()
         self.shardsButton['text'] = 'Back'
         self.shardsButton['command'] = self.hideShardPicker
+        for button in self.buttonList:
+            button.hide()
+        if hasattr(self, 'laffMeter'):
+            self.laffMeter.hide()
 
     def hideShardPicker(self):
         self.shardPicker.hidePicker()
         self.shardsButton['text'] = 'Districts'
         self.shardsButton['command'] = self.openShardPicker
+        for button in self.buttonList:
+            button.show()
+        if hasattr(self, 'laffMeter'):
+            self.laffMeter.show()
 
     def quitGame(self):
         self.showQuitConfirmation()
@@ -457,6 +481,3 @@ class PickAToon(DirectObject):
         self.quitButton.show()
         LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
         LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
-
-    def windowEvent(self, win):
-        self.background2d.setScale(render2d, Vec3(1))

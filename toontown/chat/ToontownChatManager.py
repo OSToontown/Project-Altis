@@ -38,6 +38,8 @@ class ToontownChatManager(ChatManager.ChatManager):
         self.openScSfx.setVolume(0.6)
         self.scButton = DirectButton(image=(gui.find('**/ChtBx_ChtBtn_UP'), gui.find('**/ChtBx_ChtBtn_DN'), gui.find('**/ChtBx_ChtBtn_RLVR')), pos=TTLocalizer.TCMscButtonPos, parent=base.a2dTopLeft, scale=1.179, relief=None, image_color=Vec4(0.75, 1, 0.6, 1), text=('', OTPLocalizer.GlobalSpeedChatName, OTPLocalizer.GlobalSpeedChatName), text_scale=TTLocalizer.TCMscButton, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -0.09), textMayChange=0, sortOrder=DGG.FOREGROUND_SORT_INDEX, command=self.__scButtonPressed, clickSound=self.openScSfx)
         self.scButton.hide()
+        self.clButton = DirectButton(image=(gui.find('**/ChtBx_ChtBtn_UP'), gui.find('**/ChtBx_ChtBtn_DN'), gui.find('**/ChtBx_ChtBtn_RLVR')), pos=TTLocalizer.TCMclButtonPos, parent=base.a2dTopLeft, scale=1.179, relief=None, image_color=Vec4(1, 0.6, 0.75, 1), text=('', OTPLocalizer.GlobalChatLogName, OTPLocalizer.GlobalChatLogName), text_scale=TTLocalizer.TCMclButton, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -0.09), textMayChange=0, sortOrder=DGG.FOREGROUND_SORT_INDEX, command=self.__clButtonPressed)
+        self.clButton.hide()
         self.whisperFrame = DirectFrame(parent=base.a2dTopLeft, relief=None, image=DGG.getDefaultDialogGeom(), image_scale=(0.45, 0.45, 0.45), image_color=OTPGlobals.GlobalDialogColor, pos=(1.25, 0, -0.269), text=OTPLocalizer.ChatManagerWhisperTo, text_wordwrap=7.0, text_scale=TTLocalizer.TCMwhisperFrame, text_fg=Vec4(0, 0, 0, 1), text_pos=(0, 0.14), textMayChange=1, sortOrder=DGG.FOREGROUND_SORT_INDEX)
         self.whisperFrame.hide()
         self.whisperButton = DirectButton(parent=self.whisperFrame, image=(gui.find('**/ChtBx_ChtBtn_UP'), gui.find('**/ChtBx_ChtBtn_DN'), gui.find('**/ChtBx_ChtBtn_RLVR')), pos=(-0.125, 0, -0.1), scale=1.179, relief=None, image_color=Vec4(1, 1, 1, 1), text=('',
@@ -76,6 +78,8 @@ class ToontownChatManager(ChatManager.ChatManager):
         del self.normalButton
         self.scButton.destroy()
         del self.scButton
+        self.clButton.destroy()
+        del self.clButton
         del self.openScSfx
         self.whisperFrame.destroy()
         del self.whisperFrame
@@ -129,6 +133,8 @@ class ToontownChatManager(ChatManager.ChatManager):
             self.scButton.show()
         if not normObs:
             self.normalButton.show()
+        if not clObs:
+            self.clButton.show()
 
     def enterMainMenu(self):
         self.chatInputNormal.setPos(self.normalPos)
@@ -142,6 +148,7 @@ class ToontownChatManager(ChatManager.ChatManager):
     def exitOpenChatWarning(self):
         self.openChatWarning.hide()
         self.scButton.hide()
+        self.clButton.hide()
 
     def enterUnpaidChatWarning(self):
         self.forceHidePayButton = False
@@ -189,11 +196,14 @@ class ToontownChatManager(ChatManager.ChatManager):
             self.scButton.show()
         if not normObs:
             self.normalButton.show()
+        if not clObs:
+            self.clButton.show()
 
     def exitUnpaidChatWarning(self):
         if self.unpaidChatWarning:
             self.unpaidChatWarning.hide()
         self.scButton.hide()
+        self.clButton.hide()
 
     def enterNoSecretChatAtAll(self):
         if self.noSecretChatAtAll == None:
@@ -383,6 +393,10 @@ class ToontownChatManager(ChatManager.ChatManager):
             self.enterWhisperChat(avatarName, avatarId)
         self.whisperFrame.hide()
         return
+		
+    def __clButtonPressed(self):
+        if base.localAvatar.chatLog:
+            base.localAvatar.chatLog.toggle()
 
     def enterNormalChat(self):
         result = ChatManager.ChatManager.enterNormalChat(self)

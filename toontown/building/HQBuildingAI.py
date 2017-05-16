@@ -10,6 +10,7 @@ class HQBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
+        self.blockNumber = blockNumber
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -62,6 +63,9 @@ class HQBuildingAI:
         self.door1 = door1
         self.insideDoor0 = insideDoor0
         self.insideDoor1 = insideDoor1
+        
+    def getBlock(self):
+        return self.blockNumber, self.interiorZone
 
     def isSuitBlock(self):
         return 0

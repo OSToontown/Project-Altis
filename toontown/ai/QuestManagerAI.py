@@ -453,6 +453,22 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
+		
+    def toonCollectedExp(self, av, expArray):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Iterate through the avatars current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.TrackExpQuest):
+                if questClass.doesExpCount(av, expArray):
+                    questDesc[QuestProgressIndex] += expArray[questClass.getTrackType()]
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
 
     def toonDefeatedFactory(self, av, factoryId, activeVictors):
         # Get the avatars current quests.
@@ -513,6 +529,21 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
+		
+    def toonDefeatedBoardOffice(self, av, clubId, activeVictors):
+        '''# Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.ClubQuest):
+                if questClass.doesClubCount(av, clubId, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)'''
+        pass
 
     def toonKilledCogs(self, av, suitsKilled, zoneId, activeToonList):
         # Get the avatar's current quests.

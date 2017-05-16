@@ -2,7 +2,7 @@
 model-path ../resources
 
 # Server:
-server-version TTPA-Alpha-1.7.10
+server-version TTPA-Beta-1.0.0
 min-access-level 600
 accountdb-type local
 shard-low-pop 50
@@ -21,9 +21,7 @@ want-parties #f
 want-cogdominiums #t
 want-achievements #t
 want-pets #f
-want-parties #t
-want-cogdominiums #f
-want-achievements #f
+want-parties #f
 
 # Chat:
 want-whitelist #t

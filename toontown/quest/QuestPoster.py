@@ -14,7 +14,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import string, types
 from toontown.toon import LaffMeter
-from toontown.toonbase.ToontownBattleGlobals import AvPropsNew, Tracks
+from toontown.toonbase.ToontownBattleGlobals import AvPropsNew, Tracks, LAST_REGULAR_GAG_LEVEL
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
@@ -949,6 +949,16 @@ class QuestPoster(DirectFrame):
             gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
             lIconGeom = gui.find('**/FriendsBox_Closed')
             lIconGeomScale = 0.45
+            gui.removeNode()
+            infoText = TTLocalizer.QuestPosterAnywhere
+        elif quest.getType() == Quests.TrackExpQuest:
+            frameBgColor = 'green'
+            gui = loader.loadModel('phase_3.5/models/gui/inventory_icons')
+            item = int(quest.getNumExp()/100)
+            if item > LAST_REGULAR_GAG_LEVEL + 1:
+               item = LAST_REGULAR_GAG_LEVEL + 1
+            lIconGeom = gui.find('**/' + AvPropsNew[quest.getTrackType()][item])
+            lIconGeomScale = 1
             gui.removeNode()
             infoText = TTLocalizer.QuestPosterAnywhere
         elif quest.getType() == Quests.FriendNewbieQuest:

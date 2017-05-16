@@ -4,6 +4,8 @@ import random
 from toontown.suit import SuitDNA
 from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase.ToontownBattleGlobals import getInvasionMultiplier
+from toontown.toonbase import ToontownGlobals
+from toontown.hood.ZoneUtil import isCogHQZone
 MeritMultiplier = 1.0
 
 class PromotionManagerAI:
@@ -20,6 +22,8 @@ class PromotionManagerAI:
         meritsRecovered = [0, 0, 0, 0, 0]
         if extraMerits is None:
             extraMerits = [0, 0, 0, 0, 0]
+        if self.air.suitInvasionManager.getInvading() or isCogHQZone(zoneId):
+            multiplier *= getInvasionMultiplier()
         for i in xrange(len(extraMerits)):
             if CogDisguiseGlobals.isSuitComplete(av.getCogParts(), i):
                 meritsRecovered[i] += extraMerits[i]

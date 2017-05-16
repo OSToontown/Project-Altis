@@ -27,6 +27,8 @@ SUIT_PLANNER_CFO_SKELECOGS = 13
 SUIT_PLANNER_CJ = 14
 SUIT_PLANNER_CEO = 15
 SUIT_PLANNER_CEO_DINERS = 18
+SUIT_PLANNER_CM = 19
+SUIT_PLANNER_CM_SKELECOGS = 20
 
 SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
  ((1, 2), (2, 4), (5, 5), (10, 11), (1, 1.2)), # Buildings
@@ -46,15 +48,20 @@ SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
  ((1, 1), (5, 18), (18, 18), (290, 290), (1, 1, 1, 1, 1)), # CEO Round 1 Cogs
  ((1, 1), (1, 5), (5, 5), (33, 33), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 1
  ((1, 1), (4, 7), (5, 5), (50, 50), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 2
- ((1, 1), (10, 12), (12, 12), (206, 206), (1, 1, 1, 1, 1), (1,))) # CEO Diner Cogs (Only uses level range and revives flag, cogs are decided based on tables served)
+ ((1, 1), (10, 12), (12, 12), (206, 206), (1, 1, 1, 1, 1), (1,)), # CEO Diner Cogs (Only uses level range and revives flag, cogs are decided based on tables served)
+ ((1, 1), (5, 20), (20, 20), (206, 206), (1, 1, 1, 1, 1), (1,)), # Chairman Cogs
+ ((1, 1), (10, 20), (20, 20), (206, 206), (1, 1, 1, 1, 1))) # Chairman Skelecogs
 
 buildingMinMax = {
+    ToontownGlobals.ToontownCentralOld: (0, 0),
     ToontownGlobals.SillyStreet: (config.GetInt('silly-street-building-min', 0),
                                   config.GetInt('silly-street-building-max', 3)),
     ToontownGlobals.LoopyLane: (config.GetInt('loopy-lane-building-min', 0),
                                 config.GetInt('loopy-lane-building-max', 3)),
     ToontownGlobals.PunchlinePlace: (config.GetInt('punchline-place-building-min', 0),
                                      config.GetInt('punchline-place-building-max', 3)),
+    ToontownGlobals.WackyWay: (config.GetInt('wacky-way-building-min', 0),
+                                     config.GetInt('wacky-way-building-max', 3)),
     ToontownGlobals.BarnacleBoulevard: (config.GetInt('barnacle-boulevard-building-min', 1),
                                         config.GetInt('barnacle-boulevard-building-max', 5)),
     ToontownGlobals.SeaweedStreet: (config.GetInt('seaweed-street-building-min', 1),
@@ -67,6 +74,8 @@ buildingMinMax = {
                                 config.GetInt('elm-street-building-max', 6)),
     ToontownGlobals.MapleStreet: (config.GetInt('maple-street-building-min', 2),
                                   config.GetInt('maple-street-building-max', 6)),
+    ToontownGlobals.RoseValley: (config.GetInt('rose-valley-building-min', 0),
+                                  config.GetInt('rose-valley-building-max', 0)),
     ToontownGlobals.OakStreet: (config.GetInt('oak-street-building-min', 2),
                                 config.GetInt('oak-street-building-max', 6)),
     ToontownGlobals.RoseValley: (config.GetInt('rose-valley-building-min', 2),
@@ -93,19 +102,23 @@ buildingMinMax = {
     ToontownGlobals.SellbotFactoryExt: (0, 0),
     ToontownGlobals.CashbotHQ: (0, 0),
     ToontownGlobals.LawbotHQ: (0, 0),
-    ToontownGlobals.BossbotHQ: (0, 0)
+    ToontownGlobals.BossbotHQ: (0, 0),
+    ToontownGlobals.BoardbotHQ : (0, 0)
 }
 
 buildingChance = {
+    ToontownGlobals.ToontownCentralOld: 0.0,
     ToontownGlobals.SillyStreet: config.GetFloat('silly-street-building-chance', 2.0),
     ToontownGlobals.LoopyLane: config.GetFloat('loopy-lane-building-chance', 2.0),
     ToontownGlobals.PunchlinePlace: config.GetFloat('punchline-place-building-chance', 2.0),
+    ToontownGlobals.WackyWay: config.GetFloat('wacky-way-building-chance', 10.0),
     ToontownGlobals.BarnacleBoulevard: config.GetFloat('barnacle-boulevard-building-chance', 75.0),
     ToontownGlobals.SeaweedStreet: config.GetFloat('seaweed-street-building-chance', 75.0),
     ToontownGlobals.LighthouseLane: config.GetFloat('lighthouse-lane-building-chance', 75.0),
     ToontownGlobals.AhoyAvenue: config.GetFloat('ahoy-avenue-building-chance', 50.0),
     ToontownGlobals.ElmStreet: config.GetFloat('elm-street-building-chance', 90.0),
     ToontownGlobals.MapleStreet: config.GetFloat('maple-street-building-chance', 90.0),
+    ToontownGlobals.MapleStreet: config.GetFloat('rose-valley-building-chance', 0.0),
     ToontownGlobals.OakStreet: config.GetFloat('oak-street-building-chance', 90.0),
     ToontownGlobals.RoseValley: config.GetFloat('rose-valley-building-chance', 90.0),
     ToontownGlobals.AltoAvenue: config.GetFloat('alto-avenue-building-chance', 95.0),
@@ -121,5 +134,6 @@ buildingChance = {
     ToontownGlobals.SellbotFactoryExt: 0.0,
     ToontownGlobals.CashbotHQ: 0.0,
     ToontownGlobals.LawbotHQ: 0.0,
-    ToontownGlobals.BossbotHQ: 0.0
+    ToontownGlobals.BossbotHQ: 0.0,
+    ToontownGlobals.BoardbotHQ: 0.0
 }

@@ -6,7 +6,7 @@ from toontown.dna import DNAError
 
 class DNAStorage(object):
     __slots__ = ('visGroups', 'DNAGroups', 'textures', 'fonts', 'fontFilenames', 'catalogCodes', 'nodes', 'hoodNodes', 'placeNodes', 
-        'blockDoors', 'blockZones', 'blockNumbers', 'blockTitles', 'blockArticles', 'blockBuildingTypes', 'suitEdges', 'suitPoints',)
+        'blockDoors', 'blockZones', 'blockNumbers', 'blockTitles', 'blockArticles', 'blockBuildingTypes', 'suitEdges', 'suitPoints', 'suitBlocks', 'cogdoBlocks',)
 
     def __init__(self):
         self.visGroups = []
@@ -26,6 +26,8 @@ class DNAStorage(object):
         self.blockBuildingTypes = {}
         self.suitEdges = {}
         self.suitPoints = []
+        self.suitBlocks = {}
+        self.cogdoBlocks = {}
         
     def cleanup(self):
         self.resetBattleCells()
@@ -42,6 +44,8 @@ class DNAStorage(object):
         self.resetSuitEdges()
         self.resetTextures()
         self.resetCatalogCodes()
+        self.resetSuitBlocks()
+        self.resetCogdoBlocks()
         ModelPool.garbageCollect()
         TexturePool.garbageCollect()
         
@@ -131,7 +135,7 @@ class DNAStorage(object):
         filename = nodes[code][0]
         search = nodes[code][1]
         try:
-           model = NodePath(Loader.getGlobalPtr().loadSync(Filename(filename)))
+           model = loader.pdnaModel(Filename(filename))
         except:
            print "DNAStorage: Failed to load %s!" % (filename)
            return
@@ -258,6 +262,30 @@ class DNAStorage(object):
         
         return True
 
+    def storeSuitBlock(self, blockNumber, dept):
+        self.suitBlocks[blockNumber] = dept
+
+    def resetSuitBlocks(self):
+        self.suitBlocks.clear()
+
+    def isSuitBlock(self, blockNumber):
+        return blockNumber in self.suitBlocks
+
+    def getSuitBlockTrack(self, blockNumber):
+        return self.suitBlocks.get(blockNumber)
+        
+    def storeCogdoBlock(self, blockNumber, dept):
+        self.cogdoBlocks[blockNumber] = dept
+
+    def resetCogdoBlocks(self):
+        self.cogdoBlocks.clear()
+
+    def isCogdoBlock(self, blockNumber):
+        return blockNumber in self.cogdoBlocks
+
+    def getCogdoBlockTrack(self, blockNumber):
+        return self.cogdoBlocks.get(blockNumber)
+        
     def storeSuitEdge(self, startIndex, endIndex, zoneId):
         startPoint = self.getSuitPointWithIndex(startIndex)
         endPoint = self.getSuitPointWithIndex(endIndex)

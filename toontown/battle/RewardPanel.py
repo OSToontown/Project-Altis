@@ -15,6 +15,7 @@ from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
+from toontown.hood import ZoneUtil
 
 class RewardPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('RewardPanel')
@@ -26,10 +27,8 @@ class RewardPanel(DirectFrame):
         DirectFrame.__init__(self, relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_pos=Point3(0, 0, -.05), geom_scale=gscale, pos=(0, 0, 0.587))
         self.initialiseoptions(RewardPanel)
         self.avNameLabel = DirectLabel(parent=self, relief=None, pos=(0, 0, 0.3), text=name, text_scale=0.08)
-        self.multiplier = DirectLabel(parent=self, relief=None, pos=(.7, 0, 0.25), text_fg = (0, 0, 1, 1), text='', text_scale=0.06)
-        self.multiplier.setHpr(0, 0, 30)
-        self.invasion = DirectLabel(parent=self, relief=None, pos=(-.7, 0, 0.25), text_fg = (1, 0, 0, 1), text='', text_scale=0.06)
-        self.invasion.setHpr(0, 0, -30)
+        self.hqBonusLabel = DirectLabel(parent=self, relief=None, pos=(0.7, 0, 0.2), hpr=(0, 0, 30), text=TTLocalizer.CogHQBonus, text_scale=0.06)
+        self.multiplierLabel = DirectLabel(parent=self, relief=None, pos=(-0.7, 0, 0.2), hpr=(0, 0, -30), text='', text_scale=0.06)
         self.gagExpFrame = DirectFrame(parent=self, relief=None, pos=(-0.32, 0, 0.24))
         self.itemFrame = DirectFrame(parent=self, relief=None, text=TTLocalizer.RewardPanelItems, text_pos=(0, 0.2), text_scale=0.08)
         self.cogPartFrame = DirectFrame(parent=self, relief=None, text=TTLocalizer.RewardPanelCogPart, text_pos=(0, 0.2), text_scale=0.08)
@@ -39,6 +38,7 @@ class RewardPanel(DirectFrame):
         self.missedItemLabel = DirectLabel(parent=self.missedItemFrame, text='', text_scale=0.06)
         self.questFrame = DirectFrame(parent=self, relief=None, text=TTLocalizer.RewardPanelToonTasks, text_pos=(0, 0.2), text_scale=0.06)
         self.questLabelList = []
+        self.growShrink = None
         self.notify.debug("Setting Quests Labels!")
         for i in range(ToontownGlobals.MaxQuestCarryLimit):
             label = DirectLabel(parent=self.questFrame, relief=None, pos=(-0.85, 0, -0.1 * i), text=TTLocalizer.RewardPanelQuestLabel % i, text_scale=0.05, text_align=TextNode.ALeft)
@@ -123,11 +123,13 @@ class RewardPanel(DirectFrame):
 
     def initItemFrame(self, toon):
         self.notify.debug('Initializing Item Frame!')
+        if self.growShrink:
+            self.growShrink.finish()
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
-        self.invasion.hide()
-        self.multiplier.hide()
+        self.hqBonusLabel.hide()
+        self.multiplierLabel.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
         self.itemFrame.show()
@@ -136,11 +138,13 @@ class RewardPanel(DirectFrame):
 
     def initMissedItemFrame(self, toon):
         self.notify.debug('Initializing Missed Item Frame!')
+        if self.growShrink:
+            self.growShrink.finish()
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
-        self.invasion.hide()
-        self.multiplier.hide()
+        self.hqBonusLabel.hide()
+        self.multiplierLabel.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
         self.itemFrame.hide()
@@ -149,11 +153,13 @@ class RewardPanel(DirectFrame):
 
     def initCogPartFrame(self, toon):
         self.notify.debug('Initializing Cog Part Frame!')
+        if self.growShrink:
+            self.growShrink.finish()
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
         self.newGagFrame.hide()
-        self.invasion.hide()
-        self.multiplier.hide()
+        self.hqBonusLabel.hide()
+        self.multiplierLabel.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
         self.itemFrame.hide()
@@ -163,10 +169,12 @@ class RewardPanel(DirectFrame):
 
     def initQuestFrame(self, toon, avQuests):
         self.notify.debug('Initializing Quest Frame!')
+        if self.growShrink:
+            self.growShrink.finish()
         self.endTrackFrame.hide()
         self.gagExpFrame.hide()
-        self.invasion.hide()
-        self.multiplier.hide()
+        self.hqBonusLabel.hide()
+        self.multiplierLabel.hide()
         self.newGagFrame.hide()
         self.promotionFrame.hide()
         self.questFrame.show()
@@ -202,15 +210,23 @@ class RewardPanel(DirectFrame):
     def initGagFrame(self, toon, expList, meritList, noSkip = False):
         self.notify.debug('Initializing Gag Frame!')
         self.avNameLabel['text'] = toon.getName()
+        self.hqBonusLabel.hide()
+        try:
+            zoneId = base.cr.playGame.getPlace().getTaskZoneId()
+        except:
+            zoneId = 0
         if hasattr(base.cr, 'newsManager'):
             if base.cr.newsManager.isHolidayRunning(ToontownGlobals.MORE_XP_HOLIDAY):
-                self.multiplier['text'] = "5x Gag Multiplier"
+                self.multiplierLabel['text'] = "5x Gag Multiplier"
             if base.cr.newsManager.getInvading():
-                self.invasion['text'] = "Invasion Multiplier"
+                self.hqBonusLabel['text'] = TTLocalizer.CogInvasionBonus
+        if ZoneUtil.isCogHQZone(zoneId) or self.hqBonusLabel['text'] != TTLocalizer.CogHQBonus:
+            self.hqBonusLabel.show()
+            self.growShrink = Sequence(LerpScaleInterval(self.hqBonusLabel, 1, 1.1, 0.9, blendType='easeInOut'), LerpScaleInterval(self.hqBonusLabel, 1, 0.9, 1.1, blendType='easeInOut'))
+            self.growShrink.loop()
         self.endTrackFrame.hide()
         self.gagExpFrame.show()
-        self.invasion.show()
-        self.multiplier.show()
+        self.multiplierLabel.show()
         self.newGagFrame.hide()
         self.promotionFrame.hide()
         self.questFrame.hide()
@@ -248,7 +264,7 @@ class RewardPanel(DirectFrame):
                 meritBar.hide()
                 meritLabel.hide()
 
-        for i in range(len(expList)):
+        for i in xrange(len(expList)):
             curExp = expList[i]
             trackBar = self.trackBars[i]
             trackLabel = self.trackLabels[i]
@@ -307,14 +323,19 @@ class RewardPanel(DirectFrame):
          ToontownBattleGlobals.TrackColors[track][2] * 0.8, 1)
 
     def incrementMerits(self, toon, dept, newValue, totalMerits):
-        self.notify.debug("incrementMerits() was called!")
         meritBar = self.meritBars[dept]
-        promoStatus = toon.promotionStatus[dept]
+        oldValue = meritBar['value']
         if totalMerits:
             newValue = min(totalMerits, newValue)
             meritBar['range'] = totalMerits
             meritBar['value'] = newValue
-            if promoStatus != ToontownGlobals.PendingPromotion:
+            if newValue == totalMerits:
+                meritBar['text'] = TTLocalizer.RewardPanelMeritAlert
+                meritBar['barColor'] = (DisguisePage.DeptColors[dept][0],
+                 DisguisePage.DeptColors[dept][1],
+                 DisguisePage.DeptColors[dept][2],
+                 1)
+            else:
                 meritBar['text'] = '%s/%s %s' % (newValue, totalMerits, TTLocalizer.RewardPanelMeritBarLabels[dept])
 
     def resetMeritBarColor(self, dept):
@@ -592,7 +613,7 @@ class RewardPanel(DirectFrame):
         intervalList = [Func(self.promotion, toon, dept), Wait(finalDelay), Func(self.cleanupPromotion)]
         return intervalList
 
-    def getQuestIntervalList(self, toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList = []):
+    def getQuestIntervalList(self, toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList = [], earnedExp = []):
         self.notify.debug("getQuestIntervalList() was called!")
         avId = toon.getDoId()
         tickDelay = 0.2
@@ -661,6 +682,9 @@ class RewardPanel(DirectFrame):
                     questItem = quest.getItem()
                     if questItem in itemList:
                         earned = itemList.count(questItem)
+                elif quest.getType() == Quests.TrackExpQuest:
+                    track = quest.getTrackType()
+                    earned = earnedExp[track]
                 else:
                     for cogDict in cogList:
                         if cogDict['isBoss']:
@@ -784,7 +808,7 @@ class RewardPanel(DirectFrame):
                 track.append(Wait(0.25))
                 track += partList
                 track.append(Wait(0.5))
-        questList = self.getQuestIntervalList(toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList)
+        questList = self.getQuestIntervalList(toon, deathList, toonList, origQuestsList, itemList, helpfulToonsList, earnedExp)
         if questList:
             avQuests = []
             for i in xrange(0, len(origQuestsList), 5):

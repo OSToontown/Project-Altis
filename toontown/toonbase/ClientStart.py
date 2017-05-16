@@ -26,44 +26,13 @@ preferencesFilename = ConfigVariableString(
     'preferences-filename', 'preferences.json').getValue()
 notify.info('Reading %s...' % preferencesFilename)
 __builtin__.settings = Settings(preferencesFilename)
-if 'fullscreen' not in settings:
-    settings['fullscreen'] = False
-if 'music' not in settings:
-    settings['music'] = True
-if 'sfx' not in settings:
-    settings['sfx'] = True
-if 'musicVol' not in settings:
-    settings['musicVol'] = 1.0
-if 'sfxVol' not in settings:
-    settings['sfxVol'] = 1.0
-if 'loadDisplay' not in settings:
-    settings['loadDisplay'] = 'pandagl'
-if 'toonChatSounds' not in settings:
-    settings['toonChatSounds'] = True
-if 'newGui' not in settings:
-    settings['newGui'] = False
-if 'show-disclaimer' not in settings:
-    settings['show-disclaimer'] = True
-if 'fieldofview' not in settings:
-    settings['fieldofview'] = 52
-if 'show-cog-levels' not in settings:
-    settings['show-cog-levels'] = True
-if 'health-meter-mode' not in settings:
-    settings['health-meter-mode'] = 2
-if 'experienceBarMode' not in settings:
-    settings['experienceBarMode'] = True
-if 'smoothanimations' not in settings:
-    settings['smoothanimations'] = True
-if 'tpmsgs' not in settings:
-    settings['tpmsgs'] = True
-if 'friendstatusmsgs' not in settings:
-    settings['friendstatusmsgs'] = True
-if 'doorkey' not in settings:
-    settings['doorkey'] = False
-if 'interactkey' not in settings:
-    settings['interactkey'] = False
-if 'experimental-touch' not in settings:
-    settings['experimental-touch'] = False
+from toontown.settings import ToontownSettings
+__builtin__.ttsettings = ToontownSettings
+
+for setting in ttsettings.DefaultSettings:
+    if setting not in settings:
+        settings[setting] = ttsettings.DefaultSettings[setting]
+
 loadPrcFileData('Settings: res', 'win-size %d %d' % tuple(settings.get('res', (1280, 720))))
 loadPrcFileData('Settings: fullscreen', 'fullscreen %s' % settings['fullscreen'])
 loadPrcFileData('Settings: music', 'audio-music-active %s' % settings['music'])
@@ -72,6 +41,9 @@ loadPrcFileData('Settings: musicVol', 'audio-master-music-volume %s' % settings[
 loadPrcFileData('Settings: sfxVol', 'audio-master-sfx-volume %s' % settings['sfxVol'])
 loadPrcFileData('Settings: loadDisplay', 'load-display %s' % settings['loadDisplay'])
 loadPrcFileData('Settings: toonChatSounds', 'toon-chat-sounds %s' % settings['toonChatSounds'])
+loadPrcFileData('', 'texture-anisotropic-degree %d' % settings['anisotropic-filtering'])
+loadPrcFileData('', 'framebuffer-multisample %s' % settings['anti-aliasing'])
+loadPrcFileData('', 'sync-video %s' % settings['vertical-sync'])
 
 vfs = VirtualFileSystem.getGlobalPtr()
 DefaultPhases = (3, 3.5, 4, 5, 5.5, 6, 7, 8, 9, 10, 11, 12, 13)
@@ -112,7 +84,7 @@ else:
 
 from toontown.toonbase import ToontownGlobals
 tempLoader = Loader()
-backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
+
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 
@@ -132,6 +104,7 @@ launcher.setPandaErrorCode(0)
 launcher.setPandaWindowOpen()
 ConfigVariableDouble('decompressor-step-time').setValue(0.01)
 ConfigVariableDouble('extractor-step-time').setValue(0.01)
+backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
 backgroundNodePath = aspect2d.attachNewNode(backgroundNode, 0)
 backgroundNodePath.setPos(0.0, 0.0, 0.0)
 backgroundNodePath.setScale(render2d, VBase3(1))

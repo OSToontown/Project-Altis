@@ -101,8 +101,13 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.buildingRadar = [0, 0, 0, 0, 0]
         self.cogTypes = [0, 0, 0, 0, 0]
         self.cogLevels = [0, 0, 0, 0, 0]
+        self.cogReviveLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
+        self.hat = [0, 0, 0]
+        self.glasses = [0, 0, 0]
+        self.backpack = [0, 0, 0]
+        self.shoes = [0, 0, 0]
         self.trackBonusLevel = [-1, -1, -1, -1, -1, -1, -1, -1]
         self.inventoryNetString = None
         self.savedCheesyEffect = ToontownGlobals.CENormal
@@ -299,15 +304,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setHat(self, idx, textureIdx, colorIdx):
         Toon.Toon.setHat(self, idx, textureIdx, colorIdx)
+        self.hat = [idx, textureIdx, colorIdx]
 
     def setGlasses(self, idx, textureIdx, colorIdx):
         Toon.Toon.setGlasses(self, idx, textureIdx, colorIdx)
+        self.glasses = [idx, textureIdx, colorIdx]
 
     def setBackpack(self, idx, textureIdx, colorIdx):
         Toon.Toon.setBackpack(self, idx, textureIdx, colorIdx)
+        self.backpack = [idx, textureIdx, colorIdx]
 
     def setShoes(self, idx, textureIdx, colorIdx):
         Toon.Toon.setShoes(self, idx, textureIdx, colorIdx)
+        self.shoes = [idx, textureIdx, colorIdx]
 
     def setGM(self, type):
         wasGM = self._isGM
@@ -745,18 +754,21 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def __considerUpdateMeter(self):
         wantMeter = self.__shouldDisplayMeter()
-        if wantMeter and not self.overheadMeter:
-            self.overheadMeter = LaffMeter(self.style, self.hp, self.maxHp)
-            self.overheadMeter.setAvatar(self)
-            self.overheadMeter.setZ(5)
-            self.overheadMeter.setScale(1.5)
-            self.overheadMeter.reparentTo(NodePath(self.nametag.getNameIcon()))
-            #self.overheadMeter.hide(BitMask32.bit(1)) # Hide from 2D camera.
-            self.overheadMeter.start()
-        elif not wantMeter and self.overheadMeter:
-            self.overheadMeter.stop()
-            self.overheadMeter.destroy()
-            self.overheadMeter = None
+        try:
+            if wantMeter and not self.overheadMeter:
+                self.overheadMeter = LaffMeter(self.style, self.hp, self.maxHp)
+                self.overheadMeter.setAvatar(self)
+                self.overheadMeter.setZ(5)
+                self.overheadMeter.setScale(1.5)
+                self.overheadMeter.reparentTo(NodePath(self.nametag.getNameIcon()))
+                #self.overheadMeter.hide(BitMask32.bit(1)) # Hide from 2D camera.
+                self.overheadMeter.start()
+            elif not wantMeter and self.overheadMeter:
+                self.overheadMeter.stop()
+                self.overheadMeter.destroy()
+                self.overheadMeter = None
+        except:
+            pass
 
     def __shouldDisplayMeter(self):
         if base.meterMode == 0:
@@ -998,6 +1010,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getCogLevels(self):
         return self.cogLevels
+		
+    def setCogReviveLevels(self, levels):
+        self.cogReviveLevels = levels
+        if self.disguisePage:
+            self.disguisePage.updatePage()
+
+    def getCogReviveLevels(self):
+        return self.cogReviveLevels
 
     def setCogParts(self, parts):
         self.cogParts = parts
@@ -1606,7 +1626,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             del self.splatTracks[sequence]
 
     def pieSplat(self, x, y, z, sequence, pieCode, timestamp32):
-        if self.isLocal():
+        pass # Causes lag when done in mass, we need to optimize this
+        '''if self.isLocal():
             return
         elapsed = globalClock.getFrameTime() - self.lastTossedPie
         if elapsed > 30:
@@ -1638,7 +1659,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         
         splat = Sequence(splat, Func(self.pieFinishedSplatting, sequence))
         self.splatTracks[sequence] = splat
-        splat.start(startTime)
+        splat.start(startTime)'''
 
     def cleanupPies(self):
         for track in self.pieTracks.values():
@@ -2271,7 +2292,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'nametagStyle'):
             return self.nametagStyle
 
-        return 0
+        return 1
 
     def setNametagStyle(self, nametagStyle):
         if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
@@ -2801,11 +2822,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_creative', '**/whistleIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toonResistance_fist', '**/*fistIcon*'),
             ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_whistle', '**/whistleIcon*'),
-            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*')
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_rake', '**/whistleIcon*'),
+            ('phase_3.5/models/gui/tt_m_gui_gm_toontroop_insomnia', '**/fistIcon*')
         ]
         
         #Now we need to caculate our index. 
-        if gmType in [275]:
+        if gmType in [274]:
+            index = 6
+        elif gmType in [275]:
             index = 1
         elif gmType in [300, 375]:
             index = 3
@@ -2978,6 +3002,10 @@ def disableGC():
 def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
 	
+@magicWord(category=CATEGORY_CREATIVE)
+def oldttc():
+    spellbook.getInvoker().magicTeleportInitiate(20000, 20000)
+   	
 @magicWord(category=CATEGORY_CREATIVE, types=[int])
 def globalTp(streetZone):
     spellbook.getInvoker().magicTeleportInitiate(ZoneUtil.getHoodId(streetZone), streetZone)
@@ -2991,3 +3019,22 @@ def sleep():
     else:
         base.localAvatar.enableSleeping()
         return "Sleeping has been activated for the current session."
+		
+@magicWord(category=CATEGORY_CREATIVE)
+def i60Pan():
+    base.cam.reparentTo(render)
+    base.cam.setZ(40)
+    base.cam.setP(-25)
+    base.localAvatar.panSeq = Sequence(base.cam.hprInterval(60, (360, -25, 0)), Func(base.cam.setH, 0))
+    base.localAvatar.panSeq.loop()
+	
+@magicWord(category=CATEGORY_CREATIVE)
+def i60PanStop():
+    base.cam.setZ(0)
+    base.localAvatar.attachCamera()
+    base.localAvatar.setCameraPositionByIndex(base.localAvatar.cameraIndex)
+    if base.localAvatar.panSeq:
+        base.localAvatar.panSeq.finish()
+    base.cam.setP(0)
+    base.oobe()
+    base.oobe()
