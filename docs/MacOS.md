@@ -1,6 +1,6 @@
 ### MacOS Development
 
-required: ![brew](https://brew.sh)
+required: [brew](https://brew.sh)
 
 install dependencies
 
