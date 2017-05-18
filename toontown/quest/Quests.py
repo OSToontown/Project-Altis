@@ -16780,7 +16780,7 @@ def filterQuests(entireQuestPool, currentNpc, av):
             continue
         if getQuestClass(questId) == TrackExpQuest:
             quest = QuestDict.get(questId)
-            track = quest.getTrackType()
+            track = quest[1]
             trackAccess = av.getTrackAccess()
             if trackAccess[track] == 0:
                 validQuestPool[questId] = 0
