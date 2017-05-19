@@ -49,6 +49,7 @@ dclass Account {
   string ACCOUNT_ID db;
   uint16 ACCESS_LEVEL db;
   uint32 MONEY db;
+  bool TYPE_CHAT_ALLOWED db;
 };
 
 struct BarrierData {
