@@ -80,38 +80,41 @@ class ToonBase(OTPBase.OTPBase):
                 nativeIndex = ratios.index(self.nativeRatio)
                 res = sorted(self.resDict[ratios[nativeIndex - 1]])[0]
 
-            # Store our result:
-            settings['res'] = res
+        else:
+            res = settings['res']
 
-            # Reload the graphics pipe:
-            properties = WindowProperties()
+        # Store our result:
+        settings['res'] = res
 
-            properties.setSize(res[0], res[1])
-            properties.setFullscreen(fullscreen)
-            properties.setParentWindow(0)
+        # Reload the graphics pipe:
+        properties = WindowProperties()
 
-            # Store the window sort for later:
-            sort = self.win.getSort()
+        properties.setSize(res[0], res[1])
+        properties.setFullscreen(fullscreen)
+        properties.setParentWindow(0)
 
-            if self.win:
-                currentProperties = WindowProperties(self.win.getProperties())
-                gsg = self.win.getGsg()
-            else:
-                currentProperties = WindowProperties.getDefault()
-                gsg = None
-            newProperties = WindowProperties(currentProperties)
-            newProperties.addProperties(properties)
-            if (gsg is None) or (currentProperties.getFullscreen() != newProperties.getFullscreen()) or (currentProperties.getParentWindow() != newProperties.getParentWindow()):
-                self.openMainWindow(props=properties, gsg=gsg, keepCamera=True)
-                self.graphicsEngine.openWindows()
-                self.disableShowbaseMouse()
-            else:
-                self.win.requestProperties(properties)
-                self.graphicsEngine.renderFrame()
+        # Store the window sort for later:
+        sort = self.win.getSort()
 
-            self.win.setSort(sort)
+        if self.win:
+            currentProperties = WindowProperties(self.win.getProperties())
+            gsg = self.win.getGsg()
+        else:
+            currentProperties = WindowProperties.getDefault()
+            gsg = None
+        newProperties = WindowProperties(currentProperties)
+        newProperties.addProperties(properties)
+        if (gsg is None) or (currentProperties.getFullscreen() != newProperties.getFullscreen()) or (currentProperties.getParentWindow() != newProperties.getParentWindow()):
+            self.openMainWindow(props=properties, gsg=gsg, keepCamera=True)
+            self.graphicsEngine.openWindows()
+            self.disableShowbaseMouse()
+        else:
+            self.win.requestProperties(properties)
             self.graphicsEngine.renderFrame()
-            self.graphicsEngine.renderFrame()
+
+        self.win.setSort(sort)
+        self.graphicsEngine.renderFrame()
+        self.graphicsEngine.renderFrame()
         
         self.audioMgr = AltisAudio()
         
@@ -342,6 +345,8 @@ class ToonBase(OTPBase.OTPBase):
         self.notify.info("Pre-loading PICK A TOON GUI 2")
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
         self.notify.info("Pre-loading MAKE A TOON GUI")
+
+        self.accept(base.win.getWindowEvent(), self.onWindowEvent)
         
     def updateAntiAliasing(self):
         loadPrcFileData('', 'framebuffer-multisample %s' %settings.get('anti-aliasing'))
@@ -749,4 +754,8 @@ class ToonBase(OTPBase.OTPBase):
             self.INTERACT = 'shift'
     
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
+
+    def onWindowEvent(self, window):
+        settings['res'] = self.getSize()
+
 
