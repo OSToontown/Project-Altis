@@ -49,6 +49,7 @@ dclass Account {
   string ACCOUNT_ID db;
   uint16 ACCESS_LEVEL db;
   uint32 MONEY db;
+  bool TYPE_CHAT_ALLOWED db;
 };
 
 struct BarrierData {
@@ -1045,15 +1046,16 @@ dclass DistributedToon : DistributedPlayer {
   teleportResponseToAI(uint32, int8, uint32, uint32, uint32, uint32) ownsend airecv;
   teleportGiveup(uint32) ownrecv clsend;
   teleportGreeting(uint32) broadcast ownsend;
-  setCogStatus(uint32[] = [1 * 80]) required ownrecv db;
-  setCogCount(uint32[] = [0 * 80]) required ownrecv db;
-  setCogRadar(uint8[] = [0 * 10]) required ownrecv db;
-  setBuildingRadar(uint8[] = [0 * 10]) required ownrecv db;
-  setCogLevels(uint8[] = [0 * 10]) required broadcast ownrecv db;
-  setCogTypes(uint8[] = [0 * 10]) required broadcast ownrecv db;
-  setCogParts(uint32[] = [0 * 10]) required broadcast ownrecv db;
-  setCogMerits(uint16[] = [0 * 10]) required ownrecv db;
-  setPromotionStatus(uint8[] = [0 * 10]) required broadcast ownrecv db;
+  setCogStatus(uint32[] = [1 * 40]) required ownrecv db;
+  setCogCount(uint32[] = [0 * 40]) required ownrecv db;
+  setCogRadar(uint8[] = [0 * 5]) required ownrecv db;
+  setBuildingRadar(uint8[] = [0 * 5]) required ownrecv db;
+  setCogLevels(uint8[] = [0 * 5]) required broadcast ownrecv db;
+  setCogReviveLevels(int8[] = [-1 * 5]) required broadcast ownrecv db;
+  setCogTypes(uint8[] = [0 * 5]) required broadcast ownrecv db;
+  setCogParts(uint32[] = [0 * 5]) required broadcast ownrecv db;
+  setCogMerits(uint16[] = [0 * 5]) required ownrecv db;
+  setPromotionStatus(uint8[] = [0 * 5]) required broadcast ownrecv db;
   requestPromotion(uint8) ownsend airecv;
   setCogIndex(int8) broadcast ram;
   setDisguisePageFlag(int8) ownrecv;

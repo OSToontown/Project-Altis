@@ -47,6 +47,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         self.planPartyQuestionGuiDoneEvent = 'planPartyQuestionDone'
         self.askGui = TTDialog.TTGlobalDialog(dialogName=self.uniqueName('askGui'), doneEvent=self.planPartyQuestionGuiDoneEvent, message=TTLocalizer.PartyDoYouWantToPlan, style=TTDialog.YesNo, okButtonText=OTPLocalizer.DialogYes, cancelButtonText=OTPLocalizer.DialogNo)
         self.askGui.hide()
+        self.setHat(12, 0, 0)
 
     def initToonState(self):
         self.setAnimState('neutral', 1.05, None, None)

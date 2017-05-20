@@ -104,8 +104,10 @@ FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
 CEVirtual = 14
-MaxHpLimit = 149
+MaxHpLimit = 159
 ExpLaffBoost = 1
+ExpMoneyCarryReward = 50
+ExpGagCarryReward = 2
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
@@ -116,12 +118,45 @@ CogSuitHPLevels = (15 - 1,
  30 - 1,
  40 - 1,
  50 - 1)
+CogReviveSuitHPLevels = (25 - 1,
+ 50 - 1)
 ExperienceHPLevels = (10 - 1,
 20 - 1,
 30 - 1,
 40 - 1,
 50 - 1,
 60 - 1,
+70 - 1)
+ExperienceGagLevels = (4 - 1,
+8 - 1,
+12 - 1,
+16 - 1,
+20 - 1,
+24 - 1,
+28 - 1,
+32 - 1,
+36 - 1,
+40 - 1,
+44 - 1,
+48 - 1,
+52 - 1,
+56 - 1,
+60 - 1,
+64 - 1,
+68 - 1)
+ExperienceMoneyLevels = (5 - 1,
+10 - 1,
+15 - 1,
+20 - 1,
+25 - 1,
+30 - 1,
+35 - 1,
+40 - 1,
+45 - 1,
+50 - 1,
+55 - 1,
+60 - 1,
+65 - 1,
 70 - 1)
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)

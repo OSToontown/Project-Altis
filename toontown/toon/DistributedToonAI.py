@@ -123,7 +123,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.backpack = (0, 0, 0)
         self.shoes = (0, 0, 0)
         self.cogTypes = [0, 0, 0, 0, 0]
-        self.cogLevel = [0, 0, 0, 0, 0]
+        self.cogLevels = [0, 0, 0, 0, 0]
+        self.cogReviveLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogRadar = [0, 0, 0, 0, 0]
         self.trackBonusLevel = [0] * 9
@@ -1276,6 +1277,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getCogLevels(self):
         return self.cogLevels
+		
+    def d_setCogTypes(self, types):
+        self.sendUpdate('setCogTypes', [types])
+
+    def getCogTypes(self):
+        return self.cogTypes
 
     def incCogLevel(self, dept):
         newLevel = self.cogLevels[dept] + 1
@@ -1302,6 +1309,56 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.b_setMaxHp(maxHp)
                     self.toonUp(maxHp)
         self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
+		
+    def b_setCogReviveLevels(self, levels):
+        self.setCogReviveLevels(levels)
+        self.d_setCogReviveLevels(levels)
+
+    def setCogReviveLevels(self, levels):
+        if not levels:
+            self.notify.warning('cogLevels set to bad value: %s. Resetting to [0,0,0,0,0]' % levels)
+            self.cogReviveLevels = [0,
+             0,
+             0,
+             0,
+             0]
+        else:
+            self.cogReviveLevels = levels
+
+    def d_setCogReviveLevels(self, levels):
+        self.sendUpdate('setCogReviveLevels', [levels])
+
+    def getCogReviveLevels(self):
+        return self.cogReviveLevels
+
+    def incCogReviveLevel(self, dept):
+        newLevel = self.cogReviveLevels[dept] + 1
+        if newLevel == 0:
+            self.cogTypes[dept] = 0
+            self.d_setCogTypes(self.cogTypes)
+        cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+        lastCog = self.cogTypes[dept] >= SuitDNA.suitsPerDept - 1
+        if not lastCog:
+            maxLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+        else:
+            maxLevel = ToontownGlobals.MaxCogSuitLevel
+        if newLevel > maxLevel:
+            if not lastCog:
+                self.cogTypes[dept] += 1
+                self.d_setCogTypes(self.cogTypes)
+                cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+                self.cogReviveLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+                self.d_setCogReviveLevels(self.cogReviveLevels)
+        else:
+            self.cogReviveLevels[dept] += 1
+            self.d_setCogReviveLevels(self.cogReviveLevels)
+            if lastCog:
+                if self.cogReviveLevels[dept] in ToontownGlobals.CogReviveSuitHPLevels:
+                    maxHp = self.getMaxHp()
+                    maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
+                    self.b_setMaxHp(maxHp)
+                    self.toonUp(maxHp)
+        self.air.writeServerEvent('cogReviveSuit', self.doId, '%s|%s|%s' % (dept, self.cogTypes[dept], self.cogReviveLevels[dept]))
 
     def getNumPromotions(self, dept):
         if dept not in SuitDNA.suitDepts:
@@ -1414,16 +1471,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogMerits(self):
         return self.cogMerits
 
-    def b_promote(self, dept):
-        self.promote(dept)
-        self.d_promote(dept)
+    def b_promote(self, dept, hardFlag = 0):
+        self.promote(dept, hardFlag)
+        self.d_promote(dept, hardFlag)
 
-    def promote(self, dept):
+    def promote(self, dept, hardFlag):
         if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
             self.cogMerits[dept] = 0
-        self.incCogLevel(dept)
+        if self.cogLevels[dept] >= ToontownGlobals.MaxCogSuitLevel and hardFlag == 1:
+            self.incCogReviveLevel(dept)
+        else:
+            self.incCogLevel(dept)
 
-    def d_promote(self, dept):
+    def d_promote(self, dept, hardFlag):
         merits = self.getCogMerits()
         if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
             merits[dept] = 0
@@ -2508,10 +2568,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             simbase.air.experienceMgr.checkForLevelUpReward(self)
             if level in ToontownGlobals.ExperienceHPLevels:
                 self.sendUpdate('notifyExpReward', [level, 0])
-            #if level in ToontownGlobals.ExperienceGagLevels: Leftovers, might take some reworking to get these working
-                #self.sendUpdate('notifyExpReward', [level, 1])
-            #if level in ToontownGlobals.ExperienceMoneyLevels:
-                #self.sendUpdate('notifyExpReward', [level, 2])
+            if level in ToontownGlobals.ExperienceGagLevels:
+                self.sendUpdate('notifyExpReward', [level, 1])
+            if level in ToontownGlobals.ExperienceMoneyLevels:
+                self.sendUpdate('notifyExpReward', [level, 2])
 
     def d_setToonLevel(self, level):
         self.sendUpdate('setToonLevel', [level])
@@ -4806,6 +4866,7 @@ def maxToon(missingTrack=None):
         CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
     ])
     target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    target.b_setCogReviveLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
     target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
@@ -4842,6 +4903,14 @@ def maxToon(missingTrack=None):
     if target != spellbook.getInvoker():
         return "Maxed Target's Toon!"
     return "Maxed your Toon!"
+	
+@magicWord(category=CATEGORY_PROGRAMMER, types = [int, int])
+def promote(dept, revive = 0):
+    """
+    Promotes the invoker by 1 level, if flag is defined, it promotes the v2.0 suit by one level.
+    """
+    invoker = spellbook.getInvoker()
+    invoker.b_promote(dept, revive)
 
 @magicWord(category=CATEGORY_PROGRAMMER)
 def unlocks():
@@ -5573,7 +5642,7 @@ def disguise(command, suitIndex, value):
 
     if suitIndex > 4:
         return 'Invalid suit index: %s' % suitIndex
-    if value < 0:
+    if value < 0 and command != 'reviveLevel':
         return 'Invalid value: %s' % value
 
     if command == 'parts':
@@ -5589,6 +5658,10 @@ def disguise(command, suitIndex, value):
         invoker.cogLevels[suitIndex] = value
         invoker.d_setCogLevels(invoker.cogLevels)
         return 'Level set.'
+    elif command == 'reviveLevel':
+        invoker.cogReviveLevels[suitIndex] = value
+        invoker.d_setCogReviveLevels(invoker.cogLevels)
+        return 'Revive level set.'
     elif command == 'merits':
         invoker.cogMerits[suitIndex] = value
         invoker.d_setCogMerits(invoker.cogMerits)
