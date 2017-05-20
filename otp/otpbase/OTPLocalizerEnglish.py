@@ -183,7 +183,7 @@ CRBootedReasons = {1: 'An unexpected problem has occurred.  Your connection has 
  100: 'You have been disconnected because someone else just logged in using your account on another computer.',
  120: 'You have been disconnected because of a problem with your authorization to use keyboard chat.',
  122: 'There was an error authenticating! Not to worry though, you should be able to just restart and hop straight back into Project Altis!',
- 124: 'Your installed files are out of date. Make sure you run the launcher in Administrator mode by right clicking and clicking "Run as Administrator" to allow it to update your files.',
+ 124: 'Your installed files are out of date. Try relaunching the launcher to install outdated files.',
  125: 'Your installed files appear to be invalid.  Please use the Play button on the official website to run.',
  126: 'You are not authorized to use administrator privileges.',
  127: 'A problem has occurred with your Toon.  Please contact Member Services via phone or email and reference Error Code 127.  Thank you.',
