@@ -46,18 +46,7 @@ want-android #f
 want-headless #f
 want-live-updates #f
 want-cuda #t
-want-crossplat #t
-allow-portal-cull #t 
-gl-cheap-textures #f
-geom-cache-size	2500
-glsl-preprocess #f
-interpolate-frames #t
-keep-texture-ram #t
-driver-compress-textures #f
-gl-immutable-texture-storage #t
-loader-num-threads 100
-loader-thread-priority normal
-preload-textures #t
+loader-num-threads 25
 
 # Debug
 default-directnotify-level info
