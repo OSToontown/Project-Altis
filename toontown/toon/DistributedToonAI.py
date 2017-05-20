@@ -1346,7 +1346,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if not lastCog:
                 self.cogTypes[dept] += 1
                 self.d_setCogTypes(self.cogTypes)
-                cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+                self.cogMerits[dept] = CogDisguiseGlobals.MeritsPerLevel[SuitDNA.suitHeadTypes.index(cogTypeStr)][4]
+                self.d_setCogMerits(self.cogMerits)
                 self.cogReviveLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
                 self.d_setCogReviveLevels(self.cogReviveLevels)
         else:
@@ -1354,6 +1355,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.d_setCogReviveLevels(self.cogReviveLevels)
             if lastCog:
                 if self.cogReviveLevels[dept] in ToontownGlobals.CogReviveSuitHPLevels:
+                    if self.cogMerits[dept] != 0:
+                        self.cogMerits[dept] = 0
+                        self.d_setCogMerits(self.cogMerits)
                     maxHp = self.getMaxHp()
                     maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
                     self.b_setMaxHp(maxHp)
