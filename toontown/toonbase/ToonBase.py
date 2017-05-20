@@ -346,6 +346,7 @@ class ToonBase(OTPBase.OTPBase):
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
         self.notify.info("Pre-loading MAKE A TOON GUI")
 
+        self.notify.info('Subscribing to window size changed event')
         self.accept(base.win.getWindowEvent(), self.onWindowEvent)
         
     def updateAntiAliasing(self):
@@ -757,5 +758,6 @@ class ToonBase(OTPBase.OTPBase):
 
     def onWindowEvent(self, window):
         settings['res'] = self.getSize()
-
+        if window.isClosed():
+            sys.exit(0)
 
