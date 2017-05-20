@@ -121,7 +121,7 @@ class TutorialManagerAI(DistributedObjectAI):
 
         def handleTutorialSkipped(av):
             av.b_setTutorialAck(1)
-            av.b_setQuests([[110, 1, 2002, 100, 1]])
+            av.b_setQuests([[130, 1, 1000, 100, 1]])
             av.b_setQuestHistory([101])
             av.b_setRewardHistory(1, [])
 
