@@ -47,6 +47,12 @@ class DistributedNPCHQOfficer(DistributedNPCToonBase):
             else:
                 self.setHat(48, 0, 0)
             self.setGlasses(20, 0, 0)
+        elif base.cr.playGame.hood.hoodId == 2000:
+            self.setHat(41, 0, 0)
+        elif base.cr.playGame.hood.hoodId == 4000:
+            self.setHat(29, 0, 0)
+            if self.posIndex == 3:
+                self.setBackpack(22, 0, 0)
 
     def cleanupMovie(self):
         self.clearChat()
