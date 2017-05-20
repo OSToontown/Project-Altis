@@ -466,17 +466,17 @@ class DistributedEstateAI(DistributedObjectAI):
         # trampoline2.sendUpdate('setH', [80])
         # self.trampolines.append(trampoline2)
         
-        self.target = DistributedTargetAI(self.air)
-        self.target.generateWithRequired(self.zoneId)
-        self.target.setPosition(0, 0, 40)
-        for drop in CannonGlobals.cannonDrops:
-            cannon = DistributedCannonAI(self.air)
-            cannon.setEstateId(self.doId)
-            cannon.setTargetId(self.target.doId)
-            cannon.setPosHpr(*drop)
-            cannon.generateWithRequired(self.zoneId)
-            self.cannons.append(cannon)
-        self.b_setClouds(True)
+        # self.target = DistributedTargetAI(self.air)
+        # self.target.generateWithRequired(self.zoneId)
+        # self.target.setPosition(0, 0, 40)
+        # for drop in CannonGlobals.cannonDrops:
+            # cannon = DistributedCannonAI(self.air)
+            # cannon.setEstateId(self.doId)
+            # cannon.setTargetId(self.target.doId)
+            # cannon.setPosHpr(*drop)
+            # cannon.generateWithRequired(self.zoneId)
+            # self.cannons.append(cannon)
+        # self.b_setClouds(True)
         doIds = []
         for i in range(40):
             x = random.randint(100, 300) - 200
@@ -527,18 +527,18 @@ class DistributedEstateAI(DistributedObjectAI):
             if not treasure.isDeleted():
                 treasure.requestDelete()
             
-        for target in self.targets:
-            target.requestDelete()
+        # for target in self.targets:
+            # target.requestDelete()
       
         for pet in self.pets:
             pet.requestDelete()
             
-        self.b_setClouds(False)
-        if self.target:
-            self.target.requestDelete()
+        # self.b_setClouds(False)
+        # if self.target:
+            # self.target.requestDelete()
             
-        for cannon in self.cannons:
-            cannon.requestDelete()
+        # for cannon in self.cannons:
+            # cannon.requestDelete()
         if self.jukebox:
             self.jukebox.requestDelete()
             
