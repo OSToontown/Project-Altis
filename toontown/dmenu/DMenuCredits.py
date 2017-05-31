@@ -29,9 +29,8 @@ class DMenuCredits:
 Dubito | Director
 Bethy / Limey Mouse | Director
 Remot | Internal Staff Manager
-Smirky Bumberpop | External Community Manager
+Royko | External Community Manager
 Loopy Goopy Googlenerd | Content Director
-Judge | Investor
 
 \1orangeText\1Technical Team\2
 Sir Tubby Cheezyfish | Lead Game Developer
@@ -62,6 +61,7 @@ Xanon | Former Developer
 SkippsDev | Former Developer
 Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
 Aura | Pick-A-Toon Concept / Inspiration
+Smirky Bumberpop | Fprmer External Community Manager
 
 \1orangeText\1Special thanks to\2
 Toontown Infinite | Various Resources
