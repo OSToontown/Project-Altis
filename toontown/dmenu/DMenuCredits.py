@@ -62,7 +62,6 @@ Xanon | Former Developer
 SkippsDev | Former Developer
 Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
 Aura | Pick-A-Toon Concept / Inspiration
-Drew | Former Technical Team Lead
 
 \1orangeText\1Special thanks to\2
 Toontown Infinite | Various Resources
