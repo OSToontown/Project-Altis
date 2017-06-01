@@ -631,12 +631,12 @@ class DistributedToonHallInterior(DistributedToonInterior):
         if self.firstEnter == 1:
             self.cleanUpCollisions()
             self.setupCollisions(0.75)
-            self.oldView = base.localAvatar.cameraIndex
+            # self.oldView = base.localAvatar.cameraIndex
             self.firstEnter = 0
             return
         flippy = self.interior.find('**/*Flippy*/*NPCToon*')
-        if flippy == collEntry.getIntoNodePath():
-            self.setUpToonHallCam()
+        # if flippy == collEntry.getIntoNodePath():
+            # self.setUpToonHallCam()
 
     def setupCollisions(self, radius):
         r = base.localAvatar.getClampedAvatarHeight() * radius
@@ -691,16 +691,16 @@ class DistributedToonHallInterior(DistributedToonInterior):
             __cleanUpSound__(self.arrowSfx)
             del self.arrowSfx
 
-    def setUpToonHallCam(self):
-        pass
+    # def setUpToonHallCam(self):
+        # pass
 
     def restoreCam(self):
         base.localAvatar.setCameraFov(settings['fieldofview'])
-        if hasattr(self, 'oldView'):
-            base.localAvatar.setCameraPositionByIndex(self.oldView)
+        # if hasattr(self, 'oldView'):
+            # base.localAvatar.setCameraPositionByIndex(self.oldView)
 
     def disable(self):
-        self.setUpToonHallCam()
+        # self.setUpToonHallCam()
         base.localAvatar.removeCameraPosition()
         base.localAvatar.resetCameraPosition()
         self.restoreCam()
