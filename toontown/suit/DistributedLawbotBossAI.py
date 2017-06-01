@@ -643,7 +643,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         self.b_setState('Reward')
         BattleExperienceAI.assignRewards(self.involvedToons, self.toonSkillPtsGained, self.suitsKilled, ToontownGlobals.dept2cogHQ(self.dept), self.helpfulToons)
         preferredDept = random.randrange(len(SuitDNA.suitDepts))
-        typeWeights = ['single'] * 70 + ['building'] * 27 + ['invasion'] * 3
+        typeWeights = ['single'] * 3 + ['building'] * 60 + ['invasion'] * 34
         preferredSummonType = random.choice(typeWeights)
         for toonId in self.involvedToons:
             toon = self.air.doId2do.get(toonId)
