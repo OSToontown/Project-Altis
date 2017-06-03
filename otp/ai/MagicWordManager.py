@@ -1,6 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from otp.ai.MagicWordGlobal import *
+from toontown.toonbase import ToontownGlobals
 
 lastClickedNametag = None
 
@@ -20,13 +21,13 @@ class MagicWordManager(DistributedObject.DistributedObject):
         if not self.cr.wantMagicWords:
             return
 
-        if magicWord.startswith('~~'):
+        if magicWord.startswith(ToontownGlobals.MagicWordTargetPrefix):
             if lastClickedNametag == None:
                 target = base.localAvatar
             else:
                 target = lastClickedNametag
             magicWord = magicWord[2:]
-        if magicWord.startswith('~'):
+        if magicWord.startswith(ToontownGlobals.MagicWordInvokerPrefix):
             target = base.localAvatar
             magicWord = magicWord[1:]
 

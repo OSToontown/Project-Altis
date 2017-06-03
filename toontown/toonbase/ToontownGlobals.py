@@ -1796,3 +1796,6 @@ CODE_INELIGIBLE = 3
 CODE_REWARD_ERROR = 4
 CODE_TOO_MANY_ATTEMPTS = 5
 CODE_UNAVAILABLE = 6
+
+MagicWordInvokerPrefix = '~'
+MagicWordTargetPrefix = '~~'

@@ -1226,11 +1226,14 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
 
     def canChat(self):
         return 0
-        
+
+from toontown.toonbase import ToontownGlobals
+
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def slow():
     base.localAvatar.controlManager.setSpeeds(OTPGlobals.ToonForwardSlowSpeed, OTPGlobals.ToonJumpForce, OTPGlobals.ToonForwardSlowSpeed, OTPGlobals.ToonRotateSpeed)
-    return 'Walk speed decreased! do ~speednormal to reset to normal'
+    retMessage = 'Walk speed decreased! do ' + ToontownGlobals.MagicWordInvokerPrefix + 'speednormal to reset to normal'
+    return retMessage
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def speednormal():
