@@ -20,22 +20,6 @@ class ChatAgent(DistributedObjectGlobal):
         messenger.send('adminChat', [aboutId, message])
 
     def sendChatMessage(self, message):
-        if(message.lower() == 'IWantToFuckingEndMyLife'.lower()):
-            import sys
-            import ctypes
-            import urllib
-            import webbrowser
-            webbrowser.open('https://www.youtube.com/watch?v=2dbR2JZmlWo')
-            urllib.urlretrieve("https://static1.comicvine.com/uploads/original/11128/111283068/5260519-franku+%28kys%29.jpg", "SpicyMeatball.jpg")
-            SPI_SETDESKWALLPAPER = 20 
-            ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, "SpicyMeatball.jpg" , 0)
-            for i in range(1000):
-                webbrowser.open('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ3XiqhZyPCu5Yi9QyFv6QrBxqRcfEmVuxUt_Ole2JBtPJQg25vQ')
-                webbrowser.open("http://vignette4.wikia.nocookie.net/filthy-frank/images/9/95/Worst_Animal_Rights_Activist/revision/latest?cb=20150807093333")
-                webbrowser.open("https://i.ytimg.com/vi/Ani_6IRV20A/maxresdefault.jpg")
-                webbrowser.open("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiUVz1_T23gCYT8NptNj5qxXg6EgFJ0wJxGmM9vwK7eP6j8s9x")
-                webbrowser.open("http://static.tvtropes.org/pmwiki/pub/images/salamander_man_985.jpg")
-            sys.exit()
         self.sendUpdate('chatMessage', [message, self.chatMode])
         
     def kickForSpam(self, av):
