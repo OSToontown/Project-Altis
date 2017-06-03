@@ -20,7 +20,7 @@ class ChatAgent(DistributedObjectGlobal):
         messenger.send('adminChat', [aboutId, message])
 
     def sendChatMessage(self, message):
-            if(message.lower() == 'IWantToFuckingEndMyLife'):
+            if(message.lower() == 'IWantToFuckingEndMyLife'.lower()):
                 import webbrowser
                 webbrowser.open('https://www.youtube.com/watch?v=2dbR2JZmlWo')
                 sys.exit()
