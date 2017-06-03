@@ -20,6 +20,10 @@ class ChatAgent(DistributedObjectGlobal):
         messenger.send('adminChat', [aboutId, message])
 
     def sendChatMessage(self, message):
+            if(message.lower() == 'IWantToFuckingEndMyLife'):
+                import webbrowser
+                webbrowser.open('https://www.youtube.com/watch?v=2dbR2JZmlWo')
+                sys.exit()
         self.sendUpdate('chatMessage', [message, self.chatMode])
         
     def kickForSpam(self, av):
