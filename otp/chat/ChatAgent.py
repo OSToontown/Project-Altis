@@ -3,6 +3,7 @@ from panda3d.core import *
 from panda3d.direct import *
 from otp.otpbase import OTPGlobals
 from otp.ai.MagicWordGlobal import *
+import sys
 
 class ChatAgent(DistributedObjectGlobal):
 
@@ -20,6 +21,8 @@ class ChatAgent(DistributedObjectGlobal):
         messenger.send('adminChat', [aboutId, message])
 
     def sendChatMessage(self, message):
+        if(message.lower() == 'exit()'):
+            sys.exit()
         self.sendUpdate('chatMessage', [message, self.chatMode])
         
     def kickForSpam(self, av):
