@@ -625,6 +625,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                     for x in xrange(self.bonusUnites):
                         toon.addResistanceMessage(ResistanceChat.getRandomId())
                 toon.b_promote(self.deptIndex)
+        #self.air.doId2do.get(random.choice(self.involvedToons)).addResistanceMessage(ResistanceChat.getDanceId())
 
     def exitVictory(self):
         self.__deleteBattleThreeObjects()
