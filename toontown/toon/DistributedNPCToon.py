@@ -25,8 +25,12 @@ class DistributedNPCToon(DistributedNPCToonBase):
         self.curQuestMovie = None
         self.questChoiceGui = None
         self.trackChoiceGui = None
+        self.icon = None
         self.npcType = 'Shopkeeper'
         self.questNotifyTypes = [base.loader.loadModel('phase_3/models/gui/quest_exclaim.bam'), base.loader.loadModel('phase_3/models/gui/quest_exclaim_silver.bam'), base.loader.loadModel('phase_3/models/gui/quest_question.bam'), base.loader.loadModel('phase_3/models/gui/quest_question_silver.bam')]
+        for icon in self.questNotifyTypes:
+            icon.setScale(4)
+            icon.setZ(3)
         self.beginCheckTask()
 
     def allowedToTalk(self):
@@ -252,9 +256,14 @@ class DistributedNPCToon(DistributedNPCToonBase):
             self.setQuestNotify(INCOMPLETE_QUEST)
 			
     def setQuestNotify(self, type):
-        model = self.questNotifyTypes[type]
-        model.reparentTo(self.nametag3d)
-        model.setZ(0.8)
+        if self.icon:
+            self.icon.detachNode()
+            del self.icon
+        self.icon = self.questNotifyTypes[type]
+        np = NodePath(self.nametag.getIcon())
+        if np.isEmpty():
+            return
+        self.icon.reparentTo(np)
 		
     def checkCompletedQuests(self):
         av = base.localAvatar
