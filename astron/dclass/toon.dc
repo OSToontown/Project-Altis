@@ -2416,11 +2416,7 @@ dclass DistributedNPCToon : DistributedNPCToonBase {
   chooseTrack(int8) airecv clsend;
 };
 
-dclass DistributedNPCHQOfficer : DistributedNPCToonBase {
-  setMovie(uint8, uint32, uint32, uint16[], int16) broadcast ram;
-  setMovieDone() airecv clsend;
-  chooseQuest(uint16) airecv clsend;
-  chooseTrack(int8) airecv clsend;
+dclass DistributedNPCHQOfficer : DistributedNPCToon {
 };
 
 dclass DistributedNPCSpecialQuestGiver : DistributedNPCToonBase {
