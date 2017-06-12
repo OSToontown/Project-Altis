@@ -2508,12 +2508,7 @@ def getQuestReward(id, av):
 
 
 def isQuestJustForFun(questId, rewardId):
-    questEntry = QuestDict.get(questId)
-    if questEntry:
-        tier = questEntry[QuestDictTierIndex]
-        return isRewardOptional(tier, rewardId)
-    else:
-        return False
+    return False
 
 
 NoRewardTierZeroQuests = (101,
@@ -16126,15 +16121,6 @@ QuestDict = {
          NA,
          DefaultDialog)}
 
-Tier2QuestsDict = {}
-for questId, questDesc in QuestDict.items():
-    if questDesc[QuestDictStartIndex] == Start:
-        tier = questDesc[QuestDictTierIndex]
-        if Tier2QuestsDict.has_key(tier):
-            Tier2QuestsDict[tier].append(questId)
-        else:
-            Tier2QuestsDict[tier] = [questId]
-
 Quest2RewardDict = {}
 Tier2Reward2QuestsDict = {}
 Quest2RemainingStepsDict = {}
@@ -16194,14 +16180,6 @@ for questId in QuestDict.keys():
 
 def getStartingQuests(tier = None):
     startingQuests = []
-    for questId in QuestDict.keys():
-        if isStartingQuest(questId):
-            if tier is None:
-                startingQuests.append(questId)
-            elif questId in Tier2QuestsDict[tier]:
-                startingQuests.append(questId)
-
-    startingQuests.sort()
     return startingQuests
 
 
@@ -16445,53 +16423,8 @@ def transformReward(baseRewardId, av):
         return baseRewardId
 
 
-def chooseBestQuests(tier, currentNpc, av):
-    if isLoopingFinalTier(tier):
-        rewardHistory = map(lambda questDesc: questDesc[3], av.quests)
-    else:
-        rewardHistory = av.getRewardHistory()[1]
-    seedRandomGen(currentNpc.getNpcId(), av.getDoId(), tier, rewardHistory)
-    numChoices = getNumChoices(tier)
-    rewards = getNextRewards(numChoices, tier, av)
-    if not rewards:
-        return []
-    possibleQuests = []
-    possibleRewards = list(rewards)
-    if Any not in possibleRewards:
-        possibleRewards.append(Any)
-    for rewardId in possibleRewards:
-        possibleQuests.extend(Tier2Reward2QuestsDict[tier].get(rewardId, []))
-
-    validQuestPool = filterQuests(possibleQuests, currentNpc, av)
-    if not validQuestPool:
-        return []
-    if numChoices == 0:
-        numChoices = 1
-    bestQuests = []
-    for i in range(numChoices):
-        if len(validQuestPool) == 0:
-            break
-        if len(rewards) == 0:
-            break
-        rewardId = rewards.pop(0)
-        bestQuestId = chooseMatchingQuest(tier, validQuestPool, rewardId, currentNpc, av)
-        if bestQuestId is None:
-            continue
-        validQuestPool.remove(bestQuestId)
-        bestQuestToNpcId = getQuestToNpcId(bestQuestId)
-        if bestQuestToNpcId == Any:
-            bestQuestToNpcId = 2003
-        elif bestQuestToNpcId == Same:
-            if currentNpc.getHq():
-                bestQuestToNpcId = ToonHQ
-            else:
-                bestQuestToNpcId = currentNpc.getNpcId()
-        elif bestQuestToNpcId == ToonHQ:
-            bestQuestToNpcId = ToonHQ
-        bestQuests.append([bestQuestId, rewardId, bestQuestToNpcId])
-
-    for quest in bestQuests:
-        quest[1] = transformReward(quest[1], av)
+def chooseBestQuests(currentNpc, av):
+    completedQuests = av.getQuestHistory()
 
     return bestQuests
 

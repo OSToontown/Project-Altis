@@ -1391,13 +1391,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def getQuestHistory(self):
         return self.questHistory
 
-    def setRewardHistory(self, rewardTier, rewardList):
-        self.rewardTier = rewardTier
-        self.rewardHistory = rewardList
-
-    def getRewardHistory(self):
-        return (self.rewardTier, self.rewardHistory)
-
     def doSmoothTask(self, task):
         self.smoother.computeAndApplySmoothPosHpr(self, self)
         self.setSpeed(self.smoother.getSmoothForwardVelocity(), self.smoother.getSmoothRotationalVelocity())
