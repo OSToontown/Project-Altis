@@ -45,7 +45,7 @@ AnyLawbotSuitPart = 6
 AnyBossbotSuitPart = 7
 ToonTailor = 999
 ToonHQ = 1000
-QuestDictTierIndex = 0
+QuestDictRequiredQuestsIndex = 0
 QuestDictStartIndex = 1
 QuestDictDescIndex = 2
 QuestDictFromNpcIndex = 3
@@ -54,6 +54,7 @@ QuestDictRewardIndex = 5
 QuestDictNextQuestIndex = 6
 QuestDictDialogIndex = 7
 QuestDictExperienceIndex = 8
+QuestDictMoneyIndex = 9
 VeryEasy = 100
 ModeratelyEasy = 80
 Easy = 75
@@ -2662,7 +2663,7 @@ QuestDict = {
        100,
        NA,
        TTLocalizer.QuestDialogDict[163]),
- 164: (TT_TIER + 1, Start, (VisitQuest,), Any, 2001, NA, 165, TTLocalizer.QuestDialogDict[164]),
+ 164: ([], Start, (VisitQuest,), Any, 2001, NA, 165, TTLocalizer.QuestDialogDict[164], 40, 5),
  165: (TT_TIER + 1, Start, (CogQuest, Anywhere, 3, Any), 2001, Same, NA, 166, TTLocalizer.QuestDialogDict[165]),
  166: (TT_TIER + 1, Cont, (TrackExpQuest, Anywhere, 4, 10), Same, Same, NA, 167, TTLocalizer.QuestDialogDict[166]),
  167: (TT_TIER + 1, Cont, (TrackExpQuest, Anywhere, 5, 10), Same, Same, NA, (168, 169, 170, 171, 172), TTLocalizer.QuestDialogDict[167]),
@@ -16159,17 +16160,6 @@ def findFinalRewardId(questId):
             else:
                 finalRewardId, remainingSteps = findFinalRewardId(nextQuestId)
             remainingSteps += 1
-        if finalRewardId != OBSOLETE:
-            if questDesc[QuestDictStartIndex] == Start:
-                tier = questDesc[QuestDictTierIndex]
-                tier2RewardDict = Tier2Reward2QuestsDict.setdefault(tier, {})
-                rewardIds = getAllRewardIdsForReward(finalRewardId)
-                for rewardId in rewardIds:
-                    questList = tier2RewardDict.setdefault(rewardId, [])
-                    questList.append(questId)
-
-        else:
-            finalRewardId = None
         Quest2RewardDict[questId] = finalRewardId
         Quest2RemainingStepsDict[questId] = remainingSteps
     return (finalRewardId, remainingSteps)
@@ -16425,6 +16415,26 @@ def transformReward(baseRewardId, av):
 
 def chooseBestQuests(currentNpc, av):
     completedQuests = av.getQuestHistory()
+    bestQuests = []
+    for questId in QuestDict.keys():
+        questEntry = QuestDict.get(questId)
+        if questEntry[QuestDictFromNpcIndex] == currentNpc.npcId:
+            if not questId in av.getQuestHistory():
+                bestQuestToNpcId = getQuestToNpcId(questId)
+                if bestQuestToNpcId == Any:
+                    bestQuestToNpcId = 2003
+                elif bestQuestToNpcId == Same:
+                    if currentNpc.getHq():
+                        bestQuestToNpcId = ToonHQ
+                    else:
+                        bestQuestToNpcId = currentNpc.getNpcId()
+                elif bestQuestToNpcId == ToonHQ:
+                    bestQuestToNpcId = ToonHQ
+                bestQuests.append([questId, 0, bestQuestToNpcId])
+            else:
+                continue
+        else:
+            continue
 
     return bestQuests
 
@@ -16450,23 +16460,7 @@ def getQuestExp(id):
             questExp = questEntry[QuestDictExperienceIndex]
             return questExp
         except:
-            questTier = questEntry[QuestDictTierIndex]
-            if questTier >= TT_TIER and questTier < DD_TIER:
-                return 80
-            elif questTier >= DD_TIER and questTier < DG_TIER:
-                return 200
-            elif questTier >= DG_TIER and questTier < MM_TIER:
-                return 300
-            elif questTier >= MM_TIER and questTier < BR_TIER:
-                return 500
-            elif questTier >= BR_TIER and questTier < DL_TIER:
-                return 800
-            elif questTier >= DL_TIER and questTier < ELDER_TIER:
-                return 1500
-            elif questTier == ELDER_TIER:
-                return 2500
-            else:
-                return 0
+                return 100
     else:
         return None
     return None
