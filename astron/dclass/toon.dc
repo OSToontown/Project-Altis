@@ -1057,7 +1057,6 @@ dclass DistributedToon : DistributedPlayer {
   setCogParts(uint32[] = [0 * 5]) required broadcast ownrecv db;
   setCogMerits(uint16[] = [0 * 5]) required ownrecv db;
   setPromotionStatus(uint8[] = [0 * 5]) required broadcast ownrecv db;
-  requestPromotion(uint8) ownsend airecv;
   setCogIndex(int8) broadcast ram;
   setDisguisePageFlag(int8) ownrecv;
   setSosPageFlag(int8) ownrecv;
@@ -1173,6 +1172,7 @@ dclass DistributedToon : DistributedPlayer {
   setRedeemedCodes(string [] = []) required ownrecv db;
   setTrainingPoints(uint8 = 0) required ownrecv db;
   setSpentTrainingPoints(uint8[] = [0, 0, 0, 0, 2, 2, 0, 0]) required ownrecv db;
+  requestSkillSpend(uint8) ownsend airecv;
 };
 
 dclass DistributedCCharBase : DistributedObject {

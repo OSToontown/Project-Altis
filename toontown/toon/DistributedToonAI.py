@@ -4744,6 +4744,25 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getSpentTrainingPoints(self):
         return self.spentTrainingPoints
+		
+    def requestSkillSpend(self, track):
+        trackArray = self.getTrackAccess()
+        pointsAvailable = self.getTrainingPoints()
+        pointsSpent = self.getSpentTrainingPoints()
+        if pointsAvailable > 0: # Time to skill them up!
+            if pointsSpent[track] >= 2:
+                return # Prestiging isn't coded yet
+            else:
+                pointsSpent[track] += 1
+                pointsAvailable -= 1
+            for i in xrange(8): # Go through all tracks and recalculate
+                if pointsSpent[i] >= 2:
+                    trackArray[i] = 1
+            self.b_setTrackAccess(trackArray)
+            self.b_setSpentTrainingPoints(pointsSpent)
+            self.b_setTrainingPoints(pointsAvailable)
+        else:
+            return
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def cheesyEffect(value, hood=0, expire=0):
@@ -5796,7 +5815,7 @@ def shovelSkill(skill):
 @magicWord(category = CATEGORY_PROGRAMMER, types = [int])
 def trainingPoints(points):
     target = spellbook.getTarget()
-    target.b_setTrainingPoints(skill)
+    target.b_setTrainingPoints(points)
     return 'Set ' + target.getName() + "'s training points to %s!" % points
 	
 @magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
