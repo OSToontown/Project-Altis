@@ -5793,6 +5793,12 @@ def shovelSkill(skill):
     target = spellbook.getTarget()
     target.b_setShovelSkill(skill)
 	
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
+def trainingPoints(points):
+    target = spellbook.getTarget()
+    target.b_setTrainingPoints(skill)
+    return 'Set ' + target.getName() + "'s training points to %s!" % points
+	
 @magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
 def i60Skip():
     """

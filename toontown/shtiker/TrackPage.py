@@ -52,7 +52,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
         pass
 
     def updatePage(self):
-        pass
+        self.pointLabel['text'] = base.localAvatar.getTrainingPoints()
 
     def enter(self):
         self.updatePage()

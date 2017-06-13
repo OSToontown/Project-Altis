@@ -106,6 +106,7 @@ SPMinniesPiano = 4
 CEVirtual = 14
 MaxHpLimit = 137
 ExpMoneyCarryReward = 50
+ExpTrainingPointReward = 1
 ExpGagCarryReward = 10
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
