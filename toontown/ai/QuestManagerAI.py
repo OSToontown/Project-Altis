@@ -95,7 +95,7 @@ class QuestManagerAI:
                         try:
                             # Until we convert all quests to new format, or script new ones, this will have to be here to prevent crashes
                             for required in questClass[0]:
-                                if required not in av.getQuestHistory()
+                                if required not in av.getQuestHistory():
                                     choices.remove(choice)
                                 else:
                                     continue
