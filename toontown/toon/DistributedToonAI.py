@@ -208,6 +208,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.interiorLayout = 0
         self.cheesyEffects = [0]
         self.redeemedCodes = []
+        self.trainingPoints = 0
+        self.spentTrainingPoints = [0, 0, 0, 0, 0, 0, 0, 0]
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -2537,6 +2539,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setMaxHp(self.getMaxHp() + 1)
             self.toonUp(av.getMaxHp() - av.hp)
             simbase.air.experienceMgr.checkForLevelUpReward(self)
+            if level in ToontownGlobals.ExperienceTrainingPointLevels:
+                self.sendUpdate('notifyExpReward', [level, 0])
             if level in ToontownGlobals.ExperienceGagLevels:
                 self.sendUpdate('notifyExpReward', [level, 1])
             if level in ToontownGlobals.ExperienceMoneyLevels:
@@ -4714,6 +4718,32 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setRedeemedCodes(self, redeemedCodes):
         self.sendUpdate('setRedeemedCodes', [redeemedCodes])
+
+    def b_setTrainingPoints(self, points):
+        self.setTrainingPoints(points)
+        self.d_setTrainingPoints(points)
+
+    def d_setTrainingPoints(self, points):
+        self.sendUpdate('setTrainingPoints', [points])
+
+    def setTrainingPoints(self, points):
+        self.trainingPoints = points
+
+    def getTrainingPoints(self):
+        return self.trainingPoints
+		
+    def b_setSpentTrainingPoints(self, points):
+        self.setSpentTrainingPoints(points)
+        self.d_setSpentTrainingPoints(points)
+
+    def d_setSpentTrainingPoints(self, points):
+        self.sendUpdate('setSpentTrainingPoints', [points])
+
+    def setSpentTrainingPoints(self, points):
+        self.spentTrainingPoints = points
+
+    def getSpentTrainingPoints(self):
+        return self.spentTrainingPoints
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def cheesyEffect(value, hood=0, expire=0):

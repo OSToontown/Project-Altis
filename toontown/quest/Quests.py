@@ -2534,7 +2534,7 @@ Index 5: The reward, set this to 0 or NA unless it is a teleportation or special
 Index 6: Next quest in chain
 Index 7: Dialog
 Index 8: Amount of EXP rewarded from completion of quest, this MUST BE DECLARED ON EACH PART OF CHAIN
-Index 8: Amount of JBs rewarded from completion of quest, this MUST BE DECLARED ON EACH PART OF CHAIN
+Index 9: Amount of JBs rewarded from completion of quest, this MUST BE DECLARED ON EACH PART OF CHAIN
 '''
 QuestDict = {
  164: ([], Start, (VisitQuest,), 2003, 2001, NA, 165, TTLocalizer.QuestDialogDict[164], 40, 5),
