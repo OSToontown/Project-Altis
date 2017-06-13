@@ -187,14 +187,15 @@ class QuestManagerAI:
             questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
             questClass = Quests.getQuest(questId)
             questExp = Quests.getQuestExp(questId)
+            questMoney = Quests.getQuestMoney(questId)
 
             if questId == completeQuestId:
                 av.removeQuest(questId)
                 self.giveReward(av, questId, rewardId)
-                if questExp == None:
-                   continue
-                else:
+                if questExp != 0:
                     av.b_setToonExp(av.getToonExp() + questExp)
+                if questMoney != 0:
+                    av.addMoney(questMoney)
                 
                 break
 

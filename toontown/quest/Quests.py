@@ -16464,7 +16464,18 @@ def getQuestExp(id):
     else:
         return None
     return None
-
+	
+def getQuestMoney(id):
+    questEntry = QuestDict.get(id)
+    if questEntry:
+        try:
+            questMoney = questEntry[QuestDictMoneyIndex]
+            return questMoney
+        except:
+                return 100
+    else:
+        return 0
+    return 0
 
 def getQuestClass(id):
     questEntry = QuestDict.get(id)
