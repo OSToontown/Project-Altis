@@ -197,7 +197,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.interiorLayout = 0
         self.redeemedCodes = []
         self.trainingPoints = 0
-        self.spentTrainingPoints = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
 
     def disable(self):
         for soundSequence in self.soundSequenceList:

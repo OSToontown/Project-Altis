@@ -91,7 +91,7 @@ class QuestManagerAI:
                 choices = self.avatarQuestChoice(av, npc)
                 if choices != []:
                     for choice in choices:
-                        questClass = Quests.QuestDict.get(choice)
+                        questClass = Quests.QuestDict.get(choice[0])
                         try:
                             # Until we convert all quests to new format, or script new ones, this will have to be here to prevent crashes
                             for required in questClass[0]:

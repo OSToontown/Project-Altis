@@ -209,7 +209,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.cheesyEffects = [0]
         self.redeemedCodes = []
         self.trainingPoints = 0
-        self.spentTrainingPoints = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -2537,7 +2537,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.setToonLevel(level)
             self.d_setToonLevel(level)
             self.b_setMaxHp(self.getMaxHp() + 1)
-            self.toonUp(av.getMaxHp() - av.hp)
+            self.toonUp(self.getMaxHp() - self.hp)
             simbase.air.experienceMgr.checkForLevelUpReward(self)
             if level in ToontownGlobals.ExperienceTrainingPointLevels:
                 self.sendUpdate('notifyExpReward', [level, 0])
