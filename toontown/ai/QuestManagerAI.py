@@ -34,7 +34,6 @@ class QuestManagerAI:
         avQuestPocketSize = av.getQuestCarryLimit()
         avQuests = av.getQuests()
 
-        needTrackTask = False
         fakeTier = 0
 
         avTrackProgress = av.getTrackProgress()
@@ -89,11 +88,15 @@ class QuestManagerAI:
                 return
             else:
                 #Present quest choices.
-                if needTrackTask:
-                    choices = self.npcGiveTrackChoice(av, fakeTier)
-                else:
-                    choices = self.avatarQuestChoice(av, npc)
+                choices = self.avatarQuestChoice(av, npc)
                 if choices != []:
+                    for choice in choices:
+                        questClass = Quests.QuestDict.get(choice)
+                        for required in questClass[0]:
+                            if required not in av.getQuestHistory()
+                                choices.remove(choice)
+                            else:
+                                continue
                     npc.presentQuestChoice(avId, choices)
                 else:
                     npc.rejectAvatar(avId)
