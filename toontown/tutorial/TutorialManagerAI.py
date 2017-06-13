@@ -123,7 +123,6 @@ class TutorialManagerAI(DistributedObjectAI):
             av.b_setTutorialAck(1)
             av.b_setQuests([[130, 1, 1000, 100, 1]])
             av.b_setQuestHistory([101])
-            av.b_setRewardHistory(1, [])
 
 
         # We must wait for the avatar to be generated:
