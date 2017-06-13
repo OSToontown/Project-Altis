@@ -11,7 +11,7 @@ class ExperienceRewardManagerAI:
 			
     def checkForLevelUpReward(self, av):
         av.addMoney(av.getToonLevel() * self.getMoneyMult(av))
-		if av.getToonLevel() in ToontownGlobals.ExperienceTrainingPointLevels:
+        if av.getToonLevel() in ToontownGlobals.ExperienceTrainingPointLevels:
             self.addTrainingPoint(av)
         if av.getToonLevel() in ToontownGlobals.ExperienceGagLevels:
             self.addGagCapacity(av)
