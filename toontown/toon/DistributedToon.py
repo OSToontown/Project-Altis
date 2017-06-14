@@ -196,6 +196,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.trueFriends = []
         self.interiorLayout = 0
         self.redeemedCodes = []
+        self.trainingPoints = 0
+        self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
 
     def disable(self):
         for soundSequence in self.soundSequenceList:
@@ -343,7 +345,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def notifyExpReward(self, level, type):
         if type == 0:
-            self.setSystemMessage(0, TTLocalizer.ExpHPReward % (level+1), WTSystem)
+            self.setSystemMessage(0, TTLocalizer.ExpTPReward % (level+1), WTSystem)
         if type == 1:
             self.setSystemMessage(0, TTLocalizer.ExpGagReward % (level+1), WTSystem)
         if type == 2:
@@ -1390,13 +1392,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getQuestHistory(self):
         return self.questHistory
-
-    def setRewardHistory(self, rewardTier, rewardList):
-        self.rewardTier = rewardTier
-        self.rewardHistory = rewardList
-
-    def getRewardHistory(self):
-        return (self.rewardTier, self.rewardHistory)
 
     def doSmoothTask(self, task):
         self.smoother.computeAndApplySmoothPosHpr(self, self)
@@ -2969,6 +2964,18 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         
     def setRedeemedCodes(self, redeemedCodes):
         self.redeemedCodes = redeemedCodes
+		
+    def setTrainingPoints(self, points):
+        self.trainingPoints = points
+		
+    def getTrainingPoints(self):
+        return self.trainingPoints
+		
+    def setSpentTrainingPoints(self, points):
+        self.spentTrainingPoints = points
+		
+    def getSpentTrainingPoints(self):
+        return self.spentTrainingPoints
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def zone(zoneId):

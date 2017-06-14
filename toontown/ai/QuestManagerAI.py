@@ -34,21 +34,9 @@ class QuestManagerAI:
         avQuestPocketSize = av.getQuestCarryLimit()
         avQuests = av.getQuests()
 
-        needTrackTask = False
         fakeTier = 0
 
         avTrackProgress = av.getTrackProgress()
-        if avTrackProgress[0] == -1:
-            avQuestTier = av.getRewardTier()
-            if avQuestTier < Quests.DG_TIER and avQuestTier > Quests.DD_TIER:
-                fakeTier = Quests.DD_TIER
-                needTrackTask = True
-            elif avQuestTier < Quests.BR_TIER and avQuestTier > Quests.MM_TIER:
-                fakeTier = Quests.MM_TIER
-                needTrackTask = True
-            elif avQuestTier < Quests.DL_TIER and avQuestTier > Quests.BR_TIER:
-                fakeTier = Quests.BR_TIER
-                needTrackTask = True
 
         # Iterate through their quests.
         for i in xrange(0, len(avQuests), 5):
@@ -100,11 +88,19 @@ class QuestManagerAI:
                 return
             else:
                 #Present quest choices.
-                if needTrackTask:
-                    choices = self.npcGiveTrackChoice(av, fakeTier)
-                else:
-                    choices = self.avatarQuestChoice(av, npc)
+                choices = self.avatarQuestChoice(av, npc)
                 if choices != []:
+                    for choice in choices:
+                        questClass = Quests.QuestDict.get(choice[0])
+                        try:
+                            # Until we convert all quests to new format, or script new ones, this will have to be here to prevent crashes
+                            for required in questClass[0]:
+                                if required not in av.getQuestHistory():
+                                    choices.remove(choice)
+                                else:
+                                    continue
+                        except:
+                            choices = choices
                     npc.presentQuestChoice(avId, choices)
                 else:
                     npc.rejectAvatar(avId)
@@ -115,7 +111,7 @@ class QuestManagerAI:
 
     def avatarQuestChoice(self, av, npc):
         # Get the best quests for an avatar/npc.
-        return Quests.chooseBestQuests(av.getRewardTier(), npc, av)
+        return Quests.chooseBestQuests(npc, av)
 
     def avatarChoseQuest(self, avId, npc, questId, rewardId, toNpcId):
         # Get the avatar.
@@ -198,15 +194,15 @@ class QuestManagerAI:
             questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
             questClass = Quests.getQuest(questId)
             questExp = Quests.getQuestExp(questId)
+            questMoney = Quests.getQuestMoney(questId)
 
             if questId == completeQuestId:
                 av.removeQuest(questId)
                 self.giveReward(av, questId, rewardId)
-                self.avatarConsiderProgressTier(av)
-                if questExp == None:
-                   continue
-                else:
+                if questExp != 0:
                     av.b_setToonExp(av.getToonExp() + questExp)
+                if questMoney != 0:
+                    av.addMoney(questMoney)
                 
                 break
 
@@ -217,24 +213,6 @@ class QuestManagerAI:
             self.notify.warning('rewardClass was None for rewardId: %s.' % rewardId)
         else:
             rewardClass.sendRewardAI(av)
-
-        # Add the rewardId to the avatars rewardHistory.
-        rewardTier, rewardHistory = av.getRewardHistory()
-        transformedRewardId = Quests.transformReward(rewardId, av)
-        if transformedRewardId != rewardId:
-            rewardHistory.append(rewardId)
-
-        av.b_setRewardHistory(rewardTier, rewardHistory)
-
-    def avatarConsiderProgressTier(self, av):
-        # Get the avatars current tier.
-        currentTier = av.getRewardTier()
-
-        # Check if they have all required rewards.
-        if Quests.avatarHasAllRequiredRewards(av, currentTier):
-            if currentTier != Quests.ELDER_TIER:
-                currentTier += 1
-            av.b_setRewardHistory(currentTier, [])
 
     def tutorialQuestChoice(self, avId, npc):
         # Get the avatar.
@@ -677,11 +655,9 @@ def quests(command, arg0=0, arg1=0):
                 return 'Invalid quest or slot id'
         else:
             return 'progress needs 2 arguments.'
-    elif command == 'tier':
-        if arg0:
-            invoker.b_setRewardHistory(arg0, invoker.getRewardHistory()[1])
-            return 'Set tier to %s'%(arg0)
-        else:
-            return 'tier needs 1 argument.'
+    elif command == 'getHistory':
+        return invoker.getQuestHistory()
+    elif command == 'getQuests':
+        return invoker.getQuests()
     else:
         return 'Invalid first argument.'
