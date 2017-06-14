@@ -198,8 +198,6 @@ class QuestMap(DirectFrame):
             mapIndex = i + 1
             quest = Quests.getQuest(questDesc[0])
             toNpcId = questDesc[2]
-            if quest is None:
-                return
 
             completed = quest.getCompletionStatus(self.av, questDesc) == Quests.COMPLETE
             if not completed:
