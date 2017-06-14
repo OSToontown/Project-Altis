@@ -121,9 +121,6 @@ class TutorialManagerAI(DistributedObjectAI):
 
         def handleTutorialSkipped(av):
             av.b_setTutorialAck(1)
-            av.b_setQuests([[130, 1, 1000, 100, 1]])
-            av.b_setQuestHistory([101])
-
 
         # We must wait for the avatar to be generated:
         self.acceptOnce('generate-%d' % avId, handleTutorialSkipped)
