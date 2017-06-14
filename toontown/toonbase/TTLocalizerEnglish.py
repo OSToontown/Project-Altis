@@ -231,9 +231,9 @@ TheFish = 'the Fish'
 AFish = 'a fish'
 Level = 'Level'
 ExpBarLevel = 'Level '
-ExpGagReward = 'Congratulations on reaching level %s! You can now carry 2 additional gags.'
-ExpHPReward = 'Congratulations on reaching level %s! You have gained 1 laff point.'
-ExpMoneyReward = 'Congratulations on reaching level %s! You can now carry 500 additional jellybeans'
+ExpGagReward = 'Congratulations on reaching level %s! You can now carry 10 additional gags!'
+ExpTPReward = 'Congratulations on reaching level %s! You have gained a training point!'
+ExpMoneyReward = 'Congratulations on reaching level %s! You can now carry 500 additional jellybeans!'
 QuestsCompleteString = 'Complete'
 QuestsNotChosenString = 'Not chosen'
 Period = '.'
@@ -514,16 +514,16 @@ QuestsSmallBackpack = 'Small Backpack'
 QuestsMediumBackpack = 'Medium Backpack'
 QuestsLargeBackpack = 'Large Backpack'
 QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
- 2: ['Key', 'Keys', 'a '],
+ 2: ['Fish', 'Fish', 'a '],
  3: ['Blackboard', 'Blackboards', 'a '],
  4: ['Book', 'Books', 'a '],
  5: ['Candy Bar', 'Candy Bars', 'a '],
  6: ['Piece of Chalk', 'Pieces of Chalk', 'a '],
- 7: ['Toon-Up Gags', 'Toon-Up Gags', 'some '],
- 8: ['Note', 'Notes', 'a '],
- 9: ['Adding machine', 'Adding machines', 'an '],
- 10: ['Clown car tire', 'Clown car tires', 'a '],
- 11: ['Air pump', 'Air pumps', 'an '],
+ 7: ['Kite', 'Kites', 'a '],
+ 8: ['Tesla Coil', 'Tesla Coils', 'a '],
+ 9: ['Battery', 'Batteries', 'a '],
+ 10: ['Bottle of Vanishing Cream', 'Bottles of Vanishing Cream', 'a '],
+ 11: ['Container of Visible Ink', 'Containers of Visible Ink', 'a '],
  12: ['Octopus ink', 'Octopus inks', 'some '],
  13: ['Package', 'Package', 'a '],
  14: ['Goldfish receipt', 'Goldfish receipts', 'a '],
@@ -705,29 +705,32 @@ TheBrrrghTrackQuestDict = {GREETING: '',
 QuestDialog_3225 = {QUEST: "Oh, thanks for coming, _avName_!\x07The Cogs in the neighborhood frightened away my delivery person.\x07I don't have anyone to deliver this salad to _toNpcName_!\x07Can you do it for me? Thanks so much!_where_"}
 QuestDialog_2910 = {QUEST: 'Back so soon?\x07Great job on those Cogs.\x07Now I need one more favor.\x07Could you get some flour from _toNpcName_ for me?\x07I\'m running really low in supply of that._where_'}
 QuestDialogDict = {160: {GREETING: '',
-       QUEST: "Ok, now I think you are ready for something more rewarding.\x07If you can defeat 3 Bossbots I'll give you a little bonus.",
-       INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       QUEST: "Thanks for getting that back for us!\x07Now, each individual Cog has it's own place in line down the corporate ladder.\x07Why don't we send you to Professor Pete who will inform you about that?_where_",
+       INCOMPLETE_PROGRESS: "Did Pete have anything to say?",
+       INCOMPLETE_WRONG_NPC: "I'm not Professor Pete?_where_",
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  161: {GREETING: '',
-       QUEST: "Ok, now I think you are ready for something more rewarding.\x07Come back after you defeat 3 Lawbots and I'll have a little something for you.",
+       QUEST: "Heya, kiddo. How can I help you?\x07Ah, so you wish to learn about the corporate ladder, huh?\x07Each Cog has a spot on the ladder, rank one to eight.\x07They'll do anything they can to earn a promotion, including making toons go sad!\x07Why not show those weak rank one cogs who's boss? They won't get that promotion!\x07Go out and defeat a couple Bottom Feeders.\x07If you're having trouble finding them, check Loopy Lane.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to Professor Pete for your next step!',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  162: {GREETING: '',
-       QUEST: 'Ok, now I think you are ready for something more rewarding.\x07Defeat 3 Cashbots and come back here to claim the bounty.',
+       QUEST: "Heya, kiddo. How can I help you?\x07Ah, so you wish to learn about the corporate ladder, huh?\x07Each Cog has a spot on the ladder, rank one to eight.\x07They'll do anything they can to earn a promotion, including making toons go sad!\x07Why not show those weak rank one cogs who's boss? They won't get that promotion!\x07Go out and defeat a couple Cold Callers.\x07If you're having trouble finding them, check Punchline Place.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to Professor Pete for your next step!',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  163: {GREETING: '',
-       QUEST: "Ok, now I think you are ready for something more rewarding.\x07Come see us after you defeat 3 Sellbots and we'll hook you up.",
+       QUEST: "Heya, kiddo. How can I help you?\x07Ah, so you wish to learn about the corporate ladder, huh?\x07Each Cog has a spot on the ladder, rank one to eight.\x07They'll do anything they can to earn a promotion, including making toons go sad!\x07Why not show those weak rank one cogs who's boss? They won't get that promotion!\x07Go out and defeat a couple Short Changes.\x07If you're having trouble finding them, check Punchline Place.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
-       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
+       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to Professor Pete for your next step!',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
+ 121: {QUEST: "Another way you can earn beans is through fishings.\x07Why not go catch two fish and then return to me? Just so you get the hang of it.\x07However, you do need beans with you in order to fish."},
+ 130: {GREETING: '',
+	   QUEST: 'Great job fishing!\x07Now, return to the Toon Headquarters.'},
  164: {QUEST: 'Phew, tired yet?\x07You know... You look like you could use some new gags.\x07Go see %s, maybe he can help you out._where_' % Flippy},
  165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formally introduced myself...\x07I\'m Flippy, Mayor of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07First, I want you to start by defeating 3 Cogs.'},
  166: {QUEST: 'Nice work, citizen!\x07Now, if you haven\'t noticed yet, you get experience points each time you use a gag.\x07Please return to me once you\'ve earned 10 Throw points.\x07This should also leave you with a new throw gag!'},
@@ -748,46 +751,62 @@ QuestDialogDict = {160: {GREETING: '',
        QUEST: "Welcome, newcomer!\x07As you can tell, there are many citizens on the streets of Toontown who need help with simple or rough jobs.\x07Each job you complete for them, you will get a reward for it.\x07For me, I just want you to take out a couple of Cogs on this street.\x07Then, I will give you a second task carry slot.",
        LEAVING: '',
        COMPLETE: "See? It's not hard!\x07Here is your reward..."},
- 1039: {QUEST: 'Visit _toNpcName_ if you want to get around town more easily._where_'},
- 1040: {QUEST: 'Visit _toNpcName_ if you want to get around town more easily._where_'},
- 1041: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighborhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble.  Go visit _toNpcName_._where_'},
- 1042: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighborhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble.  Go visit _toNpcName_._where_'},
- 1043: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighborhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble.  Go visit _toNpcName_._where_'},
- 1044: {QUEST: 'Oh, thanks for stopping by.  I really need some help.\x07A bunch of Cashbots keep breaking in and stealing all my toonup gags!\x07Whenever toons call me for help, I am never able to help them out now.\x07Can you do me a favor and recover some for me?',
-        LEAVING: '',
-        INCOMPLETE_PROGRESS: 'Any luck finding my recipes?'},
- 1045: {QUEST: 'Thank you so much!\x07It won\'t be much longer before they come back in...\x07Oh, I have an idea!\x07Please deliver this note to Flippy. It\'s asking him for better protection.\x07I also asked him if he could give you your teleportation access while at it.',
-        LEAVING: '',
-        COMPLETE: 'Ah, yes. Look like your friend here needs some extra protection...\x07Says you need teleport access to ' + lToontownCentral + ' as well.\x07Well, consider it done.\x07Now you can teleport back to the playground from almost anywhere in Toontown.\x07Just open your map and click on ' + lToontownCentral + '.'},
- 1046: {QUEST: '_toNpcName_ is having a shortage of water._where_'},
- 1047: {QUEST: 'As you know, my store has an odd shortage of water.\x07I have a shipping of Bottled Cans that must be sent out with some fresh water.\x07I know!\x07Some Bottom Feeders carry around fresh Watercoolers with them to attack toons. If you could recover 4 of those, that\'d be great!',
-        LEAVING: '',
-        INCOMPLETE_PROGRESS: 'Still looking for adding machines?'},
- 1048: {QUEST: 'As you know, my store has an odd shortage of water.\x07I have a shipping of Bottled Cans that must be sent out with some fresh water.\x07I know!\x07Some Short Changes carry around fresh Watercoolers with them to attack toons. If you could recover 4 of those, that\'d be great!',
-        LEAVING: '',
-        INCOMPLETE_PROGRESS: 'Still looking for adding machines?'},
- 1049: {QUEST: "Good job collecting those Watercoolers!\x07Now you're going to think I'm crazy, but I was about to deliver these Bottled Cans until I realized there are none.\x07Plenty of Fishing Docks have littered Bottled Cans! I need just about 4.",
-        LEAVING: '',
-        INCOMPLETE_PROGRESS: 'Remember, I need 10 gears to fix the machines.'},
- 1053: {QUEST: "Thank you for the Bottled Cans.\x07However, while you were gone, a Double Talker came in here and took one of my Watercoolers!\x07Please track him and get it back!",
-        LEAVING: '',
-        COMPLETE: "Whew! I thought for a second that I was going to faint!\x07Here is your reward..."},
- 1054: {QUEST: 'The Toon Headquarters are conducting a research on the new cog department, Boardbots.\x07The first target is the Con Artist.\x07We suspect that their berets contain many secrets.\x07Please recover a Beret from the Con Artists and report back to any HQ Officer.'},
- 1055: {QUEST: "Now we'll need to look into the Top Hats owned by the Connoisseurs.\x07Please recover one of those as well.",
-        GREETING: 'Excellent work!',
-        LEAVING: 'Cheerio!',
-        INCOMPLETE_PROGRESS: 'Havin\' trouble fishing them out? Like I said, check that pond in " + lToontownCentral'},
- 1056: {QUEST: 'Finally, we wish to look into the DNA of a Swindler.\x07We\'ll need at least one Cog Gear from them in order to do that.',
-        LEAVING: '',
-        COMPLETE: 'Thanks for all your help.\x07We will definetally be able to learn more about the Boardbots because of your help.\x07Here is your reward.'},
- 1057: {QUEST: "Hi there. What can I do for you?\x07A tire pump you say? Huh.\x07I'll tell you what - clear out the street of some of those high-level Cogs...\x07And I'll let you have the pump.",
-        LEAVING: '',
-        INCOMPLETE_PROGRESS: 'Is that the best you can do?'},
- 1058: {QUEST: "Ahh!\x07I was going to return my books when suddenly, a bunch of Flunkies came in here and took all my books!\x07I would go get them myself, but I'm stuck in glue, as usual.\x07If you could recover them and return them for me, that'd be great!",
-        LEAVING: '',
-        GREETING: '',
-        COMPLETE: "Brilliant! Thanks for all your help!\x07Here is your reward."},
- 1059: {QUEST: '_toNpcName_ has some customers with overdue books._where_'},
+ 1039: {QUEST: "_toNpcName_'s patients have been feeling down in the dumps.\x07She believes that the Cogs most common on Punchline Place are the cause of this.\x07Can you go see what's up?_where_"},
+ 1040: {GREETING: 'Thanks for stopping in, _avName_',
+		QUEST: 'My patients have been coming into my office very depressed, and I think that I have finally found the cause.\x07Those Sellbots won\'t stop trying to sell them boring office supplies.\x07Why not go take defeat several of them so that they leave those toons alone?',
+		LEAVING: ''},
+ 1041: {GREETING: "Hey, you're back!",
+		QUEST: 'While you were gone, a couple patients came in saying they\'re feeling safer and happier with less Sellbots roaming.\x07However, some of them still feel like they\'ll have money protection issues with those Cashbots roaming the streets.\x07Hopefully, defeating some Cashbots will make them feel safe again.',
+		LEAVING: '',
+		COMPLETE: "I've been getting phone calls non-stop!\x07They've been saying \"This new toon that you hired is fantastic! Give them thanks for keeping us safe!\"\x07Well, they all chipped in to give you this..."},
+ 1042: {QUEST: "Is this your first time Gag Training?\x07Well, _toNpcName_ would like to explain the standards to the whole process.\x07He would also like to prepare you himself._where_"},
+ 1043: {GREETING: 'Heyo, stranger!',
+		QUEST: "Welcome to my gym!\x07Ah, so this is your first time Gag Training, huh?\x07Well, in order to get your new gag, you must earn Fifteen Gag Frames as well as the final test.\x07I'll be giving you the first Gag Frame, but you must do some training for me.\x07Start small by earning Five Throw Points through battles.",
+		LEAVING: "I'll be here once you get back, I don't go on breaks!"},
+ 1044: {GREETING: '',
+		QUEST: "Heyo, good job on those Throw Points!\x07Now, I'm gonna give you a bit of a challenge.\x07How about defeating some of them stronger Sellbots, the ones that go level three or higher?\x07I believe you can do it!",
+		LEAVING: '',
+		COMPLETE: 'Excellent work, buddy!\x07Now you have only fourteen frames left to go!'},
+ 1045: {QUEST: 'Need to carry more gags?\x07_toNpcName_ can give you access to a large gag carrying capacity._where_'},
+ 1046: {QUEST: "Do ya' ever have those issues where you're flinging a pie and then run out of 'em?\x07Don't you just wish you had enough space in your gag bag to carry more?\x07You'll see this becoming an issue as you get new gags and fight stronger cogs.\x07How about defeating a handful of cogs around here?\x07See how many times you have to go back and forth to the gag shop, I find it a waste of time!",
+		LEAVING: ''},
+ 1047: {GREETING: '',
+		QUEST: 'See?!\x07It\'s a pain to need to go back and forth for gags.\x07Well, after you defeat some of the level two cogs around here, I will give you a larger bag.\x07Why level two may you ask?\x07Well, when they\'re not level one, you may find yourself using more gags to defeat the cog, running out of them faster.',
+		LEAVING: '',
+		COMPLETE: 'Now you won\'t have to suffer going back and forth as much!',
+        INCOMPLETE_PROGRESS: 'Nah, not enough cogs.'},
+ 1048: {QUEST: 'The Lawbots don\'t seem to enjoy the kite-flying competitions that _toNpcName_ hosts._where_'},
+ 1049: {QUEST: "Whenever I host a competition for flying kites, those Lawbots steal all the kites!\x07Yesterday, four participants showed up.\x07I told them I'd have their kites later today, but I can't defeat those Lawbots!\x07Could you get those kites back for me please?",
+		LEAVING: '',
+		GREETING: '',
+		COMPLETE: "Oh my, thank you so much!\x07Here's a reward for you..."},
+ 1050: {QUEST: "_toNpcName_ needs someone to help with an interview.\x07Why don't you assist? I heard there's a big reward!_where_"},
+ 1051: {GREETING: "Hey, hey, hey!",
+		QUEST: "Have ya' ever heard of the new Zap Gags?\x07They have been recently invented with the assistance of one of Loony Lab's former scientists, _toNpcName_.\x07I asked him if I could do an interview on him down on Wacky Way and he agreed to it.\x07He REALLY wanted the interview to be about his latest Tesla Coil model, so it must be exciting!_where_",
+		LEAVING: "Good luck on that interview!"},
+ 1052: {GREETING: 'Welcome to my workshop!',
+		QUEST: "Ahh, so you're here for Fanny Page's interview?\x07I'll be glad to cooperate!\x07Let me just grab my latest Tesla Coil model, then we can get started.\x07Hmm... Oh no!\x07It's not under the desk! A Cog must've came in and stole it while I was in the laboratory!\x07That Cog shouldn't be far. Please go get it back, quickly!",
+		LEAVING: ''},
+ 1053: {GREETING: '',
+		QUEST: "Thanks for getting it ba-\x07Oh typical. That Cog must've taken out the five batteries I need for this model to work...\x07It probably gave the batteries to its nearby goonies...",
+		LEAVING: ''},
+ 1054: {GREETING: '',
+		QUEST: "There we go! Now let's get this bad boy working.\x07This here is my latest Tesla Coil model.\x07It can Zap those Cogs with a minimum of 90 damage!\x07If a Cog is soaked, then it can do a solid 180 damage.\x07It has a 35 percent chance to short-circuit the Cog, which means it'll explode instantly!\x07Be sure to train for the Zap Gag! You won't be disappointed!\x07Hopefully, _toNpcName_ will agree to publish that in the next edition of the paper...",
+		LEAVING: '',
+		COMPLETE: "Ooo, let me see this interview!\x07Mhm... mhm...\x07Very interesting! This will be going in the next release!\x07Thanks for your help. Here is your reward..."},
+ 1055: {QUEST: "Egad! Looks like _toNpcName_'s supply of vanishing cream has been drained!\x07This task also says that she has been drained as well? I wonder what that could mean..._where_"},
+ 1056: {GREETING: '',
+		QUEST: "Ahhh, you've gotta help me!\x07A bunch of Con Artists took some of my bottles of vanishing cream!\x07When I tried to fight them to get those bottles back, they just dumped one of them all over me!\x07I think they said something about using that vanishing cream to \"draw away attention from those pesky toons...\"\x07You better stop them before they use that cream for their own fun and games!",
+		LEAVING: "Where is my leg?! I can't scratch it, oh how it itches so badly!"},
+ 1057: {GREETING: '',
+		QUEST: "Thank goodness you got my supply back for me.\x07However, I still need a way out of this mess.\x07Can you check if _toNpcName_ has a visible ink container leftover?_where_",
+		LEAVING: "Great, now my neck itches! If only I could scratch it..."},
+ 1058: {QUEST: "Visible ink?\x07I just got a shipment of them, but the Cogs on this street took them for \"taxing reasons.\"\x07If you could recover my supply, I think I'll lend you one of my containers.",
+		LEAVING: ''},
+ 1059: {GREETING: '',
+		QUEST: "Well, a deal's a deal.\x07Take this container, it's on the house!",
+		LEAVING: '',
+		COMPLETE: "Yes, yes!\x07Thank you so much!\x07Let's see, \"90 percent chance of guaranteed results within 72 hours.\"\x07Three days?! Ugh, but my leg itches now!!!\x07Anyways, thanks for helping me out here.\x07Here's your reward..."},
  1060: {QUEST: "I have a couple customers that have overdue books.\x07However, these customers are always on time when turning in their books which worries me a little bit.\x07I want you to check on _toNpcName_ first._where_",
         LEAVING: '',
         INCOMPLETE_PROGRESS: 'Are you having trouble fishing?'},
@@ -4280,7 +4299,6 @@ MusicDdNbrhood = "Donald's Dock"
 MusicGsKartshop = 'Mr. Goofywrench'
 MusicDdSzActivity = 'Sea Shanty'
 MusicEncntrGeneralBgIndoor = 'Building Excitement'
-MusicBrain = "O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A- JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA"
 MusicTakeOnMe = "Take on meeeee! (Take me on) Take me onnnnn! (Take on me) I'll be gone in a day or TWOOOOOOOOOOOOOOOOO!"
 MusicTtElevator = 'Going Up?'
 MusicEncntrToonWinningIndoor = 'Toons Unite!'
@@ -4673,11 +4691,7 @@ CdrResultTrunkFull = 'Your trunk is full. Please remove an item, then enter your
 InsomniaReusableCodes = 'If you are using an Insomnia 60 code, keep it! You can reuse the code when beta comes along!'
 TrackPageTitle = 'Gag Track Training'
 TrackPageShortTitle = 'Gag Training'
-TrackPageSubtitle = 'Complete ToonTasks to learn how to use new gags!'
-TrackPageTraining = 'You are training to use %s gags.\nWhen you complete all 16 tasks you\nwill be able to use %s gags in battle.'
-TrackPageClear = 'You are not training any Gag Tracks now.'
-TrackPageFilmTitle = '%s\nTraining\nFilm'
-TrackPageDone = 'FIN'
+TrackPageSubtitle = 'Training Points:'
 QuestPageToonTasks = 'ToonTasks'
 QuestPageChoose = 'Choose'
 QuestPageLocked = 'Locked'
@@ -4873,10 +4887,10 @@ InventoryLevelsShow = 'SHOW LEVELS'
 InventoryLevelsHide = 'HIDE LEVELS'
 InventoryClickToAttack = 'Click a\ngag to\nattack'
 InventoryDamageBonus = '(+%d)'
-NPCForceAcknowledgeMessage = "You must ride the trolley before leaving.\n\n\n\n\n\n\n\n\nYou can find the trolley next to Goofy's Gag Shop."
+NPCForceAcknowledgeMessage = "You must visit the bank before leaving.\n\n\n\n\n\n\n\n\nYou can find the bank next to Goofy's Gag Shop."
 NPCForceAcknowledgeMessage2 = 'You must return to Toon Headquarters before leaving.\n\n\n\n\n\n\n\n\n\nToon Headquarters is located near the center of the playground.'
-NPCForceAcknowledgeMessage3 = "Remember to ride the trolley.\n\n\n\n\n\n\n\nYou can find the trolley next to Goofy's Gag Shop."
-NPCForceAcknowledgeMessage4 = 'Congratulations!  You found and rode the trolley!\n\n\n\n\n\n\n\n\n\nNow report back to Toon Headquarters.'
+NPCForceAcknowledgeMessage3 = "Remember to visit Banker Bob.\n\n\n\n\n\n\n\nYou can find the bank next to Goofy's Gag Shop."
+NPCForceAcknowledgeMessage4 = 'Looks like you found Banker Bob! Great work!\n\n\n\n\n\n\n\n\n\nNow report back to Toon Headquarters.'
 NPCForceAcknowledgeMessage5 = "Don't forget your ToonTask!\n\n\n\n\n\n\n\n\n\n\nYou can find Cogs to defeat on the other side of tunnels like this."
 NPCForceAcknowledgeMessage6 = 'Great job defeating those Cogs!\n\n\n\n\n\n\n\n\nHead back to Toon Headquarters as soon as possible.'
 NPCForceAcknowledgeMessage7 = "Don't forget to make a friend!\n\n\n\n\n\n\nClick on another player and use the New Friend button."
@@ -5662,10 +5676,10 @@ QuestScript110_4 = "The map shows where you've been."
 QuestScript110_5 = 'Turn the page to see your gags...'
 QuestScript110_6 = 'Uh oh! You have no gags! I will assign you a task.'
 QuestScript110_7 = 'Turn the page to see your tasks.'
-QuestScript110_8 = 'Take a ride on the trolley, and earn jelly beans to buy gags!'
-QuestScript110_9 = 'To get to the trolley, go out the door behind me and head for the playground.'
-QuestScript110_10 = 'Now, close the book and find the trolley!'
-QuestScript110_11 = 'Return to Toon HQ when you are done. Bye!'
+QuestScript110_8 = 'You\'ll need a way to get beans.'
+QuestScript110_9 = 'Luckily, Banker Bob knows a thing or two on how to earn some!'
+QuestScript110_10 = 'Now, close the book and find the bank!'
+QuestScript110_11 = 'When Bob is finished with you, please return to the Toon HQ.'
 
 QuestScriptTutorialBlocker_1 = 'Why, hello there!'
 QuestScriptTutorialBlocker_2 = 'Hello?'
@@ -5685,17 +5699,17 @@ QuestScriptGagShop_6 = "When you're done buying gags, click this button to retur
 QuestScriptGagShop_7 = 'Normally you can use this button to play another Trolley Game...'
 QuestScriptGagShop_8 = "...but there's no time for another game right now. You're needed in Toon HQ!"
 
-QuestScript120_1 = "Good job finding the trolley!\x07By the way, have you met Banker Bob?\x07He has quite a sweet tooth.\x07Why don't you introduce yourself by taking him this candy bar as a gift."
-QuestScript120_2 = 'Banker Bob is over in the Toontown Bank.'
+QuestScript120_1 = "Ah, yes. You need to earn beans, don't you?\x07One way toons can earn their beans is through riding the trolley."
+QuestScript120_2 = 'Once you ride the trolley, please return to me.\x07You should have enough beans to purchase more gags once you\'re done.'
 
-QuestScript121_1 = "Yum, thank you for the Candy Bar.\x07Say, if you can help me, I'll give you a reward.\x07Those Cogs stole the keys to my safe. Defeat Cogs to find a stolen key.\x07When you find a key, bring it back to me."
+QuestScript121_1 = "Another way you can earn beans is through fishings.\x07Why not go catch two fish and then return to me? Just so you get the hang of it.\x07However, you do need beans with you in order to fish."
 
-QuestScript130_1 = 'Good job finding the trolley!\x07By the way, I received a package for Professor Pete today.\x07It must be his new chalk he ordered.\x07Can you please take it to him?\x07He is over in the school house.'
+QuestScript130_1 = 'Great job fishing!\x07Now, return to the Toon Headquarters.'
 QuestScript131_1 = 'Oh, thanks for the chalk.\x07What?!?\x07Those Cogs stole my blackboard. Defeat Cogs to find my stolen blackboard.\x07When you find it, bring it back to me.'
 
 QuestScript140_1 = 'Good job finding the trolley!\x07By the way, I have this friend, Librarian Larry, who is quite a book worm.\x07I picked this book up for him last time I was over in ' + lDonaldsDock + '.\x07Could you take it over to him, he is usually in the Library.'
 QuestScript141_1 = 'Oh, yes, this book almost completes my collection.\x07Let me see...\x07Uh oh...\x07Now where did I put my glasses?\x07I had them just before those Cogs took over my building.\x07Defeat Cogs to find my stolen glasses.\x07When you find them, bring them back to me for a reward.'
-QuestScript145_1 = 'I see you had no problem with the trolley!\x07Listen, the Cogs have stolen our blackboard eraser.\x07Go into the streets and fight Cogs until you recover the eraser.\x07To reach the streets go through one of the tunnels like this:'
+QuestScript145_1 = 'I see you had no problem with Bob!\x07Listen, the Cogs have stolen our blackboard eraser.\x07Go into the streets and fight Cogs until you recover the eraser.\x07To reach the streets go through one of the tunnels like this:'
 QuestScript145_2 = "When you find our eraser, bring it back here.\x07Don't forget, if you need gags, ride the trolley.\x07Also, if you need to recover Laff points, collect ice cream cones in the Playground."
 
 QuestScript150_1 = 'Great work!\x07Toontown is more fun when you have friends!'
@@ -7160,6 +7174,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  2223: 'Sasha Sidesplitter',
  2224: 'Smokey Joe',
  2225: 'Droopy',
+ 2226: 'Inky Ivon',
  2301: 'Dr. Pulyurleg',
  2302: 'Professor Wiggle',
  2303: 'Nurse Nancy',
@@ -7294,7 +7309,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  1330: 'Porter Hole',
  1331: 'Rudy Rudder',
  1332: 'Shane',
- 1400: 'Darwin',
+ 1400: 'Edgar Allen Pole',
  1401: 'Sir C. Saw',
  1402: 'Helpful Hurley',
  1403: 'Chef Shea',
@@ -7992,7 +8007,7 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  1833: ('This Transom Man Custom Tailored Suits', ''),
  1834: ('Rudderly Ridiculous!', ''),
  1835: ('', ''),
- 1903: ("Darwin's Fishing Rods", ''),
+ 1903: ("Poetic Fishing Rods", ''),
  1904: ('Seaside Seasaws', ''),
  1905: ('I See Seafood', ''),
  1906: ('School of Fish Tutoring', ''),

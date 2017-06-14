@@ -160,7 +160,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                pass
             else:
                 level = suit['level']
-                toonExp += int(level * 2.5)
+                toonExp += int(level * 5)
         currToonExp = toon.getToonExp()
         toon.b_setToonExp(currToonExp + toonExp)
         toon.b_setExperience(toon.experience.makeNetString())

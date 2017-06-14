@@ -29,3 +29,9 @@ class DDHood(ToonHood):
         ToonHood.load(self)
 
         self.fog = Fog('DDFog')
+        base.setBackgroundColor(Vec4(0.4, 0.588, 1, 1))
+		
+    def unload(self):
+        ToonHood.unload(self)
+		
+        base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)

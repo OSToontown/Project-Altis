@@ -29,33 +29,41 @@ class DMenuCredits:
 Dubito | Director
 Bethy / Limey Mouse | Director
 Remot | Internal Staff Manager
-Smirky Bumberpop | External Community Manager
+Royko | External Community Manager
 Loopy Goopy Googlenerd | Content Director
-Judge | Investor
-Drew | Technical Team Lead
 
 \1orangeText\1Technical Team\2
 Sir Tubby Cheezyfish | Lead Game Developer
 Barks | Game Developer
 Dan | Game Developer
-Malverde | Game Developer
 Alice | Web Developer
 Jakebooy | Web Developer
+Ben | Launcher Developer
+Judge2020 | Launcher Developer
+Xanon | Web Developer
 
 \1orangeText\1Creative Team\2
 Bethy / Limey Mouse | Lead Artist
 Old Geezer | Modeller | Composer
+Polygon | Modeller
 Maddie | Texture Artist
 VoidPoro | Texture Artist
 Pascal | Modeller
 
+\1orangeText\1Moderation Team\2
+Dr. Sovietoon
+TheTabKey
+Kryptic Kaleidoscope
+The Professional
+
 \1orangeText\1Contributors\2
 Dank Mickey | Former Developer | Boardbot Development
 Josh Zimmer | Former Developer
-Xanon | Former Developer
 SkippsDev | Former Developer
 Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
 Aura | Pick-A-Toon Concept / Inspiration
+Smirky Bumberpop | Former External Community Manager
+Malverde | Former Developer | Various playground redesigns
 
 \1orangeText\1Special thanks to\2
 Toontown Infinite | Various Resources
@@ -85,7 +93,7 @@ Toontown Rewritten | Reviving the spirit of Toontown
         LerpColorScaleInterval(self.screenCover, 1, Vec4(1, 1, 1, 1), startColorScale = Vec4(1, 1, 1, 0)),
         LerpColorScaleInterval(self.text, 1, Vec4(1, 1, 1, 1), startColorScale = Vec4(1, 1, 1, 0)),
         Wait(1),
-        self.text.posInterval(25, Point3(0, 0, 6)),
+        self.text.posInterval(35, Point3(0, 0, 6)),
         Wait(1),
         LerpColorScaleInterval(self.screenCover, 1, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, 1)),
         Func(self.removeCredits)

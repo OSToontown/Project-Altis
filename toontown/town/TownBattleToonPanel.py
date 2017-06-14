@@ -112,7 +112,7 @@ class TownBattleToonPanel(DirectFrame):
         elif track == BattleBase.FIRE:
             self.fireText.show()
             self.whichText.show()
-            self.whichText['text'] = self.determineWhichText(numTargets, targetIndex, localNum, index)
+            self.whichText['text'] = self.determineWhichText(numTargets, targetIndex, localNum, index, track)
         elif track == BattleBase.SOS or track == BattleBase.NPCSOS or track == BattleBase.PETSOS:
             self.sosText.show()
         elif track >= MIN_TRACK_INDEX and track <= MAX_TRACK_INDEX:
@@ -126,7 +126,7 @@ class TownBattleToonPanel(DirectFrame):
             self.hasGag = 1
             if numTargets is not None and targetIndex is not None and localNum is not None:
                 self.whichText.show()
-                self.whichText['text'] = self.determineWhichText(numTargets, targetIndex, localNum, index)
+                self.whichText['text'] = self.determineWhichText(numTargets, targetIndex, localNum, index, track)
                 self.roundsText.setPos(0.16, 0, -0.07)
                 self.roundsText['text_scale'] = 0.045
             elif track == LURE_TRACK:
@@ -150,21 +150,28 @@ class TownBattleToonPanel(DirectFrame):
         else:
             self.notify.error('Bad track value: %s' % track)
 
-    def determineWhichText(self, numTargets, targetIndex, localNum, index):
+    def determineWhichText(self, numTargets, targetIndex, localNum, index, track):
         returnStr = ''
         targetList = range(numTargets)
         targetList.reverse()
+        try:
+            if self.avatar.trackBonusLevel[track] == 1:
+                marker = '*'
+            else:
+                marker = 'X'
+        except:
+            marker = 'X'
         for i in targetList:
             if targetIndex == -1:
-                returnStr += 'X'
+                returnStr += marker
             elif targetIndex == -2:
                 if i == index:
                     returnStr += '-'
                 else:
-                    returnStr += 'X'
+                    returnStr += marker
             elif targetIndex >= 0 and targetIndex <= 3:
                 if i == targetIndex:
-                    returnStr += 'X'
+                    returnStr += marker
                 else:
                     returnStr += '-'
             else:

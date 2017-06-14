@@ -49,6 +49,7 @@ dclass Account {
   string ACCOUNT_ID db;
   uint16 ACCESS_LEVEL db;
   uint32 MONEY db;
+  bool TYPE_CHAT_ALLOWED db;
 };
 
 struct BarrierData {
@@ -619,6 +620,7 @@ from toontown.toon import DistributedNPCPartyPerson/AI
 from toontown.toon import DistributedNPCPetclerk/AI
 from toontown.toon import DistributedNPCKartClerk/AI
 from toontown.toon import DistributedNPCLoopyG/AI
+from toontown.toon import DistributedNPCInvisible/AI
 from toontown.building import DistributedKnockKnockDoor/AI
 from toontown.building import DistributedElevator/AI
 from toontown.building import DistributedElevatorFSM/AI
@@ -969,7 +971,7 @@ dclass DistributedToon : DistributedPlayer {
   setGM(uint16 = 0) required broadcast ownrecv db;
   setMoney(int16 = 0) required ownrecv db;
   setMaxBankMoney(int32 maxMoney = 15000) required broadcast ownrecv db;
-  setMaxMoney(int16 maxMoney = 40) required broadcast ownrecv db;
+  setMaxMoney(int16 maxMoney = 500) required broadcast ownrecv db;
   setBankMoney(int32 money = 0) required ownrecv db;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
   setHp(int16 = 15) required broadcast ownrecv db;
@@ -1055,15 +1057,13 @@ dclass DistributedToon : DistributedPlayer {
   setCogParts(uint32[] = [0 * 5]) required broadcast ownrecv db;
   setCogMerits(uint16[] = [0 * 5]) required ownrecv db;
   setPromotionStatus(uint8[] = [0 * 5]) required broadcast ownrecv db;
-  requestPromotion(uint8) ownsend airecv;
   setCogIndex(int8) broadcast ram;
   setDisguisePageFlag(int8) ownrecv;
   setSosPageFlag(int8) ownrecv;
   setHouseId(uint32 = 0) required ownrecv db;
   setQuests(uint32[] = []) required broadcast ownrecv db;
   setQuestHistory(uint16[] = []) required ownrecv db;
-  setRewardHistory(uint8 = 0, uint16[] = [100]) required ownrecv db;
-  setQuestCarryLimit(uint8 = 1) required ownrecv db;
+  setQuestCarryLimit(uint8 = 4) required ownrecv db;
   requestDeleteQuest(uint32[]) ownsend airecv;
   setCheesyEffect(int16 = 0, uint32 = 0, uint32 = 0) required broadcast ownrecv db;
   setCheesyEffects(int16[] = [0]) required broadcast ownrecv db;
@@ -1171,6 +1171,9 @@ dclass DistributedToon : DistributedPlayer {
   setStats(uint32[] = [0*11]) required ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
   setRedeemedCodes(string [] = []) required ownrecv db;
+  setTrainingPoints(uint8 = 0) required ownrecv db;
+  setSpentTrainingPoints(uint8[] = [0, 0, 0, 0, 2, 2, 0, 0]) required ownrecv db;
+  requestSkillSpend(uint8) ownsend airecv;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -2415,11 +2418,7 @@ dclass DistributedNPCToon : DistributedNPCToonBase {
   chooseTrack(int8) airecv clsend;
 };
 
-dclass DistributedNPCHQOfficer : DistributedNPCToonBase {
-  setMovie(uint8, uint32, uint32, uint16[], int16) broadcast ram;
-  setMovieDone() airecv clsend;
-  chooseQuest(uint16) airecv clsend;
-  chooseTrack(int8) airecv clsend;
+dclass DistributedNPCHQOfficer : DistributedNPCToon {
 };
 
 dclass DistributedNPCSpecialQuestGiver : DistributedNPCToonBase {
@@ -2478,6 +2477,9 @@ dclass DistributedNPCKartClerk : DistributedNPCToonBase {
 };
 
 dclass DistributedNPCLoopyG : DistributedNPCToon {
+};
+
+dclass DistributedNPCInvisible : DistributedNPCToon{
 };
 
 dclass DistributedKnockKnockDoor : DistributedAnimatedProp {

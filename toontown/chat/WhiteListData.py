@@ -25014,6 +25014,7 @@ WHITELIST = [
     'objects',
     'obligate',
     'obligation',
+    'obligatory',
     'obnoxious',
     'obnoxiously',
     'obrigado',
