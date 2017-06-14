@@ -2525,7 +2525,7 @@ RewardTierZeroQuests = ()
 PreClarabelleQuestIds = NoRewardTierZeroQuests + RewardTierZeroQuests
 '''
 FORMAT:
-Index 0: Required quests, goes by FINAL QUEST IN CHAIN, so if you have a 3 part task chain, 1>2>3, put 3 in here, that is the one that gets recorded.
+Index 0: Required quests, goes by FIRST QUEST IN CHAIN, so if you have a 3 part task chain, 1>2>3, put 1 in here, that is the one that gets recorded.
 Index 1: Start or Cont goes here, Start indicates first task in chain
 Index 2: The Quest class, simple stuff
 Index 3: Starting NPC, used to determine who is going where

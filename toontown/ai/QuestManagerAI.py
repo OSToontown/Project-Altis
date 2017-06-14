@@ -655,5 +655,9 @@ def quests(command, arg0=0, arg1=0):
                 return 'Invalid quest or slot id'
         else:
             return 'progress needs 2 arguments.'
+    elif command == 'getHistory':
+        return invoker.getQuestHistory()
+    elif command == 'getQuests':
+        return invoker.getQuests()
     else:
         return 'Invalid first argument.'
