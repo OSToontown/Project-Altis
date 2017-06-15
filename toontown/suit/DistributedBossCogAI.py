@@ -10,6 +10,7 @@ from toontown.building import SuitPlannerInteriorAI
 from toontown.battle import BattleBase
 from pandac.PandaModules import *
 from toontown.suit import SuitDNA
+import math
 
 AllBossCogs = []
 
@@ -362,6 +363,19 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
                 self.toonOrigMerits[avId] = toon.cogMerits[:]
 
         self.divideToons()
+		
+    def getToonDifficulty(self):
+        totalCogSuitTier = 0
+        totalToons = 0
+
+        for toonId in self.involvedToons:
+            toon = simbase.air.doId2do.get(toonId)
+            if toon:
+                totalToons += 1
+                totalCogSuitTier += toon.cogTypes[self.deptIndex]
+
+        averageTier = math.floor(totalCogSuitTier / totalToons) + 1
+        return int(averageTier)
 
     def initializeBattles(self, battleNumber, bossCogPosHpr):
         self.resetBattles()
@@ -464,6 +478,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         planner = SuitPlannerInteriorAI.SuitPlannerInteriorAI(1, buildingCode, dept, self.zoneId)
         planner.respectInvasions = 0
         suits = planner.genFloorSuits(0)
+
         if skelecog:
             for suit in suits['activeSuits']:
                 wantSkelecog = 1

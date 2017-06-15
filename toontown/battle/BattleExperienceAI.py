@@ -164,6 +164,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                 level = suit['level']
                 if suit['isElite']:
                     mult = 5
+                    toon.addMoney(level*5)
                 else:
                     mult = 2.5
                 toonExp += int(level * mult)
