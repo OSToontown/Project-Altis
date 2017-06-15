@@ -2540,9 +2540,9 @@ Index 9: Amount of JBs rewarded from completion of quest, this MUST BE DECLARED 
 QuestDict = {
  164: ([], Start, (VisitQuest,), 2003, 2001, NA, 165, TTLocalizer.QuestDialogDict[164], 40, 5),
  165: ([], Cont, (CogQuest, Anywhere, 3, Any), 2001, 2003, 0, NA, TTLocalizer.QuestDialogDict[165], 40, 5),
- 166: (TT_TIER, Start, (VisitQuest,), 2111, 2410, NA, 167, TTLocalizer.QuestDialogDict[166], 40, 5),
- 167: (TT_TIER, Cont, (RecoverItemQuest, 2000, 7016, 25, Any,), 2410, 2410, NA, 168, TTLocalizer.QuestDialogDict[167], 50, 0),
- 168: (TT_TIER, Cont, (DeliverItemQuest, 7016), 2410, 2111, NA, TTLocalizer.QuestDialogDict[168], 75, 10)
+ 166: ([], Start, (VisitQuest,), 2111, 2410, NA, 167, TTLocalizer.QuestDialogDict[166], 75, 10),
+ 167: ([], Cont, (RecoverItemQuest, 2000, 7016, 25, Any), 2410, 2410, NA, 168, TTLocalizer.QuestDialogDict[167], 75, 10),
+ 168: ([], Cont, (DeliverItemQuest, 7016), 2410, 2111, 0, NA, TTLocalizer.QuestDialogDict[168], 75, 10)
 }
 
 Quest2RewardDict = {}
