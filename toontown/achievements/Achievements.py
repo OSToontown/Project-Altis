@@ -72,6 +72,11 @@ class DisguiseAchievement:
 
     def hasComplete(self, dept):
         return 1
+		
+class GagTrackAchievement:
+
+    def hasComplete(self, track):
+        return 1
 
 AchievementsDict = (FriendAchievement(neededFriends = 1),
                     FriendAchievement(neededFriends = 10),
@@ -84,14 +89,21 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     LoopysBallsAchievement(),
                     VPAchievement(times = 1),
                     VPAchievement(times = 10),
-                    DisguiseAchievement(dept = 's'))
+                    DisguiseAchievement(dept = 's'),
+                    GagTrackAchievement(track = 0),
+                    GagTrackAchievement(track = 1),
+                    GagTrackAchievement(track = 2),
+                    GagTrackAchievement(track = 3),
+                    GagTrackAchievement(track = 6),
+                    GagTrackAchievement(track = 7))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
                        TrolleyAchievement: [7],
                        LoopysBallsAchievement: [8],
                        VPAchievement: [9, 10],
-                       DisguiseAchievement: [11]}
+                       DisguiseAchievement: [11],
+                       GagTrackAchievement: [12, 13, 14, 15, 16, 17]}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)

@@ -39,3 +39,7 @@ class AchievementsManagerAI():
             if not achievementId in av.getAchievements():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av):
                     av.addAchievement(achievementId)
+					
+    def gagTrack(self, av, track)
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.GagTrackAchievement)

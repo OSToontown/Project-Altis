@@ -1828,8 +1828,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setCheesyEffect(ce)
         
     def b_setTrackAccess(self, trackArray):
+        oldAccess = self.getTrackAccess()
         self.setTrackAccess(trackArray)
         self.d_setTrackAccess(trackArray)
+        newAccess = self.getTrackAccess()
+        for track in oldAccess:
+            if newAccess[track] == 1 and oldAccess[track] == 0:
+                simbase.air.achievementsManager(self.doId, track)
 
     def d_setTrackAccess(self, trackArray):
         self.sendUpdate('setTrackAccess', [trackArray])

@@ -29,7 +29,10 @@ class AchievementGui:
                 self.frameSequence()
     
     def displayAchievement(self):
-        currentAchievement = AchievementsGlobals.AchievementImages[self.currentShowingAward]
+        try:
+            currentAchievement = AchievementsGlobals.AchievementImages[self.currentShowingAward]
+        except:
+            currentAchievement = 'phase_3/maps/achievements/ttpa_achievement_unknown.png'
         experience = AchievementsGlobals.AchievementExperience[self.currentShowingAward]
         
         self.frame = OnscreenImage(image='phase_3/maps/achievements/ttpa_achievement_background.png', scale=(0.5, 1, 0.5), parent=base.a2dBottomCenter,

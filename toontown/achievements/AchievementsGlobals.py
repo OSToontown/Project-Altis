@@ -9,7 +9,13 @@ AchievementTitles = ("Make a friend",
                      "Visit Loopy's Balls",
                      "Defeat the VP",
                      "Defeat 10 VPs",
-                     "Reach level 50 Sellbot Suit")
+                     "Reach level 50 Sellbot Suit",
+                     "Unlock the TOON-UP gag track.",
+                     "Unlock the TRAP gag track.",
+                     "Unlock the LURE gag track.",
+                     "Unlock the SOUND gag track.",
+                     "Unlock the ZAP gag track.",
+                     "Unlock the DROP gag track.")
 
 AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.png'), # 1 friend
                      ('phase_3/maps/achievements/ttpa_achievement_makefriend_10.png'), # 10 friends
@@ -22,7 +28,13 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_loopysballs.png'), # loopys balls
                      ('phase_3/maps/achievements/ttpa_achievement_vp_1.png'), # vp 1
                      ('phase_3/maps/achievements/ttpa_achievement_vp_10.png'), # vp 10
-                     ('phase_3/maps/achievements/ttpa_achievement_vp_max.png')) # sellbot suit max
+                     ('phase_3/maps/achievements/ttpa_achievement_vp_max.png'), # sellbot suit max
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_toonup.png'), # unlock toonup
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_trap.png'), # unlock trap
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_lure.png'), # unlock lure
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_sound.png'), # unlock sound
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_zap.png'), # unlock zap
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop.png'), # unlock drop
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -35,4 +47,10 @@ AchievementExperience = (10, # 1 friend
                          10, # loopys balls
                          100, # vp 1
                          1000, # vp 10
-                         3000) # sellbot suit max
+                         3000, # sellbot suit max
+                         250, # unlock toonup
+                         250, # unlock trap
+                         250, # unlock lure
+                         250, # unlock sound
+                         250, # unlock zap
+                         250) # unlock drop
