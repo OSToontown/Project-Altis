@@ -2837,12 +2837,22 @@ def transformReward(baseRewardId, av):
 
 
 def chooseBestQuests(currentNpc, av):
+    currentQuests = av.quests
     completedQuests = av.getQuestHistory()
+    completedIds = []
+    currentIds = []
+    for entry in completedQuests:
+        completedIds.append(entry)
+    for entry in currentQuests:
+        currentIds.append(getFirstQuestIdInChain(entry[0]))
     bestQuests = []
     for questId in QuestDict.keys():
         questEntry = QuestDict.get(questId)
         if questEntry[QuestDictFromNpcIndex] == currentNpc.npcId:
-            if not questId in av.getQuestHistory():
+            if questId not in completedIds + currentIds:
+                # Filter out any mid-quests
+                if questEntry[QuestDictStartIndex] != Start:
+                    continue
                 bestQuestToNpcId = getQuestToNpcId(questId)
                 if bestQuestToNpcId == Any:
                     bestQuestToNpcId = 2003
@@ -2860,6 +2870,16 @@ def chooseBestQuests(currentNpc, av):
             continue
 
     return bestQuests
+	
+def getFirstQuestIdInChain(questId):
+    while True:
+        questEntry = QuestDict.get(questId)
+        if questEntry[QuestDictStartIndex] != Start:
+            # This isn't a starting quest, so subtract one and check THAT quest
+            questId -= 1
+        else:
+            # This IS a starting quest, return this quest id!
+            return questId
 
 
 def questExists(id):

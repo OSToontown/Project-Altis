@@ -92,15 +92,11 @@ class QuestManagerAI:
                 if choices != []:
                     for choice in choices:
                         questClass = Quests.QuestDict.get(choice[0])
-                        try:
-                            # Until we convert all quests to new format, or script new ones, this will have to be here to prevent crashes
-                            for required in questClass[0]:
-                                if required not in av.getQuestHistory():
-                                    choices.remove(choice)
-                                else:
-                                    continue
-                        except:
-                            choices = choices
+                        for required in questClass[0]:
+                            if required not in av.getQuestHistory():
+                                choices.remove(choice)
+                            else:
+                                continue
                     npc.presentQuestChoice(avId, choices)
                 else:
                     npc.rejectAvatar(avId)
