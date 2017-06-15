@@ -19,6 +19,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.dna = SuitDNA.SuitDNA()
         self.virtual = 0
         self.waiter = 0
+        self.isElite = 0
         self.skeleRevives = 0
         self.maxSkeleRevives = 0
         self.reviveFlag = 0
@@ -59,6 +60,21 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
 
     def d_setLevelDist(self, level):
         self.sendUpdate('setLevelDist', [level])
+		
+    def b_setElite(self, flag):
+        self.setElite(flag)
+        self.d_setElite(flag)
+
+    def d_setElite(self, flag):
+        self.sendUpdate('setElite', [flag])
+
+    def setElite(self, flag):
+        self.isElite = flag
+        self.maxHP = int(self.maxHP * 1.5)
+        self.currHP = int(self.currHP * 1.5)
+
+    def getElite(self):
+        return self.isElite
 
     def setupSuitDNA(self, level, type, track):
         dna = SuitDNA.SuitDNA()
