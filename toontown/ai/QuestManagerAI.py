@@ -15,10 +15,10 @@ class QuestManagerAI:
 
     def __init__(self, air):
         self.air = air
-		
+
     def __toonQuestsList2Quests(self, quests):
         return [Quests.getQuest(x[0]) for x in quests]
-		
+
     def __incrementQuestProgress(self, quest):
         """
         Increment the supplied quest's progress by 1.
@@ -118,7 +118,7 @@ class QuestManagerAI:
         av = self.air.doId2do.get(avId)
         if not av:
             return
-			
+
         if len(av.quests) > av.getQuestCarryLimit():
             return
 
@@ -203,7 +203,7 @@ class QuestManagerAI:
                     av.b_setToonExp(av.getToonExp() + questExp)
                 if questMoney != 0:
                     av.addMoney(questMoney)
-                
+
                 break
 
     def giveReward(self, av, questId, rewardId):
@@ -406,11 +406,11 @@ class QuestManagerAI:
                             if questClass.doesBuildingCount(av, activeToons):
                                 if floors >= questClass.getNumFloors():
                                     questDesc[QuestProgressIndex] += 1
-            
+
             questList.append(questDesc)
 
         av.b_setQuests(questList)
-		
+
     def toonKilledCogdo(self, av, type, difficulty, zoneId, activeToons):
         self.notify.debug("toonKilledCogdo(%s, '%s', %s, %d, %s)" % (str(av), type, str(difficulty), zoneId, str(activeToons)))
         # Get the avatars current quests.
@@ -431,7 +431,7 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
-		
+
     def toonCollectedExp(self, av, expArray):
         # Get the avatars current quests.
         avQuests = av.getQuests()
@@ -493,7 +493,7 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
-		
+
     def toonDefeatedCountryClub(self, av, clubId, activeVictors):
         # Get the avatars current quests.
         avQuests = av.getQuests()
@@ -507,7 +507,7 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
-		
+
     def toonDefeatedBoardOffice(self, av, clubId, activeVictors):
         '''# Get the avatars current quests.
         avQuests = av.getQuests()
