@@ -341,6 +341,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         # Not sure if i sohuld really code it in here, but fuck it
         if newZoneId == 2741: # Loopy's balls
             self.air.achievementsManager.loopysBalls(self.doId)
+        self.air.achievementsManager.zone(self.doId, ZoneUtil.getHoodId(newZoneId))
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         if simbase.wantPets:
@@ -1828,13 +1829,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setCheesyEffect(ce)
         
     def b_setTrackAccess(self, trackArray):
-        oldAccess = self.getTrackAccess()
         self.setTrackAccess(trackArray)
         self.d_setTrackAccess(trackArray)
-        newAccess = self.getTrackAccess()
-        for track in oldAccess:
-            if newAccess[track] == 1 and oldAccess[track] == 0:
-                simbase.air.achievementsManager(self.doId, track)
 
     def d_setTrackAccess(self, trackArray):
         self.sendUpdate('setTrackAccess', [trackArray])
@@ -1848,6 +1844,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def addTrackAccess(self, track):
         self.trackArray[track] = 1
         self.b_setTrackAccess(self.trackArray)
+        simbase.air.achievementsManager.gagTrack(self.doId, track)
 
     def removeTrackAccess(self, track):
         self.trackArray[track] = 0
@@ -4766,8 +4763,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 pointsAvailable -= 1
             for i in xrange(8): # Go through all tracks and recalculate
                 if pointsSpent[i] >= 2:
-                    trackArray[i] = 1
-            self.b_setTrackAccess(trackArray)
+                    self.addTrackAccess(i)
             self.b_setSpentTrainingPoints(pointsSpent)
             self.b_setTrainingPoints(pointsAvailable)
         else:

@@ -113,26 +113,31 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
 
         start_pos = LVecBase3(.4, 1, -0.26)
         seperation = LVecBase3(0, 0, 0.7)
+		
+        # I have to refactor all this crap, drew made it sooooo rigid
 
         for achievement in xrange(len(AchievementsGlobals.AchievementTitles)):
-            achievementFrame = DirectFrame(parent = self.achievementsPageNode, image = DGG.getDefaultDialogGeom(), scale = (0.25, 0, 0.25),
-                                           relief = None, pos = (POSITIONS[achievement]),
-                                           text = AchievementsGlobals.AchievementTitles[achievement], text_scale = (.08),
-                                           text_font = ToontownGlobals.getMinnieFont(), text_wordwrap = 10, text_pos = (0, 0, 0))
+            try:
+                achievementFrame = DirectFrame(parent = self.achievementsPageNode, image = DGG.getDefaultDialogGeom(), scale = (0.25, 0, 0.25),
+                                               relief = None, pos = (POSITIONS[achievement]),
+                                               text = AchievementsGlobals.AchievementTitles[achievement], text_scale = (.08),
+                                               text_font = ToontownGlobals.getMinnieFont(), text_wordwrap = 10, text_pos = (0, 0, 0))
 
-            self.achievements.append(achievementFrame)
+                self.achievements.append(achievementFrame)
 
-            if achievement in  self.avAchievements:
-                achievementFrame['text'] = AchievementsGlobals.AchievementTitles[achievement]
-                achievementFrame['text_pos'] = (0, .4, 0)
+                if achievement in  self.avAchievements:
+                    achievementFrame['text'] = AchievementsGlobals.AchievementTitles[achievement]
+                    achievementFrame['text_pos'] = (0, .4, 0)
 
-                currentAchievement = AchievementsGlobals.AchievementImages[achievement]
+                    currentAchievement = AchievementsGlobals.AchievementImages[achievement]
 
-                img = OnscreenImage(image = currentAchievement, parent = achievementFrame, scale = (.2, 1, .2))
-                img.setTransparency(TransparencyAttrib.MAlpha)
-                experience = OnscreenText(parent = achievementFrame, text = str(AchievementsGlobals.AchievementExperience[achievement]) + " experience", scale = (.08), font = ToontownGlobals.getMinnieFont(), fg = (.2, .8, .2, 1), pos = (0, -.4))
-            else:
-                achievementFrame['text'] = 'Achievement locked'
+                    img = OnscreenImage(image = currentAchievement, parent = achievementFrame, scale = (.2, 1, .2))
+                    img.setTransparency(TransparencyAttrib.MAlpha)
+                    experience = OnscreenText(parent = achievementFrame, text = str(AchievementsGlobals.AchievementExperience[achievement]) + " experience", scale = (.08), font = ToontownGlobals.getMinnieFont(), fg = (.2, .8, .2, 1), pos = (0, -.4))
+                else:
+                    achievementFrame['text'] = 'Achievement locked'
+            except:
+                pass
 
     def updateStats(self):
         rowYs = (.5, .4, .3, .2, .1, 0, -.1, -.2, -.3, -.4, -.5)

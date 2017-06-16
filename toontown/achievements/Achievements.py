@@ -75,8 +75,25 @@ class DisguiseAchievement:
 		
 class GagTrackAchievement:
 
-    def hasComplete(self, track):
-        return 1
+    def __init__(self, track):
+        self.neededTrack = track
+
+    def hasComplete(self, av, track):
+        if track == self.neededTrack:
+            return 1
+        else:
+            return 0
+		
+class ZoneAchievement:
+
+    def __init__(self, zone):
+        self.neededZone = zone
+
+    def hasComplete(self, av, zone):
+        if zone == self.neededZone:
+            return 1
+        else:
+            return 0
 
 AchievementsDict = (FriendAchievement(neededFriends = 1),
                     FriendAchievement(neededFriends = 10),
@@ -95,7 +112,19 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     GagTrackAchievement(track = 2),
                     GagTrackAchievement(track = 3),
                     GagTrackAchievement(track = 6),
-                    GagTrackAchievement(track = 7))
+                    GagTrackAchievement(track = 7),
+                    ZoneAchievement(zone = 1000),
+                    ZoneAchievement(zone = 3000),
+                    ZoneAchievement(zone = 4000),
+                    ZoneAchievement(zone = 5000),
+                    ZoneAchievement(zone = 6000),
+                    ZoneAchievement(zone = 8000),
+                    ZoneAchievement(zone = 9000),
+                    ZoneAchievement(zone = 10000),
+                    ZoneAchievement(zone = 11000),
+                    ZoneAchievement(zone = 12000),
+                    ZoneAchievement(zone = 13000),
+                    ZoneAchievement(zone = 19000))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
@@ -103,7 +132,8 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        LoopysBallsAchievement: [8],
                        VPAchievement: [9, 10],
                        DisguiseAchievement: [11],
-                       GagTrackAchievement: [12, 13, 14, 15, 16, 17]}
+                       GagTrackAchievement: [12, 13, 14, 15, 16, 17],
+                       ZoneAchievement: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)

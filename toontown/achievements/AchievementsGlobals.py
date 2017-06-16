@@ -15,7 +15,19 @@ AchievementTitles = ("Make a friend",
                      "Unlock the LURE gag track.",
                      "Unlock the SOUND gag track.",
                      "Unlock the ZAP gag track.",
-                     "Unlock the DROP gag track.")
+                     "Unlock the DROP gag track.",
+                     "Visit Donald's Dock.",
+                     "Visit The Brrrrgh.",
+                     "Visit Minnie's Melodyland.",
+                     "Visit Daisy Gardens.",
+                     "Visit Acorn Acres.",
+                     "Visit Goofy Speedway.",
+                     "Visit Donald's Dreamland.",
+                     "Visit Bossbot HQ.",
+                     "Visit Sellbot HQ.",
+                     "Visit Cashbot HQ.",
+                     "Visit Lawbot HQ.",
+                     "Visit Boardbot HQ.")
 
 AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.png'), # 1 friend
                      ('phase_3/maps/achievements/ttpa_achievement_makefriend_10.png'), # 10 friends
@@ -34,7 +46,7 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_gag_lure.png'), # unlock lure
                      ('phase_3/maps/achievements/ttpa_achievement_gag_sound.png'), # unlock sound
                      ('phase_3/maps/achievements/ttpa_achievement_gag_zap.png'), # unlock zap
-                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop.png'), # unlock drop
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop.png')) # unlock drop
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -53,4 +65,16 @@ AchievementExperience = (10, # 1 friend
                          250, # unlock lure
                          250, # unlock sound
                          250, # unlock zap
-                         250) # unlock drop
+                         250, # unlock drop
+                         25, # visit dd
+                         25, # visit tb
+                         25, # visit mml
+                         25, # visit dg
+                         25, # visit aa
+                         25, # visit gs
+                         25, # visit ddl
+                         25, # visit bbhq
+                         25, # visit sbhq
+                         25, # visit cbhq
+                         25, # visit lbhq
+                         25) # visit bdhq
