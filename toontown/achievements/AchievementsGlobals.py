@@ -58,7 +58,31 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_gag_lure.png'), # unlock lure
                      ('phase_3/maps/achievements/ttpa_achievement_gag_sound.png'), # unlock sound
                      ('phase_3/maps/achievements/ttpa_achievement_gag_zap.png'), # unlock zap
-                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop.png')) # unlock drop
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop.png'), # unlock drop
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit dd
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit tb
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit mml
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit dg
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit aa
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit gs
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit ddl
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit bbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit sbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit cbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit lbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit bdhq
+                     ('phase_3/maps/achievements/ttpa_achievement_cogs_1.png'), # defeat 1 cog
+                     ('phase_3/maps/achievements/ttpa_achievement_cogs_10.png'), # defeat 10 cogs
+                     ('phase_3/maps/achievements/ttpa_achievement_cogs_100.png'), # defeat 100 cogs
+                     ('phase_3/maps/achievements/ttpa_achievement_cogs_1000.png'), # defeat 1000 cogs
+                     ('phase_3/maps/achievements/ttpa_achievement_cogs_10000.png'), # defeat 10000 cogs
+                     ('phase_3/maps/achievements/ttpa_achievement_cogs_100000.png'), # defeat 100000 cogs
+                     ('phase_3/maps/achievements/ttpa_achievement_cogs_1000000.png'), # defeat 1000000 cogs
+                     ('phase_3/maps/achievements/ttpa_achievement_fish_1.png'), # catch 1 fish
+                     ('phase_3/maps/achievements/ttpa_achievement_fish_10.png'), # catch 10 fish
+                     ('phase_3/maps/achievements/ttpa_achievement_fish_100.png'), # catch 100 fish
+                     ('phase_3/maps/achievements/ttpa_achievement_fish_1000.png'), # catch 1000 fish
+                     ('phase_3/maps/achievements/ttpa_achievement_fish_10000.png'), # catch 10000 fish
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
