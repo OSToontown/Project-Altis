@@ -49,6 +49,15 @@ class AchievementsManagerAI():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av, track):
                     av.addAchievement(achievementId)
 					
+    def maxGag(self, av, track):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.MaxGagAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, track):
+                    av.addAchievement(achievementId)
+					
     def zone(self, av, zone):
         av = self.air.doId2do.get(av)
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.ZoneAchievement)

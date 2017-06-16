@@ -83,6 +83,17 @@ class GagTrackAchievement:
             return 1
         else:
             return 0
+			
+class MaxGagAchievement:
+
+    def __init__(self, track):
+        self.neededTrack = track
+
+    def hasComplete(self, av, track):
+        if track == self.neededTrack:
+            return 1
+        else:
+            return 0
 		
 class ZoneAchievement:
 
@@ -160,7 +171,15 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     FishAchievement(fish = 10),
                     FishAchievement(fish = 100),
                     FishAchievement(fish = 1000),
-                    FishAchievement(fish = 10000))
+                    FishAchievement(fish = 10000),
+                    MaxGagAchievement(track = 0),
+                    MaxGagAchievement(track = 1),
+                    MaxGagAchievement(track = 2),
+                    MaxGagAchievement(track = 3),
+                    MaxGagAchievement(track = 4),
+                    MaxGagAchievement(track = 5),
+                    MaxGagAchievement(track = 6),
+                    MaxGagAchievement(track = 7))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
@@ -171,7 +190,8 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        GagTrackAchievement: [12, 13, 14, 15, 16, 17],
                        ZoneAchievement: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
                        CogAchievement: [30, 31, 32, 33, 34, 35, 36],
-                       FishAchievement: [37, 38, 39, 40, 41]}
+                       FishAchievement: [37, 38, 39, 40, 41],
+                       MaxGagAchievement: [42, 43, 44, 45, 46, 47, 48, 49]}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)

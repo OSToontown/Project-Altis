@@ -39,7 +39,15 @@ AchievementTitles = ("Make a friend",
                      "Catch 10 fish.",
                      "Catch 100 fish.",
                      "Catch 1000 fish.",
-                     "Catch 10000 fish.")
+                     "Catch 10000 fish.",
+                     "Max the TOON-UP gag track.",
+                     "Max the TRAP gag track.",
+                     "Max the LURE gag track.",
+                     "Max the SOUND gag track.",
+                     "Max the THROW gag track.",
+                     "Max the SQUIRT gag track.",
+                     "Max the ZAP gag track.",
+                     "Max the DROP gag track.")
 
 AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.png'), # 1 friend
                      ('phase_3/maps/achievements/ttpa_achievement_makefriend_10.png'), # 10 friends
@@ -83,6 +91,14 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_fish_100.png'), # catch 100 fish
                      ('phase_3/maps/achievements/ttpa_achievement_fish_1000.png'), # catch 1000 fish
                      ('phase_3/maps/achievements/ttpa_achievement_fish_10000.png'), # catch 10000 fish
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_toonup_max.png'), # max tu
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_trap_max.png'), # max trap
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_lure_max.png'), # max lure
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_sound_max.png'), # max sound
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_throw_max.png'), # max throw
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_squirt_max.png'), # max squirt
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_zap_max.png'), # max zap
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop_max.png')) # max drop
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -121,8 +137,16 @@ AchievementExperience = (10, # 1 friend
                          750, # 10000 cogs
                          2500, # 100000 cogs
                          10000, # 1000000 cogs
-                         5,
-                         15,
-                         50,
-                         250,
-                         750)
+                         5, # 1 fish
+                         15, # 10 fish
+                         50, # 100 fish
+                         250, # 1000 fish
+                         750, # 10000 fish
+                         5000, # max tu
+                         5000, # max trap
+                         5000, # max lure
+                         5000, # max sound
+                         5000, # max throw
+                         5000, # max squirt
+                         5000, # max zap
+                         5000) # max drop

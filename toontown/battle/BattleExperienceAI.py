@@ -145,6 +145,8 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
             totalExp = exp + toon.experience.getExp(i)
             if toon.inventory.numItem(i, uberIndex) > 0:
                 hasUber = 1
+            if totalExp >= ToontownBattleGlobals.MaxSkill:
+                simbase.air.achievementsManager.maxGag(toon.doId, i)
             if totalExp >= needed or totalExp >= ToontownBattleGlobals.MaxSkill:
                 if toon.inventory.totalProps < toon.getMaxCarry() and not hasUber:
                     uberLevel = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
