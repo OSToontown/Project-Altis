@@ -27,7 +27,19 @@ AchievementTitles = ("Make a friend",
                      "Visit Sellbot HQ.",
                      "Visit Cashbot HQ.",
                      "Visit Lawbot HQ.",
-                     "Visit Boardbot HQ.")
+                     "Visit Boardbot HQ.",
+                     "Destroy 1 cog.",
+                     "Destroy 10 cogs.",
+                     "Destroy 100 cogs.",
+                     "Destroy 1000 cogs.",
+                     "Destroy 10000 cogs.",
+                     "Destroy 100000 cogs.",
+                     "Destroy 1000000 cogs.",
+                     "Catch 1 fish.",
+                     "Catch 10 fish.",
+                     "Catch 100 fish.",
+                     "Catch 1000 fish.",
+                     "Catch 10000 fish.")
 
 AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.png'), # 1 friend
                      ('phase_3/maps/achievements/ttpa_achievement_makefriend_10.png'), # 10 friends
@@ -77,4 +89,16 @@ AchievementExperience = (10, # 1 friend
                          25, # visit sbhq
                          25, # visit cbhq
                          25, # visit lbhq
-                         25) # visit bdhq
+                         25, # visit bdhq
+                         5, # 1 cog
+                         15, # 10 cogs
+                         50, # 100 cogs
+                         250, # 1000 cogs
+                         750, # 10000 cogs
+                         2500, # 100000 cogs
+                         10000, # 1000000 cogs
+                         5,
+                         15,
+                         50,
+                         250,
+                         750)

@@ -182,6 +182,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                 simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
                 simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
                 toon.addStat(ToontownGlobals.STATS_COGS, len(suitsKilled))
+                simbase.air.achievementsManager.cogs(toon.doId)
                 simbase.air.questManager.toonCollectedExp(toon, expArray)
 
             # Looks like the toon wasnt too helpful...

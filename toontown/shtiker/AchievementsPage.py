@@ -145,9 +145,12 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
             statRows.destroy()
         self.statRows = [self.createStat(y) for y in (rowYs)]
         self.stats = base.localAvatar.getStats()
-        for stat in range(len(self.stats)):
+        for stat in xrange(len(self.stats)):
             statText = TTLocalizer.StatsList[stat] % self.stats[stat]
-            self.statRows[stat]['text'] = statText
+            try:
+                self.statRows[stat]['text'] = statText
+            except:
+                pass
 
     def createStat(self, y):
         row = DirectLabel(parent = self.statsPageNode, relief = None, text_align = TextNode.ALeft, text = '', text_scale = 0.045, text_wordwrap = 16, text_style = 3)

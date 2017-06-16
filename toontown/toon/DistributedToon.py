@@ -193,7 +193,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
-        self.stats = [0] * 10
+        self.stats = [0] * 12
         self.trueFriends = []
         self.interiorLayout = 0
         self.redeemedCodes = []
@@ -2910,6 +2910,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         messenger.send(localAvatar.uniqueName('achievementsChange'))
         
     def setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
         self.stats = stats
     
     def getStats(self):
@@ -2917,6 +2919,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         
     def getStat(self, stat):
         return self.stats[stat]
+		
+    def fixStats(self, stats):
+        badStatLen = len(stats)
+        for i in xrange(ToontownGlobals.TOTAL_STATS - badStatLen):
+            stats.append(0)
+        return stats
 
     def setBuffs(self, buffs):
         self.buffs = buffs

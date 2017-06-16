@@ -57,3 +57,21 @@ class AchievementsManagerAI():
             if not achievementId in av.getAchievements():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av, zone):
                     av.addAchievement(achievementId)
+					
+    def cogs(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CogAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def fish(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.FishAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)

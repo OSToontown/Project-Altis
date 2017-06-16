@@ -18,9 +18,9 @@ class CatalogAchievement:
     def __init__(self, items):
         self.neededItems = items
 
-    def hasComplete(self, av, times):
+    def hasComplete(self, av, items):
         items = av.getStat(ToontownGlobals.STATS_CATALOG)
-        if items == self.neededItems:
+        if items >= self.neededItems:
             return 1
         return 0
 
@@ -94,6 +94,30 @@ class ZoneAchievement:
             return 1
         else:
             return 0
+			
+class CogAchievement:
+
+    def __init__(self, cogs):
+        self.neededCogs = cogs
+		
+    def hasComplete(self, av):
+        cogs = av.getStat(ToontownGlobals.STATS_COGS)
+        if cogs >= self.neededCogs:
+            return 1
+        else:
+            return 0
+			
+class FishAchievement:
+
+    def __init__(self, fish):
+        self.neededFish = fish
+		
+    def hasComplete(self, av):
+        fish = av.getStat(ToontownGlobals.STATS_FISH)
+        if fish >= self.neededFish:
+            return 1
+        else:
+            return 0
 
 AchievementsDict = (FriendAchievement(neededFriends = 1),
                     FriendAchievement(neededFriends = 10),
@@ -124,7 +148,19 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     ZoneAchievement(zone = 11000),
                     ZoneAchievement(zone = 12000),
                     ZoneAchievement(zone = 13000),
-                    ZoneAchievement(zone = 19000))
+                    ZoneAchievement(zone = 19000),
+                    CogAchievement(cogs = 1),
+                    CogAchievement(cogs = 10),
+                    CogAchievement(cogs = 100),
+                    CogAchievement(cogs = 1000),
+                    CogAchievement(cogs = 10000),
+                    CogAchievement(cogs = 100000),
+                    CogAchievement(cogs = 1000000),
+                    FishAchievement(fish = 1),
+                    FishAchievement(fish = 10),
+                    FishAchievement(fish = 100),
+                    FishAchievement(fish = 1000),
+                    FishAchievement(fish = 10000))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
@@ -133,7 +169,9 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        VPAchievement: [9, 10],
                        DisguiseAchievement: [11],
                        GagTrackAchievement: [12, 13, 14, 15, 16, 17],
-                       ZoneAchievement: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]}
+                       ZoneAchievement: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+                       CogAchievement: [30, 31, 32, 33, 34, 35, 36],
+                       FishAchievement: [37, 38, 39, 40, 41]}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)

@@ -203,7 +203,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
-        self.stats = [0] * 11
+        self.stats = [0] * 12
         self.interiorLayout = 0
         self.trueFriends = []
         self.trueFriendRequests = (0, 0)
@@ -4600,9 +4600,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setStats(stats)
 
     def d_setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
         self.sendUpdate('setStats', [stats])
 
     def setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
         self.stats = stats
 
     def getStats(self):
@@ -4616,8 +4620,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
 
         self.stats[stat] += amount
-        self.d_setStats(self.stats)
+        self.b_setStats(self.stats)
 
+    def fixStats(self, stats):
+        badStatLen = len(stats)
+        for i in xrange(ToontownGlobals.TOTAL_STATS - badStatLen):
+            stats.append(0)
+        return stats
 
     def addBuff(self, id, duration):
         buffCount = len(self.buffs)
