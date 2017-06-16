@@ -163,6 +163,7 @@ DLF_BOSS = 4
 DLF_SUPERVISOR = 8
 DLF_VIRTUAL = 16
 DLF_REVIVES = 32
+DLF_ELITE = 64
 pieNames = ['cupcake',
  'fruitpie-slice',
  'creampie-slice',
