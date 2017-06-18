@@ -2881,7 +2881,6 @@ def getFirstQuestIdInChain(questId):
             # This IS a starting quest, return this quest id!
             return questId
 
-
 def questExists(id):
     return QuestDict.has_key(id)
 

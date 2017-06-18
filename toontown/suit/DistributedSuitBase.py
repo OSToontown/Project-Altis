@@ -56,6 +56,8 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         self.loop('neutral')
         self.skeleRevives = 0
         self.maxSkeleRevives = 0
+        self.maxHP = 10
+        self.currHP = 10
         self.sillySurgeText = False
         self.interactivePropTrackBonus = -1
 
@@ -365,6 +367,19 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         SuitBase.SuitBase.setWaiter(self, flag)
         if flag:
             Suit.Suit.makeWaiter(self)
+			
+    def setElite(self, flag):
+        SuitBase.SuitBase.setElite(self, flag)
+        if flag:
+            self.resetNameForElite()
+            self.maxHP = int(self.maxHP * 1.5)
+            self.currHP = int(self.currHP * 1.5)
+			
+    def resetNameForElite(self):
+        nameWLevel = TTLocalizer.SuitBaseNameWithLevel % {'name': self.name,
+         'dept': self.getStyleDept(),
+         'level': str(self.getActualLevel()) + ' Elite'}
+        self.setDisplayName(nameWLevel)
 
     def showHpText(self, number, bonus = 0, scale = 1, attackTrack = -1):
         if self.HpTextEnabled and not self.ghostMode:
