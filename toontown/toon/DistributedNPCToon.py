@@ -163,8 +163,12 @@ class DistributedNPCToon(DistributedNPCToonBase):
             if greetingString:
                 fullString += greetingString + '\x07'
             fullString += Quests.chooseQuestDialog(questId, Quests.COMPLETE) + '\x07'
-            if rewardId:
+            if rewardId > 2:
                 fullString += Quests.getReward(rewardId).getString()
+            quest = Quests.QuestDict.get(questId)
+            experience = quest[Quests.QuestDictExperienceIndex]
+            money = quest[Quests.QuestDictMoneyIndex]
+            fullString += TTLocalizer.QuestMovieExpJbReward % {'exp': experience, 'money': money}
             leavingString = Quests.chooseQuestDialog(questId, Quests.LEAVING)
             if leavingString:
                 fullString += '\x07' + leavingString
@@ -251,13 +255,16 @@ class DistributedNPCToon(DistributedNPCToonBase):
             self.setQuestNotify(retVal)
         elif self.checkCompletedQuests():
             self.setQuestNotify(COMPLETED_QUEST)
-        elif self.checkImcompletedQuests():
+        elif self.checkIncompletedQuests():
             self.setQuestNotify(INCOMPLETE_QUEST)
         else:
             self.setQuestNotify(None)
 			
     def setQuestNotify(self, type):
         if type is None:
+            if self.icon:
+                self.icon.detachNode()
+                del self.icon
             return
         if self.icon:
             self.icon.detachNode()
@@ -307,13 +314,13 @@ class DistributedNPCToon(DistributedNPCToonBase):
                     return True
         return False
 		
-    def checkImcompletedQuests(self):
+    def checkIncompletedQuests(self):
         av = base.localAvatar
         for quest in av.quests:
             questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
             newQuest = tuple(quest)
             actualQuest = Quests.getQuest(questId)
-            fIncomplete = actualQuest.getCompletionStatus(av, newQuest) == Quests.IMCOMPLETE
+            fIncomplete = actualQuest.getCompletionStatus(av, newQuest) == Quests.INCOMPLETE
             name = self.getName()
             if fIncomplete:
                 questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
@@ -324,10 +331,10 @@ class DistributedNPCToon(DistributedNPCToonBase):
 		
 		
     def beginCheckTask(self):
-        taskMgr.doMethodLater(1.5, self.__updateQuest, 'update-quests')
+        taskMgr.doMethodLater(1, self.__updateQuest, 'update-quests')
 		
     def __updateQuest(self, task):
         self.checkQuestStatus()
-        taskMgr.doMethodLater(1.5, self.__updateQuest, 'update-quests')
+        taskMgr.doMethodLater(1, self.__updateQuest, 'update-quests')
         return Task.done
         
