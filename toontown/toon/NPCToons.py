@@ -94,7 +94,7 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     from toontown.toon import DistributedNPCScientistAI
     from toontown.toon import DistributedNPCLoopyGAI
     from toontown.toon import DistributedNPCInvisibleAI
-    
+
     canonicalZoneId, name, dnaType, gender, protected, type = desc
     if type == NPC_REGULAR:
         npc = DistributedNPCToonAI.DistributedNPCToonAI(air, npcId, questCallback=questCallback)
