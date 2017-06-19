@@ -175,7 +175,7 @@ class BattleCalculatorAI:
         if atkTrack == ZAP:
             for tgt in atkTargets:
                 if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
-                    propAcc += 20
+                    propAcc += 65
                     break
                 else:
                     continue
@@ -517,7 +517,7 @@ class BattleCalculatorAI:
                                     suit.b_setSkeleRevives(0)
                                     attackDamage = suit.getHP()
                             else:
-                                attackDamage = atkHp * 2
+                                attackDamage = atkHp * 3
                     if atkTrack == THROW:
                         if self.__suitIsLured(targetId):
                             tgtPos = self.battle.activeSuits.index(targetList[currTarget])
@@ -564,7 +564,7 @@ class BattleCalculatorAI:
                                 attackDamage = suit.getHP()
                             targetList
                         else:
-                            attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 2
+                            attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 3
                     else:
                         attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
                 else:
