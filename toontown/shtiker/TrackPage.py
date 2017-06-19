@@ -46,7 +46,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
                  self.rolloverButton,
                  self.flatButton), text='', text_scale=0.04, text_align=TextNode.ARight, geom_scale=0.7, geom_pos=(-0.01, -0.1, 0), text_fg=Vec4(1, 1, 1, 1), text_pos=(0.07, -0.04), textMayChange=1, relief=None, image_color=(0, 0.6, 1, 1), image_scale=(1.05, 1, 1), pos=(ButtonXOffset + item * ButtonXSpacing + -0.06825, -0.1, 0), command=self.upgradeMe, extraArgs=[track])
                 self.buttons[track].append(button)
-        self.updatePage()
+        self.accept('skillPointChange', self.updatePage)
 
     def unload(self):
         del self.title
@@ -62,7 +62,6 @@ class TrackPage(ShtikerPage.ShtikerPage):
         pass
 
     def updatePage(self):
-        self.updateButtons()
         for track in xrange(8):
             points = base.localAvatar.getSpentTrainingPoints()
             points = points[track]
@@ -71,6 +70,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
             else:
                 self.trackProgressLabels[track]['text'] = 'UNLOCKED'
         self.pointLabel['text'] = str(base.localAvatar.getTrainingPoints())
+        self.updateButtons()
 
     def enter(self):
         self.updatePage()
