@@ -264,11 +264,11 @@ class DistributedNPCToon(DistributedNPCToonBase):
         if type is None:
             if self.icon:
                 self.icon.detachNode()
-                del self.icon
+                self.icon = None
             return
         if self.icon:
             self.icon.detachNode()
-            del self.icon
+            self.icon = None
         self.icon = self.questNotifyTypes[type]
         np = NodePath(self.nametag.getIcon())
         if np.isEmpty():
