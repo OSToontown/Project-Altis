@@ -2543,7 +2543,7 @@ QuestDict = {
  166: ([], Start, (VisitQuest,), 2111, 2410, NA, 167, TTLocalizer.QuestDialogDict[166], 75, 10),
  167: ([], Cont, (RecoverItemQuest, 2000, 7016, 25, Any), 2410, 2410, NA, 168, TTLocalizer.QuestDialogDict[167], 75, 10),
  168: ([], Cont, (DeliverItemQuest, 7016), 2410, 2111, 0, NA, TTLocalizer.QuestDialogDict[168], 75, 10),
- 169: ([], Start, (VisitQuest,), 2007, 2223, NA, 170, TTLocalizer.QuestDialogDict[169], 80, 25),
+ 169: ([166], Start, (VisitQuest,), 2007, 2223, NA, 170, TTLocalizer.QuestDialogDict[169], 80, 25),
  170: ([], Cont, (CogTrackLevelQuest, ToontownGlobals.LoopyLane, 5, 'l', 3), 2223, 2223, NA, 171, TTLocalizer.QuestDialogDict[170], 80, 25),
  171: ([], Cont, (VisitQuest,), 2323, 2007, NA, NA, TTLocalizer.QuestDialogDict[171], 80, 25)}
 
