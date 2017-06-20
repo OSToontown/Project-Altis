@@ -84,6 +84,8 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             flags |= ToontownBattleGlobals.DLF_SUPERVISOR
         if deathRecord['isVirtual']:
             flags |= ToontownBattleGlobals.DLF_VIRTUAL
+        if deathRecord['isElite']:
+            flags |= ToontownBattleGlobals.DLF_ELITE
         if 'hasRevies' in deathRecord and deathRecord['hasRevives']:
             flags |= ToontownBattleGlobals.DLF_REVIVES
         deathList.extend([typeNum,
@@ -160,7 +162,12 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                pass
             else:
                 level = suit['level']
-                toonExp += int(level * 2.5)
+                if suit['isElite']:
+                    mult = 5
+                    toon.addMoney(level*5)
+                else:
+                    mult = 2.5
+                toonExp += int(level * mult)
         currToonExp = toon.getToonExp()
         toon.b_setToonExp(currToonExp + toonExp)
         toon.b_setExperience(toon.experience.makeNetString())

@@ -1,4 +1,5 @@
 #!/bin/sh
+cd "`dirname "$0"`"
 cd ../../
 
 export DYLD_LIBRARY_PATH=`pwd`/Libraries.bundle

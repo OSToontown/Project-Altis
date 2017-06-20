@@ -35,10 +35,6 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.street
         self.sky.removeNode()
         del self.sky
-        self.suitWalkTrack.finish()
-        del self.suitWalkTrack
-        self.suit.delete()
-        del self.suit
         self.ignore('enterTutorialInterior')
 
         DistributedObject.DistributedObject.disable(self)
@@ -125,7 +121,6 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         if not npcOrigin.isEmpty():
             self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
             self.cr.doId2do[self.npcId].clearMat()
-        self.createSuit()
         base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)
         self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)
         place = base.cr.playGame.getPlace()
@@ -140,19 +135,6 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def playMovie(self):
         self.notify.info('Tutorial movie: Play.')
-
-    def createSuit(self):
-        self.suit = Suit.Suit()
-        suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('f')
-        self.suit.setDNA(suitDNA)
-        self.suit.nametag.setNametag2d(None)
-        self.suit.nametag.setNametag3d(None)
-        self.suit.loop('neutral')
-        self.suit.setPosHpr(-20, 8, 0, 0, 0, 0)
-        self.suit.reparentTo(self.interior)
-        self.suitWalkTrack = Sequence(self.suit.hprInterval(0.1, Vec3(0, 0, 0)), Func(self.suit.loop, 'walk'), self.suit.posInterval(2, Point3(-20, 20, 0)), Func(self.suit.loop, 'neutral'), Wait(1.0), self.suit.hprInterval(0.1, Vec3(180, 0, 0)), Func(self.suit.loop, 'walk'), self.suit.posInterval(2, Point3(-20, 10, 0)), Func(self.suit.loop, 'neutral'), Wait(1.0))
-        self.suitWalkTrack.loop()
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId
