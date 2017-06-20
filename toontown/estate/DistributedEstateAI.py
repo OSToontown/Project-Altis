@@ -388,7 +388,7 @@ class DistributedEstateAI(DistributedObjectAI):
 
         # Estate Update Stuff
         self.jukebox = None
-        self.trampolines = []
+        # self.trampolines = []
 
         self.targets = []
         self.cannons = []
@@ -452,31 +452,31 @@ class DistributedEstateAI(DistributedObjectAI):
         self.jukebox.sendUpdate('setY', [-18])
         self.jukebox.sendUpdate('setH', [-80])
         
-        trampoline = DistributedPartyTrampolineActivityAI.DistributedPartyTrampolineActivityAI(self.air, self.doId, (0, 0, 0, 0))
-        trampoline.generateWithRequired(self.zoneId)
-        trampoline.sendUpdate('setX', [-130])
-        trampoline.sendUpdate('setY', [27])
-        trampoline.sendUpdate('setH', [80])
-        self.trampolines.append(trampoline)
+        # trampoline = DistributedPartyTrampolineActivityAI.DistributedPartyTrampolineActivityAI(self.air, self.doId, (0, 0, 0, 0))
+        # trampoline.generateWithRequired(self.zoneId)
+        # trampoline.sendUpdate('setX', [-130])
+        # trampoline.sendUpdate('setY', [27])
+        # trampoline.sendUpdate('setH', [80])
+        # self.trampolines.append(trampoline)
         
-        trampoline2 = DistributedPartyTrampolineActivityAI.DistributedPartyTrampolineActivityAI(self.air, self.doId, (0, 0, 0, 0))
-        trampoline2.generateWithRequired(self.zoneId)
-        trampoline2.sendUpdate('setX', [-104])
-        trampoline2.sendUpdate('setY', [-56])
-        trampoline2.sendUpdate('setH', [80])
-        self.trampolines.append(trampoline2)
+        # trampoline2 = DistributedPartyTrampolineActivityAI.DistributedPartyTrampolineActivityAI(self.air, self.doId, (0, 0, 0, 0))
+        # trampoline2.generateWithRequired(self.zoneId)
+        # trampoline2.sendUpdate('setX', [-104])
+        # trampoline2.sendUpdate('setY', [-56])
+        # trampoline2.sendUpdate('setH', [80])
+        # self.trampolines.append(trampoline2)
         
-        self.target = DistributedTargetAI(self.air)
-        self.target.generateWithRequired(self.zoneId)
-        self.target.setPosition(0, 0, 40)
-        for drop in CannonGlobals.cannonDrops:
-            cannon = DistributedCannonAI(self.air)
-            cannon.setEstateId(self.doId)
-            cannon.setTargetId(self.target.doId)
-            cannon.setPosHpr(*drop)
-            cannon.generateWithRequired(self.zoneId)
-            self.cannons.append(cannon)
-        self.b_setClouds(True)
+        # self.target = DistributedTargetAI(self.air)
+        # self.target.generateWithRequired(self.zoneId)
+        # self.target.setPosition(0, 0, 40)
+        # for drop in CannonGlobals.cannonDrops:
+            # cannon = DistributedCannonAI(self.air)
+            # cannon.setEstateId(self.doId)
+            # cannon.setTargetId(self.target.doId)
+            # cannon.setPosHpr(*drop)
+            # cannon.generateWithRequired(self.zoneId)
+            # self.cannons.append(cannon)
+        # self.b_setClouds(True)
         doIds = []
         for i in range(40):
             x = random.randint(100, 300) - 200
@@ -527,23 +527,23 @@ class DistributedEstateAI(DistributedObjectAI):
             if not treasure.isDeleted():
                 treasure.requestDelete()
             
-        for target in self.targets:
-            target.requestDelete()
+        # for target in self.targets:
+            # target.requestDelete()
       
         for pet in self.pets:
             pet.requestDelete()
             
-        self.b_setClouds(False)
-        if self.target:
-            self.target.requestDelete()
+        # self.b_setClouds(False)
+        # if self.target:
+            # self.target.requestDelete()
             
-        for cannon in self.cannons:
-            cannon.requestDelete()
+        # for cannon in self.cannons:
+            # cannon.requestDelete()
         if self.jukebox:
             self.jukebox.requestDelete()
             
-        for trampoline in self.trampolines:
-            trampoline.requestDelete()
+        # for trampoline in self.trampolines:
+            # trampoline.requestDelete()
             
         if self.treasurePlanner:
             self.treasurePlanner.stop()

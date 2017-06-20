@@ -94,8 +94,10 @@ class ShardPicker(ShtikerPage.ShtikerPage):
     def unload(self):
         self.gui.removeNode()
         self.scrollList.destroy()
+        self.totalPopulationText.destroy()
         del self.scrollList
         del self.shardButtons
+        del self.totalPopulationText
         taskMgr.remove('ShardPageUpdateTask-doLater')
         ShtikerPage.ShtikerPage.unload(self)
 

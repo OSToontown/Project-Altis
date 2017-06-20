@@ -85,6 +85,8 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         suit.setReserve(reserve)
         if suitDict['skeleton']:
             suit.setSkelecog(1)
+        if random.random() < 0.2 or suitDict['boss']:
+            suit.setElite(1)
         suit.generateWithRequired(suitDict['zoneId'])
         suit.boss = suitDict['boss']
         return suit
@@ -94,6 +96,8 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         activeSuits = []
         for activeSuitInfo in self.suitInfos['activeSuits']:
             suit = self.__genSuitObject(activeSuitInfo, 0)
+            if suit.getElite():
+                suit.d_setElite(1)
             suit.setBattleCellIndex(activeSuitInfo['battleCell'])
             activeSuits.append(suit)
 

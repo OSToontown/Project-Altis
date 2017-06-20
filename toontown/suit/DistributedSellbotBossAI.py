@@ -387,6 +387,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
          'isBoss': 1,
          'isSupervisor': 0,
          'isVirtual': 0,
+         'isElite': 0,
          'activeToons': self.involvedToons[:]})
         self.barrier = self.beginBarrier('Victory', self.involvedToons, 10, self.__doneVictory)
 

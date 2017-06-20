@@ -163,7 +163,13 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         self.progressTitle.show()
         self.cogName['text'] = SuitBattleGlobals.SuitAttributes[cog]['name']
         cogLevel = base.localAvatar.cogLevels[index]
-        self.cogLevel['text'] = TTLocalizer.DisguisePageCogLevel % str(cogLevel + 1)
+        if base.localAvatar.cogReviveLevels[self.activeTab] > -1:
+            cogLevel = base.localAvatar.cogReviveLevels[self.activeTab]
+            self.cogLevel['text_scale'] = 0.065
+            self.cogLevel['text'] = TTLocalizer.DisguisePageCogLevel % str(cogLevel + 1) + TTLocalizer.SkeleRevivePostFix
+        else:
+            self.cogLevel['text_scale'] = 0.09
+            self.cogLevel['text'] = TTLocalizer.DisguisePageCogLevel % str(cogLevel + 1)
         numParts = base.localAvatar.cogParts[index]
         numPartsRequired = CogDisguiseGlobals.PartsPerSuit[index]
         self.updatePartsDisplay(index, numParts, numPartsRequired)

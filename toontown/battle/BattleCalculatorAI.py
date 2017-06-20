@@ -175,7 +175,7 @@ class BattleCalculatorAI:
         if atkTrack == ZAP:
             for tgt in atkTargets:
                 if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
-                    propAcc += 20
+                    propAcc += 65
                     break
                 else:
                     continue
@@ -258,7 +258,11 @@ class BattleCalculatorAI:
     def __targetDefense(self, suit, atkTrack):
         if atkTrack == HEAL:
             return 0
-        suitDef = SuitBattleGlobals.SuitAttributes[suit.dna.name]['def'][suit.getLevel()]
+        if suit.getElite():
+            boost = 5
+        else:
+            boost = 0
+        suitDef = int(SuitBattleGlobals.SuitAttributes[suit.dna.name]['def'][suit.getLevel()] + boost)
         return -suitDef
 
     def __createToonTargetList(self, attackIndex):
@@ -513,7 +517,7 @@ class BattleCalculatorAI:
                                     suit.b_setSkeleRevives(0)
                                     attackDamage = suit.getHP()
                             else:
-                                attackDamage = atkHp * 2
+                                attackDamage = atkHp * 3
                     if atkTrack == THROW:
                         if self.__suitIsLured(targetId):
                             tgtPos = self.battle.activeSuits.index(targetList[currTarget])
@@ -560,7 +564,7 @@ class BattleCalculatorAI:
                                 attackDamage = suit.getHP()
                             targetList
                         else:
-                            attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 2
+                            attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 3
                     else:
                         attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
                 else:
@@ -1242,7 +1246,11 @@ class BattleCalculatorAI:
                 atkType = attack[SUIT_ATK_COL]
                 theSuit = self.battle.findSuit(attack[SUIT_ID_COL])
                 atkInfo = SuitBattleGlobals.getSuitAttack(theSuit.dna.name, theSuit.getLevel(), atkType)
-                result = atkInfo['hp']
+                if theSuit.getElite():
+                    mult = 1.2
+                else:
+                    mult = 1.0
+                result = int(atkInfo['hp'] * mult)
             targetIndex = self.battle.activeToons.index(toonId)
             attack[SUIT_HP_COL][targetIndex] = result
 

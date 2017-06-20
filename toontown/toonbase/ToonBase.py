@@ -80,38 +80,41 @@ class ToonBase(OTPBase.OTPBase):
                 nativeIndex = ratios.index(self.nativeRatio)
                 res = sorted(self.resDict[ratios[nativeIndex - 1]])[0]
 
-            # Store our result:
-            settings['res'] = res
+        else:
+            res = settings['res']
 
-            # Reload the graphics pipe:
-            properties = WindowProperties()
+        # Store our result:
+        settings['res'] = res
 
-            properties.setSize(res[0], res[1])
-            properties.setFullscreen(fullscreen)
-            properties.setParentWindow(0)
+        # Reload the graphics pipe:
+        properties = WindowProperties()
 
-            # Store the window sort for later:
-            sort = self.win.getSort()
+        properties.setSize(res[0], res[1])
+        properties.setFullscreen(fullscreen)
+        properties.setParentWindow(0)
 
-            if self.win:
-                currentProperties = WindowProperties(self.win.getProperties())
-                gsg = self.win.getGsg()
-            else:
-                currentProperties = WindowProperties.getDefault()
-                gsg = None
-            newProperties = WindowProperties(currentProperties)
-            newProperties.addProperties(properties)
-            if (gsg is None) or (currentProperties.getFullscreen() != newProperties.getFullscreen()) or (currentProperties.getParentWindow() != newProperties.getParentWindow()):
-                self.openMainWindow(props=properties, gsg=gsg, keepCamera=True)
-                self.graphicsEngine.openWindows()
-                self.disableShowbaseMouse()
-            else:
-                self.win.requestProperties(properties)
-                self.graphicsEngine.renderFrame()
+        # Store the window sort for later:
+        sort = self.win.getSort()
 
-            self.win.setSort(sort)
+        if self.win:
+            currentProperties = WindowProperties(self.win.getProperties())
+            gsg = self.win.getGsg()
+        else:
+            currentProperties = WindowProperties.getDefault()
+            gsg = None
+        newProperties = WindowProperties(currentProperties)
+        newProperties.addProperties(properties)
+        if (gsg is None) or (currentProperties.getFullscreen() != newProperties.getFullscreen()) or (currentProperties.getParentWindow() != newProperties.getParentWindow()):
+            self.openMainWindow(props=properties, gsg=gsg, keepCamera=True)
+            self.graphicsEngine.openWindows()
+            self.disableShowbaseMouse()
+        else:
+            self.win.requestProperties(properties)
             self.graphicsEngine.renderFrame()
-            self.graphicsEngine.renderFrame()
+
+        self.win.setSort(sort)
+        self.graphicsEngine.renderFrame()
+        self.graphicsEngine.renderFrame()
         
         self.audioMgr = AltisAudio()
         
@@ -342,6 +345,9 @@ class ToonBase(OTPBase.OTPBase):
         self.notify.info("Pre-loading PICK A TOON GUI 2")
         asyncloader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui', callback = sp4)
         self.notify.info("Pre-loading MAKE A TOON GUI")
+
+        self.notify.info('Subscribing to window size changed event')
+        self.accept(base.win.getWindowEvent(), self.onWindowEvent)
         
         self.lockedMusic = False
             
@@ -447,6 +453,9 @@ class ToonBase(OTPBase.OTPBase):
                 nametag.show()
 
     def takeScreenShot(self):
+        if hasattr(self, 'screenShotNotice') and self.screenShotNotice:
+            self.screenShotNotice.destroy()
+            taskMgr.remove('clearScreenshot')
         if not os.path.exists(TTLocalizer.ScreenshotPath):
             os.mkdir(TTLocalizer.ScreenshotPath)
             self.notify.info('Made new directory to save screenshots.')
@@ -479,16 +488,16 @@ class ToonBase(OTPBase.OTPBase):
         self.lastScreenShotTime = globalClock.getRealTime()
         pandafile = Filename(str(ExecutionEnvironment.getCwd()) + '/' + str(screenshot))
         winfile = pandafile.toOsSpecific()
-        screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
-        screenShotNotice.reparentTo(base.a2dBottomCenter)
-        screenShotNotice.setBin('gui-popup', 0)
+        self.screenShotNotice = DirectLabel(text = "Screenshot Saved" + ':\n' + winfile, scale = 0.05, pos = (0.0, 0.0, 0.3), text_bg = (0, 0, 0, .4), text_fg = (1, 1, 1, 1), frameColor = (1, 1, 1, 0))
+        self.screenShotNotice.reparentTo(base.a2dBottomCenter)
+        self.screenShotNotice.setBin('gui-popup', 0)
         if coordOnScreen:
             if strTextLabel is not None:
                 strTextLabel.destroy()
             coordTextLabel.destroy()
             
         def clearScreenshotMsg(task):
-            screenShotNotice.destroy()
+            self.screenShotNotice.destroy()
             return task.done
 
         taskMgr.doMethodLater(5.0, clearScreenshotMsg, 'clearScreenshot')
@@ -754,4 +763,9 @@ class ToonBase(OTPBase.OTPBase):
             self.INTERACT = 'shift'
     
         self.accept(self.SCREENSHOT_KEY, self.takeScreenShot)
+
+    def onWindowEvent(self, window):
+        settings['res'] = self.getSize()
+        if window.isClosed():
+            sys.exit(0)
 

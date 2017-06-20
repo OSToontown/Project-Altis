@@ -4955,9 +4955,14 @@ class Toon(Avatar.Avatar, ToonHead):
             suitDept = SuitDNA.suitDepts.index(SuitDNA.getSuitDept(suitType))
             suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
             print self.cogLevels
-            self.nametag.setText(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
-             'dept': suitName,
-             'level': self.cogLevels[suitDept] + 1})
+            if self.cogReviveLevels[suitDept] == -1:
+                self.nametag.setText(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
+                 'dept': suitName,
+                 'level': self.cogLevels[suitDept] + 1})
+            else:
+                self.nametag.setText(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
+                 'dept': suitName,
+                 'level': str(self.cogReviveLevels[suitDept] + 1) + TTLocalizer.SkeleRevivePostFix})
             self.nametag.setWordWrap(9.0)
 
     def takeOffSuit(self):

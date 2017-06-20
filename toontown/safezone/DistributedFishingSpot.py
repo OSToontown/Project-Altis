@@ -987,8 +987,12 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
                 self.__hideCastGui()
             else:
                 self.__showFailureReason(code)
-        self.track = Sequence(Parallel(ActorInterval(self.av, 'reel'), ActorInterval(self.pole, 'cast', startFrame=63, endFrame=127)), ActorInterval(self.av, 'reel-neutral'), Func(self.__hideLine), Func(self.__hideBob), ActorInterval(self.av, 'fish-again'), Func(self.av.loop, 'pole-neutral'))
-        self.track.start()
+        if code in (FishGlobals.FishItemNewEntry, FishGlobals.FishItemNewRecord):
+            self.track = Sequence(ActorInterval(self.av, 'victory', startFrame = 0, endFrame = 9), ActorInterval(self.av, 'victory', startFrame = 9, endFrame = 0), ActorInterval(self.av, 'reel-neutral'), Func(self.__hideLine), Func(self.__hideBob), ActorInterval(self.av, 'fish-again'), Func(self.av.loop, 'pole-neutral'))
+            self.track.start()
+        else:
+            self.track = Sequence(Parallel(ActorInterval(self.av, 'reel'), ActorInterval(self.pole, 'cast', startFrame=63, endFrame=127)), ActorInterval(self.av, 'reel-neutral'), Func(self.__hideLine), Func(self.__hideBob), ActorInterval(self.av, 'fish-again'), Func(self.av.loop, 'pole-neutral'))
+            self.track.start()
 
     def cleanupFishPanel(self):
         if self.fishPanel:

@@ -1,6 +1,7 @@
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 from toontown.toon.DistributedNPCToonBase import *
+from direct.task.Task import Task
 from toontown.chat.ChatGlobals import *
 from toontown.hood import ZoneUtil
 from toontown.nametag.NametagGlobals import *
@@ -11,6 +12,10 @@ from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
 
 ChoiceTimeout = 20
+AVAILABLE_QUEST = 0
+QUESTS_FULL = 1
+COMPLETED_QUEST = 2
+INCOMPLETE_QUEST = 3
 
 class DistributedNPCToon(DistributedNPCToonBase):
     
@@ -20,7 +25,13 @@ class DistributedNPCToon(DistributedNPCToonBase):
         self.curQuestMovie = None
         self.questChoiceGui = None
         self.trackChoiceGui = None
+        self.icon = None
         self.npcType = 'Shopkeeper'
+        self.questNotifyTypes = [base.loader.loadModel('phase_3/models/gui/quest_exclaim.bam'), base.loader.loadModel('phase_3/models/gui/quest_exclaim_silver.bam'), base.loader.loadModel('phase_3/models/gui/quest_question.bam'), base.loader.loadModel('phase_3/models/gui/quest_question_silver.bam')]
+        for icon in self.questNotifyTypes:
+            icon.setScale(4)
+            icon.setZ(3)
+        self.beginCheckTask()
 
     def allowedToTalk(self):
         return True
@@ -36,6 +47,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
 
     def disable(self):
         self.cleanupMovie()
+        taskMgr.remove('update-quests')
 
         DistributedNPCToonBase.disable(self)
 
@@ -151,8 +163,12 @@ class DistributedNPCToon(DistributedNPCToonBase):
             if greetingString:
                 fullString += greetingString + '\x07'
             fullString += Quests.chooseQuestDialog(questId, Quests.COMPLETE) + '\x07'
-            if rewardId:
+            if rewardId > 2:
                 fullString += Quests.getReward(rewardId).getString()
+            quest = Quests.QuestDict.get(questId)
+            experience = quest[Quests.QuestDictExperienceIndex]
+            money = quest[Quests.QuestDictMoneyIndex]
+            fullString += TTLocalizer.QuestMovieExpJbReward % {'exp': experience, 'money': money}
             leavingString = Quests.chooseQuestDialog(questId, Quests.LEAVING)
             if leavingString:
                 fullString += '\x07' + leavingString
@@ -231,3 +247,94 @@ class DistributedNPCToon(DistributedNPCToonBase):
             self.trackChoiceGui.destroy()
             self.trackChoiceGui = None
         self.sendUpdate('chooseTrack', [trackId])
+		
+    def checkQuestStatus(self):
+        av = base.localAvatar
+        retVal = self.hasQuests()
+        if retVal is not None:
+            self.setQuestNotify(retVal)
+        elif self.checkCompletedQuests():
+            self.setQuestNotify(COMPLETED_QUEST)
+        elif self.checkIncompletedQuests():
+            self.setQuestNotify(INCOMPLETE_QUEST)
+        else:
+            self.setQuestNotify(None)
+			
+    def setQuestNotify(self, type):
+        if type is None:
+            if self.icon:
+                self.icon.detachNode()
+                del self.icon
+            return
+        if self.icon:
+            self.icon.detachNode()
+            del self.icon
+        self.icon = self.questNotifyTypes[type]
+        np = NodePath(self.nametag.getIcon())
+        if np.isEmpty():
+            return
+        self.icon.reparentTo(np)
+		
+    def hasQuests(self):
+        potentialQuests = []
+        nyaQuests = []
+        av = base.localAvatar
+        for quest in Quests.QuestDict.keys():
+            questEntry = Quests.QuestDict.get(quest)
+            if NPCToons.getNPCName(questEntry[Quests.QuestDictFromNpcIndex]) == self.getName():
+                if questEntry[1] == Quests.Start:
+                    potentialQuests.append(quest)
+        for quest in potentialQuests:
+            questEntry = Quests.QuestDict.get(quest)
+            if quest in av.getQuestHistory():
+                potentialQuests.remove(quest)
+            for needed in questEntry[0]:
+                if not needed in av.getQuestHistory():
+                    nyaQuests.append(quest)
+                    potentialQuests.remove(quest)
+        if len(potentialQuests) > 0:
+            return AVAILABLE_QUEST
+        elif len(nyaQuests) > 0 and len(potentialQuests) == 0:
+            return QUESTS_FULL
+        else:
+            return None
+		
+    def checkCompletedQuests(self):
+        av = base.localAvatar
+        for quest in av.quests:
+            questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
+            newQuest = tuple(quest)
+            actualQuest = Quests.getQuest(questId)
+            fComplete = actualQuest.getCompletionStatus(av, newQuest) == Quests.COMPLETE
+            name = self.getName()
+            if fComplete:
+                questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
+                entry = NPCToons.NPCToonDict.get(toNpcId)
+                if entry[1] == name:
+                    return True
+        return False
+		
+    def checkIncompletedQuests(self):
+        av = base.localAvatar
+        for quest in av.quests:
+            questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
+            newQuest = tuple(quest)
+            actualQuest = Quests.getQuest(questId)
+            fIncomplete = actualQuest.getCompletionStatus(av, newQuest) == Quests.INCOMPLETE
+            name = self.getName()
+            if fIncomplete:
+                questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
+                entry = NPCToons.NPCToonDict.get(toNpcId)
+                if entry[1] == name:
+                    return True
+        return False
+		
+		
+    def beginCheckTask(self):
+        taskMgr.doMethodLater(1, self.__updateQuest, 'update-quests')
+		
+    def __updateQuest(self, task):
+        self.checkQuestStatus()
+        taskMgr.doMethodLater(1, self.__updateQuest, 'update-quests')
+        return Task.done
+        
