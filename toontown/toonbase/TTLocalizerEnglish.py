@@ -112,6 +112,8 @@ GlobalStreetNames = {15000: ('to', 'on', 'Tutorial Terrace'),
  5200: ('to', 'on', 'Maple Street'),
  5300: ('to', 'on', 'Oak Street'),
  5400: ('to', 'on', 'Spruce Street'),
+ 6000: ('to the', 'in the', 'Playground'),
+ 6100: ('to', 'on', 'Redwood Road'),
  9000: ('to the', 'in the', 'Playground'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
@@ -4491,6 +4493,7 @@ PartyCatchActivityPears = 'pears'
 PartyCatchActivityCoconuts = 'coconuts'
 PartyCatchActivityWatermelons = 'watermelons'
 PartyCatchActivityPineapples = 'pineapples'
+PartyCatchActivityAcorns = 'acorn'
 PartyCatchActivityAnvils = 'anvils'
 PartyCatchStarted = 'The game has started. Go play it.'
 PartyCatchCannotStart = 'The game could not start right now.'
@@ -5314,6 +5317,7 @@ CatchGamePears = 'pears'
 CatchGameCoconuts = 'coconuts'
 CatchGameWatermelons = 'watermelons'
 CatchGamePineapples = 'pineapples'
+CatchGameAcorns = 'acorns'
 CatchGameAnvils = 'anvils'
 PieTossGameTitle = 'Pie Toss Game'
 PieTossGameInstructions = 'Toss pies at the targets.'

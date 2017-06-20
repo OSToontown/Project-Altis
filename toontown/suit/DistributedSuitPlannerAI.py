@@ -57,6 +57,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     [ToontownGlobals.MapleStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (30, 60, 0, 0, 10), (3, 4, 5, 6), [], 10],
     [ToontownGlobals.OakStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 5, 80, 5), (4, 5, 6, 7), [], 15],
     [ToontownGlobals.RoseValley, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 10, 30, 10, 10), (4, 5, 6), [], 10],
+    [ToontownGlobals.RedwoodRoad, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (7, 8, 9), [], 10],
     [ToontownGlobals.LullabyLane, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (7, 8, 9, 10), [], 30],
     [ToontownGlobals.PajamaPlace, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 80, 5, 5), (6,7,8,9), [], 25],
     [ToontownGlobals.BossbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (100, 0, 0, 0, 0), (8, 9, 10), [], 20],            
@@ -65,6 +66,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     [ToontownGlobals.CashbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 100, 0, 0), (6, 7, 8, 9), [], 20],
     [ToontownGlobals.LawbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 100, 0, 0, 0), (7, 8, 9, 10), [], 20],
     [19000, 8, 20, 0, 0, 0, 4, (1,5, 10, 40, 60, 80), (0, 0, 0, 0, 100), (7, 8, 9, 10), [], 20]]
+    
     SUIT_HOOD_INFO_ZONE = 0
     SUIT_HOOD_INFO_MIN = 1
     SUIT_HOOD_INFO_MAX = 2

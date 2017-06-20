@@ -9,7 +9,7 @@ from toontown.minigame import DistributedMazeGameAI
 from toontown.minigame import DistributedMinigameTemplateAI
 from toontown.minigame import DistributedPairingGameAI
 from toontown.minigame import DistributedPatternGameAI
-from toontown.minigame import DistributedPhotoGameAI
+#from toontown.minigame import DistributedPhotoGameAI < THIS GAME SUCKS
 from toontown.minigame import DistributedRaceGameAI
 from toontown.minigame import DistributedRingGameAI
 from toontown.minigame import DistributedTagGameAI
@@ -95,7 +95,6 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone=None,
         ToontownGlobals.CogThiefGameId: DistributedCogThiefGameAI.DistributedCogThiefGameAI,
         ToontownGlobals.TwoDGameId: DistributedTwoDGameAI.DistributedTwoDGameAI,
         ToontownGlobals.TravelGameId: DistributedTravelGameAI.DistributedTravelGameAI,
-        ToontownGlobals.PhotoGameId: DistributedPhotoGameAI.DistributedPhotoGameAI
     }
     from TempMinigameAI import TempMgCtors
     for key, value in TempMgCtors.items():

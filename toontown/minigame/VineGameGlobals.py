@@ -239,25 +239,33 @@ CourseWeights = {ToontownGlobals.ToontownCentral: ((0, 25),
                                     (5, 20),
                                     (6, 20),
                                     (7, 20),
+                                    (8, 20)),
+ ToontownGlobals.OutdoorZone: ((4, 20),
+                                    (5, 20),
+                                    (6, 20),
+                                    (7, 20),
                                     (8, 20))}
 BaseBonusOnEndVine = {ToontownGlobals.ToontownCentral: 4,
  ToontownGlobals.DonaldsDock: 5,
  ToontownGlobals.DaisyGardens: 6,
  ToontownGlobals.MinniesMelodyland: 7,
  ToontownGlobals.TheBrrrgh: 8,
- ToontownGlobals.DonaldsDreamland: 9}
+ ToontownGlobals.DonaldsDreamland: 9,
+ ToontownGlobals.OutdoorZone: 10}
 BatInfo = {ToontownGlobals.ToontownCentral: ((60, 0, 0.35),),
  ToontownGlobals.DonaldsDock: ((60, 0, 0.25), (30, 30)),
  ToontownGlobals.DaisyGardens: ((60, 0, 0.25), (15, 30)),
  ToontownGlobals.MinniesMelodyland: ((60, 0, 0.25), (10, 25)),
  ToontownGlobals.TheBrrrgh: ((60, 0, 0.25), (30, 30), (30, 20)),
- ToontownGlobals.DonaldsDreamland: ((60, 0, 0.25), (30, 30), (10, 20))}
+ ToontownGlobals.DonaldsDreamland: ((60, 0, 0.25), (30, 30), (10, 20)),
+ ToontownGlobals.OutdoorZone: ((60, 0, 0.25), (30, 30), (10, 20))}
 SpiderLimits = {ToontownGlobals.ToontownCentral: 1,
  ToontownGlobals.DonaldsDock: 2,
  ToontownGlobals.DaisyGardens: 2,
  ToontownGlobals.MinniesMelodyland: 3,
  ToontownGlobals.TheBrrrgh: 3,
- ToontownGlobals.DonaldsDreamland: 4}
+ ToontownGlobals.DonaldsDreamland: 4,
+ ToontownGlobals.OutdoorZone: 4}
 
 def getNumSpidersInSection(sectionIndex):
     if sectionIndex < 0 or sectionIndex >= len(CourseSections):

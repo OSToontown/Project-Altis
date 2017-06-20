@@ -37,6 +37,7 @@ class DistributedCatchGame(DistributedMinigame):
      'coconut': TTLocalizer.CatchGameCoconuts,
      'watermelon': TTLocalizer.CatchGameWatermelons,
      'pineapple': TTLocalizer.CatchGamePineapples,
+     'acorn': TTLocalizer.CatchGameAcorns,
      'anvil': TTLocalizer.CatchGameAnvils}
 
     def __init__(self, cr):
@@ -79,7 +80,8 @@ class DistributedCatchGame(DistributedMinigame):
              'pear': 0.5,
              'coconut': 0.7,
              'watermelon': 0.6,
-             'pineapple': 0.45}
+             'pineapple': 0.45,
+             'acorn': 0.7}
             if objType.name in modelScales:
                 model.setScale(modelScales[objType.name])
             if objType == Name2DropObjectType['pear']:
@@ -229,7 +231,8 @@ class DistributedCatchGame(DistributedMinigame):
          ToontownGlobals.DaisyGardens: 'pear',
          ToontownGlobals.MinniesMelodyland: 'coconut',
          ToontownGlobals.TheBrrrgh: 'watermelon',
-         ToontownGlobals.DonaldsDreamland: 'pineapple'}
+         ToontownGlobals.DonaldsDreamland: 'pineapple',
+         ToontownGlobals.OutdoorZone: 'acorn'}
         self.fruitName = fruits[self.getSafezoneId()]
         self.ShowObjSpheres = 0
         self.ShowToonSpheres = 0

@@ -18,32 +18,37 @@ GameDuration = {ToontownGlobals.ToontownCentral: 150,
  ToontownGlobals.DaisyGardens: 140,
  ToontownGlobals.MinniesMelodyland: 135,
  ToontownGlobals.TheBrrrgh: 130,
- ToontownGlobals.DonaldsDreamland: 125}
+ ToontownGlobals.DonaldsDreamland: 125,
+ ToontownGlobals.OutdoorZone: 120}
 BaseBonusOnCompletion = {ToontownGlobals.ToontownCentral: 15,
  ToontownGlobals.DonaldsDock: 17,
  ToontownGlobals.DaisyGardens: 19,
  ToontownGlobals.MinniesMelodyland: 21,
  ToontownGlobals.TheBrrrgh: 23,
- ToontownGlobals.DonaldsDreamland: 25}
+ ToontownGlobals.DonaldsDreamland: 25,
+ ToontownGlobals.OutdoorZone: 27}
 BonusPerSecondLeft = 0.8
 ScoreLossPerEnemyCollision = {ToontownGlobals.ToontownCentral: -1,
  ToontownGlobals.DonaldsDock: -1,
  ToontownGlobals.DaisyGardens: -1,
  ToontownGlobals.MinniesMelodyland: -1,
  ToontownGlobals.TheBrrrgh: -1,
- ToontownGlobals.DonaldsDreamland: -1}
+ ToontownGlobals.DonaldsDreamland: -1,
+ ToontownGlobals.OutdoorZone: -1}
 ScoreLossPerFallDown = {ToontownGlobals.ToontownCentral: -0,
  ToontownGlobals.DonaldsDock: -0,
  ToontownGlobals.DaisyGardens: -0,
  ToontownGlobals.MinniesMelodyland: -0,
  ToontownGlobals.TheBrrrgh: -0,
- ToontownGlobals.DonaldsDreamland: -0}
+ ToontownGlobals.DonaldsDreamland: -0,
+ ToontownGlobals.OutdoorZone: -1}
 ScoreLossPerStomperSquish = {ToontownGlobals.ToontownCentral: -1,
  ToontownGlobals.DonaldsDock: -1,
  ToontownGlobals.DaisyGardens: -1,
  ToontownGlobals.MinniesMelodyland: -1,
  ToontownGlobals.TheBrrrgh: -1,
- ToontownGlobals.DonaldsDreamland: -1}
+ ToontownGlobals.DonaldsDreamland: -1,
+ ToontownGlobals.OutdoorZone: -1}
 SectionWeights = {ToontownGlobals.ToontownCentral: ((0, 25),
                                    (1, 25),
                                    (2, 25),
@@ -79,37 +84,48 @@ SectionWeights = {ToontownGlobals.ToontownCentral: ((0, 25),
                                     (2, 15),
                                     (3, 15),
                                     (4, 25),
+                                    (5, 25)),
+ ToontownGlobals.OutdoorZone: ((0, 10),
+                                    (1, 10),
+                                    (2, 15),
+                                    (3, 15),
+                                    (4, 25),
                                     (5, 25))}
 NumSections = {ToontownGlobals.ToontownCentral: 5,
  ToontownGlobals.DonaldsDock: 5,
  ToontownGlobals.DaisyGardens: 5,
  ToontownGlobals.MinniesMelodyland: 5,
  ToontownGlobals.TheBrrrgh: 5,
- ToontownGlobals.DonaldsDreamland: 5}
+ ToontownGlobals.DonaldsDreamland: 5,
+ ToontownGlobals.OutdoorZone: 5}
 PercentMaxEnemies = {ToontownGlobals.ToontownCentral: 50,
  ToontownGlobals.DonaldsDock: 60,
  ToontownGlobals.DaisyGardens: 70,
  ToontownGlobals.MinniesMelodyland: 80,
  ToontownGlobals.TheBrrrgh: 90,
- ToontownGlobals.DonaldsDreamland: 100}
+ ToontownGlobals.DonaldsDreamland: 100,
+ ToontownGlobals.OutdoorZone: 100}
 PercentMaxTreasures = {ToontownGlobals.ToontownCentral: 100,
  ToontownGlobals.DonaldsDock: 100,
  ToontownGlobals.DaisyGardens: 100,
  ToontownGlobals.MinniesMelodyland: 100,
  ToontownGlobals.TheBrrrgh: 100,
- ToontownGlobals.DonaldsDreamland: 100}
+ ToontownGlobals.DonaldsDreamland: 100,
+ ToontownGlobals.OutdoorZone: 100}
 PercentMaxSpawnPoints = {ToontownGlobals.ToontownCentral: 100,
  ToontownGlobals.DonaldsDock: 90,
  ToontownGlobals.DaisyGardens: 80,
  ToontownGlobals.MinniesMelodyland: 70,
  ToontownGlobals.TheBrrrgh: 60,
- ToontownGlobals.DonaldsDreamland: 50}
+ ToontownGlobals.DonaldsDreamland: 50,
+ ToontownGlobals.OutdoorZone: 40}
 PercentMaxStompers = {ToontownGlobals.ToontownCentral: 50,
  ToontownGlobals.DonaldsDock: 60,
  ToontownGlobals.DaisyGardens: 70,
  ToontownGlobals.MinniesMelodyland: 80,
  ToontownGlobals.TheBrrrgh: 90,
- ToontownGlobals.DonaldsDreamland: 100}
+ ToontownGlobals.DonaldsDreamland: 100,
+ ToontownGlobals.OutdoorZone: 100}
 TreasureValueProbability = {1: 4,
  2: 3,
  3: 2,
