@@ -374,12 +374,16 @@ class DistributedDivingGame(DistributedMinigame):
                                            1.5,
                                            65,
                                            3],
-         ToontownGlobals.DonaldsDock: [1,
+         ToontownGlobals.OutdoorZone: [1,
                                        1.3,
                                        65,
                                        1],
+         ToontownGlobals.DonaldsDock: [1,
+                                       1.2,
+                                       65,
+                                       1],
          ToontownGlobals.DaisyGardens: [2,
-                                        1.2,
+                                        1.0,
                                         65,
                                         1],
          ToontownGlobals.MinniesMelodyland: [2,
@@ -393,7 +397,7 @@ class DistributedDivingGame(DistributedMinigame):
          ToontownGlobals.DonaldsDreamland: [3,
                                             1.0,
                                             65,
-                                            1]}
+                                            1],}
         pattern = self.difficultyPatterns[self.getSafezoneId()]
         self.NUMCRABS = pattern[0]
         self.SPEEDMULT = pattern[1]

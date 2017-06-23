@@ -194,6 +194,10 @@ TheBrrrgh = 3000
 MinniesMelodyland = 4000
 DaisyGardens = 5000
 OutdoorZone = 6000
+AcornAvenue = 6100
+PeanutPlace = 6200
+WalnutWay = 6300
+LegumeLane = 6400
 FunnyFarm = 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
@@ -225,6 +229,7 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace, Wacky
  TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
+ OutdoorZone: (AcornAvenue, PeanutPlace, WalnutWay, LegumeLane),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
  GoofySpeedway: (),
  ToontownCentralOld: ()}
@@ -289,7 +294,7 @@ cogIndex2dept = invertDict(cogDept2index)
 HQToSafezone = {SellbotHQ: DaisyGardens,
  CashbotHQ: DonaldsDreamland,
  LawbotHQ: TheBrrrgh,
- BossbotHQ: DonaldsDock,
+ BossbotHQ: OutdoorZone,
  BoardbotHQ: MinniesMelodyland}
 CogDeptNames = [TTLocalizer.Bossbot,
  TTLocalizer.Lawbot,
@@ -522,7 +527,7 @@ streetPhaseMap = {
  DaisyGardens: 8,
  FunnyFarm: 8,
  DonaldsDreamland: 8,
- OutdoorZone: 8,
+ OutdoorZone: 6,
  BossbotHQ: 12,
  SellbotHQ: 9,
  CashbotHQ: 10,

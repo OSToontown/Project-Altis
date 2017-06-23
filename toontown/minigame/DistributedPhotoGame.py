@@ -1377,6 +1377,8 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         zone = self.getSafezoneId()
         if zone == ToontownGlobals.ToontownCentral:
             self.constructTTC()
+        elif zone == ToontownGlobals.OutdoorZone:
+            self.constructOZ()
         elif zone == ToontownGlobals.DonaldsDock:
             self.constructDD()
         elif zone == ToontownGlobals.DaisyGardens:
@@ -1392,6 +1394,8 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         zone = self.getSafezoneId()
         if zone == ToontownGlobals.ToontownCentral:
             self.destructTTC()
+        elif zone == ToontownGlobals.OutdoorZone:
+            self.destructOZ()
         elif zone == ToontownGlobals.DonaldsDock:
             self.destructDD()
         elif zone == ToontownGlobals.DaisyGardens:
@@ -1422,6 +1426,12 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def destructTTC(self):
         self.stopAnimatedProps()
         self.deleteAnimatedProps()
+		
+    def constructOZ(self):
+        self.constructTTC()
+
+    def destructOZ(self):
+        self.destructTTC()
 
     def constructDD(self):
         self.photoRoot = self.scene.find('**/center_island*')

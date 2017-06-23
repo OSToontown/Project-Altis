@@ -24,9 +24,9 @@ class DistributedRainManagerAI(DistributedWeatherMGRAI):
         DistributedWeatherMGRAI.announceGenerate(self)
         if self.zoneId in [3000, 3100, 3200, 3300]:
             rainState = 'Snow'
-        elif self.zoneId == 6000:
-            self.b_setState('ThunderStorm')
-            return            
+        #elif self.zoneId == 6000:
+        #    self.b_setState('ThunderStorm')
+        #    return            
         else:
             rainState = 'Rain'
         Sequence(

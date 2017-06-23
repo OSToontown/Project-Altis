@@ -2985,12 +2985,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 		
     def setTrainingPoints(self, points):
         self.trainingPoints = points
+        messenger.send('skillPointChange')
 		
     def getTrainingPoints(self):
         return self.trainingPoints
 		
     def setSpentTrainingPoints(self, points):
         self.spentTrainingPoints = points
+        messenger.send('skillPointChange')
 		
     def getSpentTrainingPoints(self):
         return self.spentTrainingPoints

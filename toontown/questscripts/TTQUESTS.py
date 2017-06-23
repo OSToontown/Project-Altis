@@ -27,7 +27,7 @@ REPARENTTO camera render
 POSHPRSCALE camera 11 7 3 52 0 0 1 1 1
 LOAD_CLASSIC_CHAR classicChar
 REPARENTTO classicChar render
-POS classicChar 0 0 0 
+POS classicChar 0 0 0
 HPR classicChar 0 0 0
 POS localToon 0 0 0
 HPR localToon 0 0 0
@@ -138,7 +138,7 @@ WAIT 0.6574
 LOOP_ANIM npc 'neutral' 1
 LOCAL_CHAT_CONFIRM npc QuestScript101_7 "CFSpeech" tomDialogue_07
 # Make it look like the client has no inventory. Since the toon.dc
-# specifies that the user really does have 1 of each item, we will 
+# specifies that the user really does have 1 of each item, we will
 # just put on a show for the client of not having any items then
 # handing them out.
 SET_INVENTORY 4 0 0
@@ -377,9 +377,9 @@ FUNCTION npc "stopLookAround"
 LERP_POSHPR camera 0.0 6.0 4.0 180.0 0.0 0.0 0.5
 SET_MUSIC_VOLUME 0.4 music 0.5 0.8
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_1 blockerDialogue_01
-WAIT 0.8 
+WAIT 0.8
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_2 blockerDialogue_02
-WAIT 0.8 
+WAIT 0.8
 #POS camera -5.0 -9.0 6.0
 #HPR camera -25.0 -10.0 0.0
 LERP_POSHPR camera -5.0 -9.0 6.0 -25.0 -10.0 0.0 0.5
@@ -389,8 +389,8 @@ SHOW localToon
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_3 blockerDialogue_03
 OBSCURE_CHAT 1 0 0
 SHOW chatScButton
-WAIT 0.6 
-ARROWS_ON -1.3644 0.91 180 -1.5644 0.74 -90 
+WAIT 0.6
+ARROWS_ON -1.3644 0.91 180 -1.5644 0.74 -90
 LOCAL_CHAT_PERSIST npc QuestScriptTutorialBlocker_4 blockerDialogue_04
 WAIT_EVENT "enterSpeedChat"
 ARROWS_OFF
@@ -404,7 +404,7 @@ LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_5 "CFSpeech" blockerDialogue_0
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_6 "CFSpeech" blockerDialogue_06
 OBSCURE_CHAT 0 0 0
 SHOW chatNormalButton
-WAIT 0.6 
+WAIT 0.6
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_7 "CFSpeech" blockerDialogue_07
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_8 1 "CFSpeech" blockerDialogue_08
 SET_MUSIC_VOLUME 0.8 music 1.0 0.4
@@ -412,8 +412,8 @@ LOOP_ANIM npc "walk"
 LERP_HPR npc 270 0 0 0.5
 WAIT 0.5
 LOOP_ANIM npc "run"
-LERP_POS npc 217.4 18.81 -0.475 0.75 
-LERP_HPR npc 240 0 0 0.75 
+LERP_POS npc 217.4 18.81 -0.475 0.75
+LERP_HPR npc 240 0 0 0.75
 WAIT 0.75
 LERP_POS npc 222.4 15.0 -0.475 0.35
 LERP_HPR npc 180 0 0 0.35

@@ -237,10 +237,10 @@ class Quest:
 
     def checkNumCFOs(self, num):
         self.check(num > 0, 'invalid number of CFOs: %s' % num)
-		
+
     def checkNumCJs(self, num):
         self.check(num > 0, 'invalid number of CJs: %s' % num)
-		
+
     def checkNumCEOs(self, num):
         self.check(num > 0, 'invalid number of CEOs: %s' % num)
 
@@ -252,7 +252,7 @@ class Quest:
 
     def checkBuildingFloors(self, floors):
         self.check(floors >= 1 and floors <= 6, 'invalid num floors: %s' % floors)
-		
+
     def checkNumCogdos(self, num):
         self.check(1, 'invalid num buildings: %s' % num)
 
@@ -267,10 +267,10 @@ class Quest:
 
     def checkNumMints(self, num):
         self.check(1, 'invalid num mints: %s' % num)
-		
+
     def checkNumStages(self, num):
         self.check(1, 'invalid num mints: %s' % num)
-		
+
     def checkNumClubs(self, num):
         self.check(1, 'invalid num mints: %s' % num)
 
@@ -282,7 +282,7 @@ class Quest:
 
     def checkGagTrack(self, track):
         self.check(track >= ToontownBattleGlobals.MIN_TRACK_INDEX and track <= ToontownBattleGlobals.MAX_TRACK_INDEX, 'invalid gag track: %s' % track)
-		
+
     def checkExperienceAmount(self, num):
         self.check(num > 0, 'invalid track experience amount: %s' % num)
 
@@ -379,13 +379,13 @@ class Quest:
 
     def doesCFOCount(self, avId, cogDict, zoneId, avList):
         return 0
-		
+
     def doesCJCount(self, avId, cogDict, zoneId, avList):
         return 0
 
     def doesCEOCount(self, avId, cogDict, zoneId, avList):
         return 0
-		
+
     def doesFactoryCount(self, avId, location, avList):
         return 0
 
@@ -574,7 +574,7 @@ class CogNewbieQuest(CogQuest, NewbieQuest):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
-			
+
 class TrackExpQuest(LocationBasedQuest):
     def __init__(self, id, quest):
         LocationBasedQuest.__init__(self, id, quest)
@@ -774,7 +774,7 @@ class CogLevelQuest(CogQuest):
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         questCogLevel = self.getCogLevel()
         return questCogLevel <= cogDict['level'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
-		
+
 class CogTrackLevelQuest(CogQuest):
     trackCodes = ['c',
      'l',
@@ -801,7 +801,7 @@ class CogTrackLevelQuest(CogQuest):
 
     def getCogTrack(self):
         return self.quest[2]
-		
+
     def getCogLevel(self):
         return self.quest[3]
 
@@ -1116,7 +1116,7 @@ class CFONewbieQuest(CFOQuest, NewbieQuest):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
-			
+
 class CJQuest(CogQuest):
     def __init__(self, id, quest):
         CogQuest.__init__(self, id, quest)
@@ -1155,7 +1155,7 @@ class CJNewbieQuest(CJQuest, NewbieQuest):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
-			
+
 class CEOQuest(CogQuest):
     def __init__(self, id, quest):
         CogQuest.__init__(self, id, quest)
@@ -1353,7 +1353,7 @@ class BuildingQuest(CogQuest):
 
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         return 0
-		
+
     def doesBuildingTypeCount(self, type):
         buildingTrack = self.getBuildingTrack()
         if buildingTrack == Any or buildingTrack == type:
@@ -1380,7 +1380,7 @@ class BuildingNewbieQuest(BuildingQuest, NewbieQuest):
 
     def doesBuildingCount(self, avId, avList):
         return self.getNumNewbies(avId, avList)
-		
+
 class CogdoQuest(CogQuest):
     trackCodes = ['c',
      'l',
@@ -1464,7 +1464,7 @@ class CogdoQuest(CogQuest):
 
     def doesCogdoCount(self, avId, avList):
         return 1
-		
+
     def doesCogdoTypeCount(self, type):
         CogdoTrack = self.getCogdoTrack()
         if CogdoTrack == Any or CogdoTrack == type:
@@ -1664,7 +1664,7 @@ class MintNewbieQuest(MintQuest, NewbieQuest):
             return self.getNumNewbies(avId, avList)
         else:
             return num
-			
+
 class StageQuest(LocationBasedQuest):
     def __init__(self, id, quest):
         LocationBasedQuest.__init__(self, id, quest)
@@ -1739,7 +1739,7 @@ class StageNewbieQuest(StageQuest, NewbieQuest):
             return self.getNumNewbies(avId, avList)
         else:
             return num
-			
+
 class ClubQuest(LocationBasedQuest):
     def __init__(self, id, quest):
         LocationBasedQuest.__init__(self, id, quest)
@@ -2536,9 +2536,14 @@ Index 7: Dialog
 Index 8: Amount of EXP rewarded from completion of quest, this MUST BE DECLARED ON EACH PART OF CHAIN
 Index 9: Amount of JBs rewarded from completion of quest, this MUST BE DECLARED ON EACH PART OF CHAIN
 '''
+# BEGIN OF TASKLINE
 QuestDict = {
  164: ([], Start, (VisitQuest,), 2003, 2001, NA, 165, TTLocalizer.QuestDialogDict[164], 40, 5),
- 165: ([], Cont, (CogQuest, Anywhere, 3, Any), 2001, 2003, 0, NA, TTLocalizer.QuestDialogDict[165], 40, 5)}
+ 165: ([], Cont, (CogQuest, Anywhere, 3, Any), 2001, 2003, 0, NA, TTLocalizer.QuestDialogDict[165], 40, 5),
+ 166: ([], Start, (VisitQuest,), 2111, 2410, NA, 167, TTLocalizer.QuestDialogDict[166], 75, 10),
+ 167: ([], Cont, (RecoverItemQuest, 2000, 7016, 25, Any), 2410, 2410, NA, 168, TTLocalizer.QuestDialogDict[167], 75, 10),
+ 168: ([], Cont, (DeliverItemQuest, 7016), 2410, 2111, 0, NA, TTLocalizer.QuestDialogDict[168], 75, 10)
+}
 
 Quest2RewardDict = {}
 Tier2Reward2QuestsDict = {}
@@ -2703,7 +2708,7 @@ def filterQuests(entireQuestPool, currentNpc, av):
     if notify.getDebug():
         notify.debug('filterQuests: finalQuestPool: %s' % finalQuestPool)
     return finalQuestPool
-    
+
 def chooseTrackChoiceQuest(tier, av, fixed = 0):
 
     def fixAndCallAgain():
@@ -2832,12 +2837,22 @@ def transformReward(baseRewardId, av):
 
 
 def chooseBestQuests(currentNpc, av):
+    currentQuests = av.quests
     completedQuests = av.getQuestHistory()
+    completedIds = []
+    currentIds = []
+    for entry in completedQuests:
+        completedIds.append(entry)
+    for entry in currentQuests:
+        currentIds.append(getFirstQuestIdInChain(entry[0]))
     bestQuests = []
     for questId in QuestDict.keys():
         questEntry = QuestDict.get(questId)
         if questEntry[QuestDictFromNpcIndex] == currentNpc.npcId:
-            if not questId in av.getQuestHistory():
+            if questId not in completedIds + currentIds:
+                # Filter out any mid-quests
+                if questEntry[QuestDictStartIndex] != Start:
+                    continue
                 bestQuestToNpcId = getQuestToNpcId(questId)
                 if bestQuestToNpcId == Any:
                     bestQuestToNpcId = 2003
@@ -2855,7 +2870,16 @@ def chooseBestQuests(currentNpc, av):
             continue
 
     return bestQuests
-
+	
+def getFirstQuestIdInChain(questId):
+    while True:
+        questEntry = QuestDict.get(questId)
+        if questEntry[QuestDictStartIndex] != Start:
+            # This isn't a starting quest, so subtract one and check THAT quest
+            questId -= 1
+        else:
+            # This IS a starting quest, return this quest id!
+            return questId
 
 def questExists(id):
     return QuestDict.has_key(id)
@@ -2870,7 +2894,7 @@ def getQuest(id):
     else:
         return None
     return None
-	
+
 def getQuestExp(id):
     questEntry = QuestDict.get(id)
     if questEntry:
@@ -2882,7 +2906,7 @@ def getQuestExp(id):
     else:
         return None
     return None
-	
+
 def getQuestMoney(id):
     questEntry = QuestDict.get(id)
     if questEntry:
@@ -3403,7 +3427,7 @@ class CogSuitPartReward(Reward):
     def getPosterString(self):
         return TTLocalizer.QuestsCogSuitPartRewardPoster % {'cogTrack': self.getCogTrackName(),
          'part': self.getCogPartName()}
-		 
+
 class CogMeritReward(Reward):
     meritNames = TTLocalizer.RewardPanelMeritBarLabels
 
@@ -3434,7 +3458,7 @@ class CogMeritReward(Reward):
     def getPosterString(self):
         return TTLocalizer.QuestsCogSuitMeritRewardPoster % {'numMerits': self.getNumMerits(),
          'meritType': self.getMeritName()}
-		 
+
 def getRewardClass(id):
     reward = RewardDict.get(id)
     if reward:
