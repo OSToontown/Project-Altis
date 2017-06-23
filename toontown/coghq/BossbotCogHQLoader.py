@@ -47,7 +47,7 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
         if zoneId == ToontownGlobals.BossbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
             gzLinkTunnel = self.geom.find('**/LinkTunnel1')
-            gzLinkTunnel.setName('linktunnel_gz_17000_DNARoot')
+            gzLinkTunnel.setName('linktunnel_oz_6320_DNARoot')
             self.makeSigns()
             top = self.geom.find('**/TunnelEntrance')
             origin = top.find('**/tunnel_origin')
@@ -74,7 +74,7 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
             signText.setDepthWrite(0)
 
         makeSign('Gate_2', 'Sign_6', 10700)
-        makeSign('TunnelEntrance', 'Sign_2', 1000)
+        makeSign('TunnelEntrance', 'Sign_2', 6300)
         makeSign('Gate_3', 'Sign_3', 10600)
         makeSign('Gate_4', 'Sign_4', 10500)
         makeSign('GateHouse', 'Sign_5', 10200)
