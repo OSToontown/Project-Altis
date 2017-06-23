@@ -13,11 +13,11 @@ class OZTownLoader(TownLoader.TownLoader):
 
     def load(self, zoneId):
         TownLoader.TownLoader.load(self, zoneId)
-        #Suit.loadSuits(2)
+        Suit.loadSuits(2)
         dnaFile = 'phase_6/dna/outdoor_zone_' + str(self.canonicalBranchZone) + '.pdna'
         self.createHood(dnaFile)
 
     def unload(self):
         TownLoader.TownLoader.unload(self)
-        #Suit.unloadSuits(2)
+        Suit.unloadSuits(2)
 
