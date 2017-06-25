@@ -1731,7 +1731,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setQuests(self.quests)
         if recordHistory:
             if quest[0] != Quests.VISIT_QUEST_ID:
-                newQuestHistory = self.questHistory + [quest[0]]
                 while newQuestHistory.count(Quests.VISIT_QUEST_ID) != 0:
                     newQuestHistory.remove(Quests.VISIT_QUEST_ID)
 

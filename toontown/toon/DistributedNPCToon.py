@@ -303,6 +303,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
         av = base.localAvatar
         for quest in av.quests:
             questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
+            questClass = Quests.getQuest(questId)
             newQuest = tuple(quest)
             actualQuest = Quests.getQuest(questId)
             fComplete = actualQuest.getCompletionStatus(av, newQuest) == Quests.COMPLETE
@@ -311,6 +312,9 @@ class DistributedNPCToon(DistributedNPCToonBase):
                 questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
                 entry = NPCToons.NPCToonDict.get(toNpcId)
                 if entry[1] == name:
+                    return True
+            if isinstance(questClass, Quests.VisitQuest):
+                if NPCToons.getNPCName(questEntry[Quests.QuestDictToNpcIndex]) == self.getName():
                     return True
         return False
 		
