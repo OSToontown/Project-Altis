@@ -359,10 +359,11 @@ class DistributedRingGame(DistributedMinigame):
     def __generateRings(self):
         self.ringGroups = []
         difficultyDistributions = {ToontownGlobals.ToontownCentral: [14, 2, 0],
-         ToontownGlobals.DonaldsDock: [10, 6, 0],
-         ToontownGlobals.DaisyGardens: [4, 12, 0],
-         ToontownGlobals.MinniesMelodyland: [4, 8, 4],
-         ToontownGlobals.TheBrrrgh: [4, 6, 6],
+         ToontownGlobals.OutdoorZone: [10, 6, 0],
+         ToontownGlobals.DonaldsDock: [4, 12, 0],
+         ToontownGlobals.DaisyGardens: [4, 8, 4],
+         ToontownGlobals.MinniesMelodyland: [4, 6, 6],
+         ToontownGlobals.TheBrrrgh: [2, 6, 8],
          ToontownGlobals.DonaldsDreamland: [2, 6, 8]}
         for distr in difficultyDistributions.values():
             sum = reduce(lambda x, y: x + y, distr)
@@ -390,6 +391,21 @@ class DistributedRingGame(DistributedMinigame):
                                             0,
                                             0,
                                             1]],
+         ToontownGlobals.OutdoorZone: [[0] * 10 + [1] * 6 + [2] * 0, [0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        1,
+                                        1] * 2, [0,
+                                        0,
+                                        0,
+                                        1,
+                                        0,
+                                        0,
+                                        1,
+                                        1] * 2],
          ToontownGlobals.DonaldsDock: [[0] * 10 + [1] * 6 + [2] * 0, [0,
                                         0,
                                         0,
