@@ -27,6 +27,7 @@ want-whitelist #t
 # Cashbot boss:
 want-resistance-toonup #t
 want-resistance-restock #t
+want-resistance-money #f
 
 # Developer options:
 show-population #t
