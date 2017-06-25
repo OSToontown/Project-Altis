@@ -718,8 +718,8 @@ QuestDialogDict = {
  103: {QUEST: "Welcome _avName_!\x07I'm Postmaster Pete, I take care of all the local and not-so-local shipping needs of the Tooniverse.\x07I've had my gag supply stolen by the cogs, and I needed to make a delivery to the House of Pies!\x07Do you happen to have any fruit pie slices on you?\x07No? Well, if you get 10 throw points, then you should have some to spare!"},
  104: {QUEST: "Back so soon?\x07We are in another pickle now, Sofie Squirt wants 3 glasses of water, do you happen to have those?\x07No?\x07You're killing me here!\x07Alright, it's no big deal, just go out and take out a few more cogs to gain access to that gag."},
  105: {QUEST: "Whoof! Now that we got that squared away, can you go get 3 fruit pie slices for me?\x07Don't worry, I'll be sure to compensate you for the cost of the pies."},
- 106: {QUEST: "And now we just need the glasses of water..."}
- 107: {QUEST: "Presto! Absolutely brilliant!\x07I can make my deliveries now, thanks __avName__!\x07Head back to Herbert, I'm sure he will be glad to hear the news."},
+ 106: {QUEST: "And now we just need the glasses of water..."},
+ 107: {QUEST: "Presto! Absolutely brilliant!\x07I can make my deliveries now, thanks __avName__!\x07Head back to Herbert, I'm sure he will be glad to hear the news."}
 }
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']

@@ -166,9 +166,8 @@ class DistributedNPCToon(DistributedNPCToonBase):
             if rewardId > 2:
                 fullString += Quests.getReward(rewardId).getString()
             quest = Quests.QuestDict.get(questId)
-            experience = quest[Quests.QuestDictExperienceIndex]
             money = quest[Quests.QuestDictMoneyIndex]
-            fullString += TTLocalizer.QuestMovieExpJbReward % {'exp': experience, 'money': money}
+            base.localAvatar.showMoneyIncrease(money)
             leavingString = Quests.chooseQuestDialog(questId, Quests.LEAVING)
             if leavingString:
                 fullString += '\x07' + leavingString
@@ -314,7 +313,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
                 if entry[1] == name:
                     return True
             if isinstance(questClass, Quests.VisitQuest):
-                if NPCToons.getNPCName(questEntry[Quests.QuestDictToNpcIndex]) == self.getName():
+                if NPCToons.getNPCName(toNpcId) == self.getName():
                     return True
         return False
 		
