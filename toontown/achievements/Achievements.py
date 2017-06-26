@@ -1,4 +1,6 @@
 from toontown.toonbase import ToontownGlobals
+from toontown.suit import SuitDNA
+
 CAT_FRIENDS = 0
 CAT_CATALOG = 1
 CAT_TROLLEY = 2
@@ -44,41 +46,63 @@ class LoopysBallsAchievement:
 class VPAchievement:
 
     def __init__(self, times):
-        pass
+        self.neededTimes = times
 
-    def hasComplete(self, times):
-        return 1
+    def hasComplete(self, av):
+        times = av.getStat(ToontownGlobals.STATS_VP)
+        if times >= self.neededTimes:
+            return 1
+        else:
+            return 0
 
 class CFOAchievement:
 
     def __init__(self, times):
-        pass
+        self.neededTimes = times
 
-    def hasComplete(self, times):
-        return 1
+    def hasComplete(self, av):
+        times = av.getStat(ToontownGlobals.STATS_VP)
+        if times >= self.neededTimes:
+            return 1
+        else:
+            return 0
 
 class CJAchievement:
 
     def __init__(self, times):
-        pass
+        self.neededTimes = times
 
-    def hasComplete(self, times):
-        return 1
+    def hasComplete(self, av):
+        times = av.getStat(ToontownGlobals.STATS_VP)
+        if times >= self.neededTimes:
+            return 1
+        else:
+            return 0
 
 class CEOAchievement:
 
     def __init__(self, times):
-        pass
+        self.neededTimes = times
 
-    def hasComplete(self, times):
-        return 1
+    def hasComplete(self, av):
+        times = av.getStat(ToontownGlobals.STATS_VP)
+        if times >= self.neededTimes:
+            return 1
+        else:
+            return 0
 
 class DisguiseAchievement:
     def __init__(self, dept):
-        pass
+        self.neededDept = dept
 
-    def hasComplete(self, dept):
-        return 1
+    def hasComplete(self, av, dept):
+        if dept == self.neededDept:
+            if av.cogLevels[SuitDNA.suitDepts.index(dept)] >= 49:
+                return 1
+            else:
+                return 0
+        else:
+            return 0
 		
 class GagTrackAchievement:
 

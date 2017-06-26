@@ -626,6 +626,8 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                     for x in xrange(self.bonusUnites):
                         toon.addResistanceMessage(ResistanceChat.getRandomId())
                 toon.b_promote(self.deptIndex)
+                toon.addStat(ToontownGlobals.STATS_CFO)
+            self.air.achievementsManager.cfo(toonId)
 
     def exitVictory(self):
         self.__deleteBattleThreeObjects()

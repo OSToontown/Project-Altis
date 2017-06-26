@@ -84,3 +84,48 @@ class AchievementsManagerAI():
             if not achievementId in av.getAchievements():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av):
                     av.addAchievement(achievementId)
+					
+    def vp(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.VPAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def cfo(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CFOAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def cj(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CJAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def ceo(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CEOAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def disguise(self, av, dept):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.DisguiseAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, dept):
+                    av.addAchievement(achievementId)

@@ -1468,6 +1468,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.incCogReviveLevel(dept)
         else:
             self.incCogLevel(dept)
+            simbase.air.achievementsManager.disguise(self.doId, SuitDNA.suitDepts[dept])
 
     def d_promote(self, dept, hardFlag):
         merits = self.getCogMerits()
