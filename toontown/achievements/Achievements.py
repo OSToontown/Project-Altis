@@ -1,6 +1,5 @@
 from toontown.toonbase import ToontownGlobals
 
-
 class FriendAchievement:
 
     def __init__(self, neededFriends = 1):
