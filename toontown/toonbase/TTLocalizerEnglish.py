@@ -4122,6 +4122,15 @@ StatsList = [
 ]
 
 EarnedAchievement = 'You earned an achievement!'
+AchievementCategories = [
+ "Friends",
+ "Catalog",
+ "Trolley",
+ "Cogs",
+ "Gags",
+ "Fishing",
+ "Visit",
+ "Special"]
 Achievements = [
  "You've Got a Friend In Me!",
  "I'm In a Clique!",
