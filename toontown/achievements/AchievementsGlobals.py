@@ -47,8 +47,9 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_gag_throw_max.png'), # max throw
                      ('phase_3/maps/achievements/ttpa_achievement_gag_squirt_max.png'), # max squirt
                      ('phase_3/maps/achievements/ttpa_achievement_gag_zap_max.png'), # max zap
-                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop_max.png'),
-                     ('phase_3/maps/achievements/ttpa_achievement_sofie.png')) # max drop
+                     ('phase_3/maps/achievements/ttpa_achievement_gag_drop_max.png'), # max drop
+                     ('phase_3/maps/achievements/ttpa_achievement_sofie.png'), # pester sofie
+                     ('phase_3/maps/achievements/ttpa_achievement_doodle.png')) # buy doodle
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -100,4 +101,5 @@ AchievementExperience = (10, # 1 friend
                          5000, # max squirt
                          5000, # max zap
                          5000, # max drop
-                         50) # sofie squirt
+                         50, # sofie squirt
+                         250) # buy doodle

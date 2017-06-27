@@ -4150,7 +4150,7 @@ Achievements = [
  "Professional Noisemaker!",
  "Shock and Awe!",
  "Heads up!",
- "Ahoy, Me Mateys!",
+ "How Did Island Here?",
  "Do You See What I Ski?",
  "Stay Composed!",
  "Don't be Such a Pansy!",
@@ -4182,7 +4182,8 @@ Achievements = [
  "Go With the Flow!",
  "1.21 Gigawatts!",
  "I Missed the Minor Chord!",
- "Never gets old!"
+ "Never gets old!",
+ "Where Have you Bean All my Life?"
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
@@ -4234,7 +4235,8 @@ AchievementsDesc = ("Make a friend",
  "Max the SQUIRT gag track.",
  "Max the ZAP gag track.",
  "Max the DROP gag track.",
- "Humor Sofie Squirt with a stale joke.")
+ "Humor Sofie Squirt with a stale joke.",
+ "Buy a doodle.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'
