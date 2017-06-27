@@ -24,8 +24,6 @@ if config.GetBool('want-resistance-toonup', True):
     allowedResistanceMessages.append(RESISTANCE_TOONUP)
 if config.GetBool('want-resistance-restock', True):
     allowedResistanceMessages.append(RESISTANCE_RESTOCK)
-if config.GetBool('want-resistance-money', True):
-    allowedResistanceMessages.append(RESISTANCE_MONEY)
 resistanceMenu = [
     RESISTANCE_TOONUP, RESISTANCE_RESTOCK, RESISTANCE_MONEY
 ]
@@ -34,7 +32,7 @@ resistanceDict = {
         'menuName': TTLocalizer.ResistanceToonupMenu,
         'itemText': TTLocalizer.ResistanceToonupItem,
         'chatText': TTLocalizer.ResistanceToonupChat,
-        'values': [10, 20, 40, 80, -1],
+        'values': [10, 15, 30, 45, 60],
         'items': [0, 1, 2, 3, 4]
     },
     RESISTANCE_MONEY: {
