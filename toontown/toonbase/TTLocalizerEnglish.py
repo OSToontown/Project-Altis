@@ -4181,7 +4181,8 @@ Achievements = [
  "You Underestimate My Flour!",
  "Go With the Flow!",
  "1.21 Gigawatts!",
- "I Missed the Minor Chord!"
+ "I Missed the Minor Chord!",
+ "Never gets old!"
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
@@ -4232,7 +4233,8 @@ AchievementsDesc = ("Make a friend",
  "Max the THROW gag track.",
  "Max the SQUIRT gag track.",
  "Max the ZAP gag track.",
- "Max the DROP gag track.")
+ "Max the DROP gag track.",
+ "Humor Sofie Squirt with a stale joke.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'

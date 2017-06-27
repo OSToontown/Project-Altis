@@ -688,6 +688,7 @@ from toontown.ai import DistributedAprilToonsMgr/AI
 from toontown.ai import DistributedBlackCatMgr/AI
 from toontown.ai import DistributedPolarBearMgr/AI
 from toontown.ai import DistributedPolarPlaceEffectMgr/AI
+from toontown.ai import DistributedSofieListenerMgr/AI
 from toontown.ai import DistributedGreenToonEffectMgr/AI
 from toontown.ai import DistributedResistanceEmoteMgr/AI
 from toontown.ai import DistributedScavengerHuntTarget/AI
@@ -3079,6 +3080,10 @@ dclass DistributedPolarBearMgr : DistributedObject {
 
 dclass DistributedPolarPlaceEffectMgr : DistributedObject {
   addPolarPlaceEffect() airecv clsend;
+};
+
+dclass DistributedSofieListenerMgr : DistributedObject {
+  addAchievement() airecv clsend;
 };
 
 dclass DistributedGreenToonEffectMgr : DistributedObject {

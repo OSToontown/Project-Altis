@@ -42,6 +42,11 @@ class LoopysBallsAchievement:
 
     def hasComplete(self, av):
         return 1
+		
+class SofieSquirtAchievement:
+
+    def hasComplete(self, av):
+        return 1
 
 class VPAchievement:
 
@@ -210,7 +215,8 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     MaxGagAchievement(track = 4),
                     MaxGagAchievement(track = 5),
                     MaxGagAchievement(track = 6),
-                    MaxGagAchievement(track = 7))
+                    MaxGagAchievement(track = 7),
+                    SofieSquirtAchievement())
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
@@ -222,7 +228,8 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        ZoneAchievement: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
                        CogAchievement: [30, 31, 32, 33, 34, 35, 36],
                        FishAchievement: [37, 38, 39, 40, 41],
-                       MaxGagAchievement: [42, 43, 44, 45, 46, 47, 48, 49]}
+                       MaxGagAchievement: [42, 43, 44, 45, 46, 47, 48, 49],
+                       SofieSquirtAchievement: [50]}
 					   
 type2Category = {FriendAchievement: CAT_FRIENDS,
                  CatalogAchievement: CAT_CATALOG,
@@ -234,7 +241,8 @@ type2Category = {FriendAchievement: CAT_FRIENDS,
                  ZoneAchievement: CAT_VISIT,
                  CogAchievement: CAT_COGS,
                  FishAchievement: CAT_FISHING,
-                 MaxGagAchievement: CAT_GAGS}
+                 MaxGagAchievement: CAT_GAGS,
+                 SofieSquirtAchievement: CAT_SPECIAL}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)
