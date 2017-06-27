@@ -4160,7 +4160,7 @@ Achievements = [
  "Welcome to the Club!",
  "The Sales Floor!",
  "Not the Mint I was Talking About!",
- "Law and Order!",
+ "Justice Second!",
  "Board Yet?",
  "First Encounter!",
  "Ten Tin Suits!",

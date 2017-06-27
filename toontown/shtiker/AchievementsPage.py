@@ -6,6 +6,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.achievements import AchievementsGlobals
 from toontown.achievements import Achievements
 from toontown.makeatoon.MakeAToonGlobals import *
+import math
 
 POSITIONS = [(-.45, 0, .2), (.45, 0, .2),
              (-.45, 0, -.4), (.45, 0, -.4)]
@@ -18,9 +19,8 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         self.achievements = []
         self.categories = [[], [], [], [], [], [], [], []]
         self.statRows = []
-        self.sets = [[]]
         self.index = 0
-        self.setIndex = 0
+        self.offset = 0
 
         self.gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         self.accept(localAvatar.uniqueName('achievementsChange'), self.updatePage)
@@ -63,6 +63,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
 		
         self.nameFrame = DirectFrame(parent=self.achievementsPageNode, image=shuffleFrame, image_scale=halfButtonInvertScale, relief=None, pos=(0, 0, 0.6), hpr=(0, 0, 3), scale=(1.2), frameColor=(1, 1, 1, 1), text=TTLocalizer.AchievementCategories[self.index], text_scale=0.0625, text_pos=(-0.001, -0.015), text_fg=(1, 1, 1, 1))
         self.achievementLButton = DirectButton(parent=self.nameFrame, relief=None, image=shuffleImage, image_scale=halfButtonScale, image1_scale=halfButtonHoverScale, image2_scale=halfButtonHoverScale, pos=(-0.2, 0, 0), command=self.doAchievementPageChange, extraArgs = [-1])
+        self.achievementLButton['state'] = DGG.DISABLED
         self.achievementRButton = DirectButton(parent=self.nameFrame, relief=None, image=shuffleImage, image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.doAchievementPageChange, extraArgs = [1])
         self.setFrame = DirectFrame(parent=self.achievementsPageNode, image=shuffleFrame, image_scale=halfButtonInvertScale, relief=None, pos=(0.5, 0, 0.6), hpr=(0, 0, 3), scale=(0.8), frameColor=(1, 1, 1, 1), text='', text_scale=0.0625, text_pos=(-0.001, -0.015), text_fg=(1, 1, 1, 1))
         self.setLButton = DirectButton(parent=self.setFrame, relief=None, image=shuffleImage, image_scale=halfButtonScale, image1_scale=halfButtonHoverScale, image2_scale=halfButtonHoverScale, pos=(-0.2, 0, 0), command=self.doSetPageChange, extraArgs = [-1])
@@ -104,7 +105,6 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         self.statRows = []
 		
         del self.categories
-        del self.sets
 
         self.achievementsPageNode.removeNode()
         self.statsPageNode.removeNode()
@@ -134,7 +134,6 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
 
         self.achievements = []
         self.categories = [[], [], [], [], [], [], [], []]
-        self.sets = [[]]
         engageModulusMode = False
         setNum = 0
 
@@ -143,49 +142,42 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
 		
         possibleAchievementTypes = Achievements.type2AchievementIds.keys()
 		
-        for category in xrange(len(TTLocalizer.AchievementCategories)):
-            self.categories.append([])
+        for type in xrange(len(possibleAchievementTypes)):
             for achievement in Achievements.AchievementsDict:
-                if isinstance(achievement, possibleAchievementTypes[category]):
+                if isinstance(achievement, possibleAchievementTypes[type]):
                     cat = Achievements.type2Category.get(achievement.__class__)
                     self.categories[cat].append(Achievements.AchievementsDict.index(achievement))
+		
+        if len(self.categories[self.index]) > 4:
+            self.setFrame.show()
+        else:
+            self.setFrame.hide()
 
-        for achievement in xrange(len(self.categories[self.index])):
-            if len(self.categories[self.index]) > 4:
-                engageModulusMode = True
-            achievementFrame = DirectFrame(parent = self.achievementsPageNode, image = DGG.getDefaultDialogGeom(), scale = (0.55, 0, 0.55),
-                                           relief = None, pos = (POSITIONS[achievement % 4]),
-                                           text = AchievementsGlobals.AchievementTitles[self.categories[self.index][achievement]], text_scale = (.08),
-                                           text_font = ToontownGlobals.getMinnieFont(), text_wordwrap = 10, text_pos = (0, 0, 0))
+        for achievement in xrange(self.offset, self.offset + 4):
+            try:
+                achievementFrame = DirectFrame(parent = self.achievementsPageNode, image = DGG.getDefaultDialogGeom(), scale = (0.55, 0, 0.55),
+                                               relief = None, pos = (POSITIONS[achievement % 4]),
+                                               text = TTLocalizer.Achievements[self.categories[self.index][achievement]], text_scale = (.08),
+                                               text_font = ToontownGlobals.getMinnieFont(), text_wordwrap = 10, text_pos = (0, 0, 0))
+            except:
+                return
 
             self.achievements.append(achievementFrame)
-            if engageModulusMode:
-                self.sets[setNum].append(achievementFrame)
-                if achievement % 4 == 0 and achievement != 0:
-                    self.sets.append([])
-                    setNum += 1
 
-            if self.categories[self.index][achievement] in  self.avAchievements:
-                achievementFrame['text'] = AchievementsGlobals.AchievementTitles[self.categories[self.index][achievement]]
+            if self.categories[self.index][achievement] in self.avAchievements:
+                achievementFrame['text'] = TTLocalizer.Achievements[self.categories[self.index][achievement]]
                 achievementFrame['text_pos'] = (0, .4, 0)
 
                 currentAchievement = AchievementsGlobals.AchievementImages[self.categories[self.index][achievement]]
 
                 img = OnscreenImage(image = currentAchievement, parent = achievementFrame, scale = (.2, 1, .2))
                 img.setTransparency(TransparencyAttrib.MAlpha)
-                experience = OnscreenText(parent = achievementFrame, text = str(AchievementsGlobals.AchievementExperience[self.categories[self.index][achievement]]) + " experience", scale = (.08), font = ToontownGlobals.getMinnieFont(), fg = (.2, .8, .2, 1), pos = (0, -.4))
+                experience = OnscreenText(parent = achievementFrame, text = TTLocalizer.AchievementsDesc[self.categories[self.index][achievement]], scale = (.06), wordwrap = 10, font = ToontownGlobals.getMinnieFont(), pos = (0, -.3))
             else:
                 achievementFrame['text'] = 'Achievement locked'
-            if self.sets != [[]]:
-                for set in self.sets:
-                    for achievement in set:
-                        achievement.hide()
-                for achievement in self.sets[self.setIndex]:
-                    achievement.show()
 				
     def doAchievementPageChange(self, direction):
         self.index += direction
-        self.setIndex = 0
         self.nameFrame['text'] = TTLocalizer.AchievementCategories[self.index]
         if self.index <= 0:
             self.achievementLButton['state'] = DGG.DISABLED
@@ -195,25 +187,25 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
             self.achievementRButton['state'] = DGG.DISABLED
         else:
             self.achievementLButton['state'] = DGG.NORMAL
-            self.achievementRButton['state'] = DGG.NORMAL		
+            self.achievementRButton['state'] = DGG.NORMAL
+        self.offset = 0
+        self.setFrame['text'] = 'Page ' + str((self.offset/4) + 1)
+        self.setLButton['state'] = DGG.DISABLED
+        self.setRButton['state'] = DGG.NORMAL		
         self.updatePage()
 		
     def doSetPageChange(self, direction):
-        self.setIndex += direction
-        if self.sets == [[]]:
-            self.setFrame.hide()
-        elif self.setIndex <= 0:
-            self.setFrame.show()
+        self.offset += (direction * 4)
+        if self.offset <= 0:
             self.setLButton['state'] = DGG.DISABLED
             self.setRButton['state'] = DGG.NORMAL
-        elif self.setIndex >= len(self.sets):
-            self.setFrame.show()
+        elif self.offset >= len(self.categories[self.index]) - 4:
             self.setLButton['state'] = DGG.NORMAL
             self.setRButton['state'] = DGG.DISABLED
         else:
-            self.setFrame.show()
             self.setLButton['state'] = DGG.NORMAL
             self.setRButton['state'] = DGG.NORMAL
+        self.setFrame['text'] = 'Page ' + str((self.offset/4) + 1)
         self.updatePage()
 
     def updateStats(self):

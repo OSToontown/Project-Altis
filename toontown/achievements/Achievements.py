@@ -225,16 +225,16 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        MaxGagAchievement: [42, 43, 44, 45, 46, 47, 48, 49]}
 					   
 type2Category = {FriendAchievement: CAT_FRIENDS,
-                       CatalogAchievement: CAT_CATALOG,
-                       TrolleyAchievement: CAT_TROLLEY,
-                       LoopysBallsAchievement: CAT_SPECIAL,
-                       VPAchievement: CAT_COGS,
-                       DisguiseAchievement: CAT_COGS,
-                       GagTrackAchievement: CAT_GAGS,
-                       ZoneAchievement: CAT_VISIT,
-                       CogAchievement: CAT_COGS,
-                       FishAchievement: CAT_FISHING,
-                       MaxGagAchievement: CAT_GAGS}
+                 CatalogAchievement: CAT_CATALOG,
+                 TrolleyAchievement: CAT_TROLLEY,
+                 LoopysBallsAchievement: CAT_SPECIAL,
+                 VPAchievement: CAT_COGS,
+                 DisguiseAchievement: CAT_COGS,
+                 GagTrackAchievement: CAT_GAGS,
+                 ZoneAchievement: CAT_VISIT,
+                 CogAchievement: CAT_COGS,
+                 FishAchievement: CAT_FISHING,
+                 MaxGagAchievement: CAT_GAGS}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)
