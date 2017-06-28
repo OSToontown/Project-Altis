@@ -51,7 +51,7 @@ class FishManagerAI:
             av.d_setFishTank(netlist[0], netlist[1], netlist[2])
             del self.requestedFish[av.doId]
             av.addStat(ToontownGlobals.STATS_FISH)
-            simbase.air.achievementsMgr.fish(av.doId)
+            simbase.air.achievementsManager.fish(av.doId)
             return [itemType, genus, species, weight]
         if itemType == FishGlobals.FishItem:
             success, genus, species, weight = FishGlobals.getRandomFishVitals(zoneId, av.getFishingRod())
@@ -69,7 +69,7 @@ class FishManagerAI:
             netlist = av.fishTank.getNetLists()
             av.d_setFishTank(netlist[0], netlist[1], netlist[2])
             av.addStat(ToontownGlobals.STATS_FISH)
-            simbase.air.achievementsMgr.fish(av.doId)
+            simbase.air.achievementsManager.fish(av.doId)
             return [itemType, genus, species, weight]
         elif itemType == FishGlobals.BootItem:
             return [itemType, 0, 0, 0]
@@ -93,6 +93,8 @@ class FishManagerAI:
                 av.fishTank.addFish(fish)
                 netlist = av.fishTank.getNetLists()
                 av.d_setFishTank(netlist[0], netlist[1], netlist[2])
+                av.addStat(ToontownGlobals.STATS_FISH)
+                simbase.air.achievementsManager.fish(av.doId)
                 return [itemType, genus, species, weight]
         else:
             money = FishGlobals.Rod2JellybeanDict[av.getFishingRod()]
