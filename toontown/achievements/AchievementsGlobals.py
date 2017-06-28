@@ -16,18 +16,18 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_gag_sound.png'), # unlock sound
                      ('phase_3/maps/achievements/ttpa_achievement_gag_zap.png'), # unlock zap
                      ('phase_3/maps/achievements/ttpa_achievement_gag_drop.png'), # unlock drop
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit dd
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit tb
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit mml
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit dg
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit aa
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit gs
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit ddl
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit bbhq
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit sbhq
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit cbhq
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit lbhq
-                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # visit bdhq
+                     ('phase_3/maps/achievements/ttpa_achievement_dd.png'), # visit dd
+                     ('phase_3/maps/achievements/ttpa_achievement_tb.png'), # visit tb
+                     ('phase_3/maps/achievements/ttpa_achievement_mml.png'), # visit mml
+                     ('phase_3/maps/achievements/ttpa_achievement_dg.png'), # visit dg
+                     ('phase_3/maps/achievements/ttpa_achievement_aa.png'), # visit aa
+                     ('phase_3/maps/achievements/ttpa_achievement_speedway.png'), # visit gs
+                     ('phase_3/maps/achievements/ttpa_achievement_ddl.png'), # visit ddl
+                     ('phase_3/maps/achievements/ttpa_achievement_bbhq.png'), # visit bbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_sbhq.png'), # visit sbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_cbhq.png'), # visit cbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_lbhq.png'), # visit lbhq
+                     ('phase_3/maps/achievements/ttpa_achievement_bdhq.png'), # visit bdhq
                      ('phase_3/maps/achievements/ttpa_achievement_cogs_1.png'), # defeat 1 cog
                      ('phase_3/maps/achievements/ttpa_achievement_cogs_10.png'), # defeat 10 cogs
                      ('phase_3/maps/achievements/ttpa_achievement_cogs_100.png'), # defeat 100 cogs
