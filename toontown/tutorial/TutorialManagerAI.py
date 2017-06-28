@@ -158,7 +158,6 @@ class TutorialManagerAI(DistributedObjectAI):
         # Prepare the player for the tutorial:
         av.b_setQuests([])
         av.b_setQuestHistory([])
-        av.b_setRewardHistory(0, [])
         av.b_setHp(15)
         av.b_setMaxHp(15)
 

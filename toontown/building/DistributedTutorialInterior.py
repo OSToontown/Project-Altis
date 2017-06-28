@@ -2,6 +2,7 @@ import random
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
+from direct.gui.DirectGui import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from toontown.dna.DNAParser import *
@@ -95,6 +96,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.sky.setDepthWrite(0)
         self.sky.setBin('background', 100)
         self.sky.find('**/Sky').reparentTo(self.sky, -1)
+        self.tutMusic = base.loader.loadMusic('phase_3.5/audio/bgm/tutorial_bgm.ogg')
         hoodId = ZoneUtil.getCanonicalHoodId(self.zoneId)
         self.colors = ToonInteriorColors.colors[hoodId]
         self.replaceRandomInModel(self.interior)
@@ -122,7 +124,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
             self.cr.doId2do[self.npcId].clearMat()
         base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)
-        self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)
+        self.tom = self.cr.doId2do[self.npcId]
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -135,6 +137,34 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def playMovie(self):
         self.notify.info('Tutorial movie: Play.')
+        avHeight = max(base.localAvatar.getHeight(), 3.0)
+        scaleFactor = avHeight * 0.3333333333
+        self.logo = OnscreenImage(image = 'phase_3/maps/toontown-logo.png', pos = (-0.5, 0, 0), color = (1, 1, 1, 0), scale = (0.5, 0.5, 0.25))
+        self.logo.setTransparency(TransparencyAttrib.MAlpha)
+        self.movie = Sequence()
+        self.movie.append(Parallel(Func(base.playMusic, self.tutMusic), Func(base.cr.playGame.getPlace().setState, 'stopped'), Func(base.transitions.fadeIn, 6.4), Wait(6.6)))
+        self.movie.append(Sequence(Func(camera.wrtReparentTo, render), camera.posQuatInterval(1, (5, 9, self.tom.getHeight() - 0.5), (155, -2, 0), other=self.tom, blendType='easeInOut')))
+        self.movie.append(Func(self.tom.setChatAbsolute, TTLocalizer.TutorialGreeting1, CFSpeech))
+        self.movie.append(Wait(5.1))
+        self.movie.append(Func(self.tom.setChatAbsolute, TTLocalizer.TutorialGreeting2, CFSpeech))
+        self.movie.append(Wait(7.3))
+        self.movie.append(Func(self.tom.setChatAbsolute, TTLocalizer.TutorialGreeting3, CFSpeech))
+        self.movie.append(Wait(4))
+        self.movie.append(Func(self.tom.setChatAbsolute, TTLocalizer.TutorialGreeting4, CFSpeech))
+        self.movie.append(Wait(6.5))
+        self.movie.append(Func(self.tom.setChatAbsolute, TTLocalizer.TutorialGreeting5, CFSpeech))
+        self.movie.append(Parallel(Func(base.transitions.fadeIn, 2), Wait(2), LerpFunc(self.adjustTransparency, fromData=0, toData=1, duration=2.5, blendType='noBlend')))
+        self.movie.append(Wait(12.5))
+        self.movie.append(LerpFunc(self.adjustTransparency, fromData=1, toData=0, duration=2.5, blendType='noBlend'))
+        self.movie.append(Func(self.tom.setChatAbsolute, TTLocalizer.TutorialGreeting6, CFSpeech))
+        self.movie.append(Wait(4))
+        self.movie.append(Func(self.tom.setChatAbsolute, TTLocalizer.TutorialGreeting7, CFSpeech))
+        self.movie.append(Sequence(Func(camera.wrtReparentTo, base.localAvatar), camera.posQuatInterval(1, (0, -9 * scaleFactor, avHeight), (0, 0, 0), other=base.localAvatar, blendType='easeInOut')))
+        self.movie.append(Func(base.cr.playGame.getPlace().setState, 'walk'),)
+        self.movie.start()
+		
+    def adjustTransparency(self, transparency):
+        self.logo['color'] = (1, 1,1 , transparency)
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId
