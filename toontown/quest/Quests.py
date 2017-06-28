@@ -2538,6 +2538,7 @@ Index 9: Amount of JBs rewarded from completion of quest, this MUST BE DECLARED 
 '''
 # BEGIN OF TASKLINE
 QuestDict = {
+ 101: ([], Start, (CogQuest, Anywhere, 1, Any), 20000, 20002, NA, 102, TTLocalizer.QuestDialogDict[164], 10, 5),
  102: ([], Cont, (VisitQuest,), 20002, 2001, NA, NA, TTLocalizer.QuestDialogDict[164], 10, 5),
  164: ([], Start, (VisitQuest,), 2003, 2001, NA, 165, TTLocalizer.QuestDialogDict[164], 40, 5),
  165: ([], Cont, (CogQuest, Anywhere, 3, Any), 2001, 2003, 0, NA, TTLocalizer.QuestDialogDict[165], 40, 5),
