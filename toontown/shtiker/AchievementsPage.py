@@ -209,7 +209,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         self.updatePage()
 
     def updateStats(self):
-        rowYs = (.5, .4, .3, .2, .1, 0, -.1, -.2, -.3, -.4, -.5)
+        rowYs = (.6, .5, .4, .3, .2, .1, 0, -.1, -.2, -.3, -.4, -.5, -.6)
         for statRows in self.statRows:
             statRows.destroy()
         self.statRows = [self.createStat(y) for y in (rowYs)]
@@ -219,7 +219,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
             try:
                 self.statRows[stat]['text'] = statText
             except:
-                pass
+                self.statRows[stat]['text'] = 'UNKNOWN STAT INDEX: %s' % stat
 
     def createStat(self, y):
         row = DirectLabel(parent = self.statsPageNode, relief = None, text_align = TextNode.ALeft, text = '', text_scale = 0.045, text_wordwrap = 16, text_style = 3)

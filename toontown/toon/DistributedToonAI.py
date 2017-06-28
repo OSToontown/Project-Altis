@@ -203,7 +203,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
-        self.stats = [0] * 12
+        self.stats = [0] * ToontownGlobals.TOTAL_STATS
         self.interiorLayout = 0
         self.trueFriends = []
         self.trueFriendRequests = (0, 0)

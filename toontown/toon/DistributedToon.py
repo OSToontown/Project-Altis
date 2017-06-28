@@ -193,7 +193,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
-        self.stats = [0] * 12
+        self.stats = [0] * ToontownGlobals.TOTAL_STATS
         self.trueFriends = []
         self.interiorLayout = 0
         self.redeemedCodes = []

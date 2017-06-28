@@ -4109,6 +4109,7 @@ StatsPageTitle = "Toon Stats"
 StatsList = [
 "Cogs Defeated: %s",
 "Buildings Saved: %s",
+"Elite Cogs Defeated: %s",
 "Friends made: %s",
 "Current Friends: %s",
 "Tasks Completed: %s",
