@@ -945,6 +945,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.sendSetLocation(base.localAvatar.doId, parentId, zoneId)
         localAvatar.setLocation(parentId, zoneId)
         interestZones = zoneId
+        messenger.send('zoneChange', [zoneId])
         if visibleZoneList is not None:
             interestZones = visibleZoneList
         

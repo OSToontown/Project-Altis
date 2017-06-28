@@ -218,14 +218,16 @@ class QuestManagerAI:
 
         # Get the possible quest choices and force the player to choose it.
         choices = self.avatarQuestChoice(av, npc)
+        if len(choices) == 0:
+            npc.rejectAvatar(avId)
+            return
         quest = choices[0]
 
         self.avatarChoseQuest(avId, npc, quest[0], quest[1], 0)
 
         # Are we in the tutorial speaking to Tutorial Tom?
         if avId in self.air.tutorialManager.avId2fsm:
-            if av.getRewardHistory()[0] == 0:
-                self.air.tutorialManager.avId2fsm[avId].demand('Battle')
+            self.air.tutorialManager.avId2fsm[avId].demand('Battle')
 
     def toonRodeTrolleyFirstTime(self, av):
         # Toon played a minigame.
