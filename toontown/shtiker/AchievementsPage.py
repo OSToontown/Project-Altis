@@ -213,6 +213,8 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         for statRows in self.statRows:
             statRows.destroy()
         self.statRows = [self.createStat(y) for y in (rowYs)]
+        statRows2 = [self.createStat(y, 0.8) for y in (rowYs)]
+        self.statRows += statRows2
         self.stats = base.localAvatar.getStats()
         for stat in xrange(len(self.stats)):
             statText = TTLocalizer.StatsList[stat] % self.stats[stat]
@@ -221,7 +223,11 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
             except:
                 print "UNDEFINED STAT AT INDEX %s" % stat
 
-    def createStat(self, y):
-        row = DirectLabel(parent = self.statsPageNode, relief = None, text_align = TextNode.ALeft, text = '', text_scale = 0.045, text_wordwrap = 16, text_style = 3)
-        row.setPos(-0.8, 0, y)
+    def createStat(self, y, x = -0.8):
+        if x < 0:
+            align = TextNode.ALeft
+        else:
+            align = TextNode.ARight
+        row = DirectLabel(parent = self.statsPageNode, relief = None, text_align = align, text = '', text_scale = 0.045, text_font = ToontownGlobals.getBuildingNametagFont(), text_wordwrap = 16, text_style = 3)
+        row.setPos(x, 0, y)
         return row

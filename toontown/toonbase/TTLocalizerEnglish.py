@@ -4107,20 +4107,29 @@ AchievementsPageTitle = 'Achievements'
 StatsPageTitle = "Toon Stats"
 
 StatsList = [
-"Cogs Defeated: %s",
+"Cogs defeated: %s",
 "Buildings Saved: %s",
-"Elite Cogs Defeated: %s",
+"Elite Cogs defeated: %s",
 "Friends made: %s",
-"Current Friends: %s",
-"Tasks Completed: %s",
+"Current friends: %s",
+"Tasks completed: %s",
 "VPs defeated: %s",
 "CFOs defeated: %s",
 "CJs defeated: %s",
 "CEOs defeated: %s",
-"Chairmen defeated: %s",
+"??? defeated: %s",
 "Times went sad: %s",
 "Items purchased: %s",
-"Fish Caught: %s"
+"Fish caught: %s",
+"Trolley games played: %s",
+"Gags used: %s",
+"Treasures collected: %s",
+"Jellybeans spent: %s",
+"Jellybeans earned: %s",
+"SOS Cards used: %s",
+"Unites used: %s",
+"Summons used: %s",
+"Fires used: %s"
 ]
 
 EarnedAchievement = 'You earned an achievement!'

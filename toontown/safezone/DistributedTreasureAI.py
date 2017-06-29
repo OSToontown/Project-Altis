@@ -1,5 +1,6 @@
 from otp.ai.AIBase import *
 from direct.distributed.ClockDelta import *
+from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObjectAI
 
 class DistributedTreasureAI(DistributedObjectAI.DistributedObjectAI):
@@ -22,6 +23,8 @@ class DistributedTreasureAI(DistributedObjectAI.DistributedObjectAI):
 
     def d_setGrab(self, avId):
         self.sendUpdate('setGrab', [avId])
+        av = simbase.air.doId2do.get(avId)
+        av.addStat(ToontownGlobals.STATS_TREASURES)
 
     def d_setReject(self):
         self.sendUpdate('setReject', [])

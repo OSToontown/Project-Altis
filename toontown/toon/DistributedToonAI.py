@@ -559,6 +559,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setFriendsList(self, friendsList):
         self.friendsList = friendsList
+        self.setStat(ToontownGlobals.STATS_CURR_FRIENDS, len(self.friendsList))
 
     def getFriendsList(self):
         return self.friendsList
@@ -579,6 +580,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         self.friendsList.append((friendId, type))
         self.air.questManager.toonMadeFriend(self)
+        self.addStat(ToontownGlobals.STATS_FRIENDS)
 
         if self.air.wantAchievements:
             self.air.achievementsManager.friends(self.doId)
@@ -1075,6 +1077,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def setHp(self, hp):
         DistributedPlayerAI.DistributedPlayerAI.setHp(self, hp)
         if hp <= 0:
+            self.addStat(ToontownGlobals.STATS_SAD)
             messenger.send(self.getGoneSadMessage())
 
     def b_setTutorialAck(self, tutorialAck):
@@ -2538,6 +2541,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.toonLevel
 
     def addMoney(self, deltaMoney):
+        self.addStat(ToontownGlobals.STATS_JB_EARNED, amount = deltaMoney)
         money = deltaMoney + self.money
         pocketMoney = min(money, self.maxMoney)
         self.b_setMoney(pocketMoney)
@@ -2547,6 +2551,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setBankMoney(bankMoney)
 
     def takeMoney(self, deltaMoney, bUseBank = True):
+        self.addStat(ToontownGlobals.STATS_JB_SPENT, amount = deltaMoney)
         totalMoney = self.money
         if bUseBank:
             totalMoney += self.bankMoney
@@ -2761,6 +2766,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
         if hasattr(self, 'autoResistanceRestock') and self.autoResistanceRestock:
             self.restockAllResistanceMessages(1)
+        self.addStat(ToontownGlobals.STATS_UNITES)
         affectedPlayers = []
         for toonId in nearbyPlayers:
             toon = self.air.doId2do.get(toonId)
@@ -3310,6 +3316,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         elif type == 'invasion':
             returnCode = self.doCogInvasion(suitIndex)
         if returnCode:
+            self.addStat(ToontownGlobals.STATS_SUMMONS)
             if returnCode[0] == 'success':
                 self.air.writeServerEvent('cogSummoned', self.doId, '%s|%s|%s' % (type, suitIndex, self.zoneId))
                 self.removeCogSummonsEarned(suitIndex, type)
@@ -4621,6 +4628,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
 
         self.stats[stat] += amount
+        self.b_setStats(self.stats)
+		
+    def setStat(self, stat, amount = 1):
+        if amount <= 0:
+            return
+
+        self.stats[stat] = amount
         self.b_setStats(self.stats)
 
     def fixStats(self, stats):

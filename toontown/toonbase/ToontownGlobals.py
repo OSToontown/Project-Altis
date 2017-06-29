@@ -1868,7 +1868,7 @@ BGagAccuracy = 1
 BGagAccuracyMultiplier = 1.3
 
 # Toon Stats
-TOTAL_STATS = 13
+TOTAL_STATS = 23
 
 STATS_COGS = 0
 STATS_BLDGS = 1
@@ -1884,6 +1884,15 @@ STATS_CM = 10
 STATS_SAD = 11
 STATS_CATALOG = 12
 STATS_FISH = 13
+STATS_TROLLEY = 14
+STATS_GAGS = 15
+STATS_TREASURES = 16
+STATS_JB_SPENT = 17
+STATS_JB_EARNED = 18
+STATS_SOS = 19
+STATS_UNITES = 20
+STATS_SUMMONS = 21
+STATS_FIRES = 22
 
                             # 1-default # 2 # 3 # 4
 HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]

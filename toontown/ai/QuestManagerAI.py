@@ -199,6 +199,7 @@ class QuestManagerAI:
                     av.b_setToonExp(av.getToonExp() + questExp)
                 if questMoney != 0:
                     av.addMoney(questMoney)
+                av.addStat(ToontownGlobals.STATS_TASKS)
 
                 break
 
