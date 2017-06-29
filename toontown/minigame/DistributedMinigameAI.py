@@ -180,7 +180,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         if simbase.air.wantAchievements:
             for avId in self.avIdList:
                 av = self.air.doId2do.get(avId)
-                self.air.achievementsManager.toonPlayedMinigame(av)
+                self.air.achievementsManager.rideTrolley(av)
 
         self.frameworkFSM.request('frameworkWaitClientsExit')
 

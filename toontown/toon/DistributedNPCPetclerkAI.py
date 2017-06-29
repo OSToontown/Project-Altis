@@ -113,6 +113,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
             walletPrice = cost - bankPrice
             av.b_setBankMoney(av.getBankMoney() - bankPrice)
             av.b_setMoney(av.getMoney() - walletPrice)
+            self.air.achievementsManager.doodle(avId)
 
     def petReturned(self):
         avId = self.air.getAvatarIdFromSender()

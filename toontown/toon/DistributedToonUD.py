@@ -561,6 +561,8 @@ class DistributedToonUD(DistributedAvatarUD.DistributedAvatarUD):
     def setAchievements(self, achievements):
         pass
 
+    def setStats(self, stats):
+        pass
     def setTrueFriends(self, trueFriends):
         pass
     

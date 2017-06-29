@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import ToontownBattleGlobals, ToontownGlobals
 from toontown.suit import SuitDNA
 BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory('BattleExprienceAI')
 
@@ -136,6 +136,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
     for toon in activeToonList:
         toonExp = 0
         expArray = []
+        numElites = 0
         for i in xrange(len(ToontownBattleGlobals.Tracks)):
             uberIndex = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
             exp = getSkillGained(toonSkillPtsGained, toon.doId, i)
@@ -145,6 +146,8 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
             totalExp = exp + toon.experience.getExp(i)
             if toon.inventory.numItem(i, uberIndex) > 0:
                 hasUber = 1
+            if totalExp >= ToontownBattleGlobals.regMaxSkill:
+                simbase.air.achievementsManager.maxGag(toon.doId, i)
             if totalExp >= needed or totalExp >= ToontownBattleGlobals.MaxSkill:
                 if toon.inventory.totalProps < toon.getMaxCarry() and not hasUber:
                     uberLevel = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
@@ -165,6 +168,7 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                 if suit['isElite']:
                     mult = 5
                     toon.addMoney(level*5)
+                    numElites += 1
                 else:
                     mult = 2.5
                 toonExp += int(level * mult)
@@ -181,6 +185,9 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                 # Notify the AI that the toon killed cogs
                 simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
                 simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
+                toon.addStat(ToontownGlobals.STATS_COGS, len(suitsKilled))
+                toon.addStat(ToontownGlobals.STATS_ELITES, numElites)
+                simbase.air.achievementsManager.cogs(toon.doId)
                 simbase.air.questManager.toonCollectedExp(toon, expArray)
 
             # Looks like the toon wasnt too helpful...

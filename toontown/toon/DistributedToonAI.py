@@ -20,7 +20,7 @@ from otp.avatar import DistributedAvatarAI
 from otp.avatar import DistributedPlayerAI
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
-from toontown.achievements import Achievements
+from toontown.achievements import Achievements, AchievementsGlobals
 from toontown.battle import SuitBattleGlobals
 from toontown.catalog import CatalogAccessoryItem
 from toontown.catalog import CatalogItem
@@ -203,9 +203,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
+        self.stats = [0] * ToontownGlobals.TOTAL_STATS
+        self.interiorLayout = 0
         self.trueFriends = []
         self.trueFriendRequests = (0, 0)
-        self.interiorLayout = 0
         self.cheesyEffects = [0]
         self.redeemedCodes = []
         self.trainingPoints = 0
@@ -269,7 +270,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.exitEstate()
             if self.zoneId != ToontownGlobals.QuietZone:
                 self.announceZoneChange(ToontownGlobals.QuietZone, self.zoneId)
-        
+
         taskName = self.uniqueName('cheesy-expires')
         taskMgr.remove(taskName)
         taskName = self.uniqueName('next-catalog')
@@ -336,6 +337,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 for hood in self.air.hoods:
                     if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
                         continue
+
+        # Not sure if i sohuld really code it in here, but fuck it
+        if newZoneId == 2741: # Loopy's balls
+            self.air.achievementsManager.loopysBalls(self.doId)
+        self.air.achievementsManager.zone(self.doId, ZoneUtil.getHoodId(newZoneId))
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         if simbase.wantPets:
@@ -557,33 +563,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getFriendsList(self):
         return self.friendsList
 
-    def setTrueFriends(self, trueFriends):
-        self.trueFriends = trueFriends
 
-    def d_setTrueFriends(self, trueFriends):
-        self.sendUpdate('setTrueFriends', [trueFriends])
-
-    def b_setTrueFriends(self, trueFriends):
-        self.setTrueFriends(trueFriends)
-        self.d_setTrueFriends(trueFriends)
-    
-    def isTrueFriends(self, avId):
-        return avId in self.trueFriends
-    
-    def addTrueFriend(self, avId):
-        if avId in self.trueFriends:
-                return
-
-        self.trueFriends.append(avId)
-        self.b_setTrueFriends(self.trueFriends)
-  
-    def getTrueFriends(self, trueFriends):
-        return self.trueFriends
-       
-    def setTrueFriendRequest(self, tfRequest):
-        self.trueFriendRequest = tfRequest
-
-    def d_setTrueFriendRequest(self, tfRequest):
         self.sendUpdate('setTrueFriendRequest', [tfRequest])
 
     def b_setTrueFriendRequest(self, tfRequest):
@@ -601,7 +581,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.air.questManager.toonMadeFriend(self)
 
         if self.air.wantAchievements:
-            self.air.achievementsManager.toonMadeFriend(self.doId)
+            self.air.achievementsManager.friends(self.doId)
 
     def d_setMaxNPCFriends(self, max):
         self.sendUpdate('setMaxNPCFriends', [max])
@@ -1488,6 +1468,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.incCogReviveLevel(dept)
         else:
             self.incCogLevel(dept)
+            simbase.air.achievementsManager.disguise(self.doId, SuitDNA.suitDepts[dept])
 
     def d_promote(self, dept, hardFlag):
         merits = self.getCogMerits()
@@ -1864,6 +1845,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def addTrackAccess(self, track):
         self.trackArray[track] = 1
         self.b_setTrackAccess(self.trackArray)
+        simbase.air.achievementsManager.gagTrack(self.doId, track)
 
     def removeTrackAccess(self, track):
         self.trackArray[track] = 0
@@ -4606,12 +4588,46 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 achievements.append(achievementId)
 
                 self.b_setAchievements(achievements)
+                self.b_setToonExp(self.getToonExp() + AchievementsGlobals.AchievementExperience[achievementId])
 
     def hasAchievement(self, achievementId):
         if achievementId in self.achievements:
             return 1
 
         return 0
+
+    def b_setStats(self, stats):
+        self.d_setStats(stats)
+        self.setStats(stats)
+
+    def d_setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
+        self.sendUpdate('setStats', [stats])
+
+    def setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
+        self.stats = stats
+
+    def getStats(self):
+        return self.stats
+
+    def getStat(self, stat):
+        return self.stats[stat]
+
+    def addStat(self, stat, amount = 1):
+        if amount <= 0:
+            return
+
+        self.stats[stat] += amount
+        self.b_setStats(self.stats)
+
+    def fixStats(self, stats):
+        badStatLen = len(stats)
+        for i in xrange(ToontownGlobals.TOTAL_STATS - badStatLen):
+            stats.append(0)
+        return stats
 
     def addBuff(self, id, duration):
         buffCount = len(self.buffs)
@@ -4757,8 +4773,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 pointsAvailable -= 1
             for i in xrange(8): # Go through all tracks and recalculate
                 if pointsSpent[i] >= 2:
-                    trackArray[i] = 1
-            self.b_setTrackAccess(trackArray)
+                    self.addTrackAccess(i)
             self.b_setSpentTrainingPoints(pointsSpent)
             self.b_setTrainingPoints(pointsAvailable)
         else:
