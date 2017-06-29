@@ -262,7 +262,8 @@ class BattleCalculatorAI:
             boost = 5
         else:
             boost = 0
-        suitDef = int(SuitBattleGlobals.SuitAttributes[suit.dna.name]['def'][suit.getLevel()] + boost)
+        suitAttr = SuitBattleGlobals.SuitAttributes.get(suit.dna.name)
+        suitDef = SuitBattleGlobals.calculateDefense(suitAttr['level'], suit.getLevel(), boost = boost)
         return -suitDef
 
     def __createToonTargetList(self, attackIndex):
