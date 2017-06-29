@@ -4125,7 +4125,7 @@ StatsList = [
 
 EarnedAchievement = 'You earned an achievement!'
 
-LockedAchievemnet = 'ACHIEVEMENT LOCKED'
+LockedAchievement = 'ACHIEVEMENT LOCKED'
 
 AchievementCategories = [
  "Friends",
@@ -4200,7 +4200,8 @@ Achievements = [
  "1.21 Gigawatts!",
  "I Missed the Minor Chord!",
  "Never gets old!",
- "Where Have you Bean All my Life?"
+ "Where Have you Bean All my Life?",
+ "Viva la Resistance!"
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
@@ -4265,7 +4266,8 @@ AchievementsDesc = ("Make a friend",
  "Max the ZAP gag track.",
  "Max the DROP gag track.",
  "Humor Sofie Squirt with a stale joke.",
- "Buy a doodle.")
+ "Buy a doodle.",
+ "Join the Resistance.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'

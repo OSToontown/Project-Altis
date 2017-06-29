@@ -219,7 +219,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
             try:
                 self.statRows[stat]['text'] = statText
             except:
-                self.statRows[stat]['text'] = 'UNKNOWN STAT INDEX: %s' % stat
+                print "UNDEFINED STAT AT INDEX %s" % stat
 
     def createStat(self, y):
         row = DirectLabel(parent = self.statsPageNode, relief = None, text_align = TextNode.ALeft, text = '', text_scale = 0.045, text_wordwrap = 16, text_style = 3)

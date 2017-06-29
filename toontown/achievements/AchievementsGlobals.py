@@ -61,7 +61,8 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_gag_zap_max.png'), # max zap
                      ('phase_3/maps/achievements/ttpa_achievement_gag_drop_max.png'), # max drop
                      ('phase_3/maps/achievements/ttpa_achievement_sofie.png'), # pester sofie
-                     ('phase_3/maps/achievements/ttpa_achievement_doodle.png')) # buy doodle
+                     ('phase_3/maps/achievements/ttpa_achievement_doodle.png'), # buy doodle
+                     ('phase_3/maps/achievements/ttpa_achievement_resistance.png')) # resistance salute
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -76,16 +77,16 @@ AchievementExperience = (10, # 1 friend
                          1000, # vp 10
                          100, # cfo 1
                          1000, # cfo 10
-                         3000, # cashbot suit max
                          100, # cj 1
                          1000, # cj 10
-                         3000, # lawbot suit max
                          100, # ceo 1
                          1000, # ceo 10
-                         3000, # bossbot suit max
                          100, # cm 1
                          1000, # cm 10
                          3000, # sellbot suit max
+                         3000, # cashbot suit max
+                         3000, # lawbot suit max
+                         3000, # bossbot suit max
                          3000, # boardbot suit max
                          250, # unlock toonup
                          250, # unlock trap
@@ -126,4 +127,5 @@ AchievementExperience = (10, # 1 friend
                          5000, # max zap
                          5000, # max drop
                          50, # sofie squirt
-                         250) # buy doodle
+                         250, # buy doodle
+                         50) # resistance salute

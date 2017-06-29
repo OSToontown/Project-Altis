@@ -49,6 +49,15 @@ class AchievementsManagerAI():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av):
                     av.addAchievement(achievementId)
 					
+    def resistance(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.ResistanceAchievement)
+
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
     def doodle(self, av):
         av = self.air.doId2do.get(av)
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.DoodleAchievement)

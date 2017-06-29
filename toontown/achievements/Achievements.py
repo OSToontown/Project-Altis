@@ -48,6 +48,11 @@ class SofieSquirtAchievement:
     def hasComplete(self, av):
         return 1
 		
+class ResistanceAchievement:
+
+    def hasComplete(self, av):
+        return 1
+		
 class DoodleAchievement:
 
     def hasComplete(self, av):
@@ -248,7 +253,8 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     MaxGagAchievement(track = 6),
                     MaxGagAchievement(track = 7),
                     SofieSquirtAchievement(),
-                    DoodleAchievement())
+                    DoodleAchievement(),
+                    ResistanceAchievement())
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
@@ -266,7 +272,8 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        FishAchievement: [49, 50, 51, 52, 53],
                        MaxGagAchievement: [54, 55, 56, 57, 58, 59, 60, 61],
                        SofieSquirtAchievement: [62],
-                       DoodleAchievement: [63]}
+                       DoodleAchievement: [63],
+                       ResistanceAchievement: [64]}
 					   
 type2Category = {FriendAchievement: CAT_FRIENDS,
                  CatalogAchievement: CAT_CATALOG,
@@ -284,7 +291,8 @@ type2Category = {FriendAchievement: CAT_FRIENDS,
                  FishAchievement: CAT_FISHING,
                  MaxGagAchievement: CAT_GAGS,
                  SofieSquirtAchievement: CAT_SPECIAL,
-                 DoodleAchievement: CAT_FRIENDS}
+                 DoodleAchievement: CAT_FRIENDS,
+                 ResistanceAchievement: CAT_SPECIAL}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)
