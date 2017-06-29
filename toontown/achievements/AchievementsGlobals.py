@@ -9,7 +9,19 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_loopysballs.png'), # loopys balls
                      ('phase_3/maps/achievements/ttpa_achievement_vp_1.png'), # vp 1
                      ('phase_3/maps/achievements/ttpa_achievement_vp_10.png'), # vp 10
+                     ('phase_3/maps/achievements/ttpa_achievement_cfo_1.png'), # cfo 1
+                     ('phase_3/maps/achievements/ttpa_achievement_cfo_10.png'), # cfo 10
+                     ('phase_3/maps/achievements/ttpa_achievement_cj_1.png'), # cj 1
+                     ('phase_3/maps/achievements/ttpa_achievement_cj_10.png'), # cj 10
+                     ('phase_3/maps/achievements/ttpa_achievement_ceo_1.png'), # ceo 1
+                     ('phase_3/maps/achievements/ttpa_achievement_ceo_10.png'), # ceo 10
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # cm 1
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # cm 10
                      ('phase_3/maps/achievements/ttpa_achievement_vp_max.png'), # sellbot suit max
+                     ('phase_3/maps/achievements/ttpa_achievement_cfo_max.png'), # cashbot suit max
+                     ('phase_3/maps/achievements/ttpa_achievement_cj_max.png'), # lawbot suit max
+                     ('phase_3/maps/achievements/ttpa_achievement_ceo_max.png'), # bossbot suit max
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # boardbot suit max
                      ('phase_3/maps/achievements/ttpa_achievement_gag_toonup.png'), # unlock toonup
                      ('phase_3/maps/achievements/ttpa_achievement_gag_trap.png'), # unlock trap
                      ('phase_3/maps/achievements/ttpa_achievement_gag_lure.png'), # unlock lure
@@ -63,6 +75,18 @@ AchievementExperience = (10, # 1 friend
                          100, # vp 1
                          1000, # vp 10
                          3000, # sellbot suit max
+                         100, # cfo 1
+                         1000, # cfo 10
+                         3000, # cashbot suit max
+                         100, # cj 1
+                         1000, # cj 10
+                         3000, # lawbot suit max
+                         100, # ceo 1
+                         1000, # ceo 10
+                         3000, # bossbot suit max
+                         100, # cm 1
+                         1000, # c, 10
+                         3000, # boardbot suit max
                          250, # unlock toonup
                          250, # unlock trap
                          250, # unlock lure

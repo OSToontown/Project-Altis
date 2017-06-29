@@ -71,7 +71,7 @@ class CFOAchievement:
         self.neededTimes = times
 
     def hasComplete(self, av):
-        times = av.getStat(ToontownGlobals.STATS_VP)
+        times = av.getStat(ToontownGlobals.STATS_CFO)
         if times >= self.neededTimes:
             return 1
         else:
@@ -83,7 +83,7 @@ class CJAchievement:
         self.neededTimes = times
 
     def hasComplete(self, av):
-        times = av.getStat(ToontownGlobals.STATS_VP)
+        times = av.getStat(ToontownGlobals.STATS_CJ)
         if times >= self.neededTimes:
             return 1
         else:
@@ -95,7 +95,19 @@ class CEOAchievement:
         self.neededTimes = times
 
     def hasComplete(self, av):
-        times = av.getStat(ToontownGlobals.STATS_VP)
+        times = av.getStat(ToontownGlobals.STATS_CEO)
+        if times >= self.neededTimes:
+            return 1
+        else:
+            return 0
+			
+class CMAchievement:
+
+    def __init__(self, times):
+        self.neededTimes = times
+
+    def hasComplete(self, av):
+        times = av.getStat(ToontownGlobals.STATS_CM)
         if times >= self.neededTimes:
             return 1
         else:
@@ -170,6 +182,8 @@ class FishAchievement:
             return 1
         else:
             return 0
+			
+# WORD OF CAUTION: After release DO NOT add in achievements into the middle of the dictionary, ONLY append
 
 AchievementsDict = (FriendAchievement(neededFriends = 1),
                     FriendAchievement(neededFriends = 10),
@@ -182,7 +196,19 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     LoopysBallsAchievement(),
                     VPAchievement(times = 1),
                     VPAchievement(times = 10),
+                    CFOAchievement(times = 1),
+                    CFOAchievement(times = 10),
+                    CJAchievement(times = 1),
+                    CJAchievement(times = 10),
+                    CEOAchievement(times = 1),
+                    CEOAchievement(times = 10),
+                    CMAchievement(times = 1),
+                    CMAchievement(times = 10),
                     DisguiseAchievement(dept = 's'),
+                    DisguiseAchievement(dept = 'm'),
+                    DisguiseAchievement(dept = 'l'),
+                    DisguiseAchievement(dept = 'c'),
+                    DisguiseAchievement(dept = 'g'),
                     GagTrackAchievement(track = 0),
                     GagTrackAchievement(track = 1),
                     GagTrackAchievement(track = 2),
@@ -229,20 +255,28 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        TrolleyAchievement: [7],
                        LoopysBallsAchievement: [8],
                        VPAchievement: [9, 10],
-                       DisguiseAchievement: [11],
-                       GagTrackAchievement: [12, 13, 14, 15, 16, 17],
-                       ZoneAchievement: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
-                       CogAchievement: [30, 31, 32, 33, 34, 35, 36],
-                       FishAchievement: [37, 38, 39, 40, 41],
-                       MaxGagAchievement: [42, 43, 44, 45, 46, 47, 48, 49],
-                       SofieSquirtAchievement: [50],
-                       DoodleAchievement: [51]}
+                       CFOAchievement: [11, 12],
+                       CJAchievement: [13, 14],
+                       CEOAchievement: [15, 16],
+                       CMAchievement: [17, 18],
+                       DisguiseAchievement: [19, 20, 21, 22, 23],
+                       GagTrackAchievement: [24, 25, 26, 27, 28, 29],
+                       ZoneAchievement: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41],
+                       CogAchievement: [42, 43, 44, 45, 46, 47, 48],
+                       FishAchievement: [49, 50, 51, 52, 53],
+                       MaxGagAchievement: [54, 55, 56, 57, 58, 59, 60, 61],
+                       SofieSquirtAchievement: [62],
+                       DoodleAchievement: [63]}
 					   
 type2Category = {FriendAchievement: CAT_FRIENDS,
                  CatalogAchievement: CAT_CATALOG,
                  TrolleyAchievement: CAT_TROLLEY,
                  LoopysBallsAchievement: CAT_SPECIAL,
                  VPAchievement: CAT_COGS,
+                 CFOAchievement: CAT_COGS,
+                 CJAchievement: CAT_COGS,
+                 CEOAchievement: CAT_COGS,
+                 CMAchievement: CAT_COGS,
                  DisguiseAchievement: CAT_COGS,
                  GagTrackAchievement: CAT_GAGS,
                  ZoneAchievement: CAT_VISIT,

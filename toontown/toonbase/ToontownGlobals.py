@@ -1880,9 +1880,10 @@ STATS_VP = 6
 STATS_CFO = 7
 STATS_CJ = 8
 STATS_CEO = 9
-STATS_SAD = 10
-STATS_CATALOG = 11
-STATS_FISH = 12
+STATS_CM = 10
+STATS_SAD = 11
+STATS_CATALOG = 12
+STATS_FISH = 13
 
                             # 1-default # 2 # 3 # 4
 HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]
