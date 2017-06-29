@@ -5,7 +5,7 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_catalog_10.png'), # catalog 10
                      ('phase_3/maps/achievements/ttpa_achievement_catalog_50.png'), # catalog 50
                      ('phase_3/maps/achievements/ttpa_achievement_catalog_100.png'), # catalog 100
-                     ('phase_3/maps/achievements/ttpa_achievement_trolley.png'), # trolley
+                     ('phase_3/maps/achievements/ttpa_achievement_trolley_1.png'), # trolley 1
                      ('phase_3/maps/achievements/ttpa_achievement_loopysballs.png'), # loopys balls
                      ('phase_3/maps/achievements/ttpa_achievement_vp_1.png'), # vp 1
                      ('phase_3/maps/achievements/ttpa_achievement_vp_10.png'), # vp 10
@@ -62,7 +62,10 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_gag_drop_max.png'), # max drop
                      ('phase_3/maps/achievements/ttpa_achievement_sofie.png'), # pester sofie
                      ('phase_3/maps/achievements/ttpa_achievement_doodle.png'), # buy doodle
-                     ('phase_3/maps/achievements/ttpa_achievement_resistance.png')) # resistance salute
+                     ('phase_3/maps/achievements/ttpa_achievement_resistance.png'), # resistance salute
+                     ('phase_3/maps/achievements/ttpa_achievement_trolley_10.png'), # 10 trolley
+                     ('phase_3/maps/achievements/ttpa_achievement_trolley_50.png'), # 50 trolley
+                     ('phase_3/maps/achievements/ttpa_achievement_trolley_100.png')) # 100 trolley
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -128,4 +131,7 @@ AchievementExperience = (10, # 1 friend
                          5000, # max drop
                          50, # sofie squirt
                          250, # buy doodle
-                         50) # resistance salute
+                         50, # resistance salute
+                         20, # 10 trolley
+                         75, # 50 trolley
+                         150) # 100 trolley

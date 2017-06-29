@@ -4210,7 +4210,10 @@ Achievements = [
  "I Missed the Minor Chord!",
  "Never gets old!",
  "Where Have you Bean All my Life?",
- "Viva la Resistance!"
+ "Viva la Resistance!",
+ "Fun for Everyone!",
+ "You Can't Make Money Playing Games!",
+ "Frequent Rider!"
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
@@ -4276,7 +4279,10 @@ AchievementsDesc = ("Make a friend",
  "Max the DROP gag track.",
  "Humor Sofie Squirt with a stale joke.",
  "Buy a doodle.",
- "Join the Resistance.")
+ "Join the Resistance.",
+ "Ride the trolley 10 times.",
+ "Ride the trolley 50 times.",
+ "Ride the trolley 100 times.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'

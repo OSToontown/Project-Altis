@@ -35,8 +35,15 @@ class CatalogAchievement:
 
 class TrolleyAchievement:
 
+    def __init__(self, times):
+        self.neededTimes = times
+
     def hasComplete(self, av):
-        return 1
+        times = av.getStat(ToontownGlobals.STATS_TROLLEY)
+        if times >= self.neededTimes:
+            return 1
+        else:
+            return 0
 
 class LoopysBallsAchievement:
 
@@ -197,7 +204,7 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     CatalogAchievement(items = 10),
                     CatalogAchievement(items = 50),
                     CatalogAchievement(items = 100),
-                    TrolleyAchievement(),
+                    TrolleyAchievement(times = 1),
                     LoopysBallsAchievement(),
                     VPAchievement(times = 1),
                     VPAchievement(times = 10),
@@ -254,11 +261,14 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     MaxGagAchievement(track = 7),
                     SofieSquirtAchievement(),
                     DoodleAchievement(),
-                    ResistanceAchievement())
+                    ResistanceAchievement(),
+                    TrolleyAchievement(times=10),
+                    TrolleyAchievement(times=50),
+                    TrolleyAchievement(times=100))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
-                       TrolleyAchievement: [7],
+                       TrolleyAchievement: [7, 65, 66, 67],
                        LoopysBallsAchievement: [8],
                        VPAchievement: [9, 10],
                        CFOAchievement: [11, 12],
