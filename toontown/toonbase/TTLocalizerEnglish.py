@@ -4124,6 +4124,9 @@ StatsList = [
 ]
 
 EarnedAchievement = 'You earned an achievement!'
+
+LockedAchievemnet = 'ACHIEVEMENT LOCKED'
+
 AchievementCategories = [
  "Friends",
  "Catalog",

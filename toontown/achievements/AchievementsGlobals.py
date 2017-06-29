@@ -74,7 +74,6 @@ AchievementExperience = (10, # 1 friend
                          10, # loopys balls
                          100, # vp 1
                          1000, # vp 10
-                         3000, # sellbot suit max
                          100, # cfo 1
                          1000, # cfo 10
                          3000, # cashbot suit max
@@ -85,7 +84,8 @@ AchievementExperience = (10, # 1 friend
                          1000, # ceo 10
                          3000, # bossbot suit max
                          100, # cm 1
-                         1000, # c, 10
+                         1000, # cm 10
+                         3000, # sellbot suit max
                          3000, # boardbot suit max
                          250, # unlock toonup
                          250, # unlock trap

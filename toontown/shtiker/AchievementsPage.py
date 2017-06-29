@@ -174,7 +174,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
                 img.setTransparency(TransparencyAttrib.MAlpha)
                 experience = OnscreenText(parent = achievementFrame, text = TTLocalizer.AchievementsDesc[self.categories[self.index][achievement]], scale = (.06), wordwrap = 10, font = ToontownGlobals.getMinnieFont(), pos = (0, -.3))
             else:
-                achievementFrame['text'] = TTLocalizer.Achievements[self.categories[self.index][achievement]]
+                achievementFrame['text'] = TTLocalizer.LockedAchievement
 				
     def doAchievementPageChange(self, direction):
         self.index += direction
