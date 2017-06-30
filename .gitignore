@@ -121,3 +121,5 @@ UpgradeLog.htm
 .settings/de.loskutov.anyedit.AnyEditTools.prefs
 sign/texture.jpg
 data/insomnia_codes.txt
+# IDEA pycharm/intellij
+.idea/
