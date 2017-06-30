@@ -4212,7 +4212,7 @@ Achievements = [
  "Where Have you Bean All my Life?",
  "Viva la Resistance!",
  "Fun for Everyone!",
- "You Can't Make Money Playing Games!",
+ "Minigame Mania!",
  "Frequent Rider!"
 ]
 AchievementsDesc = ("Make a friend",
