@@ -4218,7 +4218,7 @@ Achievements = [
  "I Knead that Dough!",
  "Ace Attorney!",
  "Good Fore-Sight!",
- "Take a seat."
+ "Board of Director!"
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
