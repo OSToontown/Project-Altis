@@ -70,8 +70,13 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_solo_cfo.png'), # solo cfo
                      ('phase_3/maps/achievements/ttpa_achievement_solo_cj.png'), # solo cj
                      ('phase_3/maps/achievements/ttpa_achievement_solo_ceo.png'), # solo ceo
-                     ('phase_3/maps/achievements/ttpa_achievement_solo_you_really_thought_i_was_gonna_spoil_this_lol.png')) # solo cm
-
+                     ('phase_3/maps/achievements/ttpa_achievement_solo_you_really_thought_i_was_gonna_spoil_this_lol.png'), # solo cm
+                     ('phase_3/maps/achievements/ttpa_achievement_building_1.png'), # one bldg
+                     ('phase_3/maps/achievements/ttpa_achievement_building_10.png'), # 10 bldgs
+                     ('phase_3/maps/achievements/ttpa_achievement_building_50.png'), # 50 bldgs
+                     ('phase_3/maps/achievements/ttpa_achievement_building_100.png'), # 100 bldgs
+                     ('phase_3/maps/achievements/ttpa_achievement_building_250.png')) # 250 bldgs
+					 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
                          50, # 50 friends
@@ -144,4 +149,9 @@ AchievementExperience = (10, # 1 friend
                          2500, # solo cfo
                          2500, # solo cj
                          2500, # solo ceo
-                         2500) # solo cm
+                         2500, # solo cm
+                         50, # one bldg
+                         100, # 10 bldgs
+                         250, # 50 bldgs
+                         1000, # 100 bldgs
+                         2500) # 250 bldgs

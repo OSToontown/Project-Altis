@@ -203,6 +203,18 @@ class CogAchievement:
         else:
             return 0
 			
+class BuildingAchievement:
+
+    def __init__(self, bldgs):
+        self.neededBuildings = bldgs
+		
+    def hasComplete(self, av):
+        bldgs = av.getStat(ToontownGlobals.STATS_BLDGS)
+        if bldgs >= self.neededBuildings:
+            return 1
+        else:
+            return 0
+			
 class FishAchievement:
 
     def __init__(self, fish):
@@ -289,7 +301,12 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     CFOAchievement(times=1, solo=1),
                     CJAchievement(times=1, solo=1),
                     CEOAchievement(times=1, solo=1),
-                    CMAchievement(times=1, solo=1))
+                    CMAchievement(times=1, solo=1),
+                    BuildingAchievement(bldgs = 1),
+                    BuildingAchievement(bldgs = 10),
+                    BuildingAchievement(bldgs = 50),
+                    BuildingAchievement(bldgs = 100),
+                    BuildingAchievement(bldgs = 250))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
@@ -308,7 +325,8 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        MaxGagAchievement: [54, 55, 56, 57, 58, 59, 60, 61],
                        SofieSquirtAchievement: [62],
                        DoodleAchievement: [63],
-                       ResistanceAchievement: [64]}
+                       ResistanceAchievement: [64],
+                       BuildingAchievement: [73, 74, 75, 76, 77]}
 					   
 type2Category = {FriendAchievement: CAT_FRIENDS,
                  CatalogAchievement: CAT_CATALOG,
@@ -327,7 +345,8 @@ type2Category = {FriendAchievement: CAT_FRIENDS,
                  MaxGagAchievement: CAT_GAGS,
                  SofieSquirtAchievement: CAT_SPECIAL,
                  DoodleAchievement: CAT_FRIENDS,
-                 ResistanceAchievement: CAT_SPECIAL}
+                 ResistanceAchievement: CAT_SPECIAL,
+                 BuildingAchievement: CAT_COGS}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)

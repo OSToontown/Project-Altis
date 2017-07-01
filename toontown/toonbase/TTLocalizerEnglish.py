@@ -4218,7 +4218,12 @@ Achievements = [
  "I Knead that Dough!",
  "Ace Attorney!",
  "Good Fore-Sight!",
- "Board of Director!"
+ "Board of Director!",
+ "Appraised!",
+ "Depreciation!",
+ "Evicted!",
+ "Forclosure!",
+ "Deed to the City!"
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
@@ -4292,7 +4297,12 @@ AchievementsDesc = ("Make a friend",
  "Solo the CFO.",
  "Solo the CJ.",
  "Solo the CEO.",
- "Solo the Chairman.")
+ "Solo the Chairman.",
+ "Reclaim a Cog building.",
+ "Reclaim 10 Cog buildings.",
+ "Reclaim 50 Cog buildings.",
+ "Reclaim 100 Cog buildings.",
+ "Reclaim 250 Cog buildings.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'
