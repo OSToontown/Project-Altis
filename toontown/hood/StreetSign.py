@@ -52,7 +52,7 @@ class StreetSign(DistributedObject.DistributedObject):
             self.ch.beginGetDocument(doc)
             self.ch.downloadToFile(localFilename)
             taskMgr.add(self.downloadStreetSignTask, self.RedownloadTaskName)
-        taskMgr.doMethodLater(900, self.redownloadStreetSign, 'redownloadLater')
+        taskMgr.doMethodLater(1800, self.redownloadStreetSign, 'redownloadLater')
         
         
 

@@ -8,6 +8,7 @@ from otp.chat.ChatInputTyped import ChatInputTyped
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.chat.ChatGlobals import *
+from toontown.toonbase import ToontownGlobals
 
 class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ChatInputWhiteList')
@@ -174,7 +175,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         return self.active
 
     def sendChat(self, text, overflow = False):
-        if not (len(text) > 0 and text[0] in ['~', '>']):
+        if not (len(text) > 0 and text[0] in [ToontownGlobals.MagicWordInvokerPrefix, '>']):
             if self.prefilter:
                 words = text.split(' ')
                 newwords = []
@@ -204,7 +205,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
             localAvatar.chatMgr.messageSent()
 
     def sendChatBySwitch(self, text):
-        if len(text) > 0 and text[0] == '~':
+        if len(text) > 0 and text[0] == ToontownGlobals.MagicWordInvokerPrefix:
             base.talkAssistant.sendOpenTalk(text)
         elif self.sendBy == 'Mode':
             self.sendChatByMode(text)
@@ -232,7 +233,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
             base.talkAssistant.sendAvatarGuildWLChat(text)
         elif state == 'CrewChat':
             base.talkAssistant.sendAvatarCrewWLChat(text)
-        elif len(text) > 0 and text[0] == '~':
+        elif len(text) > 0 and text[0] == ToontownGlobals.MagicWordInvokerPrefix:
             base.talkAssistant.sendOpenTalk(text)
         else:
             base.talkAssistant.sendOpenTalk(text)
@@ -272,7 +273,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
 
     def applyFilter(self, keyArgs, strict = False):
         text = self.chatEntry.get(plain=True)
-        if text.startswith('~'):
+        if text.startswith(ToontownGlobals.MagicWordInvokerPrefix):
             self.okayToSubmit = True
         else:
             words = text.split(' ')

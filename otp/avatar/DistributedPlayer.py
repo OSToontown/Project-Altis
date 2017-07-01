@@ -15,6 +15,7 @@ from otp.otpbase import OTPLocalizer
 from otp.speedchat import SCDecoders
 from toontown.chat.ChatGlobals import *
 from toontown.chat.WhisperPopup import WhisperPopup
+from toontown.toonbase import ToontownGlobals
 
 if base.config.GetBool('want-chatfilter-hacks', 0):
     from otp.switchboard import badwordpy
@@ -207,7 +208,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         DistributedAvatar.DistributedAvatar.setChatAbsolute(self, chatString, chatFlags, dialogue, interrupt)
 
     def b_setChat(self, chatString, chatFlags):
-        if self.cr.wantMagicWords and len(chatString) > 0 and chatString[0] == '~':
+        if self.cr.wantMagicWords and len(chatString) > 0 and chatString[0] == ToontownGlobals.MagicWordInvokerPrefix:
             messenger.send('magicWord', [chatString])
         else:
             if base.config.GetBool('want-chatfilter-hacks', 0):

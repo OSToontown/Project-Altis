@@ -177,7 +177,7 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
 
     def applyFilter(self, keyArgs, strict = False):
         text = self.chatEntry.get(plain=True)
-        if text.startswith('~'):
+        if text.startswith(ToontownGlobals.MagicWordInvokerPrefix):
             self.okayToSubmit = True
         else:
             words = text.split(' ')
