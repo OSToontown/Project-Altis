@@ -588,6 +588,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
          'isBoss': 1,
          'isSupervisor': 0,
          'isVirtual': 0,
+         'isElite': 0,
          'activeToons': self.involvedToons[:]})
         self.barrier = self.beginBarrier('Victory', self.involvedToons, 30, self.__doneVictory)
         return
@@ -601,6 +602,8 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             if toon:
                 self.givePinkSlipReward(toon)
                 toon.b_promote(self.deptIndex)
+                toon.addStat(ToontownGlobals.STATS_CEO)
+            self.air.achievementsManager.ceo(toonId)
 
     def givePinkSlipReward(self, toon):
         toon.addPinkSlips(self.battleDifficulty + 1)

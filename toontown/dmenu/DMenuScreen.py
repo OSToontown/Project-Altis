@@ -62,49 +62,10 @@ class DMenuScreen(DirectObject):
         self.background2d.setScale(render2d, Vec3(1))
         self.background2d.setBin('background', 1)
         self.background2d.setTransparency(1)
-        self.background2d.setColorScale(1, 1, 1, .2)
+        self.background2d.setColorScale(1, 1, 1, .6)
         self.background = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.background.reparentTo(render)
         self.background.setPosHpr(-25, 0, 8.1, -95, 0, 0)
-        ropes = loader.loadModel('phase_4/models/modules/tt_m_ara_int_ropes')
-        ropes.reparentTo(self.background)
-        self.sillyMeter = Actor.Actor('phase_4/models/props/tt_a_ara_ttc_sillyMeter_default', {'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
-            'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
-            'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
-            'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
-            'phaseFour': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFour',
-            'phaseFourToFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFourToFive',
-            'phaseFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFive'})
-
-        self.sillyMeter.reparentTo(self.background)
-        self.sillyMeter.makeSubpart('arrow', ['uvj_progressBar*', 'def_springA'])
-        self.sillyMeter.makeSubpart('meter', ['def_pivot'], ['uvj_progressBar*', 'def_springA'])
-        self.audio3d = Audio3DManager.Audio3DManager(base.sfxManagerList[0], camera)
-
-        self.phase3Sfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseThree.ogg')
-        self.phase3Sfx.setLoop(True)
-        self.arrowSfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterArrow.ogg')
-        self.arrowSfx.setLoop(False)
-        self.phase3Sfx.setVolume(0.2)
-        self.arrowSfx.setVolume(0.2)
-
-        self.animSeq = Sequence(Sequence(ActorInterval(self.sillyMeter, 'arrowTube', partName = 'arrow', constrainedLoop = 0, startFrame = 236, endFrame = 247), Func(self.arrowSfx.play)), Parallel(ActorInterval(self.sillyMeter, 'arrowTube', partName = 'arrow', duration = 604800, constrainedLoop = 1, startFrame = 247, endFrame = 276), Sequence(Func(self.phase3Sfx.play), Func(self.audio3d.attachSoundToObject, self.phase3Sfx, self.sillyMeter))))
-        self.animSeq.start()
-        self.smPhase1 = self.sillyMeter.find('**/stage1')
-        self.smPhase1.show()
-        self.smPhase2 = self.sillyMeter.find('**/stage2')
-        self.smPhase2.hide()
-        self.smPhase3 = self.sillyMeter.find('**/stage3')
-        self.smPhase3.hide()
-        self.smPhase4 = self.sillyMeter.find('**/stage4')
-        self.smPhase4.hide()
-
-        thermometerLocator = self.sillyMeter.findAllMatches('**/uvj_progressBar')[1]
-        thermometerMesh = self.sillyMeter.find('**/tube')
-        thermometerMesh.setTexProjector(thermometerMesh.findTextureStage('default'), thermometerLocator, self.sillyMeter)
-
-        self.sillyMeter.loop('phaseOne', partName = 'meter')
-        self.sillyMeter.setBlend(frameBlend = base.wantSmoothAnims)
 
         self.surlee = Toon.Toon()
         self.surlee.setName('Doctor Surlee')
@@ -355,10 +316,6 @@ class DMenuScreen(DirectObject):
             self.CreditsButton.destroy()
             self.CreditsButton = None
 
-        if self.phase3Sfx:
-            self.phase3Sfx.stop()
-            del self.phase3Sfx
-
         if self.surlee:
             self.surlee.delete()
         if self.dimm:
@@ -413,9 +370,10 @@ class DMenuScreen(DirectObject):
         # base.camera.posHprInterval(1, Point3(TOON_HALL_POS), VBase3(TOON_HALL_HPR), blendType = 'easeInOut').start()
         Sequence(
             Func(self.doPlayButton),
-            LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .2)),
+            LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, 0), startColorScale = Vec4(1, 1, 1, .6)),
             # Func(self.murder),
-            Func(self.enterGame)).start()
+            Func(self.enterGame),
+            base.camera.posHprInterval(1, Point3(-36, -2, 12), VBase3(-90, -2, 0), blendType = 'easeInOut')).start()
             # Func(base.transitions.fadeIn, 1)).start()
 
     def enterOptions(self):
@@ -451,14 +409,14 @@ class DMenuScreen(DirectObject):
             self.logo.posInterval(0.5, Point3(0, 0, 2.5), blendType = 'easeInOut')).start()
                 
     def showQuitConfirmation(self):
-        LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .5), startColorScale = Vec4(1, 1, 1, .2)).start()
+        LerpColorScaleInterval(self.background2d, .5, Vec4(.6, .1, .1, .6), startColorScale = Vec4(1, 1, 1, .6)).start()
         self.quitConfirmation.showConf()
 
     def doQuitFunc(self):
         base.exitFunc()
 
     def doCancelQuitFunc(self):
-        LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, .2), startColorScale = Vec4(.6, .1, .1, .5)).start()
+        LerpColorScaleInterval(self.background2d, .5, Vec4(1, 1, 1, .6), startColorScale = Vec4(.6, .1, .1, .6)).start()
         self.buttonInAnimation()
         self.quitConfirmation.hideConf()
 

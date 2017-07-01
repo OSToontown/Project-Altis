@@ -3,6 +3,7 @@ from toontown.battle.BattleBase import *
 from toontown.battle.BattleGlobals import *
 from toontown.battle.DistributedBattleAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
+from toontown.toonbase import ToontownGlobals
 from toontown.suit import DistributedSuitBaseAI
 from toontown.battle import SuitBattleGlobals
 from toontown.battle import BattleExperienceAI
@@ -175,7 +176,7 @@ class BattleCalculatorAI:
         if atkTrack == ZAP:
             for tgt in atkTargets:
                 if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
-                    propAcc += 20
+                    propAcc += 65
                     break
                 else:
                     continue
@@ -258,7 +259,12 @@ class BattleCalculatorAI:
     def __targetDefense(self, suit, atkTrack):
         if atkTrack == HEAL:
             return 0
-        suitDef = SuitBattleGlobals.SuitAttributes[suit.dna.name]['def'][suit.getLevel()]
+        if suit.getElite():
+            boost = 5
+        else:
+            boost = 0
+        suitAttr = SuitBattleGlobals.SuitAttributes.get(suit.dna.name)
+        suitDef = SuitBattleGlobals.calculateDefense(suitAttr['level'], suit.getLevel(), boost = boost)
         return -suitDef
 
     def __createToonTargetList(self, attackIndex):
@@ -513,7 +519,7 @@ class BattleCalculatorAI:
                                     suit.b_setSkeleRevives(0)
                                     attackDamage = suit.getHP()
                             else:
-                                attackDamage = atkHp * 2
+                                attackDamage = atkHp * 3
                     if atkTrack == THROW:
                         if self.__suitIsLured(targetId):
                             tgtPos = self.battle.activeSuits.index(targetList[currTarget])
@@ -531,6 +537,7 @@ class BattleCalculatorAI:
                         if numLeft < 0:
                             numLeft = 0
                         toon.b_setPinkSlips(numLeft)
+                        toon.addStat(ToontownGlobals.STATS_FIRES, amount=costToFire)
                         if costToFire > abilityToFire:
                             simbase.air.writeServerEvent('suspicious', avId=toonId, issue='Toon attempting to fire a %s cost cog with %s pinkslips' % (costToFire, abilityToFire))
                             print 'Not enough PinkSlips to fire cog - print a warning here'
@@ -560,7 +567,7 @@ class BattleCalculatorAI:
                                 attackDamage = suit.getHP()
                             targetList
                         else:
-                            attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 2
+                            attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack) * 3
                     else:
                         attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
                 else:
@@ -889,7 +896,7 @@ class BattleCalculatorAI:
                         if self.notify.getDebug():
                             self.notify.debug('Applying hp bonus to track ' + str(attack[TOON_TRACK_COL]) + ' of ' + str(attack[TOON_HPBONUS_COL]))
                     elif len(attack[TOON_KBBONUS_COL]) > tgtPos:
-                        attack[TOON_KBBONUS_COL][tgtPos] = math.ceil(totalDmgs * 0.5)
+                        attack[TOON_KBBONUS_COL][tgtPos] = totalDmgs * 0.5
                         if self.notify.getDebug():
                             self.notify.debug('Applying kb bonus to track ' + str(attack[TOON_TRACK_COL]) + ' of ' + str(attack[TOON_KBBONUS_COL][tgtPos]) + ' to target ' + str(tgtPos))
                     else:
@@ -1242,7 +1249,11 @@ class BattleCalculatorAI:
                 atkType = attack[SUIT_ATK_COL]
                 theSuit = self.battle.findSuit(attack[SUIT_ID_COL])
                 atkInfo = SuitBattleGlobals.getSuitAttack(theSuit.dna.name, theSuit.getLevel(), atkType)
-                result = atkInfo['hp']
+                if theSuit.getElite():
+                    mult = 1.2
+                else:
+                    mult = 1.0
+                result = int(atkInfo['hp'] * mult)
             targetIndex = self.battle.activeToons.index(toonId)
             attack[SUIT_HP_COL][targetIndex] = result
 

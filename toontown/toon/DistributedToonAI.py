@@ -20,7 +20,7 @@ from otp.avatar import DistributedAvatarAI
 from otp.avatar import DistributedPlayerAI
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
-from toontown.achievements import Achievements
+from toontown.achievements import Achievements, AchievementsGlobals
 from toontown.battle import SuitBattleGlobals
 from toontown.catalog import CatalogAccessoryItem
 from toontown.catalog import CatalogItem
@@ -123,7 +123,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.backpack = (0, 0, 0)
         self.shoes = (0, 0, 0)
         self.cogTypes = [0, 0, 0, 0, 0]
-        self.cogLevel = [0, 0, 0, 0, 0]
+        self.cogLevels = [0, 0, 0, 0, 0]
+        self.cogReviveLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogRadar = [0, 0, 0, 0, 0]
         self.trackBonusLevel = [0] * 9
@@ -202,11 +203,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.magicWordTeleportRequests = []
         self.buffs = []
+        self.stats = [0] * ToontownGlobals.TOTAL_STATS
+        self.interiorLayout = 0
         self.trueFriends = []
         self.trueFriendRequests = (0, 0)
-        self.interiorLayout = 0
         self.cheesyEffects = [0]
         self.redeemedCodes = []
+        self.trainingPoints = 0
+        self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -266,7 +270,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.exitEstate()
             if self.zoneId != ToontownGlobals.QuietZone:
                 self.announceZoneChange(ToontownGlobals.QuietZone, self.zoneId)
-        
+
         taskName = self.uniqueName('cheesy-expires')
         taskMgr.remove(taskName)
         taskName = self.uniqueName('next-catalog')
@@ -333,6 +337,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 for hood in self.air.hoods:
                     if hood.zoneId != ZoneUtil.getHoodId(oldZoneId):
                         continue
+
+        # Not sure if i sohuld really code it in here, but fuck it
+        if newZoneId == 2741: # Loopy's balls
+            self.air.achievementsManager.loopysBalls(self.doId)
+        self.air.achievementsManager.zone(self.doId, ZoneUtil.getHoodId(newZoneId))
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         if simbase.wantPets:
@@ -550,37 +559,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setFriendsList(self, friendsList):
         self.friendsList = friendsList
+        self.setStat(ToontownGlobals.STATS_CURR_FRIENDS, len(self.friendsList))
 
     def getFriendsList(self):
         return self.friendsList
 
-    def setTrueFriends(self, trueFriends):
-        self.trueFriends = trueFriends
 
-    def d_setTrueFriends(self, trueFriends):
-        self.sendUpdate('setTrueFriends', [trueFriends])
-
-    def b_setTrueFriends(self, trueFriends):
-        self.setTrueFriends(trueFriends)
-        self.d_setTrueFriends(trueFriends)
-    
-    def isTrueFriends(self, avId):
-        return avId in self.trueFriends
-    
-    def addTrueFriend(self, avId):
-        if avId in self.trueFriends:
-                return
-
-        self.trueFriends.append(avId)
-        self.b_setTrueFriends(self.trueFriends)
-  
-    def getTrueFriends(self, trueFriends):
-        return self.trueFriends
-       
-    def setTrueFriendRequest(self, tfRequest):
-        self.trueFriendRequest = tfRequest
-
-    def d_setTrueFriendRequest(self, tfRequest):
         self.sendUpdate('setTrueFriendRequest', [tfRequest])
 
     def b_setTrueFriendRequest(self, tfRequest):
@@ -596,9 +580,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         self.friendsList.append((friendId, type))
         self.air.questManager.toonMadeFriend(self)
+        self.addStat(ToontownGlobals.STATS_FRIENDS)
 
         if self.air.wantAchievements:
-            self.air.achievementsManager.toonMadeFriend(self.doId)
+            self.air.achievementsManager.friends(self.doId)
 
     def d_setMaxNPCFriends(self, max):
         self.sendUpdate('setMaxNPCFriends', [max])
@@ -1092,6 +1077,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def setHp(self, hp):
         DistributedPlayerAI.DistributedPlayerAI.setHp(self, hp)
         if hp <= 0:
+            self.addStat(ToontownGlobals.STATS_SAD)
             messenger.send(self.getGoneSadMessage())
 
     def b_setTutorialAck(self, tutorialAck):
@@ -1276,6 +1262,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getCogLevels(self):
         return self.cogLevels
+		
+    def d_setCogTypes(self, types):
+        self.sendUpdate('setCogTypes', [types])
+
+    def getCogTypes(self):
+        return self.cogTypes
 
     def incCogLevel(self, dept):
         newLevel = self.cogLevels[dept] + 1
@@ -1302,6 +1294,60 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     self.b_setMaxHp(maxHp)
                     self.toonUp(maxHp)
         self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
+		
+    def b_setCogReviveLevels(self, levels):
+        self.setCogReviveLevels(levels)
+        self.d_setCogReviveLevels(levels)
+
+    def setCogReviveLevels(self, levels):
+        if not levels:
+            self.notify.warning('cogLevels set to bad value: %s. Resetting to [0,0,0,0,0]' % levels)
+            self.cogReviveLevels = [0,
+             0,
+             0,
+             0,
+             0]
+        else:
+            self.cogReviveLevels = levels
+
+    def d_setCogReviveLevels(self, levels):
+        self.sendUpdate('setCogReviveLevels', [levels])
+
+    def getCogReviveLevels(self):
+        return self.cogReviveLevels
+
+    def incCogReviveLevel(self, dept):
+        newLevel = self.cogReviveLevels[dept] + 1
+        if newLevel == 0:
+            self.cogTypes[dept] = 0
+            self.d_setCogTypes(self.cogTypes)
+        cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+        lastCog = self.cogTypes[dept] >= SuitDNA.suitsPerDept - 1
+        if not lastCog:
+            maxLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+        else:
+            maxLevel = ToontownGlobals.MaxCogSuitLevel
+        if newLevel > maxLevel:
+            if not lastCog:
+                self.cogTypes[dept] += 1
+                self.d_setCogTypes(self.cogTypes)
+                self.cogMerits[dept] = CogDisguiseGlobals.MeritsPerLevel[SuitDNA.suitHeadTypes.index(cogTypeStr)][4]
+                self.d_setCogMerits(self.cogMerits)
+                self.cogReviveLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+                self.d_setCogReviveLevels(self.cogReviveLevels)
+        else:
+            self.cogReviveLevels[dept] += 1
+            self.d_setCogReviveLevels(self.cogReviveLevels)
+            if lastCog:
+                if self.cogReviveLevels[dept] in ToontownGlobals.CogReviveSuitHPLevels:
+                    if self.cogMerits[dept] != 0:
+                        self.cogMerits[dept] = 0
+                        self.d_setCogMerits(self.cogMerits)
+                    maxHp = self.getMaxHp()
+                    maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
+                    self.b_setMaxHp(maxHp)
+                    self.toonUp(maxHp)
+        self.air.writeServerEvent('cogReviveSuit', self.doId, '%s|%s|%s' % (dept, self.cogTypes[dept], self.cogReviveLevels[dept]))
 
     def getNumPromotions(self, dept):
         if dept not in SuitDNA.suitDepts:
@@ -1414,16 +1460,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogMerits(self):
         return self.cogMerits
 
-    def b_promote(self, dept):
-        self.promote(dept)
-        self.d_promote(dept)
+    def b_promote(self, dept, hardFlag = 0):
+        self.promote(dept, hardFlag)
+        self.d_promote(dept, hardFlag)
 
-    def promote(self, dept):
+    def promote(self, dept, hardFlag):
         if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
             self.cogMerits[dept] = 0
-        self.incCogLevel(dept)
+        if self.cogLevels[dept] >= ToontownGlobals.MaxCogSuitLevel and hardFlag == 1:
+            self.incCogReviveLevel(dept)
+        else:
+            self.incCogLevel(dept)
+            simbase.air.achievementsManager.disguise(self.doId, SuitDNA.suitDepts[dept])
 
-    def d_promote(self, dept):
+    def d_promote(self, dept, hardFlag):
         merits = self.getCogMerits()
         if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
             merits[dept] = 0
@@ -1670,9 +1720,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     newQuestHistory.remove(Quests.VISIT_QUEST_ID)
 
                 self.b_setQuestHistory(newQuestHistory)
-                if finalReward:
-                    newRewardHistory = self.rewardHistory + [finalReward]
-                    self.b_setRewardHistory(self.rewardTier, newRewardHistory)
 
     def removeAllTracesOfQuest(self, questId, rewardId):
         self.notify.debug('removeAllTracesOfQuest: questId: %s rewardId: %s' % (questId, rewardId))
@@ -1682,10 +1729,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.notify.debug('removeAllTracesOfQuest: questHistory before: %s' % self.questHistory)
         removedQuestHistory = self.removeQuestFromHistory(questId)
         self.notify.debug('removeAllTracesOfQuest: questHistory after: %s' % self.questHistory)
-        self.notify.debug('removeAllTracesOfQuest: reward history before: %s' % self.rewardHistory)
-        removedRewardHistory = self.removeRewardFromHistory(rewardId)
-        self.notify.debug('removeAllTracesOfQuest: reward history after: %s' % self.rewardHistory)
-        return (removedQuest, removedQuestHistory, removedRewardHistory)
+        return (removedQuest, removedQuestHistory)
 
     def requestDeleteQuest(self, questDesc):
         if len(questDesc) != 5:
@@ -1693,16 +1737,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.warning('%s.requestDeleteQuest(%s) -- questDesc has incorrect params' % (self, str(questDesc)))
             return
         questId = questDesc[0]
-        rewardId = questDesc[3]
-        if not self.hasQuest(questId, rewardId=rewardId):
+        if not self.hasQuest(questId):
             self.air.writeServerEvent('suspicious', self.doId, "Toon tried to delete quest they don't have %s" % str(questDesc))
             self.notify.warning("%s.requestDeleteQuest(%s) -- Toon doesn't have that quest" % (self, str(questDesc)))
             return
-        if not Quests.isQuestJustForFun(questId, rewardId):
+        if not Quests.isQuestJustForFun(questId):
             self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to delete non-Just For Fun quest %s' % str(questDesc))
             self.notify.warning('%s.requestDeleteQuest(%s) -- Tried to cancel non-Just For Fun quest' % (self, str(questDesc)))
             return
-        removedStatus = self.removeAllTracesOfQuest(questId, rewardId)
+        removedStatus = self.removeAllTracesOfQuest(questId)
         if 0 in removedStatus:
             self.notify.warning('%s.requestDeleteQuest(%s) -- Failed to remove quest, status=%s' % (self, str(questDesc), removedStatus))
 
@@ -1805,6 +1848,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def addTrackAccess(self, track):
         self.trackArray[track] = 1
         self.b_setTrackAccess(self.trackArray)
+        simbase.air.achievementsManager.gagTrack(self.doId, track)
 
     def removeTrackAccess(self, track):
         self.trackArray[track] = 0
@@ -2018,34 +2062,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return 1
         else:
             return 0
-
-    def removeRewardFromHistory(self, rewardId):
-        rewardTier, rewardHistory = self.getRewardHistory()
-        if rewardId in rewardHistory:
-            rewardHistory.remove(rewardId)
-            self.b_setRewardHistory(rewardTier, rewardHistory)
-            return 1
-        else:
-            return 0
-
-    def b_setRewardHistory(self, tier, rewardList):
-        self.setRewardHistory(tier, rewardList)
-        self.d_setRewardHistory(tier, rewardList)
-
-    def d_setRewardHistory(self, tier, rewardList):
-        self.sendUpdate('setRewardHistory', [tier, rewardList])
-
-    def setRewardHistory(self, tier, rewardList):
-        self.air.writeServerEvent('questTier', self.getDoId(), str(tier))
-        self.notify.debug('setting reward history to tier %s, %s' % (tier, rewardList))
-        self.rewardTier = tier
-        self.rewardHistory = rewardList
-
-    def getRewardHistory(self):
-        return (self.rewardTier, self.rewardHistory)
-
-    def getRewardTier(self):
-        return self.rewardTier
 
     def fixAvatar(self):
         anyChanged = 0
@@ -2505,13 +2521,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.b_setToonExp(0)
             self.setToonLevel(level)
             self.d_setToonLevel(level)
+            self.b_setMaxHp(self.getMaxHp() + 1)
+            self.toonUp(self.getMaxHp() - self.hp)
             simbase.air.experienceMgr.checkForLevelUpReward(self)
-            if level in ToontownGlobals.ExperienceHPLevels:
+            if level in ToontownGlobals.ExperienceTrainingPointLevels:
                 self.sendUpdate('notifyExpReward', [level, 0])
-            #if level in ToontownGlobals.ExperienceGagLevels: Leftovers, might take some reworking to get these working
-                #self.sendUpdate('notifyExpReward', [level, 1])
-            #if level in ToontownGlobals.ExperienceMoneyLevels:
-                #self.sendUpdate('notifyExpReward', [level, 2])
+            if level in ToontownGlobals.ExperienceGagLevels:
+                self.sendUpdate('notifyExpReward', [level, 1])
+            if level in ToontownGlobals.ExperienceMoneyLevels:
+                self.sendUpdate('notifyExpReward', [level, 2])
 
     def d_setToonLevel(self, level):
         self.sendUpdate('setToonLevel', [level])
@@ -2523,6 +2541,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.toonLevel
 
     def addMoney(self, deltaMoney):
+        self.addStat(ToontownGlobals.STATS_JB_EARNED, amount = deltaMoney)
         money = deltaMoney + self.money
         pocketMoney = min(money, self.maxMoney)
         self.b_setMoney(pocketMoney)
@@ -2532,6 +2551,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setBankMoney(bankMoney)
 
     def takeMoney(self, deltaMoney, bUseBank = True):
+        self.addStat(ToontownGlobals.STATS_JB_SPENT, amount = deltaMoney)
         totalMoney = self.money
         if bUseBank:
             totalMoney += self.bankMoney
@@ -2543,20 +2563,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setMoney(0)
         else:
             self.b_setMoney(self.money - deltaMoney)
-        return True
-		
-    def takeBankMoney(self, deltaMoney, bUseJar = True):
-        totalMoney = self.bankMoney
-        if bUseJar:
-            totalMoney += self.money
-        if deltaMoney > totalMoney:
-            self.notify.warning('Not enough money! AvId: %s Has:%s Charged:%s' % (self.doId, totalMoney, deltaMoney))
-            return False
-        if bUseJar and deltaMoney > self.bankMoney:
-            self.b_setMoney(self.money - (deltaMoney - self.bankMoney))
-            self.b_setBankMoney(0)
-        else:
-            self.b_setBankMoney(self.bankMoney - deltaMoney)
         return True
 
     def b_setMoney(self, money):
@@ -2760,6 +2766,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
         if hasattr(self, 'autoResistanceRestock') and self.autoResistanceRestock:
             self.restockAllResistanceMessages(1)
+        self.addStat(ToontownGlobals.STATS_UNITES)
         affectedPlayers = []
         for toonId in nearbyPlayers:
             toon = self.air.doId2do.get(toonId)
@@ -3309,6 +3316,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         elif type == 'invasion':
             returnCode = self.doCogInvasion(suitIndex)
         if returnCode:
+            self.addStat(ToontownGlobals.STATS_SUMMONS)
             if returnCode[0] == 'success':
                 self.air.writeServerEvent('cogSummoned', self.doId, '%s|%s|%s' % (type, suitIndex, self.zoneId))
                 self.removeCogSummonsEarned(suitIndex, type)
@@ -4587,12 +4595,53 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 achievements.append(achievementId)
 
                 self.b_setAchievements(achievements)
+                self.b_setToonExp(self.getToonExp() + AchievementsGlobals.AchievementExperience[achievementId])
 
     def hasAchievement(self, achievementId):
         if achievementId in self.achievements:
             return 1
 
         return 0
+
+    def b_setStats(self, stats):
+        self.d_setStats(stats)
+        self.setStats(stats)
+
+    def d_setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
+        self.sendUpdate('setStats', [stats])
+
+    def setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
+        self.stats = stats
+
+    def getStats(self):
+        return self.stats
+
+    def getStat(self, stat):
+        return self.stats[stat]
+
+    def addStat(self, stat, amount = 1):
+        if amount <= 0:
+            return
+
+        self.stats[stat] += amount
+        self.b_setStats(self.stats)
+		
+    def setStat(self, stat, amount = 1):
+        if amount <= 0:
+            return
+
+        self.stats[stat] = amount
+        self.b_setStats(self.stats)
+
+    def fixStats(self, stats):
+        badStatLen = len(stats)
+        for i in xrange(ToontownGlobals.TOTAL_STATS - badStatLen):
+            stats.append(0)
+        return stats
 
     def addBuff(self, id, duration):
         buffCount = len(self.buffs)
@@ -4699,6 +4748,50 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setRedeemedCodes(self, redeemedCodes):
         self.sendUpdate('setRedeemedCodes', [redeemedCodes])
+
+    def b_setTrainingPoints(self, points):
+        self.setTrainingPoints(points)
+        self.d_setTrainingPoints(points)
+
+    def d_setTrainingPoints(self, points):
+        self.sendUpdate('setTrainingPoints', [points])
+
+    def setTrainingPoints(self, points):
+        self.trainingPoints = points
+
+    def getTrainingPoints(self):
+        return self.trainingPoints
+		
+    def b_setSpentTrainingPoints(self, points):
+        self.setSpentTrainingPoints(points)
+        self.d_setSpentTrainingPoints(points)
+
+    def d_setSpentTrainingPoints(self, points):
+        self.sendUpdate('setSpentTrainingPoints', [points])
+
+    def setSpentTrainingPoints(self, points):
+        self.spentTrainingPoints = points
+
+    def getSpentTrainingPoints(self):
+        return self.spentTrainingPoints
+		
+    def requestSkillSpend(self, track):
+        trackArray = self.getTrackAccess()
+        pointsAvailable = self.getTrainingPoints()
+        pointsSpent = self.getSpentTrainingPoints()
+        if pointsAvailable > 0: # Time to skill them up!
+            if pointsSpent[track] >= 2:
+                return # Prestiging isn't coded yet
+            else:
+                pointsSpent[track] += 1
+                pointsAvailable -= 1
+            for i in xrange(8): # Go through all tracks and recalculate
+                if pointsSpent[i] >= 2:
+                    self.addTrackAccess(i)
+            self.b_setSpentTrainingPoints(pointsSpent)
+            self.b_setTrainingPoints(pointsAvailable)
+        else:
+            return
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def cheesyEffect(value, hood=0, expire=0):
@@ -4820,6 +4913,7 @@ def maxToon(missingTrack=None):
         CogDisguiseGlobals.PartsPerSuitBitmasks[4]  # Boardbots
     ])
     target.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
+    target.b_setCogReviveLevels([ToontownGlobals.MaxCogSuitLevel] * 5)
     target.b_setCogTypes([SuitDNA.suitsPerDept-1] * 5)
 
     # Max their Cog gallery:
@@ -4844,7 +4938,6 @@ def maxToon(missingTrack=None):
     # End game settings:
     target.b_setQuests([])
     target.b_setQuestCarryLimit(4)
-    target.b_setRewardHistory(Quests.ELDER_TIER, [])
     target.b_setMaxMoney(250)
     target.b_setMoney(target.getMaxMoney())
     target.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
@@ -4856,6 +4949,14 @@ def maxToon(missingTrack=None):
     if target != spellbook.getInvoker():
         return "Maxed Target's Toon!"
     return "Maxed your Toon!"
+	
+@magicWord(category=CATEGORY_PROGRAMMER, types = [int, int])
+def promote(dept, revive = 0):
+    """
+    Promotes the invoker by 1 level, if flag is defined, it promotes the v2.0 suit by one level.
+    """
+    invoker = spellbook.getInvoker()
+    invoker.b_promote(dept, revive)
 
 @magicWord(category=CATEGORY_PROGRAMMER)
 def unlocks():
@@ -5210,7 +5311,7 @@ def cogIndex(index):
     invoker.b_setCogIndex(index)
     return 'Set your Cog index to %d!' % index
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str, int, int])
+@magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def inventory(a, b=None, c=None):
     invoker = spellbook.getInvoker()
     inventory = invoker.inventory
@@ -5587,7 +5688,7 @@ def disguise(command, suitIndex, value):
 
     if suitIndex > 4:
         return 'Invalid suit index: %s' % suitIndex
-    if value < 0:
+    if value < 0 and command != 'reviveLevel':
         return 'Invalid value: %s' % value
 
     if command == 'parts':
@@ -5603,6 +5704,10 @@ def disguise(command, suitIndex, value):
         invoker.cogLevels[suitIndex] = value
         invoker.d_setCogLevels(invoker.cogLevels)
         return 'Level set.'
+    elif command == 'reviveLevel':
+        invoker.cogReviveLevels[suitIndex] = value
+        invoker.d_setCogReviveLevels(invoker.cogLevels)
+        return 'Revive level set.'
     elif command == 'merits':
         invoker.cogMerits[suitIndex] = value
         invoker.d_setCogMerits(invoker.cogMerits)
@@ -5673,10 +5778,7 @@ def immortal():
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def goto(avIdShort):
     """ Teleport to the avId specified. """
-    if len(str(avIdShort)) == 9:
-        avId = avIdShort
-    else:
-        avId = 100000000+avIdShort # To get target doId.
+    avId = 100000000+avIdShort # To get target doId.
     toon = simbase.air.doId2do.get(avId)
     if not toon:
         return "Unable to teleport to target, they are not currently on this district."
@@ -5739,6 +5841,12 @@ def shovelSkill(skill):
     target = spellbook.getTarget()
     target.b_setShovelSkill(skill)
 	
+@magicWord(category = CATEGORY_PROGRAMMER, types = [int])
+def trainingPoints(points):
+    target = spellbook.getTarget()
+    target.b_setTrainingPoints(points)
+    return 'Set ' + target.getName() + "'s training points to %s!" % points
+	
 @magicWord(category = CATEGORY_SYSTEM_ADMINISTRATOR)
 def i60Skip():
     """
@@ -5788,7 +5896,6 @@ def i60Skip():
     # Mid game settings:
     target.b_setQuests([])
     target.b_setQuestCarryLimit(4)
-    target.b_setRewardHistory(10, [])
     target.b_setMaxMoney(80)
     target.b_setMoney(target.getMaxMoney())
     target.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
@@ -5847,7 +5954,6 @@ def i60Reset():
     # Start game settings:
     target.b_setQuests([])
     target.b_setQuestCarryLimit(1)
-    target.b_setRewardHistory(0, [])
     target.b_setMaxMoney(40)
     target.b_setMoney(0)
     target.b_setBankMoney(0)

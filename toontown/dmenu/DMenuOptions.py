@@ -83,23 +83,23 @@ class DMenuOptions(DirectObject, FSM):
 
     def showOptions(self, animate = True):
         # base.playSfx(self.optionsOpenSfx) # ALTIS: TODO: Add sound effects
-        self.displayOptions()
         base.transitions.fadeScreen(0.5)
+        self.displayOptions()
         if animate:
             self.optionsNode.setColorScale(1, 1, 1, 0)
-            self.optionsNode.setPos(0, 0, -.15)
-            self.optionsNode.posInterval(.15, Point3(0, 0, 0), blendType = 'easeInOut').start()
-            LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0), blendType = 'easeInOut').start()
+            self.optionsNode.setPos(0, 0, -.3)
+            self.optionsNode.posInterval(.2, Point3(0, 0, 0), blendType = 'easeInOut').start()
+            LerpColorScaleInterval(self.optionsNode, .2, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0), blendType = 'easeInOut').start()
  
     def hideOptions(self, animate = True):
         # base.playSfx(self.optionsCloseSfx) # ALTIS: TODO: Add sound effects
         self.ignore('window-event')
         if animate:
             self.optionsNode.setColorScale(1, 1, 1, 1)
-            self.optionsNode.posInterval(.15, Point3(0, 0, -.15), blendType = 'easeInOut').start()
-            LerpColorScaleInterval(self.optionsNode, .15, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1), blendType = 'easeInOut').start()
+            self.optionsNode.posInterval(.2, Point3(0, 0, -.3), blendType = 'easeInOut').start()
+            LerpColorScaleInterval(self.optionsNode, .2, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1), blendType = 'easeInOut').start()
             Sequence (
-            Wait(.15),
+            Wait(.2),
             Func(self.delAllOptions)).start()
         else:
             self.delAllOptions()
@@ -157,15 +157,17 @@ class DMenuOptions(DirectObject, FSM):
 
     def loadSoundOptions(self):
         # Music Slider
-        self.Music_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, 0.3),
+        self.Music_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, 0.3), frameColor = (0.2, 0.66, 1, 1),
                                                value = settings['musicVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doMusicLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.Music_toggleSlider.setScale(0.4, 0.4, 0.4)
         self.Music_toggleSlider.show()
+        self.Music_toggleSlider.setTransparency(1)
 
         # SFX Slider
-        self.SoundFX_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0.0, 0.1),
+        self.SoundFX_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0.0, 0.1), frameColor = (0.2, 0.66, 1, 1),
                                                value = settings['sfxVol'] * 100, pageSize = 5, range = (0, 100), command = self.__doSfxLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.SoundFX_toggleSlider.setScale(0.4, 0.4, 0.4)
+        self.SoundFX_toggleSlider.setTransparency(1)
 
         # Toon Chat Sound Effects
         self.ToonChatSounds_toggleButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'),
@@ -339,7 +341,7 @@ class DMenuOptions(DirectObject, FSM):
         self.DisplaySettingsButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image3_color = Vec4(0.5, 0.5, 0.5, 0.5), image_scale = (0.7, 1, 1), text = TTLocalizer.OptionsPageChange, text3_fg = (0.5, 0.5, 0.5, 0.75), text_scale = 0.052, text_pos = (0, -.02), pos = (0, 0, .2), command = self.__doDisplaySettings)
         self.DisplaySettings_Label = DirectLabel(parent = self.optionsNode, relief = None, text = '', text_align = TextNode.ACenter, text_scale = 0.052, text_wordwrap = 16, pos = (-.6, 0, .2))
 
-        self.fov_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, 0),
+        self.fov_toggleSlider = DirectSlider(parent = self.optionsNode, pos = (0, 0, 0), frameColor = (0.2, 0.66, 1, 1),
                                                value = settings['fieldofview'], pageSize = 5, range = (30, 120), command = self.__doFovLevel, thumb_geom = (self.guiButton.find('**/QuitBtn_UP')), thumb_relief = None, thumb_geom_scale = 1)
         self.fov_toggleSlider.setScale(0.25)
         self.fov_resetButton = DirectButton(parent = self.optionsNode, relief = None, image = (self.guiButton.find('**/QuitBtn_UP'), self.guiButton.find('**/QuitBtn_DN'), self.guiButton.find('**/QuitBtn_RLVR')), image_scale = (0.7, 1, 1), text = 'Reset FOV', text_scale = 0.052, text_pos = (0, -.02), pos = (.6, 0, 0), command = self.__resetFov)

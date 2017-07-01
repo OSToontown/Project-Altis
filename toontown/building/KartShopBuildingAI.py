@@ -15,6 +15,7 @@ class KartShopBuildingAI:
         self.air = air
         self.exteriorZone = exteriorZone
         self.interiorZone = interiorZone
+        self.blockNumber = blockNumber
         self.setup(blockNumber)
 
     def cleanup(self):
@@ -63,3 +64,12 @@ class KartShopBuildingAI:
         self.outsideDoor1.sendUpdate('setDoorIndex', [self.outsideDoor1.getDoorIndex()])
         self.insideDoor0.sendUpdate('setDoorIndex', [self.insideDoor0.getDoorIndex()])
         self.insideDoor1.sendUpdate('setDoorIndex', [self.insideDoor1.getDoorIndex()])
+                     
+    def getBlock(self):
+        return self.blockNumber, self.interiorZone
+
+    def isSuitBlock(self):
+        return False
+
+    def isEstablishedSuitBlock(self):
+        return False

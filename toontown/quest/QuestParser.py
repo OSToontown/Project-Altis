@@ -40,6 +40,7 @@ def init():
      'bookCloseButton': base.localAvatar.book.bookCloseButton,
      'chatNormalButton': base.localAvatar.chatMgr.normalButton,
      'chatScButton': base.localAvatar.chatMgr.scButton,
+     'chatClButton': base.localAvatar.chatMgr.clButton,
      'arrows': BlinkingArrows.BlinkingArrows()})
 
 
@@ -508,9 +509,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         token, varName, fileName = line
         if varName == 'tomDialogue_01':
             notify.debug('VarName tomDialogue getting added. Tutorial Ack: %d' % base.localAvatar.tutorialAck)
-        try:
+        if base.config.GetString('language', 'english') == 'japanese':
             dialogue = base.loadSfx(fileName)
-        except:
+        else:
             dialogue = None
         self.setVar(varName, dialogue)
 
@@ -994,8 +995,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         return Func(self.toon.book.obscureButton, val)
 
     def parseObscureChat(self, line):
-        token, val0, val1 = line
-        return Func(self.toon.chatMgr.obscure, val0, val1)
+        token, val0, val1, val2 = line
+        return Func(self.toon.chatMgr.obscure, val0, val1, val2)
 
     def parseArrowsOn(self, line):
         arrows = self.getVar('arrows')

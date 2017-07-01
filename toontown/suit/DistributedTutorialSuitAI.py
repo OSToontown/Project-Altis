@@ -4,6 +4,7 @@ from toontown.suit import SuitDNA
 from toontown.suit import SuitDialog
 from toontown.suit.DistributedSuitBaseAI import DistributedSuitBaseAI
 from toontown.tutorial.DistributedBattleTutorialAI import DistributedBattleTutorialAI
+import random
 
 class FakeBattleManager:
 
@@ -24,7 +25,7 @@ class DistributedTutorialSuitAI(DistributedSuitBaseAI):
         DistributedSuitBaseAI.__init__(self, air, None)
 
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('f')
+        suitDNA.newSuit(random.choice(['f', 'bf', 'sc', 'cc', 'ca']))
         self.dna = suitDNA
         self.setLevel(1)
 

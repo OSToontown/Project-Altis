@@ -37,18 +37,18 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             return
 
         if not av.houseId:
-            self.d_setMovie(PhoneGlobals.PHONE_MOVIE_NO_HOUSE, avId, globalClockDelta.getRealNetworkTime(bits=32))
-            taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
+            self.d_setMovie(PhoneGlobals.PHONE_MOVIE_NO_HOUSE, avId, globalClockDelta.getRealNetworkTime(bits = 32))
+            taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs = [])
             return
 
         if len(av.monthlyCatalog) == 0 and len(av.weeklyCatalog) == 0 and len(av.backCatalog) == 0:
-            self.d_setMovie(PhoneGlobals.PHONE_MOVIE_EMPTY, avId, globalClockDelta.getRealNetworkTime(bits=32))
-            taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
+            self.d_setMovie(PhoneGlobals.PHONE_MOVIE_EMPTY, avId, globalClockDelta.getRealNetworkTime(bits = 32))
+            taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs = [])
             return
 
         self.air.questManager.toonUsedPhone(avId)
         self.avId = avId
-        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_PICKUP, avId, globalClockDelta.getRealNetworkTime(bits=32))
+        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_PICKUP, avId, globalClockDelta.getRealNetworkTime(bits = 32))
 
         house = self.air.doId2do.get(av.houseId)
         if house:
@@ -63,7 +63,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             if dclass != self.air.dclassesByName['DistributedHouseAI']:
                 return
 
-            numItems = len(CatalogItemList(fields['setInteriorItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWindows'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWindows'][0], store=CatalogItem.Customization))
+            numItems = len(CatalogItemList(fields['setInteriorItems'][0], store = CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticItems'][0], store = CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWallpaper'][0], store = CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWindows'][0], store = CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWallpaper'][0], store = CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWindows'][0], store = CatalogItem.Customization))
             self.sendUpdateToAvatarId(fields['setAvatarId'][0], 'setLimits', [numItems])
 
     def avatarExit(self):
@@ -73,14 +73,14 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             return
 
         self.avId = None
-        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_HANGUP, avId, globalClockDelta.getRealNetworkTime(bits=32))
-        taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
+        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_HANGUP, avId, globalClockDelta.getRealNetworkTime(bits = 32))
+        taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs = [])
 
     def d_setMovie(self, mode, avId, time):
         self.sendUpdate('setMovie', [mode, avId, time])
 
     def __resetMovie(self):
-        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_CLEAR, 0, globalClockDelta.getRealNetworkTime(bits=32))
+        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_CLEAR, 0, globalClockDelta.getRealNetworkTime(bits = 32))
 
     def requestPurchaseMessage(self, context, item, optional):
         avId = self.air.getAvatarIdFromSender()
@@ -107,6 +107,16 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         else:
             return
 
+        av.addStat(ToontownGlobals.STATS_CATALOG)
+        if av.getStat(ToontownGlobals.STATS_CATALOG) == 1:
+            self.air.achievementsManager.catalog(av, 1)
+        if av.getStat(ToontownGlobals.STATS_CATALOG) == 10:
+            self.air.achievementsManager.catalog(av, 10)
+        if av.getStat(ToontownGlobals.STATS_CATALOG) == 50:
+            self.air.achievementsManager.catalog(av, 50)
+        if av.getStat(ToontownGlobals.STATS_CATALOG) == 100:
+            self.air.achievementsManager.catalog(av, 100)
+
         if item.getDeliveryTime():
             if len(av.onOrder) > 5:
                 self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_OnOrderListFull])
@@ -115,17 +125,16 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             if len(av.mailboxContents) + len(av.onOrder) >= ToontownGlobals.MaxMailboxContents:
                 self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_MailboxFull])
 
-            if not av.takeBankMoney(price):
+            if not av.takeMoney(price):
                 return
 
-            item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
+            item.deliveryDate = int(time.time() / 60) + item.getDeliveryTime()
             av.onOrder.append(item)
             av.b_setDeliverySchedule(av.onOrder)
-            
             self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_ItemOnOrder])
-            taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs=[avId, 'purchaseItemComplete', []])
+            taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs = [avId, 'purchaseItemComplete', []])
         else:
-            if not av.takeBankMoney(price):
+            if not av.takeMoney(price):
                 return
 
             resp = item.recordPurchase(av, optional)
@@ -133,22 +142,22 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
                     av.addMoney(price)
 
             self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, resp])
-            taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs=[avId, 'purchaseItemComplete', []])
+            taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs = [avId, 'purchaseItemComplete', []])
 
     def requestGiftPurchaseMessage(self, context, avId, item, optional):
         senderId = self.air.getAvatarIdFromSender()
-        
+
         av = self.air.doId2do.get(senderId)
         reciver = self.air.doId2do.get(avId)
-        
+
         if not reciver:
             self.notify.warning("Toon %d is not online or doesn't exist!" % avId)
             return
-        
+
         if not av:
             self.air.writeServerEvent('suspicious', senderId, 'Used phone from other shard!')
             return
-            
+
         item = CatalogItem.getItem(item)
         if isinstance(item, CatalogInvalidItem):
             self.air.writeServerEvent('suspicious', avId, 'Tried to gift invalid catalog item.')
@@ -162,14 +171,14 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             price = item.getPrice(0)
         else:
             return
-         
-        if not av.takeBankMoney(price):
+
+        if not av.takeMoney(price):
             return
 
         resp = item.recordPurchase(av, optional)
         if resp < 0:
             av.addMoney(price)
-        
+
         simbase.air.deliveryManager.addGift(avId, item, context, optional, senderId)
         self.sendUpdateToAvatarId(senderId, 'requestGiftPurchaseResponse', [context, resp])
-        taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs=[senderId, 'purchaseItemComplete', []])
+        taskMgr.doMethodLater(0.2, self.sendUpdateToAvatarId, 'purchaseItemComplete-%d' % self.getDoId(), extraArgs = [senderId, 'purchaseItemComplete', []])

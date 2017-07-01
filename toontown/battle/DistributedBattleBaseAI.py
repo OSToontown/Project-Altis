@@ -1363,6 +1363,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                         av = attack[TOON_TGT_COL]
                         if toon != None and av in toon.NPCFriendsDict:
                             toon.NPCFriendsDict[av] -= 1
+                            toon.addStat(ToontownGlobals.STATS_SOS)
                             if toon.NPCFriendsDict[av] <= 0:
                                 del toon.NPCFriendsDict[av]
                             toon.d_setNPCFriendsDict(toon.NPCFriendsDict)
@@ -1377,6 +1378,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                             if check == -1:
                                 self.air.writeServerEvent('suspicious', toonId, 'Toon generating movie for non-existant gag track %s level %s' % (track, level))
                                 self.notify.warning('generating movie for non-existant gag track %s level %s! avId: %s' % (track, level, toonId))
+                            toon.addStat(ToontownGlobals.STATS_GAGS)
                             toon.d_setInventory(toon.inventory.makeNetString())
                     hps = attack[TOON_HP_COL]
                     if track == SOS:
@@ -1565,6 +1567,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                  'isSupervisor': suit.isSupervisor(),
                  'isVirtual': suit.isVirtual(),
                  'hasRevives': suit.getMaxSkeleRevives(),
+                 'isElite': suit.getElite(),
                  'activeToons': self.activeToons[:]}
                 self.suitsKilled.append(encounter)
                 self.suitsKilledThisBattle.append(encounter)

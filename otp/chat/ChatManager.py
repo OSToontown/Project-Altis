@@ -45,6 +45,7 @@ class ChatManager(DirectObject.DirectObject):
         self.wantBackgroundFocus = not base.wantCustomControls
         self.__scObscured = 0
         self.__normalObscured = 0
+        self.__clObscured = 0
         self.openChatWarning = None
         self.unpaidChatWarning = None
         self.teaser = None
@@ -134,16 +135,19 @@ class ChatManager(DirectObject.DirectObject):
         del self.cr
         return
 
-    def obscure(self, normal, sc):
+    def obscure(self, normal, sc, cl = False):
         self.__scObscured = sc
         if self.__scObscured:
             self.scButton.hide()
         self.__normalObscured = normal
         if self.__normalObscured:
             self.normalButton.hide()
+        self.__clObscured = normal
+        if self.__clObscured:
+            self.clButton.hide()
 
     def isObscured(self):
-        return (self.__normalObscured, self.__scObscured)
+        return (self.__normalObscured, self.__scObscured, self.__clObscured)
 
     def stop(self):
         self.fsm.request('off')
@@ -223,10 +227,13 @@ class ChatManager(DirectObject.DirectObject):
             self.scButton.show()
         if not self.__normalObscured:
             self.normalButton.show()
+        if not self.__clObscured:
+            self.clButton.show()
 
     def exitMainMenu(self):
         self.scButton.hide()
         self.normalButton.hide()
+        self.clButton.hide()
         self.ignore('enterNormalChat')
         if self.wantBackgroundFocus:
             self.chatInputNormal.chatEntry['backgroundFocus'] = 0
@@ -389,6 +396,8 @@ class ChatManager(DirectObject.DirectObject):
             self.scButton.show()
         if not self.__normalObscured:
             self.normalButton.show()
+        if not self.__clObscured:
+            self.clButton.show()
         if self.wantBackgroundFocus:
             self.chatInputNormal.chatEntry['backgroundFocus'] = 0
         self.chatInputSpeedChat.show()
@@ -396,6 +405,7 @@ class ChatManager(DirectObject.DirectObject):
     def exitSpeedChat(self):
         self.scButton.hide()
         self.normalButton.hide()
+        self.clButton.hide()
         self.chatInputSpeedChat.hide()
 
     def enterNormalChat(self):

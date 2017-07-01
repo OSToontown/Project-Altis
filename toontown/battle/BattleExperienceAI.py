@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import ToontownBattleGlobals, ToontownGlobals
 from toontown.suit import SuitDNA
 BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory('BattleExprienceAI')
 
@@ -84,6 +84,8 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             flags |= ToontownBattleGlobals.DLF_SUPERVISOR
         if deathRecord['isVirtual']:
             flags |= ToontownBattleGlobals.DLF_VIRTUAL
+        if deathRecord['isElite']:
+            flags |= ToontownBattleGlobals.DLF_ELITE
         if 'hasRevies' in deathRecord and deathRecord['hasRevives']:
             flags |= ToontownBattleGlobals.DLF_REVIVES
         deathList.extend([typeNum,
@@ -133,14 +135,19 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
 
     for toon in activeToonList:
         toonExp = 0
+        expArray = []
+        numElites = 0
         for i in xrange(len(ToontownBattleGlobals.Tracks)):
             uberIndex = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
             exp = getSkillGained(toonSkillPtsGained, toon.doId, i)
+            expArray.append(exp)
             needed = ToontownBattleGlobals.Levels[i][ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1] + ToontownBattleGlobals.UberSkill
             hasUber = 0
             totalExp = exp + toon.experience.getExp(i)
             if toon.inventory.numItem(i, uberIndex) > 0:
                 hasUber = 1
+            if totalExp >= ToontownBattleGlobals.regMaxSkill:
+                simbase.air.achievementsManager.maxGag(toon.doId, i)
             if totalExp >= needed or totalExp >= ToontownBattleGlobals.MaxSkill:
                 if toon.inventory.totalProps < toon.getMaxCarry() and not hasUber:
                     uberLevel = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
@@ -158,7 +165,13 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                pass
             else:
                 level = suit['level']
-                toonExp += int(level * 2.5)
+                if suit['isElite']:
+                    mult = 5
+                    toon.addMoney(level*5)
+                    numElites += 1
+                else:
+                    mult = 2.5
+                toonExp += int(level * mult)
         currToonExp = toon.getToonExp()
         toon.b_setToonExp(currToonExp + toonExp)
         toon.b_setExperience(toon.experience.makeNetString())
@@ -172,6 +185,10 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                 # Notify the AI that the toon killed cogs
                 simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
                 simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
+                toon.addStat(ToontownGlobals.STATS_COGS, len(suitsKilled))
+                toon.addStat(ToontownGlobals.STATS_ELITES, numElites)
+                simbase.air.achievementsManager.cogs(toon.doId)
+                simbase.air.questManager.toonCollectedExp(toon, expArray)
 
             # Looks like the toon wasnt too helpful...
             else:
@@ -179,3 +196,4 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
         else:
             simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
             simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
+            simbase.air.questManager.toonCollectedExp(toon, expArray)

@@ -214,7 +214,7 @@ SafeZoneTreasureSpawns = {
         9 #Maximum
     ),
     ToontownGlobals.OutdoorZone: (
-        TreasureOZ, 3, # +3 laff
+        TreasureOZ, 15, # +15 laff for alpha, drop this to 10 for beta
         [
             (-156.9, -118.9, 0.025),
             (-35.6, 86.0, 1.25),

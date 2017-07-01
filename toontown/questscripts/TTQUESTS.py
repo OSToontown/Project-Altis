@@ -27,7 +27,7 @@ REPARENTTO camera render
 POSHPRSCALE camera 11 7 3 52 0 0 1 1 1
 LOAD_CLASSIC_CHAR classicChar
 REPARENTTO classicChar render
-POS classicChar 0 0 0 
+POS classicChar 0 0 0
 HPR classicChar 0 0 0
 POS localToon 0 0 0
 HPR localToon 0 0 0
@@ -138,7 +138,7 @@ WAIT 0.6574
 LOOP_ANIM npc 'neutral' 1
 LOCAL_CHAT_CONFIRM npc QuestScript101_7 "CFSpeech" tomDialogue_07
 # Make it look like the client has no inventory. Since the toon.dc
-# specifies that the user really does have 1 of each item, we will 
+# specifies that the user really does have 1 of each item, we will
 # just put on a show for the client of not having any items then
 # handing them out.
 SET_INVENTORY 4 0 0
@@ -320,7 +320,7 @@ LOCAL_CHAT_CONFIRM npc QuestScript110_4 harryDialogue_04
 ARROWS_ON 0.85 -0.75 -90 0.85 -0.75 -90
 SHOW bookNextArrow
 LOCAL_CHAT_PERSIST npc QuestScript110_5 harryDialogue_05
-WAIT_EVENT "stickerBookPageChange-3"
+WAIT_EVENT "stickerBookPageChange-4"
 HIDE bookPrevArrow
 HIDE bookNextArrow
 ARROWS_OFF
@@ -330,7 +330,7 @@ LOCAL_CHAT_CONFIRM npc QuestScript110_6 harryDialogue_06
 ARROWS_ON 0.85 -0.75 -90 0.85 -0.75 -90
 SHOW bookNextArrow
 LOCAL_CHAT_PERSIST npc QuestScript110_7 harryDialogue_07
-WAIT_EVENT "stickerBookPageChange-4"
+WAIT_EVENT "stickerBookPageChange-5"
 HIDE bookNextArrow
 HIDE bookPrevArrow
 ARROWS_OFF
@@ -377,9 +377,9 @@ FUNCTION npc "stopLookAround"
 LERP_POSHPR camera 0.0 6.0 4.0 180.0 0.0 0.0 0.5
 SET_MUSIC_VOLUME 0.4 music 0.5 0.8
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_1 blockerDialogue_01
-WAIT 0.8 
+WAIT 0.8
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_2 blockerDialogue_02
-WAIT 0.8 
+WAIT 0.8
 #POS camera -5.0 -9.0 6.0
 #HPR camera -25.0 -10.0 0.0
 LERP_POSHPR camera -5.0 -9.0 6.0 -25.0 -10.0 0.0 0.5
@@ -387,10 +387,10 @@ POS localToon 203.8 18.64 -0.475
 HPR localToon -90.0 0.0 0.0
 SHOW localToon
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_3 blockerDialogue_03
-OBSCURE_CHAT 1 0
+OBSCURE_CHAT 1 0 0
 SHOW chatScButton
-WAIT 0.6 
-ARROWS_ON -1.3644 0.91 180 -1.5644 0.74 -90 
+WAIT 0.6
+ARROWS_ON -1.3644 0.91 180 -1.5644 0.74 -90
 LOCAL_CHAT_PERSIST npc QuestScriptTutorialBlocker_4 blockerDialogue_04
 WAIT_EVENT "enterSpeedChat"
 ARROWS_OFF
@@ -402,9 +402,9 @@ CLEAR_CHAT localToon
 REPARENTTO camera localToon
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_5 "CFSpeech" blockerDialogue_05a blockerDialogue_05b
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_6 "CFSpeech" blockerDialogue_06
-OBSCURE_CHAT 0 0 
+OBSCURE_CHAT 0 0 0
 SHOW chatNormalButton
-WAIT 0.6 
+WAIT 0.6
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_7 "CFSpeech" blockerDialogue_07
 LOCAL_CHAT_CONFIRM npc QuestScriptTutorialBlocker_8 1 "CFSpeech" blockerDialogue_08
 SET_MUSIC_VOLUME 0.8 music 1.0 0.4
@@ -412,8 +412,8 @@ LOOP_ANIM npc "walk"
 LERP_HPR npc 270 0 0 0.5
 WAIT 0.5
 LOOP_ANIM npc "run"
-LERP_POS npc 217.4 18.81 -0.475 0.75 
-LERP_HPR npc 240 0 0 0.75 
+LERP_POS npc 217.4 18.81 -0.475 0.75
+LERP_HPR npc 240 0 0 0.75
 WAIT 0.75
 LERP_POS npc 222.4 15.0 -0.475 0.35
 LERP_HPR npc 180 0 0 0.35
@@ -423,86 +423,9 @@ WAIT 0.75
 REPARENTTO npc hidden
 FREE_LOCALTOON
 UPON_TIMEOUT ARROWS_OFF
-UPON_TIMEOUT OBSCURE_CHAT 0 0 
+UPON_TIMEOUT OBSCURE_CHAT 0 0 0
 UPON_TIMEOUT REPARENTTO camera localToon
 FINISH_QUEST_MOVIE
-
-# TUTORIAL TROLLEY
-
-ID gag_intro
-SEND_EVENT "disableGagPanel"
-SEND_EVENT "disableBackToPlayground"
-HIDE inventory
-TOON_HEAD npc 0 0 1
-WAIT 0.1
-# Welcome to the Gag Shop!
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_1
-LERP_POS npcToonHead -0.64 0 -0.74 0.7
-LERP_SCALE npcToonHead 0.82 0.82 0.82 0.7
-LERP_COLOR_SCALE purchaseBg 1 1 1 1  0.6 0.6 0.6 1 0.7
-WAIT 0.7
-SHOW inventory
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_1a
-## here's your jb jar
-#ARROWS_ON -1.22 0.09 0 -0.93 -0.2 -90 
-#LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_2
-#ARROWS_OFF
-# try buying a gag
-ARROWS_ON -0.19 0.04 180 -0.4 0.26 90
-LOCAL_CHAT_PERSIST npc QuestScriptGagShop_3
-SEND_EVENT "enableGagPanel"
-WAIT_EVENT "inventory-selection"
-ARROWS_OFF
-CLEAR_CHAT npc
-WAIT 0.5
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_4
-# show advanced throw & squirt gags
-LOCAL_CHAT_PERSIST npc QuestScriptGagShop_5
-WAIT 0.5
-SHOW_THROW_SQUIRT_PREVIEW
-CLEAR_CHAT npc
-WAIT 0.5
-# show "Exit Back To Playground" button
-SET_BIN backToPlaygroundButton "gui-popup"
-LERP_POS backToPlaygroundButton -0.12 0 0.18 0.5
-LERP_SCALE backToPlaygroundButton 2 2 2 0.5
-LERP_COLOR_SCALE backToPlaygroundButton 1 1 1 1  2.78 2.78 2.78 1 0.5
-LERP_COLOR_SCALE inventory 1 1 1 1  0.6 0.6 0.6 1 0.5
-WAIT 0.5
-START_THROB backToPlaygroundButton 2.78 2.78 2.78 1  2.78 2.78 2.78 0.7  2
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_6
-STOP_THROB
-LERP_POS backToPlaygroundButton 0.72 0 -0.045 0.5
-LERP_SCALE backToPlaygroundButton 1.04 1.04 1.04 0.5
-LERP_COLOR_SCALE backToPlaygroundButton 2.78 2.78 2.78 1  1 1 1 1 0.5
-WAIT 0.5
-CLEAR_BIN backToPlaygroundButton
-# show "Play Again" button
-SET_BIN playAgainButton "gui-popup"
-LERP_POS playAgainButton -0.12 0 0.18 0.5
-LERP_SCALE playAgainButton 2 2 2 0.5
-LERP_COLOR_SCALE playAgainButton 1 1 1 1  2.78 2.78 2.78 1 0.5
-WAIT 0.5
-START_THROB playAgainButton 2.78 2.78 2.78 1  2.78 2.78 2.78 0.7  2
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_7
-STOP_THROB
-LERP_POS playAgainButton 0.72 0 -0.24 0.5
-LERP_SCALE playAgainButton 1.04 1.04 1.04 0.5
-LERP_COLOR_SCALE playAgainButton 2.78 2.78 2.78 1  1 1 1 1 0.5
-WAIT 0.5
-CLEAR_BIN playAgainButton
-# You're needed in Toon HQ!
-LOCAL_CHAT_CONFIRM npc QuestScriptGagShop_8 1
-TOON_HEAD npc 0 0 0
-LERP_COLOR_SCALE inventory 0.6 0.6 0.6 1  1 1 1 1 0.5
-LERP_COLOR_SCALE purchaseBg 0.6 0.6 0.6 1  1 1 1 1 0.5
-WAIT 0.5
-SEND_EVENT "enableBackToPlayground"
-UPON_TIMEOUT TOON_HEAD npc 0 0 0
-UPON_TIMEOUT ARROWS_OFF
-UPON_TIMEOUT SHOW inventory
-UPON_TIMEOUT SEND_EVENT "enableGagPanel"
-UPON_TIMEOUT SEND_EVENT "enableBackToPlayground"
 
 ID quest_incomplete_120
 CHAT_CONFIRM npc QuestScript120_1

@@ -1,5 +1,6 @@
 from pandac.PandaModules import Vec4
 from toontown.safezone.OZSafeZoneLoader import OZSafeZoneLoader
+from toontown.town.OZTownLoader import OZTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
 
@@ -7,6 +8,7 @@ class OZHood(ToonHood):
     notify = directNotify.newCategory('OZHood')
 
     ID = ToontownGlobals.OutdoorZone
+    TOWNLOADER_CLASS = OZTownLoader
     SAFEZONELOADER_CLASS = OZSafeZoneLoader
     STORAGE_DNA = 'phase_6/dna/storage_OZ.pdna'
     SKY_FILE = 'phase_3.5/models/props/TT_sky'

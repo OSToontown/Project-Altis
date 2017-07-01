@@ -4,12 +4,10 @@ from direct.distributed import DistributedObject
 from direct.task import Task
 from direct.distributed import DoInterestManager
 from otp.distributed.OtpDoGlobals import *
-from otp.ai.MagicWordGlobal import *
 
 _ToonTownDistrictStatInterest = None
 _ToonTownDistrictStatInterestComplete = 0
 _trashObject = DirectObject.DirectObject()
-_ToontownDistrictInvasionRemaining = 0
 
 def EventName():
     return 'ShardPopulationSet'
@@ -21,11 +19,6 @@ def isOpen():
 def isComplete():
     global _ToonTownDistrictStatInterestComplete
     return _ToonTownDistrictStatInterestComplete
-
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
-def invasionInfo():
-    global _ToontownDistrictInvasionRemaining
-    return "Remaining: " + str(_ToontownDistrictInvasionRemaining)
 
 def open(event = None):
     global _trashObject

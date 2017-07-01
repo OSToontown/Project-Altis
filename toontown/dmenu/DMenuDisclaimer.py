@@ -28,7 +28,7 @@ class DMenuDisclaimer(DirectObject):
         self.deny.destroy()
         base.graphicsEngine.renderFrame()
         messenger.send("AgreeToGame")
-        
+        base.cr.hasAccepted = True
         self.disclaimer.removeNode()
         
     def deny(self):

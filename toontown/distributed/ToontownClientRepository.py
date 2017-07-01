@@ -155,6 +155,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                                     print e
         self.DMENU_SCREEN = None
         
+        self.hasAccepted = False
+        
         self.accept('AgreeToGame', self.acceptGame)
         
     def congratulations(self, avatarChoice):
@@ -229,9 +231,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.avChoiceDoneEvent = 'avatarChooserDone'
         
         self.avChoice = None # Will be set in the main menu
-                
-        self.disclaimer = DMenuDisclaimer.DMenuDisclaimer
-        self.disclaimer()
+        
+        if not self.hasAccepted:
+            self.disclaimer = DMenuDisclaimer.DMenuDisclaimer
+            self.disclaimer()
+        else:
+            self.acceptGame()
         
         self.PAT_AVLIST = avList
         self.PAT_LOGINFSM = self.loginFSM
@@ -940,6 +945,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.sendSetLocation(base.localAvatar.doId, parentId, zoneId)
         localAvatar.setLocation(parentId, zoneId)
         interestZones = zoneId
+        messenger.send('zoneChange', [zoneId])
         if visibleZoneList is not None:
             interestZones = visibleZoneList
         

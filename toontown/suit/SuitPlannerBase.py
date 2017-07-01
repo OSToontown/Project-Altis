@@ -7,7 +7,9 @@ from toontown.dna.DNAParser import DNASuitPoint, DNAStorage, DNAInteractiveProp,
 
 class SuitPlannerBase:
     notify = directNotify.newCategory('SuitPlannerBase')
-    SuitHoodInfo = [[ToontownGlobals.SillyStreet, 8, 20, 0, 5, 20, 3, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (2, 3, 4, 5), []],
+
+    SuitHoodInfo = [[ToontownGlobals.ToontownCentralOld, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 40, 0, 0, 20), (5, 6, 7, 8), []],
+    [ToontownGlobals.SillyStreet, 8, 20, 0, 5, 20, 3, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (2, 3, 4, 5), []],
     [ToontownGlobals.LoopyLane, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (30, 40, 5, 5, 20), (1, 2, 3), []],
     [ToontownGlobals.PunchlinePlace, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (5, 5, 40, 40, 10), (1, 2, 3), []],
     [ToontownGlobals.WackyWay, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (30, 20, 5, 5, 40), (2, 3, 4), []],
@@ -32,7 +34,8 @@ class SuitPlannerBase:
     [ToontownGlobals.SellbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 0, 100, 0), (4, 5, 6, 7), []],
     [ToontownGlobals.SellbotFactoryExt, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0,0,0,100,0), (5, 6, 7, 8), []],
     [ToontownGlobals.CashbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 100, 0, 0), (6, 7, 8, 9), []],
-    [ToontownGlobals.LawbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 100, 0, 0, 0), (7, 8, 9, 10), []]]
+    [ToontownGlobals.LawbotHQ, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 100, 0, 0, 0), (7, 8, 9, 10), []],
+    [19000, 8, 20, 0, 0, 0, 4, (1,5, 10, 40, 60, 80), (0, 0, 0, 0, 100), (7, 8, 9, 10), []]]
     SUIT_HOOD_INFO_ZONE = 0
     SUIT_HOOD_INFO_MIN = 1
     SUIT_HOOD_INFO_MAX = 2
@@ -94,6 +97,8 @@ class SuitPlannerBase:
         phase = ToontownGlobals.streetPhaseMap[hoodId]
         if hoodId == zoneId:
             zoneId = 'sz'
+        if zoneId == 20000:
+            phase = 4
         return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
 
     def getZoneId(self):

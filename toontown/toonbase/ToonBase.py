@@ -349,9 +349,11 @@ class ToonBase(OTPBase.OTPBase):
         self.notify.info('Subscribing to window size changed event')
         self.accept(base.win.getWindowEvent(), self.onWindowEvent)
         
+        self.lockedMusic = False
+            
     def updateAntiAliasing(self):
         loadPrcFileData('', 'framebuffer-multisample %s' %settings.get('anti-aliasing'))
-    
+            
     def updateAspectRatio(self):
         self.setRatio()
 
@@ -692,9 +694,15 @@ class ToonBase(OTPBase.OTPBase):
             config.GetInt('shard-mid-pop', ToontownGlobals.MID_POP),
             config.GetInt('shard-high-pop', ToontownGlobals.HIGH_POP)
         )
+    def lockMusic(self):
+        self.lockedMusic = True
 
+    def unlockMusic(self):
+        self.lockedMusic = False
+        
     def playMusic(self, *args, **kw):
-        OTPBase.OTPBase.playMusic(self, *args, **kw)
+        if not self.lockedMusic:
+            OTPBase.OTPBase.playMusic(self, *args, **kw)
         
     def fadeMusicIn(self, musicFile, looping = 1):
         self.audioMgr.fadeInMusic(musicFile, looping)

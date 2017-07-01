@@ -22,6 +22,7 @@ class SuitBase:
         self.maxHP = 10
         self.currHP = 10
         self.isSkelecog = 0
+        self.isElite = 0
         self.isWaiter = 0
 
     def delete(self):
@@ -52,7 +53,7 @@ class SuitBase:
          'level': self.getActualLevel()}
         self.setDisplayName(nameWLevel)
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
-        self.maxHP = attributes['hp'][self.level]
+        self.maxHP = SuitBattleGlobals.calculateHp(attributes, self.level + 1)
         self.currHP = self.maxHP
 
     def getSkelecog(self):
@@ -63,6 +64,12 @@ class SuitBase:
 
     def setWaiter(self, flag):
         self.isWaiter = flag
+		
+    def getElite(self):
+        return self.isElite
+
+    def setElite(self, flag):
+        self.isElite = flag
 
     def getActualLevel(self):
         if hasattr(self, 'dna'):

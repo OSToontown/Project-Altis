@@ -1,8 +1,12 @@
 from toontown.suit import DistributedSuitBase
 from direct.directnotify import DirectNotifyGlobal
+from direct.interval.IntervalGlobal import *
+from toontown.toonbase import TTLocalizer
 from direct.fsm import ClassicFSM, State
+from toontown.chat.ChatGlobals import *
 from direct.fsm import State
 from pandac.PandaModules import *
+from toontown.suit import SuitDNA
 from toontown.distributed.DelayDeletable import DelayDeletable
 
 class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
@@ -21,6 +25,7 @@ class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDele
          State.State('Battle', self.enterBattle, self.exitBattle, []),
          State.State('WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['Battle'])], 'Off', 'Off')
         self.fsm.enterInitialState()
+        self.acceptOnce('zoneChange', self.doZoneMovie)
 
     def generate(self):
         DistributedSuitBase.DistributedSuitBase.generate(self)
@@ -50,25 +55,26 @@ class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDele
         self.sendUpdate('requestBattle', [pos[0], pos[1], pos[2], hpr[0], hpr[1], hpr[2]])
 
     def __handleToonCollision(self, collEntry):
-        toonId = base.localAvatar.getDoId()
-        self.notify.debug('Distributed suit: requesting a Battle with ' + 'toon: %d' % toonId)
-        self.d_requestBattle(self.getPos(), self.getHpr())
-        self.setState('WaitForBattle')
+        pass
+		
+    def doZoneMovie(self, zoneId):
+        if zoneId == self.zoneId:
+            avHeight = max(base.localAvatar.getHeight(), 3.0)
+            scaleFactor = avHeight * 0.3333333333
+            track = Sequence()
+            track.append(Wait(1))
+            track.append(Func(self.setChatAbsolute, TTLocalizer.TutorialSuit1, CFSpeech | CFTimeout))
+            track.append(Wait(3))
+            track.append(Func(self.setChatAbsolute, TTLocalizer.TutorialSuitTaunt.get(SuitDNA.getSuitDept(self.dna.name)), CFSpeech | CFTimeout))
+            track.append(Wait(3))
+            track.append(Func(self.d_requestBattle, self.getPos(), self.getHpr()))
+            track.start()
 
     def enterWalk(self):
         self.enableBattleDetect('walk', self.__handleToonCollision)
-        self.loop('walk', 0)
-        pathPoints = [
-            Vec3(55, 25, -0.5),
-            Vec3(25, 25, -0.5),
-            Vec3(25, 15, -0.5),
-            Vec3(55, 15, -0.5),
-            Vec3(55, 25, -0.5)
-        ]
-        self.tutWalkTrack = self.makePathTrack(self, pathPoints, 4.5, 'tutFlunkyWalk')
-        self.tutWalkTrack.loop()
+        self.loop('neutral', 0)
+        self.setPos(30, 20, -0.5)
+        self.setH(90)
 
     def exitWalk(self):
         self.disableBattleDetect()
-        self.tutWalkTrack.pause()
-        self.tutWalkTrack = None

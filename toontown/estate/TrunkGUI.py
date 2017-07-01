@@ -190,32 +190,16 @@ class TrunkGUI(StateData.StateData):
         self.toon = toon
         self.setupScrollInterface()
         currHat = self.toon.hat
-        try:
-            currHatIdx = self.hats.index(currHat)
-        except:
-            self.hats.append(currHat)
-            currHatIdx = self.hats.index(currHat)
+        currHatIdx = self.hats.index(currHat)
         self.swapHat(currHatIdx - self.hatChoice)
         currGlasses = self.toon.glasses
-        try:
-            currGlassesIdx = self.glasses.index(currGlasses)
-        except:
-            self.glasses.append(currGlasses)
-            currGlassesIdx = self.glasses.index(currGlasses)
+        currGlassesIdx = self.glasses.index(currGlasses)
         self.swapGlasses(currGlassesIdx - self.glassesChoice)
         currBackpack = self.toon.backpack
-        try:
-            currBackpackIdx = self.backpacks.index(currBackpack)
-        except:
-            self.backpacks.append(currBackpack)
-            currBackpackIdx = self.backpacks.index(currBackpack)
+        currBackpackIdx = self.backpacks.index(currBackpack)
         self.swapBackpack(currBackpackIdx - self.backpackChoice)
         currShoes = self.toon.shoes
-        try:
-            currShoesIdx = self.shoes.index(currShoes)
-        except:
-            self.shoes.append(currShoes)
-            currShoesIdx = self.shoes.index(currShoes)
+        currShoesIdx = self.shoes.index(currShoes)
         self.swapShoes(currShoesIdx - self.shoesChoice)
         choicePool = [self.hats,
          self.glasses,

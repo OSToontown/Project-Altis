@@ -8,6 +8,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
+from toontown.betaevent import DistributedBetaEventTTCAI
 
 class TTHoodAI(HoodAI.HoodAI):
     

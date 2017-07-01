@@ -5,7 +5,8 @@ suitTrackIndex = {
 's' : 3,
 'm' : 2,
 'l' : 1,
-'c' : 0
+'c' : 0,
+'g' : 4
 }
 
 class CogSuitManagerAI:

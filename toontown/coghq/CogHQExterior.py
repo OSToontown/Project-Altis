@@ -4,7 +4,6 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
-from toontown.hood import ZoneUtil
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.nametag import NametagGlobals
 
@@ -62,7 +61,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
         BattlePlace.BattlePlace.unload(self)
 
     def enter(self, requestStatus):
-        self.zoneId = ZoneUtil.getBranchZone(requestStatus['zoneId'])
+        self.zoneId = requestStatus['zoneId']
         BattlePlace.BattlePlace.enter(self)
         self.fsm.enterInitialState()
         base.playMusic(self.loader.music, looping=1, volume=0.8)

@@ -15,10 +15,10 @@ class QuestManagerAI:
 
     def __init__(self, air):
         self.air = air
-		
+
     def __toonQuestsList2Quests(self, quests):
         return [Quests.getQuest(x[0]) for x in quests]
-		
+
     def __incrementQuestProgress(self, quest):
         """
         Increment the supplied quest's progress by 1.
@@ -34,21 +34,9 @@ class QuestManagerAI:
         avQuestPocketSize = av.getQuestCarryLimit()
         avQuests = av.getQuests()
 
-        needTrackTask = False
         fakeTier = 0
 
         avTrackProgress = av.getTrackProgress()
-        if avTrackProgress[0] == -1:
-            avQuestTier = av.getRewardTier()
-            if avQuestTier < Quests.DG_TIER and avQuestTier > Quests.DD_TIER:
-                fakeTier = Quests.DD_TIER
-                needTrackTask = True
-            elif avQuestTier < Quests.BR_TIER and avQuestTier > Quests.MM_TIER:
-                fakeTier = Quests.MM_TIER
-                needTrackTask = True
-            elif avQuestTier < Quests.DL_TIER and avQuestTier > Quests.BR_TIER:
-                fakeTier = Quests.BR_TIER
-                needTrackTask = True
 
         # Iterate through their quests.
         for i in xrange(0, len(avQuests), 5):
@@ -100,11 +88,15 @@ class QuestManagerAI:
                 return
             else:
                 #Present quest choices.
-                if needTrackTask:
-                    choices = self.npcGiveTrackChoice(av, fakeTier)
-                else:
-                    choices = self.avatarQuestChoice(av, npc)
+                choices = self.avatarQuestChoice(av, npc)
                 if choices != []:
+                    for choice in choices:
+                        questClass = Quests.QuestDict.get(choice[0])
+                        for required in questClass[0]:
+                            if required not in av.getQuestHistory():
+                                choices.remove(choice)
+                            else:
+                                continue
                     npc.presentQuestChoice(avId, choices)
                 else:
                     npc.rejectAvatar(avId)
@@ -115,14 +107,14 @@ class QuestManagerAI:
 
     def avatarQuestChoice(self, av, npc):
         # Get the best quests for an avatar/npc.
-        return Quests.chooseBestQuests(av.getRewardTier(), npc, av)
+        return Quests.chooseBestQuests(npc, av)
 
     def avatarChoseQuest(self, avId, npc, questId, rewardId, toNpcId):
         # Get the avatar.
         av = self.air.doId2do.get(avId)
         if not av:
             return
-			
+
         if len(av.quests) > av.getQuestCarryLimit():
             return
 
@@ -198,16 +190,17 @@ class QuestManagerAI:
             questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
             questClass = Quests.getQuest(questId)
             questExp = Quests.getQuestExp(questId)
+            questMoney = Quests.getQuestMoney(questId)
 
             if questId == completeQuestId:
                 av.removeQuest(questId)
                 self.giveReward(av, questId, rewardId)
-                self.avatarConsiderProgressTier(av)
-                if questExp == None:
-                   continue
-                else:
+                if questExp != 0:
                     av.b_setToonExp(av.getToonExp() + questExp)
-                
+                if questMoney != 0:
+                    av.addMoney(questMoney)
+                av.addStat(ToontownGlobals.STATS_TASKS)
+
                 break
 
     def giveReward(self, av, questId, rewardId):
@@ -218,24 +211,6 @@ class QuestManagerAI:
         else:
             rewardClass.sendRewardAI(av)
 
-        # Add the rewardId to the avatars rewardHistory.
-        rewardTier, rewardHistory = av.getRewardHistory()
-        transformedRewardId = Quests.transformReward(rewardId, av)
-        if transformedRewardId != rewardId:
-            rewardHistory.append(rewardId)
-
-        av.b_setRewardHistory(rewardTier, rewardHistory)
-
-    def avatarConsiderProgressTier(self, av):
-        # Get the avatars current tier.
-        currentTier = av.getRewardTier()
-
-        # Check if they have all required rewards.
-        if Quests.avatarHasAllRequiredRewards(av, currentTier):
-            if currentTier != Quests.ELDER_TIER:
-                currentTier += 1
-            av.b_setRewardHistory(currentTier, [])
-
     def tutorialQuestChoice(self, avId, npc):
         # Get the avatar.
         av = self.air.doId2do.get(avId)
@@ -244,14 +219,16 @@ class QuestManagerAI:
 
         # Get the possible quest choices and force the player to choose it.
         choices = self.avatarQuestChoice(av, npc)
+        if len(choices) == 0:
+            npc.rejectAvatar(avId)
+            return
         quest = choices[0]
 
         self.avatarChoseQuest(avId, npc, quest[0], quest[1], 0)
 
         # Are we in the tutorial speaking to Tutorial Tom?
         if avId in self.air.tutorialManager.avId2fsm:
-            if av.getRewardHistory()[0] == 0:
-                self.air.tutorialManager.avId2fsm[avId].demand('Battle')
+            self.air.tutorialManager.avId2fsm[avId].demand('Battle')
 
     def toonRodeTrolleyFirstTime(self, av):
         # Toon played a minigame.
@@ -428,11 +405,11 @@ class QuestManagerAI:
                             if questClass.doesBuildingCount(av, activeToons):
                                 if floors >= questClass.getNumFloors():
                                     questDesc[QuestProgressIndex] += 1
-            
+
             questList.append(questDesc)
 
         av.b_setQuests(questList)
-		
+
     def toonKilledCogdo(self, av, type, difficulty, zoneId, activeToons):
         self.notify.debug("toonKilledCogdo(%s, '%s', %s, %d, %s)" % (str(av), type, str(difficulty), zoneId, str(activeToons)))
         # Get the avatars current quests.
@@ -450,6 +427,22 @@ class QuestManagerAI:
                         if questClass.doesCogdoTypeCount(type):
                             if questClass.doesCogdoCount(av, activeToons):
                                     questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+    def toonCollectedExp(self, av, expArray):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Iterate through the avatars current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.TrackExpQuest):
+                if questClass.doesExpCount(av, expArray):
+                    questDesc[QuestProgressIndex] += expArray[questClass.getTrackType()]
             questList.append(questDesc)
 
         av.b_setQuests(questList)
@@ -499,7 +492,7 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
-		
+
     def toonDefeatedCountryClub(self, av, clubId, activeVictors):
         # Get the avatars current quests.
         avQuests = av.getQuests()
@@ -513,6 +506,21 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
+
+    def toonDefeatedBoardOffice(self, av, clubId, activeVictors):
+        '''# Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.ClubQuest):
+                if questClass.doesClubCount(av, clubId, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)'''
+        pass
 
     def toonKilledCogs(self, av, suitsKilled, zoneId, activeToonList):
         # Get the avatar's current quests.
@@ -646,11 +654,9 @@ def quests(command, arg0=0, arg1=0):
                 return 'Invalid quest or slot id'
         else:
             return 'progress needs 2 arguments.'
-    elif command == 'tier':
-        if arg0:
-            invoker.b_setRewardHistory(arg0, invoker.getRewardHistory()[1])
-            return 'Set tier to %s'%(arg0)
-        else:
-            return 'tier needs 1 argument.'
+    elif command == 'getHistory':
+        return invoker.getQuestHistory()
+    elif command == 'getQuests':
+        return invoker.getQuests()
     else:
         return 'Invalid first argument.'

@@ -101,6 +101,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.buildingRadar = [0, 0, 0, 0, 0]
         self.cogTypes = [0, 0, 0, 0, 0]
         self.cogLevels = [0, 0, 0, 0, 0]
+        self.cogReviveLevels = [0, 0, 0, 0, 0]
         self.cogParts = [0, 0, 0, 0, 0]
         self.cogMerits = [0, 0, 0, 0, 0]
         self.hat = [0, 0, 0]
@@ -192,9 +193,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0, 0]
         self.buffs = []
+        self.stats = [0] * ToontownGlobals.TOTAL_STATS
         self.trueFriends = []
         self.interiorLayout = 0
         self.redeemedCodes = []
+        self.trainingPoints = 0
+        self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
 
     def disable(self):
         for soundSequence in self.soundSequenceList:
@@ -342,7 +346,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def notifyExpReward(self, level, type):
         if type == 0:
-            self.setSystemMessage(0, TTLocalizer.ExpHPReward % (level+1), WTSystem)
+            self.setSystemMessage(0, TTLocalizer.ExpTPReward % (level+1), WTSystem)
         if type == 1:
             self.setSystemMessage(0, TTLocalizer.ExpGagReward % (level+1), WTSystem)
         if type == 2:
@@ -1008,6 +1012,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getCogLevels(self):
         return self.cogLevels
+		
+    def setCogReviveLevels(self, levels):
+        self.cogReviveLevels = levels
+        if self.disguisePage:
+            self.disguisePage.updatePage()
+
+    def getCogReviveLevels(self):
+        return self.cogReviveLevels
 
     def setCogParts(self, parts):
         self.cogParts = parts
@@ -1381,13 +1393,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getQuestHistory(self):
         return self.questHistory
-
-    def setRewardHistory(self, rewardTier, rewardList):
-        self.rewardTier = rewardTier
-        self.rewardHistory = rewardList
-
-    def getRewardHistory(self):
-        return (self.rewardTier, self.rewardHistory)
 
     def doSmoothTask(self, task):
         self.smoother.computeAndApplySmoothPosHpr(self, self)
@@ -2282,7 +2287,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if hasattr(self, 'nametagStyle'):
             return self.nametagStyle
 
-        return 0
+        return 1
 
     def setNametagStyle(self, nametagStyle):
         if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
@@ -2903,6 +2908,23 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setAchievements(self, achievements):
         self.achievements = achievements
         messenger.send(localAvatar.uniqueName('achievementsChange'))
+        
+    def setStats(self, stats):
+        if len(stats) != ToontownGlobals.TOTAL_STATS:
+            stats = self.fixStats(stats)
+        self.stats = stats
+    
+    def getStats(self):
+        return self.stats
+        
+    def getStat(self, stat):
+        return self.stats[stat]
+		
+    def fixStats(self, stats):
+        badStatLen = len(stats)
+        for i in xrange(ToontownGlobals.TOTAL_STATS - badStatLen):
+            stats.append(0)
+        return stats
 
     def setBuffs(self, buffs):
         self.buffs = buffs
@@ -2960,6 +2982,20 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         
     def setRedeemedCodes(self, redeemedCodes):
         self.redeemedCodes = redeemedCodes
+		
+    def setTrainingPoints(self, points):
+        self.trainingPoints = points
+        messenger.send('skillPointChange')
+		
+    def getTrainingPoints(self):
+        return self.trainingPoints
+		
+    def setSpentTrainingPoints(self, points):
+        self.spentTrainingPoints = points
+        messenger.send('skillPointChange')
+		
+    def getSpentTrainingPoints(self):
+        return self.spentTrainingPoints
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def zone(zoneId):
@@ -2983,6 +3019,10 @@ def disableGC():
 def soprano():
     spellbook.getInvoker().magicTeleportInitiate(4000, 4401)
 	
+@magicWord(category=CATEGORY_CREATIVE)
+def oldttc():
+    spellbook.getInvoker().magicTeleportInitiate(20000, 20000)
+   	
 @magicWord(category=CATEGORY_CREATIVE, types=[int])
 def globalTp(streetZone):
     spellbook.getInvoker().magicTeleportInitiate(ZoneUtil.getHoodId(streetZone), streetZone)

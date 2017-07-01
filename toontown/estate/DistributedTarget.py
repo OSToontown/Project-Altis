@@ -61,7 +61,7 @@ class DistributedTarget(DistributedObject.DistributedObject):
         self.scoreText.setText('0')
         self.scoreNode = self.timer.attachNewNode(self.scoreText)
         self.scoreNode.setPos(0, 0, 0.35)
-        self.scoreNode.setScale(0.25)
+        self.scoreNode.setScale(0.1)
         self.curPinballScoreText = TextNode('pinballScoreText')
         self.curPinballScoreText.setTextColor(1, 0, 0, 1)
         self.curPinballScoreText.setAlign(self.scoreText.ACenter)
@@ -80,6 +80,10 @@ class DistributedTarget(DistributedObject.DistributedObject):
         self.accept('entertargetSphere', self.handleEnterTarget)
 
     def delete(self):
+        # Stop all fade out related tasks
+        taskMgr.remove('hideScorePanel')
+        if hasattr(self, 'fadeOutPanelLerp') and self.fadeOutPanelLerp:
+            self.fadeOutPanelLerp.finish()
         self.ignoreAll()
         self.scoreNode.removeNode()
         del self.scoreNode
@@ -180,7 +184,20 @@ class DistributedTarget(DistributedObject.DistributedObject):
             titleText += TTLocalizer.PinballScore % (pinballEntry[1], pinballEntry[2])
             scoreText += TTLocalizer.PinballScoreHolder % (pinballEntry[1] * pinballEntry[2])
         self.__showOnscreenMessage(titleText, scoreText)
-
+        if hasattr(self, 'fadeOutPanelLerp') and self.fadeOutPanelLerp:
+            self.fadeOutPanelLerp.finish() # If it is in the process of fading out, stop it
+        taskMgr.remove('hideScorePanel') # If it is already counting down to hide it, reset the timer when it updates
+        if self.onscreenMessage:
+            self.onscreenMessage.setColorScale(Vec4(1, 1, 1, 1))
+        taskMgr.doMethodLater(3, self.hideScore, 'hideScorePanel') # Wait 3 seconds then fade out the msg
+        
+    def hideScore(self, task):
+        if hasattr(self, 'onscreenMessage') and self.onscreenMessage:
+            # Make a nice little fade out
+            # Define it to be accessed in other parts of the code
+            self.fadeOutPanelLerp = LerpColorScaleInterval(self.onscreenMessage, 1, Vec4(1, 1, 1, 0), Vec4(1, 1, 1, 1))
+            self.fadeOutPanelLerp.start()
+        
     def setCurPinballScore(self, avId, score, multiplier):
         self.notify.debug('setCurPinballScore %d %d %d' % (avId, score, multiplier))
         if self.pinballInfo.get(avId) == None:
@@ -234,10 +251,12 @@ class DistributedTarget(DistributedObject.DistributedObject):
             self.hideTimer()
         if self.onscreenMessage:
             self.onscreenMessage.hide()
-
+        taskMgr.remove('hideScorePanel')
+            
     def showGui(self):
         if self.timer:
             if self.enabled:
                 self.showTimer()
         if self.onscreenMessage:
             self.onscreenMessage.show()
+            self.showScore() # When exiting the book, it redisplays because disney, but it wouldnt do the fade so we call this function

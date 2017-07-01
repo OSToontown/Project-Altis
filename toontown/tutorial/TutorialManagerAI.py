@@ -36,7 +36,7 @@ class TutorialFSM(FSM):
         self.forceTransition('Introduction')
 
     def enterIntroduction(self):
-        self.building.insideDoor.setDoorLock(FADoorCodes.TALK_TO_TOM)
+        self.building.insideDoor.setDoorLock(FADoorCodes.UNLOCKED)
 
     def exitIntroduction(self):
         self.building.insideDoor.setDoorLock(FADoorCodes.UNLOCKED)
@@ -44,6 +44,7 @@ class TutorialFSM(FSM):
     def enterBattle(self):
         self.suit = DistributedTutorialSuitAI(self.air)
         self.suit.generateWithRequired(self.zones['street'])
+        av = self.air.doId2do.get(self.avId)
 
         self.building.door.setDoorLock(FADoorCodes.DEFEAT_FLUNKY_TOM)
         self.hq.door0.setDoorLock(FADoorCodes.DEFEAT_FLUNKY_HQ)
@@ -121,9 +122,6 @@ class TutorialManagerAI(DistributedObjectAI):
 
         def handleTutorialSkipped(av):
             av.b_setTutorialAck(1)
-            av.b_setQuests([])
-            av.b_setQuestHistory([101])
-            av.b_setRewardHistory(0, [100])
 
 
         # We must wait for the avatar to be generated:
@@ -161,7 +159,6 @@ class TutorialManagerAI(DistributedObjectAI):
         # Prepare the player for the tutorial:
         av.b_setQuests([])
         av.b_setQuestHistory([])
-        av.b_setRewardHistory(0, [])
         av.b_setHp(15)
         av.b_setMaxHp(15)
 

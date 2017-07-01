@@ -10,7 +10,7 @@ import types
 
 class DistributedDivingGameAI(DistributedMinigameAI):
     fishProportions = []
-    for i in xrange(6):
+    for i in xrange(7):
         fishProportions.append([])
 
     n = 100
@@ -236,12 +236,50 @@ class DistributedDivingGameAI(DistributedMinigameAI):
      [0, 0.4],
      [n, n],
      [0.6, 1]))
+    fishProportions[6]
+    fishProportions[6].append(([0, 0.7],
+     [0.7, 0.9],
+     [0.9, 1],
+     [n, n],
+     [n, n],
+     [n, n]))
+    fishProportions[6].append(([0, 0.45],
+     [0.45, 0.9],
+     [n, n],
+     [0.9, 1],
+     [n, n],
+     [n, n]))
+    fishProportions[6].append(([0, 0.2],
+     [0.2, 0.5],
+     [n, n],
+     [0.5, 0.95],
+     [0.95, 1],
+     [n, n]))
+    fishProportions[6].append(([0, 0.1],
+     [0.1, 0.3],
+     [n, n],
+     [0.3, 0.75],
+     [0.75, 0.8],
+     [0.8, 1]))
+    fishProportions[6].append(([n, n],
+     [0, 0.15],
+     [n, n],
+     [0.15, 0.4],
+     [n, n],
+     [0.4, 1]))
+    fishProportions[6].append(([n, n],
+     [n, n],
+     [n, n],
+     [0, 0.4],
+     [n, n],
+     [0.6, 1]))
     difficultyPatternsAI = {ToontownGlobals.ToontownCentral: [3.5, fishProportions[0], 1.5],
      ToontownGlobals.DonaldsDock: [3.0, fishProportions[1], 1.8],
      ToontownGlobals.DaisyGardens: [2.5, fishProportions[2], 2.1],
      ToontownGlobals.MinniesMelodyland: [2.0, fishProportions[3], 2.4],
      ToontownGlobals.TheBrrrgh: [2.0, fishProportions[4], 2.7],
-     ToontownGlobals.DonaldsDreamland: [1.5, fishProportions[5], 3.0]}
+     ToontownGlobals.DonaldsDreamland: [1.5, fishProportions[5], 3.0],
+     ToontownGlobals.OutdoorZone: [1.0, fishProportions[6], 3.3]}
 
     def __init__(self, air, minigameId):
         try:
