@@ -231,7 +231,7 @@ class BossCog(Avatar.Avatar):
             self.healthCondition = condition
 
     def __blinkRed(self, task):
-        if self.healthBar
+        if self.healthBar:
             self.healthBar.setColor(self.healthColors[3], 1)
             self.healthBarGlow.setColor(self.healthGlowColors[3], 1)
             if self.healthCondition == 5:
@@ -240,7 +240,7 @@ class BossCog(Avatar.Avatar):
         return Task.done
 
     def __blinkGray(self, task):
-        if self.healthBar
+        if self.healthBar:
             self.healthBar.setColor(self.healthColors[4], 1)
             self.healthBarGlow.setColor(self.healthGlowColors[4], 1)
             if self.healthCondition == 5:

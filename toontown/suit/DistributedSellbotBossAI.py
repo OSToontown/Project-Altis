@@ -401,7 +401,11 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                     self.notify.info('%s.unable to add NPCFriend %s to %s.' % (self.doId, self.cagedToonNpcId, toonId))
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_VP)
-            self.air.achievementsManager.vp(toonId)
+            if len(self.involvedToons) == 1:
+                isSolo = 1
+            else:
+                isSolo = 0
+            self.air.achievementsManager.vp(toonId, solo = isSolo)
 
     def exitVictory(self):
         self.takeAwayPies()

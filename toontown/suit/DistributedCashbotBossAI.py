@@ -627,7 +627,11 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                         toon.addResistanceMessage(ResistanceChat.getRandomId())
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_CFO)
-            self.air.achievementsManager.cfo(toonId)
+            if len(self.involvedToons) == 1:
+                isSolo = 1
+            else:
+                isSolo = 0
+            self.air.achievementsManager.cfo(toonId, solo = isSolo)
 
     def exitVictory(self):
         self.__deleteBattleThreeObjects()

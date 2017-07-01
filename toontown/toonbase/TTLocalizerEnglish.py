@@ -4213,7 +4213,12 @@ Achievements = [
  "Viva la Resistance!",
  "Fun for Everyone!",
  "Minigame Mania!",
- "Frequent Rider!"
+ "Frequent Rider!",
+ "Solo Salesman!",
+ "I Knead that Dough!",
+ "Ace Attorney!",
+ "Good Fore-Sight!",
+ "Take a seat."
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
@@ -4282,7 +4287,12 @@ AchievementsDesc = ("Make a friend",
  "Join the Resistance.",
  "Ride the trolley 10 times.",
  "Ride the trolley 50 times.",
- "Ride the trolley 100 times.")
+ "Ride the trolley 100 times.",
+ "Solo the VP.",
+ "Solo the CFO.",
+ "Solo the CJ.",
+ "Solo the CEO.",
+ "Solo the Chairman.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'

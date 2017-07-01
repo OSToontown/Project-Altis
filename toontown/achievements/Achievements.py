@@ -67,11 +67,15 @@ class DoodleAchievement:
 
 class VPAchievement:
 
-    def __init__(self, times):
+    def __init__(self, times, solo = 0):
         self.neededTimes = times
+        self.isSolo = solo
 
-    def hasComplete(self, av):
+    def hasComplete(self, av, solo = 0):
         times = av.getStat(ToontownGlobals.STATS_VP)
+        if self.isSolo:
+            if solo:
+                return 1
         if times >= self.neededTimes:
             return 1
         else:
@@ -79,11 +83,15 @@ class VPAchievement:
 
 class CFOAchievement:
 
-    def __init__(self, times):
+    def __init__(self, times, solo = 0):
         self.neededTimes = times
+        self.isSolo = solo
 
-    def hasComplete(self, av):
+    def hasComplete(self, av, solo = 0):
         times = av.getStat(ToontownGlobals.STATS_CFO)
+        if self.isSolo:
+            if solo:
+                return 1
         if times >= self.neededTimes:
             return 1
         else:
@@ -91,11 +99,15 @@ class CFOAchievement:
 
 class CJAchievement:
 
-    def __init__(self, times):
+    def __init__(self, times, solo = 0):
         self.neededTimes = times
+        self.isSolo = solo
 
-    def hasComplete(self, av):
+    def hasComplete(self, av, solo = 0):
         times = av.getStat(ToontownGlobals.STATS_CJ)
+        if self.isSolo:
+            if solo:
+                return 1
         if times >= self.neededTimes:
             return 1
         else:
@@ -103,11 +115,15 @@ class CJAchievement:
 
 class CEOAchievement:
 
-    def __init__(self, times):
+    def __init__(self, times, solo = 0):
         self.neededTimes = times
+        self.isSolo = solo
 
-    def hasComplete(self, av):
+    def hasComplete(self, av, solo = 0):
         times = av.getStat(ToontownGlobals.STATS_CEO)
+        if self.isSolo:
+            if solo:
+                return 1
         if times >= self.neededTimes:
             return 1
         else:
@@ -115,11 +131,15 @@ class CEOAchievement:
 			
 class CMAchievement:
 
-    def __init__(self, times):
+    def __init__(self, times, solo = 0):
         self.neededTimes = times
+        self.isSolo = solo
 
-    def hasComplete(self, av):
+    def hasComplete(self, av, solo = 0):
         times = av.getStat(ToontownGlobals.STATS_CM)
+        if self.isSolo:
+            if solo:
+                return 1
         if times >= self.neededTimes:
             return 1
         else:
@@ -264,17 +284,22 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     ResistanceAchievement(),
                     TrolleyAchievement(times=10),
                     TrolleyAchievement(times=50),
-                    TrolleyAchievement(times=100))
+                    TrolleyAchievement(times=100),
+                    VPAchievement(times=1, solo=1),
+                    CFOAchievement(times=1, solo=1),
+                    CJAchievement(times=1, solo=1),
+                    CEOAchievement(times=1, solo=1),
+                    CMAchievement(times=1, solo=1))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
                        TrolleyAchievement: [7, 65, 66, 67],
                        LoopysBallsAchievement: [8],
-                       VPAchievement: [9, 10],
-                       CFOAchievement: [11, 12],
-                       CJAchievement: [13, 14],
-                       CEOAchievement: [15, 16],
-                       CMAchievement: [17, 18],
+                       VPAchievement: [9, 10, 68],
+                       CFOAchievement: [11, 12, 69],
+                       CJAchievement: [13, 14, 70],
+                       CEOAchievement: [15, 16, 71],
+                       CMAchievement: [17, 18, 72],
                        DisguiseAchievement: [19, 20, 21, 22, 23],
                        GagTrackAchievement: [24, 25, 26, 27, 28, 29],
                        ZoneAchievement: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41],

@@ -65,7 +65,12 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_resistance.png'), # resistance salute
                      ('phase_3/maps/achievements/ttpa_achievement_trolley_10.png'), # 10 trolley
                      ('phase_3/maps/achievements/ttpa_achievement_trolley_50.png'), # 50 trolley
-                     ('phase_3/maps/achievements/ttpa_achievement_trolley_100.png')) # 100 trolley
+                     ('phase_3/maps/achievements/ttpa_achievement_trolley_100.png'), # 100 trolley
+                     ('phase_3/maps/achievements/ttpa_achievement_solo_vp.png'), # solo vp
+                     ('phase_3/maps/achievements/ttpa_achievement_solo_cfo.png'), # solo cfo
+                     ('phase_3/maps/achievements/ttpa_achievement_solo_cj.png'), # solo cj
+                     ('phase_3/maps/achievements/ttpa_achievement_solo_ceo.png'), # solo ceo
+                     ('phase_3/maps/achievements/ttpa_achievement_solo_you_really_thought_i_was_gonna_spoil_this_lol.png')) # solo cm
 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -134,4 +139,9 @@ AchievementExperience = (10, # 1 friend
                          50, # resistance salute
                          20, # 10 trolley
                          75, # 50 trolley
-                         150) # 100 trolley
+                         150, # 100 trolley
+                         2500, # solo vp
+                         2500, # solo cfo
+                         2500, # solo cj
+                         2500, # solo ceo
+                         2500) # solo cm
