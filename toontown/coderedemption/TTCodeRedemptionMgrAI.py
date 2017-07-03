@@ -183,10 +183,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             gardenStarter = CatalogGardenStarterItem()
             return [gardenStarter]
 
-        if code == "sweet":
-            beans = CatalogBeanItem(12000, tagCode = 2)
-            return [beans]
-
 
         return []
 
