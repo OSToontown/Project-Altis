@@ -2979,6 +2979,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def isTrueFriends(self, doId):
         return doId in self.trueFriends
+		
+    def setTrueFriendRequest(self, tfRequest):
+        self.tfRequest = tfRequest
         
     def setRedeemedCodes(self, redeemedCodes):
         self.redeemedCodes = redeemedCodes

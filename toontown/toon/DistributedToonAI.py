@@ -570,6 +570,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setTrueFriendRequest(self, tfRequest):
         self.setTrueFriendRequest(tfRequest)
         self.d_setTrueFriendRequest(tfRequest)
+		
+    def setTrueFriendRequest(self, tfRequest):
+        self.tfRequest = tfRequest
+		
+    def d_setTrueFriendRequest(self, tfRequest):
+        self.sendUpdate('setTrueFriendRequest', [tfRequest])
 
     def getTrueFriendRequest(self):
         return self.trueFriendRequests
