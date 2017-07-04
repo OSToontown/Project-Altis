@@ -23,13 +23,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
         FSM.FSM.__init__(self, 'DistributedSellbotBossAI')
         self.doobers = []
-        if ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays:
-            if random.random() <= 0.25:
-                self.cagedToonNpcId = random.choice(NPCToons.AprilToonsFriends.keys())
-            else:
-                self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
-        else:
-            self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
+        self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
         self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
         self.recoverRate = 0
         self.recoverStartTime = 0
@@ -401,7 +395,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                     self.notify.info('%s.unable to add NPCFriend %s to %s.' % (self.doId, self.cagedToonNpcId, toonId))
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_VP)
-            if len(self.involvedToons) == 1:
+            if len(self.involvedToons) == 1 and self.begunSolo:
                 isSolo = 1
             else:
                 isSolo = 0
