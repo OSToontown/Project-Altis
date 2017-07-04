@@ -652,7 +652,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
                 self.giveCogSummonReward(toon, preferredDept, preferredSummonType)
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_CJ)
-            if len(self.involvedToons) == 1:
+            if len(self.involvedToons) == 1 and self.begunSolo:
                 isSolo = 1
             else:
                 isSolo = 0
