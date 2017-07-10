@@ -11,6 +11,7 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 * Sir Tubby Cheezyfish | Lead Game Developer | **Signed NDA**
 * Loopy Goopy Googlenerd | Content Director | **Signed NDA**
 * Old Geezer | Lead Modeller | Composer | **Signed NDA**
+* Pascal | Modeller & Head Moderator | NDA Not Needed
 * Royko | Content Director | NDA Not Needed
 
 ### Technical Team
@@ -22,7 +23,6 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 
 ### Creative Team
 * Maddie | Texture Artist | NDA Not Needed
-* Pascal | Modeller | NDA Not Needed
 * Midnight | Modeller | NDA Not Needed
 * Professor Felix | Composer | NDA Not Needed
 * DSDASavage | Animator | NDA Not Needed
