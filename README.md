@@ -8,26 +8,26 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 ### Management Team
 * Dubito / Luke | Founder & Director
 * Bethy / Limey Mouse | Director | **Signed NDA**
+* Sir Tubby Cheezyfish | Lead Game Developer | **Signed NDA**
 * Loopy Goopy Googlenerd | Content Director | **Signed NDA**
-* Judge | Investor | **Signed NDA**
-* Jakebooy | Web Developer / Discord Manager | **Signed NDA**
+* Old Geezer | Lead Modeller | Composer | **Signed NDA**
+* Royko | Content Director | NDA Not Needed
 
 ### Technical Team
-* Sir Tubby Cheezyfish | Lead Game Developer | **Signed NDA**
-* Barks | Game Developer | **Signed NDA**
-* Dan | Game Developer | **Signed NDA**
-* Alice | Web Developer | **Signed NDA**
 * Ben | Launcher Developer | **Signed NDA**
 * Judge2020 | Launcher Developer | **Signed NDA**
-* Matthew | Game Developer | **Signed NDA**
 * Roast Duck | Game Developer | Pending NDA
+* Nosyliam | Game Developer | **Signed NDA**
+* Atomizer | Game Developer | Pending NDA
 
 ### Creative Team
-* Bethy / Limey Mouse | Lead Artist | NDA Not Needed
-* Old Geezer | Modeller | Composer | NDA Not Needed
 * Maddie | Texture Artist | NDA Not Needed
-* VoidPoro | Texture Artist | NDA Not Needed
 * Pascal | Modeller | NDA Not Needed
+* Midnight | Modeller | NDA Not Needed
+* Professor Felix | Composer | NDA Not Needed
+* DSDASavage | Animator | NDA Not Needed
+* SpookyRandi | Artist | NDA Not Needed
+* Bannini | Artist | NDA Not Needed
 
 ### Contributors
 * Dank Mickey | Former Developer | Boardbot Development
@@ -48,6 +48,15 @@ Thanks to those who have contributed to the game in the past.
 * Smirky Bumberpop | External Community Manager | **Signed NDA**
 * Drew | Technical Team Lead | **Signed NDA**
 * Malverde | Game Developer | No NDA 
+* Judge | Investor | **Signed NDA**
+* Jakebooy | Web Developer / Discord Manager | **Signed NDA**
+* Matthew | Game Developer | **Signed NDA**
+* Alice | Web Developer | **Signed NDA**
+* VoidPoro | Texture Artist | NDA Not Needed
+* Dan | Game Developer | **Signed NDA**
+* Barks | Game Developer | **Signed NDA**
+
+
 
 
 ## License
