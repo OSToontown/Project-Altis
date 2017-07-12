@@ -77,6 +77,7 @@ class QuestPoster(DirectFrame):
         circle = guiItems.find('**/cover/blue_circle')
         jb = loader.loadModel('phase_5.5/models/estate/jellyBean')
         jb.setColor(random.choice([(1, 0, 0, 1), (0, 1, 0, 1), (0, 0, 1, 1), (1, 1, 0, 1), (1, 0, 1, 1), (0, 1, 1, 1)]))
+        expIcon = loader.loadModel('phase_3.5/models/gui/exp_icon')
         optiondefs = (('relief', None, None),
          ('image', questCard, None),
          ('image_scale', (0.8, 1.0, 0.58), None),
@@ -105,7 +106,7 @@ class QuestPoster(DirectFrame):
          -0.1,
          0.12), borderWidth=(0.025, 0.025), scale=0.2, frameColor=(0.945, 0.875, 0.706, 1.0), barColor=(0.5, 0.7, 0.5, 1), text='0/0', text_scale=0.19, text_fg=(0.05, 0.14, 0.4, 1), text_align=TextNode.ACenter, text_pos=(0, -0.04), pos=(0, 0, -0.195))
         self.questProgress.hide()
-        self.expCircle = DirectLabel(parent=self.questFrame, relief=None, image=circle, image_color=(0.4, 0.918, 1, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(-0.04, 0, -0.4), scale=0.25)
+        self.expCircle = DirectLabel(parent=self.questFrame, relief=None, geom=expIcon, geom_scale=(0.4), geom_pos=(-1.05, 0, 1), image=circle, image_color=(0.4, 0.918, 1, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(-0.04, 0, -0.4), scale=0.25)
         self.jbCircle = DirectLabel(parent=self.questFrame, relief=None, geom=jb, geom_scale=(0.4), geom_pos=(-1.05, 0, 1), image=circle, image_color=(1, 0.9, 0.4, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(0.56, 0, -0.4), scale=0.25)
         self.funQuest = DirectLabel(parent=self.questFrame, relief=None, text=TTLocalizer.QuestPosterFun, text_fg=(0.0, 0.439, 1.0, 1.0), text_shadow=(0, 0, 0, 1), pos=(-0.2825, 0, 0.2), scale=0.03)
         self.funQuest.setR(-30)
