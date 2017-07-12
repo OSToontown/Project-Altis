@@ -42,11 +42,11 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
         if zoneId == ToontownGlobals.CashbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
             ddLinkTunnel = self.geom.find('**/LinkTunnel1')
-            ddLinkTunnel.setName('linktunnel_dl_9252_DNARoot')
+            ddLinkTunnel.setName('linktunnel_mm_4410_DNARoot')
             locator = self.geom.find('**/sign_origin')
             backgroundGeom = self.geom.find('**/EntranceFrameFront')
             backgroundGeom.node().setEffect(DecalEffect.make())
-            signText = DirectGui.OnscreenText(text=TTLocalizer.DonaldsDreamland[-1], font=ToontownGlobals.getSuitFont(), scale=3, fg=(0.87, 0.87, 0.87, 1), mayChange=False, parent=backgroundGeom)
+            signText = DirectGui.OnscreenText(text=TTLocalizer.MinniesMelodyland[-1], font=ToontownGlobals.getSuitFont(), scale=3, fg=(0.87, 0.87, 0.87, 1), mayChange=False, parent=backgroundGeom)
             signText.setPosHpr(locator, 0, 0, 0, 0, 0, 0)
             signText.setDepthWrite(0)
             self.geom.flattenMedium()

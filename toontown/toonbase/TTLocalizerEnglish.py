@@ -163,7 +163,7 @@ BossbotHQ = ('to', 'in', 'Bossbot HQ')
 SellbotHQ = ('to', 'in', 'Sellbot HQ')
 CashbotHQ = ('to', 'in', 'Cashbot HQ')
 LawbotHQ = ('to', 'in', 'Lawbot HQ')
-BoardbotHQ = ('to', 'in', 'Boardbot HQ')
+BoardbotHQ = ('to', 'in', 'Under Construction')
 Tutorial = ('to the', 'in the', 'Toon-torial')
 MyEstate = ('to', 'in', 'your house')
 WelcomeValley = ('to', 'in', 'Welcome Valley')
@@ -3104,6 +3104,207 @@ InventoryPagePluralPoints = 'You will get a new\n%(trackName)s gag when you\nget
 InventoryPageSinglePoint = 'You will get a new\n%(trackName)s gag when you\nget %(numPoints)s more %(trackName)s point.'
 InventoryPageNoAccess = 'You do not have access to the %s track yet.'
 AchievementsPageTitle = 'Achievements'
+
+# Stats Page
+StatsPageTitle = "Toon Stats"
+
+StatsList = [
+"Cogs defeated: %s",
+"Buildings Saved: %s",
+"Elite Cogs defeated: %s",
+"Friends made: %s",
+"Current friends: %s",
+"Tasks completed: %s",
+"VPs defeated: %s",
+"CFOs defeated: %s",
+"CJs defeated: %s",
+"CEOs defeated: %s",
+"??? defeated: %s",
+"Times went sad: %s",
+"Items purchased: %s",
+"Fish caught: %s",
+"Trolley games played: %s",
+"Gags used: %s",
+"Treasures collected: %s",
+"Jellybeans spent: %s",
+"Jellybeans earned: %s",
+"SOS Cards used: %s",
+"Unites used: %s",
+"Summons used: %s",
+"Fires used: %s"
+]
+
+EarnedAchievement = 'You earned an achievement!'
+
+LockedAchievement = 'ACHIEVEMENT LOCKED'
+
+AchievementCategories = [
+ "Friends",
+ "Catalog",
+ "Trolley",
+ "Cogs",
+ "Gags",
+ "Fishing",
+ "Visit",
+ "Special"]
+Achievements = [
+ "You've Got a Friend In Me!",
+ "I'm In a Clique!",
+ "Popular Toon in Town!",
+ "Shipping and Handling is Free!",
+ "Impulse Buyer!",
+ "Regular Customer!",
+ "Clarabelle's on Speed-dial!",
+ "Choo Choo!",
+ "That's-a Spicy Meatball!",
+ "Counter-offer!",
+ "Closed Lost!",
+ "Breaking the Bank!",
+ "Robbing the Bank!",
+ "First Case!",
+ "The Prosecution does not Rest!",
+ "Demoted!",
+ "Corporate Restructuring!",
+ "Take a seat.",
+ "All in favor?",
+ "Closed Win!",
+ "Buying the Bank!",
+ "Per Curiam!",
+ "You're the Boss!",
+ "Motion Carried!",
+ "It Tickles!",
+ "You'll Slip and Slide on This!",
+ "Attractive Personality!",
+ "Professional Noisemaker!",
+ "Shock and Awe!",
+ "Heads up!",
+ "How Did Island Here?",
+ "Do You See What I Ski?",
+ "Stay Composed!",
+ "Don't be Such a Pansy!",
+ "Make Like a Tree and Leaf!",
+ "Grand Prix-ce of Cake!",
+ "Counting Sheep!",
+ "Welcome to the Club!",
+ "The Sales Floor!",
+ "Not the Mint I was Talking About!",
+ "Justice Second!",
+ "Board Yet?",
+ "First Encounter!",
+ "Ten Tin Suits!",
+ "I'm 40% Corporate!",
+ "Saving the Streets!",
+ "Corporate Conundrum!",
+ "Toontastic Takeover!",
+ "Cog-Crusher!",
+ "You Can Make a Fishstick With That!",
+ "The Reel Deal!",
+ "Not Bad, Cod Do Better!",
+ "You're Krilling it!",
+ "Sole of a Fisherman!",
+ "Stand-up Comedian!",
+ "You Just Activated my Trap Card!",
+ "VERY Attractive Personality!",
+ "Shrill of the Fight!",
+ "You Underestimate My Flour!",
+ "Go With the Flow!",
+ "1.21 Gigawatts!",
+ "I Missed the Minor Chord!",
+ "Never gets old!",
+ "Where Have you Bean All my Life?",
+ "Viva la Resistance!",
+ "Fun for Everyone!",
+ "Minigame Mania!",
+ "Frequent Rider!",
+ "Solo Salesman!",
+ "I Knead that Dough!",
+ "Ace Attorney!",
+ "Good Fore-Sight!",
+ "Board of Director!",
+ "Appraised!",
+ "Depreciation!",
+ "Evicted!",
+ "Forclosure!",
+ "Deed to the City!"
+]
+AchievementsDesc = ("Make a friend",
+ "Make 10 friends",
+ "Make 50 friends",
+ "Purchase an item from the cattlelog",
+ "Purchase 10 items from the cattlelog",
+ "Purchase 50 items from the cattlelog",
+ "Purchase 100 items from the cattlelog",
+ "Ride the trolley",
+ "Visit Loopy's Balls",
+ "Defeat the VP",
+ "Defeat 10 VPs",
+ "Defeat the CFO",
+ "Defeat 10 CFOs",
+ "Defeat the CJ",
+ "Defeat 10 CJs",
+ "Defeat the CEO",
+ "Defeat 10 CEOs",
+ "Defeat the Chairman",
+ "Defeat 10 Chairmen",
+ "Reach level 50 Sellbot Suit",
+ "Reach level 50 Cashbot Suit",
+ "Reach level 50 Lawbot Suit",
+ "Reach level 50 Bossbot Suit",
+ "Reach level 50 Boardbot Suit",
+ "Unlock the TOON-UP gag track.",
+ "Unlock the TRAP gag track.",
+ "Unlock the LURE gag track.",
+ "Unlock the SOUND gag track.",
+ "Unlock the ZAP gag track.",
+ "Unlock the DROP gag track.",
+ "Visit Donald's Dock.",
+ "Visit The Brrrrgh.",
+ "Visit Minnie's Melodyland.",
+ "Visit Daisy Gardens.",
+ "Visit Acorn Acres.",
+ "Visit Goofy Speedway.",
+ "Visit Donald's Dreamland.",
+ "Visit Bossbot HQ.",
+ "Visit Sellbot HQ.",
+ "Visit Cashbot HQ.",
+ "Visit Lawbot HQ.",
+ "Visit Boardbot HQ.",
+ "Destroy 1 cog.",
+ "Destroy 10 cogs.",
+ "Destroy 100 cogs.",
+ "Destroy 1,000 cogs.",
+ "Destroy 10,000 cogs.",
+ "Destroy 100,000 cogs.",
+ "Destroy 1,000,000 cogs.",
+ "Catch 1 fish.",
+ "Catch 10 fish.",
+ "Catch 100 fish.",
+ "Catch 1,000 fish.",
+ "Catch 10,000 fish.",
+ "Max the TOON-UP gag track.",
+ "Max the TRAP gag track.",
+ "Max the LURE gag track.",
+ "Max the SOUND gag track.",
+ "Max the THROW gag track.",
+ "Max the SQUIRT gag track.",
+ "Max the ZAP gag track.",
+ "Max the DROP gag track.",
+ "Humor Sofie Squirt with a stale joke.",
+ "Buy a doodle.",
+ "Join the Resistance.",
+ "Ride the trolley 10 times.",
+ "Ride the trolley 50 times.",
+ "Ride the trolley 100 times.",
+ "Solo the VP.",
+ "Solo the CFO.",
+ "Solo the CJ.",
+ "Solo the CEO.",
+ "Solo the Chairman.",
+ "Reclaim a Cog building.",
+ "Reclaim 10 Cog buildings.",
+ "Reclaim 50 Cog buildings.",
+ "Reclaim 100 Cog buildings.",
+ "Reclaim 250 Cog buildings.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'
@@ -4062,7 +4263,7 @@ BattleGlobalAvTrackAccStrings = ('Medium',
  'High',
  'Medium',
  'High',
- 'Medium',
+ 'Very Low',
  'Low')
 BattleGlobalLureAccLow = 'Low'
 BattleGlobalLureAccMedium = 'Medium'
@@ -4128,9 +4329,15 @@ FishPokerFullHouse = 'Full House'
 FishPoker3OfKind = '3 of a Kind'
 FishPoker2Pair = '2 Pair'
 FishPokerPair = 'Pair'
-TutorialGreeting1 = 'Hi %s!'
-TutorialGreeting2 = 'Hi %s!\nCome over here!'
-TutorialGreeting3 = 'Hi %s!\nCome over here!\nUse the arrow keys!'
+TutorialGreeting1 = 'Hello %s! Welcome to Toontown!'
+TutorialGreeting2 = 'As you may know, we are a small town on the Toontown Mainland.'
+TutorialGreeting3 = 'However, everything hasn\'t always been slapstick and seltzer in Toontown...'
+TutorialGreeting4 = 'After the E.R.A.S.E.R., things have been a little more dreary.'
+TutorialGreeting5 = 'Though, I have a good feeling about you!'
+TutorialGreeting6 = 'Alright, so where to start... OH! I got it!'
+TutorialGreeting7 = 'Use the arrow keys to move. Then come over and talk to me!'
+TutorialSuit1 = 'You must be the new kid on the block.'
+TutorialSuitTaunt = {'s': "I'm gonna send chills down your spine.", 'm': "I'll make short work of you.", 'l': 'Time for a feeding frenzy!', 'c': "Schools in session, and you're about to flunk out.", 'g': 'Ze idea is zat you vill lose!'} 
 TutorialMickeyWelcome = 'Welcome to Toontown!'
 TutorialFlippyIntro = 'Let me introduce you to my friend %s...' % Flippy
 TutorialFlippyHi = 'Hi, %s!'

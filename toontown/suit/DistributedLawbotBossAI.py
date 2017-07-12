@@ -651,6 +651,12 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
             if toon:
                 self.giveCogSummonReward(toon, preferredDept, preferredSummonType)
                 toon.b_promote(self.deptIndex)
+                toon.addStat(ToontownGlobals.STATS_CJ)
+            if len(self.involvedToons) == 1 and self.begunSolo:
+                isSolo = 1
+            else:
+                isSolo = 0
+            self.air.achievementsManager.cj(toonId, solo = isSolo)
 
     def giveCogSummonReward(self, toon, prefDeptIndex, prefSummonType):
         cogLevel = self.toonLevels - 1

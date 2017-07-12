@@ -688,6 +688,7 @@ from toontown.ai import DistributedAprilToonsMgr/AI
 from toontown.ai import DistributedBlackCatMgr/AI
 from toontown.ai import DistributedPolarBearMgr/AI
 from toontown.ai import DistributedPolarPlaceEffectMgr/AI
+from toontown.ai import DistributedSofieListenerMgr/AI
 from toontown.ai import DistributedGreenToonEffectMgr/AI
 from toontown.ai import DistributedResistanceEmoteMgr/AI
 from toontown.ai import DistributedScavengerHuntTarget/AI
@@ -1168,6 +1169,7 @@ dclass DistributedToon : DistributedPlayer {
   requestFishingRod(uint8) airecv ownsend;
   requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
+  setStats(uint64[] = [0*23]) required broadcast ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
   setRedeemedCodes(string [] = []) required ownrecv db;
   setTrainingPoints(uint8 = 0) required ownrecv db;
@@ -3078,6 +3080,10 @@ dclass DistributedPolarBearMgr : DistributedObject {
 
 dclass DistributedPolarPlaceEffectMgr : DistributedObject {
   addPolarPlaceEffect() airecv clsend;
+};
+
+dclass DistributedSofieListenerMgr : DistributedObject {
+  addAchievement() airecv clsend;
 };
 
 dclass DistributedGreenToonEffectMgr : DistributedObject {

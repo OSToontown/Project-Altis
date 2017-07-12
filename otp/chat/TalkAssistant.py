@@ -13,6 +13,7 @@ from otp.speedchat import SCDecoders
 from toontown.chat.ChatGlobals import *
 from toontown.chat.TTWhiteList import TTWhiteList
 ThoughtPrefix = '.'
+from toontown.toonbase import ToontownGlobals
 
 class TalkAssistant(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TalkAssistant')
@@ -616,7 +617,7 @@ class TalkAssistant(DirectObject.DirectObject):
                 tyler = base.cr.doFind('Talkative Tyler')
                 if tyler:
                     tyler.sendUpdate('talkMessage', [doId, message])
-        if base.cr.wantMagicWords and len(message) > 0 and message[0] == '~':
+        if base.cr.wantMagicWords and len(message) > 0 and message[0] == ToontownGlobals.MagicWordInvokerPrefix:
             messenger.send('magicWord', [message])
             self.receiveDeveloperMessage(message)
         else:

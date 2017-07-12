@@ -21,7 +21,7 @@ from toontown.cogdominium.DistributedCogdoElevatorExtAI import DistributedCogdoE
 from toontown.cogdominium.DistributedCogdoInteriorAI import DistributedCogdoInteriorAI
 from toontown.cogdominium.SuitPlannerCogdoInteriorAI import SuitPlannerCogdoInteriorAI
 from toontown.hood import ZoneUtil
-from toontown.toonbase.ToontownGlobals import ToonHall
+from toontown.toonbase import ToontownGlobals
 
 class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBuildingAI')
@@ -306,6 +306,8 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
                 self.air.writeServerEvent('buildingDefeated', t, '%s|%s|%s|%s' % (self.track, self.numFloors, self.zoneId, victorList))
             if toon is not None:
                 self.air.questManager.toonKilledBuilding(toon, self.track, self.difficulty, self.numFloors, self.zoneId, activeToons)
+                self.air.achievementsManager.bldg(t)
+                toon.addStat(ToontownGlobals.STATS_BLDGS)
         for i in xrange(0, 4):
             victor = victorList[i]
             if (victor is None) or (victor not in self.air.doId2do):
@@ -408,7 +410,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def enterToon(self):
         self.d_setState('toon')
         (exteriorZoneId, interiorZoneId) = self.getExteriorAndInteriorZoneId()
-        if simbase.config.GetBool('want-new-toonhall', 1) and ZoneUtil.getCanonicalZoneId(interiorZoneId) == ToonHall:
+        if simbase.config.GetBool('want-new-toonhall', 1) and ZoneUtil.getCanonicalZoneId(interiorZoneId) == ToontownGlobals.ToonHall:
             self.interior = DistributedToonHallInteriorAI.DistributedToonHallInteriorAI(self.block, self.air, interiorZoneId, self)
         else:
             self.interior = DistributedToonInteriorAI.DistributedToonInteriorAI(self.block, self.air, interiorZoneId, self)

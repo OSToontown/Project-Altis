@@ -93,8 +93,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         chatMgr = ToontownChatManager.ToontownChatManager(cr, self)
         talkAssistant = TTTalkAssistant.TTTalkAssistant()
         LocalAvatar.LocalAvatar.__init__(self, cr, chatMgr, talkAssistant, passMessagesThrough=True)
-        self.soundRun = base.loader.loadSfx('phase_3.5/audio/sfx/AV_footstep_runloop.ogg')
-        self.soundWalk = base.loader.loadSfx('phase_3.5/audio/sfx/AV_footstep_walkloop.ogg')
+        self.movementSounds = {}
+        for movement in ('run', 'walk'):
+            for footstepCode in ('regular', 'snow'):
+                self.movementSounds['%s_%s' % (movement, footstepCode)] = loader.loadSfx('phase_3.5/audio/sfx/AV_footstep_%sloop_%s.ogg' % (movement, footstepCode))
+
+        self.soundRun = self.movementSounds['run_regular']
+        self.soundWalk = self.movementSounds['walk_regular']
         self.soundWhisper = base.loader.loadSfx('phase_3.5/audio/sfx/GUI_whisper_3.ogg')
         self.soundPhoneRing = base.loader.loadSfx('phase_3.5/audio/sfx/telephone_ring.ogg')
         self.soundSystemMessage = base.loader.loadSfx('phase_3/audio/sfx/clock03.ogg')
@@ -190,6 +195,33 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def setDNA(self, dna):
         base.localAvatarStyle = dna
         DistributedToon.DistributedToon.setDNA(self, dna)
+		
+    def updateSound(self, oldSfx, newSfx):
+        if oldSfx.getName() == newSfx.getName() or oldSfx.status() != oldSfx.PLAYING:
+            return
+        oldSfx.stop()
+        newSfx.setTime(oldSfx.getTime())
+        base.playSfx(newSfx, looping=1)
+
+    def updateWalkSound(self, sfx):
+        self.updateSound(self.soundWalk, sfx)
+        self.soundWalk = sfx
+
+    def updateRunSound(self, sfx):
+        self.updateSound(self.soundRun, sfx)
+        self.soundRun = sfx
+
+    def handleOnFloor(self, collEntry):
+        intoNode = collEntry.getIntoNode()
+        if intoNode.hasTag('surface'):
+            surfaceType = intoNode.getTag('surface')
+        else:
+            surfaceType = 'regular'
+        self.updateWalkSound(self.movementSounds['walk_' + surfaceType])
+        self.updateRunSound(self.movementSounds['run_' + surfaceType])
+		
+    def handleOffFloor(self, collEntry):
+        pass
 
     def setName(self, name):
         base.localAvatarName = name

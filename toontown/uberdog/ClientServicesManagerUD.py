@@ -173,6 +173,12 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
+        
+        if response["isbanned"] == "true":
+            callback({'success': False,
+                      'reason': 'Your account is banned from Project Altis!'})
+            return
+
         try:
             if response["isbanned"] == "true":
                 callback({'success': False,

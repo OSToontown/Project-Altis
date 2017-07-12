@@ -71,6 +71,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.accept('clickedWhisper', self.clickedWhisper)
         self.accept('playerOnline', self.__playerOnline)
         self.accept('playerOffline', self.__playerOffline)
+        self.accept('on-floor', self.handleOnFloor)
+        self.accept('off-floor', self.handleOffFloor)
         self.sleepCallback = None
         self.accept('wakeup', self.wakeUp)
         self.jumpLandAnimFixTask = None
@@ -110,6 +112,12 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
 
     def isInWater(self):
         return self.getZ(render) <= 0.0
+		
+    def handleOnFloor(self, collEntry):
+        pass
+
+    def handleOffFloor(self, collEntry):
+        pass
 
     def isTeleportAllowed(self):
         return self.teleportAllowed and not self.isDisguised
@@ -199,6 +207,12 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
 
     def initializeCollisions(self):
         self.setupControls()
+        self.cRayMoveNodePath = hidden.attachNewNode('cRayMoveNode')
+        self.avatarFloorCollisionBroadcaster = CollisionHandlerFloor()
+        self.avatarFloorCollisionBroadcaster.setInPattern('on-floor')
+        self.avatarFloorCollisionBroadcaster.setOutPattern('off-floor')
+        self.avatarFloorCollisionBroadcaster.addCollider(self.physControls.cRayNodePath, self.cRayMoveNodePath)
+        self.cTrav.addCollider(self.physControls.cRayNodePath, self.avatarFloorCollisionBroadcaster)
 
     def deleteCollisions(self):
         self.controlManager.deleteCollisions()
@@ -1223,11 +1237,14 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
 
     def canChat(self):
         return 0
-        
+
+from toontown.toonbase import ToontownGlobals
+
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def slow():
     base.localAvatar.controlManager.setSpeeds(OTPGlobals.ToonForwardSlowSpeed, OTPGlobals.ToonJumpForce, OTPGlobals.ToonForwardSlowSpeed, OTPGlobals.ToonRotateSpeed)
-    return 'Walk speed decreased! do ~speednormal to reset to normal'
+    retMessage = 'Walk speed decreased! do ' + ToontownGlobals.MagicWordInvokerPrefix + 'speednormal to reset to normal'
+    return retMessage
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def speednormal():

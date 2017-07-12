@@ -37,7 +37,7 @@ class ExperienceBar(DirectFrame):
         if self.isToon:
             self.barGeom = loader.loadModel('phase_3.5/models/gui/exp_bar')
             self.color = self.style.getHeadColor()
-            self.bgBar = DirectFrame(parent = base.a2dBottomLeft, relief=None, geom=self.barGeom, pos=(.6, 0, .3), geom_scale=(0.3,0.25,0.1), geom_color=self.color)
+            self.bgBar = DirectFrame(relief=None, geom=self.barGeom, pos=(0.0, 0, -.95), geom_scale=(0.3, 0.25, 0.1), geom_color=self.color)
             self.expBar = DirectWaitBar(parent=self.bgBar, guiId='expBar', pos=(0.0, 0, 0), relief=DGG.SUNKEN, frameSize=(-2.0, 2.0, -0.1, 0.1), borderWidth=(0.01, 0.01), scale=0.25, range=self.maxExp, sortOrder=50, frameColor=(0.5, 0.5, 0.5, 0.5), barColor=(0.0, 1.0, 0.0, 0.5), text=str(self.exp)+'/'+str(self.maxExp), text_scale=0.2, text_fg=(1, 1, 1, 1), text_align=TextNode.ACenter, text_pos=(0, -0.05))
             self.expBar['value'] = self.exp
             if self.level == ToontownGlobals.MaxToonLevel:
@@ -47,8 +47,6 @@ class ExperienceBar(DirectFrame):
             self.levelLabel = OnscreenText(parent = self.bgBar, text = TTLocalizer.ExpBarLevel + str(self.level+1), pos = (0.0, 0.05), scale = 0.05, font=ToontownGlobals.getBuildingNametagFont(), fg = (1, 1, 1, 1))
             self.levelLabel.hide()
             gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
-            arrowImage = (gui.find('**/tt_t_gui_mat_shuffleArrowUp'), gui.find('**/tt_t_gui_mat_shuffleArrowDown'), gui.find('**/tt_t_gui_mat_shuffleArrowUp'), gui.find('**/tt_t_gui_mat_shuffleArrowDisabled'))
-            self.visToggle = DirectButton(parent = self.bgBar, relief=None, geom=arrowImage, hpr=(0, 0, 0), pos=(.53, 0, 0), scale=(0.4,0.4,0.4), command=self.toggleVis)
             if not settings.get('experienceBarMode'):
                 self.hide()
 
@@ -59,9 +57,6 @@ class ExperienceBar(DirectFrame):
         del self.av
         del self.exp
         del self.maxExp
-        if self.visToggle:
-           self.visToggle.destroy()
-           del self.visToggle
         
         if self.bgBar:
            self.bgBar.destroy()
@@ -79,12 +74,6 @@ class ExperienceBar(DirectFrame):
         if level >= ToontownGlobals.MaxToonLevel:
            self.hide()
            return
-        
-        if self.__obscured:
-            Sequence(
-            Func(self.show),
-            Wait(3),
-            Func(self.hide)).start()
         
         currExp = self.exp
         self.exp = exp
@@ -143,23 +132,19 @@ class ExperienceBar(DirectFrame):
             self.hide()
         
     def hide(self):
-        if self.bgBar:
-            self.bgBar.posInterval(0.2, Point3(-.5, 0, .3), blendType = 'easeInOut').start()
-        
         if self.levelLabel:
             self.levelLabel.hide()
+			
+        if self.bgBar:
+            self.bgBar.hide()
         
-        self.visToggle.setHpr(0, 0, 180)
         self.__obscured = 1
-        settings['experienceBarMode'] = False
         
     def show(self):
         if self.bgBar:
-            self.bgBar.posInterval(0.2, Point3(.6, 0, .3), blendType = 'easeInOut').start()
+            self.bgBar.show()
         
         if self.levelLabel:
             self.levelLabel.show()
         
-        self.visToggle.setHpr(0, 0, 0)
         self.__obscured = 0
-        settings['experienceBarMode'] = True

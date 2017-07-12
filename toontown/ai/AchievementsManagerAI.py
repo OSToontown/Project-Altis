@@ -4,22 +4,26 @@ class AchievementsManagerAI():
     def __init__(self, air):
         self.air = air
 
-        self.vpLaffPlayers = []
-        self.vpSoloPlayers = []
-
-    def toonMadeFriend(self, avId):
+    def friends(self, avId):
         av = self.air.doId2do.get(avId)
         if not av:
             return
 
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.FriendAchievement)
-
         for achievementId in possibleAchievements:
             if not achievementId in av.getAchievements():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av):
                     av.addAchievement(achievementId)
 
-    def toonPlayedMinigame(self, av):
+    def catalog(self, av, items):
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CatalogAchievement)
+
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, items):
+                    av.addAchievement(achievementId)
+
+    def rideTrolley(self, av):
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.TrolleyAchievement)
 
         for achievementId in possibleAchievements:
@@ -27,42 +31,137 @@ class AchievementsManagerAI():
                 if Achievements.AchievementsDict[achievementId].hasComplete(av):
                     av.addAchievement(achievementId)
 
-    def toonsStartedVP(self, toons):
+    def loopysBalls(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.LoopysBallsAchievement)
 
-        for avId in toons:
-            av = self.air.doId2do.get(int(avId))
-            if not av:
-                continue
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def sofie(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.SofieSquirtAchievement)
 
-            if av.getHp() == 1:
-                self.vpLaffPlayers.append(int(avId))
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def resistance(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.ResistanceAchievement)
 
-        if len(toons) == 1:
-            self.vpSoloPlayers.append(int(toons[0]))
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def doodle(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.DoodleAchievement)
 
-    def toonsFinishedVP(self, toons):
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def gagTrack(self, av, track):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.GagTrackAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, track):
+                    av.addAchievement(achievementId)
+					
+    def maxGag(self, av, track):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.MaxGagAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, track):
+                    av.addAchievement(achievementId)
+					
+    def zone(self, av, zone):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.ZoneAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, zone):
+                    av.addAchievement(achievementId)
+					
+    def cogs(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CogAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def fish(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.FishAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)
+					
+    def vp(self, av, solo = 0):
+        av = self.air.doId2do.get(av)
         possibleAchievements = Achievements.getAchievementsOfType(Achievements.VPAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, solo):
+                    av.addAchievement(achievementId)
+					
+    def cfo(self, av, solo = 0):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CFOAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, solo):
+                    av.addAchievement(achievementId)
+					
+    def cj(self, av, solo = 0):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CJAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, solo):
+                    av.addAchievement(achievementId)
+					
+    def ceo(self, av, solo = 0):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.CEOAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, solo):
+                    av.addAchievement(achievementId)
+					
+    def disguise(self, av, dept):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.DisguiseAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av, dept):
+                    av.addAchievement(achievementId)
 
-        for avId in toons:
-            av = self.air.doId2do.get(int(avId))
-            if not av:
-                continue
-
-            for achievementId in possibleAchievements:
-                if not achievementId in av.getAchievements():
-                    solo = avId in self.vpSoloPlayers
-                    laff = avId in self.vpLaffPlayers
-
-                    if Achievements.AchievementsDict[achievementId].hasComplete(laff, solo):
-                        av.addAchievement(achievementId)
-
-            while avId in self.vpSoloPlayers:
-                self.vpSoloPlayers.remove(avId)
-
-            while avId in self.vpLaffPlayers:
-                self.vpLaffPlayers.remove(avId)
-
-    def toonGotQuest(self, avId):
-        av = self.air.doId2do.get(avId)
-        if not av:
-            return
+    def bldg(self, av):
+        av = self.air.doId2do.get(av)
+        possibleAchievements = Achievements.getAchievementsOfType(Achievements.BuildingAchievement)
+		
+        for achievementId in possibleAchievements:
+            if not achievementId in av.getAchievements():
+                if Achievements.AchievementsDict[achievementId].hasComplete(av):
+                    av.addAchievement(achievementId)

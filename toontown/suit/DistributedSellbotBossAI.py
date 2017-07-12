@@ -23,13 +23,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
         FSM.FSM.__init__(self, 'DistributedSellbotBossAI')
         self.doobers = []
-        if ToontownGlobals.APRIL_FOOLS_COSTUMES in simbase.air.holidayManager.currentHolidays:
-            if random.random() <= 0.25:
-                self.cagedToonNpcId = random.choice(NPCToons.AprilToonsFriends.keys())
-            else:
-                self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
-        else:
-            self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
+        self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
         self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
         self.recoverRate = 0
         self.recoverStartTime = 0
@@ -235,7 +229,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.enterIntroduction(self)
         self.__makeDoobers()
         self.b_setBossDamage(0, 0, 0)
-        self.air.achievementsManager.toonsStartedVP(self.involvedToons)
 
     def exitIntroduction(self):
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
@@ -401,6 +394,12 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls=2):
                     self.notify.info('%s.unable to add NPCFriend %s to %s.' % (self.doId, self.cagedToonNpcId, toonId))
                 toon.b_promote(self.deptIndex)
+                toon.addStat(ToontownGlobals.STATS_VP)
+            if len(self.involvedToons) == 1 and self.begunSolo:
+                isSolo = 1
+            else:
+                isSolo = 0
+            self.air.achievementsManager.vp(toonId, solo = isSolo)
 
     def exitVictory(self):
         self.takeAwayPies()
@@ -448,7 +447,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.b_setAttackCode(ToontownGlobals.BossCogRecoverDizzyAttack)
 
     def enterReward(self):
-        self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
         DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
         
 

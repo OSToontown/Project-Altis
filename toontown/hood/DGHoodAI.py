@@ -6,6 +6,7 @@ from toontown.safezone import DistributedDGFlowerAI
 from toontown.safezone import DistributedTrolleyAI
 from toontown.toonbase import ToontownGlobals
 from toontown.ai import DistributedGreenToonEffectMgrAI
+from toontown.ai import DistributedSofieListenerMgrAI
 from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
 from direct.showbase.DirectObject import DirectObject
@@ -38,6 +39,9 @@ class DGHoodAI(HoodAI.HoodAI, DirectObject):
         if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.IDES_OF_MARCH):
             self.GreenToonEffectManager = DistributedGreenToonEffectMgrAI.DistributedGreenToonEffectMgrAI(self.air)
             self.GreenToonEffectManager.generateWithRequired(5819)
+			
+        self.SofieSquirtMgr = DistributedSofieListenerMgrAI.DistributedSofieListenerMgrAI(self.air)
+        self.SofieSquirtMgr.generateWithRequired(5717)
             
         self.accept('startIdes', self.startIdes)
         self.accept('endIdes', self.endIdes)

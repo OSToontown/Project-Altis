@@ -2,6 +2,7 @@ from toontown.toon.DistributedNPCSpecialQuestGiverAI import DistributedNPCSpecia
 from toontown.building import FADoorCodes
 from otp.ai.MagicWordGlobal import *
 from toontown.hood import ZoneUtil
+from toontown.toonbase import ToontownGlobals
 from toontown.quest import Quests
 
 QuestIdIndex = 0
@@ -199,6 +200,7 @@ class QuestManagerAI:
                     av.b_setToonExp(av.getToonExp() + questExp)
                 if questMoney != 0:
                     av.addMoney(questMoney)
+                av.addStat(ToontownGlobals.STATS_TASKS)
 
                 break
 
@@ -218,14 +220,16 @@ class QuestManagerAI:
 
         # Get the possible quest choices and force the player to choose it.
         choices = self.avatarQuestChoice(av, npc)
+        if len(choices) == 0:
+            npc.rejectAvatar(avId)
+            return
         quest = choices[0]
 
         self.avatarChoseQuest(avId, npc, quest[0], quest[1], 0)
 
         # Are we in the tutorial speaking to Tutorial Tom?
         if avId in self.air.tutorialManager.avId2fsm:
-            if av.getRewardHistory()[0] == 0:
-                self.air.tutorialManager.avId2fsm[avId].demand('Battle')
+            self.air.tutorialManager.avId2fsm[avId].demand('Battle')
 
     def toonRodeTrolleyFirstTime(self, av):
         # Toon played a minigame.

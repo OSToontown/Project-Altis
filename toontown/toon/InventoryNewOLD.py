@@ -776,6 +776,8 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
                                 self.makeDisabledPressable(button, track, level)
                             else:
                                 self.makeUnpressable(button, track, level)
+                        elif base.localAvatar.getMoney() < (level + 1):
+                            self.makeUnpressable(button, track, level)
                         elif unpaid and gagIsVelvetRoped(track, level):
                             self.makeDisabledPressable(button, track, level)
                         else:
@@ -830,6 +832,8 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
                                 self.makeDisabledPressable(button, track, level)
                             else:
                                 self.makeUnpressable(button, track, level)
+                        elif base.localAvatar.getMoney() < (level + 1):
+                            self.makeUnpressable(button, track, level)
                         elif unpaid and gagIsVelvetRoped(track, level):
                             self.makeDisabledPressable(button, track, level)
                         else:

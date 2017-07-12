@@ -14,7 +14,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import string, types
 from toontown.toon import LaffMeter
-from toontown.toonbase.ToontownBattleGlobals import AvPropsNew, Tracks, LAST_REGULAR_GAG_LEVEL
+from toontown.toonbase.ToontownBattleGlobals import AvPropsNew, Tracks
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
@@ -73,6 +73,11 @@ class QuestPoster(DirectFrame):
     def __init__(self, parent = aspect2d, **kw):
         bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
         questCard = bookModel.find('**/questCard')
+        guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
+        circle = guiItems.find('**/cover/blue_circle')
+        jb = loader.loadModel('phase_5.5/models/estate/jellyBean')
+        jb.setColor(random.choice([(1, 0, 0, 1), (0, 1, 0, 1), (0, 0, 1, 1), (1, 1, 0, 1), (1, 0, 1, 1), (0, 1, 1, 1)]))
+        expIcon = loader.loadModel('phase_3.5/models/gui/exp_icon')
         optiondefs = (('relief', None, None),
          ('image', questCard, None),
          ('image_scale', (0.8, 1.0, 0.58), None),
@@ -101,12 +106,15 @@ class QuestPoster(DirectFrame):
          -0.1,
          0.12), borderWidth=(0.025, 0.025), scale=0.2, frameColor=(0.945, 0.875, 0.706, 1.0), barColor=(0.5, 0.7, 0.5, 1), text='0/0', text_scale=0.19, text_fg=(0.05, 0.14, 0.4, 1), text_align=TextNode.ACenter, text_pos=(0, -0.04), pos=(0, 0, -0.195))
         self.questProgress.hide()
-        self.expLabel = DirectLabel(parent=self.questFrame, relief=None, text='', text_font=ToontownGlobals.getBuildingNametagFont(), text_fg=(0.0, 1.0, 0.439, 1.0), text_shadow=(0, 0, 0, 1), pos=(0.25, 0, 0.125), hpr=(0,0,35), scale=0.035)
-        self.expLabel.hide()
+        self.expCircle = DirectLabel(parent=self.questFrame, relief=None, geom=expIcon, geom_scale=(0.4), geom_pos=(-1.05, 0, 1), image=circle, image_color=(0.4, 0.918, 1, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(-0.04, 0, -0.4), scale=0.25)
+        self.jbCircle = DirectLabel(parent=self.questFrame, relief=None, geom=jb, geom_scale=(0.4), geom_pos=(-1.05, 0, 1), image=circle, image_color=(1, 0.9, 0.4, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(0.56, 0, -0.4), scale=0.25)
         self.funQuest = DirectLabel(parent=self.questFrame, relief=None, text=TTLocalizer.QuestPosterFun, text_fg=(0.0, 0.439, 1.0, 1.0), text_shadow=(0, 0, 0, 1), pos=(-0.2825, 0, 0.2), scale=0.03)
         self.funQuest.setR(-30)
         self.funQuest.hide()
+        self.expCircle.hide()
+        self.jbCircle.hide()
         bookModel.removeNode()
+        guiItems.removeNode()
         self.laffMeter = None
         return
 
@@ -120,35 +128,6 @@ class QuestPoster(DirectFrame):
             if geom:
                 if hasattr(geom, 'delete'):
                     geom.delete()
-
-    def mouseEnterPoster(self, event):
-        self.reparentTo(self.getParent())
-        sc = Vec3(self.initImageScale)
-        sc.setZ(sc[2] + 0.07)
-        self['image_scale'] = sc
-        self.questFrame.setZ(0.03)
-        self.headline.setZ(0.23 + 0.03)
-        self.lPictureFrame.setZ(0.13 + 0.03)
-        self.rPictureFrame.setZ(0.13 + 0.03)
-        self.questInfo.setZ(-0.0625 + 0.03)
-        self.questProgress.setZ(-0.195 + 0.03)
-        self.auxText.setZ(0.12 + 0.03)
-        self.expLabel.setZ(0.125 + 0.03)
-        self.rewardText.setZ(-0.26 + 0.03)
-        self.rewardText.show()
-
-    def mouseExitPoster(self, event):
-        self['image_scale'] = self.initImageScale
-        self.questFrame.setZ(0)
-        self.headline.setZ(0.23)
-        self.lPictureFrame.setZ(0.13)
-        self.rPictureFrame.setZ(0.13)
-        self.questInfo.setZ(-0.0625)
-        self.questProgress.setZ(-0.195)
-        self.auxText.setZ(0.12)
-        self.expLabel.setZ(0.125)
-        self.rewardText.setZ(-0.26)
-        self.rewardText.hide()
 
     def createNpcToonHead(self, toNpcId):
         npcInfo = NPCToons.NPCToonDict[toNpcId]
@@ -255,7 +234,8 @@ class QuestPoster(DirectFrame):
         self.funQuest.hide()
         self.lPictureFrame.hide()
         self.rPictureFrame.hide()
-        self.expLabel.hide()
+        self.expCircle.hide()
+        self.jbCircle.hide()
         self.questProgress.hide()
         if hasattr(self, 'chooseButton'):
             self.chooseButton.destroy()
@@ -308,6 +288,9 @@ class QuestPoster(DirectFrame):
         questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
         quest = Quests.getQuest(questId)
         questExp = Quests.getQuestExp(questId)
+        questMoney = Quests.getQuestMoney(questId)
+        self.expCircle.hide()
+        self.jbCircle.hide()
         if quest == None:
             self.notify.warning('Tried to display poster for unknown quest %s' % questId)
             return
@@ -323,9 +306,12 @@ class QuestPoster(DirectFrame):
             rewardString = ''
         self.rewardText['text'] = rewardString
         self.fitLabel(self.rewardText)
-        if questExp != None:
-           self.expLabel['text'] = TTLocalizer.QuestPosterExp + str(questExp)
-           self.expLabel.show()
+        if questExp:
+           self.expCircle['text'] = str(questExp)
+           self.expCircle.show()
+        if questMoney:
+           self.jbCircle['text'] = str(questMoney)
+           self.jbCircle.show()
         if Quests.isQuestJustForFun(questId, rewardId):
             self.funQuest.show()
         else:
@@ -951,16 +937,6 @@ class QuestPoster(DirectFrame):
             lIconGeomScale = 0.45
             gui.removeNode()
             infoText = TTLocalizer.QuestPosterAnywhere
-        elif quest.getType() == Quests.TrackExpQuest:
-            frameBgColor = 'green'
-            gui = loader.loadModel('phase_3.5/models/gui/inventory_icons')
-            item = int(quest.getNumExp()/100)
-            if item > LAST_REGULAR_GAG_LEVEL + 1:
-               item = LAST_REGULAR_GAG_LEVEL + 1
-            lIconGeom = gui.find('**/' + AvPropsNew[quest.getTrackType()][item])
-            lIconGeomScale = 1
-            gui.removeNode()
-            infoText = TTLocalizer.QuestPosterAnywhere
         elif quest.getType() == Quests.FriendNewbieQuest:
             frameBgColor = 'brown'
             gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
@@ -1181,8 +1157,6 @@ class QuestPoster(DirectFrame):
             self.auxText.setPos(auxTextPos)
         else:
             self.auxText.hide()
-        self.bind(DGG.WITHIN, self.mouseEnterPoster)
-        self.bind(DGG.WITHOUT, self.mouseExitPoster)
         numQuestItems = quest.getNumQuestItems()
         if fComplete or numQuestItems <= 1:
             self.questProgress.hide()

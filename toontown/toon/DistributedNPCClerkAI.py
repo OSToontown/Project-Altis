@@ -87,15 +87,13 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
             newInventory = av.inventory.makeFromNetString(blob)
             currentMoney = av.getMoney()
             if av.inventory.validatePurchase(newInventory, currentMoney, newMoney):
-                av.setMoney(newMoney)
+                av.takeMoney(currentMoney - newMoney)
                 if done:
                     av.d_setInventory(av.inventory.makeNetString())
-                    av.d_setMoney(newMoney)
             else:
                 self.air.writeServerEvent('suspicious', avId, 'DistributedNPCClerkAI.setInventory invalid purchase')
                 self.notify.warning('Avatar ' + str(avId) + ' attempted an invalid purchase.')
                 av.d_setInventory(av.inventory.makeNetString())
-                av.d_setMoney(av.getMoney())
         if self.timedOut:
             return
         if done:

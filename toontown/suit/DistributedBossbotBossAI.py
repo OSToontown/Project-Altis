@@ -602,6 +602,12 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             if toon:
                 self.givePinkSlipReward(toon)
                 toon.b_promote(self.deptIndex)
+                toon.addStat(ToontownGlobals.STATS_CEO)
+            if len(self.involvedToons) == 1 and self.begunSolo:
+                isSolo = 1
+            else:
+                isSolo = 0
+            self.air.achievementsManager.ceo(toonId, solo = isSolo)
 
     def givePinkSlipReward(self, toon):
         toon.addPinkSlips(self.battleDifficulty + 1)

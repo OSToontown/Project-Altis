@@ -3,6 +3,7 @@ from toontown.battle.BattleBase import *
 from toontown.battle.BattleGlobals import *
 from toontown.battle.DistributedBattleAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
+from toontown.toonbase import ToontownGlobals
 from toontown.suit import DistributedSuitBaseAI
 from toontown.battle import SuitBattleGlobals
 from toontown.battle import BattleExperienceAI
@@ -262,7 +263,8 @@ class BattleCalculatorAI:
             boost = 5
         else:
             boost = 0
-        suitDef = int(SuitBattleGlobals.SuitAttributes[suit.dna.name]['def'][suit.getLevel()] + boost)
+        suitAttr = SuitBattleGlobals.SuitAttributes.get(suit.dna.name)
+        suitDef = SuitBattleGlobals.calculateDefense(suitAttr['level'], suit.getLevel(), boost = boost)
         return -suitDef
 
     def __createToonTargetList(self, attackIndex):
@@ -535,6 +537,7 @@ class BattleCalculatorAI:
                         if numLeft < 0:
                             numLeft = 0
                         toon.b_setPinkSlips(numLeft)
+                        toon.addStat(ToontownGlobals.STATS_FIRES, amount=costToFire)
                         if costToFire > abilityToFire:
                             simbase.air.writeServerEvent('suspicious', avId=toonId, issue='Toon attempting to fire a %s cost cog with %s pinkslips' % (costToFire, abilityToFire))
                             print 'Not enough PinkSlips to fire cog - print a warning here'
