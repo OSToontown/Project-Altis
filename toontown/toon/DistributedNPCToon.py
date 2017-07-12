@@ -166,9 +166,8 @@ class DistributedNPCToon(DistributedNPCToonBase):
             if rewardId > 2:
                 fullString += Quests.getReward(rewardId).getString()
             quest = Quests.QuestDict.get(questId)
-            experience = quest[Quests.QuestDictExperienceIndex]
             money = quest[Quests.QuestDictMoneyIndex]
-            fullString += TTLocalizer.QuestMovieExpJbReward % {'exp': experience, 'money': money}
+            base.localAvatar.showMoneyIncrease(money)
             leavingString = Quests.chooseQuestDialog(questId, Quests.LEAVING)
             if leavingString:
                 fullString += '\x07' + leavingString
@@ -264,11 +263,11 @@ class DistributedNPCToon(DistributedNPCToonBase):
         if type is None:
             if self.icon:
                 self.icon.detachNode()
-                del self.icon
+                self.icon = None
             return
         if self.icon:
             self.icon.detachNode()
-            del self.icon
+            self.icon = None
         self.icon = self.questNotifyTypes[type]
         np = NodePath(self.nametag.getIcon())
         if np.isEmpty():
@@ -303,6 +302,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
         av = base.localAvatar
         for quest in av.quests:
             questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
+            questClass = Quests.getQuest(questId)
             newQuest = tuple(quest)
             actualQuest = Quests.getQuest(questId)
             fComplete = actualQuest.getCompletionStatus(av, newQuest) == Quests.COMPLETE
@@ -311,6 +311,9 @@ class DistributedNPCToon(DistributedNPCToonBase):
                 questId, fromNpcId, toNpcId, rewardId, toonProgress = quest
                 entry = NPCToons.NPCToonDict.get(toNpcId)
                 if entry[1] == name:
+                    return True
+            if isinstance(questClass, Quests.VisitQuest):
+                if NPCToons.getNPCName(toNpcId) == self.getName():
                     return True
         return False
 		
