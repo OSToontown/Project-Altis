@@ -2710,9 +2710,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return Task.done
 		
     def getRegenAmount(self, zone):
-        try:
+        if zone in ToontownGlobals.RegenLaffDict.keys():
             return ToontownGlobals.RegenLaffDict.get(zone)
-        except:
+        else:
             return 1
 
     def toonUp(self, hpGained, quietly = 0, sendTotal = 1):
