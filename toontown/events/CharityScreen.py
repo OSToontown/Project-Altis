@@ -32,7 +32,7 @@ class CharityScreen(DistributedObject):
             if not self.screenObject:
                 return
             self.screenObject.reparentTo(render)
-            text = "Wacky Way is now open!\nGo check it out!"
+            text = "Welcome to PRE-BETA!\nPlease note that there are bugs.\nReport them to the devs!"
             if ZoneUtil.getHoodId(zoneId) == ToontownGlobals.MinniesMelodyland:
                 self.screenObject.reparentTo(self.cr.playGame.getPlace().loader.geom.find('**/center_icon'))
             self.screenObject.setPos(self.zone2pos.get(ZoneUtil.getHoodId(zoneId), (0, 0, 6)))
