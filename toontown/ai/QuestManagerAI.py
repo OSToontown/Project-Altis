@@ -2,6 +2,7 @@ from toontown.toon.DistributedNPCSpecialQuestGiverAI import DistributedNPCSpecia
 from toontown.building import FADoorCodes
 from otp.ai.MagicWordGlobal import *
 from toontown.hood import ZoneUtil
+from toontown.toonbase import ToontownGlobals
 from toontown.quest import Quests
 
 QuestIdIndex = 0
