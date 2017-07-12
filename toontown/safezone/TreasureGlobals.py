@@ -79,7 +79,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.DonaldsDock: (
-        TreasureDD, 10, # DDTreasure heals 10 each...
+        TreasureDD, 9, # DDTreasure heals 9 each...
         [
             (52.9072, -23.4768, -12.308),
             (35.3827, -51.9196, -12.308),
@@ -112,7 +112,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.DaisyGardens: (
-        TreasureDG, 10, # DGTreasure heals 10 each...
+        TreasureDG, 12, # DGTreasure heals 12 each...
         [
             (-57.591, 257.222, 0.0),
             (-101.524, 237.966, 14.0),
@@ -139,7 +139,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.TheBrrrgh: (
-        TreasureBR, 12, # +12 laff
+        TreasureBR, 18, # +18 laff
         [
             (-108, 46, 6.2),
             (-111, 74, 6.2),
@@ -164,7 +164,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.MinniesMelodyland: (
-        TreasureMM, 10, # +10 laff
+        TreasureMM, 15, # +15 laff
         [
             (118, -39, 3.3),
             (118, 1, 3.3),
@@ -190,7 +190,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.DonaldsDreamland: (
-        TreasureDL, 12, # +12 laff
+        TreasureDL, 21, # +21 laff
         [
             (86, 69, -17.4),
             (34, -48, -16.4),
@@ -214,7 +214,7 @@ SafeZoneTreasureSpawns = {
         9 #Maximum
     ),
     ToontownGlobals.OutdoorZone: (
-        TreasureOZ, 15, # +15 laff for alpha, drop this to 10 for beta
+        TreasureOZ, 6, # +6 laff for alpha, drop this to 10 for beta
         [
             (-156.9, -118.9, 0.025),
             (-35.6, 86.0, 1.25),
