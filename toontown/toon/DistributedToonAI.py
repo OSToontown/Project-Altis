@@ -2704,9 +2704,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         taskMgr.doMethodLater(self.healFrequency, self.toonUpTask, self.uniqueName('safeZoneToonUp'))
 
     def toonUpTask(self, task):
-        self.toonUp(1)
+        amt = self.getRegenAmount(self.zoneId)
+        self.toonUp(amt)
         self.__waitForNextToonUp()
         return Task.done
+		
+    def getRegenAmount(self, zone):
+        try:
+            return ToontownGlobals.RegenLaffDict.get(zone)
+        except:
+            return 1
 
     def toonUp(self, hpGained, quietly = 0, sendTotal = 1):
         if hpGained > self.maxHp:

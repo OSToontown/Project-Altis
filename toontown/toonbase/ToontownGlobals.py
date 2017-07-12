@@ -1894,6 +1894,14 @@ STATS_UNITES = 20
 STATS_SUMMONS = 21
 STATS_FIRES = 22
 
+RegenLaffDict = {ToontownCentral: 1,
+ OutdoorZone: 2,
+ DonaldsDock: 3,
+ DaisyGardens: 4,
+ MinniesMelodyland: 5,
+ TheBrrrgh: 6,
+ DonaldsDreamland: 7}
+
                             # 1-default # 2 # 3 # 4
 HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]
 CODE_SUCCESS = 0
