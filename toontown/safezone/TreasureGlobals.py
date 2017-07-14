@@ -51,7 +51,7 @@ TreasureModels = {
 
 SafeZoneTreasureSpawns = {
     ToontownGlobals.ToontownCentral: (
-        TreasureTT, 3, # TTTreasure heals 3 each...
+        TreasureTT, 2, # TTTreasure heals 2 each...
         [
             (-99, 83, 0.525),
             (-31, 77, -0.025),
@@ -79,7 +79,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.DonaldsDock: (
-        TreasureDD, 10, # DDTreasure heals 10 each...
+        TreasureDD, 6, # DDTreasure heals 6 each...
         [
             (52.9072, -23.4768, -12.308),
             (35.3827, -51.9196, -12.308),
@@ -112,7 +112,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.DaisyGardens: (
-        TreasureDG, 10, # DGTreasure heals 10 each...
+        TreasureDG, 8, # DGTreasure heals 8 each...
         [
             (-57.591, 257.222, 0.0),
             (-101.524, 237.966, 14.0),
@@ -190,7 +190,7 @@ SafeZoneTreasureSpawns = {
         9 # Maximum
     ),
     ToontownGlobals.DonaldsDreamland: (
-        TreasureDL, 12, # +12 laff
+        TreasureDL, 14, # +14 laff
         [
             (86, 69, -17.4),
             (34, -48, -16.4),
@@ -214,23 +214,20 @@ SafeZoneTreasureSpawns = {
         9 #Maximum
     ),
     ToontownGlobals.OutdoorZone: (
-        TreasureOZ, 15, # +15 laff for alpha, drop this to 10 for beta
+        TreasureOZ, 4, # +4 laff for alpha, drop this to 10 for beta
         [
-            (-156.9, -118.9, 0.025),
-            (-35.6, 86.0, 1.25),
-            (116.8, 10.8, 0.104),
-            (-35, 145.7, 0.025),
-            (-198.8, -45.1, 0.025),
-            (-47.1, -25.5, 0.809),
-            (59.15, 34.8, 1.767),
-            (-81.02, -72.2, 0.026),
-            (-167.9, 124.5, 0.025),
-            (-226.7, -27.6, 0.025),
-            (-16.0, -108.9, 0.025),
-            (18.0, 58.5, 5.919),
-            (91.4, 127.8, 0.025),
-            (-86.5, -75.9, 0.025),
-            (-48.751, -32.3, 1.143),
+            (23, -80, 9.32),
+            (89, -107.6, 4.04),
+            (72.8, -33, 5),
+            (96, 26, 5.2),
+            (49.6, 86.5, 15.87),
+            (-87, 98.78, 9.7),
+            (-51, 25, 9.3),
+            (-67, -83, 4.4),
+            (-7.3, -4.2, 25.5),
+            (-168.5, -55.6, 5.975),
+            (-121.8, -108.9, 5.154),
+            (-87.6, -133.9, 5.206),
         ],
         10, # Rate
         9 # Maximum
