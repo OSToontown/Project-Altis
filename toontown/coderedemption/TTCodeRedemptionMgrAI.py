@@ -22,6 +22,7 @@ from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem
 from toontown.coderedemption import TTCodeRedemptionConsts, TTCodeRedemptionGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import ToonDNA
+from toontown.toon import NPCToons
 
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("TTCodeRedemptionMgrAI")
