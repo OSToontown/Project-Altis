@@ -5306,6 +5306,15 @@ def tickets(tickets):
     invoker.b_setTickets(tickets)
     return 'Set your tickets to: %d' % tickets
 
+'''
+@magicWord(category=CATEGORY_PROGRAMMER)
+def generateNpcs():
+    file = open('data/npcs.txt', 'w')
+    for i in xrange(100):
+        file.write(''.join(str(NPCToons.getRandomDNA(None, random.choice(['m', 'f'])))) + "\n")
+    file.close()
+'''
+
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def cogIndex(index):
     """
