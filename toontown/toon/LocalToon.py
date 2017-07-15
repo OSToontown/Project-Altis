@@ -445,11 +445,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.itemsPage = ItemsPage.ItemsPage()
         self.itemsPage.load()
         self.book.addPage(self.itemsPage, pageName = TTLocalizer.ItemsPageTitle)
-        if base.wantAchievements:
-            self.achievementsPage = AchievementsPage.AchievementsPage()
-            self.achievementsPage.setAvatar(self)
-            self.achievementsPage.load()
-            self.book.addPage(self.achievementsPage, pageName=TTLocalizer.AchievementsPageTitle)
+        self.achievementsPage = AchievementsPage.AchievementsPage()
+        self.achievementsPage.setAvatar(self)
+        self.achievementsPage.load()
+        self.book.addPage(self.achievementsPage, pageName=TTLocalizer.AchievementsPageTitle)
         if base.wantKarts:
             self.addKartPage()
         if self.disguisePageFlag:
@@ -2007,13 +2006,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.questMap.stop()
 
     def setAchievements(self, achievements):
-        if base.wantAchievements:
-            if self.canEarnAchievements:
-                for achievementId in achievements:
-                    if not achievementId in self.achievements:
-                        self.achievementGui.earnAchievement(achievementId)
-            else:
-                self.canEarnAchievements = True
+        if self.canEarnAchievements:
+            for achievementId in achievements:
+                if not achievementId in self.achievements:
+                    self.achievementGui.earnAchievement(achievementId)
+        else:
+            self.canEarnAchievements = True
 
         DistributedToon.DistributedToon.setAchievements(self, achievements)
         
