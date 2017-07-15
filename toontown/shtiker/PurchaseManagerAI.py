@@ -210,6 +210,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
         if self.receivingInventory:
             if avId in self.air.doId2do:
                 av = self.air.doId2do[avId]
+                currentMoney = av.getMoney()
                 avIndex = self.findAvIndex(avId)
                 if avIndex == None:
                     self.air.writeServerEvent('suspicious', avId, 'PurchaseManager.setInventory not on list')
@@ -218,7 +219,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
                     newInventory = av.inventory.makeFromNetString(blob)
                     currentMoney = av.getMoney()
                     if av.inventory.validatePurchase(newInventory, currentMoney, newMoney):
-                        av.setMoney(newMoney)
+                        av.takeMoney(currentMoney - newMoney)
                         if not done:
                             return
                         if self.playersReported[avIndex] != PURCHASE_UNREPORTED_STATE:
