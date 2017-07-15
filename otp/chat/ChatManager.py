@@ -305,7 +305,7 @@ class ChatManager(DirectObject.DirectObject):
             chatName = avatarName
         else:
             chatName = playerName
-        normalButtonObscured, scButtonObscured = self.isObscured()
+        normalButtonObscured, scButtonObscured, clButtonOscured = self.isObscured()
         if (avatarUnderstandable or playerUnderstandable) and online and not normalButtonObscured:
             self.whisperButton['state'] = 'normal'
             self.enablewhisperButton()
