@@ -445,11 +445,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.itemsPage = ItemsPage.ItemsPage()
         self.itemsPage.load()
         self.book.addPage(self.itemsPage, pageName = TTLocalizer.ItemsPageTitle)
-        if base.wantAchievements:
-            self.achievementsPage = AchievementsPage.AchievementsPage()
-            self.achievementsPage.setAvatar(self)
-            self.achievementsPage.load()
-            self.book.addPage(self.achievementsPage, pageName=TTLocalizer.AchievementsPageTitle)
+        self.achievementsPage = AchievementsPage.AchievementsPage()
+        self.achievementsPage.setAvatar(self)
+        self.achievementsPage.load()
+        self.book.addPage(self.achievementsPage, pageName=TTLocalizer.AchievementsPageTitle)
         if base.wantKarts:
             self.addKartPage()
         if self.disguisePageFlag:
