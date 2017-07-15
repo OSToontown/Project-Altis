@@ -2006,13 +2006,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.questMap.stop()
 
     def setAchievements(self, achievements):
-        if base.wantAchievements:
-            if self.canEarnAchievements:
-                for achievementId in achievements:
-                    if not achievementId in self.achievements:
-                        self.achievementGui.earnAchievement(achievementId)
-            else:
-                self.canEarnAchievements = True
+        if self.canEarnAchievements:
+            for achievementId in achievements:
+                if not achievementId in self.achievements:
+                    self.achievementGui.earnAchievement(achievementId)
+        else:
+            self.canEarnAchievements = True
 
         DistributedToon.DistributedToon.setAchievements(self, achievements)
         
