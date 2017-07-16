@@ -2627,10 +2627,10 @@ QuestDict = {
 
  # Task Seven
  2070: ([], Start, (VisitQuest,), 2001, 2402, NA, 2071, TTLocalizer.QuestDialogDict[2070], 375, 50),
- 2071: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2023, Easy, 'type', 's'), 2402, 2402, NA, 2072, TTLocalizer.QuestDialogDict[2071], 375, 50),
- 2072: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2024, Easy, 'type', 'm'), 2402, 2402, NA, 2073, TTLocalizer.QuestDialogDict[2072], 375, 50),
- 2073: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2025, Easy, 'type', 'l'), 2402, 2402, NA, 2074, TTLocalizer.QuestDialogDict[2073], 375, 50),
- 2074: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2026, Easy, 'type', 'c'), 2402, 2402, NA, 2075, TTLocalizer.QuestDialogDict[2074], 375, 50),
+ 2071: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2023, Easy, 'track', 's'), 2402, 2402, NA, 2072, TTLocalizer.QuestDialogDict[2071], 375, 50),
+ 2072: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2024, Easy, 'track', 'm'), 2402, 2402, NA, 2073, TTLocalizer.QuestDialogDict[2072], 375, 50),
+ 2073: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2025, Easy, 'track', 'l'), 2402, 2402, NA, 2074, TTLocalizer.QuestDialogDict[2073], 375, 50),
+ 2074: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2026, Easy, 'track', 'c'), 2402, 2402, NA, 2075, TTLocalizer.QuestDialogDict[2074], 375, 50),
  2075: ([], Cont, (CogTrackQuest, Anywhere, 5, 'g'), 2402, 2402, NA, 2076, TTLocalizer.QuestDialogDict[2075], 375, 50),
  2076: ([], Cont, (CogTrackQuest, Anywhere, 5, 's'), 2402, 2402, NA, 2077, TTLocalizer.QuestDialogDict[2076], 375, 50),
  2077: ([], Cont, (CogQuest, Anywhere, 2, 'mdm'), 2402, 2402, NA, 2078, TTLocalizer.QuestDialogDict[2077], 375, 50),
