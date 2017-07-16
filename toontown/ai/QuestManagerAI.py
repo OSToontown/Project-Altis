@@ -201,6 +201,7 @@ class QuestManagerAI:
                 if questMoney != 0:
                     av.addMoney(questMoney)
                 av.addStat(ToontownGlobals.STATS_TASKS)
+                av.addToQuestHistory(questId)
 
                 break
 
