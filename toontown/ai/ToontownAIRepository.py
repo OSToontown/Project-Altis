@@ -327,10 +327,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         if invstatus == 'None':
             httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReqkill.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/0/%s/1/1' % (self.districtName, pop, invstatus))
+            httpReqkill.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/0/%s/1/1' % (self.districtName, pop, invstatus))
         else:
             httpReq = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReq.request('GET', '/api/addinvasion/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
+            httpReq.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
 
         if self.districtName == "Test Canvas":
             return
