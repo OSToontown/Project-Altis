@@ -6,7 +6,7 @@ class SafeZoneManagerAI(DistributedObjectAI.DistributedObjectAI):
 
     def __init__(self, air):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.healFrequency = 10.0  # The time in seconds between each Toon-up pulse.
+        self.healFrequency = 20.0  # The time in seconds between each Toon-up pulse.
 
     def enterSafeZone(self):
         avId = self.air.getAvatarIdFromSender()

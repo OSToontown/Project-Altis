@@ -1681,11 +1681,16 @@ TAILOR_HARMONY = 4008
 BONNIE_BLOSSOM = 5007
 WARREN_BUNDLES = 3008
 WORNOUT_WAYLON = 9010
+TAILOR_TIM = 6010
 TailorCollections = {MAKE_A_TOON: [['bss1', 'bss2'],
                ['gss1', 'gss2'],
                ['bbs1', 'bbs2'],
                ['gsk1', 'gsh1']],
  TAMMY_TAILOR: [['bss1', 'bss2'],
+                ['gss1', 'gss2'],
+                ['bbs1', 'bbs2'],
+                ['gsk1', 'gsh1']],
+ TAILOR_TIM: [['bss1', 'bss2'],
                 ['gss1', 'gss2'],
                 ['bbs1', 'bbs2'],
                 ['gsk1', 'gsh1']],

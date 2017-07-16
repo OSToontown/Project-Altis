@@ -580,6 +580,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getTrueFriendRequest(self):
         return self.trueFriendRequests
 
+    def isTrueFriends(self, avId):
+        return False
+
     def extendFriendsList(self, friendId, type = 0):
         if friendId in self.friendsList:
             return
@@ -1721,7 +1724,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setQuests(self.quests)
         if recordHistory:
             if quest[0] != Quests.VISIT_QUEST_ID:
-                newQuestHistory = self.questHistory
+                newQuestHistory = self.questHistory + [quest[0]]
                 while newQuestHistory.count(Quests.VISIT_QUEST_ID) != 0:
                     newQuestHistory.remove(Quests.VISIT_QUEST_ID)
 
@@ -2704,9 +2707,16 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         taskMgr.doMethodLater(self.healFrequency, self.toonUpTask, self.uniqueName('safeZoneToonUp'))
 
     def toonUpTask(self, task):
-        self.toonUp(1)
+        amt = self.getRegenAmount(self.zoneId)
+        self.toonUp(amt)
         self.__waitForNextToonUp()
         return Task.done
+		
+    def getRegenAmount(self, zone):
+        if zone in ToontownGlobals.RegenLaffDict.keys():
+            return ToontownGlobals.RegenLaffDict.get(zone)
+        else:
+            return 1
 
     def toonUp(self, hpGained, quietly = 0, sendTotal = 1):
         if hpGained > self.maxHp:
@@ -5305,6 +5315,15 @@ def tickets(tickets):
     invoker = spellbook.getInvoker()
     invoker.b_setTickets(tickets)
     return 'Set your tickets to: %d' % tickets
+
+'''
+@magicWord(category=CATEGORY_PROGRAMMER)
+def generateNpcs():
+    file = open('data/npcs.txt', 'w')
+    for i in xrange(100):
+        file.write(''.join(str(NPCToons.getRandomDNA(None, random.choice(['m', 'f'])))) + "\n")
+    file.close()
+'''
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def cogIndex(index):

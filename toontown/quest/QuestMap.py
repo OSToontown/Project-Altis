@@ -211,10 +211,8 @@ class QuestMap(DirectFrame):
                     Quests.DeliverGagQuest, Quests.DeliverItemQuest,
                     Quests.VisitQuest, Quests.TrackChoiceQuest):
                     continue
-					
-            npc = NPCToons.NPCToonDict.get(toNpcId)
 
-            if toNpcId == Quests.ToonHQ or npc[5] == NPCToons.NPC_HQ:
+            if toNpcId == Quests.ToonHQ:
                 self.putBuildingMarker(self.hqPosInfo, mapIndex=mapIndex)
                 continue
 

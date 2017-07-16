@@ -445,11 +445,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.itemsPage = ItemsPage.ItemsPage()
         self.itemsPage.load()
         self.book.addPage(self.itemsPage, pageName = TTLocalizer.ItemsPageTitle)
-        if base.wantAchievements:
-            self.achievementsPage = AchievementsPage.AchievementsPage()
-            self.achievementsPage.setAvatar(self)
-            self.achievementsPage.load()
-            self.book.addPage(self.achievementsPage, pageName=TTLocalizer.AchievementsPageTitle)
+        self.achievementsPage = AchievementsPage.AchievementsPage()
+        self.achievementsPage.setAvatar(self)
+        self.achievementsPage.load()
+        self.book.addPage(self.achievementsPage, pageName=TTLocalizer.AchievementsPageTitle)
         if base.wantKarts:
             self.addKartPage()
         if self.disguisePageFlag:
@@ -2007,13 +2006,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.questMap.stop()
 
     def setAchievements(self, achievements):
-        if base.wantAchievements:
-            if self.canEarnAchievements:
-                for achievementId in achievements:
-                    if not achievementId in self.achievements:
-                        self.achievementGui.earnAchievement(achievementId)
-            else:
-                self.canEarnAchievements = True
+        if self.canEarnAchievements:
+            for achievementId in achievements:
+                if not achievementId in self.achievements:
+                    self.achievementGui.earnAchievement(achievementId)
+        else:
+            self.canEarnAchievements = True
 
         DistributedToon.DistributedToon.setAchievements(self, achievements)
         
@@ -2033,31 +2031,3 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.petId = petId
         if self.isLocal():
             base.cr.addPetToFriendsMap()
-			
-    def showMoneyIncrease(self, amount):
-        jarGui = loader.loadModel('phase_3.5/models/gui/jar_gui')
-        moneyDisplay = DirectLabel(relief=None, scale=0.4, pos=(-1.6, 0, 0.17), text='0', text_scale=0.18, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), image=jarGui.find('**/Jar'), text_font=ToontownGlobals.getSignFont())
-        moneyDisplay.reparentTo(base.a2dBottomRight, DGG.BACKGROUND_SORT_INDEX - 1)
-        jarGui.removeNode()
-        tickSfx = base.loader.loadSfx('phase_3.5/audio/sfx/tick_counter.ogg')
-		
-        def setDisplayText(prefix, amt):
-            moneyDisplay['text'] = prefix + str(amt)
-
-        if amount < 1:
-            moneyDisplay['text_fg'] = (1, 0, 0, 1)
-            prefix = '-'
-        else:
-            moneyDisplay['text_fg'] = (0, 1, 0, 1)
-            prefix = '+'
-        ticker = Sequence()
-        ticker.append(LerpColorInterval(moneyDisplay, 2, Vec4(1,1,1,1), Vec4(1,1,1,0)))
-        for i in xrange(abs(amount)):
-            ticker.append(Func(base.playSfx, tickSfx))
-            ticker.append(Func(setDisplayText, prefix, (i+1)))
-            ticker.append(Wait(0.0025))
-        ticker.append(LerpColorInterval(moneyDisplay, 2, Vec4(1,1,1,0), Vec4(1,1,1,1)))
-        ticker.append(Func(moneyDisplay.destroy))
-        ticker.start()
-            
-            

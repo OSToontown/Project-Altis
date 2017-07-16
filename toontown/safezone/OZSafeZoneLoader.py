@@ -40,7 +40,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
         binMgr = CullBinManager.getGlobalPtr()
         water = self.geom.find('**/Water*')
         water.setTransparency(1)
-        water.setColorScale(.3, .3, 1, .5)
+        water.setColorScale(0, 0, 1, .9)
         water.setBin('water', 51, 1)
 
     def exit(self):

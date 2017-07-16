@@ -21,10 +21,8 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         self.givesQuests = 0
         self.customerDNA = None
         self.customerId = None
-        self.jbCost = 150
-
-        if self.freeClothes:
-            self.useJellybeans = False
+        self.jbCost = 200
+        self.useJellybeans = True
 
     def getTailor(self):
         return 1
@@ -59,8 +57,6 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         if self.freeClothes:
             flag = NPCToons.PURCHASE_MOVIE_START
         elif self.useJellybeans and self.hasEnoughJbs(av):
-            flag = NPCToons.PURCHASE_MOVIE_START
-        elif self.air.questManager.hasTailorClothingTicket(av, self):
             flag = NPCToons.PURCHASE_MOVIE_START
 
         if self.housingEnabled and isClosetAlmostFull(av):
@@ -126,8 +122,6 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
          avId,
          ClockDelta.globalClockDelta.getRealNetworkTime()])
         self.sendClearMovie(None)
-        if self.air.questManager.hasTailorClothingTicket(av, self):
-            self.air.questManager.removeClothingTicket(av, self)
 
     def setDNA(self, blob, finished, which):
         avId = self.air.getAvatarIdFromSender()
@@ -143,7 +137,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
         if avId in self.air.doId2do:
             av = self.air.doId2do.get(avId)
             if finished == 2 and which > 0:
-                if self.freeClothes or self.air.questManager.removeClothingTicket(av, self) or av.takeMoney(self.jbCost, bUseBank = True):
+                if self.freeClothes or av.takeMoney(self.jbCost, bUseBank = True):
                     av.b_setDNAString(blob)
                     if which & ClosetGlobals.SHIRT:
                         if av.addToClothesTopsList(self.customerDNA.topTex, self.customerDNA.topTexColor, self.customerDNA.sleeveTex, self.customerDNA.sleeveTexColor) == 1:
@@ -157,10 +151,7 @@ class DistributedNPCTailorAI(DistributedNPCToonBaseAI):
                             self.notify.warning('NPCTailor: setDNA() - unable to save old bottoms - we exceeded the bottoms list length')
                     self.air.writeServerEvent('boughtTailorClothes', avId, '%s|%s|%s' % (self.doId, which, self.customerDNA.asTuple()))
                 elif self.useJellybeans:
-                    self.air.writeServerEvent('suspicious', avId, 'DistributedNPCTailorAI.setDNA tried to purchase with insufficient jellybeans')
-                    self.notify.warning('NPCTailor: setDNA() - client tried to purchase with insufficient jellybeans!')
-                elif self.air.questManager.hasTailorClothingTicket(av, self):
-                    self.air.questManager.removeClothingTicket(av, self)
+                    av.takeMoney(self.jbCost, bUseBank = True)
                     av.b_setDNAString(blob)
                     if which & ClosetGlobals.SHIRT:
                         if av.addToClothesTopsList(self.customerDNA.topTex, self.customerDNA.topTexColor, self.customerDNA.sleeveTex, self.customerDNA.sleeveTexColor) == 1:

@@ -292,10 +292,10 @@ cogDept2index = {'c': 0,
  'g': 4}
 cogIndex2dept = invertDict(cogDept2index)
 HQToSafezone = {SellbotHQ: DaisyGardens,
- CashbotHQ: DonaldsDreamland,
+ CashbotHQ: MinniesMelodyland,
  LawbotHQ: TheBrrrgh,
  BossbotHQ: OutdoorZone,
- BoardbotHQ: MinniesMelodyland}
+ BoardbotHQ: DonaldsDreamland}
 CogDeptNames = [TTLocalizer.Bossbot,
  TTLocalizer.Lawbot,
  TTLocalizer.Cashbot,
@@ -1004,7 +1004,7 @@ CashbotBossKnockoutDamage = 15
 TTWakeWaterHeight = -4.79
 DDWakeWaterHeight = 1.669
 EstateWakeWaterHeight = -.3
-OZWakeWaterHeight = -0.5
+OZWakeWaterHeight = 4.3
 WakeRunDelta = 0.1
 WakeWalkDelta = 0.2
 NoItems = 0
@@ -1893,6 +1893,14 @@ STATS_SOS = 19
 STATS_UNITES = 20
 STATS_SUMMONS = 21
 STATS_FIRES = 22
+
+RegenLaffDict = {ToontownCentral: 1,
+ OutdoorZone: 2,
+ DonaldsDock: 3,
+ DaisyGardens: 4,
+ MinniesMelodyland: 5,
+ TheBrrrgh: 6,
+ DonaldsDreamland: 7}
 
                             # 1-default # 2 # 3 # 4
 HouseInteriorLayoutPrices = [4000, 5000, 6000, 7000]
