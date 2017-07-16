@@ -3027,6 +3027,8 @@ def chooseBestQuests(currentNpc, av):
 def getFirstQuestIdInChain(questId):
     while True:
         questEntry = QuestDict.get(questId)
+        if not questEntry:
+            return questId
         if questEntry[QuestDictStartIndex] != Start:
             # This isn't a starting quest, so subtract one and check THAT quest
             questId -= 1
