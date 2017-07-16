@@ -784,7 +784,7 @@ QuestDialogDict = {
  2035: {QUEST:  "Whew, hope you're not getting tired.\x07Now, on to the fifth type of cog.\x07Boardbots are the final cogs, and also happen to be the most dangerous.\x07Ever since the Eraser almost wiped us out, they've been on the loose, and seem to be monitoring the other four cog types.\x07Be careful with these guys!\x07 One you become more experienced, one day we may have you investigate more about Boardbots"}, # Kill 5 Boardbots
  2036: {QUEST:  "Have any trouble with those boardbots?\x07Now that you've seen the 5 major cog types, its time to introduce you to the subclasses of cogs\x07Now, cogs also come in different shapes and forms, depending on how they were made.\x07Right now, you'll only counter regular cogs, and elite cogs.\x07But later, in more cog inhibited areas such as hqs, you will find other special types of cogs, such as Skelecogs, V2, Virtual cogs, and Elite V2 cogs.\x07Ugh, I get shivers just thinking of them!\x07 Alright, now go destroy five regular cogs first."}, # Kill 5 Level 2+ Cogs
  2037: {QUEST:  "Hope that wasn't to hard. Now, I want you to defeat five elite cogs.\x07Elite cogs pose a very significant risk to the happiness to our toons, and are basically the newer editions of cogs.\x07 20% more damage, 50% more health, makes these cogs a huge risk to our shopkeepers saftey. Combine that with the dodge rate of a the cog level above it, and you've got a super dangerous cog. \x07I'm only sending you on this mission, toon, because I belive you are strong enough to handel it.\x07Just be careful out there.\x07Defeat 5 Level 2+ Elite Cogs."}, # Kill 5 Level 2+ Elite Cogs
- 2038: {QUEST: ""},
+ 2038: {QUEST: "How'd you do on those Elite cogs? Good Riddance, those things scare me.\x07 I think you're almost done with your training,  just bear with me here. Next, I want you to defeat more cogs.\x07I know, its lame.\x07Defeat 15 cogs"},
  
  # Task Four
  2040: {QUEST:  "Hey _avName_, yet another task.\x07_toNpcName_ is in need of some help. Would you mind going and helping him deliver some packages?"}, # Flippy to Postmaster Pete
@@ -868,20 +868,20 @@ QuestDialogDict = {
  2120: {QUEST:  "Good to see you again, _avName_!\x07_toNpcName_ asked me for some help, could you go visit them and see what they need?"}, # Flippy to Nona Seeya
  2121: {QUEST:  "I'm in a bit of a stick right now -- I lost all my invisible ink!\x07I'm almost certain that I dropped them in a pond, could you be a dear and fish them back for me?"}, # Recover 4 invisible ink from the fish
  2122: {QUEST:  "Great work! There's just one problem; I have nothing to write with! A bunch of glad handers came in and ransacked my shop taking my fountain pens.\x07Go defeat some of those filthy Glad Handers and get them back!"}, # Recover 4 fountain pens from glad handers
- 2123: {QUEST:  "Amazing!\x07I do owe flippy a pen of mine so how about you go take one of these to him?_where_"}, # Deliver a fountain pen to Flippy
- 2124: {QUEST:  "Oh, it's you again?\x07A pen? Well, tell Nona Seeya I said thank you!\x07Actually... on second thought I do owe Sam Stain a pen of mine.\x07How about you go take this to Sam Stain instead?"}, # Return to Nona Seeya
- 2125: {QUEST:  "Heya, son! I've never seen you before.\x07A fountain pen? Well, my apprecations! There's just one problem...\x07I can't write with all those cogs stomping around! How about you go defeat "}, # Deliver a fountain pen to Sam Stain
- 2126: {QUEST:  ""}, # Defeat 8 level 4+ cogs in TTC
- 2127: {QUEST:  ""}, # Defeat 4 level 5+ cogs in TTC
- 2128: {QUEST:  ""}, # Defeat a cog building
- 2129: {QUEST:  ""}, # Return to Nona Seeya
- 2130: {QUEST:  ""}, # Deliver a fountain pen to Inky Ivon
- 2131: {QUEST:  ""}, # Fish for 15 Inc Sacks
- 2132: {QUEST:  ""}, # Return to Nona Seeya
- 2133: {QUEST:  ""}, # Deliver a fountain pen to Postmaster Pete
- 2134: {QUEST:  ""}, # Collect 10 packages from Level 4+ cogs
- 2135: {QUEST:  ""}, # Return to Flippy
- 2136: {QUEST:  "", COMPLETE: "Thank you so much!\x07Hope you are feeling better now that you've completed everything for me.\x07Alright, I think you're finally ready to move out. I'm going to send you off to Acorn Acres, so that you can do some more training work for them.\x07Beware, as that playground is significantly more infested with cogs \x07However, I know that you're ready for it.\x07Alright, good luck! \x07 Best be getting on your way now."}} # Defeat a 2+ story building
+ 2123: {QUEST:  "Amazing!\x07I do owe flippy a pen of mine so how about you go take one of these to him?_where_"}, # Deliver a fountain pen to Flippy"},
+ 2124: {QUEST:  "Oh, it's you again?\x07A pen? Well, tell Nona Seeya I said thank you!"}, # Return to Nona Seeya
+ 2125: {QUEST:  "Hey, you're back! I just remembered I also owe Sam Stain a fountain pen too so go ahead and deliver this to him."}, # Deliver a fountain pen to Sam Stain
+ 2126: {QUEST: "Heya, son! I've never seen you before.\x07A fountain pen? Well, my apprecations! There's just one problem...\x07I can't write with all those cogs stomping around! How about you go defeat some of those higher cogs and then maybe I could?"}, # Defeat 8 level 4+ cogs in TTC
+ 2127: {QUEST:  "Hmmm... Still too shaky. Try defeating some of the higher cogs, then."}, # Defeat 4 level 5+ cogs in TTC
+ 2128: {QUEST:  "Ugh! The shakings better but I can't focus with all those noisy cog buildings!\x07Defeat one cog building for me, would you?"}, # Defeat a cog building
+ 2129: {QUEST:  "Just right! I can write again! Go back to Nona Seeya and tell her I said thanks."}, # Return to Nona Seeya
+ 2130: {QUEST:  "You're back? I almost thought that you let me forever!\x07Anyways, my friend Inky Ivon just asked me for a fountain pen. Would you please deliver one to him?"}, # Deliver a fountain pen to Inky Ivon
+ 2131: {QUEST:  "Aye, son! You got that fountain pen for me?\x07What do you think about doing me a favor, while you're here?/x07I need some Inc Sacs for this pen, which you should be able to fish up for me.ait "}, # Fish for 15 Inc Sacks
+ 2132: {QUEST:  "Thanks for that! Now I can actually use this pen.\x07Go back to Nona Seeya and tell her I'm very grateful."}, # Return to Nona Seeya
+ 2133: {QUEST:  "Alright, I need you to deliver another one.This one is going to...\x07Ah! Deliver this one to Postmaster Pete"}, # Deliver a fountain pen to Postmaster Pete
+ 2134: {QUEST:  "Hey, is this my pen from Nona Seeya?\x07Alright, now I can sign these pack....\x07Wait, where did those packages go??\x07Oh dear, those cogs that were in here earlier must have stolen them!\x07Alright, could you go get them back for me?"}, # Collect 10 packages from Level 4+ cogs
+ 2135: {QUEST:  "And that's it. Thank you, kindly return to Flippy when you're ready."}, # Return to Flippy
+ 2136: {QUEST:  "Hey there, done with your deliveries?\x07Alright, for your last task I need you to...\x07Go defeat a two story building, or higher!", COMPLETE: "Thank you so much!\x07Hope you are feeling better now that you've completed everything for me.\x07Alright, I think you're finally ready to move out. I'm going to send you off to Acorn Acres, so that you can do some more training work for them.\x07Beware, as that playground is significantly more infested with cogs \x07However, I know that you're ready for it.\x07Alright, good luck! \x07 Best be getting on your way now."}} # Defeat a 2+ story building
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']

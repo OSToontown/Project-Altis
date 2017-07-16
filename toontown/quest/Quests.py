@@ -2621,9 +2621,9 @@ QuestDict = {
 
  # Task Six
  2060: ([], Start, (VisitQuest,), 2001, 2318, NA, 2061, TTLocalizer.QuestDialogDict[2060], 350, 35),
- 2061: ([], Start, (CogTrackLevelQuest, Anywhere, 5, 'c', 3), 2318, 2318, NA, 2062, TTLocalizer.QuestDialogDict[2061], 350, 35),
- 2062: ([], Start, (CogTrackQuest, Anywhere, 10, 'l'), 2318, 2318, NA, 2063, TTLocalizer.QuestDialogDict[2062], 350, 35),
- 2063: ([], Start, (CogLevelQuest, Anywhere, 15, 2), 2318, 2318, NA, NA, TTLocalizer.QuestDialogDict[2063], 350, 35),
+ 2061: ([], Cont, (CogTrackLevelQuest, Anywhere, 5, 'c', 3), 2318, 2318, NA, 2062, TTLocalizer.QuestDialogDict[2061], 350, 35),
+ 2062: ([], Cont, (CogTrackQuest, Anywhere, 10, 'l'), 2318, 2318, NA, 2063, TTLocalizer.QuestDialogDict[2062], 350, 35),
+ 2063: ([], Cont, (CogLevelQuest, Anywhere, 15, 2), 2318, 2318, NA, NA, TTLocalizer.QuestDialogDict[2063], 350, 35),
 
  # Task Seven
  2070: ([], Start, (VisitQuest,), 2001, 2402, NA, 2071, TTLocalizer.QuestDialogDict[2070], 375, 50),
@@ -2638,8 +2638,8 @@ QuestDict = {
  2079: ([], Cont, (DeliverItemQuest, 2027), 2402, 2128, NA, NA, TTLocalizer.QuestDialogDict[2079], 375, 50),
 
  # Task Eight
- 2080: ([], Start, (TrackExpQuest, 4, 20), 2001, 2001, NA, 2081, TTLocalizer.QuestDialogDict[2080], 350, 50),
- 2081: ([], Cont, (TrackExpQuest, 5, 20), 2001, 2001, NA, 2082, TTLocalizer.QuestDialogDict[2081], 350, 50),
+ 2080: ([], Start, (TrackExpQuest, Anywhere, 4, 20), 2001, 2001, NA, 2081, TTLocalizer.QuestDialogDict[2080], 350, 50),
+ 2081: ([], Cont, (TrackExpQuest, Anywhere, 5, 20), 2001, 2001, NA, 2082, TTLocalizer.QuestDialogDict[2081], 350, 50),
  2082: ([], Cont, (DeliverGagQuest, 1, 4, 2), 2001, 2117, NA, 2083, TTLocalizer.QuestDialogDict[2082], 350, 50),
  2083: ([], Cont, (DeliverGagQuest, 1, 5, 2), 2117, 2123, NA, 2084, TTLocalizer.QuestDialogDict[2083], 350, 50),
  2084: ([], Cont, (VisitQuest,), 2123, 2001, NA, 2085, TTLocalizer.QuestDialogDict[2084], 350, 50),
@@ -2673,7 +2673,7 @@ QuestDict = {
  2114: ([], Cont, (CogQuest, ToontownGlobals.ToontownCentral, 5, 'ac'), 2303, 2303, NA, 2115, TTLocalizer.QuestDialogDict[2114], 325, 50),
  2115: ([], Cont, (RecoverItemQuest, 1, 2031, Medium, 'type', 'ac'), 2303, 2303, NA, 2116, TTLocalizer.QuestDialogDict[2115], 325, 50),
  2116: ([], Cont, (VisitQuest,), 2303, 2128, NA, 2117, TTLocalizer.QuestDialogDict[2116], 325, 50),
- 2117: ([], Cont, (RecoverItemQuest, 4, 2032, Easy, AnyFish), 2128, 2128, NA, 2117, TTLocalizer.QuestDialogDict[2117], 325, 50),
+ 2117: ([], Cont, (RecoverItemQuest, 4, 2032, Easy, AnyFish), 2128, 2128, NA, 2118, TTLocalizer.QuestDialogDict[2117], 325, 50),
  2118: ([], Cont, (RecoverItemQuest, 1, 2033, Medium, 'level', 5), 2128, 2128, NA, NA, TTLocalizer.QuestDialogDict[2118], 325, 50),
  
  # Task Twelve, MEGATASK OF ZONE
@@ -2712,7 +2712,6 @@ def getAllRewardIdsForReward(rewardId):
 
 def findFinalRewardId(questId):
     finalRewardId = Quest2RewardDict.get(questId)
-    print questId
     if finalRewardId:
         remainingSteps = Quest2RemainingStepsDict.get(questId)
     else:
@@ -2999,6 +2998,8 @@ def chooseBestQuests(currentNpc, av):
         currentIds.append(getFirstQuestIdInChain(entry[0]))
     bestQuests = []
     for questId in QuestDict.keys():
+        if len(bestQuests) >= 3:
+            break
         questEntry = QuestDict.get(questId)
         if questEntry[QuestDictFromNpcIndex] == currentNpc.npcId:
             if questId not in completedIds + currentIds:

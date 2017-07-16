@@ -582,7 +582,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.trueFriendRequests
 
     def isTrueFriends(self, avId):
-        return False
+        return True
 
     def extendFriendsList(self, friendId, type = 0):
         if friendId in self.friendsList:
