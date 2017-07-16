@@ -2659,7 +2659,7 @@ QuestDict = {
  2100: ([], Start, (VisitQuest,), 2001, 2222, NA, 2101, TTLocalizer.QuestDialogDict[2100], 375, 35),
  2101: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 5, 5), 2222, 2222, NA, 2102, TTLocalizer.QuestDialogDict[2101], 375, 35),
  2102: ([], Cont, (CogLevelQuest, ToontownGlobals.DonaldsDock, 5, 5), 2222, 2222, NA, 2103, TTLocalizer.QuestDialogDict[2102], 375, 35),
- 2103: ([], Cont, (CogLevelQuest, ToontownGlobals.AcornAcres, 5, 5), 2222, 2222, NA, 2104, TTLocalizer.QuestDialogDict[2103], 375, 35),
+ 2103: ([], Cont, (CogLevelQuest, ToontownGlobals.OutdoorZone, 5, 5), 2222, 2222, NA, 2104, TTLocalizer.QuestDialogDict[2103], 375, 35),
  2104: ([], Cont, (CogLevelQuest, ToontownGlobals.DaisyGardens, 5, 5), 2222, 2222, NA, 2105, TTLocalizer.QuestDialogDict[2104], 375, 35),
  2105: ([], Cont, (CogLevelQuest, ToontownGlobals.MinniesMelodyland, 2, 5), 2222, 2222, NA, 2106, TTLocalizer.QuestDialogDict[2105], 375, 35),
  2106: ([], Cont, (BuildingQuest, ToontownGlobals.ToontownCentral, 1, Any, 1), 2222, 2222, NA, 2107, TTLocalizer.QuestDialogDict[2106], 375, 35),
@@ -2677,22 +2677,22 @@ QuestDict = {
  2118: ([], Cont, (RecoverItemQuest, 1, 2033, Medium, 'level', 5), 2128, 2128, NA, NA, TTLocalizer.QuestDialogDict[2118], 325, 50),
  
  # Task Twelve, MEGATASK OF ZONE
- 2120: ([2118, 2107, 2096, 2086, 2079, 2064, 2059, 2046, 2038, 2029, 2018, 2005], Start, (VisitQuest,), 2216, 2001, NA, 2121, TTLocalizer.QuestDialogDict[2120], 500, 75),
- 2121: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2034, Medium, AnyFish), 2216, 2216, NA, 2122, TTLocalizer.QuestDialogDict[2121], 500, 75),
- 2122: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2035, VeryEasy, 'type', 'gh'), 2216, 2216, NA, 2123, TTLocalizer.QuestDialogDict[2122], 500, 75),
- 2123: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2001, NA, 2134, TTLocalizer.QuestDialogDict[2123], 500, 75),
- 2124: ([], Cont, (VisitQuest,), 2001, 2216, NA, 2125, TTLocalizer.QuestDialogDict[2124], 500, 75),
- 2125: ([], Cont, (DeliverItemQuest, 2035), 2216, 2214, NA, 2126, TTLocalizer.QuestDialogDict[2125], 500, 75),
- 2126: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 8, 4), 2214, 2214, NA, 2127, TTLocalizer.QuestDialogDict[2126], 500, 75),
- 2127: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 4, 5), 2214, 2214, NA, 2128, TTLocalizer.QuestDialogDict[2127], 500, 75),
- 2128: ([], Cont, (BuildingQuest, Anywhere, 1, Any, 1), 2214, 2214, NA, 2129, TTLocalizer.QuestDialogDict[2128], 500, 75),
- 2129: ([], Cont, (VisitQuest,), 2214, 2216, NA, 2130, TTLocalizer.QuestDialogDict[2129], 500, 75),
- 2130: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2201, NA, 2131, TTLocalizer.QuestDialogDict[2130], 500, 75),
- 2131: ([], Cont, (RecoverItemQuest, Anywhere, 15, 2036, VeryEasy, AnyFish), 2201, 2201, NA, 2132, TTLocalizer.QuestDialogDict[2131], 500, 75),
- 2132: ([], Cont, (VisitQuest,), 2226, 2216, NA, 2133, TTLocalizer.QuestDialogDict[2132], 500, 75),
- 2133: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2201, NA, 2134, TTLocalizer.QuestDialogDict[2133], 500, 75),
- 2134: ([], Cont, (RecoverItemQuest, Anywhere, 10, 2016, Easy, 'level', 4), 2201, 2201, NA, 2135, TTLocalizer.QuestDialogDict[2134], 500, 75),
- 2135: ([], Cont, (VisitQuest,), 2201, 2216, NA, 2136, TTLocalizer.QuestDialogDict[2135], 500, 75),
+ 2120: ([2118, 2107, 2096, 2086, 2079, 2064, 2059, 2046, 2038, 2029, 2018, 2005], Start, (VisitQuest,), 2216, 2001, 300, 2121, TTLocalizer.QuestDialogDict[2120], 500, 75),
+ 2121: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2034, Medium, AnyFish), 2216, 2216, 300, 2122, TTLocalizer.QuestDialogDict[2121], 500, 75),
+ 2122: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2035, VeryEasy, 'type', 'gh'), 2216, 2216, 300, 2123, TTLocalizer.QuestDialogDict[2122], 500, 75),
+ 2123: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2001, 300, 2134, TTLocalizer.QuestDialogDict[2123], 500, 75),
+ 2124: ([], Cont, (VisitQuest,), 2001, 2216, 300, 2125, TTLocalizer.QuestDialogDict[2124], 500, 75),
+ 2125: ([], Cont, (DeliverItemQuest, 2035), 2216, 2214, 300, 2126, TTLocalizer.QuestDialogDict[2125], 500, 75),
+ 2126: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 8, 4), 2214, 2214, 300, 2127, TTLocalizer.QuestDialogDict[2126], 500, 75),
+ 2127: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 4, 5), 2214, 2214, 300, 2128, TTLocalizer.QuestDialogDict[2127], 500, 75),
+ 2128: ([], Cont, (BuildingQuest, Anywhere, 1, Any, 1), 2214, 2214, 300, 2129, TTLocalizer.QuestDialogDict[2128], 500, 75),
+ 2129: ([], Cont, (VisitQuest,), 2214, 2216, 300, 2130, TTLocalizer.QuestDialogDict[2129], 500, 75),
+ 2130: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2201, 300, 2131, TTLocalizer.QuestDialogDict[2130], 500, 75),
+ 2131: ([], Cont, (RecoverItemQuest, Anywhere, 15, 2036, VeryEasy, AnyFish), 2201, 2201, 300, 2132, TTLocalizer.QuestDialogDict[2131], 500, 75),
+ 2132: ([], Cont, (VisitQuest,), 2226, 2216, 300, 2133, TTLocalizer.QuestDialogDict[2132], 500, 75),
+ 2133: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2201, 300, 2134, TTLocalizer.QuestDialogDict[2133], 500, 75),
+ 2134: ([], Cont, (RecoverItemQuest, Anywhere, 10, 2016, Easy, 'level', 4), 2201, 2201, 300, 2135, TTLocalizer.QuestDialogDict[2134], 500, 75),
+ 2135: ([], Cont, (VisitQuest,), 2201, 2216, 300, 2136, TTLocalizer.QuestDialogDict[2135], 500, 75),
  2136: ([], Cont, (BuildingQuest, Anywhere, 1, Any, 2), 2216, 2216, 300, NA, TTLocalizer.QuestDialogDict[2136], 500, 75)
  }
 
@@ -2712,6 +2712,7 @@ def getAllRewardIdsForReward(rewardId):
 
 def findFinalRewardId(questId):
     finalRewardId = Quest2RewardDict.get(questId)
+    print questId
     if finalRewardId:
         remainingSteps = Quest2RemainingStepsDict.get(questId)
     else:
