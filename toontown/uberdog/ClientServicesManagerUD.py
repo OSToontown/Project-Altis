@@ -231,7 +231,7 @@ class LocalAccountDB(AccountDB):
         self.notify.debug("adding name from %s : %s" %(avId, name))
         try:
             nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            nameCheck.request('GET', '/api/addtypeaname2/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/%s/%s' % (avId, name))
+            nameCheck.request('GET', '/api/addtypeaname2/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s' % (avId, name))
             resp = json.loads(nameCheck.getresponse().read())
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
@@ -242,7 +242,7 @@ class LocalAccountDB(AccountDB):
         self.notify.debug("debug: checking name from %s" %(avId))
         try:
             nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            nameCheck.request('GET', '/api/checktypeaname/441107756FCF9C3715A7E8EA84612924D288659243D5242BFC8C2E26FE2B0428/avid/%s' % (avId)) # this should just use avid
+            nameCheck.request('GET', '/api/checktypeaname/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/avid/%s' % (avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
             
             if resp[u"error"] == "true":
