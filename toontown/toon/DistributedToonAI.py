@@ -107,6 +107,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.toonLevel = 0
         self.petId = None
         self.quests = []
+        self.questHistory = []
         self.achievements = []
         self.cogs = []
         self.cogCounts = []
@@ -581,7 +582,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.trueFriendRequests
 
     def isTrueFriends(self, avId):
-        return False
+        return True
 
     def extendFriendsList(self, friendId, type = 0):
         if friendId in self.friendsList:
@@ -1719,16 +1720,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         else:
             return 0
 
-    def addQuest(self, quest, finalReward, recordHistory = 1):
+    def addQuest(self, quest, finalReward):
         self.quests.append(quest)
         self.b_setQuests(self.quests)
-        if recordHistory:
-            if quest[0] != Quests.VISIT_QUEST_ID:
-                newQuestHistory = self.questHistory + [quest[0]]
-                while newQuestHistory.count(Quests.VISIT_QUEST_ID) != 0:
-                    newQuestHistory.remove(Quests.VISIT_QUEST_ID)
-
-                self.b_setQuestHistory(newQuestHistory)
 
     def removeAllTracesOfQuest(self, questId, rewardId):
         self.notify.debug('removeAllTracesOfQuest: questId: %s rewardId: %s' % (questId, rewardId))
@@ -2063,6 +2057,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getQuestHistory(self):
         return self.questHistory
+		
+    def addToQuestHistory(self, questId):
+        self.questHistory.append(questId)
+        self.d_setQuestHistory(self.questHistory)
 
     def removeQuestFromHistory(self, questId):
         if questId in self.questHistory:

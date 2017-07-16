@@ -1013,7 +1013,7 @@ class QuestPoster(DirectFrame):
                 lIconGeom = icon.copyTo(hidden)
                 lIconGeom.setColor(Suit.Suit.medallionColors[dept])
                 cogIcons.removeNode()
-            elif quest.getType() == Quests.CogQuest:
+            elif quest.getType() == Quests.CogQuest or quest.getType() == Quests.EliteCogQuest:
                 if quest.getCogType() != Quests.Any:
                     lIconGeom = self.createSuitHead(quest.getCogType())
                     lIconGeomScale = IMAGE_SCALE_SMALL
