@@ -3196,7 +3196,22 @@ def fillInQuestNames(text, avName = None, fromNpcId = None, toNpcId = None):
         else:
             toNpcName = str(NPCToons.getNPCName(toNpcId))
             where, buildingName, streetDesc = getNpcLocationDialog(fromNpcId, toNpcId)
+    if fromNpcId:
+        if fromNpcId == ToonHQ:
+            fromNpcName = TTLocalizer.QuestsHQOfficerFillin
+            where = TTLocalizer.QuestsHQWhereFillin
+            buildingName = TTLocalizer.QuestsHQBuildingNameFillin
+            streetDesc = TTLocalizer.QuestsHQLocationNameFillin
+        elif fromNpcId == ToonTailor:
+            fromNpcName = TTLocalizer.QuestsTailorFillin
+            where = TTLocalizer.QuestsTailorWhereFillin
+            buildingName = TTLocalizer.QuestsTailorBuildingNameFillin
+            streetDesc = TTLocalizer.QuestsTailorLocationNameFillin
+        else:
+            fromNpcName = str(NPCToons.getNPCName(fromNpcId))
+            where, buildingName, streetDesc = getNpcLocationDialog(fromNpcId, fromNpcId)
         text = text.replace('_toNpcName_', toNpcName)
+        text = text.replace('_fromNpcName_', fromNpcName)
         text = text.replace('_where_', where)
         text = text.replace('_buildingName_', buildingName)
         text = text.replace('_streetDesc_', streetDesc)
