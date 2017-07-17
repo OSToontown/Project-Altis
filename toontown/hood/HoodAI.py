@@ -36,7 +36,7 @@ class HoodAI:
             self.air.dnaStoreMap[zoneId] = dnaStore
             self.air.dnaDataMap[zoneId] = dnaData
         #self.createTime()
-        self.createRain()
+        #self.createRain()
 
     def getZoneTable(self):
         zoneTable = [self.zoneId]
