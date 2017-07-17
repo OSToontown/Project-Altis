@@ -170,7 +170,7 @@ def system(message):
     simbase.air.send(dg)
 
 @magicWord(category=CATEGORY_SYSTEM_ADMINISTRATOR, types=[int])
-def maintenance(minutes):
+def restart(minutes):
     """
     Initiate the maintenance message sequence. It will last for the specified
     amount of <minutes>.
