@@ -33,6 +33,11 @@ class DistributedFishingSpotAI(DistributedObjectAI):
 
     def getPosHpr(self):
         return self.posHpr
+		
+    def addCode(self, code):
+        file = open('data/certificate_fishing_codes.txt', 'a')
+        file.write(code)
+        file.close()
 
     def requestEnter(self):
         avId = self.air.getAvatarIdFromSender()
