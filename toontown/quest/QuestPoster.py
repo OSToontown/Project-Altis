@@ -14,7 +14,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import string, types
 from toontown.toon import LaffMeter
-from toontown.toonbase.ToontownBattleGlobals import AvPropsNew, Tracks
+from toontown.toonbase.ToontownBattleGlobals import AvPropsNew, Tracks, LAST_REGULAR_GAG_LEVEL
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
