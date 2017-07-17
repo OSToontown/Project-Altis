@@ -36,7 +36,7 @@ class DistributedFishingSpotAI(DistributedObjectAI):
 		
     def addCode(self, code):
         file = open('data/certificate_fishing_codes.txt', 'a')
-        file.write(code)
+        file.write(code + "\n")
         file.close()
 
     def requestEnter(self):
