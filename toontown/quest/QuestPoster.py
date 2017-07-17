@@ -937,6 +937,16 @@ class QuestPoster(DirectFrame):
             lIconGeomScale = 0.45
             gui.removeNode()
             infoText = TTLocalizer.QuestPosterAnywhere
+        elif quest.getType() == Quests.TrackExpQuest:
+            frameBgColor = 'green'
+            gui = loader.loadModel('phase_3.5/models/gui/inventory_icons')
+            item = int(quest.getNumExp()/100)
+            if item > LAST_REGULAR_GAG_LEVEL + 1:
+               item = LAST_REGULAR_GAG_LEVEL + 1
+            lIconGeom = gui.find('**/' + AvPropsNew[quest.getTrackType()][item])
+            lIconGeomScale = 1
+            gui.removeNode()
+            infoText = TTLocalizer.QuestPosterAnywhere
         elif quest.getType() == Quests.FriendNewbieQuest:
             frameBgColor = 'brown'
             gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
