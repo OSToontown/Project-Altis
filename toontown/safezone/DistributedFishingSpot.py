@@ -466,6 +466,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.__makeGui()
         itemName = Quests.getItemName(itemId)
         self.itemLabel['text'] = itemName
+        self.extraLabel['text'] = ''
         self.itemGui.reparentTo(aspect2d)
         self.itemPackage.show()
         self.itemJellybean.hide()
@@ -475,10 +476,32 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.__makeGui()
         itemName = TTLocalizer.FishingBootItem
         self.itemLabel['text'] = itemName
+        self.extraLabel['text'] = ''
         self.itemGui.reparentTo(aspect2d)
         self.itemBoot.show()
         self.itemJellybean.hide()
         self.itemPackage.hide()
+		
+    def __showCertItem(self):
+        self.__makeGui()
+        code = self.generateCode()
+        itemName = TTLocalizer.BetaCertificateItem
+        self.itemLabel['text'] = itemName
+        self.extraLabel['text'] = code + " (Screenshot it!)"
+        self.sendUpdate('addCode', [code])
+        self.itemGui.reparentTo(aspect2d)
+        self.itemBoot.hide()
+        self.itemJellybean.hide()
+        self.itemPackage.show()
+		
+    def generateCode(self):
+        code = ''
+        for i in xrange(12):
+            number = random.randint(0, 9)
+            code += str(number)
+            if i % 4 == 0:
+                code += '-'
+        return code
 
     def __setItemLabel(self):
         if self.pond.hasPondBingoManager():
@@ -490,6 +513,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.__makeGui()
         itemName = TTLocalizer.FishingJellybeanItem % amount
         self.itemLabel['text'] = itemName
+        self.extraLabel['text'] = ''
         self.itemGui.reparentTo(aspect2d)
         self.jar['text'] = str(self.av.getMoney())
         self.itemJellybean.show()
@@ -617,6 +641,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.itemGui = NodePath('itemGui')
         self.itemFrame = DirectFrame(parent=self.itemGui, relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_scale=(1, 1, 0.6), text=TTLocalizer.FishingItemFound, text_pos=(0, 0.2), text_scale=0.08, pos=(0, 0, 0.587))
         self.itemLabel = DirectLabel(parent=self.itemFrame, text='', text_scale=0.06, pos=(0, 0, -0.25))
+        self.extraLabel = DirectLabel(parent=self.itemFrame, text='', text_scale=0.06, pos=(0, 0, -0.5))
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         self.itemGuiCloseButton = DirectButton(parent=self.itemFrame, pos=(0.44, 0, -0.24), relief=None, image=(buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr')), image_scale=(0.7, 1, 0.7), command=self.__itemGuiClose)
         buttons.removeNode()
@@ -980,6 +1005,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
                 self.__showBootItem()
                 if base.wantBingo:
                     self.pond.handleBingoCatch(FishGlobals.BingoBoot)
+            elif code == FishGlobals.CertItem:
+                self.__showCertItem()
             elif code == FishGlobals.JellybeanItem:
                 amount = itemDesc1
                 self.__showJellybeanItem(amount)

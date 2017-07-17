@@ -4478,6 +4478,7 @@ FishingBroke = 'You do not have any more Jellybeans for bait! Ride the trolley o
 FishingHowToFirstTime = 'Click and drag down from the Cast button. The farther down you drag, the stronger your cast will be. Adjust your angle to hit the fish targets.\n\nTry it now!'
 FishingHowToFailed = 'Click and drag down from the Cast button. The farther down you drag, the stronger your cast will be. Adjust your angle to hit the fish targets.\n\nTry it again now!'
 FishingBootItem = 'An old boot'
+BetaCertificateItem = 'A Project Altis Beta Certificate'
 FishingJellybeanItem = '%s Jellybeans'
 FishingNewEntry = 'New Species!'
 FishingNewRecord = 'New Record!'
