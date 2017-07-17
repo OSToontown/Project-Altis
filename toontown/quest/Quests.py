@@ -2617,9 +2617,9 @@ QuestDict = {
  2054: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2020, Easy, 'g', 'track'), 2416, 2201, NA, 2055, TTLocalizer.QuestDialogDict[2054], 385, 20),
  2055: ([], Cont, (DeliverItemQuest, 2016), 2201, 2415, NA, 2056, TTLocalizer.QuestDialogDict[2055], 385, 20),
  2056: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2021, Easy, 'f', 'type'), 2416, 2201, NA, 2057, TTLocalizer.QuestDialogDict[2056], 385, 20),
- 2057: ([], Cont, (DeliverItemQuest, 2022), 2415, 2202, NA, 2058, TTLocalizer.QuestDialogDict[2057], 385, 20),
- 2058: ([], Cont, (CogLevelQuest, Anywhere, 20, 2), 2202, 2202, NA, 2059, TTLocalizer.QuestDialogDict[2058], 385, 20),
- 2059: ([], Cont, (CogLevelQuest, Anywhere, 5, 3), 2202, 2202, NA, NA, TTLocalizer.QuestDialogDict[2059], 385, 20),
+ 2057: ([], Cont, (DeliverItemQuest, 2022), 2415, 2109, NA, 2058, TTLocalizer.QuestDialogDict[2057], 385, 20),
+ 2058: ([], Cont, (CogLevelQuest, Anywhere, 20, 2), 2109, 2109, NA, 2059, TTLocalizer.QuestDialogDict[2058], 385, 20),
+ 2059: ([], Cont, (CogLevelQuest, Anywhere, 5, 3), 2109, 2109, NA, NA, TTLocalizer.QuestDialogDict[2059], 385, 20),
 
  # Task Six
  2060: ([], Start, (VisitQuest,), 2001, 2318, NA, 2061, TTLocalizer.QuestDialogDict[2060], 350, 35),
@@ -3196,7 +3196,22 @@ def fillInQuestNames(text, avName = None, fromNpcId = None, toNpcId = None):
         else:
             toNpcName = str(NPCToons.getNPCName(toNpcId))
             where, buildingName, streetDesc = getNpcLocationDialog(fromNpcId, toNpcId)
+    if fromNpcId:
+        if fromNpcId == ToonHQ:
+            fromNpcName = TTLocalizer.QuestsHQOfficerFillin
+            where = TTLocalizer.QuestsHQWhereFillin
+            buildingName = TTLocalizer.QuestsHQBuildingNameFillin
+            streetDesc = TTLocalizer.QuestsHQLocationNameFillin
+        elif fromNpcId == ToonTailor:
+            fromNpcName = TTLocalizer.QuestsTailorFillin
+            where = TTLocalizer.QuestsTailorWhereFillin
+            buildingName = TTLocalizer.QuestsTailorBuildingNameFillin
+            streetDesc = TTLocalizer.QuestsTailorLocationNameFillin
+        else:
+            fromNpcName = str(NPCToons.getNPCName(fromNpcId))
+            where, buildingName, streetDesc = getNpcLocationDialog(fromNpcId, fromNpcId)
         text = text.replace('_toNpcName_', toNpcName)
+        text = text.replace('_fromNpcName_', fromNpcName)
         text = text.replace('_where_', where)
         text = text.replace('_buildingName_', buildingName)
         text = text.replace('_streetDesc_', streetDesc)
