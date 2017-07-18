@@ -58,7 +58,6 @@ from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
-from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
 from toontown.events.CharityScreenAI import CharityScreenAI
 
 class ToontownAIRepository(ToontownInternalRepository):
