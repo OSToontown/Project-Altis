@@ -41,6 +41,8 @@ class PromotionManagerAI:
                         merits = int(round(merits))
                         if cogDict['hasRevives']:
                             merits *= 2
+                        if cogDict['isElite']:
+                            merits *= 1.5
                         merits = merits * multiplier
                         merits = int(round(merits))
                         meritsRecovered[dept] += merits

@@ -75,11 +75,11 @@ dclass DistributedTestObject : DistributedObject {
   setRequiredField(uint32) required broadcast ram;
   setB(uint32) broadcast;
   setBA(uint32) broadcast airecv;
-  setBO(uint32) broadcast clsend;
+  setBO(uint32) broadcast ownsend;
   setBR(uint32) broadcast ram;
   setBRA(uint32) broadcast ram airecv;
-  setBRO(uint32) broadcast ram clsend;
-  setBROA(uint32) broadcast ram clsend airecv;
+  setBRO(uint32) broadcast ram ownsend;
+  setBROA(uint32) broadcast ram ownsend airecv;
 };
 
 struct OSInfo {
@@ -132,14 +132,14 @@ dclass DistributedDistrict : DistributedObject {
 };
 
 dclass DistributedNode : DistributedObject {
-  setParentStr(blob) broadcast ram clsend airecv;
-  setParent(uint32) broadcast ram clsend airecv;
-  setX(int16/10) broadcast ram clsend airecv;
-  setY(int16/10) broadcast ram clsend airecv;
-  setZ(int16/10) broadcast ram clsend airecv;
-  setH(int16%360/10) broadcast ram clsend airecv;
-  setP(int16%360/10) broadcast ram clsend airecv;
-  setR(int16%360/10) broadcast ram clsend airecv;
+  setParentStr(blob) broadcast ram ownsend airecv;
+  setParent(uint32) broadcast ram ownsend airecv;
+  setX(int16/10) broadcast ram ownsend airecv;
+  setY(int16/10) broadcast ram ownsend airecv;
+  setZ(int16/10) broadcast ram ownsend airecv;
+  setH(int16%360/10) broadcast ram ownsend airecv;
+  setP(int16%360/10) broadcast ram ownsend airecv;
+  setR(int16%360/10) broadcast ram ownsend airecv;
   setPos : setX, setY, setZ;
   setHpr : setH, setP, setR;
   setPosHpr : setX, setY, setZ, setH, setP, setR;
@@ -150,14 +150,14 @@ dclass DistributedNode : DistributedObject {
 };
 
 dclass DistributedSmoothNode : DistributedNode {
-  setComponentL(uint64) broadcast ram clsend airecv;
-  setComponentX(int16/10) broadcast ram clsend airecv;
-  setComponentY(int16/10) broadcast ram clsend airecv;
-  setComponentZ(int16/10) broadcast ram clsend airecv;
-  setComponentH(int16%360/10) broadcast ram clsend airecv;
-  setComponentP(int16%360/10) broadcast ram clsend airecv;
-  setComponentR(int16%360/10) broadcast ram clsend airecv;
-  setComponentT(int16) broadcast ram clsend airecv;
+  setComponentL(uint64) broadcast ram ownsend airecv;
+  setComponentX(int16/10) broadcast ram ownsend airecv;
+  setComponentY(int16/10) broadcast ram ownsend airecv;
+  setComponentZ(int16/10) broadcast ram ownsend airecv;
+  setComponentH(int16%360/10) broadcast ram ownsend airecv;
+  setComponentP(int16%360/10) broadcast ram ownsend airecv;
+  setComponentR(int16%360/10) broadcast ram ownsend airecv;
+  setComponentT(int16) broadcast ram ownsend airecv;
   setSmStop : setComponentT;
   setSmH : setComponentH, setComponentT;
   setSmZ : setComponentZ, setComponentT;
@@ -169,7 +169,7 @@ dclass DistributedSmoothNode : DistributedNode {
   setSmXYZH : setComponentX, setComponentY, setComponentZ, setComponentH, setComponentT;
   setSmPosHpr : setComponentX, setComponentY, setComponentZ, setComponentH, setComponentP, setComponentR, setComponentT;
   setSmPosHprL : setComponentL, setComponentX, setComponentY, setComponentZ, setComponentH, setComponentP, setComponentR, setComponentT;
-  clearSmoothing(int8) broadcast clsend;
+  clearSmoothing(int8) broadcast ownsend;
   suggestResync(uint32, int16, int16, int32, uint16, uint16/100) ownrecv clsend;
   returnResync(uint32, int16, int32, uint16, uint16/100) ownrecv clsend;
 };
@@ -190,8 +190,8 @@ struct Fixture {
 };
 
 dclass DistributedCamera : DistributedNode {
-  setCamParent(uint32) required broadcast ram clsend airecv;
-  setFixtures(Fixture []) required broadcast ram clsend airecv;
+  setCamParent(uint32) required broadcast ram ownsend airecv;
+  setFixtures(Fixture []) required broadcast ram ownsend airecv;
 };
 
 struct TalkModification {
@@ -201,7 +201,7 @@ struct TalkModification {
 
 dclass TalkPath_owner {
   setTalk(DoId fromAv, DoId fromAcc, string(0-256) avName,
-          string(0-400) chat, TalkModification [], uint8 flags) broadcast clsend;
+          string(0-400) chat, TalkModification [], uint8 flags) broadcast ownsend;
 };
 
 dclass TalkPath_whisper {
@@ -245,13 +245,13 @@ dclass DistributedPlayer : DistributedAvatar {
   setSystemMessage(DoId aboutId, string(0-256) chatString) ownrecv;
   setCommonChatFlags(uint8) broadcast ownrecv ram airecv;
   setWhitelistChatFlags(uint8) broadcast ownrecv ram airecv;
-  setSC(uint16 msgIndex) broadcast clsend airecv;
-  setSCCustom(uint16 msgIndex) broadcast clsend airecv;
+  setSC(uint16 msgIndex) broadcast ownsend airecv;
+  setSCCustom(uint16 msgIndex) broadcast ownsend airecv;
   setFriendsList(FriendEntry[] = []) ownrecv required db airecv;
   setDISLname(string) broadcast ownrecv ram;
   setDISLid(uint32 = 0) broadcast ownrecv ram db airecv required;
   setTalk(DoId fromAv, DoId fromAcc, string(0-256) avName,
-          string(0-400) chat, TalkModification [], uint8 flags) broadcast clsend;
+          string(0-400) chat, TalkModification [], uint8 flags) broadcast ownsend;
   OwningAccount(DoId);
   WishName(string = "") db ram;
   WishNameState(string = "OPEN") db ram;
@@ -1012,10 +1012,10 @@ dclass DistributedToon : DistributedPlayer {
   setShoes(uint8 = 0, uint8 = 0, uint8 = 0) required broadcast db ownrecv;
   setGardenSpecials(gardenSpecial [] = []) required ownrecv db airecv;
   setEarnedExperience(uint16[]) ownrecv;
-  setTunnelIn(int16, int16/10, int16/10, int16/10, int16/100, int32/100) clsend broadcast;
-  setTunnelOut(int16, int16/10, int16/10, int16/10, int16/10, int16/100, int32/100) clsend broadcast;
-  setAnimState(char [0-1024], int16/1000, int16) broadcast ram clsend airecv;
-  setEmoteState(int16, int16/1000, int16) broadcast ram clsend;
+  setTunnelIn(int16, int16/10, int16/10, int16/10, int16/100, int32/100) ownsend broadcast;
+  setTunnelOut(int16, int16/10, int16/10, int16/10, int16/10, int16/100, int32/100) ownsend broadcast;
+  setAnimState(char [0-1024], int16/1000, int16) broadcast ram ownsend airecv;
+  setEmoteState(int16, int16/1000, int16) broadcast ram ownsend;
   setEmoteAccess(uint8[] = [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]) required ownrecv db;
   setCustomMessages(uint16[] = []) required ownrecv db;
   setSleepAutoReply(uint32) broadcast clsend ownrecv;
@@ -1030,22 +1030,22 @@ dclass DistributedToon : DistributedPlayer {
   setAwardSchedule(blob = []) required ownrecv db airecv;
   setAwardNotify(uint8 = 0) required ownrecv db;
   setCatalogNotify(uint8 = 0, uint8 = 0) required ownrecv db;
-  playSplashEffect(int16/10, int16/10, int16/10) broadcast clsend;
+  playSplashEffect(int16/10, int16/10, int16/10) broadcast ownsend;
   setWhisperSCToontaskFrom(uint32, uint32, uint32, uint32, uint8) ownrecv clsend;
-  setSCToontask(uint32, uint32, uint32, uint8) broadcast clsend;
-  reqSCResistance(uint16, uint32 []) clsend airecv;
+  setSCToontask(uint32, uint32, uint32, uint8) broadcast ownsend;
+  reqSCResistance(uint16, uint32 []) ownsend airecv;
   setSCResistance(uint16, uint32 []) broadcast ownrecv;
-  setSpeedChatStyleIndex(uint8 = 1) required clsend broadcast db;
+  setSpeedChatStyleIndex(uint8 = 1) required ownsend broadcast db;
   setTrophyScore(uint16) broadcast ownrecv ram;
   setTeleportAccess(uint32[] = []) required ownrecv db;
   setScavengerHunt(uint32[] = []) required ownrecv db;
-  checkTeleportAccess(uint16) airecv clsend;
+  checkTeleportAccess(uint16) airecv ownsend;
   battleSOS(uint32) ownrecv clsend;
   teleportQuery(uint32) ownrecv clsend;
   teleportResponse(uint32, int8, uint32, uint32, uint32) ownrecv clsend;
-  teleportResponseToAI(uint32, int8, uint32, uint32, uint32, uint32) clsend airecv;
+  teleportResponseToAI(uint32, int8, uint32, uint32, uint32, uint32) ownsend airecv;
   teleportGiveup(uint32) ownrecv clsend;
-  teleportGreeting(uint32) broadcast clsend;
+  teleportGreeting(uint32) broadcast ownsend;
   setCogStatus(uint32[] = [1 * 40]) required ownrecv db;
   setCogCount(uint32[] = [0 * 40]) required ownrecv db;
   setCogRadar(uint8[] = [0 * 5]) required ownrecv db;
@@ -1063,7 +1063,7 @@ dclass DistributedToon : DistributedPlayer {
   setQuests(uint32[] = []) required broadcast ownrecv db;
   setQuestHistory(uint16[] = []) required broadcast ownrecv db;
   setQuestCarryLimit(uint8 = 4) required ownrecv db;
-  requestDeleteQuest(uint32[]) clsend airecv;
+  requestDeleteQuest(uint32[]) ownsend airecv;
   setCheesyEffect(int16 = 0, uint32 = 0, uint32 = 0) required broadcast ownrecv db;
   setCheesyEffects(int16[] = [0]) required broadcast ownrecv db;
   setGhostMode(uint8) broadcast ownrecv ram;
@@ -1085,18 +1085,18 @@ dclass DistributedToon : DistributedPlayer {
   promoteShovel(uint8) ownrecv;
   promoteWateringCan(uint8) ownrecv;
   reactivateWater() ownrecv;
-  presentPie(int16/10 x, int16/10 y, int16/10 z, int16/10 h, int32 timestamp) broadcast clsend;
-  tossPie(int16/10 x, int16/10 y, int16/10 z, int16/10 h, uint8 sequence, uint8 power, uint8 throwType, int32 timestamp) broadcast clsend;
-  pieSplat(int16/10, int16/10, int16/10, uint8, uint8, int32) broadcast clsend;
+  presentPie(int16/10 x, int16/10 y, int16/10 z, int16/10 h, int32 timestamp) broadcast ownsend;
+  tossPie(int16/10 x, int16/10 y, int16/10 z, int16/10 h, uint8 sequence, uint8 power, uint8 throwType, int32 timestamp) broadcast ownsend;
+  pieSplat(int16/10, int16/10, int16/10, uint8, uint8, int32) broadcast ownsend;
   setPieType(uint8) broadcast ownrecv ram;
   setNumPies(uint16) broadcast ownrecv ram;
   catalogGenClothes(uint32) broadcast ownrecv;
   catalogGenAccessories(uint32) broadcast ownrecv;
   setPetId(uint32 = 0) required broadcast ownrecv db;
-  setPetMovie(uint32, uint8) clsend airecv;
-  setPetTutorialDone(uint8 = 0) required clsend airecv db;
-  setFishBingoTutorialDone(uint8 = 0) required clsend airecv db;
-  setFishBingoMarkTutorialDone(uint8 = 0) required clsend airecv db;
+  setPetMovie(uint32, uint8) ownsend airecv;
+  setPetTutorialDone(uint8 = 0) required ownsend airecv db;
+  setFishBingoTutorialDone(uint8 = 0) required ownsend airecv db;
+  setFishBingoMarkTutorialDone(uint8 = 0) required ownsend airecv db;
   setKartBodyType(int8 = -1) required broadcast ownrecv db;
   setKartBodyColor(int8 = -1) required broadcast ownrecv db;
   setKartAccessoryColor(int8 = -1) required broadcast ownrecv db;
@@ -1106,9 +1106,9 @@ dclass DistributedToon : DistributedPlayer {
   setKartBackWheelWellType(int8 = -1) required broadcast ownrecv db;
   setKartRimType(int8 = -1) required broadcast ownrecv db;
   setKartDecalType(int8 = -1) required broadcast ownrecv db;
-  updateKartDNAField(int8, int8) clsend airecv;
-  addOwnedAccessory(int8) clsend airecv;
-  removeOwnedAccessory(int8) clsend airecv;
+  updateKartDNAField(int8, int8) ownsend airecv;
+  addOwnedAccessory(int8) ownsend airecv;
+  removeOwnedAccessory(int8) ownsend airecv;
   setTickets(uint32 = 200) required broadcast ownrecv db;
   setKartingHistory(uint8 [16] = [0*16]) required ownrecv db;
   setKartingTrophies(uint8 [33] = [0*33]) required ownrecv db;
@@ -1116,15 +1116,15 @@ dclass DistributedToon : DistributedPlayer {
   setKartingPersonalBest2(uint32/1000 [12] = [0*12]) required ownrecv db;
   setKartAccessoriesOwned(int8 [16] = [-1*16]) required broadcast ownrecv db;
   setCurrentKart(uint32) broadcast ownrecv ram;
-  squish(uint8) clsend airecv;
+  squish(uint8) ownsend airecv;
   announceBingo() broadcast ownrecv;
   trickOrTreatTargetMet(uint32) ownrecv;
   trickOrTreatMilestoneMet() ownrecv;
   winterCarolingTargetMet(uint32) ownrecv;
   setCogSummonsEarned(uint8[] = [0*40]) required ownrecv db;
-  reqCogSummons(char [0-256], uint32) clsend airecv;
+  reqCogSummons(char [0-256], uint32) ownsend airecv;
   cogSummonsResponse(string, uint32, uint32) ownrecv;
-  reqUseSpecial(int32) clsend airecv;
+  reqUseSpecial(int32) ownsend airecv;
   useSpecialResponse(string) ownrecv;
   setGardenStarted(uint8 = 0) required ownrecv db;
   sendToGolfCourse(uint32) ownrecv;
@@ -1132,8 +1132,8 @@ dclass DistributedToon : DistributedPlayer {
   setPackedGolfHoleBest(uint8 [18] = [0*18]) required ownrecv db;
   setGolfCourseBest(uint8 [3] = [0*3]) required ownrecv db;
   setUnlimitedSwing(uint8) broadcast ownrecv ram;
-  logSuspiciousEvent(char [0-1024]) clsend airecv;
-  logMessage(char [0-1024]) clsend airecv;
+  logSuspiciousEvent(char [0-1024]) ownsend airecv;
+  logMessage(char [0-1024]) ownsend airecv;
   forceLogoutWithNotify() ownrecv;
   setPinkSlips(uint8 = 0) required ownrecv db;
   setNametagStyle(uint8 = 1) required broadcast ownrecv db;
@@ -1156,23 +1156,23 @@ dclass DistributedToon : DistributedPlayer {
   setModuleInfo(string []) airecv clsend;
   setDISLname(string) ram;
   setDISLid(uint32) ram db airecv;
-  flagAv(uint32, uint16, string []) airecv clsend;
+  flagAv(uint32, uint16, string []) airecv ownsend;
   setAnimalSound(uint8 index) ram broadcast ownrecv;
   setBuffs(uint32[] = []) required ownrecv db;
   magicTeleportRequest(uint32 requesterId) ownrecv;
-  magicTeleportResponse(uint32 requesterId, uint32 hoodId) clsend airecv;
+  magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
   magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   notifyExpReward(int32 level, uint8 type) broadcast ownrecv;
-  requestNametagStyle(uint8) airecv clsend;
-  requestFishingRod(uint8) airecv clsend;
-  requestCheesyEffects(uint8) airecv clsend;
+  requestNametagStyle(uint8) airecv ownsend;
+  requestFishingRod(uint8) airecv ownsend;
+  requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
   setStats(uint64[] = [0*23]) required broadcast ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
   setRedeemedCodes(string [] = []) required ownrecv db;
   setTrainingPoints(uint8 = 0) required ownrecv db;
   setSpentTrainingPoints(uint8[] = [0, 0, 0, 0, 2, 2, 0, 0]) required ownrecv db;
-  requestSkillSpend(uint8) clsend airecv;
+  requestSkillSpend(uint8) ownsend airecv;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -2433,7 +2433,7 @@ dclass DistributedNPCFlippyInToonHall : DistributedNPCToon {
 };
 
 dclass DistributedNPCScientist : DistributedNPCToonBase {
-  setChat(char [0-1024], uint8, uint32, uint8, uint8) clsend broadcast;
+  setChat(char [0-1024], uint8, uint32, uint8, uint8) ownsend broadcast;
 };
 
 dclass DistributedNPCClerk : DistributedNPCToonBase {
@@ -3048,8 +3048,8 @@ dclass DistributedPet : DistributedSmoothNode {
   setAnger(uint16/1000(0-1)) required broadcast db;
   setSurprise(uint16/1000(0-1)) required broadcast db;
   setMood : setBoredom, setRestlessness, setPlayfulness, setLoneliness, setSadness, setAffection, setHunger, setConfusion, setExcitement, setFatigue, setAnger, setSurprise;
-  teleportIn(int16) broadcast clsend;
-  teleportOut(int16) broadcast clsend;
+  teleportIn(int16) broadcast ownsend;
+  teleportOut(int16) broadcast ownsend;
   setTrickAptitudes(uint16/10000(0-1) []) required broadcast db;
   doTrick(uint8, int16) broadcast ram;
   avatarInteract(uint32);

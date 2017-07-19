@@ -151,6 +151,7 @@ class BossCog(Avatar.Avatar):
         self.pelvisForwardHpr = VBase3(0, 0, 0)
         self.pelvisReversedHpr = VBase3(-180, 0, 0)
         self.neck = self.getPart('head')
+        self.neck.setTwoSided(True)
         self.neckForwardHpr = VBase3(0, 0, 0)
         self.neckReversedHpr = VBase3(0, -540, 0)
         self.axle = self.find('**/joint_axle')

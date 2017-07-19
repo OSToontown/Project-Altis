@@ -4706,8 +4706,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
             simbase.air.banManager.ban(self.doId, msg)
         
-    def incrementWarningCount(self):
-        self.b_setWarningCount(int(self.getWarningCount()) + 1)
+    def incrementWarningCount(self, noBan = True):
+        self.b_setWarningCount(int(self.getWarningCount()) + 1, noBan=noBan)
         
     def decrementWarningCount(self):
         count = int(self.getWarningCount()) - 1
@@ -4717,7 +4717,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setWarningCount(count)
         del count
   
-    def checkWarningCount(self, noBan = False):
+    def checkWarningCount(self, noBan = True):
         if self.warningCount >= 3:
             self.setWarningCount(0)
             self.d_setWarningCount(0)
@@ -4731,7 +4731,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     
         self.sendUpdate("setWarningCount", [count])
         
-    def b_setWarningCount(self, count, noBan = False):
+    def b_setWarningCount(self, count, noBan = True):
         if 0 > count:
             count = 0
         
@@ -5068,6 +5068,17 @@ def fires(count):
         return 'Your fire count must be in range (0-255).'
     invoker.b_setPinkSlips(count)
     return 'You were given %d fires.' % count
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def warn(banWorthy):
+    """
+    Warns the user.
+    """
+    target = spellbook.getTarget()
+    if target == spellbook.getInvoker():
+        return "You can't warn yourself! Who made you a mod anyways?"
+    target.incrementWarningCount(noBan = banWorthy)
+    return '%(name)s now has %(warnings)d warnings.' % {'name': target.getName(), 'warnings': target.getWarningCount()}
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def money(money):
