@@ -1072,9 +1072,6 @@ class LoadAvatarFSM(AvatarOperationFSM):
         datagram.addChannel(self.target<<32 | self.avId)
         self.csm.air.send(datagram)
 
-        # Tell the GlobalPartyManager as well:
-        self.csm.air.globalPartyMgr.avatarJoined(self.avId)
-
         self.csm.air.writeServerEvent('avatarChosen', self.avId, self.target)
         self.demand('Off')
         return task.done
