@@ -6,6 +6,16 @@ __builtin__.process = 'uberdog'
 
 # Temporary hack patch:
 __builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist=['*']).__dict__)
+def __runfunc(*args, **kw):
+   raise SystemExit
+
+__builtin__.exec = __runfunc
+__builtin__.eval = __runfunc
+__builtin__.compile = __runfunc
+__builtin__.execfile = __runfunc
+__builtin__.globals = __runfunc
+__builtin__.locals = __runfunc
+
 from direct.extensions_native import HTTPChannel_extensions
 
 
