@@ -7,7 +7,7 @@ __builtin__.process = 'uberdog'
 # Temporary hack patch:
 __builtin__.__dict__.update(__import__('panda3d.core', fromlist=['*']).__dict__)
 def __runfunc(*args, **kw):
-   print "Error: " + str(args) + " " + str(kw)
+   raise SystemExit
 
 from direct.extensions_native import HTTPChannel_extensions
 
