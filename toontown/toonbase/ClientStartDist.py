@@ -12,16 +12,16 @@ collections.namedtuple = lambda *x: list
 # get any special perms or anything of the sort.
 __builtin__.__dev__ = False
 
-# def __runfunc(*args, **kw):
-#    raise SystemExit
+def __runfunc(*args, **kw):
+   raise SystemExit
 
-# replace these methods to prevent injection...
-# __builtin__.exec = __runfunc
-# __builtin__.eval = __runfunc
-# __builtin__.compile = __runfunc
-# __builtin__.execfile = __runfunc
-# __builtin__.globals = __runfunc
-# __builtin__.locals = __runfunc
+__builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist = ['*']).__dict__)
+__builtin__.exec = __runfunc
+__builtin__.eval = __runfunc
+__builtin__.compile = __runfunc
+__builtin__.execfile = __runfunc
+__builtin__.globals = __runfunc
+__builtin__.locals = __runfunc
 
 # TODO: append resources
 import aes
