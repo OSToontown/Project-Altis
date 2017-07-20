@@ -6,9 +6,9 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 ## Contributors
 
 ### Management Team
-* Dubito / Luke | Founder & Director
+* Dubito / Luke | Founder & Director | GPG: **1F67B457BEBEF9CE**
 * Bethy / Limey Mouse | Director | **Signed NDA**
-* Sir Tubby Cheezyfish | Lead Game Developer | **Signed NDA**
+* Sir Tubby Cheezyfish | Lead Game Developer | **Signed NDA** | GPG: **78381CFB4BC90C8D**
 * Loopy Goopy Googlenerd | Content Director | **Signed NDA**
 * Old Geezer | Lead Modeller | Composer | **Signed NDA**
 * Pascal | Modeller & Head Moderator | NDA Not Needed
@@ -47,7 +47,7 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 Thanks to those who have contributed to the game in the past.
 * Smirky Bumberpop | External Community Manager | **Signed NDA**
 * Drew | Technical Team Lead | **Signed NDA**
-* Malverde | Game Developer | No NDA 
+* Malverde | Game Developer | No NDA
 * Judge | Investor | **Signed NDA**
 * Jakebooy | Web Developer / Discord Manager | **Signed NDA**
 * Matthew | Game Developer | **Signed NDA**
