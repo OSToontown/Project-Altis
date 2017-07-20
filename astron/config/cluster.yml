@@ -46,7 +46,7 @@ uberdogs:
     - class: DistributedDeliveryManager
       id: 4683
       anonymous: false
-      
+
     - class: DistributedMailManager
       id: 4690
       anonymous: false
@@ -64,9 +64,8 @@ roles:
        add_interest: enabled
       channels:
         min: 1000000000
-        max: 1000001000
-  
-        
+        max: 1000050000
+
     - type: stateserver
       control: 4002
 
