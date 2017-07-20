@@ -21,7 +21,7 @@ set START_TIME=6
 title %DISTRICT_NAME%
 
 echo ===============================
-echo Starting Toontown Project Altis AI server...
+echo Starting Project Altis AI server...
 echo ppython: %PPYTHON_PATH%
 echo District name: %DISTRICT_NAME%
 echo Base channel: %BASE_CHANNEL%
