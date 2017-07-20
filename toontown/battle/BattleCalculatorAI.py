@@ -72,8 +72,8 @@ class BattleCalculatorAI:
         if self.tutorialFlag:
             return (1, 95)
         if self.toonsAlways5050:
-            roll = random.randint(0, 99)
-            if roll < 50:
+            roll = random.randint(0, 70)
+            if roll > 40:
                 return (1, 95)
             else:
                 return (0, 0)
@@ -84,7 +84,7 @@ class BattleCalculatorAI:
         debug = self.notify.getDebug()
         attack = self.battle.toonAttacks[attackIndex]
         atkTrack, atkLevel = self.__getActualTrackLevel(attack)
-        
+
         hasAccuracyBuff = False
         toon = simbase.air.doId2do.get(attack[TOON_ID_COL])
         if toon:
@@ -92,7 +92,7 @@ class BattleCalculatorAI:
                 if not ZoneUtil.isDynamicZone(toon.zoneId):
                     if ZoneUtil.getWhereName(toon.zoneId, True) in ('street', 'factoryExterior', 'cogHQExterior'):
                         hasAccuracyBuff = True
-            
+
         if atkTrack == NPCSOS:
             return (1, 95)
         if atkTrack == FIRE:
@@ -659,23 +659,23 @@ class BattleCalculatorAI:
                     return dmg
 
             return 0
-			
+
     def __addWetSuitInfo(self, suitId, currRounds, maxRounds):
         self.currentlyWetSuits[suitId] = [currRounds, maxRounds,]
         self.notify.debug('__addWetSuitInfo: currWetSuits -> %s' % repr(self.currentlyWetSuits))
-			
+
     def __isWet(self, suit):
         if suit in self.currentlyWetSuits:
             return True
         else:
             return False
-			
+
     def __isRaining(self, toon):
         if simbase.air.isRaining == True and self.checkIfStreetZone(toon):
             return True
         else:
             return False
-	   
+
     def checkIfStreetZone(self, toon):
 	try:
             if ZoneUtil.getWhereName(toon.zoneId, True) == 'street' and not ZoneUtil.isDynamicZone(toon.zoneId):
@@ -684,7 +684,7 @@ class BattleCalculatorAI:
                 return False
 	except:
             return False
-    
+
     def __attackDamageForTgt(self, attack, tgtPos, suit = 0):
         if suit:
             return attack[SUIT_HP_COL][tgtPos]
@@ -808,7 +808,7 @@ class BattleCalculatorAI:
                  0]
                 self.toonSkillPtsGained[id] = expList
             expList[trk] = min(ExperienceCap, expList[trk] + (lvl + 1) * self.__skillCreditMultiplier)
-        
+
 
     def __clearTgtDied(self, tgt, lastAtk, currAtk):
         position = self.battle.activeSuits.index(tgt)
@@ -1263,7 +1263,7 @@ class BattleCalculatorAI:
             return handle.hp + self.toonHPAdjusts[toonDoId]
         else:
             return 0
-            
+
     def __getToonMaxHp(self, toonDoId):
         handle = self.battle.getToon(toonDoId)
         if handle != None:
@@ -1373,7 +1373,7 @@ class BattleCalculatorAI:
 
         if self.notify.getDebug():
             self.notify.debug('Lured suits: ' + str(self.currentlyLuredSuits))
-			
+
     def __updateWetTimeouts(self):
         if self.notify.getDebug():
             self.notify.debug('__updateWetTimeouts()')
@@ -1497,7 +1497,7 @@ class BattleCalculatorAI:
         if self.notify.getDebug():
             self.notify.debug('Toon skills gained after this round: ' + repr(self.toonSkillPtsGained))
             self.__printSuitAtkStats()
-        
+
 
     def __calculateFiredCogs():
         import pdb
@@ -1565,7 +1565,7 @@ class BattleCalculatorAI:
         if prevRound:
             return inList and self.currentlyLuredSuits[suitId][0] != -1
         return inList
-		
+
     def __suitIsWet(self, suitId, prevRound = 0):
         inList = suitId in self.currentlyWetSuits
         return inList
@@ -1661,7 +1661,7 @@ class BattleCalculatorAI:
 
     def __luredMaxRoundsReached(self, suitId):
         return self.__suitIsLured(suitId) and self.currentlyLuredSuits[suitId][0] >= self.currentlyLuredSuits[suitId][1]
-		
+
     def __incWetCurrRound(self, suitId):
         if self.__suitIsWet(suitId):
             self.currentlyWetSuits[suitId][0] += 1
