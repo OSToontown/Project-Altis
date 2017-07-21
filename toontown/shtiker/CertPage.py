@@ -66,8 +66,6 @@ class CertPage(ShtikerPage.ShtikerPage):
         del self.pictureFg
         del self.scroll
         del self.tip
-        del self.leftArrow
-        del self.rightArrow
         ShtikerPage.ShtikerPage.unload(self)
 
     def makeCertButton(self, cert, index):

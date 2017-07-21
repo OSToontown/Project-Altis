@@ -17,6 +17,6 @@ class CertificateManagerAI():
         for i in xrange(12):
             number = random.randint(0, 9)
             code += str(number)
-            if (i - 3) % 4 == 0 and i != 12:
+            if (i - 3) % 4 == 0 and i != 11:
                 code += '-'
         return code
