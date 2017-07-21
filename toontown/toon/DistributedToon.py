@@ -198,6 +198,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.interiorLayout = 0
         self.redeemedCodes = []
         self.trainingPoints = 0
+        self.certs = []
         self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
 
     def disable(self):
@@ -2999,6 +3000,13 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 		
     def getSpentTrainingPoints(self):
         return self.spentTrainingPoints
+		
+    def setCerts(self, certs):
+        self.certs = certs
+        messenger.send('certificateChange')
+		
+    def getCerts(self):
+        return self.certs
 
 @magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
 def zone(zoneId):

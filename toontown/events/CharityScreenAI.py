@@ -18,22 +18,22 @@ class CharityScreenAI(DistributedObjectAI):
         threading.Thread(target=taskMgr.add, args=(self.getJson, 'jsonTask')).start()
         
     def getJson(self, task):
-        '''information = httplib.HTTPConnection('www.projectaltis.com')
+        information = httplib.HTTPConnection('www.projectaltis.com')
         information.request('GET', '/api/getcogs')
         info = json.loads(information.getresponse().read())
         self.count = info['counter']
         self.b_setCount(self.count)
         taskMgr.doMethodLater(10, self.getJson, 'jsonTask')
-        '''
+        
     def setCount(self, count):
-        pass
+        self.count = count
         
     def b_setCount(self, count):
         self.d_setCount(count)
         self.setCount(count)
         
     def d_setCount(self, count):
-        self.sendUpdate('setCount', [self.count])
+        self.sendUpdate('setCount', [count])
         
     def unload(self):
         taskMgr.remove('jsonTask')

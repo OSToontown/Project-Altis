@@ -83,6 +83,9 @@ want-golf-zone #t
 # Weather system
 want-weather #f
 
+# DC
+dc-file astron/dclass/toon.dc
+
 # Options Page
 change-display-settings #t
 change-display-api #f

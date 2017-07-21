@@ -1,4 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
+import httplib
 from toontown.toonbase import ToontownBattleGlobals, ToontownGlobals
 from toontown.suit import SuitDNA
 BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory('BattleExprienceAI')

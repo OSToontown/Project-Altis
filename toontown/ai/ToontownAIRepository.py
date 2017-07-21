@@ -12,6 +12,7 @@ from toontown.ai import CogSuitManagerAI
 from toontown.ai import PromotionManagerAI
 from toontown.ai import ExperienceRewardManagerAI
 from toontown.ai.AchievementsManagerAI import AchievementsManagerAI
+from toontown.ai.CertificateManagerAI import CertificateManagerAI
 from toontown.ai.FishManagerAI import  FishManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
 from toontown.ai.DialogueManagerAI import DialogueManagerAI
@@ -131,6 +132,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.questManager = QuestManagerAI(self)
         self.banManager = BanManagerAI.BanManagerAI(self)
         self.achievementsManager = AchievementsManagerAI(self)
+        self.certManager = CertificateManagerAI(self)
         self.suitInvasionManager = SuitInvasionManagerAI(self)
         self.trophyMgr = DistributedTrophyMgrAI(self)
         self.trophyMgr.generateWithRequired(2)
@@ -172,11 +174,6 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)
             self.globalPartyMgr = self.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
-                
-        if self.wantCharityScreen:
-            self.charityCounter = CharityScreenAI(self)
-            self.charityCounter.generateWithRequired(2)
-            self.charityCounter.start()
 
         self.codeRedemptionMgr = TTCodeRedemptionMgrAI(self) 
         self.codeRedemptionMgr.generateWithRequired(2)

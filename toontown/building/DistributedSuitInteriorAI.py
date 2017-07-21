@@ -435,6 +435,9 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
             if v != None:
                 toon = self.air.doId2do.get(v)
                 self.giveJbReward(toon)
+                if random.random() <= .1:
+                    if self.topFloor == 5:
+                        toon.d_setSystemMessage(0, "Congratulations! You have earned a beta key for completing a 6 story building! Check your certificates page!")
             if tuple:
                 savedBy.append([v, tuple[0], tuple[1]])
                 continue
