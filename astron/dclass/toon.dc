@@ -3970,10 +3970,6 @@ dclass DistributedBetaEvent : DistributedEvent {
 
 dclass DistributedBetaEventTTC : DistributedEvent {
 };
-dclass CharityScreen : DistributedObject {
-   start() broadcast;
-   setCount(uint16) broadcast ram;
-};
 
 dclass DistributedWeatherCycle : DistributedObject {
   setState(string) required broadcast ram;

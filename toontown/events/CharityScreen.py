@@ -27,12 +27,13 @@ class CharityScreen(DistributedObject):
         self.cr.chairityEvent = self
 
     def start(self, zoneId):
+        threading.Thread(target=taskMgr.add, args=(self.getJson, 'jsonTask')).start()
         def startScreen(*args):
             self.screenObject = args[0]
             if not self.screenObject:
                 return
             self.screenObject.reparentTo(render)
-            text = "Welcome to PRE-BETA!\nPlease note that there are bugs.\nReport them to the devs!"
+            text = '' # "Welcome to PRE-BETA!\nPlease note that there are bugs.\nReport them to the devs!"
             if ZoneUtil.getHoodId(zoneId) == ToontownGlobals.MinniesMelodyland:
                 self.screenObject.reparentTo(self.cr.playGame.getPlace().loader.geom.find('**/center_icon'))
             self.screenObject.setPos(self.zone2pos.get(ZoneUtil.getHoodId(zoneId), (0, 0, 6)))
@@ -50,6 +51,13 @@ class CharityScreen(DistributedObject):
             self.bob.loop()
             
         asyncloader.loadModel("phase_3.5/models/events/charity/flying_screen.bam", callback = startScreen)
+
+    def getJson(self, task):
+        information = httplib.HTTPConnection('www.projectaltis.com')
+        information.request('GET', '/api/getcogs')
+        info = json.loads(information.getresponse().read())
+        self.setCount(info['counter'])
+        taskMgr.doMethodLater(10, self.getJson, 'jsonTask')
         
     def setCount(self, count):
         self.count = count
@@ -69,6 +77,7 @@ class CharityScreen(DistributedObject):
     def delete(self):
         self.cr.chairityEvent = None
         self.notify.debug("Deleting Charity Screen!")
+        taskMgr.remove('jsonTask')
         if self.bob:
             self.bob.finish()
             self.bob = None

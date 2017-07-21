@@ -967,7 +967,6 @@ from toontown.estate import DistributedChangingStatuary/AI
 from toontown.estate import DistributedAnimatedStatuary/AI
 from toontown.estate import DistributedPlantBase/AI
 from toontown.estate import DistributedLawnDecor/AI
-from toontown.events import CharityScreen/AI
 from toontown.minigame import DistributedTravelGame/AI
 from toontown.minigame import DistributedPairingGame/AI
 from toontown.minigame import DistributedVineGame/AI
@@ -4198,10 +4197,6 @@ dclass DistributedBetaEvent : DistributedEvent {
 };
 
 dclass DistributedBetaEventTTC : DistributedEvent {
-};
-dclass CharityScreen : DistributedObject {
-   start() broadcast;
-   setCount(uint16) broadcast ram;
 };
 
 dclass DistributedWeatherCycle : DistributedObject {
