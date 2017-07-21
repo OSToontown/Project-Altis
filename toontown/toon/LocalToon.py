@@ -56,6 +56,7 @@ from toontown.shtiker import TIPPage
 from toontown.shtiker import TrackPage
 from toontown.shtiker import ItemsPage
 from toontown.shtiker import CodePage
+from toontown.shtiker import CertPage
 from toontown.toon import ElevatorNotifier
 from toontown.toon import ToonDNA
 import StreamerMode, ChatLog
@@ -457,6 +458,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.loadSosPages()
         if self.gardenStarted:
             self.loadGardenPages()
+        self.certPage = CertPage.CertPage()
+        self.certPage.load()
+        self.book.addPage(self.certPage, pageName=TTLocalizer.CertPageTitle)
         self.addGolfPage()
         self.addEventsPage()
         if WantNewsPage:

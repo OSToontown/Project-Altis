@@ -212,6 +212,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.redeemedCodes = []
         self.trainingPoints = 0
         self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
+        self.certs = []
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -4806,6 +4807,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setTrainingPoints(pointsAvailable)
         else:
             return
+			
+    def b_setCerts(self, certs):
+        self.setCerts(certs)
+        self.d_setCerts(certs)
+
+    def d_setCerts(self, certs):
+        self.sendUpdate('setCerts', [certs])
+
+    def setCerts(self, certs):
+        self.certs = certs
+
+    def getCerts(self):
+        return self.certs
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def cheesyEffect(value, hood=0, expire=0):
@@ -4830,6 +4844,13 @@ def cheesyEffect(value, hood=0, expire=0):
         invoker.b_setCheesyEffects(invoker.cheesyEffects)
     invoker.b_setCheesyEffect(value)
     return 'Set your cheesy effect to: %d' % value
+	
+@magicWord(category=CATEGORY_PROGRAMMER)
+def genCertificate():
+    invoker = spellbook.getInvoker()
+    code = simbase.air.certManager.generateCode()
+    simbase.air.certManager.addCode(invoker, code)
+    return "Generated a certificate with code %s" % code
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def hp(hp):

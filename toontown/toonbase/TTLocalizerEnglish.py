@@ -3245,7 +3245,7 @@ DateOfBirthEntryMonths = ['Jan',
  'Nov',
  'Dec']
 DateOfBirthEntryDefaultLabel = 'Date of Birth'
-PhotoPageTitle = 'Snapshots'
+CertPageTitle = 'Beta Certificates'
 PhotoPageNoName = 'Unnamed'
 PhotoPageUnknownName = 'Unknown'
 PhotoPageAddName = 'Add Caption'
@@ -3255,7 +3255,7 @@ PhotoPageConfirm = 'Yep!'
 PhotoPageCancel = lCancel
 PhotoPageClose = lClose
 PhotoPageDirectory = 'Open Folder'
-PhotoPageTutorial = 'You haven\'t taken any snapshots yet! Press TAB to change your camera angle, and press F9 to take a snapshot.\n\n Once you\'ve made a snapshot, come here to manage and name them.'
+CertPageInfo = "You can view any beta certificates you have won in game here! If you wish to redeem one, take a screenshot of the certificate. Don't try to use a certificate more than once, we will know!"
 AchievePageTitle = 'Achievements\n(Coming Soon)'
 BuildingPageTitle = 'Buildings\n(Coming Soon)'
 InventoryPageTitle = 'Gags'

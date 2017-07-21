@@ -47,6 +47,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
          TTLocalizer.DisguisePageTitle,
          TTLocalizer.NPCFriendPageTitle,
          TTLocalizer.GardenPageTitle,
+         TTLocalizer.CertPageTitle,
          TTLocalizer.GolfPageTitle,
          TTLocalizer.EventsPageName,
          TTLocalizer.AchievementsPageTitle,
@@ -266,6 +267,10 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         elif pageName == TTLocalizer.GardenPageTitle:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
             iconGeom = iconModels.find('**/gardenIcon')
+            iconModels.detachNode()
+        elif pageName == TTLocalizer.CertPageTitle:
+            iconModels = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
+            iconGeom = iconModels.find('**/package')
             iconModels.detachNode()
         elif pageName == TTLocalizer.DisguisePageTitle:
             iconModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
