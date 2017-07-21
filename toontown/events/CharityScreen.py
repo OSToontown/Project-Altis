@@ -1,4 +1,4 @@
-import json, httplib, threading, locale
+import json, httplib, threading
 from panda3d.core import *
 from direct.distributed.DistributedObject import DistributedObject
 from direct.interval.IntervalGlobal import *
@@ -54,9 +54,8 @@ class CharityScreen(DistributedObject):
         
     def setCount(self, task):
         self.count = base.localAvatar.getStat(ToontownGlobals.STATS_COGS)
-        locale.setlocale(locale.LC_ALL, '')
-        cash = self.count / 10
-        cash = locale.currency(cash, grouping=True)
+        cash = self.count / 1000.0
+        cash = '{:,.2f}'.format(cash)
         if self.counter and self.counterback:
             self.counter['text'] = (str(self.count) + "\nCogs Destroyed\nYou've earned %s USD\nfor the Extra Life Charity!") % cash
             self.counterback['text'] = (str(self.count) + "\nCogs Destroyed\nYou've earned %s USD\nfor the Extra Life Charity!") % cash
