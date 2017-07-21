@@ -174,11 +174,6 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)
             self.globalPartyMgr = self.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
-                
-        if self.wantCharityScreen:
-            self.charityCounter = CharityScreenAI(self)
-            self.charityCounter.generateWithRequired(2)
-            self.charityCounter.start()
 
         self.codeRedemptionMgr = TTCodeRedemptionMgrAI(self) 
         self.codeRedemptionMgr.generateWithRequired(2)
