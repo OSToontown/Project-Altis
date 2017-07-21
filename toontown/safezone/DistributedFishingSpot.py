@@ -484,24 +484,13 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 		
     def __showCertItem(self):
         self.__makeGui()
-        code = self.generateCode()
         itemName = TTLocalizer.BetaCertificateItem
         self.itemLabel['text'] = itemName
-        self.extraLabel['text'] = code + " (Screenshot it!)"
-        self.sendUpdate('addCode', [code])
+        self.extraLabel['text'] = 'Check your certificates page!'
         self.itemGui.reparentTo(aspect2d)
         self.itemBoot.hide()
         self.itemJellybean.hide()
         self.itemPackage.show()
-		
-    def generateCode(self):
-        code = ''
-        for i in xrange(12):
-            number = random.randint(0, 9)
-            code += str(number)
-            if i % 4 == 0:
-                code += '-'
-        return code
 
     def __setItemLabel(self):
         if self.pond.hasPondBingoManager():
