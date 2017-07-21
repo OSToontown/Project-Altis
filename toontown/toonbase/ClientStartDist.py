@@ -16,11 +16,11 @@ def __runfunc(*args, **kw):
    print("Something Spoopys Happened!")
 
 __builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist = ['*']).__dict__)
-__builtin__.eval = __runfunc
-__builtin__.compile = __runfunc
-__builtin__.execfile = __runfunc
-__builtin__.globals = __runfunc
-__builtin__.locals = __runfunc
+# __builtin__.eval = __runfunc
+# __builtin__.compile = __runfunc
+# __builtin__.execfile = __runfunc
+# __builtin__.globals = __runfunc
+# __builtin__.locals = __runfunc
 
 # TODO: append resources
 import aes
