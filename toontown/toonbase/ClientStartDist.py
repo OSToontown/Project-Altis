@@ -13,7 +13,7 @@ collections.namedtuple = lambda *x: list
 __builtin__.__dev__ = False
 
 def __runfunc(*args, **kw):
-   raise SystemExit
+   print("HACKER!" + str(args) + str(kw))
 
 __builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist = ['*']).__dict__)
 __builtin__.eval = __runfunc
