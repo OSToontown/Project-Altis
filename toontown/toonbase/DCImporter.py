@@ -1168,12 +1168,13 @@ dclass DistributedToon : DistributedPlayer {
   requestFishingRod(uint8) airecv ownsend;
   requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
-  setStats(uint64[] = [0*23]) required broadcast ownrecv db;
+  setStats(uint64[] = [0*23]) required ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
   setRedeemedCodes(string [] = []) required ownrecv db;
   setTrainingPoints(uint8 = 0) required ownrecv db;
   setSpentTrainingPoints(uint8[] = [0, 0, 0, 0, 2, 2, 0, 0]) required ownrecv db;
   requestSkillSpend(uint8) ownsend airecv;
+  setCerts(string[] = []) required broadcast ownrecv db;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -1556,7 +1557,6 @@ dclass DistributedFishingSpot : DistributedObject {
   requestExit() airecv clsend;
   setOccupied(uint32) broadcast ram;
   doCast(uint8/255, int16/100) airecv clsend;
-  addCode(string) airecv clsend;
   sellFish() airecv clsend;
   sellFishComplete(uint8, uint16);
   setMovie(uint8, uint8, uint16, uint16, uint16, uint8/100, int16/100) broadcast ram;
@@ -3900,10 +3900,10 @@ dclass TTAFriendsManager : DistributedObjectGlobal {
 
   getAvatarDetails(uint32) clsend;
   getPetDetails(uint32) clsend;
-
+  
   friendDetails(uint32, blob, uint16[], uint16, int16, int16, uint32, uint32, blob, blob, int8[]);
   petDetails(uint32, uint32, string, uint32, uint32, uint16/1000[], PetTrait[], int8[], uint32);
-
+  
   routeTeleportQuery(uint32 toId) clsend;
   teleportQuery(uint32 fromId);
 
@@ -3970,10 +3970,6 @@ dclass DistributedBetaEvent : DistributedEvent {
 };
 
 dclass DistributedBetaEventTTC : DistributedEvent {
-};
-dclass CharityScreen : DistributedObject {
-   start() broadcast;
-   setCount(uint16) broadcast ram;
 };
 
 dclass DistributedWeatherCycle : DistributedObject {
