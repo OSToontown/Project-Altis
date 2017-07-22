@@ -3180,6 +3180,8 @@ def getNpcLocationDialog(fromNpcId, toNpcId):
 
 def fillInQuestNames(text, avName = None, fromNpcId = None, toNpcId = None):
     text = copy.deepcopy(text)
+    toNpcName = ''
+    fromNpcName = ''
     if avName != None:
         text = text.replace('_avName_', avName)
     if toNpcId:
@@ -3199,11 +3201,11 @@ def fillInQuestNames(text, avName = None, fromNpcId = None, toNpcId = None):
     if fromNpcId:
         fromNpcName = str(NPCToons.getNPCName(fromNpcId))
 
-        text = text.replace('_toNpcName_', toNpcName)
-        text = text.replace('_fromNpcName_', fromNpcName)
-        text = text.replace('_where_', where)
-        text = text.replace('_buildingName_', buildingName)
-        text = text.replace('_streetDesc_', streetDesc)
+    text = text.replace('_toNpcName_', toNpcName)
+    text = text.replace('_fromNpcName_', fromNpcName)
+    text = text.replace('_where_', where)
+    text = text.replace('_buildingName_', buildingName)
+    text = text.replace('_streetDesc_', streetDesc)
     return text
 
 

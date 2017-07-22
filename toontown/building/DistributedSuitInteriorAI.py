@@ -1,4 +1,5 @@
 import copy
+import random
 from toontown.building import DistributedElevatorIntAI
 from toontown.building.ElevatorConstants import *
 from direct.directnotify import DirectNotifyGlobal
