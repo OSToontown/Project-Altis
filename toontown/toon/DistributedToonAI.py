@@ -4643,7 +4643,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
 
         self.stats[stat] += amount
-        self.b_setStats(self.stats)
+        self.d_setStats(self.stats)
 		
     def setStat(self, stat, amount = 1):
         if amount <= 0:
