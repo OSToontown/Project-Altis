@@ -5,14 +5,15 @@ from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import CRCache
 from direct.distributed.CRDataCache import CRDataCache
-from toontown.toonbase.DCImporter import ConnectionRepository_override as ConnectionRepository
+from otp.distributed.ConnectionRepository_override import ConnectionRepository_override as ConnectionRepository
 from direct.showbase import PythonUtil
 from direct.distributed import ParentMgr
 from direct.distributed import RelatedObjectMgr
+from toontown.toonbase.DCImporter import *
 import time
 from direct.distributed.ClockDelta import *
 
-
+dcStream = getDcStream()
 class ClientRepositoryBaseOR(ConnectionRepository):
     """
     This maintains a client-side connection with a Panda server.
@@ -28,7 +29,7 @@ class ClientRepositoryBaseOR(ConnectionRepository):
                  connectMethod = None, threadedNet = None):
         if connectMethod is None:
             connectMethod = self.CM_HTTP
-        ConnectionRepository.__init__(self, connectMethod, base.config, hasOwnerView = True, threadedNet = threadedNet)
+        ConnectionRepository.__init__(self, connectMethod, base.config, hasOwnerView = True, threadedNet = threadedNet, dcStream = dcStream)
         self.dcSuffix = dcSuffix
         if hasattr(self, 'setVerbose'):
             if self.config.GetBool('verbose-clientrepository'):
