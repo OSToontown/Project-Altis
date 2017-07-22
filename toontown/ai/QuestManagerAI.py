@@ -55,7 +55,10 @@ class QuestManagerAI:
                 if npc.npcId == toNpcId:
                     track, level = questClass.getGagType()
                     av.inventory.setItem(track, level, av.inventory.numItem(track, level) - questClass.getNumGags())
-                    av.b_setInventory(av.inventory.makeNetString())
+                    try:
+                        av.b_setInventory(av.inventory.makeNetString())
+                    except:
+                        npc.rejectAvatar()
 
             # If they've completed a quest.
             if completeStatus == Quests.COMPLETE:
