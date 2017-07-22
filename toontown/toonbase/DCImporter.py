@@ -4011,8 +4011,123 @@ dclass DistributedRainManager : DistributedWeatherMGR {
 dcStream = StringStream(dcString)
 from direct.distributed import ConnectionRepository
 import types
+import gc
+from direct.distributed.DoInterestManager import DoInterestManager
+from otp.distributed.DoCollectionManagerOR import DoCollectionManagerOR as DoCollectionManager
+from direct.distributed.PyDatagramIterator import PyDatagramIterator
 
-class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
+class ConnectionRepository_override(ConnectionRepository.ConnectionRepository, DoInterestManager, DoCollectionManager, CConnectionRepository):
+    taskPriority = -30
+    taskChain = None
+
+    CM_HTTP=0
+    CM_NET=1
+    CM_NATIVE=2
+
+    def __init__(self, connectMethod, config, hasOwnerView = False,
+                 threadedNet = None):
+        assert self.notify.debugCall()
+        if threadedNet is None:
+            # Default value.
+            threadedNet = config.GetBool('threaded-net', False)
+
+        # let the C connection repository know whether we're supporting
+        # 'owner' views of distributed objects (i.e. 'receives ownrecv',
+        # 'I own this object and have a separate view of it regardless of
+        # where it currently is located')
+        CConnectionRepository.__init__(self, hasOwnerView, threadedNet)
+        self.setWantMessageBundling(config.GetBool('want-message-bundling', 1))
+        # DoInterestManager.__init__ relies on CConnectionRepository being
+        # initialized
+        DoInterestManager.__init__(self)
+        DoCollectionManager.__init__(self)
+        self.setPythonRepository(self)
+
+        # Create a unique ID number for each ConnectionRepository in
+        # the world, helpful for sending messages specific to each one.
+        self.uniqueId = hash(self)
+
+        # Accept this hook so that we can respond to lost-connection
+        # events in the main thread, instead of within the network
+        # thread (if there is one).
+        self.accept(self._getLostConnectionEvent(), self.lostConnection)
+
+        self.config = config
+
+        if self.config.GetBool('verbose-repository'):
+            self.setVerbose(1)
+
+        # Set this to 'http' to establish a connection to the server
+        # using the HTTPClient interface, which ultimately uses the
+        # OpenSSL socket library (even though SSL is not involved).
+        # This is not as robust a socket library as NET's, but the
+        # HTTPClient interface does a good job of negotiating the
+        # connection over an HTTP proxy if one is in use.
+        #
+        # Set it to 'net' to use Panda's net interface
+        # (e.g. QueuedConnectionManager, etc.) to establish the
+        # connection.  This is a higher-level layer build on top of
+        # the low-level "native net" library.  There is no support for
+        # proxies.  This is a good, general choice.
+        #
+        # Set it to 'native' to use Panda's low-level native net
+        # interface directly.  This is much faster than either http or
+        # net for high-bandwidth (e.g. server) applications, but it
+        # doesn't support the simulated delay via the start_delay()
+        # call.
+        #
+        # Set it to 'default' to use an appropriate interface
+        # according to the type of ConnectionRepository we are
+        # creating.
+        userConnectMethod = self.config.GetString('connect-method', 'default')
+        if userConnectMethod == 'http':
+            connectMethod = self.CM_HTTP
+        elif userConnectMethod == 'net':
+            connectMethod = self.CM_NET
+        elif userConnectMethod == 'native':
+            connectMethod = self.CM_NATIVE
+
+        self.connectMethod = connectMethod
+        if self.connectMethod == self.CM_HTTP:
+            self.notify.info("Using connect method 'http'")
+        elif self.connectMethod == self.CM_NET:
+            self.notify.info("Using connect method 'net'")
+        elif self.connectMethod == self.CM_NATIVE:
+            self.notify.info("Using connect method 'native'")
+
+        self.connectHttp = None
+        self.http = None
+
+        # This DatagramIterator is constructed once, and then re-used
+        # each time we read a datagram.
+        self.private__di = PyDatagramIterator()
+
+        self.recorder = None
+        self.readerPollTaskObj = None
+
+        # This is the string that is appended to symbols read from the
+        # DC file.  The AIRepository will redefine this to 'AI'.
+        self.dcSuffix = ''
+
+        self._serverAddress = ''
+
+        if self.config.GetBool('gc-save-all', 1):
+            # set gc to preserve every object involved in a cycle, even ones that
+            # would normally be freed automatically during garbage collect
+            # allows us to find and fix these cycles, reducing or eliminating the
+            # need to run garbage collects
+            # garbage collection CPU usage is O(n), n = number of Python objects
+            gc.set_debug(gc.DEBUG_SAVEALL)
+
+        if self.config.GetBool('want-garbage-collect-task', 1):
+            # manual garbage-collect task
+            taskMgr.add(self._garbageCollect, self.GarbageCollectTaskName, 200)
+            # periodically increase gc threshold if there is no garbage
+            taskMgr.doMethodLater(self.config.GetFloat('garbage-threshold-adjust-delay', 5 * 60.),
+                                  self._adjustGcThreshold, self.GarbageThresholdTaskName)
+
+        self._gcDefaultThreshold = gc.get_threshold()
+
     def readDCFile(self, dcFileNames=None):
         dcFile = self.getDcFile()
         dcFile.clear()
