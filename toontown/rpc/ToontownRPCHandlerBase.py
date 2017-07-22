@@ -3,7 +3,7 @@ from direct.directnotify.DirectNotifyGlobal import directNotify
 import json
 import time
 
-from Crypto.Cipher import AES
+# from Crypto.Cipher import AES
 
 
 UNKNOWN = 700
