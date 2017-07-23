@@ -884,7 +884,7 @@ QuestDialogDict = {
  2106: {GREETING: '',
 		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
 		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
- 2107: {QUEST:  "Oof, oof, I'm cooling down now...\x0Several more Cogs and I should be normal...", COMPLETE: "Sunshine, lollipops and, rainbows butterflies...\x07Thank you so much for this warm, happy feeling _avName_.\x07Here is a well deserved reward..."}, # Defeat 10 Cogs in Toontown Central
+ 2107: {QUEST:  "Oof, oof, I'm cooling down now...\x07Several more Cogs and I should be normal...", COMPLETE: "Sunshine, lollipops and, rainbows butterflies...\x07Thank you so much for this warm, happy feeling _avName_.\x07Here is a well deserved reward..."}, # Defeat 10 Cogs in Toontown Central
  
  # Task Eleven
  2110: {QUEST:  "Hey _avName_, we've almost run out of things for you to do!\x07Next up, the Toon Clinic is in need of some supplies.\x07First, pay a visit to _toNpcName_, and see what he needs."}, # Flippy to Charlie Doggenbottom
