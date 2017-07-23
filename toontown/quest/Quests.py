@@ -2559,11 +2559,11 @@ QuestDict = {
  102: ([], Cont, (VisitQuest,), 20002, 2001, NA, NA, TTLocalizer.QuestDialogDict[164], 10, 5),
  
 # Task Zero
- 2000: ([], Start, (VisitQuest,), 2001, 2003, NA, 2001, TTLocalizer.QuestDialogDict[2000], 300, 35),
- 2001: ([], Cont, (RecoverItemQuest, Anywhere, 5, 2001, Easy, Any, 'type'), 2003, 2003, NA, 2002, TTLocalizer.QuestDialogDict[2001], 300, 35),
- 2002: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2002, Easy, Any, 'type'), 2003, 2003, NA, 2003, TTLocalizer.QuestDialogDict[2002], 300, 35),
- 2003: ([], Cont, (VisitQuest,), 2003, 2301, NA, 2004, TTLocalizer.QuestDialogDict[2003], 300, 35),
- 2004: ([], Cont, (VisitQuest,), 2003, 2001, NA, NA, TTLocalizer.QuestDialogDict[2004], 300, 35),
+ 2000: ([], Start, (VisitQuest,), 2001, 2112, NA, 2001, TTLocalizer.QuestDialogDict[2000], 300, 35),
+ 2001: ([], Cont, (RecoverItemQuest, Anywhere, 5, 2001, Easy, Any, 'type'), 2112, 2112, NA, 2002, TTLocalizer.QuestDialogDict[2001], 300, 35),
+ 2002: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2002, Easy, Any, 'type'), 2112, 2112, NA, 2003, TTLocalizer.QuestDialogDict[2002], 300, 35),
+ 2003: ([], Cont, (VisitQuest,), 2112, 2301, NA, 2004, TTLocalizer.QuestDialogDict[2003], 300, 35),
+ 2004: ([], Cont, (VisitQuest,), 2301, 2112, NA, NA, TTLocalizer.QuestDialogDict[2004], 300, 35),
  
  
 # Task One
