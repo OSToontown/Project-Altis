@@ -2619,7 +2619,7 @@ QuestDict = {
  2056: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2021, Easy, 'f', 'type'), 2416, 2201, NA, 2057, TTLocalizer.QuestDialogDict[2056], 385, 20),
  2057: ([], Cont, (DeliverItemQuest, 2022), 2415, 2416, NA, 2058, TTLocalizer.QuestDialogDict[2057], 385, 20),
  2058: ([], Cont, (CogLevelQuest, 2400, 5, 2), 2416, 2416, NA, 2059, TTLocalizer.QuestDialogDict[2058], 385, 20),
- 2059: ([], Cont, (CogLevelQuest, 2400, 4, 4), 2416, 2416, NA, NA, TTLocalizer.QuestDialogDict[2059], 385, 20),
+ 2059: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 4, 4), 2416, 2416, NA, NA, TTLocalizer.QuestDialogDict[2059], 385, 20),
 
  # Task Six
  2060: ([], Start, (VisitQuest,), 2001, 2318, NA, 2061, TTLocalizer.QuestDialogDict[2060], 350, 35),
