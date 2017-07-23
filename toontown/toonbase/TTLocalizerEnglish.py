@@ -752,7 +752,7 @@ QuestDialogDict = {
  2005: {QUEST:  "This makes so much sense now!\x07Now that I have these decoded notes, go return these books for me please!", COMPLETE: "Thank you so much for doing this, _avName_!"}, #Dr Tom visit Pete to return the decoded books
 
  # Task One
- 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier he was going to make a batch of lemonade.x\07Could you do me a favor, and get a pitcher of it from him?"}, #Flippy to Limeys limes (visit)
+ 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier he was going to make a batch of lemonade.\x07Could you do me a favor, and get a pitcher of it from him?"}, #Flippy to Limeys limes (visit)
  2011: {QUEST:  "Ahoy! Did _fromNpcName_ send you over for the lemonade?\x07Well unfortunately, I was fishing earlier and dropped my ingredients in the water.\x07Would you mind fishing those up for me?"}, #Limey fish to find some limes
  2012: {QUEST:  "Yep, these were the limes I was looking for!\x07However, I forgot I dropped the lemons in there too!\x07Could you do me a favor and get those for me?"}, #Limey fish to find some lemons
  2013: {QUEST:  "Thanks again! These look even better now then when I dropped them!\x07So listen, I decided to go fishing again in Acorn Acres, and...\x07Well, I dropped the cups I had on me when I leaned to grab my catch.\x07Could you go grab those out for me?"}, #Limey fish to find some Acorn Cups in AA
