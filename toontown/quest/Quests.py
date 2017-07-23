@@ -2579,11 +2579,11 @@ QuestDict = {
 
  # Task Two
  2020: ([], Start, (VisitQuest,), 2001, 2136, NA, 2021, TTLocalizer.QuestDialogDict[2020], 300, 35),
- 2021: ([], Cont, (RecoverItemQuest, Anywhere, 2009, Easy, 'pp', 'type'), 2136, 2136, NA, 2022, TTLocalizer.QuestDialogDict[2021], 300, 35),
- 2022: ([], Cont, (RecoverItemQuest, Anywhere, 2010, Easy, 'p', 'type'), 2136, 2136, NA, 2023, TTLocalizer.QuestDialogDict[2022], 300, 35), 
- 2023: ([], Cont, (RecoverItemQuest, Anywhere, 2011, Easy, 'b', 'type'), 2136, 2136, NA, 2024, TTLocalizer.QuestDialogDict[2023], 300, 35),
- 2024: ([], Cont, (RecoverItemQuest, Anywhere, 2012, Easy, 'ca', 'type'), 2136, 2136, NA, 2025, TTLocalizer.QuestDialogDict[2024], 300, 35),
- 2025: ([], Cont, (RecoverItemQuest, Anywhere, 2013, Easy, 'tm', 'type'), 2136, 2136, NA, 2026, TTLocalizer.QuestDialogDict[2025], 300, 35),
+ 2021: ([], Cont, (RecoverItemQuest, Anywhere, 3, 2009, Easy, 'pp', 'type'), 2136, 2136, NA, 2022, TTLocalizer.QuestDialogDict[2021], 300, 35),
+ 2022: ([], Cont, (RecoverItemQuest, Anywhere, 3, 2010, Easy, 'p', 'type'), 2136, 2136, NA, 2023, TTLocalizer.QuestDialogDict[2022], 300, 35), 
+ 2023: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2011, Easy, 'b', 'type'), 2136, 2136, NA, 2024, TTLocalizer.QuestDialogDict[2023], 300, 35),
+ 2024: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2012, Easy, 'ca', 'type'), 2136, 2136, NA, 2025, TTLocalizer.QuestDialogDict[2024], 300, 35),
+ 2025: ([], Cont, (RecoverItemQuest, Anywhere, 3, 2013, Easy, 'tm', 'type'), 2136, 2136, NA, 2026, TTLocalizer.QuestDialogDict[2025], 300, 35),
  2026: ([], Cont, (DeliverItemQuest, 2014), 2136, 2002, NA, 2027, TTLocalizer.QuestDialogDict[2026], 300, 35),
  2027: ([], Cont, (DeliverItemQuest, 2015), 2002, 2136, NA, 2028, TTLocalizer.QuestDialogDict[2027], 300, 35),
  2028: ([], Cont, (CogTrackQuest, Anywhere, 10, 'c'), 2002, 2136, NA, 2029, TTLocalizer.QuestDialogDict[2028], 300, 35),
@@ -2602,11 +2602,11 @@ QuestDict = {
  
  # Task Four
  2040: ([], Start, (VisitQuest,), 2001, 2201, NA, 2041, TTLocalizer.QuestDialogDict[2040], 370, 70),
- 2041: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 2016, Medium, 3, 'level'), 2201, 2201, NA, 2042, TTLocalizer.QuestDialogDict[2041], 370, 70),
+ 2041: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 3, 2016, Medium, 3, 'level'), 2201, 2201, NA, 2042, TTLocalizer.QuestDialogDict[2041], 370, 70),
  2042: ([], Cont, (DeliverItemQuest, 2016), 2201, 2404, NA, 2043, TTLocalizer.QuestDialogDict[2042], 370, 70),
- 2043: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 2017, Easy, Any, 'type'), 2404, 2404, NA, 2044, TTLocalizer.QuestDialogDict[2043], 370, 70),
- 2044: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 2018, Easy, Any, 'type'), 2404, 2404, NA, 2045, TTLocalizer.QuestDialogDict[2044], 370, 70),
- 2045: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 2019, Easy, 'cn', 'type'), 2404, 2404, NA, 2046, TTLocalizer.QuestDialogDict[2045], 370, 70),
+ 2043: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 3, 2017, Easy, Any, 'type'), 2404, 2404, NA, 2044, TTLocalizer.QuestDialogDict[2043], 370, 70),
+ 2044: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 3, 2018, Easy, Any, 'type'), 2404, 2404, NA, 2045, TTLocalizer.QuestDialogDict[2044], 370, 70),
+ 2045: ([], Cont, (RecoverItemQuest, ToontownGlobals.ToontownCentral, 1, 2019, Easy, 'cn', 'type'), 2404, 2404, NA, 2046, TTLocalizer.QuestDialogDict[2045], 370, 70),
  2046: ([], Cont, (VisitQuest,), 2404, 2209, NA, NA, TTLocalizer.QuestDialogDict[2046], 370, 70),
 
  # Task Five
@@ -2669,14 +2669,14 @@ QuestDict = {
  
  # Task Eleven
  2110: ([], Start, (VisitQuest,), 2001, 6214, NA, 2111, TTLocalizer.QuestDialogDict[2110], 325, 50),
- 2111: ([], Cont, (RecoverItemQuest, 10, 2029, Easy, Any, 'type'), 6214, 6214, NA, 2112, TTLocalizer.QuestDialogDict[2111], 325, 50),
+ 2111: ([], Cont, (RecoverItemQuest, Anywhere, 10, 2029, Easy, Any, 'type'), 6214, 6214, NA, 2112, TTLocalizer.QuestDialogDict[2111], 325, 50),
  2112: ([], Cont, (DeliverItemQuest, 2030), 6214, 2312, NA, 2113, TTLocalizer.QuestDialogDict[2112], 325, 50),
  2113: ([], Cont, (VisitQuest,), 6214, 2303, NA, 2114, TTLocalizer.QuestDialogDict[2113], 325, 50),
  2114: ([], Cont, (CogQuest, ToontownGlobals.ToontownCentral, 5, 'ac'), 2303, 2303, NA, 2115, TTLocalizer.QuestDialogDict[2114], 325, 50),
- 2115: ([], Cont, (RecoverItemQuest, 1, 2031, Medium, 'ac', 'type'), 2303, 2303, NA, 2116, TTLocalizer.QuestDialogDict[2115], 325, 50),
+ 2115: ([], Cont, (RecoverItemQuest, Anywhere 1, 2031, Medium, 'ac', 'type'), 2303, 2303, NA, 2116, TTLocalizer.QuestDialogDict[2115], 325, 50),
  2116: ([], Cont, (VisitQuest,), 2303, 2128, NA, 2117, TTLocalizer.QuestDialogDict[2116], 325, 50),
- 2117: ([], Cont, (RecoverItemQuest, 4, 2032, Easy, AnyFish), 2128, 2128, NA, 2118, TTLocalizer.QuestDialogDict[2117], 325, 50),
- 2118: ([], Cont, (RecoverItemQuest, 1, 2033, Medium, 5, 'level'), 2128, 2128, NA, NA, TTLocalizer.QuestDialogDict[2118], 325, 50),
+ 2117: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2032, Easy, AnyFish), 2128, 2128, NA, 2118, TTLocalizer.QuestDialogDict[2117], 325, 50),
+ 2118: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2033, Medium, 5, 'level'), 2128, 2128, NA, NA, TTLocalizer.QuestDialogDict[2118], 325, 50),
  
  # Task Twelve, MEGATASK OF ZONE
  2120: ([2118, 2107, 2096, 2086, 2079, 2064, 2059, 2046, 2038, 2029, 2018, 2005], Start, (VisitQuest,), 2216, 2001, 300, 2121, TTLocalizer.QuestDialogDict[2120], 500, 75),
