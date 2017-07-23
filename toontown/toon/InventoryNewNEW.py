@@ -1342,7 +1342,7 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
         else:
             return TTLocalizer.InventoryAffectsOneCog
 			
-    def getExtraText(self, track, level):
+    def getExtraText(self, track, level, organicBonus = False):
         if track == SQUIRT_TRACK:
            if organicBonus:
                bonusRounds = 1
