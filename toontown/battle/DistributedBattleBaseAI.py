@@ -1374,7 +1374,13 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                     elif track != SOS:
                         toon = self.getToon(toonId)
                         if toon != None:
-                            check = toon.inventory.useItem(track, level)
+                            if track == TRAP:
+                                if random.random() <= 0.1:
+                                    check = 0
+                                else:
+                                    check = toon.inventory.useItem(track, level)
+                            else:
+                                check = toon.inventory.useItem(track, level)
                             if check == -1:
                                 self.air.writeServerEvent('suspicious', toonId, 'Toon generating movie for non-existant gag track %s level %s' % (track, level))
                                 self.notify.warning('generating movie for non-existant gag track %s level %s! avId: %s' % (track, level, toonId))
