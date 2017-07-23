@@ -4792,10 +4792,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 		
     def requestSkillSpend(self, track):
         trackArray = self.getTrackAccess()
+        bonusArray = self.getTrackBonusLevel()
         pointsAvailable = self.getTrainingPoints()
         pointsSpent = self.getSpentTrainingPoints()
         if pointsAvailable > 0: # Time to skill them up!
-            if pointsSpent[track] >= 2:
+            if pointsSpent[track] >= 3:
                 return # Prestiging isn't coded yet
             else:
                 pointsSpent[track] += 1
@@ -4803,6 +4804,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             for i in xrange(8): # Go through all tracks and recalculate
                 if pointsSpent[i] >= 2:
                     self.addTrackAccess(i)
+                if pointsSpent[i] >= 3:
+                    if bonusArray[i] != 6:
+                        bonusArray[i] = 6
+            self.b_setTrackBonusLevel(bonusArray)
             self.b_setSpentTrainingPoints(pointsSpent)
             self.b_setTrainingPoints(pointsAvailable)
         else:

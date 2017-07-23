@@ -400,7 +400,6 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
             self.updateGUI()
 
     def showDetail(self, track, level, event = None):
-    def showDetail(self, track, level, event = None):
         self.totalLabel.hide()
         self.detailNameLabel.show()
         self.detailNameLabel.configure(text=AvPropStrings[track][level], image_image=self.invModels[track][level])

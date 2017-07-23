@@ -180,10 +180,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             shirt = CatalogClothingItem(1820, 0)
             return [shirt]
 
-        if code == "gardens":
-            gardenStarter = CatalogGardenStarterItem()
-            return [gardenStarter]
-
 
         return []
 
