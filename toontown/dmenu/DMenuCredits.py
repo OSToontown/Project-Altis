@@ -28,16 +28,15 @@ class DMenuCredits:
 \1orangeText\1Management Team\2
 Dubito | Director
 Bethy / Limey Mouse | Director
-Remot | Internal Staff Manager
 Royko | External Community Manager
 Loopy Goopy Googlenerd | Content Director
 
 \1orangeText\1Technical Team\2
 Sir Tubby Cheezyfish | Lead Game Developer
 Barks | Game Developer
-Dan | Game Developer
-Alice | Web Developer
-Jakebooy | Web Developer
+Tessler | Game Developer 
+Atomizer | Game Developer 
+Nosyliam | Game Developer 
 Ben | Launcher Developer
 Judge2020 | Launcher Developer
 Xanon | Web Developer
@@ -48,13 +47,15 @@ Old Geezer | Modeller | Composer
 Polygon | Modeller
 Maddie | Texture Artist
 VoidPoro | Texture Artist
-Pascal | Modeller
+Pascal | Modeller | Head of Moderation
+SpookiRandi | Graphical Artist
 
 \1orangeText\1Moderation Team\2
 Dr. Sovietoon
 TheTabKey
 Kryptic Kaleidoscope
 The Professional
+SpookiRandi
 
 \1orangeText\1Contributors\2
 Dank Mickey | Former Developer | Boardbot Development
@@ -64,6 +65,7 @@ Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
 Aura | Pick-A-Toon Concept / Inspiration
 Smirky Bumberpop | Former External Community Manager
 Malverde | Former Developer | Various playground redesigns
+Alice | Web Developer
 
 \1orangeText\1Special thanks to\2
 Toontown Infinite | Various Resources

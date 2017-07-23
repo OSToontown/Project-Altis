@@ -20,7 +20,7 @@ from panda3d.core import loadPrcFile
 # config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [BETA 1.0.1]
+window-title Project Altis [BETA 1.0.2]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -190,12 +190,12 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Beta-1.0.1
+server-version TTPA-Beta-1.0.2
 shard-low-pop 50
 shard-mid-pop 80
 
 #Resources
-model-path ../resources
+model-path /
 
 # Core features:
 want-pets #t

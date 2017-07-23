@@ -2673,7 +2673,7 @@ QuestDict = {
  2112: ([], Cont, (DeliverItemQuest, 2030), 6214, 2312, NA, 2113, TTLocalizer.QuestDialogDict[2112], 325, 50),
  2113: ([], Cont, (VisitQuest,), 6214, 2303, NA, 2114, TTLocalizer.QuestDialogDict[2113], 325, 50),
  2114: ([], Cont, (CogQuest, ToontownGlobals.ToontownCentral, 5, 'ac'), 2303, 2303, NA, 2115, TTLocalizer.QuestDialogDict[2114], 325, 50),
- 2115: ([], Cont, (RecoverItemQuest, Anywhere 1, 2031, Medium, 'ac', 'type'), 2303, 2303, NA, 2116, TTLocalizer.QuestDialogDict[2115], 325, 50),
+ 2115: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2031, Medium, 'ac', 'type'), 2303, 2303, NA, 2116, TTLocalizer.QuestDialogDict[2115], 325, 50),
  2116: ([], Cont, (VisitQuest,), 2303, 2128, NA, 2117, TTLocalizer.QuestDialogDict[2116], 325, 50),
  2117: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2032, Easy, AnyFish), 2128, 2128, NA, 2118, TTLocalizer.QuestDialogDict[2117], 325, 50),
  2118: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2033, Medium, 5, 'level'), 2128, 2128, NA, NA, TTLocalizer.QuestDialogDict[2118], 325, 50),
@@ -3376,7 +3376,7 @@ class TeleportReward(Reward):
         av.addTeleportAccess(self.getZone())
 
     def countReward(self, qrc):
-        qrc.addTeleportAccess(self.getZone())
+        pass
 
     def getString(self):
         hoodName = ToontownGlobals.hoodNameMap[self.getZone()][-1]

@@ -94,10 +94,10 @@ class TrackPage(ShtikerPage.ShtikerPage):
                 self.buttons[track][iteration]['state'] = DGG.DISABLED
                 self.buttons[track][iteration]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                 self.buttons[track][iteration]['text'] = '1/1'
-            for i in xrange(3): # Temporary until we include prestiging
-                self.buttons[track][i+2]['state'] = DGG.DISABLED
-                self.buttons[track][i+2]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
-                self.buttons[track][i+2]['text'] = '0/1'
+            for i in xrange(2): # Temporary until we include prestiging
+                self.buttons[track][i+3]['state'] = DGG.DISABLED
+                self.buttons[track][i+3]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
+                self.buttons[track][i+3]['text'] = '0/1'
             if av.getTrainingPoints() == 0:
                 for button in self.buttons[track]:
                     button['state'] = DGG.DISABLED

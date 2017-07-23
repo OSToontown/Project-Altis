@@ -969,7 +969,7 @@ dclass DistributedToon : DistributedPlayer {
   setDNAString(blob) required broadcast ownrecv db;
   setGM(uint16 = 0) required broadcast ownrecv db;
   setMoney(uint16 = 0) required ownrecv db;
-  setMaxBankMoney(uint64 maxMoney = 15000) required broadcast ownrecv db;
+  setMaxBankMoney(uint32 maxMoney = 15000) required broadcast ownrecv db;
   setMaxMoney(uint16 maxMoney = 500) required broadcast ownrecv db;
   setBankMoney(uint64 money = 0) required ownrecv db;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
@@ -1167,7 +1167,7 @@ dclass DistributedToon : DistributedPlayer {
   requestFishingRod(uint8) airecv ownsend;
   requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
-  setStats(uint64[] = [0*23]) required ownrecv db;
+  setStats(uint32[] = [0*23]) required ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
   setRedeemedCodes(string [] = []) required ownrecv db;
   setTrainingPoints(uint8 = 0) required ownrecv db;

@@ -77,6 +77,8 @@ class QuestPoster(DirectFrame):
         circle = guiItems.find('**/cover/blue_circle')
         jb = loader.loadModel('phase_5.5/models/estate/jellyBean')
         jb.setColor(random.choice([(1, 0, 0, 1), (0, 1, 0, 1), (0, 0, 1, 1), (1, 1, 0, 1), (1, 0, 1, 1), (0, 1, 1, 1)]))
+        tpModels = loader.loadModel('phase_3.5/models/gui/sos_textures')
+        tpGeom = tpModels.find('**/teleportIcon')
         expIcon = loader.loadModel('phase_3.5/models/gui/exp_icon')
         optiondefs = (('relief', None, None),
          ('image', questCard, None),
@@ -108,11 +110,13 @@ class QuestPoster(DirectFrame):
         self.questProgress.hide()
         self.expCircle = DirectLabel(parent=self.questFrame, relief=None, geom=expIcon, geom_scale=(0.4), geom_pos=(-1.05, 0, 1), image=circle, image_color=(0.4, 0.918, 1, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(-0.04, 0, -0.4), scale=0.25)
         self.jbCircle = DirectLabel(parent=self.questFrame, relief=None, geom=jb, geom_scale=(0.4), geom_pos=(-1.05, 0, 1), image=circle, image_color=(1, 0.9, 0.4, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(0.56, 0, -0.4), scale=0.25)
+        self.rewardCircle = DirectLabel(parent=self.questFrame, relief=None, geom=tpGeom, geom_scale=(0.4), geom_pos=(-1.05, 0, 1), image=circle, image_color=(1, 0.9, 0.4, 1), text_fg=(1, 1, 1, 1), text='', text_shadow=(0, 0, 0, 1), text_scale=0.15, text_pos=(-1.05, 0.8), text_font=ToontownGlobals.getInterfaceFont(), pos=(0.56, 0, -0.25), scale=0.25)
         self.funQuest = DirectLabel(parent=self.questFrame, relief=None, text=TTLocalizer.QuestPosterFun, text_fg=(0.0, 0.439, 1.0, 1.0), text_shadow=(0, 0, 0, 1), pos=(-0.2825, 0, 0.2), scale=0.03)
         self.funQuest.setR(-30)
         self.funQuest.hide()
         self.expCircle.hide()
         self.jbCircle.hide()
+        self.rewardCircle.hide()
         bookModel.removeNode()
         guiItems.removeNode()
         self.laffMeter = None
@@ -236,6 +240,7 @@ class QuestPoster(DirectFrame):
         self.rPictureFrame.hide()
         self.expCircle.hide()
         self.jbCircle.hide()
+        self.rewardCircle.hide()
         self.questProgress.hide()
         if hasattr(self, 'chooseButton'):
             self.chooseButton.destroy()
@@ -291,6 +296,7 @@ class QuestPoster(DirectFrame):
         questMoney = Quests.getQuestMoney(questId)
         self.expCircle.hide()
         self.jbCircle.hide()
+        self.rewardCircle.hide()
         if quest == None:
             self.notify.warning('Tried to display poster for unknown quest %s' % questId)
             return
@@ -300,12 +306,8 @@ class QuestPoster(DirectFrame):
             reward = Quests.getReward(transformedReward)
         else:
             reward = Quests.getReward(rewardId)
-        if reward and questId not in Quests.NoRewardTierZeroQuests:
-            rewardString = reward.getPosterString()
-        else:
-            rewardString = ''
-        self.rewardText['text'] = rewardString
-        self.fitLabel(self.rewardText)
+        if isinstance(reward, Quests.TeleportReward):
+            self.rewardCircle.show()
         if questExp:
            self.expCircle['text'] = str(questExp)
            self.expCircle.show()

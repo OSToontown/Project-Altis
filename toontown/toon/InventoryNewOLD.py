@@ -322,36 +322,55 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
         self.detailAmountLabel.configure(text=TTLocalizer.InventoryDetailAmount % {'numItems': self.numItem(track, level),
          'maxItems': self.getMax(track, level)})
         self.detailDataLabel.show()
+        organicBonus = self.toon.checkGagBonus(track, level)
+        propBonus = self.checkPropBonus(track)
         if track == LURE_TRACK:
             damage = BattleGlobals.NumRoundsLured[level]
         else:
             damage = getAvPropDamage(track, level, self.toon.experience.getExp(track))
-        organicBonus = self.toon.checkGagBonus(track, level)
-        propBonus = self.checkPropBonus(track)
         damageBonusStr = ''
         damageBonus = 0
         if self.propAndOrganicBonusStack:
             if propBonus:
-                damageBonus += getDamageBonus(damage)
+                damageBonus += getDamageBonus(damage, track)
+                if track == SOUND_TRACK:
+                    damageBonusStr = TTLocalizer.SoundExtraText
+                elif track == HEAL_TRACK:
+                    bonus = int(damage * 0.2)
+                    damageBonusStr = TTLocalizer.InventoryDamageBonus % TTLocalizer.HealExtraText % {'heal': bonus}
+                elif track == LURE_TRACK:
+                    damageBonus = 1
             if organicBonus:
-                damageBonus += getDamageBonus(damage)
+                damageBonus += getDamageBonus(damage, track)
+                if track == SOUND_TRACK:
+                    damageBonusStr = TTLocalizer.SoundExtraText
+                elif track == HEAL_TRACK:
+                    bonus = int(damage * 0.2)
+                    damageBonusStr = TTLocalizer.InventoryDamageBonusString % TTLocalizer.HealExtraText % {'heal': bonus}
+                elif track == LURE_TRACK:
+                    damageBonus = 1
             if damageBonus:
                 damageBonusStr = TTLocalizer.InventoryDamageBonus % damageBonus
         else:
             if propBonus or organicBonus:
-                damageBonus += getDamageBonus(damage)
+                damageBonus += getDamageBonus(damage, track)
+                if track == SOUND_TRACK:
+                    damageBonusStr = TTLocalizer.SoundExtraText
+                elif track == HEAL_TRACK:
+                    bonus = int(damage * 0.2)
+                    damageBonusStr = TTLocalizer.InventoryDamageBonusString % TTLocalizer.HealExtraText % {'heal': bonus}
+                elif track == LURE_TRACK:
+                    damageBonus = 1
             if damageBonus:
                 damageBonusStr = TTLocalizer.InventoryDamageBonus % damageBonus
         accString = AvTrackAccStrings[track]
-        if (organicBonus or propBonus) and track == LURE_TRACK:
-            accString = TTLocalizer.BattleGlobalLureAccMedium
-        if track == SQUIRT_TRACK:
+        if track == SQUIRT_TRACK or (track == TRAP_TRACK and organicBonus) or (track == DROP_TRACK and organicBonus) or track == ZAP_TRACK:
             self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailDataExtra % {'accuracy': accString,
              'damageString': self.getToonupDmgStr(track, level),
              'damage': damage,
              'bonus': damageBonusStr,
              'singleOrGroup': self.getSingleGroupStr(track, level),
-             'extra': self.getExtraText(track, level)})
+             'extra': self.getExtraText(track, level, organicBonus)})
             self.detailCreditLabel.setPos(-0.22, 0, -0.39625)
         else:
             self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailData % {'accuracy': accString,
@@ -1226,9 +1245,31 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
         else:
             return TTLocalizer.InventoryAffectsOneCog
 			
-    def getExtraText(self, track, level):
+    def getExtraText(self, track, level, organicBonus):
         if track == SQUIRT_TRACK:
-           return TTLocalizer.InventorySquirtRoundsString % BattleGlobals.NumRoundsWet[level]
+           if organicBonus:
+               bonusRounds = 1
+           else:
+               bonusRounds = 0
+           if bonusRounds:
+               text = TTLocalizer.InventorySquirtRoundsString % str(BattleGlobals.NumRoundsWet[level]) + ' (+1)'
+           else:
+               text = TTLocalizer.InventorySquirtRoundsString % str(BattleGlobals.NumRoundsWet[level])
+           return text
+        elif track == TRAP_TRACK:
+            return TTLocalizer.TrapExtraText
+        elif track == ZAP_TRACK:
+            bonus = 0
+            if organicBonus:
+                bonus = int(InstaKillChance[level] * 0.5)
+            if bonus:
+                text = TTLocalizer.ZapExtraText % str(InstaKillChance[level]) + ' (+%d)' % bonus
+            else:
+                text = TTLocalizer.ZapExtraText % str(InstaKillChance[level])
+            return text
+        elif track == DROP_TRACK:
+            return TTLocalizer.DropExtraText
+                
 
     def getToonupDmgStr(self, track, level):
         if track == HEAL_TRACK:

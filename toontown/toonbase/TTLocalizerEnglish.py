@@ -752,7 +752,7 @@ QuestDialogDict = {
  2005: {QUEST:  "This makes so much sense now!\x07Now that I have these decoded notes, go return these books for me please!", COMPLETE: "Thank you so much for doing this, _avName_!"}, #Dr Tom visit Pete to return the decoded books
 
  # Task One
- 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier she was going to make a batch of lemonade.x\07Could you do me a favor and get a pitcher of it from her?_where_"}, #Flippy to Limeys limes (visit)
+ 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier she was going to make a batch of lemonade.\x07Could you do me a favor and get a pitcher of it from her?_where_"}, #Flippy to Limeys limes (visit)
  2011: {GREETING: "Ahoy!",
 		QUEST:  "Huh? You want some lemonade?\x07Well unfortunately, I was fishing earlier and dropped my ingredients in the pond.\x07Would you mind fishing those up for me?",
 		LEAVING: ''}, #Limey fish to find some limes
@@ -884,7 +884,7 @@ QuestDialogDict = {
  2106: {GREETING: '',
 		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
 		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
- 2107: {QUEST:  "Oof, oof, I'm cooling down now...\x0Several more Cogs and I should be normal...", COMPLETE: "Sunshine, lollipops and, rainbows butterflies...\x07Thank you so much for this warm, happy feeling _avName_.\x07Here is a well deserved reward..."}, # Defeat 10 Cogs in Toontown Central
+ 2107: {QUEST:  "Oof, oof, I'm cooling down now...\x07Several more Cogs and I should be normal...", COMPLETE: "Sunshine, lollipops and, rainbows butterflies...\x07Thank you so much for this warm, happy feeling _avName_.\x07Here is a well deserved reward..."}, # Defeat 10 Cogs in Toontown Central
  
  # Task Eleven
  2110: {QUEST:  "Hey _avName_, we've almost run out of things for you to do!\x07Next up, the Toon Clinic is in need of some supplies.\x07First, pay a visit to _toNpcName_, and see what he needs."}, # Flippy to Charlie Doggenbottom
@@ -4238,6 +4238,11 @@ InventorySkillCreditNone = 'Skill credit: None'
 InventoryDetailAmount = '%(numItems)s / %(maxItems)s'
 InventoryDetailData = 'Accuracy: %(accuracy)s\n%(damageString)s: %(damage)d%(bonus)s\n%(singleOrGroup)s'
 InventoryDetailDataExtra = 'Accuracy: %(accuracy)s\n%(damageString)s: %(damage)d%(bonus)s\n%(singleOrGroup)s\n%(extra)s'
+TrapExtraText = '+10% chance to save gag'
+DropExtraText = '+10% acc. w/ 2+ drops'
+SoundExtraText = '(+Varies)'
+HealExtraText = '%(heal)s self'
+ZapExtraText = 'Fry Chance: %s'
 InventoryTrackExp = '%(curExp)s / %(nextExp)s'
 InventoryUberTrackExp = '%(nextExp)s to Go!'
 InventoryGuestExp = 'Guest Limit'
@@ -4259,6 +4264,7 @@ InventoryLevelsShow = 'SHOW LEVELS'
 InventoryLevelsHide = 'HIDE LEVELS'
 InventoryClickToAttack = 'Click a\ngag to\nattack'
 InventoryDamageBonus = '(+%d)'
+InventoryDamageBonusString = '(+%s)'
 NPCForceAcknowledgeMessage = "You must visit the bank before leaving.\n\n\n\n\n\n\n\n\nYou can find the bank next to Goofy's Gag Shop."
 NPCForceAcknowledgeMessage2 = 'You must return to Toon Headquarters before leaving.\n\n\n\n\n\n\n\n\n\nToon Headquarters is located near the center of the playground.'
 NPCForceAcknowledgeMessage3 = "Remember to visit Banker Bob.\n\n\n\n\n\n\n\nYou can find the bank next to Goofy's Gag Shop."

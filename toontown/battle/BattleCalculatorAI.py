@@ -129,6 +129,10 @@ class BattleCalculatorAI:
         if atkTrack != HEAL:
             for currTarget in atkTargets:
                 thisSuitDef = self.__targetDefense(currTarget, atkTrack)
+                if self.__isWet(currTarget.getDoId()):
+                    if currTarget.getDoId() in self.currentlyWetSuits.keys():
+                        if self.currentlyWetSuits[currTarget.getDoId()][2]:
+                            thisSuitDef -= 20
                 if debug:
                     self.notify.debug('Examining suit def for toon attack: ' + str(thisSuitDef))
                 tgtDef = min(thisSuitDef, tgtDef)
@@ -159,20 +163,27 @@ class BattleCalculatorAI:
         propAcc = AvPropAccuracy[atkTrack][atkLevel]
         if hasAccuracyBuff:
             propAcc *= BGagAccuracyMultiplier
-        if atkTrack == LURE:
+        if atkTrack == DROP:
             treebonus = self.__toonCheckGagBonus(attack[TOON_ID_COL], atkTrack, atkLevel)
             propBonus = self.__checkPropBonus(atkTrack)
+            numDrops = 0
+            for attack in self.battle.toonAttacks:
+                if attack[TOON_TRACK_COL] == DROP:
+                    numDrops += 1
             if self.propAndOrganicBonusStack:
                 propAcc = 0
                 if treebonus:
                     self.notify.debug('using organic bonus lure accuracy')
-                    propAcc += AvLureBonusAccuracy[atkLevel]
+                    if numDrops > 1:
+                        propAcc += AvDropBonusAccuracy[atkLevel]
                 if propBonus:
                     self.notify.debug('using prop bonus lure accuracy')
-                    propAcc += AvLureBonusAccuracy[atkLevel]
+                    if numDrops > 1:
+                        propAcc += AvDropBonusAccuracy[atkLevel]
             elif treebonus or propBonus:
                 self.notify.debug('using oragnic OR prop bonus lure accuracy')
-                propAcc = AvLureBonusAccuracy[atkLevel]
+                if numDrops > 1:
+                    propAcc += AvDropBonusAccuracy[atkLevel]
         if atkTrack == ZAP:
             for tgt in atkTargets:
                 if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
@@ -414,6 +425,7 @@ class BattleCalculatorAI:
         targetList = self.__createToonTargetList(toonId)
         atkHit, atkAcc = self.__calcToonAtkHit(toonId, targetList)
         atkTrack, atkLevel, atkHp = self.__getActualTrackLevelHp(attack)
+        toon = simbase.air.doId2do.get(toonId)
         if not atkHit and atkTrack != HEAL:
             return
         validTargetAvail = 0
@@ -439,6 +451,8 @@ class BattleCalculatorAI:
                             if not self.__combatantDead(targetId, toon=toonTarget):
                                 validTargetAvail = 1
                             rounds = NumRoundsLured[atkLevel]
+                            if self.__toonCheckGagBonus(toon, atkTrack, atkLevel):
+                                rounds += 1
                             wakeupChance = 100 - atkAcc * 2
                             npcLurer = attack[TOON_TRACK_COL] == NPCSOS
                             currLureId = self.__addLuredSuitInfo(targetId, -1, rounds, wakeupChance, toonId, atkLevel, lureId=currLureId, npc=npcLurer)
@@ -547,18 +561,31 @@ class BattleCalculatorAI:
                     else:
                         attackDamage = 0
                     bonus = 0
-                elif atkTrack == SQUIRT:
-                    if targetId not in self.currentlyWetSuits:
-                        rounds = NumRoundsWet[attackLevel]
-                        self.__addWetSuitInfo(targetId, -1, rounds)
+                elif atkTrack == SOUND:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
+                    attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
+                    currMaxLevel = 0
+                    if organicBonus:
+                        for suit in self.battle.activeSuits:
+                            if suit.getActualLevel() > currMaxLevel:
+                                currMaxLevel = suit.getActualLevel()
+                        attackDamage += int(currMaxLevel / 2)
+                elif atkTrack == SQUIRT:
+                    organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
+                    propBonus = self.__checkPropBonus(attackTrack)
+                    if targetId not in self.currentlyWetSuits:
+                        rounds = NumRoundsWet[attackLevel]
+                        self.__addWetSuitInfo(targetId, -1, rounds, organicBonus)
                     attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
                 elif atkTrack == ZAP:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
                     if self.__isWet(targetId) or self.__isRaining(self.battle.getToon(toonId)):
-                        if random.randint(0,99) <= InstaKillChance[atkLevel]:
+                        chance = InstaKillChance
+                        if organicBonus:
+                            chance = int(InstaKillChance * 1.5)
+                        if random.randint(0,99) <= chance[atkLevel]:
                             suit = self.battle.findSuit(targetId)
                             if suit.getHP() > 500:
                                 attackDamage = 500
@@ -586,6 +613,8 @@ class BattleCalculatorAI:
                 if atkTrack == HEAL:
                     if not self.__attackHasHit(attack, suit=0):
                         result = result * 0.2
+                        if organicBonus:
+                            toon.toonUp(result * 0.2)
                     if self.notify.getDebug():
                         self.notify.debug('toon does ' + str(result) + ' healing to toon(s)')
                 else:
@@ -605,6 +634,8 @@ class BattleCalculatorAI:
                 targetIndex = targets.index(targetList[currTarget])
                 if atkTrack == HEAL:
                     result = result / len(targetList)
+                    if organicBonus:
+                        toon.toonUp(result * len(targetList) * 0.2)
                     if self.notify.getDebug():
                         self.notify.debug('Splitting heal among ' + str(len(targetList)) + ' targets')
                 if targetId in self.successfulLures and atkTrack == LURE:
@@ -660,8 +691,8 @@ class BattleCalculatorAI:
 
             return 0
 
-    def __addWetSuitInfo(self, suitId, currRounds, maxRounds):
-        self.currentlyWetSuits[suitId] = [currRounds, maxRounds,]
+    def __addWetSuitInfo(self, suitId, currRounds, maxRounds, decreasedDef = False):
+        self.currentlyWetSuits[suitId] = [currRounds, maxRounds, decreasedDef,]
         self.notify.debug('__addWetSuitInfo: currWetSuits -> %s' % repr(self.currentlyWetSuits))
 
     def __isWet(self, suit):

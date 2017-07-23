@@ -343,13 +343,13 @@ AvPropAccuracy = ((70,
   50,
   50,
   50))
-AvLureBonusAccuracy = (60,
+AvDropBonusAccuracy = (60,
  60,
- 70,
- 70,
- 80,
- 80,
- 100)
+ 60,
+ 60,
+ 60,
+ 60,
+ 60)
 AvTrackAccStrings = TTLocalizer.BattleGlobalAvTrackAccStrings
 AvPropDamage = ((((8, 10), (Levels[0][0], Levels[0][1])),
   ((15, 18), (Levels[0][1], Levels[0][2])),
@@ -462,18 +462,21 @@ def getAvPropDamage(attackTrack, attackLevel, exp, organicBonus = False, propBon
     if propAndOrganicBonusStack:
         originalDamage = damage
         if organicBonus:
-            damage += getDamageBonus(originalDamage)
+            damage += getDamageBonus(originalDamage, attackTrack)
         if propBonus:
-            damage += getDamageBonus(originalDamage)
+            damage += getDamageBonus(originalDamage, attackTrack)
     elif organicBonus or propBonus:
-        damage += getDamageBonus(damage)
+        damage += getDamageBonus(damage, attackTrack)
     return damage
 
 
-def getDamageBonus(normal):
-    bonus = int(normal * 0.1)
-    if bonus < 1 and normal > 0:
-        bonus = 1
+def getDamageBonus(normal, track = 4):
+    if track == THROW_TRACK:
+        bonus = int(normal * 0.1)
+        if bonus < 1 and normal > 0:
+            bonus = 1
+    else:
+        bonus = 0
     return bonus
 
 
