@@ -156,7 +156,7 @@ class TownBattleToonPanel(DirectFrame):
         targetList.reverse()
         try:
             if self.avatar.trackBonusLevel[track] == 1:
-                marker = '*'
+                marker = 'O'
             else:
                 marker = 'X'
         except:
