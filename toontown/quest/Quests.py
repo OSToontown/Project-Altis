@@ -3376,7 +3376,7 @@ class TeleportReward(Reward):
         av.addTeleportAccess(self.getZone())
 
     def countReward(self, qrc):
-        qrc.addTeleportAccess(self.getZone())
+        pass
 
     def getString(self):
         hoodName = ToontownGlobals.hoodNameMap[self.getZone()][-1]
