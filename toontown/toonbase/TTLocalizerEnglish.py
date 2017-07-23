@@ -752,110 +752,143 @@ QuestDialogDict = {
  2005: {QUEST:  "This makes so much sense now!\x07Now that I have these decoded notes, go return these books for me please!", COMPLETE: "Thank you so much for doing this, _avName_!"}, #Dr Tom visit Pete to return the decoded books
 
  # Task One
- 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier he was going to make a batch of lemonade.x\07Could you do me a favor, and get a pitcher of it from him?"}, #Flippy to Limeys limes (visit)
- 2011: {QUEST:  "Ahoy! Did _fromNpcName_ send you over for the lemonade?\x07Well unfortunately, I was fishing earlier and dropped my ingredients in the water.\x07Would you mind fishing those up for me?"}, #Limey fish to find some limes
- 2012: {QUEST:  "Yep, these were the limes I was looking for!\x07However, I forgot I dropped the lemons in there too!\x07Could you do me a favor and get those for me?"}, #Limey fish to find some lemons
- 2013: {QUEST:  "Thanks again! These look even better now then when I dropped them!\x07So listen, I decided to go fishing again in Acorn Acres, and...\x07Well, I dropped the cups I had on me when I leaned to grab my catch.\x07Could you go grab those out for me?"}, #Limey fish to find some Acorn Cups in AA
- 2014: {QUEST:  "Thanks for getting these, I'll make sure to wash them before I use them.\x07I should really stop carrying my supplies on me when I fish.\x07Speaking of supplies, I need 3 glasses of water to make this with.\x07Mind going and buying those from the gag shop?"}, #Limey buy 3 glasses of water
- 2015: {QUEST:  "Alright, thanks! I really only needed two, but I'm kinda thirsty.\x07Okay, next I need three fruit pie slices, they pair great with the lemonade!"}, #Limey buy 3 fruit pie slices
- 2016: {QUEST:  "Yeah, these will be really tasty.\x07Now, I'm having trouble with my juicer, It's pretty jammed up.\x07Go and defeat a few cogs, and see if you can get a Gear Garnish from them."}, #Limey kill some cogs to recover a Gear Garnish
- 2017: {QUEST:  "Alright, last item, I promise.\x07We need ice cubes, which you can grab off of Cold Callers in Acorn Acres.\x07Go defeat them until you can find three."}, #Recover 3 Ice Cubes fron Cold Callers in Acorn Acres
- 2018: {QUEST:  "Alright, here you go!\x07Deliver this pitcher, these cups and these pies to _fromNpcName_.", COMPLETE: "Thanks _avName_, this should quench my thirst just nicely.\x07I'll be sure to go thank _toNpcName_ for the pies, as well.\x07Anyways, here's your reward."}, #Deliver Lemonade to Flippy in Toon Hall
- 
+ 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier she was going to make a batch of lemonade.x\07Could you do me a favor and get a pitcher of it from her?_where_"}, #Flippy to Limeys limes (visit)
+ 2011: {GREETING: "Ahoy!",
+		QUEST:  "Huh? You want some lemonade?\x07Well unfortunately, I was fishing earlier and dropped my ingredients in the pond.\x07Would you mind fishing those up for me?",
+		LEAVING: ''}, #Limey fish to find some limes
+ 2012: {GREETING: '',
+		QUEST:  "Yep, these were the limes I was looking for!\x07However, I forgot that I dropped the lemons in there too!\x07Could you do me a favor and get those for me?",
+		LEAVING: ''}, #Limey fish to find some lemons 
+ 2013: {GREETING: '',
+		QUEST:  "Thanks again!\x07So listen, I decided to go fishing AGAIN, and...\x07Well, I dropped the cups I had on me when I leaned to grab my catch.\x07Could you go grab those out for me?",
+		LEAVING: ''}, #Limey fish to find some Acorn Cups
+ 2014: {QUEST:  "Thanks for getting these, I'll make sure to wash them before I use them.\x07I should really stop carrying my supplies on me when I fish, don't ya think?\x07Speaking of supplies, I need 3 glasses of water to make this with.\x07Mind going and buying those from the gag shop?",
+		LEAVING: ''}, #Limey buy 3 glasses of water
+ 2015: {GREETING: '',
+		QUEST:  "Awesome!\x07Okay, next I need three fruit pie slices, they pair great with the lemonade!",
+		LEAVING: ''}, #Limey buy 3 fruit pie slices
+ 2016: {GREETING: '',
+		QUEST:  "Yeah, these will be really tasty.\x07Now, I'm having trouble with my juicer.\x07Go and defeat a few cogs and see if you can get a Gear Garnish from them.",
+		LEAVING: ''}, #Limey kill some cogs to recover a Gear Garnish
+ 2017: {GREETING: '',
+		QUEST:  "Alright, last item, I promise.\x07I need ice cubes, which you can grab off of Cold Callers.\x07Go defeat them until you can find three.",
+		LEAVING: ''}, #Recover 3 Ice Cubes fron Cold Callers
+ 2018: {QUEST:  "Alright, here you go!\x07Deliver this pitcher, these cups and these pies to _toNpcName_.", COMPLETE: "Thanks _avName_, this should quench my thirst just nicely.\x07I'll be sure to go thank Limey for the pies, as well.\x07Anyways, here's your reward."}, #Deliver Lemonade to Flippy in Toon Hall 
  
  # Task Two
- 2020: {QUEST:  "Hey, _avName_! \x07Could you head on over to _toNpcName_ and do him some favors?\x07I heard he needs some help with his new chocolate bars."}, # Flippy to Sal Snicker (visit)   
- 2021: {QUEST:  "Hello!\x07You must be the toon _fromNpcName_ sent over to help me.\x07 Thank you so much!\x07Anyways, let me tell you what happened.\x07Just a few hours ago, those pesky cops raided my building, and took my supplies!\x07I found out that the Penny Pinchers have my moulds, could you get those back?"}, # Kill Penny Pinchers to recover Chocolate Moulds
- 2022: {QUEST:  "Yep, that's all of them!\x07Next, the Pencil Pushers should have my shavings, I need those to melt down."}, # Kill Pencil Pushers to recover Chocolate Shavings 
+ 2020: {QUEST:  "Hey, _avName_!\x07Could you head on over to _toNpcName_ and do him several favors?\x07I heard he needs some help with his new chocolate bars._where_"}, # Flippy to Sal Snicker (visit)   
+ 2021: {QUEST:  "Hello! You must be _avName_.\x07Anyways, let me tell you what happened.\x07Just a few hours ago, those pesky cogs raided my building and took my supplies!\x07I found out that the Penny Pinchers have my moulds.\x07Could you get those back for me please?"}, # Kill Penny Pinchers to recover Chocolate Moulds
+ 2022: {QUEST:  "Yep, that's all of them!\x07Next, the Pencil Pushers should have my chocolate shavings.\x07They've mistaken my chocolate shavings for pencil shavings, how funny is that?"}, # Kill Pencil Pushers to recover Chocolate Shavings 
  2023: {QUEST:  "Alright, I'll get to work melting those into the moulds.\x07So, it looks like the Bloodsuckers have my sugar.\x07Would you mind grabbing it from them?"}, # Kill Bloodsuckers to recover Sugar
- 2024: {QUEST:  "Alright, I'll add that to the chocolate.\x07I think the Con Artists took my recipe, they were in here right before it went missing.\x07Go defeat them until you find it."}, # Kill Con Artists to recover recipe
- 2025: {QUEST:  "Alright, we're almost done now.\x07I need to get some wrappers so I can wrap these up.\x07Could you go defeat some Telemarketers to find them?"}, # Kill Telemarketers to recover Wrappers
- 2026: {QUEST:  "And voila! Freshly made chocolate bars!\x07I promised to give Banker Bob one, would you mind taking it to him?"}, # Deliver Chocolate Bar to Banker Bob
- 2027: {QUEST:  "Are these the new chocolate bars?\x07Mmm~ Thiff 'if so good!\x07 Eheh, excuse me. Please, deliver this money to Sal for me."}, # Deliver Money to Sal Snicker
- 2028: {QUEST:  "Thanks for the delivery, but the Cashbots have taken all the rest of my money!\x07Could you go defeat them for me, and see if you can find it?"}, # Kill 10 Cashbots 
- 2029: {QUEST:  "They didn't have it, huh? Ah well, it wasn't much.\x07Alright, the Lawbots have been planning to come back in here and take the rest of my stock.\x07Would you mind going out and defeating some to scare them off?", COMPLETE: "Alright, awesome! They should leave me alone now.\x07Here's your reward, and feel free to take a chocolate bar!"}, # Kill 10 Lawbots
+ 2024: {QUEST:  "Time to add the sugar!\x07Now to see what I have to do next...\x07Uh oh!!!\x07I think the Con Artists took my recipe, they were in here right before it went missing.\x07Go defeat them until you find it."}, # Kill Con Artists to recover recipe
+ 2025: {QUEST:  "Awesome! Now we can get finished on this bad boy.\x07Rumor has it that the Telemarketers keep some wrappers in their rolodexes.\x07Would you be able to grab some for me?\x07Why do I need them, you ask?\x07How else would I deliver this chocolate?"}, # Kill Telemarketers to recover Wrappers
+ 2026: {QUEST:  "And voila! Freshly made chocolate bars!\x07I promised to give Banker Bob one, would you kindly this one to him?_where_"}, # Deliver Chocolate Bar to Banker Bob
+ 2027: {QUEST:  "Are these the new chocolate bars?\x07Mmm~ Thiff 'if so good!\x07 Eheh, excuse me. Please, deliver these beans to Sal for me."}, # Deliver Money to Sal Snicker
+ 2028: {QUEST:  "Thanks so much for making that delivery for me!\x07Now, I need a huge favor.\x07Rumor has it that the Cashbots have been planning a heist on my shop.\x07I can't let that happen!\x07Can you take down a handful of those pesky cogs for me please?"}, # Kill 10 Cashbots 
+ 2029: {QUEST:  "Great! Now they won't be pulling anything sneaky off!\x07I just got a call from Flippy, and he wanted to try one of my chocolate bars.\x07Please deliver this to him. He also said there would be a reward involved.", COMPLETE: "Oh this chocolate bar looks good.\x07WHOA, THIS IS BRILLIANT!!!\x07Thanks for delivering this gift of heaven to my office!\x07Here is your reward..."}, #Deliver Chocolate Bar To Flippy
  
  # Task Three
- 2030: {QUEST:  "Hello, _avName_! Today I want you to work on developing your gags, so you can become more experienced in battle. \x07Head over to Librarian Larry, and she'll get you started."}, # Flippy to Librarian Larry (visit)
- 2031: {QUEST:  "Did Flippy send you?\x07Ah, I guess he must have, since you look like a young toon.\x07 If you didn't already know, I'm the librarian of this town, so I have acess to all the information about anything you needAnyways, I'm going to walk you through some training, so that you can get more familiar with how to battle the cogs\x07. I'll start you off with defeating five sellbots\x07 Allow me to properly warn you first.\x07Sellbots are the first of the five cog types you'll encounter when fighting off our land\x07While sellbots may seem like easy pie at first, they specialize in group"}, # Kill 5 Sellbot  
- 2032: {QUEST:  ""}, # Kill 5 Cashbots
- 2033: {QUEST:  "Back already? Good work, I see that you've really gotten your hands dirty in the battles.\x07.Cashbots really enjoy their money, but just like all the other cogs, they still can't take a joke!\x07Now, where was I?\x07Oh, I know.\x07 alright, back to your training. Lawbots are the second type of cog. Could you defeat five of those for me please?\x07Not only will you be helping yourself to get better, but you'll also be cleaning the streets from these cogs!"}, # Kill 5 Lawbots
- 2034: {QUEST:  "Still alive?\x07Ok, now I need you to defeat some Bossbots.\x07 Bossbots are the bosses of 3 other cog types, and pose strong commandment abilities.\x07As long as you stay silly and disobey their orders, you should be good.\x07Now go, and defeat those cogs!"}, # Kill 5 Bossbots
- 2035: {QUEST:  "Whew, hope you're not getting tired.\x07Now, on to the fifth type of cog.\x07Boardbots are the final cogs, and also happen to be the most dangerous.\x07Ever since the Eraser almost wiped us out, they've been on the loose, and seem to be monitoring the other four cog types.\x07Be careful with these guys!\x07 One you become more experienced, one day we may have you investigate more about Boardbots"}, # Kill 5 Boardbots
- 2036: {QUEST:  "Have any trouble with those boardbots?\x07Now that you've seen the 5 major cog types, its time to introduce you to the subclasses of cogs\x07Now, cogs also come in different shapes and forms, depending on how they were made.\x07Right now, you'll only counter regular cogs, and elite cogs.\x07But later, in more cog inhibited areas such as hqs, you will find other special types of cogs, such as Skelecogs, V2, Virtual cogs, and Elite V2 cogs.\x07Ugh, I get shivers just thinking of them!\x07 Alright, now go destroy five regular cogs first."}, # Kill 5 Level 2+ Cogs
- 2037: {QUEST:  "Hope that wasn't to hard. Now, I want you to defeat five elite cogs.\x07Elite cogs pose a very significant risk to the happiness to our toons, and are basically the newer editions of cogs.\x07 20% more damage, 50% more health, makes these cogs a huge risk to our shopkeepers saftey. Combine that with the dodge rate of a the cog level above it, and you've got a super dangerous cog. \x07I'm only sending you on this mission, toon, because I belive you are strong enough to handel it.\x07Just be careful out there.\x07Defeat 5 Level 2+ Elite Cogs."}, # Kill 5 Level 2+ Elite Cogs
- 2038: {QUEST: "How'd you do on those Elite cogs? Good Riddance, those things scare me.\x07 I think you're almost done with your training,  just bear with me here. Next, I want you to defeat more cogs.\x07I know, its lame.\x07Defeat 15 cogs"},
+ 2030: {QUEST:  "Let's get down to business, _avName_.\x07_toNpcName_ would like to inform you about the Cog departments and even about those horrid newly-built Cogs._where_"}, # Flippy to Librarian Larry (visit)
+ 2031: {QUEST:  "Welcome, new student!\x07Ah, so you're here for the lecture on the Cogs I see?\x07Let's discuss the difference between each department first.\x07Originally, Toontown was invaded by four types of Cogs: Sellbots, Cashbots, Lawbots, and Bossbots.\x07Sellbots are into marketing...\x07Cashbots love to handle the money...\x07Lawbots like to lay down the law...\x07And Bossbots love to boss everyone around and be in charge.\x07For now, I would like you to demonstarte your knowledge in being able to differentiate these types of Cogs.\x07Defeat 5 Sellbots and then return to me."}, # Kill 5 Sellbot  
+ 2032: {QUEST:  "Welcome, new student!\x07Ah, so you're here for the lecture on the Cogs I see?\x07Let's discuss the difference between each department first.\x07Originally, Toontown was invaded by four types of Cogs: Sellbots, Cashbots, Lawbots, and Bossbots.\x07Sellbots are into marketing...\x07Cashbots love to handle the money...\x07Lawbots like to lay down the law...\x07And Bossbots love to boss everyone around and be in charge.\x07For now, I would like you to demonstarte your knowledge in being able to differentiate these types of Cogs.\x07Defeat 5 Cashbots and then return to me."}, # Kill 5 Cashbot
+ 2033: {QUEST:  "Welcome, new student!\x07Ah, so you're here for the lecture on the Cogs I see?\x07Let's discuss the difference between each department first.\x07Originally, Toontown was invaded by four types of Cogs: Sellbots, Cashbots, Lawbots, and Bossbots.\x07Sellbots are into marketing...\x07Cashbots love to handle the money...\x07Lawbots like to lay down the law...\x07And Bossbots love to boss everyone around and be in charge.\x07For now, I would like you to demonstarte your knowledge in being able to differentiate these types of Cogs.\x07Defeat 5 Lawbots and then return to me."}, # Kill 5 Lawbot
+ 2034: {QUEST:  "Welcome, new student!\x07Ah, so you're here for the lecture on the Cogs I see?\x07Let's discuss the difference between each department first.\x07Originally, Toontown was invaded by four types of Cogs: Sellbots, Cashbots, Lawbots, and Bossbots.\x07Sellbots are into marketing...\x07Cashbots love to handle the money...\x07Lawbots like to lay down the law...\x07And Bossbots love to boss everyone around and be in charge.\x07For now, I would like you to demonstarte your knowledge in being able to differentiate these types of Cogs.\x07Defeat 5 Bossbots and then return to me."}, # Kill 5 Bossbot
+ 2035: {GREETING: '',
+		QUEST: "Great work on those Cogs.\x07Now, I think I can tell you about the newly introduced Cog department: The Boardbots.\x07The Boardbots have more power than all the other Cogs and are in charge of everything that goes around Cogs Incorporated.\x07I would like you to go and defeat 5 Boardbots then return to me."},
+ 2036: {QUEST:  "Have any trouble with those Boardbots?\x07Now that you've seen the 5 major Cog types, its time to introduce you to the subclasses of Cogs.\x07Now, Cogs also come in different shapes and forms, depending on how they were built.\x07Right now, you'll only counter regular Cogs, and Elite Cogs.\x07Later, in more Cog inhibited areas such as HQs, you will find other special types of Cogs, such as Skelecogs, V2, Virtual Cogs, and Elite V2 Cogs.\x07Ugh, I get shivers just thinking of them!\x07Anyways, around the playgrounds, you'll notice difference in the levels of the Cogs.\x07I want you to avoid those weak level one Cogs and attempt to defeat those stronger Cogs out there."}, # Kill 5 Level 2+ Cogs
+ 2037: {QUEST:  "Hope that wasn't to hard. Now, I want you to defeat five Elite Cogs.\x07Elite Cogs pose a very significant risk to the happiness of our toons.\x07They are stronger, have more health, and can even dodge better than the average Cog. Oh, what a nightmare!\x07I'm only sending you on this mission, toon, because I belive you are strong enough to handle it.\x07Just be careful out there.\x07Defeat 5 Elite Cogs."}, # Kill 5 Elite Cogs
+ 2038: {QUEST: "How'd you do on those Elite Cogs?\x07Finally, I would like you to do something small but a little difficult.\x07I want you to take care of those high leveled Cogs, the level 4+ ones.\x07You can find them on Wacky Way and Silly Street.", COMPLETE: "Great job on all those Cogs!\x07You've passed my lesson. Congrats!"},
  
  # Task Four
- 2040: {QUEST:  "Hey _avName_, yet another task.\x07_toNpcName_ is in need of some help. Would you mind going and helping him deliver some packages?"}, # Flippy to Postmaster Pete
- 2041: {QUEST:  "Hey, nice to meet you _avName_!\x07Okay, first thing's first, I need some packages that were stolen by level three cogs."}, # Recover 5 packages from level 3+ cogs in Toontown Central
- 2042: {QUEST:  "Alright, thank you for that. Would you mind delivering this one to Rancid Robert?"}, # Deliver a Package to Rancid Robert
- 2043: {QUEST:  "Hey, is this my package?\x07Awesome, thank you so much.\x07Would you mind doing me a favor?\x07I need some banana peels that were taken from me, by Boardbots."}, # Recover 10 banana peels from Boardbots in Toontown Central
- 2044: {QUEST:  "Alright, I have another problem.\x07The Bossbots came in, and stoll my nets. I need to get those back."}, # Recover 5 nets from Bossbots in Toontown Central
- 2045: {QUEST:  "You've been a big help so far, so I'm gonna trust this to you.\x07A Connoisseur came in, and stole my saxaphone. I need that for my show tonight.\x07Would you mind defeating Connoisseurs until you find it?"}, # Recover a saxaphone from a Connosieur
- 2046: {QUEST:  "Thank you so much!\x07Would you mind going and telling Charlie Chortle that the show is still on for tonight?", COMPLETE:"Alright, thanks."}, # Return to Charlie Chortle, tell him the show is on
+ 2040: {QUEST:  "Welcome back, _avName_!\x07_toNpcName_ is in need of some help.\x07Would you mind helping him deliver some packages?_where_"}, # Flippy to Postmaster Pete
+ 2041: {QUEST:  "Hey, nice to meet you _avName_!\x07I need your help.\x07The high leveled Cogs around here tend to steal all the packages that I need delivered.\x07Can you go get several of them back for me please?"}, # Recover 5 packages from level 3+ cogs in Toontown Central
+ 2042: {QUEST:  "Alright, thank you for that.\x07Would you mind delivering this one to Rancid Robert?_where_"}, # Deliver a Package to Rancid Robert
+ 2043: {QUEST:  "Hey, is this my package?\x07Oh, I'm sorry. I'm too down right now to sign for it...\x07Maybe you could help me?\x07See, those Boardbots storm in here and take away all my Banana Peels and I just feel like nothing without them.\x07Could you get those back for me? There were about 7 of them."}, # Recover 7 banana peels from Boardbots in Toontown Central
+ 2044: {QUEST:  "Thanks, but I'm still not feeling normal...\x07Maybe if you could get those nets of mine that those Bossbots stole from me..."}, # Recover 5 nets from Bossbots in Toontown Central
+ 2045: {GREETING: '',
+		QUEST:  "Now, if only that Connoisseur would return my favorite saxaphone...",
+		LEAVING: ''}, # Recover a saxaphone from a Connosieur
+ 2046: {QUEST:  "Oh I feel a lot better now!\x07Let me just sign for this package...\x07Wait a darn minute, this doesn't belong to me?\x07It belongs to _toNpcName_!!!_where_.", COMPLETE:"Awesome! That's the package I ordered.\x07Let me just sign for this and, BAM!\x07Here is a reward, kind toon..."}, # Return to Charlie Chortle, tell him the show is on
 
  # Task Five
- 2050: {QUEST:  "Great work so far _avName_\x07Could you do me a quick favour and drop this off for _toNpcName_\x07It got delivered here for some reason..._where_"}, # Flippy Deliver Package to Liar Liar
- 2051: {QUEST:  "Yay! A new delivery...\x07Wait. This isn't for me. This is for _toNpcName_.\x07My biggest competitor._where_"}, # Liar Liar Deliver Package to Pants On Fire
- 2052: {QUEST:  "Yay! A new delivery...\x07Wait. This isn't for me. This is for _toNpcName_.\x07My biggest competitor._where_"}, # Pants On Fire Deliver Package to Liar Liar
- 2053: {QUEST:  "Yay! A new delivery...\x07Wait. Not you again _avName_. This isn't for me! Take it back to _toNpcName_\x07He can find out where it's meant to be going._where_"}, # Liar Liar in to Postmaster Pete
- 2054: {QUEST:  "What's that you've got there _avName_\x07Oh, well that's not right... This label is all messed up\x07I would fix it, but my sorter got stolen when some Boardbots took over my building.\x07Could you go get it back for me?_where_"}, # Recover Label Sorter from Boardbots
- 2055: {QUEST:  "Alright, here's the proper label, return this to Pants On Fire for me please."}, # Postmaster Pete Deliver Package to Pants On Fire
- 2056: {QUEST:  "Yay! A new delivery...\x07Wait. Not you again _avName_. Oh, this looks like the right package. Thanks!\x07Could you do me a favor, and go grab my glasses?\x07They were stolen by a Connoisseur."}, # Recover Glasses from Connoisseur
- 2057: {QUEST:  "Ah, good, I can finish writing this memo now.\x07Alright, would you mind delivering this to _toNpcName_?"}, # Deliver Urgent Memo to Shirley U. Jest
- 2058: {QUEST:  "Is this from Pants On Fire?\x07Alright... Mhm... I see...\x07 Okay, would you mind going out and defeating some cogs for me, here in the playground?"}, # Defeat 20 Level 2+ Cogs in Toontown Central
- 2059: {QUEST:  "", COMPLETE: "Their numbers are seriously dwindling!\x07One last thing...\x07Please go and defeat some level 2+ Boardbots. ", COMPLETE: "Thank you so much for helping me with all these cogs!\x07Oh! I almost forgot!\x07Here, take this reward. "}, # Kill 5 Level 2+ Boardbots"}, # Defeat 5 Level 3+ Cogs in Toontown Central
+ 2050: {QUEST:  "Great work so far _avName_\x07Could you do me a quick favor and drop this off for _toNpcName_?\x07It got delivered here for some reason..._where_"}, # Flippy Deliver Package to Liar Liar
+ 2051: {QUEST:  "Yay! A new delivery...\x07Wait, this isn't for me. This is for _toNpcName_, my biggest competitor._where_"}, # Liar Liar Deliver Package to Pants On Fire
+ 2052: {QUEST:  "Yay! A new delivery...\x07Wait, this isn't for me. This is for _toNpcName_, my biggest competitor._where_"}, # Pants On Fire Deliver Package to Liar Liar
+ 2053: {QUEST:  "Yay! A new delivery...\x07Wait, not you again _avName_. This isn't for me!\x07Take it back to _toNpcName_. He can find out where it's meant to be._where_"}, # Liar Liar in to Postmaster Pete
+ 2054: {QUEST:  "What's that you've got there, _avName_?\x07Oh, well that's not right... This label is all messed up.\x07I would fix it, but my sorter got stolen when some Boardbots took over my building.\x07Could you go get it back for me?"}, # Recover Label Sorter from Boardbots
+ 2055: {QUEST:  "Alright, here's the proper label.\x07Return this to Pants On Fire for me please._where_"}, # Postmaster Pete Deliver Package to Pants On Fire
+ 2056: {QUEST:  "Yay! A new delivery...\x07Wait, not you again _avName_.\x07Oh, this looks like the right package. Thanks!\x07Could you do me a favor, and go grab my glasses?\x07They were stolen by a Flunky."}, # Recover Glasses from Connoisseur
+ 2057: {QUEST:  "Ah, good. I can finish writing this memo now.\x07Alright, would you mind delivering this to _toNpcName_?_where_"}, # Deliver Urgent Memo to Shirley U. Jest
+ 2058: {QUEST:  "Is this from Pants On Fire?\x07Alright... Mhm... I see...\x07He believes that he'd be a bit more mellow about being neighbors if there were less level 2+ Cogs on this steet.\x07Maybe this could lead to peace between us if you help us out."}, # Defeat 5 Level 2+ Cogs on Wacky Way
+ 2059: {GREETING: '',
+		QUEST:  "Now that you took care of Pants On Fire, maybe you could mellow me out.\x07Please reduce the amount of high leveled Cogs on this street and then I'll give you a reward.", 
+		COMPLETE: "Oh, thank you so much!\x07Here is your reward..."}, # Defeat 4 Level 4+ Cogs on Wacky Way
 
  # Task Six
- 2060: {QUEST:  "My friend, _toNpcName_, has been having problems with the cogs lately.\x07Would you mind going over to his shop and helping him out?"}, # Flippy to Tony Maroni
- 2061: {QUEST:  "Ay, you're the toon _fromNpcName_ sent to help out, eh?\x07It's good to see those beans I paid him for protection are working.\x07Anyways, there have been some bossbots roughing up my clients lately, mind making 'em go away?"}, # Defeat 5 level 3+ Bossbots
- 2062: {QUEST:  "Ey, forget about 'em, yeah?\x07While you were out there, a group of lawbots came by and made one of my toons sad.\x07Can you go teach 'em a lesson for me?"}, # Defeat 10 Lawbots
- 2063: {QUEST:  "Alright, last task, friend.\x07Some cogs have been halting my supply trains, taking their pies and such.\x07I need you to make sure they don't do that again, kapeesh?", COMPLETE: "Alright, a deals a deal.\x07I'll tell _fromNpcName_ we're squared up for the month.\x07Have a nice day, _avName_"}, # Defeat 15 level 2+ Cogs
+ 2060: {QUEST:  "My friend, _toNpcName_, has been having problems with the cogs lately.\x07Would you mind going over to his shop and helping him out?_where_"}, # Flippy to Tony Maroni
+ 2061: {GREETING: '',
+		QUEST:  "Ay, you must be _avName_ whom was sent to help out, eh?\x07There have been some Bossbots roughing up my clients lately.\x07Mind making 'em go away?", # Defeat 5 level 3+ Bossbots
+		LEAVING: ''},
+ 2062: {GREETING: '',
+		QUEST:  "Ey, forget about 'em, yeah?\x07While you were out there, a group of lawbots came by and made one of my customers sad.\x07Can ya go teach 'em a lesson for me?\x07I'm tryin' ta work ova here!!! C'mon!",
+		LEAVING: ''}, # Defeat 10 Lawbots
+ 2063: {QUEST:  "Last task, boss.\x07Some cogs have been halting my supply trains, taking their pies and such.\x07I need you to make sure they don't do that again, kapeesh?", COMPLETE: "Alright, a deals a deal."}, # Defeat 6 level 2+ Cogs
  
  # Task Seven
- 2070: {QUEST:  "_toNpcName_ has been having a ton of issues with cogs in the surrounding area.\x07Could you possibly go help him with whatever he needs?"}, # Flippy to Louise Connection
- 2071: {QUEST:  "Hey, go get some plans from the Sellbots.\x07Are you still here? Get going!"}, # Recover a data plan from Sellbots
- 2072: {QUEST:  "Alright, go get a payment plan, from the Cashbots."}, # Recover a payment plan from Cashbots
- 2073: {QUEST:  "Mhm... I need a legal agreement, from the Lawbots."}, # Recover a legal agreement from Lawbots
- 2074: {QUEST:  "The Bossbots should have some work phones on them. Go grab one from them."}, # Recover a work phone from Bossbots
- 2075: {QUEST:  "Alright. Go defeat some Boardbots.\x07Why are you looking at me like that? Do I have to give you a reason?"}, # Defeat 5 Boardbots
- 2076: {QUEST:  "Okay, go defeat some Sellbots."}, # Defeat 5 Sellbots
- 2077: {QUEST:  "Now I need you to defeat a couple Middlemen."}, # Defeat 2 Middlemen
- 2078: {QUEST:  "And now, I need two Glad Handlers defeated."}, # Defeat 2 Glad Hander
- 2079: {QUEST:  "Alright, here you go.\x07What is it, you ask?\x07You're nosy, but I suppose it couldn't hurt.\x07It's a cellphone, go take it to Loony Lous.", COMPLETE: "Oh, is this from Louise Connection?\x07Yeah, he doesn't say much, does he?\x07Anyways, here's your reward!"}, # Deliver an activated cell phone to Loony Louis
+ 2070: {QUEST:  "_toNpcName_ has been having a ton of issues with Cogs in the surrounding area.\x07Could you possibly go help him with whatever he needs?_where_"}, # Flippy to Louise Connection
+ 2071: {QUEST:  "I just had a package of cell phones delivered here and a Sellbot just came around and stole it!\x07Could you please go get it back for me?"}, # Recover a package from Sellbots
+ 2072: {QUEST:  "I just had a package of cell phones delivered here and a Cashbot just came around and stole it!\x07Could you please go get it back for me?"}, # Recover a package from from Cashbots
+ 2073: {QUEST:  "I just had a package of cell phones delivered here and a Lawbot just came around and stole it!\x07Could you please go get it back for me?"}, # Recover a package from Lawbots
+ 2074: {QUEST:  "I just had a package of cell phones delivered here and a Bossbot just came around and stole it!\x07Could you please go get it back for me?"}, # Recover a package from Bossbots
+ 2075: {QUEST:  "Thanks for getting that package back for me.\x07I need to make sure those Bossbots don't get greedy and try to steal these phones for their work.\x07Please defeat 5 of them then come back to me."}, # Defeat 5 Boardbots
+ 2076: {QUEST:  "Thanks for getting that package back for me.\x07Now, I need to make sure those Sellbots don't steal these phones and sell them for higher prices, ripping off toons everywhere!\x07Please defeat 5 of them then come back to me."}, # Defeat 5 Sellbots
+ 2077: {QUEST:  "Now I need a couple of those greedy Middlemen out of the picture..."}, # Defeat 2 Middlemen
+ 2078: {QUEST:  "Now I need a couple of those greedy Glad Handers out of the picture..."}, # Defeat 2 Glad Hander
+ 2079: {QUEST:  "Alright, here you go.\x07What is it, you ask?\x07You're nosy, but I suppose it couldn't hurt.\x07It's a cellphone that needs to be delivered to _toNpcName_._where_", COMPLETE: "Oh, is this from Louise Connection?\x07Awesome! Can't wait to get started with this thing!\x07Anyways, here's your reward!"}, # Deliver an activated cell phone to Loony Louis
 
  # Task Eight
  2080: {QUEST:  "Hiya! You are getting pretty far!\x07Hmm, your gags look like they can use a little more work though.\x07How about you get a few more points in your Throw track?"}, # Flippy - Collect 20 Throw Points
  2081: {QUEST:  "Great work! Your Throw gags are looking a lot better now!\x07But now your Squirt gags are a little too far behind.\x07Go put some work into your Squirt gags and come back to me when you are done."}, # Collect 20 Squirt Points
- 2082: {QUEST:  "Now your gags are looking stronger then ever!\x07Now that that's done, do you mind bringing over a Cream Pie Slice to _toNpcName_?"}, # Deliver a Cream Pie Slice to Ma Putrid 
+ 2082: {QUEST:  "Now your gags are looking stronger then ever!\x07Now that that's done, do you mind bringing over a Cream Pie Slice to _toNpcName_?_where_"}, # Deliver a Cream Pie Slice to Ma Putrid 
  2083: {QUEST:  "Oh wow! This Cream Pie Slice looks delicious! Thank you so much _avName_!\x07Spamonia Biggles called me recently and told me she is in desperate need of a squirt gun.\x07Could you go deliever her one for me?"}, # Deliver a squirt gun to Spamonia Biggles
  2084: {QUEST:  "This is just what I was looking for! Thank you _avName_!\x07Flippy told me he has a task for you, go see him immediately."}, # Visit Flippy
  2085: {QUEST:  "Hey there! I see Biggles sent you right over here, perfect!\x07I need you to go and defeat some cogs for some reasearch."}, # Defeat 5 cogs
  2086: {QUEST:  "Perfect! This will help my research a lot.\x07For your last task I need you to defeat some higher level cogs.", COMPLETE: "Our research will be greatly advanced because of you!\x07Thank you for all your help _avName_!"}, # Defeat 3 level 4+ cogs
  
  # Task Nine
- 2090: {QUEST:  "Thank god you are here _avName_!\x07Sticky Lou is in desperate need of assistance with an unexpected wave of cogs surrounding his shop!\x07Please go to him and help him with whatever he needs."}, # Flippy to Sticky Lou
- 2091: {QUEST:  "There are just too many!!! I don't know what to do!\x07Oh, _avName_! I didn't notice you there!\x07 Please help me with all these cogs, there are way to many for me to handle on my own."}, # Defeat 30 Cogs in Toontown Central
- 2092: {QUEST:  "Thank you so much _avName_, that makes me feel a lot more safe roaming the streets!\x07We need to start taking out the big cogs now.\x07Go defeat some level 3+ cogs."}, # Defeat 3 Level 3+ Cogs in TTC
- 2093: {QUEST:  "Schweeeeeet!!\x07Now you got to take out the big cogs\x07There should be some level 5 cogs on silly street, go there and defeat one."}, # Defeat a Level 5+ Cog on Silly Street
- 2094: {QUEST:  "That oughta scare those cogs!\x07Now go to Acorn Acres and defeat a level 4 cog."}, # Defeat a Level 4+ Cog in Acorn Acres
- 2095: {QUEST:  "This is amazing!\x07Unfortunately while you were in Acorn Acres some more cogs came in.\x07Can you reduce their numbers once more?"}, # Defeat 5 Level 3+ Cogs in Toontown Central
- 2096: {QUEST:  "You have done amazing work so far!\x07One last thing, some cogs recently stole my blueprint for my newest project.\x07 I really need to get back to work on it, can you go get the blueprint back for me?", COMPLETE: "All of the toons and I appreicate all you have done for us.\x07 The streets will now be a lot safer with all you have done.\x07Please take this reward!"}, # Recover a Blueprint from Level 5+ Cogs in Toontown Central
+ 2090: {QUEST:  "Thank god you are here _avName_!\x07Sticky Lou is in desperate need of assistance with an unexpected wave of Cogs surrounding his shop!\x07Please go to him and help him with whatever he needs._where_"}, # Flippy to Sticky Lou
+ 2091: {QUEST:  "There are just too many!!! I don't know what to do!\x07Oh, _avName_! I didn't notice you there!\x07Please help me with all these Cogs, there are way too many for me to handle on my own."}, # Defeat 30 Cogs in Toontown Central
+ 2092: {QUEST:  "Thank you so much _avName_, that makes me feel a lot more safe roaming the streets!\x07We need to start taking out the big cogs now.\x07Go defeat some level 2+ Cogs on Punchline Place..."}, # Defeat 4 Level 2+ Cogs on Wacky Way
+ 2093: {QUEST:  "A sprinkle of level 3+ Cogs on Loopy Lane..."}, # Defeat 3 Level 3+ Cogs on Punchline Place
+ 2094: {QUEST:  "A dash of level 4+ Cogs on Wacky Way..."}, # Defeat 2 Level 4+ Cogs on Silly Street
+ 2095: {QUEST:  "And a hint of lime of level 5+ Cogs on Silly Street!"}, # Defeat 2 Level 5+ Cogs on Loopy Lane
+ 2096: {QUEST:  "While you were away, I assumed everything was fine.\x07I was heading to the Post Office to store these top secret blueprints, and then a strong Cog roaming this street took it away.\x07You just have to get those blueprints back for me! Within the Cogs' hands, who knows what could happen?", COMPLETE: "All of the toons and I appreicate all you have done for us.\x07The streets will now be a lot safer with all you have done.\x07Please take this reward!"}, # Recover a Blueprint from Level 5+ Cogs in Toontown Central
 
  # Task Ten
- 2100: {QUEST:  "_toNpcName_ has been working on a new anti-cog measure for the playground.\x07Would you mind lending them a hand?"}, # Flippy to Shorty Fuse
- 2101: {QUEST:  "Hey there! Are you my new researcher?\x07I need to collect data on some cogs around the playgrounds, starting with this one.\x07Go out and defeat some level five cogs on any street ."}, # Defeat 5 Level 5+ Cogs in Toontown Central
- 2102: {QUEST:  "Alright, next I need you to go defeat some level five cogs in Donald's Dock."}, # Defeat 5 Level 5+ Cogs in Donalds Docks
- 2103: {QUEST:  "Alright, now head to Acorn Acres, there should be a few level five cogs there."}, # Defeat 5 Level 5+ Cogs in Acorn Acres
- 2104: {QUEST:  "Good job!\x07Next is Daisy Gardens, you know the drill."}, # Defeat 5 Level 5+ Cogs in Daisy Gardens
- 2105: {QUEST:  "I didnt quite get the data I needed, would you mind going to Minnie's Melodyland?\x07Defeat a couple level five cogs there."}, # Defeat 2 Level 5+ Cogs in Minnies Melodyland
- 2106: {QUEST:  "Alright, that's taken care of. Now, I need some research on building here in Toontown Central.\x07Go defeat a cog building on any street."}, # Defeat a Cog Building in Toontown Central
- 2107: {QUEST:  "Alright, I just need to research cog movements here in Toontown Central, and I'll be done.\x07Go defeat a few cogs for me, and we'll be done.", COMPLETE: "Alright, I'll tell _fromNpcName_ that you finished the research, and we'll have these measures up by the end of the week."}, # Defeat 25 Cogs in Toontown Central
+ 2100: {QUEST:  "_toNpcName_ has gone completely mad about how the Cogs have been acting around here.\x07Could you go see what's up?_where_"}, # Flippy to Shorty Fuse
+ 2101: {GREETING: '',
+		QUEST:  "These Cogs are giving me a short fuse, and I feel like I'm about to EXPLODE!!!\x07Ooooh, those high leveled Cogs around here, they need a lesson taught to them...",
+		LEAVING: ''}, # Defeat 5 Level 3+ Cogs in Toontown Central
+ 2102: {GREETING: '',
+		QUEST:  "Now, those Lawbots...\x07THEY REALLY JUST GET MY FUSE DOWN TO THE BOTTOM!!!",
+		LEAVING: "KA-BOOM!!!!!!"}, # Defeat 10 Lawbots
+ 2103: {GREETING: '',
+		QUEST:  "Now, those Bossbots...\x07THEY REALLY JUST GET MY FUSE DOWN TO THE BOTTOM!!!",
+		LEAVING: "KA-BOOM!!!!!!"}, # Defeat 10 Bossbots
+ 2104: {GREETING: '',
+		QUEST:  "Now, those Boardbots...\x07THEY REALLY JUST GET MY FUSE DOWN TO THE BOTTOM!!!",
+		LEAVING: "KA-BOOM!!!!!!"}, # Defeat 10 Boardbots
+ 2105: {GREETING: '',
+		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
+		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
+ 2106: {GREETING: '',
+		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
+		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
+ 2107: {QUEST:  "Oof, oof, I'm cooling down now...\x0Several more Cogs and I should be normal...", COMPLETE: "Sunshine, lollipops and, rainbows butterflies...\x07Thank you so much for this warm, happy feeling _avName_.\x07Here is a well deserved reward..."}, # Defeat 10 Cogs in Toontown Central
  
  # Task Eleven
  2110: {QUEST:  "Hey _avName_, we've almost run out of things for you to do!\x07Next up, the Toon Clinic is in need of some supplies.\x07First, pay a visit to _toNpcName_, and see what he needs."}, # Flippy to Charlie Doggenbottom
- 2111: {QUEST:  "Hello, are you our help?\x07Awesome, because things have been really hectic around here.\x07To start with, a bunch of our straightjackets were stolen.\x07You can most likely find them on cogs in Acorn Acres."}, # Recover 10 straightjackets from the cogs in AA
+ 2111: {QUEST:  "Hello, are you our help?\x07Awesome, because things have been really hectic around here.\x07To start with, a bunch of our straightjackets were stolen."}, # Recover 10 straightjackets from the cogs in AA
  2112: {QUEST:  "Alright, thanks for getting those back from the cogs.\x07If you wouldn't mnd, could you deliver those to _toNpcName_?"}, # Deliver 10 straightjackets to Dr. Sensitive
  2113: {QUEST:  "Are these the straight jackets that were stolen?\x07Thank you so much. No time to Dawdle though, _toNpcName_ is in need of some help."}, # Visit Nurse Nancy
  2114: {QUEST:  "Hey, so glad you're here.\x07Would you mind going out and defeating some Ambulance Chasers for me?\x07They've been a real pain lately."}, # Defeat 5 Ambulance Chasers
