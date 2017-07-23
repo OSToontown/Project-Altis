@@ -112,7 +112,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
-        self.wantGardening = self.config.GetBool('want-gardening', True)
+        self.wantGardening = self.config.GetBool('want-gardening', False)
         self.cogSuitMessageSent = False
         self.weatherCycleDuration = self.config.GetInt('weather-cycle-duration', 100)
 
