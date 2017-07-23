@@ -2995,7 +2995,7 @@ def chooseBestQuests(currentNpc, av):
     completedIds = []
     currentIds = []
     for entry in completedQuests:
-        completedIds.append(entry)
+        completedIds.append(getFirstQuestIdInChain(entry))
     for entry in currentQuests:
         currentIds.append(getFirstQuestIdInChain(entry[0]))
     bestQuests = []

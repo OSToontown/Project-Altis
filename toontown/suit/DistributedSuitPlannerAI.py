@@ -38,10 +38,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
     CogdoRatio = 0
     SuitHoodInfo = [[ToontownGlobals.ToontownCentralOld, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 40, 0, 0, 20), (5, 6, 7, 8), [], 5],
-    [ToontownGlobals.SillyStreet, 8, 20, 0, 5, 20, 3, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (2, 3, 4, 5), [], 10],
-    [ToontownGlobals.LoopyLane, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (30, 40, 5, 5, 20), (1, 2, 3), [], 5],
+    [ToontownGlobals.SillyStreet, 8, 20, 0, 5, 20, 3, (1, 5, 10, 40, 60, 80), (20, 20, 20, 20, 20), (2, 3, 4), [], 10],
+    [ToontownGlobals.LoopyLane, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (30, 40, 5, 5, 20), (2, 3, 4, 5), [], 5],
     [ToontownGlobals.PunchlinePlace, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (5, 5, 40, 40, 10), (1, 2, 3), [], 5],
-    [ToontownGlobals.WackyWay, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (30, 20, 5, 5, 40), (2, 3, 4), [], 5],
+    [ToontownGlobals.WackyWay, 8, 20, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (30, 20, 5, 5, 40), (1, 2, 3), [], 5],
     [ToontownGlobals.BarnacleBoulevard, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (80, 10, 0, 0, 10), (2, 3, 4, 5),[], 7.5],
     [ToontownGlobals.SeaweedStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 10, 60, 30, 0), (3, 4, 5),[], 10],
     [ToontownGlobals.LighthouseLane, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (10, 40, 10, 10, 30), (3, 4, 5, 6),[], 15],
