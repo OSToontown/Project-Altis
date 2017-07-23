@@ -752,7 +752,7 @@ QuestDialogDict = {
  2005: {QUEST:  "This makes so much sense now!\x07Now that I have these decoded notes, go return these books for me please!", COMPLETE: "Thank you so much for doing this, _avName_!"}, #Dr Tom visit Pete to return the decoded books
 
  # Task One
- 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier she was going to make a batch of lemonade.x\07Could you do me a favor and get a pitcher of it from her?_where_"}, #Flippy to Limeys limes (visit)
+ 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier she was going to make a batch of lemonade.\x07Could you do me a favor and get a pitcher of it from her?_where_"}, #Flippy to Limeys limes (visit)
  2011: {GREETING: "Ahoy!",
 		QUEST:  "Huh? You want some lemonade?\x07Well unfortunately, I was fishing earlier and dropped my ingredients in the pond.\x07Would you mind fishing those up for me?",
 		LEAVING: ''}, #Limey fish to find some limes
