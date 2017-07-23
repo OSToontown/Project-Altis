@@ -969,7 +969,7 @@ dclass DistributedToon : DistributedPlayer {
   setDNAString(blob) required broadcast ownrecv db;
   setGM(uint16 = 0) required broadcast ownrecv db;
   setMoney(uint16 = 0) required ownrecv db;
-  setMaxBankMoney(uint64 maxMoney = 15000) required broadcast ownrecv db;
+  setMaxBankMoney(uint32 maxMoney = 15000) required broadcast ownrecv db;
   setMaxMoney(uint16 maxMoney = 500) required broadcast ownrecv db;
   setBankMoney(uint64 money = 0) required ownrecv db;
   setMaxHp(int16 = 15) required broadcast ownrecv db;
