@@ -752,28 +752,40 @@ QuestDialogDict = {
  2005: {QUEST:  "This makes so much sense now!\x07Now that I have these decoded notes, go return these books for me please!", COMPLETE: "Thank you so much for doing this, _avName_!"}, #Dr Tom visit Pete to return the decoded books
 
  # Task One
- 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier he was going to make a batch of lemonade.x\07Could you do me a favor, and get a pitcher of it from him?"}, #Flippy to Limeys limes (visit)
- 2011: {QUEST:  "Ahoy! Did _fromNpcName_ send you over for the lemonade?\x07Well unfortunately, I was fishing earlier and dropped my ingredients in the water.\x07Would you mind fishing those up for me?"}, #Limey fish to find some limes
- 2012: {QUEST:  "Yep, these were the limes I was looking for!\x07However, I forgot I dropped the lemons in there too!\x07Could you do me a favor and get those for me?"}, #Limey fish to find some lemons
- 2013: {QUEST:  "Thanks again! These look even better now then when I dropped them!\x07So listen, I decided to go fishing again in Acorn Acres, and...\x07Well, I dropped the cups I had on me when I leaned to grab my catch.\x07Could you go grab those out for me?"}, #Limey fish to find some Acorn Cups in AA
- 2014: {QUEST:  "Thanks for getting these, I'll make sure to wash them before I use them.\x07I should really stop carrying my supplies on me when I fish.\x07Speaking of supplies, I need 3 glasses of water to make this with.\x07Mind going and buying those from the gag shop?"}, #Limey buy 3 glasses of water
- 2015: {QUEST:  "Alright, thanks! I really only needed two, but I'm kinda thirsty.\x07Okay, next I need three fruit pie slices, they pair great with the lemonade!"}, #Limey buy 3 fruit pie slices
- 2016: {QUEST:  "Yeah, these will be really tasty.\x07Now, I'm having trouble with my juicer, It's pretty jammed up.\x07Go and defeat a few cogs, and see if you can get a Gear Garnish from them."}, #Limey kill some cogs to recover a Gear Garnish
- 2017: {QUEST:  "Alright, last item, I promise.\x07We need ice cubes, which you can grab off of Cold Callers in Acorn Acres.\x07Go defeat them until you can find three."}, #Recover 3 Ice Cubes fron Cold Callers in Acorn Acres
- 2018: {QUEST:  "Alright, here you go!\x07Deliver this pitcher, these cups and these pies to _fromNpcName_.", COMPLETE: "Thanks _avName_, this should quench my thirst just nicely.\x07I'll be sure to go thank _toNpcName_ for the pies, as well.\x07Anyways, here's your reward."}, #Deliver Lemonade to Flippy in Toon Hall
- 
+ 2010: {QUEST:  "Oh man, I'm parched!\x07Listen, _toNpcName_ told me earlier she was going to make a batch of lemonade.x\07Could you do me a favor and get a pitcher of it from her?_where_"}, #Flippy to Limeys limes (visit)
+ 2011: {GREETING: "Ahoy!",
+		QUEST:  "Huh? You want some lemonade?\x07Well unfortunately, I was fishing earlier and dropped my ingredients in the pond.\x07Would you mind fishing those up for me?",
+		LEAVING: ''}, #Limey fish to find some limes
+ 2012: {GREETING: '',
+		QUEST:  "Yep, these were the limes I was looking for!\x07However, I forgot that I dropped the lemons in there too!\x07Could you do me a favor and get those for me?",
+		LEAVING: ''}, #Limey fish to find some lemons 
+ 2013: {GREETING: '',
+		QUEST:  "Thanks again!\x07So listen, I decided to go fishing AGAIN, and...\x07Well, I dropped the cups I had on me when I leaned to grab my catch.\x07Could you go grab those out for me?",
+		LEAVING: ''}, #Limey fish to find some Acorn Cups
+ 2014: {QUEST:  "Thanks for getting these, I'll make sure to wash them before I use them.\x07I should really stop carrying my supplies on me when I fish, don't ya think?\x07Speaking of supplies, I need 3 glasses of water to make this with.\x07Mind going and buying those from the gag shop?",
+		LEAVING: ''}, #Limey buy 3 glasses of water
+ 2015: {GREETING: '',
+		QUEST:  "Awesome!\x07Okay, next I need three fruit pie slices, they pair great with the lemonade!",
+		LEAVING: ''}, #Limey buy 3 fruit pie slices
+ 2016: {GREETING: '',
+		QUEST:  "Yeah, these will be really tasty.\x07Now, I'm having trouble with my juicer.\x07Go and defeat a few cogs and see if you can get a Gear Garnish from them.",
+		LEAVING: ''}, #Limey kill some cogs to recover a Gear Garnish
+ 2017: {GREETING: '',
+		QUEST:  "Alright, last item, I promise.\x07I need ice cubes, which you can grab off of Cold Callers.\x07Go defeat them until you can find three.",
+		LEAVING: ''}, #Recover 3 Ice Cubes fron Cold Callers
+ 2018: {QUEST:  "Alright, here you go!\x07Deliver this pitcher, these cups and these pies to _toNpcName_.", COMPLETE: "Thanks _avName_, this should quench my thirst just nicely.\x07I'll be sure to go thank Limey for the pies, as well.\x07Anyways, here's your reward."}, #Deliver Lemonade to Flippy in Toon Hall 
  
  # Task Two
- 2020: {QUEST:  "Hey, _avName_! \x07Could you head on over to _toNpcName_ and do him some favors?\x07I heard he needs some help with his new chocolate bars."}, # Flippy to Sal Snicker (visit)   
- 2021: {QUEST:  "Hello!\x07You must be the toon _fromNpcName_ sent over to help me.\x07 Thank you so much!\x07Anyways, let me tell you what happened.\x07Just a few hours ago, those pesky cops raided my building, and took my supplies!\x07I found out that the Penny Pinchers have my moulds, could you get those back?"}, # Kill Penny Pinchers to recover Chocolate Moulds
- 2022: {QUEST:  "Yep, that's all of them!\x07Next, the Pencil Pushers should have my shavings, I need those to melt down."}, # Kill Pencil Pushers to recover Chocolate Shavings 
+ 2020: {QUEST:  "Hey, _avName_!\x07Could you head on over to _toNpcName_ and do him several favors?\x07I heard he needs some help with his new chocolate bars._where_"}, # Flippy to Sal Snicker (visit)   
+ 2021: {QUEST:  "Hello! You must be _avName_.\x07Anyways, let me tell you what happened.\x07Just a few hours ago, those pesky cogs raided my building and took my supplies!\x07I found out that the Penny Pinchers have my moulds.\x07Could you get those back for me please?"}, # Kill Penny Pinchers to recover Chocolate Moulds
+ 2022: {QUEST:  "Yep, that's all of them!\x07Next, the Pencil Pushers should have my chocolate shavings.\x07They've mistaken my chocolate shavings for pencil shavings, how funny is that?"}, # Kill Pencil Pushers to recover Chocolate Shavings 
  2023: {QUEST:  "Alright, I'll get to work melting those into the moulds.\x07So, it looks like the Bloodsuckers have my sugar.\x07Would you mind grabbing it from them?"}, # Kill Bloodsuckers to recover Sugar
- 2024: {QUEST:  "Alright, I'll add that to the chocolate.\x07I think the Con Artists took my recipe, they were in here right before it went missing.\x07Go defeat them until you find it."}, # Kill Con Artists to recover recipe
- 2025: {QUEST:  "Alright, we're almost done now.\x07I need to get some wrappers so I can wrap these up.\x07Could you go defeat some Telemarketers to find them?"}, # Kill Telemarketers to recover Wrappers
- 2026: {QUEST:  "And voila! Freshly made chocolate bars!\x07I promised to give Banker Bob one, would you mind taking it to him?"}, # Deliver Chocolate Bar to Banker Bob
- 2027: {QUEST:  "Are these the new chocolate bars?\x07Mmm~ Thiff 'if so good!\x07 Eheh, excuse me. Please, deliver this money to Sal for me."}, # Deliver Money to Sal Snicker
- 2028: {QUEST:  "Thanks for the delivery, but the Cashbots have taken all the rest of my money!\x07Could you go defeat them for me, and see if you can find it?"}, # Kill 10 Cashbots 
- 2029: {QUEST:  "They didn't have it, huh? Ah well, it wasn't much.\x07Alright, the Lawbots have been planning to come back in here and take the rest of my stock.\x07Would you mind going out and defeating some to scare them off?", COMPLETE: "Alright, awesome! They should leave me alone now.\x07Here's your reward, and feel free to take a chocolate bar!"}, # Kill 10 Lawbots
+ 2024: {QUEST:  "Time to add the sugar!\x07Now to see what I have to do next...\x07Uh oh!!!\x07I think the Con Artists took my recipe, they were in here right before it went missing.\x07Go defeat them until you find it."}, # Kill Con Artists to recover recipe
+ 2025: {QUEST:  "Awesome! Now we can get finished on this bad boy.\x07Rumor has it that the Telemarketers keep some wrappers in their rolodexes.\x07Would you be able to grab some for me?\x07Why do I need them, you ask?\x07How else would I deliver this chocolate?"}, # Kill Telemarketers to recover Wrappers
+ 2026: {QUEST:  "And voila! Freshly made chocolate bars!\x07I promised to give Banker Bob one, would you kindly this one to him?_where_"}, # Deliver Chocolate Bar to Banker Bob
+ 2027: {QUEST:  "Are these the new chocolate bars?\x07Mmm~ Thiff 'if so good!\x07 Eheh, excuse me. Please, deliver these beans to Sal for me."}, # Deliver Money to Sal Snicker
+ 2028: {QUEST:  "Thanks so much for making that delivery for me!\x07Now, I need a huge favor.\x07Rumor has it that the Cashbots have been planning a heist on my shop.\x07I can't let that happen!\x07Can you take down a handful of those pesky cogs for me please?"}, # Kill 10 Cashbots 
+ 2029: {QUEST:  "Great! Now they won't be pulling anything sneaky off!\x07I just got a call from Flippy, and he wanted to try one of my chocolate bars.\x07Please deliver this to him. He also said there would be a reward involved.", COMPLETE: "Oh this chocolate bar looks good.\x07WHOA, THIS IS BRILLIANT!!!\x07Thanks for delivering this gift of heaven to my office!\x07Here is your reward..."}, #Deliver Chocolate Bar To Flippy
  
  # Task Three
  2030: {QUEST:  "Hello, _avName_! Today I want you to work on developing your gags, so you can become more experienced in battle. \x07Head over to Librarian Larry, and she'll get you started."}, # Flippy to Librarian Larry (visit)

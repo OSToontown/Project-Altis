@@ -2570,11 +2570,11 @@ QuestDict = {
  2010: ([], Start, (VisitQuest, ), 2001, 2405, NA, 2011, TTLocalizer.QuestDialogDict[2010], 10, 300),
  2011: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2003, 30, AnyFish), 2405, 2405, NA, 2012, TTLocalizer.QuestDialogDict[2011], 10, 300),
  2012: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2004, 30, AnyFish), 2405, 2405, NA, 2013, TTLocalizer.QuestDialogDict[2012], 10, 300),
- 2013: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 4, 2005, 30, AnyFish), 2405, 2405, NA, 2014, TTLocalizer.QuestDialogDict[2013], 10, 300),
+ 2013: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2005, 30, AnyFish), 2405, 2405, NA, 2014, TTLocalizer.QuestDialogDict[2013], 10, 300),
  2014: ([], Cont, (DeliverGagQuest, 5, 5, 1), 2405, 2405, NA, 2015, TTLocalizer.QuestDialogDict[2014], 10, 300),
  2015: ([], Cont, (DeliverGagQuest, 5, 4, 1), 2405, 2405, NA, 2016, TTLocalizer.QuestDialogDict[2015], 10, 300),
- 2016: ([], Cont, (RecoverItemQuest, Anywhere, 3, 2006, 20, Any, 'type'), 2405, 2405, NA, 2017, TTLocalizer.QuestDialogDict[2016], 10, 300),
- 2017: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 3, 2007, 30, 'cc', 'type'), 2405, 2405, NA, 2018, TTLocalizer.QuestDialogDict[2017], 10, 300),
+ 2016: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2006, 20, Any, 'type'), 2405, 2405, NA, 2017, TTLocalizer.QuestDialogDict[2016], 10, 300),
+ 2017: ([], Cont, (RecoverItemQuest, Anywhere, 3, 2007, 30, 'cc', 'type'), 2405, 2405, NA, 2018, TTLocalizer.QuestDialogDict[2017], 10, 300),
  2018: ([], Cont, (DeliverItemQuest, 2008), 2405, 2001, NA, NA, TTLocalizer.QuestDialogDict[2018], 10, 300),
 
  # Task Two
@@ -2586,19 +2586,19 @@ QuestDict = {
  2025: ([], Cont, (RecoverItemQuest, Anywhere, 3, 2013, Easy, 'tm', 'type'), 2136, 2136, NA, 2026, TTLocalizer.QuestDialogDict[2025], 300, 35),
  2026: ([], Cont, (DeliverItemQuest, 2014), 2136, 2002, NA, 2027, TTLocalizer.QuestDialogDict[2026], 300, 35),
  2027: ([], Cont, (DeliverItemQuest, 2015), 2002, 2136, NA, 2028, TTLocalizer.QuestDialogDict[2027], 300, 35),
- 2028: ([], Cont, (CogTrackQuest, Anywhere, 10, 'c'), 2002, 2136, NA, 2029, TTLocalizer.QuestDialogDict[2028], 300, 35),
- 2029: ([], Cont, (CogTrackQuest, Anywhere, 10, 'l'), 2002, 2136, NA, NA, TTLocalizer.QuestDialogDict[2029], 300, 35),
+ 2028: ([], Cont, (CogTrackQuest, Anywhere, 10, 'c'), 2136, 2136, NA, 2029, TTLocalizer.QuestDialogDict[2028], 300, 35),
+ 2029: ([], Cont, (DeliverItemQuest, 2014), 2136, 2001, NA, NA, TTLocalizer.QuestDialogDict[2029], 300, 35),
  
  # Task Three
- 2030: ([], Start, (VisitQuest,), 2001, 2005, NA, 2031, TTLocalizer.QuestDialogDict[2030], 300, 35),
- 2031: ([], Cont, (CogTrackQuest, Anywhere, 5, 's'), 2005, 2005, NA, 2032, TTLocalizer.QuestDialogDict[2031], 300, 35),
- 2032: ([], Cont, (CogTrackQuest, Anywhere, 5, 'm'), 2005, 2005, NA, 2033, TTLocalizer.QuestDialogDict[2032], 300, 35),
- 2033: ([], Cont, (CogTrackQuest, Anywhere, 5, 'l'), 2005, 2005, NA, 2034, TTLocalizer.QuestDialogDict[2033], 300, 35),
- 2034: ([], Cont, (CogTrackQuest, Anywhere, 5, 'c'), 2005, 2005, NA, 2035, TTLocalizer.QuestDialogDict[2034], 300, 35),
- 2035: ([], Cont, (CogTrackQuest, Anywhere, 5, 'g'), 2005, 2005, NA, 2036, TTLocalizer.QuestDialogDict[2035], 300, 35),
- 2036: ([], Cont, (CogLevelQuest, Anywhere, 5, 2), 2005, 2005, NA, 2037, TTLocalizer.QuestDialogDict[2036], 300, 35),
- 2037: ([], Cont, (EliteCogQuest, Anywhere, 5), 2005, 2005, NA, 2038, TTLocalizer.QuestDialogDict[2037], 300, 35),
- 2038: ([], Cont, (CogTrackLevelQuest, Anywhere, 5, 'g', 2), 2005, 2005, NA, NA, TTLocalizer.QuestDialogDict[2038], 300, 35),
+ 2030: ([], Start, (VisitQuest,), 2001, 2003, NA, 2031, TTLocalizer.QuestDialogDict[2030], 300, 35),
+ 2031: ([], Cont, (CogTrackQuest, Anywhere, 5, 's'), 2003, Same, NA, 2032, TTLocalizer.QuestDialogDict[2031], 300, 35),
+ 2032: ([], Cont, (CogTrackQuest, Anywhere, 5, 'm'), Same, Same, NA, 2033, TTLocalizer.QuestDialogDict[2032], 300, 35),
+ 2033: ([], Cont, (CogTrackQuest, Anywhere, 5, 'l'), Same, Same, NA, 2034, TTLocalizer.QuestDialogDict[2033], 300, 35),
+ 2034: ([], Cont, (CogTrackQuest, Anywhere, 5, 'c'), Same, Same, NA, 2035, TTLocalizer.QuestDialogDict[2034], 300, 35),
+ 2035: ([], Cont, (CogTrackQuest, Anywhere, 5, 'g'), Same, Same, NA, 2036, TTLocalizer.QuestDialogDict[2035], 300, 35),
+ 2036: ([], Cont, (CogLevelQuest, Anywhere, 5, 2), Same, Same, NA, 2037, TTLocalizer.QuestDialogDict[2036], 300, 35),
+ 2037: ([], Cont, (EliteCogQuest, Anywhere, 5), Same, Same, NA, 2038, TTLocalizer.QuestDialogDict[2037], 300, 35),
+ 2038: ([], Cont, (CogLevelQuest, Anywhere, 2, 4), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[2038], 300, 35),
  
  # Task Four
  2040: ([], Start, (VisitQuest,), 2001, 2201, NA, 2041, TTLocalizer.QuestDialogDict[2040], 370, 70),
@@ -2995,7 +2995,7 @@ def chooseBestQuests(currentNpc, av):
     completedIds = []
     currentIds = []
     for entry in completedQuests:
-        completedIds.append(entry)
+        completedIds.append(getFirstQuestIdInChain(entry))
     for entry in currentQuests:
         currentIds.append(getFirstQuestIdInChain(entry[0]))
     bestQuests = []
