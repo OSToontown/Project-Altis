@@ -463,11 +463,14 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
                 seq.start()
 
     def hideHpText(self):
-        DistributedAvatar.DistributedAvatar.hideHpText(self)
-        if self.sillySurgeText:
-            self.nametag3d.clearDepthTest()
-            self.nametag3d.clearBin()
-            self.sillySurgeText = False
+        try:
+            DistributedAvatar.DistributedAvatar.hideHpText(self)
+            if self.sillySurgeText:
+                self.nametag3d.clearDepthTest()
+                self.nametag3d.clearBin()
+                self.sillySurgeText = False
+        except:
+            pass
 
     def getAvIdName(self):
         try:

@@ -457,14 +457,12 @@ class InventoryNewNEW(InventoryBase.InventoryBase, DirectFrame):
              'bonus': damageBonusStr,
              'singleOrGroup': self.getSingleGroupStr(track, level),
              'extra': self.getExtraText(track, level, organicBonus)})
-            self.detailCreditLabel.setPos(-0.22, 0, -0.39625)
         else:
             self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailData % {'accuracy': accString,
              'damageString': self.getToonupDmgStr(track, level),
              'damage': damage,
              'bonus': damageBonusStr,
              'singleOrGroup': self.getSingleGroupStr(track, level)})
-            self.detailCreditLabel.setPos(-0.22, 0, -0.365)
         if self.itemIsCredit(track, level):
             mult = self.__battleCreditMultiplier
             if self.__respectInvasions:

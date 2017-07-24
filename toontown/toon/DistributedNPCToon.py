@@ -261,19 +261,22 @@ class DistributedNPCToon(DistributedNPCToonBase):
             self.setQuestNotify(None)
 			
     def setQuestNotify(self, type):
-        if type is None:
+        try:
+            if type is None:
+                if self.icon:
+                    self.icon.detachNode()
+                    del self.icon
+                return
             if self.icon:
                 self.icon.detachNode()
-                del self.icon
-            return
-        if self.icon:
-            self.icon.detachNode()
-            del self.icon
-        self.icon = self.questNotifyTypes[type]
-        np = NodePath(self.nametag.getIcon())
-        if np.isEmpty():
-            return
-        self.icon.reparentTo(np)
+                self.icon = None
+            self.icon = self.questNotifyTypes[type]
+            np = NodePath(self.nametag.getIcon())
+            if np.isEmpty():
+                return
+            self.icon.reparentTo(np)
+        except:
+            pass
 		
     def hasQuests(self):
         potentialQuests = []

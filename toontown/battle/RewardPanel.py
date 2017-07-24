@@ -641,6 +641,7 @@ class RewardPanel(DirectFrame):
             isSupervisor = flags & ToontownBattleGlobals.DLF_SUPERVISOR
             isVirtual = flags & ToontownBattleGlobals.DLF_VIRTUAL
             hasRevives = flags & ToontownBattleGlobals.DLF_REVIVES
+            isElite = flags & ToontownBattleGlobals.DLF_ELITE
             if isBoss:
                 cogType = None
                 cogTrack = SuitDNA.suitDepts[cogIndex]
@@ -655,6 +656,7 @@ class RewardPanel(DirectFrame):
              'isBoss': isBoss,
              'isSupervisor': isSupervisor,
              'isVirtual': isVirtual,
+             'isElite': isElite,
              'hasRevives': hasRevives,
              'activeToons': activeToonIds})
 
