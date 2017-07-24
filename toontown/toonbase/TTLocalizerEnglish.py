@@ -744,7 +744,7 @@ QuestDialogDict = {
  164: {QUEST: 'Phew, tired yet?\x07You know... You look like you could use some new gags.\x07Go see %s, maybe he can help you out._where_' % Flippy},
  165: {QUEST: 'Heya! I remember seeing you in the streets earlier.\x07I don\'t believe I formally introduced myself...\x07I\'m Flippy, Mayor of the Toon Council here in Toontown.\x07Hopefully we\'ll be seeing each other a lot more often!\x07It looks like you need to practice training your gags.\x07First, I want you to start by defeating 3 Cogs.'},
  166: {QUEST: 'Hey there _avName_!\x07I hear you\'re looking for some training?\x07Well I\'d be happy to help teaching you the ropes, but I let _toNpcName_ borrow my manuals!\x07Pop over to him and get them back so we can start!_where_'},
- 167: {QUEST: 'Hey! You\'re the toon _fromNpcName_ sent over,\x07Unfortunately I lost the manuals when some cogs took over my building!\x07I bet one of them out there still has them!\x07Go destroy some cogs until you find the Manuals!_where_', COMPLETE: 'You found them!'},
+ 167: {QUEST: 'Hey! You\'re the toon Flippy sent over,\x07Unfortunately I lost the manuals when some cogs took over my building!\x07I bet one of them out there still has them!\x07Go destroy some cogs until you find the Manuals!_where_', COMPLETE: 'You found them!'},
  168: {QUEST: 'Great work _avName_, now just run them back to _toNpcName_!_where_'},
  # Toontown Central Tasks
  # Task Zero
@@ -752,7 +752,7 @@ QuestDialogDict = {
  2001: {QUEST:  "Oh no the books are already overdue?\x07Some pesky cogs stole those books before I got a chance to read them!\x07Go recover those for me please!_where_"}, #Dr Tom kill some cogs to recover School Books
  2002: {QUEST:  "Alright, let's take a look at these books...\x07Wow this font is super small!\x07Where did my magnifying glass go?\x07I bet those pesky cogs stole it!\x07Go get it back please!"}, #Dr Tom kill some cogs to recover magnifying glass
  2003: {QUEST:  "Ah much better!\x07Wait a minute...\x07This doesn't make any sense!\x07Could you go ask _toNpcName_ to decode these for me?"}, #Dr Tom visit Dr. Pulyurleg to decode the books
- 2004: {QUEST:  "Alright let's take a look here...\x07Oh, this is so simple!\x07Give me second while I write this all down for him...\x07There! Done!\x07Go give these back to _fromNpcName_."}, #Dr. Pulyurleg visit Dr Tom to return decoded books
+ 2004: {QUEST:  "Alright let's take a look here...\x07Oh, this is so simple!\x07Give me second while I write this all down for him...\x07There! Done!\x07Go give these back to _toNpcName_."}, #Dr. Pulyurleg visit Dr Tom to return decoded books
  2005: {QUEST:  "This makes so much sense now!\x07Now that I have these decoded notes, go return these books for me please!", COMPLETE: "Thank you so much for doing this, _avName_!"}, #Dr Tom visit Pete to return the decoded books
 
  # Task One
@@ -825,7 +825,7 @@ QuestDialogDict = {
  2057: {QUEST:  "Ah, good. I can finish writing this memo now.\x07Alright, would you mind delivering this to _toNpcName_?_where_"}, # Deliver Urgent Memo to Shirley U. Jest
  2058: {QUEST:  "Is this from Pants On Fire?\x07Alright... Mhm... I see...\x07He believes that he'd be a bit more mellow about being neighbors if there were less level 2+ Cogs on this steet.\x07Maybe this could lead to peace between us if you help us out."}, # Defeat 5 Level 2+ Cogs on Wacky Way
  2059: {GREETING: '',
-		QUEST:  "Now that you took care of Pants On Fire, maybe you could mellow me out.\x07Please reduce the amount of high leveled Cogs on this street and then I'll give you a reward.", 
+		QUEST:  "Now that you took care of Pants On Fire, maybe you could mellow me out.\x07Please reduce the amount of high leveled Cogs in this playground and then I'll give you a reward.", 
 		COMPLETE: "Oh, thank you so much!\x07Here is your reward..."}, # Defeat 4 Level 4+ Cogs on Wacky Way
 
  # Task Six
