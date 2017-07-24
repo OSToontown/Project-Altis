@@ -553,7 +553,56 @@ class CogQuest(LocationBasedQuest):
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         questCogType = self.getCogType()
         return (questCogType is Any or questCogType is cogDict['type']) and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
+		
+class EliteCogQBase:
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
+        return cogDict['isElite'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
+        
+class EliteCogQuest(CogQuest, EliteCogQBase):
+    def __init__(self, id, quest):
+        CogQuest.__init__(self, id, quest)
+        self.checkNumCogs(self.quest[1])
 
+    def getCogType(self):
+        return Any
+		
+    def getProgressString(self, avatar, questDesc):
+        if self.getCompletionStatus(avatar, questDesc) == COMPLETE:
+            return CompleteString
+        elif self.getNumCogs() == 1:
+            return ''
+        else:
+            return TTLocalizer.QuestsCogQuestProgress % {'progress': questDesc[4],
+             'numCogs': self.getNumCogs()}
+
+    def getObjectiveStrings(self):
+        cogName = self.getCogNameString()
+        numCogs = self.getNumCogs()
+        if numCogs == 1:
+            text = cogName
+        else:
+            text = TTLocalizer.QuestsEliteCogQuestDefeatDesc % {'numCogs': numCogs,
+             'cogName': cogName}
+        return (text,)
+
+    def getString(self):
+        return TTLocalizer.QuestsEliteCogQuestDefeat % self.getObjectiveStrings()[0]
+
+    def getSCStrings(self, toNpcId, progress):
+        if progress >= self.getNumCogs():
+            return getFinishToonTaskSCStrings(toNpcId)
+        cogName = self.getCogNameString()
+        numCogs = self.getNumCogs()
+        if numCogs == 1:
+            text = TTLocalizer.QuestsEliteCogQuestSCStringS
+        else:
+            text = TTLocalizer.QuestsEliteCogQuestSCStringP
+        cogLoc = self.getLocationName()
+        return text % {'cogName': cogName,
+         'cogLoc': cogLoc}
+
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
+        return EliteCogQBase.doesCogCount(self, avId, cogDict, zoneId, avList)
 
 class CogNewbieQuest(CogQuest, NewbieQuest):
     def __init__(self, id, quest):
@@ -2430,21 +2479,6 @@ class PhoneQuest(Quest):
 
     def getObjectiveStrings(self):
         return [TTLocalizer.QuestsPhoneQuestString]
-
-class EliteCogQBase:
-    def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return cogDict['isElite'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
-        
-class EliteCogQuest(CogQuest, EliteCogQBase):
-    def __init__(self, id, quest):
-        CogQuest.__init__(self, id, quest)
-        self.checkNumCogs(self.quest[1])
-
-    def getCogType(self):
-        return Any
-
-    def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return EliteCogQBase.doesCogCount(self, avId, cogDict, zoneId, avList)
 
 class MinigameNewbieQuest(Quest, NewbieQuest):
     def __init__(self, id, quest):
