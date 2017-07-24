@@ -294,7 +294,8 @@ class DistributedNPCToon(DistributedNPCToonBase):
             for needed in questEntry[0]:
                 if not needed in av.getQuestHistory():
                     nyaQuests.append(quest)
-                    potentialQuests.remove(quest)
+                    if quest in potentialQuests:
+                        potentialQuests.remove(quest)
         if len(potentialQuests) > 0:
             return AVAILABLE_QUEST
         elif len(nyaQuests) > 0 and len(potentialQuests) == 0:
