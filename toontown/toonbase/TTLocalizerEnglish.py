@@ -821,7 +821,7 @@ QuestDialogDict = {
  2057: {QUEST:  "Ah, good. I can finish writing this memo now.\x07Alright, would you mind delivering this to _toNpcName_?_where_"}, # Deliver Urgent Memo to Shirley U. Jest
  2058: {QUEST:  "Is this from Pants On Fire?\x07Alright... Mhm... I see...\x07He believes that he'd be a bit more mellow about being neighbors if there were less level 2+ Cogs on this steet.\x07Maybe this could lead to peace between us if you help us out."}, # Defeat 5 Level 2+ Cogs on Wacky Way
  2059: {GREETING: '',
-		QUEST:  "Now that you took care of Pants On Fire, maybe you could mellow me out.\x07Please reduce the amount of high leveled Cogs on this street and then I'll give you a reward.", 
+		QUEST:  "Now that you took care of Pants On Fire, maybe you could mellow me out.\x07Please reduce the amount of high leveled Cogs in this playground and then I'll give you a reward.", 
 		COMPLETE: "Oh, thank you so much!\x07Here is your reward..."}, # Defeat 4 Level 4+ Cogs on Wacky Way
 
  # Task Six
