@@ -290,7 +290,8 @@ class DistributedNPCToon(DistributedNPCToonBase):
         for quest in potentialQuests:
             questEntry = Quests.QuestDict.get(quest)
             if quest in av.getQuestHistory():
-                potentialQuests.remove(quest)
+                if quest in potentialQuests:
+                    potentialQuests.remove(quest)
             for needed in questEntry[0]:
                 if not needed in av.getQuestHistory():
                     nyaQuests.append(quest)
