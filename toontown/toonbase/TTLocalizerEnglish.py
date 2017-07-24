@@ -907,7 +907,7 @@ QuestDialogDict = {
  2122: {QUEST:  "Great work! There's just one problem; I have nothing to write with! A bunch of glad handers came in and ransacked my shop taking my fountain pens.\x07Go defeat some of those filthy Glad Handers and get them back!"}, # Recover 4 fountain pens from glad handers
  2123: {QUEST:  "Amazing!\x07I do owe flippy a pen of mine so how about you go take one of these to him?_where_"}, # Deliver a fountain pen to Flippy"},
  2124: {QUEST:  "Oh, it's you again?\x07A pen? Well, tell Nona Seeya I said thank you!"}, # Return to Nona Seeya
- 2125: {QUEST:  "Hey, you're back! I just remembered I also owe Sam Stain a fountain pen too so go ahead and deliver this to him."}, # Deliver a fountain pen to Sam Stain
+ 2125: {QUEST:  "Hey, you're back! I just remembered I also owe _toNpcName_ a fountain pen too so go ahead and deliver this to him."}, # Deliver a fountain pen 
  2126: {QUEST: "Heya, son! I've never seen you before.\x07A fountain pen? Well, my apprecations! There's just one problem...\x07I can't write with all those cogs stomping around! How about you go defeat some of those higher cogs and then maybe I could?"}, # Defeat 8 level 4+ cogs in TTC
  2127: {QUEST:  "Hmmm... Still too shaky. Try defeating some of the higher cogs, then."}, # Defeat 4 level 5+ cogs in TTC
  2128: {QUEST:  "Ugh! The shakings better but I can't focus with all those noisy cog buildings!\x07Defeat one cog building for me, would you?"}, # Defeat a cog building
