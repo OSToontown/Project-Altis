@@ -55,8 +55,8 @@ class QuestManagerAI:
                 if npc.npcId == toNpcId:
                     track, level = questClass.getGagType()
                     currItems = av.inventory.numItem(track, level)
-                    if currItems >= questGlass.getNumGags():
-                        av.inventory.setItem(track, level, av.inventory.numItem(track, level) - questGlass.getNumGags())
+                    if currItems >= questClass.getNumGags():
+                        av.inventory.setItem(track, level, av.inventory.numItem(track, level) - questClass.getNumGags())
                     else:
                         npc.rejectAvatar(avId)
                     av.b_setInventory(av.inventory.makeNetString())

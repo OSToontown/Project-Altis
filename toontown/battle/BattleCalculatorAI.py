@@ -451,7 +451,7 @@ class BattleCalculatorAI:
                             if not self.__combatantDead(targetId, toon=toonTarget):
                                 validTargetAvail = 1
                             rounds = NumRoundsLured[atkLevel]
-                            if self.__toonCheckGagBonus(toon, atkTrack, atkLevel):
+                            if self.__toonCheckGagBonus(toonId, atkTrack, atkLevel):
                                 rounds += 1
                             wakeupChance = 100 - atkAcc * 2
                             npcLurer = attack[TOON_TRACK_COL] == NPCSOS

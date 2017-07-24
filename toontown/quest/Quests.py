@@ -3182,6 +3182,9 @@ def fillInQuestNames(text, avName = None, fromNpcId = None, toNpcId = None):
     text = copy.deepcopy(text)
     toNpcName = ''
     fromNpcName = ''
+    where = ''
+    buildingName = ''
+    streetDesc = ''
     if avName != None:
         text = text.replace('_avName_', avName)
     if toNpcId:
