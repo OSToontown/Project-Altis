@@ -190,6 +190,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.unlimitedSwing = False
         self.previousAccess = None
         self.numMailItems = 0
+        self.warningCount = 0
         self.simpleMailNotify = ToontownGlobals.NoItems
         self.inviteMailNotify = ToontownGlobals.NoItems
         self.mail = []
