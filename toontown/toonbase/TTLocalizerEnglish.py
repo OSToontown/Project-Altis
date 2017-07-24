@@ -749,7 +749,7 @@ QuestDialogDict = {
  # Toontown Central Tasks
  # Task Zero
  2000: {QUEST:  "_toNpcName_ has some books that are overdue!\x07He's been studying about the silly bones in our bodies.\x07Could you go ask him to return those books?_where_"}, #Pete to Dr Tom to collect School Books (visit)
- 2001: {QUEST:  "Oh no the books are already overdue?\x07Some pesky cogs stole those books before I got a chance to read them!\x07Go recover those for me please!_where_"}, #Dr Tom kill some cogs to recover School Books
+ 2001: {QUEST:  "Oh no the books are already overdue?\x07Some pesky cogs stole those books before I got a chance to read them!\x07Go recover those for me please!"}, #Dr Tom kill some cogs to recover School Books
  2002: {QUEST:  "Alright, let's take a look at these books...\x07Wow this font is super small!\x07Where did my magnifying glass go?\x07I bet those pesky cogs stole it!\x07Go get it back please!"}, #Dr Tom kill some cogs to recover magnifying glass
  2003: {QUEST:  "Ah much better!\x07Wait a minute...\x07This doesn't make any sense!\x07Could you go ask _toNpcName_ to decode these for me?"}, #Dr Tom visit Dr. Pulyurleg to decode the books
  2004: {QUEST:  "Alright let's take a look here...\x07Oh, this is so simple!\x07Give me second while I write this all down for him...\x07There! Done!\x07Go give these back to _toNpcName_."}, #Dr. Pulyurleg visit Dr Tom to return decoded books
