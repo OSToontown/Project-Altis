@@ -197,6 +197,7 @@ class QuestManagerAI:
             questClass = Quests.getQuest(questId)
             questExp = Quests.getQuestExp(questId)
             questMoney = Quests.getQuestMoney(questId)
+            rewardId = Quests.getQuestRewardId(questId)
 
             if questId == completeQuestId:
                 av.removeQuest(questId)
@@ -213,7 +214,7 @@ class QuestManagerAI:
     def giveReward(self, av, questId, rewardId):
         # Give the reward.
         rewardClass = Quests.getReward(rewardId)
-        if rewardClass is None:
+        if rewardClass is None or rewardId < 100:
             self.notify.warning('rewardClass was None for rewardId: %s.' % rewardId)
         else:
             rewardClass.sendRewardAI(av)

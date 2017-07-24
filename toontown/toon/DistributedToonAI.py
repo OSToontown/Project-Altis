@@ -5881,6 +5881,15 @@ def dump_doId2do():
         for name, size in sorted_objSizes:
             file.write('OBJ: %s | SIZE: %d\n' % (name, size))
     return "Dumped doId2do sizes (grouped by class) to '%s'." % temp_file[1]
+	
+@magicWord(category=CATEGORY_PROGRAMMER, types=[int])
+def addTpAccess(zone):
+    """
+    Adds teleport access to target
+    """
+    target = spellbook.getTarget()
+    target.addTeleportAccess(zone)
+    return "Added teleport access to %s" % target.getName()
     
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def globalTeleport():
