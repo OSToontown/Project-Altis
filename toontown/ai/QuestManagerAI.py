@@ -197,6 +197,7 @@ class QuestManagerAI:
             questClass = Quests.getQuest(questId)
             questExp = Quests.getQuestExp(questId)
             questMoney = Quests.getQuestMoney(questId)
+            rewardId = Quests.getQuestRewardId(questId)
 
             if questId == completeQuestId:
                 av.removeQuest(questId)
