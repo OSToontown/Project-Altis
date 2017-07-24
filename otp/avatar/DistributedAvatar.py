@@ -226,10 +226,13 @@ class DistributedAvatar(DistributedActor, Avatar):
                 seq.start()
 
     def hideHpText(self):
-        if self.hpText:
-            taskMgr.remove(self.uniqueName('hpText'))
-            self.hpText.removeNode()
-            self.hpText = None
+        try:
+            if self.hpText:
+                taskMgr.remove(self.uniqueName('hpText'))
+                self.hpText.removeNode()
+                self.hpText = None
+        except:
+            pass
 
     def getStareAtNodeAndOffset(self):
         return (self, Point3(0, 0, self.height))

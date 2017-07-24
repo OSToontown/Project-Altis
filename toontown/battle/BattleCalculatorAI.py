@@ -574,9 +574,10 @@ class BattleCalculatorAI:
                 elif atkTrack == SQUIRT:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
+                    bonus = organicBonus or propBonus
                     if targetId not in self.currentlyWetSuits:
                         rounds = NumRoundsWet[attackLevel]
-                        self.__addWetSuitInfo(targetId, -1, rounds, organicBonus)
+                        self.__addWetSuitInfo(targetId, -1, rounds, bonus)
                     attackDamage = getAvPropDamage(attackTrack, attackLevel, toon.experience.getExp(attackTrack), organicBonus, propBonus, self.propAndOrganicBonusStack)
                 elif atkTrack == ZAP:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
@@ -613,7 +614,7 @@ class BattleCalculatorAI:
                 if atkTrack == HEAL:
                     if not self.__attackHasHit(attack, suit=0):
                         result = result * 0.2
-                        if organicBonus:
+                        if organicBonus or propBonus:
                             toon.toonUp(result * 0.2)
                     if self.notify.getDebug():
                         self.notify.debug('toon does ' + str(result) + ' healing to toon(s)')
