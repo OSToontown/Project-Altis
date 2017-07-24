@@ -99,7 +99,8 @@ class QuestManagerAI:
                         questClass = Quests.QuestDict.get(choice[0])
                         for required in questClass[0]:
                             if required not in av.getQuestHistory():
-                                choices.remove(choice)
+                                if choice in choices:
+                                    choices.remove(choice)
                             else:
                                 continue
                     npc.presentQuestChoice(avId, choices)
