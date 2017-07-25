@@ -100,17 +100,18 @@ class TutorialManagerAI(DistributedObjectAI):
         self.avId2fsm = {}
 
     def requestTutorial(self):
-        avId = self.air.getAvatarIdFromSender()
+        self.requestSkipTutorial()
+        # avId = self.air.getAvatarIdFromSender()
 
-        zones = {}
-        zones['street'] = self.air.allocateZone()
-        zones['building'] = self.air.allocateZone()
-        zones['hq'] = self.air.allocateZone()
+        # zones = {}
+        # zones['street'] = self.air.allocateZone()
+        # zones['building'] = self.air.allocateZone()
+        # zones['hq'] = self.air.allocateZone()
 
-        self.avId2fsm[int(avId)] = TutorialFSM(self.air, zones, avId)
+        # self.avId2fsm[int(avId)] = TutorialFSM(self.air, zones, avId)
 
-        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
-        self.d_enterTutorial(avId, ToontownGlobals.Tutorial, zones['street'], zones['building'], zones['hq'])
+        # self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
+        # self.d_enterTutorial(avId, ToontownGlobals.Tutorial, zones['street'], zones['building'], zones['hq'])
 
     def rejectTutorial(self):
         pass
