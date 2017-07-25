@@ -74,7 +74,7 @@ class FishManagerAI:
         elif itemType == FishGlobals.BootItem:
             return [itemType, 0, 0, 0]
         elif itemType == FishGlobals.CertItem:
-            if random.random() < 0.05:
+            if random.random() < 0.001:
                 code = simbase.air.certManager.generateCode()
                 simbase.air.certManager.addCode(av, code)
             else:

@@ -326,21 +326,11 @@ class Garden:
 
     def reconsiderAvatarOrganicBonus(self):
         av = self.air.doId2do.get(self.avId)
-        if not av:
-            return
-
-        bonus = [-1] * 8
-        for track in xrange(8):
-            for level in xrange(8):
-                if not self.hasTree(track, level):
-                    break
-
-                tree = self.getTree(track, level)
-                if tree.getGrowthLevel() < tree.growthThresholds[1] or tree.getWilted():
-                    break
-
-            bonus[track] = level - 1
-
+        bonus = [0, 0, 0, 0, 0, 0, 0, 0]
+        spentPoints = av.getSpentTrainingPoints()
+        for i in xrange(8):
+            if spentPoints[i] >= 3:
+                bonus[i] = 6
         av.b_setTrackBonusLevel(bonus)
 
     def update(self):
