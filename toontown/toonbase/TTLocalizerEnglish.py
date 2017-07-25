@@ -886,8 +886,8 @@ QuestDialogDict = {
 		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
 		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
  2106: {GREETING: '',
-		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
-		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
+		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED CASHBOTS???",
+		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Cashbots
  2107: {QUEST:  "Oof, oof, I'm cooling down now...\x07Several more Cogs and I should be normal...", COMPLETE: "Sunshine, lollipops and, rainbows butterflies...\x07Thank you so much for this warm, happy feeling _avName_.\x07Here is a well deserved reward..."}, # Defeat 10 Cogs in Toontown Central
  
  # Task Eleven
