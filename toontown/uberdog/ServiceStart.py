@@ -60,5 +60,14 @@ except SystemExit:
     raise
 except Exception:
     info = PythonUtil.describeException()
-    simbase.air.writeServerEvent('uberdog-exception', simbase.air.getAvatarIdFromSender(), simbase.air.getAccountIdFromSender(), info)
+    simbase.air.writeServerEvent('uberdog-exception', simbase.air.getAvatarIdFromSender(),
+                                 simbase.air.getAccountIdFromSender(), info)
+    from raven import Client
+
+    errorReporter = Client('https://45206ecaaba840498741f18ed05e1b8b:39f55ef5dba047abb57cad0aa3a23d47@sentry.io/189241')
+    errorReporter.user_context({
+        'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
+        'ACID_SENDER': simbase.air.getAccountIdFromSender()
+    })
+    errorReporter.captureMessage(info)
     raise

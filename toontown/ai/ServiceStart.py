@@ -56,5 +56,16 @@ except SystemExit:
     raise
 except Exception:
     info = PythonUtil.describeException()
-    simbase.air.writeServerEvent('ai-exception', simbase.air.getAvatarIdFromSender(), simbase.air.getAccountIdFromSender(), info)
+    simbase.air.writeServerEvent('ai-exception', simbase.air.getAvatarIdFromSender(),
+                                 simbase.air.getAccountIdFromSender(), info)
+    from raven import Client
+    import os
+
+    errorReporter = Client('https://bd12b482b0d04047b97a99be5d8a59f8:cadf8d958a194867b89fd77b61fdad45@sentry.io/189240')
+    errorReporter.user_context({
+        'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
+        'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
+        'ACID_SENDER': simbase.air.getAccountIdFromSender()
+    })
+    errorReporter.captureMessage(info)
     raise
