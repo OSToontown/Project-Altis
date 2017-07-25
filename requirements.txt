@@ -4,4 +4,3 @@ pymongo
 pycrypto
 pyyaml
 semidbm
-wxPython
