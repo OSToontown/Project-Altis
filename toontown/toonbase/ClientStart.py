@@ -232,14 +232,6 @@ del config
 
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.settings.Settings import Settings
-import json
-import os
-def is_json(myjson):
-    try:
-        json.loads(myjson)
-    except ValueError, e:
-        return False
-    return True
 
 notify = directNotify.newCategory('AltisClient')
 notify.setInfo(True)
@@ -247,11 +239,6 @@ notify.setInfo(True)
 preferencesFilename = ConfigVariableString(
     'preferences-filename', 'preferences.json').getValue()
 notify.info('Reading %s...' % preferencesFilename)
-with open(preferencesFilename, 'w+') as prefs:
-    data = prefs.read().replace('\n', '')
-    if not is_json(data):
-        prefs.close()
-        os.remove(preferencesFilename)
 __builtin__.settings = Settings(preferencesFilename)
 from toontown.settings import ToontownSettings
 __builtin__.ttsettings = ToontownSettings
