@@ -51,6 +51,9 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.toonMerits = {}
         self.toonParts = {}
         self.battleCalc = BattleCalculatorAI(self, tutorialFlag)
+        if self.air.suitInvasionManager.getInvading() and ZoneUtil.isCogHQZone(self.zoneId):
+            mult = getMegaMultiplier()
+            self.battleCalc.setSkillCreditMultiplier(mult)
         if self.air.suitInvasionManager.getInvading() or ZoneUtil.isCogHQZone(self.zoneId):
             mult = getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
