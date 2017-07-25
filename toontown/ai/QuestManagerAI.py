@@ -73,8 +73,8 @@ class QuestManagerAI:
                 # If there is another part to this quest then give them that.
                 if Quests.getNextQuest(questId, npc, av)[0] != Quests.NA:
                     self.nextQuest(av, npc, questId)
-                    if avId in self.air.tutorialManager.avId2fsm:
-                        self.air.tutorialManager.avId2fsm[avId].demand('Tunnel')
+                    if int(avId) in self.air.tutorialManager.avId2fsm:
+                        self.air.tutorialManager.avId2fsm[int(avId)].demand('Tunnel')
                     break
                 else:
                     # The toon has completed this quest. Give them a reward!
@@ -233,8 +233,8 @@ class QuestManagerAI:
         self.avatarChoseQuest(avId, npc, quest[0], quest[1], 0)
 
         # Are we in the tutorial speaking to Tutorial Tom?
-        if avId in self.air.tutorialManager.avId2fsm:
-            self.air.tutorialManager.avId2fsm[avId].demand('Battle')
+        if int(avId) in self.air.tutorialManager.avId2fsm:
+            self.air.tutorialManager.avId2fsm[int(avId)].demand('Battle')
 
     def toonRodeTrolleyFirstTime(self, av):
         # Toon played a minigame.
