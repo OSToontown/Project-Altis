@@ -683,8 +683,8 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  3025: ['Knitting Needle', 'Knitting Needles', 'a '],
  3026: ['Alibi', 'Alibis', 'an '],
  3027: ['External Temperature Sensor', 'External Temperature Sensors', 'an '],
- 6001: ['Cashbot HQ Plans', 'Cashbot HQ Plans', 'some '],
- 6002: ['Rod', 'Rods', 'a '],
+ 6001: ['Warm Blankets', 'Warm Blankets', 'some '],
+ 6002: ['Humidifier', 'Humidifiers', 'a '],
  6003: ['Drive Belt', 'Drive Belts', 'a '],
  6004: ['Pair of Pincers', 'Pairs of Pincers', 'a '],
  6005: ['Reading Lamp', 'Reading Lamps', 'a '],
@@ -918,7 +918,31 @@ QuestDialogDict = {
  2133: {QUEST:  "Alright, I need you to deliver another one.This one is going to...\x07Ah! Deliver this one to Postmaster Pete"}, # Deliver a fountain pen to Postmaster Pete
  2134: {QUEST:  "Hey, is this my pen from Nona Seeya?\x07Alright, now I can sign these pack....\x07Wait, where did those packages go??\x07Oh dear, those cogs that were in here earlier must have stolen them!\x07Alright, could you go get them back for me?"}, # Collect 10 packages from Level 4+ cogs
  2135: {QUEST:  "And that's it. Thank you, kindly return to Flippy when you're ready."}, # Return to Flippy
- 2136: {QUEST:  "Hey there, done with your deliveries?\x07Alright, for your last task I need you to...\x07Go defeat a two story building, or higher!", COMPLETE: "Thank you so much!\x07Hope you are feeling better now that you've completed everything for me.\x07Alright, I think you're finally ready to move out. I'm going to send you off to Acorn Acres, so that you can do some more training work for them.\x07Beware, as that playground is significantly more infested with cogs \x07However, I know that you're ready for it.\x07Alright, good luck! \x07 Best be getting on your way now."}} # Defeat a 2+ story building
+ 2136: {QUEST:  "Hey there, done with your deliveries?\x07Alright, for your last task I need you to...\x07Go defeat a two story building, or higher!", COMPLETE: "Thank you so much!\x07Hope you are feeling better now that you've completed everything for me.\x07Alright, I think you're finally ready to move out. I'm going to send you off to Acorn Acres, so that you can do some more training work for them.\x07Beware, as that playground is significantly more infested with cogs \x07However, I know that you're ready for it.\x07Alright, good luck! \x07 Best be getting on your way now."}, # Defeat a 2+ story building
+ 
+ #AA Task One
+ 3000: {QUEST: "You must be new around here?\x07_toNpcName_ could use help from a new guy like you._where_"},
+ 3001: {GREETING: '',
+		QUEST: "Welcome, _avName_!\x07Every day, I spend my dedicated time to helping the citizens of Acorn Acres with their problems.\x07Today, I need a break. I've been working non-stop every day for the past few months!\x07Don't worry, there aren't that many citizens who need help today.\x07I want you to start by helping _toNpcName_.\x07It seems her humidifiers have been stolen and she is freezing cold in her shop.\x07Please take these warm blankets please._where_"},
+ 3002: {GREETING: '',
+		QUEST: "Brrrr...\x07O-o-ohhh are th-th-those blankets for m-me?\x07Ahhh, that's refreshing...\x07Anyways, the Cogs around here have stolen my humidifiers and I need them back!\x07Could you please go get them for me?",
+		LEAVING: ''},
+ 3003: {GREETING: '',
+		QUEST: "Great!\x07Now let _toNpcName_ know that everything here is okay.",
+		LEAVING: ''},
+ 3004: {GREETING: 'Brilliant work, _avName_!',
+		QUEST: "Next, I need you to help calm down _toNpcName_.\x07Between you and me, he's a little crazy..._where_",
+		LEAVING: ''},
+ 3005: {GREETING: '',
+		QUEST: "The Cashbots around here, they make me SO uncomfortable!\x07I can't relax knowing that there are plenty of them around here roaming the streets!",
+		LEAVING: ''},
+ 3006: {GREETING: '',
+		QUEST: "No, no, the high leveled Cogs on this street...\x07Are they just waiting for me to let my guard down?",
+		LEAVING: ''},
+ 3007: {GREETING: '',
+		QUEST: "Ahh, what a lovely morning!\x07What's that, _avName_? _toNpcName_ wants to know if I'm alright?\x07Well, why wouldn't I be? Tell him that everything is okay around here!",
+		COMPLETE: "Alright, here's your next assignment.\x07Wait... that's all I had for you.\x07Well, I guess this mean I owe you something.",
+		LEAVING: ''}}
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']
