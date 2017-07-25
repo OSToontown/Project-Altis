@@ -25,6 +25,8 @@ echo Astron IP: %ASTRON_IP%
 echo Event Logger IP: %EVENTLOGGER_IP%
 echo ===============================
 
+
+%PPYTHON_PATH% -m pip install -r requirements.txt
 :main
 %PPYTHON_PATH% -m toontown.uberdog.ServiceStart --base-channel %BASE_CHANNEL% ^
                --max-channels %MAX_CHANNELS% --stateserver %STATESERVER% ^

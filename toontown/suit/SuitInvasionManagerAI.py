@@ -89,8 +89,10 @@ class SuitInvasionManagerAI:
         # Update the invasion tracker on the districts page in the Shticker Book:
         if self.suitDeptIndex is not None:
             self.air.districtStats.b_setInvasionStatus(self.suitDeptIndex + 1)
+            self.air.districtStats.setInvasionType(suitTypeIndex + 1)
         else:
             self.air.districtStats.b_setInvasionStatus(5)
+            self.air.districtStats.setInvasionType(suitTypeIndex + 1)
 
         # If this is a normal invasion, and the players take too long to defeat
         # all of the Cogs, we'll want the invasion to timeout:

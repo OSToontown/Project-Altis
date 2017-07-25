@@ -312,35 +312,27 @@ class ToontownAIRepository(ToontownInternalRepository):
         defeated = total - self.districtStats.getInvasionRemaining()
         tupleStatus = (self.districtStats.getInvasionStatus(), self.districtStats.getInvasionType())
         invstatus = self.statusToType(tupleStatus)
-        accountServerAPIKey = simbase.config.GetString('account-server-apikey', 'key')
-        accountServerHostname = simbase.config.GetString('account-server-endpoint-hostname', 'www.projectaltis.com')
       #  if pop == self.invLastPop and invstatus == self.invLastStatus:
       #      return task.again # Don't attempt to update the database, its a waste
 	  # No it's not a waste. PLZ
         
         self.invLastPop = pop
         self.invLastStatus = invstatus
-        
-        if invstatus == 'None':
-            httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReqkill.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/0/%s/1/1' % (self.districtName, pop, invstatus))
-        else:
-            httpReq = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReq.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/1/%s/1/1' % (self.districtName, pop, invstatus))
 
         if self.districtName == "Test Canvas":
             return
+        print invstatus
         if invstatus == 'None':
-            httpReqkill = httplib.HTTPSConnection(accountServerHostname)
-            httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (accountServerAPIKey,self.districtName,
+            httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
+            httpReqkill.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/0/%s/0/0' % (self.districtName,
                                                                                pop, invstatus))
-            print(json.loads(httpReqkill.getresponse().read()))
+            print(httpReqkill.getresponse().read())
         else:
-            httpReq = httplib.HTTPSConnection(accountServerHostname)
-            httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/%s/%s' % (accountServerAPIKey,self.districtName,
+            httpReq = httplib.HTTPSConnection('www.projectaltis.com')
+            httpReq.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/1/%s/%s/%s' % (self.districtName,
                                                                            pop, invstatus, total, defeated))
 
-            print(json.loads(httpReq.getresponse().read()))
+            print(httpReq.getresponse().read())
 
         return task.again
 
@@ -362,6 +354,6 @@ class ToontownAIRepository(ToontownInternalRepository):
             Type = Type.replace(' ', '%20')
             if Type == 'None':
                 return Type
-            return Type + '%7C' + suit
+            return Type + '|' + suit
         except:
             return 'None'

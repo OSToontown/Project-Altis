@@ -50,6 +50,14 @@ class MagicWordManagerAI(DistributedObjectAI):
         if not os.path.exists('logs/mw'):
             os.makedirs('logs/mw')
 
+
+        with open("logs/mw/magic-words.txt","a") as textFile:
+            textFile.write("%s | %s : %s\n" % (now, invokerId, word))
+
+        print("%s | %s : %s\n" % (now, invokerId, word))
+
+        if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
+            return
         client = raven.Client('https://4e7951caa8ce4dd180a3bd032f645d71:6949b0a5d126453b92434392457d60dc@sentry.io/194824')
         client.user_context({
             'InvokerAvId': invokerId,
@@ -62,11 +70,6 @@ class MagicWordManagerAI(DistributedObjectAI):
             'response': response
         })
         client.captureMessage('~' + word)
-
-        with open("logs/mw/magic-words.txt","a") as textFile:
-            textFile.write("%s | %s : %s\n" % (now, invokerId, word))
-
-        print("%s | %s : %s\n" % (now, invokerId, word))
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def help(wordName=None):
