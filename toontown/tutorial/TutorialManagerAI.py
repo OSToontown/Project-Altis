@@ -153,7 +153,7 @@ class TutorialManagerAI(DistributedObjectAI):
             return
 
         if av.getTutorialAck():
-            self.avId2fsm[int(avId)].demand('Cleanup')
+            # self.avId2fsm[int(avId)].demand('Cleanup')
             self.air.writeServerEvent('suspicious', avId, issue='Attempted to enter a tutorial when it should be impossible.')
             return
 
