@@ -51,6 +51,9 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.toonMerits = {}
         self.toonParts = {}
         self.battleCalc = BattleCalculatorAI(self, tutorialFlag)
+        if self.air.suitInvasionManager.getInvading() and ZoneUtil.isCogHQZone(self.zoneId):
+            mult = getMegaMultiplier()
+            self.battleCalc.setSkillCreditMultiplier(mult)
         if self.air.suitInvasionManager.getInvading() or ZoneUtil.isCogHQZone(self.zoneId):
             mult = getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
@@ -1375,8 +1378,11 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                         toon = self.getToon(toonId)
                         if toon != None:
                             if track == TRAP:
-                                if random.random() <= 0.1:
-                                    check = 0
+                                if toon.checkGagBonus(track, level):
+                                    if random.random() <= 0.1:
+                                        check = 0
+                                    else:
+                                        check = toon.inventory.useItem(track, level)
                                 else:
                                     check = toon.inventory.useItem(track, level)
                             else:

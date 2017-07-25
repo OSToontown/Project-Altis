@@ -1,5 +1,6 @@
 import math, random, time
 from panda3d.core import *
+from panda3d.ode import *
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal

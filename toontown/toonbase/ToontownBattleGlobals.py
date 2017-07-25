@@ -525,6 +525,10 @@ def getInvasionMultiplier():
     return 2.0
 
 
+def getMegaMultiplier():
+    return 2.0
+
+
 def getMoreXpHolidayMultiplier():
     return 2.0
 

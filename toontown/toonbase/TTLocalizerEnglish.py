@@ -886,8 +886,8 @@ QuestDialogDict = {
 		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
 		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
  2106: {GREETING: '',
-		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED SELLBOTS???",
-		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Sellbots
+		QUEST: "IT'S NOT FAIR!!!\x07WHY ARE THERE SO MANY HIGH LEVELED CASHBOTS???",
+		LEAVING: "MY HEAD IS ABOUT TO BURST, I'M SO ANGRY!!"}, # Defeat 3 Level 4+ Cashbots
  2107: {QUEST:  "Oof, oof, I'm cooling down now...\x07Several more Cogs and I should be normal...", COMPLETE: "Sunshine, lollipops and, rainbows butterflies...\x07Thank you so much for this warm, happy feeling _avName_.\x07Here is a well deserved reward..."}, # Defeat 10 Cogs in Toontown Central
  
  # Task Eleven
@@ -1310,6 +1310,7 @@ MoviePetSOSTrickSucceedGirl = 'Good girl!'
 MovieSuitCancelled = 'CANCELLED\nCANCELLED\nCANCELLED'
 CogHQBonus = '2x BONUS - Cog HQ!'
 CogInvasionBonus = '2x BONUS - Cog Invasion!'
+CogInvasionBonus = '3x BONUS - MEGA MULTIPLIER!'
 RewardPanelToonTasks = 'ToonTasks'
 RewardPanelItems = 'Items Recovered'
 RewardPanelMissedItems = 'Items Not Recovered'
@@ -8793,7 +8794,7 @@ SummonDlgInvasionSuccess = "You have successfully summoned the Cogs. It's an inv
 SummonDlgInvasionBusy = 'A %s cannot be found now.  Try again when the Cog invasion is over.'
 SummonDlgInvasionFail = 'Sorry, the Cog invasion has failed.'
 SummonDlgShopkeeper = 'The Shopkeeper '
-ShopkeeperThanks = 'Thanks for saving my shop!! Have this reward of %s jellybeans!'
+ShopkeeperThanks = 'Thanks for saving my shop! Have this reward of %s jellybeans!'
 PolarPlaceEffect1 = NPCToonNames[3306] + ': Welcome to Polar Place!'
 PolarPlaceEffect2 = NPCToonNames[3306] + ': Try this on for size.'
 PolarPlaceEffect3 = NPCToonNames[3306] + ': Your new look will only work in ' + lTheBrrrgh + '.'
