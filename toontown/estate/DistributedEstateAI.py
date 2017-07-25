@@ -326,7 +326,7 @@ class Garden:
 
     def reconsiderAvatarOrganicBonus(self):
         av = self.air.doId2do.get(self.avId)
-        bonus = [0, 0, 0, 0, 0, 0, 0, 0]
+        bonus = [-1, -1, -1, -1, -1, -1, -1, -1]
         spentPoints = av.getSpentTrainingPoints()
         for i in xrange(8):
             if spentPoints[i] >= 3:
