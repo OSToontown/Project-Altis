@@ -44,7 +44,7 @@ class TutorialFSM(FSM):
     def enterBattle(self):
         self.suit = DistributedTutorialSuitAI(self.air)
         self.suit.generateWithRequired(self.zones['street'])
-        av = self.air.doId2do.get(self.avId)
+        av = self.air.doId2do.get(avId)
 
         self.building.door.setDoorLock(FADoorCodes.DEFEAT_FLUNKY_TOM)
         self.hq.door0.setDoorLock(FADoorCodes.DEFEAT_FLUNKY_HQ)
@@ -88,7 +88,7 @@ class TutorialFSM(FSM):
         self.air.deallocateZone(self.zones['building'])
         self.air.deallocateZone(self.zones['hq'])
 
-        del self.air.tutorialManager.avId2fsm[int(self.avId)]
+        del self.air.tutorialManager.avId2fsm[int(avId)]
 
 
 class TutorialManagerAI(DistributedObjectAI):
@@ -139,7 +139,7 @@ class TutorialManagerAI(DistributedObjectAI):
         if av is not None:
             av.b_setTutorialAck(1)
         self.ignore(self.air.getAvatarExitEvent(avId))
-        fsm = self.avId2fsm.get(int(self.avId))
+        fsm = self.avId2fsm.get(int(avId))
         if fsm is not None:
             fsm.demand('Cleanup')
         else:
