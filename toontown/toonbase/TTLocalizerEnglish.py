@@ -942,7 +942,33 @@ QuestDialogDict = {
  3007: {GREETING: '',
 		QUEST: "Ahh, what a lovely morning!\x07What's that, _avName_? _toNpcName_ wants to know if I'm alright?\x07Well, why wouldn't I be? Tell him that everything is okay around here!",
 		COMPLETE: "Alright, here's your next assignment.\x07Wait... that's all I had for you.\x07Well, I guess this mean I owe you something.",
+		LEAVING: ''},
+		
+ #AA Task Two
+ 3010: {QUEST: "_toNpcName_ is trying to earn a spot as a full time detective.\x07Only issue is that he's not the brightest when it comes to solving crimes..._where_"},
+ 3011: {GREETING: '',
+		QUEST: "Greetings, _avName_.\x07Are you going to help me solve a case today?\x07There has been a lot of crime around town, and I suspect those Swindlers are up to it!\x07Those suspicious masks tell us the truth: they are guilty!\x07Go defeat some of them and bring them to justice!",
+		LEAVING: ''},
+ 3012: {GREETING: '',
+		QUEST: "No... Crime is still at a normal rate...\x07Maybe it's the Boardbots in general causing crimes?",
+		LEAVING: ''},
+ 3013: {GREETING: '',
+		QUEST: "The crime rate got even higher after you left!\x07I'm starting to suspect that those Bloodsuckers are up to no good...",
+		LEAVING: ''},
+ 3014: {GREETING: '',
+		QUEST: "Why isn't the crime rate dropping?\x07It may not have been those Bloodsuckers, but perhaps those high leveled Lawbots in general...",
+		LEAVING: ''},
+ 3015: {GREETING: '',
+		QUEST: "The crime rate got even higher after you left!\x07I'm starting to suspect that those Penny Pinchers are up to no good...",
+		LEAVING: ''},
+ 3016: {GREETING: '',
+		QUEST: "Why isn't the crime rate dropping?\x07It may not have been those Penny Pinchers, but perhaps those high leveled Cashbots in general...",
+		LEAVING: ''},
+ 3017: {GREETING: '',
+		QUEST: "While you were gone, three shops have been broken into!\x07Ugh, I'm a terrible detective, completely on the wrong case...\x07Just defeat those Cogs until the crime rate drops.",
+		COMPLETE: "Wow!\x07A lot of shopkeepers are calling me saying how good my detective work was!\x07Thanks for all your help, _avName_.\x07Here's a reward.",
 		LEAVING: ''}}
+		
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']
