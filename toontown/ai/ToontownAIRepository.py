@@ -252,7 +252,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Done.')
         
         self.notify.info("Starting Invasion Tracker...")
-        taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
+        # taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
         self.notify.info("Invasion Tracker Started!")
 
     def lookupDNAFileName(self, zoneId):
