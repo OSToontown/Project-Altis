@@ -56,11 +56,12 @@ class MagicWordManagerAI(DistributedObjectAI):
             'InvokerToonName': invoker.getName(),
             'InvokerAccess': invoker.getAdminAccess(),
             'time': now,
+            'TargetAvId': targetId,
             'TargetToonName': target.getName(),
             'TargetAccess': target.getAdminAccess(),
             'response': response
         })
-        client.captureMessage(word)
+        client.captureMessage('~' + word)
 
         with open("logs/mw/magic-words.txt","a") as textFile:
             textFile.write("%s | %s : %s\n" % (now, invokerId, word))
