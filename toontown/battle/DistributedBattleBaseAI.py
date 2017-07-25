@@ -1375,8 +1375,11 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                         toon = self.getToon(toonId)
                         if toon != None:
                             if track == TRAP:
-                                if random.random() <= 0.1:
-                                    check = 0
+                                if toon.checkGagBonus(track, level):
+                                    if random.random() <= 0.1:
+                                        check = 0
+                                    else:
+                                        check = toon.inventory.useItem(track, level)
                                 else:
                                     check = toon.inventory.useItem(track, level)
                             else:
