@@ -7,6 +7,7 @@ from toontown.toon.DistributedToonAI import DistributedToonAI
 import time
 import datetime
 import os
+import raven
 
 class MagicWordManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("MagicWordManagerAI")
@@ -48,6 +49,18 @@ class MagicWordManagerAI(DistributedObjectAI):
 
         if not os.path.exists('logs/mw'):
             os.makedirs('logs/mw')
+
+        client = raven.Client('https://4e7951caa8ce4dd180a3bd032f645d71:6949b0a5d126453b92434392457d60dc@sentry.io/194824')
+        client.user_context({
+            'InvokerAvId': invokerId,
+            'InvokerToonName': invoker.getName(),
+            'InvokerAccess': invoker.getAdminAccess(),
+            'time': now,
+            'TargetToonName': target.getName(),
+            'TargetAccess': target.getAdminAccess(),
+            'response': response
+        })
+        client.captureMessage(word)
 
         with open("logs/mw/magic-words.txt","a") as textFile:
             textFile.write("%s | %s : %s\n" % (now, invokerId, word))
