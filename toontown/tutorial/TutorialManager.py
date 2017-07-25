@@ -14,7 +14,7 @@ class TutorialManager(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.generate(self)
         messenger.send('tmGenerate')
         self.cr.tutorialManager = self
-        self.accept('requestTutorial', self.d_requestTutorial)
+        self.accept('requestTutorial', self.d_requestSkipTutorial)
         self.accept('requestSkipTutorial', self.d_requestSkipTutorial)
         self.accept('rejectTutorial', self.d_rejectTutorial)
 
