@@ -685,7 +685,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  3027: ['External Temperature Sensor', 'External Temperature Sensors', 'an '],
  6001: ['Warm Blankets', 'Warm Blankets', 'some '],
  6002: ['Humidifier', 'Humidifiers', 'a '],
- 6003: ['Drive Belt', 'Drive Belts', 'a '],
+ 6003: ['Ring', 'Rings', 'a '],
  6004: ['Pair of Pincers', 'Pairs of Pincers', 'a '],
  6005: ['Reading Lamp', 'Reading Lamps', 'a '],
  6006: ['Zither', 'Zithers', 'a '],
@@ -967,8 +967,18 @@ QuestDialogDict = {
  3017: {GREETING: '',
 		QUEST: "While you were gone, three shops have been broken into!\x07Ugh, I'm a terrible detective, completely on the wrong case...\x07Just defeat those Cogs until the crime rate drops.",
 		COMPLETE: "Wow!\x07A lot of shopkeepers are calling me saying how good my detective work was!\x07Thanks for all your help, _avName_.\x07Here's a reward.",
+		LEAVING: ''},
+
+ #AA Task Three
+ 3020: {QUEST: "Oh no! There was a break-in at _toNpcName_'s store!\x07Go see what's up and how you can help her._where_"},
+ 3021: {GREETING: '',
+		QUEST: "Those Elite Cogs came in here and trashed my place!\x07Once they left, I saw that my most expensive ring has been stolen.\x07I'm not sure, but I think it was a Tightwad who took it.\x07Could you get it back for me please? He could be anywhere with it!",
+		LEAVING: ''},
+ 3022: {GREETING: '',
+		QUEST: "Thanks for getting that back for me, hun!\x07Now I need you to teach those Elites a lesson.",
+		COMPLETE: "Amazing work!",
 		LEAVING: ''}}
-		
+  
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']
