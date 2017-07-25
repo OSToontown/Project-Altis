@@ -88,7 +88,7 @@ class TutorialFSM(FSM):
         self.air.deallocateZone(self.zones['building'])
         self.air.deallocateZone(self.zones['hq'])
 
-        del self.air.tutorialManager.avId2fsm[self.avId]
+        del self.air.tutorialManager.avId2fsm[int(self.avId)]
 
 
 class TutorialManagerAI(DistributedObjectAI):
@@ -107,7 +107,7 @@ class TutorialManagerAI(DistributedObjectAI):
         zones['building'] = self.air.allocateZone()
         zones['hq'] = self.air.allocateZone()
 
-        self.avId2fsm[avId] = TutorialFSM(self.air, zones, avId)
+        self.avId2fsm[int(self.avId)] = TutorialFSM(self.air, zones, avId)
 
         self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
         self.d_enterTutorial(avId, ToontownGlobals.Tutorial, zones['street'], zones['building'], zones['hq'])
@@ -139,7 +139,7 @@ class TutorialManagerAI(DistributedObjectAI):
         if av is not None:
             av.b_setTutorialAck(1)
         self.ignore(self.air.getAvatarExitEvent(avId))
-        fsm = self.avId2fsm.get(avId)
+        fsm = self.avId2fsm.get(int(self.avId))
         if fsm is not None:
             fsm.demand('Cleanup')
         else:
@@ -152,7 +152,7 @@ class TutorialManagerAI(DistributedObjectAI):
             return
 
         if av.getTutorialAck():
-            self.avId2fsm[avId].demand('Cleanup')
+            self.avId2fsm[int(self.avId)].demand('Cleanup')
             self.air.writeServerEvent('suspicious', avId, issue='Attempted to enter a tutorial when it should be impossible.')
             return
 
@@ -171,6 +171,6 @@ class TutorialManagerAI(DistributedObjectAI):
         av.d_setExperience(av.experience.makeNetString())
 
     def __handleUnexpectedExit(self, avId):
-        fsm = self.avId2fsm.get(avId)
+        fsm = self.avId2fsm.get(int(self.avId))
         if fsm is not None:
             fsm.demand('Cleanup')
