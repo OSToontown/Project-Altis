@@ -686,8 +686,8 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  6001: ['Warm Blankets', 'Warm Blankets', 'some '],
  6002: ['Humidifier', 'Humidifiers', 'a '],
  6003: ['Ring', 'Rings', 'a '],
- 6004: ['Pair of Pincers', 'Pairs of Pincers', 'a '],
- 6005: ['Reading Lamp', 'Reading Lamps', 'a '],
+ 6004: ['Insurance Card', 'Insurance Cards', 'an '],
+ 6005: ['Bolts', 'Bolts', 'some '],
  6006: ['Zither', 'Zithers', 'a '],
  6007: ['Zamboni', 'Zambonis', 'a '],
  6008: ['Zebra Zabuton', 'Zebra Zabutons', 'a '],
@@ -977,7 +977,18 @@ QuestDialogDict = {
  3022: {GREETING: '',
 		QUEST: "Thanks for getting that back for me, hun!\x07Now I need you to teach those Elites a lesson.",
 		COMPLETE: "Amazing work!",
-		LEAVING: ''}}
+		LEAVING: ''},
+ #AA Task Four
+ 3030: {QUEST: "Looks like there's an issue at the insurance agency._where_"},
+ 3031: {QUEST: "The Ambulance Chasers have been causing issues to the Toons around here.\x07They get in accidents often with them and when they need to exchange insurance information, those Cogs just run off with their insurance cards!\x07A Toon just called in and said her insurance card was taken, so I suspect it was an Ambulance Chaser.\x07Why not take some down and see if you can get it back?"},
+ 3032: {GREETING: '',
+		QUEST: "No insurance card?\x07Maybe they passed it along to one of their friends...",
+		LEAVING: ''},
+ 3033: {QUEST: "Great job! Now bring that to _toNpcName_ as soon as possible!_where_"},
+ 3034: {QUEST: "Thanks for getting my insurance card back!\x07I don't know if you'd be willing to do a favor for me, but a bunch of Cogs just broke in and stole my bolts.\x07I need them back for a secret project that I'm constructing.\x07If you could get those back for me, that'd be fantastic!"},
+ 3035: {QUEST: "You got them back! Thank you so much!\x07I guess _toNpcName_ needs to see you again now that you're done with me."},
+ 3036: {QUEST: "Those strong Lawbots are still causing trouble around town.\x07If you could take down some of them, I will give you a reward.",
+		COMPLETE: "Well, a deal is a deal..."}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
