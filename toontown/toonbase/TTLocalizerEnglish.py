@@ -688,10 +688,10 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  6003: ['Ring', 'Rings', 'a '],
  6004: ['Insurance Card', 'Insurance Cards', 'an '],
  6005: ['Bolts', 'Bolts', 'some '],
- 6006: ['Zither', 'Zithers', 'a '],
- 6007: ['Zamboni', 'Zambonis', 'a '],
- 6008: ['Zebra Zabuton', 'Zebra Zabutons', 'a '],
- 6009: ['Zinnias', 'Zinnias', 'some '],
+ 6006: ['Straw', 'Bits of Straw', 'some '],
+ 6007: ['Wood', 'Chunks of Wood', 'some '],
+ 6008: ['Bricks', 'Bricks', 'some '],
+ 6009: ['Straw, Wood, and Brick', 'Straws, Wood, Bricks', 'some '],
  6010: ['Zydeco Records', 'Zydeco Records', 'some '],
  6011: ['Zucchini', 'Zucchinis', 'a '],
  6012: ['Zoot Suit', 'Zoot Suits', 'a '],
@@ -988,7 +988,24 @@ QuestDialogDict = {
  3034: {QUEST: "Thanks for getting my insurance card back!\x07I don't know if you'd be willing to do a favor for me, but a bunch of Cogs just broke in and stole my bolts.\x07I need them back for a secret project that I'm constructing.\x07If you could get those back for me, that'd be fantastic!"},
  3035: {QUEST: "You got them back! Thank you so much!\x07I guess _toNpcName_ needs to see you again now that you're done with me."},
  3036: {QUEST: "Those strong Lawbots are still causing trouble around town.\x07If you could take down some of them, I will give you a reward.",
-		COMPLETE: "Well, a deal is a deal..."}}
+		COMPLETE: "Well, a deal is a deal..."},
+
+ #AA Task Five
+ 3040: {QUEST: "_toNpcName_ has an idea for creating a new tent and needs your help._where_"},
+ 3041: {QUEST: "So, I guess you heard about my new tent, huh?\x07Yep, but the only issue is that the only supplier of the material I need keeps getting robbed of his material.\x07Try to see if you can help get it back._where_"},
+ 3042: {GREETING: '',
+		QUEST: "Hey, _avName_. How can I help you?\x07You need straw, wood, and brick?\x07Well, I'd love to give you some, but you'd have to get it back for me first.\x07To begin with, the Sellbots huffed and puffed and took my supply of straw.\x07I'll need about 10 bits of those back.",
+		LEAVING: ''},
+ 3043: {GREETING: '',
+		QUEST: "Then the Lawbots huffed and puffed and took my supply of wood...",
+		LEAVING: ''},
+ 3044: {GREETING: '',
+		QUEST: "Then the Cashbots huffed and puffed, but they failed to take my supply of brick!\x07Only later, they called some of their high leveled friends in to take the supply, which they succeeded to do...",
+		LEAVING: ''},
+ 3045: {GREETING: '',
+		QUEST: "Great! Now take these to _toNpcName_",
+		COMPLETE: "Wow, you actually got the materials!\x07I'll be sure to credit you if I ever end up making this new tent.\x07Here's a reward for your help...",
+		LEAVING: ''}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
