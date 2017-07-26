@@ -124,8 +124,12 @@ class TrackPage(ShtikerPage.ShtikerPage):
                     self.buttons[track][i+3]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                     self.buttons[track][i+3]['text'] = '0/1'
             if av.getTrainingPoints() == 0:
+                i = 0
                 for button in self.buttons[track]:
-                    button['state'] = DGG.DISABLED
+                    if i == 0:
+                        continue
+                    else:
+                        button['state'] = DGG.DISABLED
 				
     def upgradeMe(self, track, index):
         av = base.localAvatar
