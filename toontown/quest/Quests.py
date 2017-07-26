@@ -2793,7 +2793,13 @@ QuestDict = {
  3070: ([2136], Start, (VisitQuest,), 6007, 6408, NA, 3071, TTLocalizer.QuestDialogDict[3070], 3230, 120),
  3071: ([], Cont, (CogQuest, Anywhere, 7, 'ds'), 6408, Same, NA, 3072, TTLocalizer.QuestDialogDict[3071], 3230, 120),
  3072: ([], Cont, (CogQuest, Anywhere, 7, 'txm'), Same, Same, NA, 3073, TTLocalizer.QuestDialogDict[3072], 3230, 120),
- 3073: ([], Cont, (BuildingQuest, Anywhere, 3, Any, 2), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3073], 3230, 120)
+ 3073: ([], Cont, (BuildingQuest, Anywhere, 3, Any, 2), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3073], 3230, 120),
+ 
+ #AA Task Nine
+ 3080: ([2136], Start, (VisitQuest,), 6006, 6406, NA, 3081, TTLocalizer.QuestDialogDict[3080], 3210, 110),
+ 3081: ([], Cont, (CogQuest, Anywhere, 9, 'cc'), 6406, Same, NA, 3082, TTLocalizer.QuestDialogDict[3081], 3210, 110),
+ 3082: ([], Cont, (CogQuest, Anywhere, 8, 'tw'), Same, Same, NA, 3083, TTLocalizer.QuestDialogDict[3082], 3210, 110),
+ 3083: ([], Cont, (CogLevelQuest, Anywhere, 10, 6), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3083], 3210, 110)
  }
 
 Quest2RewardDict = {}

@@ -1047,6 +1047,19 @@ QuestDialogDict = {
  3073: {GREETING: '',
 		QUEST: "Finally, take down a few of those big and ugly Cog Buildings",
 		COMPLETE: "Yep! The spirit of this town seems to be shining again!\x07Thanks for your help. Here's your reward...",
+		LEAVING: ''},
+		
+ #AA Task Nine
+ 3080: {QUEST: "Ahh yes, it appears that the Cogs have been giving toons some burning feeling, according to _toNpcName_.\x07Could you go see what's up?_where_"},
+ 3081: {GREETING: '',
+		QUEST: "You're here about the burning case?\x07Yes, it appears that Cold Callers have been burning toons with their Hot Air attacks.\x07They're dangerous and must be stopped.\x07Defeat a handful then report back to me.",
+		LEAVING: ''},
+ 3082: {GREETING: '',
+		QUEST: "Next, those Tightwads love to do some firing.\x07Some toons come in here with a fully burnt body, and it's just awful.\x07Go teach those punks a lesson, why don't ya?",
+		LEAVING: ''},
+ 3083: {GREETING: '',
+		QUEST: "To finish off, I want you to take down a handful of strong Cogs that defeat toons with a painful burn.",
+		COMPLETE: "Seems like someone turned down the heat, no?\x07Thanks for all your help, _avName_. Here's a reward for ya...",
 		LEAVING: ''}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
