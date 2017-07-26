@@ -692,7 +692,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  6007: ['Wood', 'Chunks of Wood', 'some '],
  6008: ['Bricks', 'Bricks', 'some '],
  6009: ['Straw, Wood, and Brick', 'Straws, Wood, Bricks', 'some '],
- 6010: ['Zydeco Records', 'Zydeco Records', 'some '],
+ 6010: ['Allergy Pill', 'Allergy Pills', 'an '],
  6011: ['Zucchini', 'Zucchinis', 'a '],
  6012: ['Zoot Suit', 'Zoot Suits', 'a '],
  7001: ['Plain Bed', 'Plain Beds', 'a '],
@@ -1027,6 +1027,13 @@ QuestDialogDict = {
  3059: {GREETING: '',
 		QUEST: "Oh, thank you for calming me down.\x07Can't wait for the party!",
 		COMPLETE: "Aye dawg, this party is going to be great!\x07Here's a reward for ya, dawg...",
+		LEAVING: ''},
+
+ #AA Task Seven
+ 3060: {QUEST: "_toNpcName_ is having an issue with medicine._where_"},
+ 3061: {GREETING: '',
+		QUEST: "Oh this is just awful!\x07The Cogs just raided my shop and took all the allergy pills that I have to give to my patients.\x07I had about 15 of them before they took over.\x07Please, go get them back for me!",
+		COMPLETE: "Yes! That's all of them.\x07Here's a nifty reward for you!",
 		LEAVING: ''}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
