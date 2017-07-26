@@ -288,8 +288,7 @@ DynamicZonesEnd = 1 << 20
 cogDept2index = {'c': 0,
  'l': 1,
  'm': 2,
- 's': 3,
- 'g': 4}
+ 's': 3}
 cogIndex2dept = invertDict(cogDept2index)
 HQToSafezone = {SellbotHQ: DaisyGardens,
  CashbotHQ: MinniesMelodyland,
