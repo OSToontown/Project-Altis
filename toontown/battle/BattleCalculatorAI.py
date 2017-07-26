@@ -580,7 +580,7 @@ class BattleCalculatorAI:
                     if self.__isWet(targetId) or self.__isRaining(self.battle.getToon(toonId)):
                         chance = InstaKillChance
                         if organicBonus:
-                            chance = int(InstaKillChance * 1.5)
+                            chance = int(InstaKillChance[atkLevel] * 1.5)
                         if random.randint(0,99) <= chance[atkLevel]:
                             suit = self.battle.findSuit(targetId)
                             if suit.getHP() > 500:
