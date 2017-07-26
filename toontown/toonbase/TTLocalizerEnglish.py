@@ -1005,6 +1005,28 @@ QuestDialogDict = {
  3045: {GREETING: '',
 		QUEST: "Great! Now take these to _toNpcName_",
 		COMPLETE: "Wow, you actually got the materials!\x07I'll be sure to credit you if I ever end up making this new tent.\x07Here's a reward for your help...",
+		LEAVING: ''},
+		
+ #AA Task Six
+ 3050: {QUEST: "_toNpcName_ is throwing a party and needs help passing out invitations._where_"},
+ 3051: {GREETING: 'Hey dawg.',
+		QUEST: "Yeah, I'm having a killer party tonight for the residents of my fellow street.\x07Only issue is that some of them are too scared of the Cogs on this street to try to make it here.\x07I need you to calm their nerves for me, then report back to me if they can come or not.\x07First, I need you to check on _toNpcName_._where_",
+		LEAVING: "Peace, dawg!"},
+ 3052: {QUEST: "Yeah, I'd love to go to Reid's party, but I don't like those high leveled Cogs roaming around this street as I try to walk out of my shop.\x07I'll be glad to go to his party if you could defeat several of them."},
+ 3053: {QUEST: "Great! Let _toNpcName_ know that he'll see me tonight!",
+		LEAVING: ''},
+ 3054: {GREETING: "One guest down, two to go.",
+		QUEST: "Next, I need you to go get _toNpcName_ to chill and come to the party!_where_",
+		LEAVING: "Peace, dawg!"},
+ 3055: {QUEST: "Sure, I'd go to Reid's party if there weren't so many Boardbots on this street!"},
+ 3056: {QUEST: "Let _toNpcName_ know that I'll be there!"},
+ 3057: {GREETING: "Wow, you're good at this dawg.",
+		QUEST: "Finally, I want you to go get word from _toNpcName_ that she'll be there._where_",
+		LEAVING: "Good luck, dawg!"},
+ 3058: {QUEST: "I'll go to the party if you could take down one of those big buildings around here.\x07If you could do that, it'd relieve the stress I have thinking my building will be taken over if I leave it..."},
+ 3059: {GREETING: '',
+		QUEST: "Oh, thank you for calming me down.\x07Can't wait for the party!",
+		COMPLETE: "Aye dawg, this party is going to be great!\x07Here's a reward for ya, dawg...",
 		LEAVING: ''}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
