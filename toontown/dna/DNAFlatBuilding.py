@@ -58,7 +58,6 @@ class DNAFlatBuilding(DNANode.DNANode):
         if self.hasDoor:
             wallNp = node.find("wall_*")
             doorNp = store.findNode("suit_door").copyTo(wallNp)
-            doorNp.setColor(0.2, 0.2, 0.2, 1)
             doorNp.setPosHprScale(0.5, 0, 0, 0, 0, 0, 1.0 / self.width, 0, 1.0 / DNAFlatBuilding.currentWallHeight)
             wallNp.setEffect(DecalEffect.make())
 
