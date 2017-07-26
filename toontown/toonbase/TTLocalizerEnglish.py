@@ -4093,6 +4093,16 @@ InsomniaReusableCodes = 'If you are using an Insomnia 60 code, keep it! You can 
 TrackPageTitle = 'Gag Track Training'
 TrackPageShortTitle = 'Gag Training'
 TrackPageSubtitle = 'Training Points:'
+TrackPageUnlocked = 'UNLOCKED'
+TrackPageProgress = '%s/2 POINTS TO UNLOCK'
+TrackPageHints = ['First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 20% self heal bonus to Toon-up gags.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% chance to not use a Trap gag.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an additional round of stun to Lure gags.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'All Sound gags get a bonus damage equal to 1/2 the highest level cog in the battle.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% damage bonus to Throw gags.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an extra round of soak to Squirt gags, as well as giving a -20 defense debuff to any cog a squirt is used on.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Increases the chance for Zap gags to cause a shortcircuit by 1.5x (50%).', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% accuracy bonus to Drop gags.', '???', '???']
 QuestPageToonTasks = 'ToonTasks'
 QuestPageChoose = 'Choose'
 QuestPageLocked = 'Locked'

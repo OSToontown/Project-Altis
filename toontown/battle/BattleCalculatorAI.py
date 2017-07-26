@@ -41,8 +41,6 @@ class BattleCalculatorAI:
         self.currentlyLuredSuits = {}
         self.currentlyWetSuits = {}
         self.successfulLures = {}
-        self.pendingOrgHeals = []
-        self.pendingOrgHealAmts = []
         self.toonAtkOrder = []
         self.toonHPAdjusts = {}
         self.toonSkillPtsGained = {}
@@ -609,6 +607,8 @@ class BattleCalculatorAI:
                 if atkTrack == HEAL:
                     if not self.__attackHasHit(attack, suit=0):
                         result = result * 0.2
+                        if organicBonus or propBonus:
+                            toon.toonUp(result * 0.2)
                     if self.notify.getDebug():
                         self.notify.debug('toon does ' + str(result) + ' healing to toon(s)')
                 else:
@@ -628,11 +628,8 @@ class BattleCalculatorAI:
                 targetIndex = targets.index(targetList[currTarget])
                 if atkTrack == HEAL:
                     result = result / len(targetList)
-                    organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
-                    propBonus = self.__checkPropBonus(attackTrack)
-                    if organicBonus or propBonus:
-                        self.pendingOrgHeals.append(toon)
-                        self.pendingOrgHealAmts.append(int(result * len(targetList) * 0.2))
+                    if organicBonus:
+                        toon.toonUp(result * len(targetList) * 0.2)
                     if self.notify.getDebug():
                         self.notify.debug('Splitting heal among ' + str(len(targetList)) + ' targets')
                 if targetId in self.successfulLures and atkTrack == LURE:
@@ -1511,10 +1508,6 @@ class BattleCalculatorAI:
                 return None
 
         self.__calculateToonAttacks()
-        for toon in self.pendingOrgHeals:
-            toon.toonUp(self.pendingOrgHeals[self.pendingOrgHeals.index(toon)])
-        self.pendingOrgHeals = []
-        self.pendingOrgHealAmts = []
         self.__updateLureTimeouts()
         self.__updateWetTimeouts()
         self.__calculateSuitAttacks()

@@ -31,6 +31,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
         self.rolloverButton = self.buttonModels.find('**/InventoryButtonRollover')
         self.flatButton = self.buttonModels.find('**/InventoryButtonFlat')
         self.rowModel = self.buttonModels.find('**/TrainingPointRow')
+        self.infoText = OnscreenText(parent=self, text='', wordwrap = 30, scale=0.055, fg=(0, 0, 0, 1), shadow=(0, 0, 0, 0), pos=(0.0, -0.6), font=ToontownGlobals.getInterfaceFont(), mayChange=True)
         for track in xrange(len(ToontownBattleGlobals.Tracks)):
             trackFrame = DirectFrame(parent=self, image=self.rowModel, scale=(1.05, 0.8, 1.1), pos=(0, 0.3, TrackYOffset + track * TrackYSpacing), image_color=(ToontownBattleGlobals.TrackColors[track][0],
              ToontownBattleGlobals.TrackColors[track][1],
@@ -44,7 +45,8 @@ class TrackPage(ShtikerPage.ShtikerPage):
                 button = DirectButton(parent=self.trackRows[track], image=(self.upButton,
                  self.downButton,
                  self.rolloverButton,
-                 self.flatButton), text='', text_scale=0.04, text_align=TextNode.ARight, geom_scale=0.7, geom_pos=(-0.01, -0.1, 0), text_fg=Vec4(1, 1, 1, 1), text_pos=(0.07, -0.04), textMayChange=1, relief=None, image_color=(0, 0.6, 1, 1), image_scale=(1.05, 1, 1), pos=(ButtonXOffset + item * ButtonXSpacing + -0.06825, -0.1, 0), command=self.upgradeMe, extraArgs=[track])
+                 self.flatButton), text='', text_scale=0.04, text_align=TextNode.ARight, geom_scale=0.7, geom_pos=(-0.01, -0.1, 0), text_fg=Vec4(1, 1, 1, 1), text_pos=(0.07, -0.04), textMayChange=1, relief=None, image_color=(0, 0.6, 1, 1), image_scale=(1.05, 1, 1), pos=(ButtonXOffset + item * ButtonXSpacing + -0.06825, -0.1, 0), command=self.upgradeMe, extraArgs=[track, item])
+                button.bind(DGG.WITHIN, self.showInfo, extraArgs = [((track * 5) + item), False])
                 self.buttons[track].append(button)
         self.accept('skillPointChange', self.updatePage)
 
@@ -66,11 +68,19 @@ class TrackPage(ShtikerPage.ShtikerPage):
             points = base.localAvatar.getSpentTrainingPoints()
             points = points[track]
             if points < 2:
-                self.trackProgressLabels[track]['text'] = '%s/2 POINTS TO UNLOCK' % points
+                self.trackProgressLabels[track]['text'] = TTLocalizer.TrackPageProgress % points
             else:
-                self.trackProgressLabels[track]['text'] = 'UNLOCKED'
+                self.trackProgressLabels[track]['text'] = TTLocalizer.TrackPageUnlocked
         self.pointLabel['text'] = str(base.localAvatar.getTrainingPoints())
         self.updateButtons()
+		
+    def showInfo(self, index, clear, dummy):
+        if clear:
+            self.infoText.setText('')
+            self.infoText.hide()
+            return
+        self.infoText.setText(TTLocalizer.TrackPageHints[index])
+        self.infoText.show()
 
     def enter(self):
         self.updatePage()
@@ -87,24 +97,47 @@ class TrackPage(ShtikerPage.ShtikerPage):
             for button in buttonArray:
                 button['state'] = DGG.DISABLED
         for track in xrange(len(pointArray)):
+            i = 0
             for button in self.buttons[track]:
-                button['state'] = DGG.NORMAL
-                button['text'] = '0/1'
+                if i == (pointArray[track] - 1) or i >= (pointArray[track] + 1):
+                    button['state'] = DGG.DISABLED
+                    button['text'] = '0/1'
+                else:
+                    button['state'] = DGG.NORMAL
+                    button['text'] = '0/1'
+                i += 1
             for iteration in xrange(pointArray[track]):
-                self.buttons[track][iteration]['state'] = DGG.DISABLED
-                self.buttons[track][iteration]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
+                if pointArray[track] == 1:
+                    self.buttons[track][iteration]['state'] = DGG.NORMAL
+                else:
+                    self.buttons[track][iteration]['state'] = DGG.DISABLED
+                    self.buttons[track][iteration]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                 self.buttons[track][iteration]['text'] = '1/1'
-            for i in xrange(2): # Temporary until we include prestiging
-                self.buttons[track][i+3]['state'] = DGG.DISABLED
-                self.buttons[track][i+3]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
-                self.buttons[track][i+3]['text'] = '0/1'
+            if pointArray[track] < 2:
+                for i in xrange(3):
+                    self.buttons[track][i+2]['state'] = DGG.DISABLED
+                    self.buttons[track][i+2]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
+                    self.buttons[track][i+2]['text'] = '0/1'
+            else:
+                for i in xrange(2):
+                    self.buttons[track][i+3]['state'] = DGG.DISABLED
+                    self.buttons[track][i+3]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
+                    self.buttons[track][i+3]['text'] = '0/1'
             if av.getTrainingPoints() == 0:
                 for button in self.buttons[track]:
                     button['state'] = DGG.DISABLED
 				
-    def upgradeMe(self, track):
+    def upgradeMe(self, track, index):
         av = base.localAvatar
-        av.sendUpdate('requestSkillSpend', [track])
+        pointArray = av.getSpentTrainingPoints()
+        if pointArray[track] == 1 and index == 0:
+            av.sendUpdate('requestSkillReturn', [track])
+        else:
+            av.sendUpdate('requestSkillSpend', [track])
+        self.updatePage()
+		
+    def downgradeMe(self, track, index):
+        av = base.localAvatar
         self.updatePage()
         
                 
