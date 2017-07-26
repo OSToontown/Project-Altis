@@ -411,11 +411,8 @@ class ToonHead(Actor.Actor):
             filepath = 'phase_3' + filePrefix + lods[0]
             self.loadModel(PreloadHeads[filepath], 'head', 'lodRoot', copy = True)
             if not forGui:
-                try:
-                    pLoaded = self.loadPumpkin(headStyle[1], None, copy)
-                    self.loadSnowMan(headStyle[1], None, copy)
-                except:
-                    pass
+                pLoaded = self.loadPumpkin(headStyle[1], None, copy)
+                self.loadSnowMan(headStyle[1], None, copy)
             if not copy:
                 self.showAllParts('head')
             if fix != None:
@@ -433,11 +430,8 @@ class ToonHead(Actor.Actor):
                 filepath = 'phase_3' + filePrefix + lod
                 self.loadModel(PreloadHeads[filepath], 'head', lod, True)
                 if not forGui:
-                    try:
-                        pLoaded = self.loadPumpkin(headStyle[1], lod, copy)
-                        self.loadSnowMan(headStyle[1], lod, copy)
-                    except:
-                        pass
+                    pLoaded = self.loadPumpkin(headStyle[1], lod, copy)
+                    self.loadSnowMan(headStyle[1], lod, copy)
                 if not copy:
                     self.showAllParts('head', lod)
                 if fix != None:
