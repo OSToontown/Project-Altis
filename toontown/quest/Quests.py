@@ -2787,7 +2787,13 @@ QuestDict = {
  
  #AA Task Seven
  3060: ([2136], Start, (VisitQuest,), 6004, 6212, NA, 3061, TTLocalizer.QuestDialogDict[3060], 3200, 100),
- 3061: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 15, 6010, Easy, Any), 6212, Same, NA, NA, TTLocalizer.QuestDialogDict[3061], 3200, 100)
+ 3061: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 15, 6010, Easy, Any), 6212, Same, NA, NA, TTLocalizer.QuestDialogDict[3061], 3200, 100),
+ 
+ #AA Task Eight
+ 3070: ([2136], Start, (VisitQuest,), 6007, 6408, NA, 3071, TTLocalizer.QuestDialogDict[3070], 3230, 120),
+ 3071: ([], Cont, (CogQuest, Anywhere, 7, 'ds'), 6408, Same, NA, 3072, TTLocalizer.QuestDialogDict[3071], 3230, 120),
+ 3072: ([], Cont, (CogQuest, Anywhere, 7, 'txm'), Same, Same, NA, 3073, TTLocalizer.QuestDialogDict[3072], 3230, 120),
+ 3073: ([], Cont, (BuildingQuest, Anywhere, 3, Any, 2), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3073], 3230, 120)
  }
 
 Quest2RewardDict = {}

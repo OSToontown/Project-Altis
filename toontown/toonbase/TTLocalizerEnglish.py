@@ -1034,6 +1034,19 @@ QuestDialogDict = {
  3061: {GREETING: '',
 		QUEST: "Oh this is just awful!\x07The Cogs just raided my shop and took all the allergy pills that I have to give to my patients.\x07I had about 15 of them before they took over.\x07Please, go get them back for me!",
 		COMPLETE: "Yes! That's all of them.\x07Here's a nifty reward for you!",
+		LEAVING: ''},
+
+ #AA Task Eight
+ 3070: {QUEST: "The spirit of the town has gone down and _toNpcName_ needs help bringing it back up._where_"},
+ 3071: {GREETING: '',
+		QUEST: "Those Cogs are always trying to take away the spirit of the town.\x07I feel like those Downsizer bring them down more than anyone else.\x07Why not defeat some of them and regain some spirit to the toons of this town?",
+		LEAVING: "Good luck, buddy!"},
+ 3072: {GREETING: '',
+		QUEST: "Next, I need you to defeat several Toxic Managers before they poison the spirit filled inside each toon.",
+		LEAVING: ''},
+ 3073: {GREETING: '',
+		QUEST: "Finally, take down a few of those big and ugly Cog Buildings",
+		COMPLETE: "Yep! The spirit of this town seems to be shining again!\x07Thanks for your help. Here's your reward...",
 		LEAVING: ''}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
