@@ -1173,6 +1173,7 @@ dclass DistributedToon : DistributedPlayer {
   setTrainingPoints(uint8 = 0) required ownrecv db;
   setSpentTrainingPoints(uint8[] = [0, 0, 0, 0, 2, 2, 0, 0]) required ownrecv db;
   requestSkillSpend(uint8) ownsend airecv;
+  requestSkillReturn(uint8) ownsend airecv;
   setCerts(string[] = []) required broadcast ownrecv db;
 };
 

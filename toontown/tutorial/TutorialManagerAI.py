@@ -44,7 +44,7 @@ class TutorialFSM(FSM):
     def enterBattle(self):
         self.suit = DistributedTutorialSuitAI(self.air)
         self.suit.generateWithRequired(self.zones['street'])
-        av = self.air.doId2do.get(avId)
+        av = self.air.doId2do.get(self.avId)
 
         self.building.door.setDoorLock(FADoorCodes.DEFEAT_FLUNKY_TOM)
         self.hq.door0.setDoorLock(FADoorCodes.DEFEAT_FLUNKY_HQ)
@@ -88,7 +88,7 @@ class TutorialFSM(FSM):
         self.air.deallocateZone(self.zones['building'])
         self.air.deallocateZone(self.zones['hq'])
 
-        del self.air.tutorialManager.avId2fsm[int(avId)]
+        del self.air.tutorialManager.avId2fsm[self.avId]
 
 
 class TutorialManagerAI(DistributedObjectAI):
@@ -100,24 +100,27 @@ class TutorialManagerAI(DistributedObjectAI):
         self.avId2fsm = {}
 
     def requestTutorial(self):
-        self.requestSkipTutorial()
-        # avId = self.air.getAvatarIdFromSender()
+        avId = self.air.getAvatarIdFromSender()
+        if not avId:
+            return
 
-        # zones = {}
-        # zones['street'] = self.air.allocateZone()
-        # zones['building'] = self.air.allocateZone()
-        # zones['hq'] = self.air.allocateZone()
+        zones = {}
+        zones['street'] = self.air.allocateZone()
+        zones['building'] = self.air.allocateZone()
+        zones['hq'] = self.air.allocateZone()
 
-        # self.avId2fsm[int(avId)] = TutorialFSM(self.air, zones, avId)
+        self.avId2fsm[avId] = TutorialFSM(self.air, zones, avId)
 
-        # self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
-        # self.d_enterTutorial(avId, ToontownGlobals.Tutorial, zones['street'], zones['building'], zones['hq'])
+        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
+        self.d_enterTutorial(avId, ToontownGlobals.Tutorial, zones['street'], zones['building'], zones['hq'])
 
     def rejectTutorial(self):
         pass
 
     def requestSkipTutorial(self):
         avId = self.air.getAvatarIdFromSender()
+        if not avId:
+            return
         self.d_skipTutorialResponse(avId, 1)
 
 
@@ -137,10 +140,12 @@ class TutorialManagerAI(DistributedObjectAI):
     def allDone(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
+        if not avId:
+            return
         if av is not None:
             av.b_setTutorialAck(1)
         self.ignore(self.air.getAvatarExitEvent(avId))
-        fsm = self.avId2fsm.get(int(avId))
+        fsm = self.avId2fsm.get(avId)
         if fsm is not None:
             fsm.demand('Cleanup')
         else:
@@ -149,11 +154,11 @@ class TutorialManagerAI(DistributedObjectAI):
     def toonArrived(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
-        if av is None:
+        if not av or avId:
             return
 
         if av.getTutorialAck():
-            # self.avId2fsm[int(avId)].demand('Cleanup')
+            self.avId2fsm[avId].demand('Cleanup')
             self.air.writeServerEvent('suspicious', avId, issue='Attempted to enter a tutorial when it should be impossible.')
             return
 
@@ -172,6 +177,6 @@ class TutorialManagerAI(DistributedObjectAI):
         av.d_setExperience(av.experience.makeNetString())
 
     def __handleUnexpectedExit(self, avId):
-        fsm = self.avId2fsm.get(int(avId))
+        fsm = self.avId2fsm.get(avId)
         if fsm is not None:
             fsm.demand('Cleanup')

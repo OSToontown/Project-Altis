@@ -4813,6 +4813,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.b_setTrainingPoints(pointsAvailable)
         else:
             return
+
+    def requestSkillReturn(self, track):
+        pointsAvailable = self.getTrainingPoints()
+        pointsSpent = self.getSpentTrainingPoints()
+        if pointsSpent[track] == 1: # They wanna remove a point from a progressing track, nbd
+            pointsAvailable += 1
+            pointsSpent[track] = 0
+            self.b_setSpentTrainingPoints(pointsSpent)
+            self.b_setTrainingPoints(pointsAvailable)
+        else:
+            return
 			
     def b_setCerts(self, certs):
         self.setCerts(certs)
