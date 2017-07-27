@@ -324,12 +324,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         print invstatus
         if invstatus == 'None':
             httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReqkill.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/0/%s/0/0' % (self.districtName,
+            httpReqkill.request('GET', '/api/addinvasion/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s/0/%s/0/0' % (self.districtName,
                                                                                pop, invstatus))
             print(httpReqkill.getresponse().read())
         else:
             httpReq = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReq.request('GET', '/api/addinvasion/CMDD329UCQOKAG2DY3EFRENATPFVTZZMZR6KIRFTEA4QQFKKDKSJ9M3NJAUFECTQ/%s/%s/1/%s/%s/%s' % (self.districtName,
+            httpReq.request('GET', '/api/addinvasion/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s/1/%s/%s/%s' % (self.districtName,
                                                                            pop, invstatus, total, defeated))
 
             print(httpReq.getresponse().read())
