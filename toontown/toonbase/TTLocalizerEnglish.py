@@ -1060,7 +1060,17 @@ QuestDialogDict = {
  3083: {GREETING: '',
 		QUEST: "To finish off, I want you to take down a handful of strong Cogs that defeat toons with a painful burn.",
 		COMPLETE: "Seems like someone turned down the heat, no?\x07Thanks for all your help, _avName_. Here's a reward for ya...",
-		LEAVING: ''}}
+		LEAVING: ''},
+		
+ #AA Task Ten
+ 3090: {QUEST: "According to _toNpcName_, the stronger Cogs are causing trouble everywhere they go._where_"},
+ 3091: {QUEST: "I've been hearing reports of those high leveled Bossbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3092: {QUEST: "I've been hearing reports of those high leveled Lawbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3093: {QUEST: "I've been hearing reports of those high leveled Cashbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3094: {QUEST: "I've been hearing reports of those high leveled Sellbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3095: {QUEST: "I've been hearing reports of those high leveled Boardbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3096: {QUEST: "Great job!\x07Now, if you could take down a couple of those tall Cog Buildings in revenge of what they've done, I'll give you a reward.",
+		COMPLETE: "Well, a deal's a deal."}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
