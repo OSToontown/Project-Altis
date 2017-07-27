@@ -124,12 +124,14 @@ class TrackPage(ShtikerPage.ShtikerPage):
                     self.buttons[track][i+3]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                     self.buttons[track][i+3]['text'] = '0/1'
             if av.getTrainingPoints() == 0:
-                if av.getSpentTrainingPoints()[track] == 1:
-                    skip = True
-                for button in self.buttons[track]:
-                    if skip:
-                        skip = False
-                    else:
+                if pointArray[track] == 1:
+                    for i in xrange(len(self.buttons[track])):
+                        if i == 0:
+                            pass
+                        else:
+                            self.buttons[track][i]['state'] = DGG.DISABLED
+                else:
+                    for button in self.buttons[track]:
                         button['state'] = DGG.DISABLED
 				
     def upgradeMe(self, track, index):
