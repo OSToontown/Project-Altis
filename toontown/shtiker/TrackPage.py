@@ -126,11 +126,11 @@ class TrackPage(ShtikerPage.ShtikerPage):
             if av.getTrainingPoints() == 0:
                 if av.getSpentTrainingPoints()[track] == 1:
                     skip = True
-                    for button in self.buttons[track]:
-                        if skip:
-                            skip = False
-                        else:
-                            button['state'] = DGG.DISABLED
+                for button in self.buttons[track]:
+                    if skip:
+                        skip = False
+                    else:
+                        button['state'] = DGG.DISABLED
 				
     def upgradeMe(self, track, index):
         av = base.localAvatar
