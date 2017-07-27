@@ -104,11 +104,13 @@ class TrackPage(ShtikerPage.ShtikerPage):
                     button['text'] = '0/1'
                 else:
                     button['state'] = DGG.NORMAL
+                    button['image_color'] = Vec4(0, 0.6, 1, 1)
                     button['text'] = '0/1'
                 i += 1
             for iteration in xrange(pointArray[track]):
                 if pointArray[track] == 1:
                     self.buttons[track][iteration]['state'] = DGG.NORMAL
+                    self.buttons[track][iteration]['image_color'] = Vec4(0, 0.6, 1, 1)
                 else:
                     self.buttons[track][iteration]['state'] = DGG.DISABLED
                     self.buttons[track][iteration]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
