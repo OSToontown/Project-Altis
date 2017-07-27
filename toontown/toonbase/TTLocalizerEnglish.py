@@ -862,10 +862,10 @@ QuestDialogDict = {
  # Task Nine
  2090: {QUEST:  "Thank god you are here _avName_!\x07Sticky Lou is in desperate need of assistance with an unexpected wave of Cogs surrounding his shop!\x07Please go to him and help him with whatever he needs._where_"}, # Flippy to Sticky Lou
  2091: {QUEST:  "There are just too many!!! I don't know what to do!\x07Oh, _avName_! I didn't notice you there!\x07Please help me with all these Cogs, there are way too many for me to handle on my own."}, # Defeat 30 Cogs in Toontown Central
- 2092: {QUEST:  "Thank you so much _avName_, that makes me feel a lot more safe roaming the streets!\x07We need to start taking out the big cogs now.\x07Go defeat some level 2+ Cogs on Punchline Place..."}, # Defeat 4 Level 2+ Cogs on Wacky Way
- 2093: {QUEST:  "A sprinkle of level 3+ Cogs on Loopy Lane..."}, # Defeat 3 Level 3+ Cogs on Punchline Place
- 2094: {QUEST:  "A dash of level 4+ Cogs on Wacky Way..."}, # Defeat 2 Level 4+ Cogs on Silly Street
- 2095: {QUEST:  "And a hint of lime of level 5+ Cogs on Silly Street!"}, # Defeat 2 Level 5+ Cogs on Loopy Lane
+ 2092: {QUEST:  "Thank you so much _avName_, that makes me feel a lot more safe roaming the streets!\x07We need to start taking out the big cogs now.\x07Go defeat some level 2+ Cogs on Wacky Way..."}, # Defeat 4 Level 2+ Cogs on Wacky Way
+ 2093: {QUEST:  "A sprinkle of level 3+ Cogs on Punchline Place..."}, # Defeat 3 Level 3+ Cogs on Punchline Place
+ 2094: {QUEST:  "A dash of level 4+ Cogs on Silly Street..."}, # Defeat 2 Level 4+ Cogs on Silly Street
+ 2095: {QUEST:  "And a hint of lime of level 4+ Cogs on Loopy Lane!"}, # Defeat 2 Level 5+ Cogs on Loopy Lane
  2096: {QUEST:  "While you were away, I assumed everything was fine.\x07I was heading to the Post Office to store these top secret blueprints, and then a strong Cog roaming this street took it away.\x07You just have to get those blueprints back for me! Within the Cogs' hands, who knows what could happen?", COMPLETE: "All of the toons and I appreicate all you have done for us.\x07The streets will now be a lot safer with all you have done.\x07Please take this reward!"}, # Recover a Blueprint from Level 5+ Cogs in Toontown Central
 
  # Task Ten
@@ -1070,7 +1070,26 @@ QuestDialogDict = {
  3094: {QUEST: "I've been hearing reports of those high leveled Sellbots causing an issue all over town.\x07Can you defeat several of them please?"},
  3095: {QUEST: "I've been hearing reports of those high leveled Boardbots causing an issue all over town.\x07Can you defeat several of them please?"},
  3096: {QUEST: "Great job!\x07Now, if you could take down a couple of those tall Cog Buildings in revenge of what they've done, I'll give you a reward.",
-		COMPLETE: "Well, a deal's a deal."}}
+		COMPLETE: "Well, a deal's a deal."},
+		
+ #AA Task Eleven
+ 3100: {QUEST: "There have been a lot of toons going sad and _toNpcName_ knows the reason why._where_"},
+ 3101: {QUEST: "You want to know why toons keep going sad? Well I'll tell you why.\x07Those high level 6+ Cogs are just the biggest threat to every toon out there.\x07Toons kept coming in here telling me \"Ohhhh, how awful it was fighting those awfully strong robots.\"\x07Please defeat a handful of them and then I'll give you a reward.",
+		COMPLETE: "As I promised..."},
+		
+ #AA Task Twelve
+ 3110: {QUEST: "Setting up shop on a street like Walnut Way is rough with all those high leveled Cogs.\x07_toNpcName_ would like to check your gags to see if you could defend yourself on such a street._where_"},
+ 3111: {QUEST: "Have you seen the Cogs that roam out there?\x07Awful how strong they are.\x07I never want you to have a struggle when fighting those kinds of Cogs.\x07First, you'll need stronger gags.\x07Go out and train your throw."},
+ 3112: {GREETING: '',
+		QUEST: "Now how about training that squirt too?",
+		LEAVING: ''},
+ 3113: {GREETING: '',
+		QUEST: "Great work! Now let me see that new throw gag of yours.",
+		LEAVING: ''},
+ 3114: {GREETING: '',
+		QUEST: "Now how about that squirt...",
+		COMPLETE: "Well, it's a start, but you'll need more gags if you want to fight the highest set of Cogs around here.\x07Here a reward to help you progress...",
+		LEAVING: ''}}
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
@@ -7294,6 +7313,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  6313: 'Relaxed Roger',
  6314: 'Vincent Vacation',
  6315: 'Bees-In-My-Eyes Johnson',
+ 6316: 'Awkward Adam',
  6316: 'Awkward Adam',
  6317: 'Nutty Nathan',
  6318: 'Irritable Ivy',
