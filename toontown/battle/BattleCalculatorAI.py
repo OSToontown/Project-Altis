@@ -576,10 +576,10 @@ class BattleCalculatorAI:
                     organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
                     propBonus = self.__checkPropBonus(attackTrack)
                     if self.__isWet(targetId) or self.__isRaining(self.battle.getToon(toonId)):
-                        chance = InstaKillChance
+                        chance = InstaKillChance[atkLevel]
                         if organicBonus:
-                            chance = int(InstaKillChance * 1.5)
-                        if random.randint(0,99) <= chance[atkLevel]:
+                            chance = int(InstaKillChance[atkLevel] * 1.5)
+                        if random.randint(0,99) <= chance:
                             suit = self.battle.findSuit(targetId)
                             if suit.getHP() > 500:
                                 attackDamage = 500
