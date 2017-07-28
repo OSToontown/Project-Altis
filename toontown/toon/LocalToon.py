@@ -170,6 +170,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.touchingPlantList = []
         self.inGardenAction = None
         self.guiConflict = 0
+        self.isFishing = False
         self.lastElevatorLeft = 0
         self.elevatorNotifier = ElevatorNotifier.ElevatorNotifier()
         self.accept(OTPGlobals.AvatarFriendAddEvent, self.sbFriendAdd)

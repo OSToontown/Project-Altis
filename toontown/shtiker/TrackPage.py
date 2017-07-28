@@ -104,11 +104,13 @@ class TrackPage(ShtikerPage.ShtikerPage):
                     button['text'] = '0/1'
                 else:
                     button['state'] = DGG.NORMAL
+                    button['image_color'] = Vec4(0, 0.6, 1, 1)
                     button['text'] = '0/1'
                 i += 1
             for iteration in xrange(pointArray[track]):
                 if pointArray[track] == 1:
                     self.buttons[track][iteration]['state'] = DGG.NORMAL
+                    self.buttons[track][iteration]['image_color'] = Vec4(0, 0.6, 1, 1)
                 else:
                     self.buttons[track][iteration]['state'] = DGG.DISABLED
                     self.buttons[track][iteration]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
@@ -124,8 +126,15 @@ class TrackPage(ShtikerPage.ShtikerPage):
                     self.buttons[track][i+3]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                     self.buttons[track][i+3]['text'] = '0/1'
             if av.getTrainingPoints() == 0:
-                for button in self.buttons[track]:
-                    button['state'] = DGG.DISABLED
+                if pointArray[track] == 1:
+                    for i in xrange(len(self.buttons[track])):
+                        if i == 0:
+                            pass
+                        else:
+                            self.buttons[track][i]['state'] = DGG.DISABLED
+                else:
+                    for button in self.buttons[track]:
+                        button['state'] = DGG.DISABLED
 				
     def upgradeMe(self, track, index):
         av = base.localAvatar
