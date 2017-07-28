@@ -2720,7 +2720,7 @@ QuestDict = {
  2124: ([], Cont, (VisitQuest,), 2001, 2216, NA, 2125, TTLocalizer.QuestDialogDict[2124], 500, 75),
  2125: ([], Cont, (DeliverItemQuest, 2035), 2216, 2226, NA, 2126, TTLocalizer.QuestDialogDict[2125], 500, 75),
  2126: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 8, 4), 2226, 2226, NA, 2127, TTLocalizer.QuestDialogDict[2126], 500, 75),
- 2127: ([], Cont, (EliteCogQuest, ToontownGlobals.ToontownCentral, 10), 2226, 2226, NA, 2128, TTLocalizer.QuestDialogDict[2127], 500, 75),
+ 2127: ([], Cont, (EliteCogQuest, ToontownGlobals.ToontownCentral, 6), 2226, 2226, NA, 2128, TTLocalizer.QuestDialogDict[2127], 500, 75),
  2128: ([], Cont, (BuildingQuest, Anywhere, 1, Any, 1), 2226, 2226, NA, 2129, TTLocalizer.QuestDialogDict[2128], 500, 75),
  2129: ([], Cont, (VisitQuest,), 2226, 2216, NA, 2130, TTLocalizer.QuestDialogDict[2129], 500, 75),
  2130: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2201, NA, 2131, TTLocalizer.QuestDialogDict[2130], 500, 75),
