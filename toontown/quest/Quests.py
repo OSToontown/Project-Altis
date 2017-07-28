@@ -2688,8 +2688,8 @@ QuestDict = {
  2092: ([], Cont, (CogLevelQuest, 2400, 4, 2), 2208, 2208, NA, 2093, TTLocalizer.QuestDialogDict[2092], 375, 25),
  2093: ([], Cont, (CogLevelQuest, 2300, 3, 3), 2208, 2208, NA, 2094, TTLocalizer.QuestDialogDict[2093], 375, 25),
  2094: ([], Cont, (CogLevelQuest, 2100, 2, 4), 2208, 2208, NA, 2095, TTLocalizer.QuestDialogDict[2094], 375, 25),
- 2095: ([], Cont, (CogLevelQuest, 2200, 2, 5), 2208, 2208, NA, 2096, TTLocalizer.QuestDialogDict[2095], 375, 25),
- 2096: ([], Cont, (RecoverItemQuest, 2200, 1, 2028, Medium, 5, 'level'), 2208, 2208, NA, NA, TTLocalizer.QuestDialogDict[2096], 375, 25),
+ 2095: ([], Cont, (CogLevelQuest, 2200, 2, 4), 2208, 2208, NA, 2096, TTLocalizer.QuestDialogDict[2095], 375, 25),
+ 2096: ([], Cont, (RecoverItemQuest, 2200, 1, 2028, Medium, 4, 'level'), 2208, 2208, NA, NA, TTLocalizer.QuestDialogDict[2096], 375, 25),
 
  # Task Ten
  2100: ([], Start, (VisitQuest,), 2001, 2222, NA, 2101, TTLocalizer.QuestDialogDict[2100], 375, 35),
@@ -2710,36 +2710,132 @@ QuestDict = {
  2115: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2031, Medium, 'ac', 'type'), 2303, 2303, NA, 2116, TTLocalizer.QuestDialogDict[2115], 325, 50),
  2116: ([], Cont, (VisitQuest,), 2303, 2128, NA, 2117, TTLocalizer.QuestDialogDict[2116], 325, 50),
  2117: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2032, Easy, AnyFish), 2128, 2128, NA, 2118, TTLocalizer.QuestDialogDict[2117], 325, 50),
- 2118: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2033, Medium, 5, 'level'), 2128, 2128, NA, NA, TTLocalizer.QuestDialogDict[2118], 325, 50),
+ 2118: ([], Cont, (RecoverItemQuest, Anywhere, 1, 2033, Medium, 4, 'level'), 2128, 2128, NA, NA, TTLocalizer.QuestDialogDict[2118], 325, 50),
  
  # Task Twelve, MEGATASK OF ZONE
  2120: ([2118, 2096, 2086, 2079, 2063, 2059, 2046, 2038, 2029, 2018, 2004], Start, (VisitQuest,), 2001, 2216, NA, 2121, TTLocalizer.QuestDialogDict[2120], 500, 75),
  2121: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2034, Medium, AnyFish), 2216, 2216, NA, 2122, TTLocalizer.QuestDialogDict[2121], 500, 75),
  2122: ([], Cont, (RecoverItemQuest, Anywhere, 4, 2035, VeryEasy, 'gh', 'type'), 2216, 2216, NA, 2123, TTLocalizer.QuestDialogDict[2122], 500, 75),
- 2123: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2001, NA, 2124, TTLocalizer.QuestDialogDict[2123], 500, 75),
+ 2123: ([], Cont, (DeliverItemQuest, 2035), 2216, 2001, NA, 2124, TTLocalizer.QuestDialogDict[2123], 500, 75),
  2124: ([], Cont, (VisitQuest,), 2001, 2216, NA, 2125, TTLocalizer.QuestDialogDict[2124], 500, 75),
  2125: ([], Cont, (DeliverItemQuest, 2035), 2216, 2226, NA, 2126, TTLocalizer.QuestDialogDict[2125], 500, 75),
  2126: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 8, 4), 2226, 2226, NA, 2127, TTLocalizer.QuestDialogDict[2126], 500, 75),
- 2127: ([], Cont, (CogLevelQuest, ToontownGlobals.ToontownCentral, 4, 5), 2226, 2226, NA, 2128, TTLocalizer.QuestDialogDict[2127], 500, 75),
+ 2127: ([], Cont, (EliteCogQuest, ToontownGlobals.ToontownCentral, 6), 2226, 2226, NA, 2128, TTLocalizer.QuestDialogDict[2127], 500, 75),
  2128: ([], Cont, (BuildingQuest, Anywhere, 1, Any, 1), 2226, 2226, NA, 2129, TTLocalizer.QuestDialogDict[2128], 500, 75),
  2129: ([], Cont, (VisitQuest,), 2226, 2216, NA, 2130, TTLocalizer.QuestDialogDict[2129], 500, 75),
  2130: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2201, NA, 2131, TTLocalizer.QuestDialogDict[2130], 500, 75),
  2131: ([], Cont, (RecoverItemQuest, Anywhere, 15, 2036, VeryEasy, AnyFish), 2201, 2201, NA, 2132, TTLocalizer.QuestDialogDict[2131], 500, 75),
  2132: ([], Cont, (VisitQuest,), 2201, 2216, NA, 2133, TTLocalizer.QuestDialogDict[2132], 500, 75),
- 2133: ([], Cont, (DeliverItemQuest, Anywhere, 2035), 2216, 2201, NA, 2134, TTLocalizer.QuestDialogDict[2133], 500, 75),
+ 2133: ([], Cont, (DeliverItemQuest,  2035), 2216, 2201, NA, 2134, TTLocalizer.QuestDialogDict[2133], 500, 75),
  2134: ([], Cont, (RecoverItemQuest, Anywhere, 10, 2016, Easy, 4, 'level'), 2201, 2201, NA, 2135, TTLocalizer.QuestDialogDict[2134], 500, 75),
  2135: ([], Cont, (VisitQuest,), 2201, 2216, NA, 2136, TTLocalizer.QuestDialogDict[2135], 500, 75),
  2136: ([], Cont, (BuildingQuest, Anywhere, 1, Any, 2), 2216, 2216, 300, NA, TTLocalizer.QuestDialogDict[2136], 500, 75),
  
  #AA Task One
- 3000: ([2120], Start, (VisitQuest,), 6006, 6114, NA, 3001, TTLocalizer.QuestDialogDict[3000], 3210, 100),
+ 3000: ([2136], Start, (VisitQuest,), 6006, 6114, NA, 3001, TTLocalizer.QuestDialogDict[3000], 3210, 100),
  3001: ([], Cont, (DeliverItemQuest, 6001), 6114, 6111, NA, 3002, TTLocalizer.QuestDialogDict[3001], 3210, 100),
  3002: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 10, 6002, Easy, Any), 6111, Same, NA, 3003, TTLocalizer.QuestDialogDict[3002], 3210, 100),
  3003: ([], Cont, (VisitQuest,), Same, 6114, NA, 3004, TTLocalizer.QuestDialogDict[3003], 3210, 100),
  3004: ([], Cont, (VisitQuest,), 6114, 6414, NA, 3005, TTLocalizer.QuestDialogDict[3004], 3210, 100),
  3005: ([], Cont, (CogTrackQuest, ToontownGlobals.OutdoorZone, 13, 'm'), 6414, Same, NA, 3006, TTLocalizer.QuestDialogDict[3005], 3210, 100),
  3006: ([], Cont, (CogLevelQuest, 6400, 12, 4), Same, Same, NA, 3007, TTLocalizer.QuestDialogDict[3006], 3210, 100),
- 3007: ([], Cont, (VisitQuest,), Same, 6114, NA, NA, TTLocalizer.QuestDialogDict[3007], 3210, 100)
+ 3007: ([], Cont, (VisitQuest,), Same, 6114, NA, NA, TTLocalizer.QuestDialogDict[3007], 3210, 100),
+ 
+ #AA Task Two
+ 3010: ([2136], Start, (VisitQuest,), 6005, 6403, NA, 3011, TTLocalizer.QuestDialogDict[3010], 3220, 100),
+ 3011: ([], Cont, (CogQuest, Anywhere, 5, 'sw'), 6403, Same, NA, 3012, TTLocalizer.QuestDialogDict[3011], 3220, 100),
+ 3012: ([], Cont, (CogTrackQuest, Anywhere, 10, 'g'), Same, Same, NA, (3013, 3015), TTLocalizer.QuestDialogDict[3012], 3220, 100),
+ 3013: ([], Cont, (CogQuest, Anywhere, 5, 'b'), Same, Same, NA, 3014, TTLocalizer.QuestDialogDict[3013], 3220, 100),
+ 3014: ([], Cont, (CogTrackLevelQuest, Anywhere, 5, 'l', 5), Same, Same, NA, 3017, TTLocalizer.QuestDialogDict[3014], 3220, 100),
+ 3015: ([], Cont, (CogQuest, Anywhere, 5, 'pp'), Same, Same, NA, 3016, TTLocalizer.QuestDialogDict[3015], 3220, 100),
+ 3016: ([], Cont, (CogTrackLevelQuest, Anywhere, 5, 'm', 5), Same, Same, NA, 3017, TTLocalizer.QuestDialogDict[3016], 3220, 100),
+ 3017: ([], Cont, (CogQuest, Anywhere, 20), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3017], 3220, 100),
+ 
+ #AA Task Three
+ 3020: ([2136], Start, (VisitQuest,), 6004, 6211, NA, 3021, TTLocalizer.QuestDialogDict[3020], 3200, 100),
+ 3021: ([], Cont, (RecoverItemQuest, Anywhere, 1, 6003, 25, 'tw', 'type'), 6211, Same, NA, 3022, TTLocalizer.QuestDialogDict[3021], 3200, 100),
+ 3022: ([], Cont, (EliteCogQuest, ToontownGlobals.OutdoorZone, 8), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3022], 3200, 100),
+ 
+ #AA Task Four
+ 3030: ([2136], Start, (VisitQuest,), 6007, 6401, NA, 3031, TTLocalizer.QuestDialogDict[3030], 3230, 110),
+ 3031: ([], Cont, (CogQuest, Anywhere, 8, 'ac'), 6401, Same, NA, 3032, TTLocalizer.QuestDialogDict[3031], 3230, 110),
+ 3032: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 1, 6004, 25, 'l', 'track'), Same, Same, NA, 3033, TTLocalizer.QuestDialogDict[3032], 3230, 110),
+ 3033: ([], Cont, (DeliverItemQuest, 6004), Same, 6409, NA, 3034, TTLocalizer.QuestDialogDict[3033], 3230, 110),
+ 3034: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 10, 6005, Easy, Any), 6409, Same, NA, 3035, TTLocalizer.QuestDialogDict[3034], 3230, 110),
+ 3035: ([], Cont, (VisitQuest,), Same, 6401, NA, 3036, TTLocalizer.QuestDialogDict[3035], 3230, 110),
+ 3036: ([], Cont, (CogTrackLevelQuest, Anywhere, 9, 'l', 5), 6401, Same, NA, NA, TTLocalizer.QuestDialogDict[3036], 3230, 110),
+ 
+ #AA Task Five
+ 3040: ([2136], Start, (VisitQuest,), 6006, 6110, NA, 3041, TTLocalizer.QuestDialogDict[3040], 3210, 100),
+ 3041: ([], Cont, (VisitQuest,), 6110, 6215, NA, 3042, TTLocalizer.QuestDialogDict[3041], 3210, 100),
+ 3042: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 10, 6006, Easy, 's', 'track'), 6215, Same, NA, 3043, TTLocalizer.QuestDialogDict[3042], 3210, 100),
+ 3043: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 8, 6007, Easy, 'l', 'track'), Same, Same, NA, 3044, TTLocalizer.QuestDialogDict[3043], 3210, 100),
+ 3044: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 5, 6008, Medium, 5, 'level'), Same, Same, NA, 3045, TTLocalizer.QuestDialogDict[3044], 3210, 100),
+ 3045: ([], Cont, (DeliverItemQuest, 6009), Same, 6110, NA, NA, TTLocalizer.QuestDialogDict[3045], 3210, 100),
+ 
+ #AA Task Six
+ 3050: ([2136], Start, (VisitQuest,), 6005, 6101, NA, 3051, TTLocalizer.QuestDialogDict[3050], 3220, 110),
+ 3051: ([], Cont, (VisitQuest,), 6101, 6103, NA, 3052, TTLocalizer.QuestDialogDict[3051], 3220, 110),
+ 3052: ([], Cont, (CogLevelQuest, 6100, 9, 6), 6103, Same, NA, 3053, TTLocalizer.QuestDialogDict[3052], 3220, 110),
+ 3053: ([], Cont, (VisitQuest,), Same, 6101, NA, 3054, TTLocalizer.QuestDialogDict[3053], 3220, 110),
+ 3054: ([], Cont, (VisitQuest,), 6101, 6105, NA, 3055, TTLocalizer.QuestDialogDict[3054], 3220, 110),
+ 3055: ([], Cont, (CogTrackQuest, 6100, 10, 'g'), 6105, Same, NA, 3056, TTLocalizer.QuestDialogDict[3055], 3220, 110),
+ 3056: ([], Cont, (VisitQuest,), Same, 6101, NA, 3057, TTLocalizer.QuestDialogDict[3056], 3220, 110),
+ 3057: ([], Cont, (VisitQuest,), 6101, 6108, NA, 3058, TTLocalizer.QuestDialogDict[3057], 3220, 110),
+ 3058: ([], Cont, (BuildingQuest, ToontownGlobals.OutdoorZone, 1, Any, 3), 6108, Same, NA, 3059, TTLocalizer.QuestDialogDict[3058], 3220, 110),
+ 3059: ([], Cont, (VisitQuest,), Same, 6101, NA, NA, TTLocalizer.QuestDialogDict[3059], 3220, 110),
+ 
+ #AA Task Seven
+ 3060: ([2136], Start, (VisitQuest,), 6004, 6212, NA, 3061, TTLocalizer.QuestDialogDict[3060], 3200, 100),
+ 3061: ([], Cont, (RecoverItemQuest, ToontownGlobals.OutdoorZone, 15, 6010, Easy, Any), 6212, Same, NA, NA, TTLocalizer.QuestDialogDict[3061], 3200, 100),
+ 
+ #AA Task Eight
+ 3070: ([2136], Start, (VisitQuest,), 6007, 6408, NA, 3071, TTLocalizer.QuestDialogDict[3070], 3230, 120),
+ 3071: ([], Cont, (CogQuest, Anywhere, 7, 'ds'), 6408, Same, NA, 3072, TTLocalizer.QuestDialogDict[3071], 3230, 120),
+ 3072: ([], Cont, (CogQuest, Anywhere, 7, 'txm'), Same, Same, NA, 3073, TTLocalizer.QuestDialogDict[3072], 3230, 120),
+ 3073: ([], Cont, (BuildingQuest, Anywhere, 3, Any, 2), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3073], 3230, 120),
+ 
+ #AA Task Nine
+ 3080: ([2136], Start, (VisitQuest,), 6006, 6406, NA, 3081, TTLocalizer.QuestDialogDict[3080], 3210, 110),
+ 3081: ([], Cont, (CogQuest, Anywhere, 9, 'cc'), 6406, Same, NA, 3082, TTLocalizer.QuestDialogDict[3081], 3210, 110),
+ 3082: ([], Cont, (CogQuest, Anywhere, 8, 'tw'), Same, Same, NA, 3083, TTLocalizer.QuestDialogDict[3082], 3210, 110),
+ 3083: ([], Cont, (CogLevelQuest, Anywhere, 10, 6), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3083], 3210, 110),
+ 
+ #AA Task Ten
+ 3090: ([2136], Start, (VisitQuest,), 6005, 6404, NA, (3091, 3092, 3093, 3094, 3095), TTLocalizer.QuestDialogDict[3090], 3220, 130),
+ 3091: ([], Cont, (CogTrackLevelQuest, Anywhere, 10, 'c', 5), 6404, Same, NA, 3096, TTLocalizer.QuestDialogDict[3091], 3220, 130),
+ 3092: ([], Cont, (CogTrackLevelQuest, Anywhere, 10, 'l', 5), 6404, Same, NA, 3096, TTLocalizer.QuestDialogDict[3092], 3220, 130),
+ 3093: ([], Cont, (CogTrackLevelQuest, Anywhere, 10, 'm', 5), 6404, Same, NA, 3096, TTLocalizer.QuestDialogDict[3093], 3220, 130),
+ 3094: ([], Cont, (CogTrackLevelQuest, Anywhere, 10, 's', 5), 6404, Same, NA, 3096, TTLocalizer.QuestDialogDict[3094], 3220, 130),
+ 3095: ([], Cont, (CogTrackLevelQuest, Anywhere, 10, 'g', 5), 6404, Same, NA, 3096, TTLocalizer.QuestDialogDict[3095], 3220, 130),
+ 3096: ([], Cont, (BuildingQuest, Anywhere, 2, Any, 3), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3096], 3220, 130),
+ 
+ #AA Task Eleven
+ 3100: ([2136], Start, (VisitQuest,), 6004, 6102, NA, 3101, TTLocalizer.QuestDialogDict[3100], 3200, 140),
+ 3101: ([], Cont, (CogLevelQuest, Anywhere, 12, 6), 6102, Same, NA, NA, TTLocalizer.QuestDialogDict[3101], 3200, 140),
+ 
+ #AA Task Twelve
+ 3110: ([2136], Start, (VisitQuest,), 6007, 6309, NA, 3111, TTLocalizer.QuestDialogDict[3110], 3230, 175),
+ 3111: ([], Cont, (TrackExpQuest, Anywhere, 4, 100), 6309, Same, NA, 3112, TTLocalizer.QuestDialogDict[3111], 3230, 175),
+ 3112: ([], Cont, (TrackExpQuest, Anywhere, 5, 100), Same, Same, NA, 3113, TTLocalizer.QuestDialogDict[3112], 3230, 175),
+ 3113: ([], Cont, (DeliverGagQuest, 1, 4, 3), Same, Same, NA, 3114, TTLocalizer.QuestDialogDict[3113], 3230, 175),
+ 3114: ([], Cont, (DeliverGagQuest, 1, 5, 3), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3114], 3230, 175),
+ 
+ #AA Mega Task
+ 3200: ([2136, 3007, 3017, 3022, 3036, 3045, 3059, 3061, 3073, 3083, 3096, 3101, 3114], Start, (VisitQuest,), (6004, 6005, 6006, 6007), 6216, 310, 3201, TTLocalizer.QuestDialogDict[3200], 3500, 200),
+ 3201: ([], Cont, (CogQuest, Anywhere, 5, 'sd'), 6216, Same, 310, 3202, TTLocalizer.QuestDialogDict[3201], 3500, 200),
+ 3202: ([], Cont, (CogQuest, Anywhere, 5, 'mb'), Same, Same, 310, 3203, TTLocalizer.QuestDialogDict[3202], 3500, 200),
+ 3203: ([], Cont, (CogQuest, Anywhere, 5, 'tf'), Same, Same, 310, 3204, TTLocalizer.QuestDialogDict[3203], 3500, 200),
+ 3204: ([], Cont, (CogQuest, Anywhere, 5, 'mg'), Same, Same, 310, 3205, TTLocalizer.QuestDialogDict[3204], 3500, 200),
+ 3205: ([], Cont, (VisitQuest,), Same, 6311, 310, 3206, TTLocalizer.QuestDialogDict[3205], 3500, 200),
+ 3206: ([], Cont, (EliteCogQuest, Anywhere, 10), 6311, Same, 310, 3207, TTLocalizer.QuestDialogDict[3206], 3500, 200),
+ 3207: ([], Cont, (DeliverItemQuest, 6011), Same, 6216, 310, (3208, 3209, 3210, 3211, 3212), TTLocalizer.QuestDialogDict[3207], 3500, 200),
+ 3208: ([], Cont, (CogTrackLevelQuest, Anywhere, 20, 'c', 5), 6216, Same, 310, 3213, TTLocalizer.QuestDialogDict[3208], 3500, 200),
+ 3209: ([], Cont, (CogTrackLevelQuest, Anywhere, 20, 'l', 5), 6216, Same, 310, 3213, TTLocalizer.QuestDialogDict[3209], 3500, 200),
+ 3210: ([], Cont, (CogTrackLevelQuest, Anywhere, 20, 'm', 5), 6216, Same, 310, 3213, TTLocalizer.QuestDialogDict[3210], 3500, 200),
+ 3211: ([], Cont, (CogTrackLevelQuest, Anywhere, 20, 's', 5), 6216, Same, 310, 3213, TTLocalizer.QuestDialogDict[3211], 3500, 200),
+ 3212: ([], Cont, (CogTrackLevelQuest, Anywhere, 20, 'g', 5), 6216, Same, 310, 3213, TTLocalizer.QuestDialogDict[3212], 3500, 200),
+ 3213: ([], Cont, (BuildingQuest, Anywhere, 3, Any, 3), Same, Same, 310, NA, TTLocalizer.QuestDialogDict[3213], 3500, 200)
  }
 
 Quest2RewardDict = {}

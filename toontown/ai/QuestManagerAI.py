@@ -587,6 +587,8 @@ def quests(command, arg0=0, arg1=0):
         if arg0:
             if canCarry:
                 if arg0 in Quests.QuestDict.keys():
+                    quest = Quests.getQuest(arg0)
+                    invoker.addQuest(quest, 0)
                     return 'Added QuestID %s'%(arg0)
                 else:
                     return 'Invalid QuestID %s'%(arg0)

@@ -610,7 +610,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  2016: ['Package', 'Packages', 'a '],
  2017: ['Banana Peel', 'Banana Peels', 'a '],
  2018: ['Net', 'Nets', 'a '],
- 2019: ['Saxaphone', 'Saxaphones', 'a '],
+ 2019: ['Saxophone', 'Saxophones', 'a '],
  2020: ['Label Sorter', 'Label Sorters', 'a '],
  2021: ['Glasses', 'Glasses', 'a pair of '],
  2022: ['Urgent Memo', 'Urgent Memos', 'an '],
@@ -685,15 +685,15 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  3027: ['External Temperature Sensor', 'External Temperature Sensors', 'an '],
  6001: ['Warm Blankets', 'Warm Blankets', 'some '],
  6002: ['Humidifier', 'Humidifiers', 'a '],
- 6003: ['Drive Belt', 'Drive Belts', 'a '],
- 6004: ['Pair of Pincers', 'Pairs of Pincers', 'a '],
- 6005: ['Reading Lamp', 'Reading Lamps', 'a '],
- 6006: ['Zither', 'Zithers', 'a '],
- 6007: ['Zamboni', 'Zambonis', 'a '],
- 6008: ['Zebra Zabuton', 'Zebra Zabutons', 'a '],
- 6009: ['Zinnias', 'Zinnias', 'some '],
- 6010: ['Zydeco Records', 'Zydeco Records', 'some '],
- 6011: ['Zucchini', 'Zucchinis', 'a '],
+ 6003: ['Ring', 'Rings', 'a '],
+ 6004: ['Insurance Card', 'Insurance Cards', 'an '],
+ 6005: ['Bolts', 'Bolts', 'some '],
+ 6006: ['Straw', 'Bits of Straw', 'some '],
+ 6007: ['Wood', 'Chunks of Wood', 'some '],
+ 6008: ['Bricks', 'Bricks', 'some '],
+ 6009: ['Straw, Wood, and Brick', 'Straws, Wood, Bricks', 'some '],
+ 6010: ['Allergy Pill', 'Allergy Pills', 'an '],
+ 6011: ['Shipping Bill', 'Shipping Bills', 'a '],
  6012: ['Zoot Suit', 'Zoot Suits', 'a '],
  7001: ['Plain Bed', 'Plain Beds', 'a '],
  7002: ['Fancy Bed', 'Fancy Beds', 'a '],
@@ -810,8 +810,8 @@ QuestDialogDict = {
  2043: {QUEST:  "Hey, is this my package?\x07Oh, I'm sorry. I'm too down right now to sign for it...\x07Maybe you could help me?\x07See, those Boardbots storm in here and take away all my Banana Peels and I just feel like nothing without them.\x07Could you get those back for me? There were about 7 of them."}, # Recover 7 banana peels from Boardbots in Toontown Central
  2044: {QUEST:  "Thanks, but I'm still not feeling normal...\x07Maybe if you could get those nets of mine that those Bossbots stole from me..."}, # Recover 5 nets from Bossbots in Toontown Central
  2045: {GREETING: '',
-		QUEST:  "Now, if only that Connoisseur would return my favorite saxaphone...",
-		LEAVING: ''}, # Recover a saxaphone from a Connosieur
+		QUEST:  "Now, if only that Connoisseur would return my favorite saxophone...",
+		LEAVING: ''}, # Recover a saxophone from a Connosieur
  2046: {QUEST:  "Oh I feel a lot better now!\x07Let me just sign for this package...\x07Wait a darn minute, this doesn't belong to me?\x07It belongs to _toNpcName_!!!_where_.", COMPLETE:"Awesome! That's the package I ordered.\x07Let me just sign for this and, BAM!\x07Here is a reward, kind toon..."}, # Return to Charlie Chortle, tell him the show is on
 
  # Task Five
@@ -862,10 +862,10 @@ QuestDialogDict = {
  # Task Nine
  2090: {QUEST:  "Thank god you are here _avName_!\x07Sticky Lou is in desperate need of assistance with an unexpected wave of Cogs surrounding his shop!\x07Please go to him and help him with whatever he needs._where_"}, # Flippy to Sticky Lou
  2091: {QUEST:  "There are just too many!!! I don't know what to do!\x07Oh, _avName_! I didn't notice you there!\x07Please help me with all these Cogs, there are way too many for me to handle on my own."}, # Defeat 30 Cogs in Toontown Central
- 2092: {QUEST:  "Thank you so much _avName_, that makes me feel a lot more safe roaming the streets!\x07We need to start taking out the big cogs now.\x07Go defeat some level 2+ Cogs on Punchline Place..."}, # Defeat 4 Level 2+ Cogs on Wacky Way
- 2093: {QUEST:  "A sprinkle of level 3+ Cogs on Loopy Lane..."}, # Defeat 3 Level 3+ Cogs on Punchline Place
- 2094: {QUEST:  "A dash of level 4+ Cogs on Wacky Way..."}, # Defeat 2 Level 4+ Cogs on Silly Street
- 2095: {QUEST:  "And a hint of lime of level 5+ Cogs on Silly Street!"}, # Defeat 2 Level 5+ Cogs on Loopy Lane
+ 2092: {QUEST:  "Thank you so much _avName_, that makes me feel a lot more safe roaming the streets!\x07We need to start taking out the big cogs now.\x07Go defeat some level 2+ Cogs on Wacky Way..."}, # Defeat 4 Level 2+ Cogs on Wacky Way
+ 2093: {QUEST:  "A sprinkle of level 3+ Cogs on Punchline Place..."}, # Defeat 3 Level 3+ Cogs on Punchline Place
+ 2094: {QUEST:  "A dash of level 4+ Cogs on Silly Street..."}, # Defeat 2 Level 4+ Cogs on Silly Street
+ 2095: {QUEST:  "And a hint of lime of level 4+ Cogs on Loopy Lane!"}, # Defeat 2 Level 5+ Cogs on Loopy Lane
  2096: {QUEST:  "While you were away, I assumed everything was fine.\x07I was heading to the Post Office to store these top secret blueprints, and then a strong Cog roaming this street took it away.\x07You just have to get those blueprints back for me! Within the Cogs' hands, who knows what could happen?", COMPLETE: "All of the toons and I appreicate all you have done for us.\x07The streets will now be a lot safer with all you have done.\x07Please take this reward!"}, # Recover a Blueprint from Level 5+ Cogs in Toontown Central
 
  # Task Ten
@@ -909,11 +909,11 @@ QuestDialogDict = {
  2124: {QUEST:  "Oh, it's you again?\x07A pen? Well, tell Nona Seeya I said thank you!"}, # Return to Nona Seeya
  2125: {QUEST:  "Hey, you're back! I just remembered I also owe _toNpcName_ a fountain pen too so go ahead and deliver this to him."}, # Deliver a fountain pen 
  2126: {QUEST: "Heya, son! I've never seen you before.\x07A fountain pen? Well, my apprecations! There's just one problem...\x07I can't write with all those cogs stomping around! How about you go defeat some of those higher cogs and then maybe I could?"}, # Defeat 8 level 4+ cogs in TTC
- 2127: {QUEST:  "Hmmm... Still too shaky. Try defeating some of the higher cogs, then."}, # Defeat 4 level 5+ cogs in TTC
+ 2127: {QUEST:  "Hmmm... Still too shaky. Try defeating some of the elite cogs, then."}, # Defeat 4 level 5+ cogs in TTC
  2128: {QUEST:  "Ugh! The shakings better but I can't focus with all those noisy cog buildings!\x07Defeat one cog building for me, would you?"}, # Defeat a cog building
  2129: {QUEST:  "Just right! I can write again! Go back to Nona Seeya and tell her I said thanks."}, # Return to Nona Seeya
  2130: {QUEST:  "You're back? I almost thought that you let me forever!\x07Anyways, my friend Inky Ivon just asked me for a fountain pen. Would you please deliver one to him?"}, # Deliver a fountain pen to Inky Ivon
- 2131: {QUEST:  "Aye, son! You got that fountain pen for me?\x07What do you think about doing me a favor, while you're here?/x07I need some Inc Sacs for this pen, which you should be able to fish up for me.ait "}, # Fish for 15 Inc Sacks
+ 2131: {QUEST:  "Aye, son! You got that fountain pen for me?\x07What do you think about doing me a favor, while you're here?\x07I need some Inc Sacs for this pen, which you should be able to fish up for me.ait "}, # Fish for 15 Inc Sacks
  2132: {QUEST:  "Thanks for that! Now I can actually use this pen.\x07Go back to Nona Seeya and tell her I'm very grateful."}, # Return to Nona Seeya
  2133: {QUEST:  "Alright, I need you to deliver another one.This one is going to...\x07Ah! Deliver this one to Postmaster Pete"}, # Deliver a fountain pen to Postmaster Pete
  2134: {QUEST:  "Hey, is this my pen from Nona Seeya?\x07Alright, now I can sign these pack....\x07Wait, where did those packages go??\x07Oh dear, those cogs that were in here earlier must have stolen them!\x07Alright, could you go get them back for me?"}, # Collect 10 packages from Level 4+ cogs
@@ -942,7 +942,198 @@ QuestDialogDict = {
  3007: {GREETING: '',
 		QUEST: "Ahh, what a lovely morning!\x07What's that, _avName_? _toNpcName_ wants to know if I'm alright?\x07Well, why wouldn't I be? Tell him that everything is okay around here!",
 		COMPLETE: "Alright, here's your next assignment.\x07Wait... that's all I had for you.\x07Well, I guess this mean I owe you something.",
+		LEAVING: ''},
+		
+ #AA Task Two
+ 3010: {QUEST: "_toNpcName_ is trying to earn a spot as a full time detective.\x07Only issue is that he's not the brightest when it comes to solving crimes..._where_"},
+ 3011: {GREETING: '',
+		QUEST: "Greetings, _avName_.\x07Are you going to help me solve a case today?\x07There has been a lot of crime around town, and I suspect those Swindlers are up to it!\x07Those suspicious masks tell us the truth: they are guilty!\x07Go defeat some of them and bring them to justice!",
+		LEAVING: ''},
+ 3012: {GREETING: '',
+		QUEST: "No... Crime is still at a normal rate...\x07Maybe it's the Boardbots in general causing crimes?",
+		LEAVING: ''},
+ 3013: {GREETING: '',
+		QUEST: "The crime rate got even higher after you left!\x07I'm starting to suspect that those Bloodsuckers are up to no good...",
+		LEAVING: ''},
+ 3014: {GREETING: '',
+		QUEST: "Why isn't the crime rate dropping?\x07It may not have been those Bloodsuckers, but perhaps those high leveled Lawbots in general...",
+		LEAVING: ''},
+ 3015: {GREETING: '',
+		QUEST: "The crime rate got even higher after you left!\x07I'm starting to suspect that those Penny Pinchers are up to no good...",
+		LEAVING: ''},
+ 3016: {GREETING: '',
+		QUEST: "Why isn't the crime rate dropping?\x07It may not have been those Penny Pinchers, but perhaps those high leveled Cashbots in general...",
+		LEAVING: ''},
+ 3017: {GREETING: '',
+		QUEST: "While you were gone, three shops have been broken into!\x07Ugh, I'm a terrible detective, completely on the wrong case...\x07Just defeat those Cogs until the crime rate drops.",
+		COMPLETE: "Wow!\x07A lot of shopkeepers are calling me saying how good my detective work was!\x07Thanks for all your help, _avName_.\x07Here's a reward.",
+		LEAVING: ''},
+
+ #AA Task Three
+ 3020: {QUEST: "Oh no! There was a break-in at _toNpcName_'s store!\x07Go see what's up and how you can help her._where_"},
+ 3021: {GREETING: '',
+		QUEST: "Those Elite Cogs came in here and trashed my place!\x07Once they left, I saw that my most expensive ring has been stolen.\x07I'm not sure, but I think it was a Tightwad who took it.\x07Could you get it back for me please? He could be anywhere with it!",
+		LEAVING: ''},
+ 3022: {GREETING: '',
+		QUEST: "Thanks for getting that back for me, hun!\x07Now I need you to teach those Elites a lesson.",
+		COMPLETE: "Amazing work!",
+		LEAVING: ''},
+ #AA Task Four
+ 3030: {QUEST: "Looks like there's an issue at the insurance agency._where_"},
+ 3031: {QUEST: "The Ambulance Chasers have been causing issues to the Toons around here.\x07They get in accidents often with them and when they need to exchange insurance information, those Cogs just run off with their insurance cards!\x07A Toon just called in and said her insurance card was taken, so I suspect it was an Ambulance Chaser.\x07Why not take some down and see if you can get it back?"},
+ 3032: {GREETING: '',
+		QUEST: "No insurance card?\x07Maybe they passed it along to one of their friends...",
+		LEAVING: ''},
+ 3033: {QUEST: "Great job! Now bring that to _toNpcName_ as soon as possible!_where_"},
+ 3034: {QUEST: "Thanks for getting my insurance card back!\x07I don't know if you'd be willing to do a favor for me, but a bunch of Cogs just broke in and stole my bolts.\x07I need them back for a secret project that I'm constructing.\x07If you could get those back for me, that'd be fantastic!"},
+ 3035: {QUEST: "You got them back! Thank you so much!\x07I guess _toNpcName_ needs to see you again now that you're done with me."},
+ 3036: {QUEST: "Those strong Lawbots are still causing trouble around town.\x07If you could take down some of them, I will give you a reward.",
+		COMPLETE: "Well, a deal is a deal..."},
+
+ #AA Task Five
+ 3040: {QUEST: "_toNpcName_ has an idea for creating a new tent and needs your help._where_"},
+ 3041: {QUEST: "So, I guess you heard about my new tent, huh?\x07Yep, but the only issue is that the only supplier of the material I need keeps getting robbed of his material.\x07Try to see if you can help get it back._where_"},
+ 3042: {GREETING: '',
+		QUEST: "Hey, _avName_. How can I help you?\x07You need straw, wood, and brick?\x07Well, I'd love to give you some, but you'd have to get it back for me first.\x07To begin with, the Sellbots huffed and puffed and took my supply of straw.\x07I'll need about 10 bits of those back.",
+		LEAVING: ''},
+ 3043: {GREETING: '',
+		QUEST: "Then the Lawbots huffed and puffed and took my supply of wood...",
+		LEAVING: ''},
+ 3044: {GREETING: '',
+		QUEST: "Then the Cashbots huffed and puffed, but they failed to take my supply of brick!\x07Only later, they called some of their high leveled friends in to take the supply, which they succeeded to do...",
+		LEAVING: ''},
+ 3045: {GREETING: '',
+		QUEST: "Great! Now take these to _toNpcName_",
+		COMPLETE: "Wow, you actually got the materials!\x07I'll be sure to credit you if I ever end up making this new tent.\x07Here's a reward for your help...",
+		LEAVING: ''},
+		
+ #AA Task Six
+ 3050: {QUEST: "_toNpcName_ is throwing a party and needs help passing out invitations._where_"},
+ 3051: {GREETING: 'Hey dawg.',
+		QUEST: "Yeah, I'm having a killer party tonight for the residents of my fellow street.\x07Only issue is that some of them are too scared of the Cogs on this street to try to make it here.\x07I need you to calm their nerves for me, then report back to me if they can come or not.\x07First, I need you to check on _toNpcName_._where_",
+		LEAVING: "Peace, dawg!"},
+ 3052: {QUEST: "Yeah, I'd love to go to Reid's party, but I don't like those high leveled Cogs roaming around this street as I try to walk out of my shop.\x07I'll be glad to go to his party if you could defeat several of them."},
+ 3053: {QUEST: "Great! Let _toNpcName_ know that he'll see me tonight!",
+		LEAVING: ''},
+ 3054: {GREETING: "One guest down, two to go.",
+		QUEST: "Next, I need you to go get _toNpcName_ to chill and come to the party!_where_",
+		LEAVING: "Peace, dawg!"},
+ 3055: {QUEST: "Sure, I'd go to Reid's party if there weren't so many Boardbots on this street!"},
+ 3056: {QUEST: "Let _toNpcName_ know that I'll be there!"},
+ 3057: {GREETING: "Wow, you're good at this dawg.",
+		QUEST: "Finally, I want you to go get word from _toNpcName_ that she'll be there._where_",
+		LEAVING: "Good luck, dawg!"},
+ 3058: {QUEST: "I'll go to the party if you could take down one of those big buildings around here.\x07If you could do that, it'd relieve the stress I have thinking my building will be taken over if I leave it..."},
+ 3059: {GREETING: '',
+		QUEST: "Oh, thank you for calming me down.\x07Can't wait for the party!",
+		COMPLETE: "Aye dawg, this party is going to be great!\x07Here's a reward for ya, dawg...",
+		LEAVING: ''},
+
+ #AA Task Seven
+ 3060: {QUEST: "_toNpcName_ is having an issue with medicine._where_"},
+ 3061: {GREETING: '',
+		QUEST: "Oh this is just awful!\x07The Cogs just raided my shop and took all the allergy pills that I have to give to my patients.\x07I had about 15 of them before they took over.\x07Please, go get them back for me!",
+		COMPLETE: "Yes! That's all of them.\x07Here's a nifty reward for you!",
+		LEAVING: ''},
+
+ #AA Task Eight
+ 3070: {QUEST: "The spirit of the town has gone down and _toNpcName_ needs help bringing it back up._where_"},
+ 3071: {GREETING: '',
+		QUEST: "Those Cogs are always trying to take away the spirit of the town.\x07I feel like those Downsizer bring them down more than anyone else.\x07Why not defeat some of them and regain some spirit to the toons of this town?",
+		LEAVING: "Good luck, buddy!"},
+ 3072: {GREETING: '',
+		QUEST: "Next, I need you to defeat several Toxic Managers before they poison the spirit filled inside each toon.",
+		LEAVING: ''},
+ 3073: {GREETING: '',
+		QUEST: "Finally, take down a few of those big and ugly Cog Buildings",
+		COMPLETE: "Yep! The spirit of this town seems to be shining again!\x07Thanks for your help. Here's your reward...",
+		LEAVING: ''},
+		
+ #AA Task Nine
+ 3080: {QUEST: "Ahh yes, it appears that the Cogs have been giving toons some burning feeling, according to _toNpcName_.\x07Could you go see what's up?_where_"},
+ 3081: {GREETING: '',
+		QUEST: "You're here about the burning case?\x07Yes, it appears that Cold Callers have been burning toons with their Hot Air attacks.\x07They're dangerous and must be stopped.\x07Defeat a handful then report back to me.",
+		LEAVING: ''},
+ 3082: {GREETING: '',
+		QUEST: "Next, those Tightwads love to do some firing.\x07Some toons come in here with a fully burnt body, and it's just awful.\x07Go teach those punks a lesson, why don't ya?",
+		LEAVING: ''},
+ 3083: {GREETING: '',
+		QUEST: "To finish off, I want you to take down a handful of strong Cogs that defeat toons with a painful burn.",
+		COMPLETE: "Seems like someone turned down the heat, no?\x07Thanks for all your help, _avName_. Here's a reward for ya...",
+		LEAVING: ''},
+		
+ #AA Task Ten
+ 3090: {QUEST: "According to _toNpcName_, the stronger Cogs are causing trouble everywhere they go._where_"},
+ 3091: {QUEST: "I've been hearing reports of those high leveled Bossbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3092: {QUEST: "I've been hearing reports of those high leveled Lawbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3093: {QUEST: "I've been hearing reports of those high leveled Cashbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3094: {QUEST: "I've been hearing reports of those high leveled Sellbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3095: {QUEST: "I've been hearing reports of those high leveled Boardbots causing an issue all over town.\x07Can you defeat several of them please?"},
+ 3096: {QUEST: "Great job!\x07Now, if you could take down a couple of those Cog Buildings in revenge of what they've done, I'll give you a reward.",
+		COMPLETE: "Well, a deal's a deal."},
+		
+ #AA Task Eleven
+ 3100: {QUEST: "There have been a lot of toons going sad and _toNpcName_ knows the reason why._where_"},
+ 3101: {QUEST: "You want to know why toons keep going sad? Well I'll tell you why.\x07Those high level 6+ Cogs are just the biggest threat to every toon out there.\x07Toons kept coming in here telling me \"Ohhhh, how awful it was fighting those awfully strong robots.\"\x07Please defeat a handful of them and then I'll give you a reward.",
+		COMPLETE: "As I promised..."},
+		
+ #AA Task Twelve
+ 3110: {QUEST: "Setting up shop on a street like Walnut Way is rough with all those high leveled Cogs.\x07_toNpcName_ would like to check your gags to see if you could defend yourself on such a street._where_"},
+ 3111: {QUEST: "Have you seen the Cogs that roam out there?\x07Awful how strong they are.\x07I never want you to have a struggle when fighting those kinds of Cogs.\x07First, you'll need stronger gags.\x07Go out and train your throw."},
+ 3112: {GREETING: '',
+		QUEST: "Now how about training that squirt too?",
+		LEAVING: ''},
+ 3113: {GREETING: '',
+		QUEST: "Great work! Now let me see that new throw gag of yours.",
+		LEAVING: ''},
+ 3114: {GREETING: '',
+		QUEST: "Now how about that squirt...",
+		COMPLETE: "Well, it's a start, but you'll need more gags if you want to fight the highest set of Cogs around here.\x07Here a reward to help you progress...",
+		LEAVING: ''},
+		
+ #AA MEGA TASK
+ 3200: {QUEST: "_toNpcName_ has major issues with the strong Cogs around the town._where_"},
+ 3201: {GREETING: '',
+		QUEST: "Thank you for coming, _avName_.\x07Each day, I try to build a new home for new toons to move into, but the strong Cogs keep interupting my construction to prevent new toons from moving into town.\x07I'm about to get working on another house in the backyard, and I need you to make sure that those strong Cogs don't get in the way.\x07Start by defeating some Spin Doctors.",
+		LEAVING: ''},
+ 3202: {GREETING: '',
+		QUEST: "Back already?\x07I barely even started on this house.\x07Try defeating some Money Bags while I continue building, they seem to cause issues too.",
+		LEAVING: ''},
+ 3203: {GREETING: '',
+		QUEST: "Now, those Two-Faces are just a handful to deal with!",
+		LEAVING: ''},
+ 3204: {GREETING: '',
+		QUEST: "I'm almost done with the base.\x07Just defeat some of those creepy Magnates while I put on some of the finishing touches.",
+		LEAVING: ''},
+ 3205: {GREETING: '',
+		QUEST: "The base is all set. Now I need a roof to work with.\x07Can you see if _toNpcName_ can build me a new roof?_where_",
+		LEAVING: ''},
+ 3206: {GREETING: '',
+		QUEST: "A new roof? I can get that done in minutes!\x07While I do it, I need you to keep those Elite Cogs in check and make sure they don't come in here and take my materials.",
+		LEAVING: ''},
+ 3207: {GREETING: '',
+		QUEST: "Finished that roof and shipped it off.\x07Could you go give this bill to _toNpcName_? He could mail the check to me.",
+		LEAVING: ''},
+ 3208: {GREETING: '',
+		QUEST: "A bill? I thought we were friends!\x07Oh well, it's no big deal.\x07Now, I just need you to ensure that those high leveled Bossbots don't destroy this new home.\x07A new toon is suppose to move in tomorrow, you know.",
+		LEAVING: ''},
+ 3209: {GREETING: '',
+		QUEST: "A bill? I thought we were friends!\x07Oh well, it's no big deal.\x07Now, I just need you to ensure that those high leveled Lawbots don't destroy this new home.\x07A new toon is suppose to move in tomorrow, you know.",
+		LEAVING: ''},
+ 3210: {GREETING: '',
+		QUEST: "A bill? I thought we were friends!\x07Oh well, it's no big deal.\x07Now, I just need you to ensure that those high leveled Cashbots don't destroy this new home.\x07A new toon is suppose to move in tomorrow, you know.",
+		LEAVING: ''},
+ 3211: {GREETING: '',
+		QUEST: "A bill? I thought we were friends!\x07Oh well, it's no big deal.\x07Now, I just need you to ensure that those high leveled Sellbots don't destroy this new home.\x07A new toon is suppose to move in tomorrow, you know.",
+		LEAVING: ''},
+ 3212: {GREETING: '',
+		QUEST: "A bill? I thought we were friends!\x07Oh well, it's no big deal.\x07Now, I just need you to ensure that those high leveled Boardbots don't destroy this new home.\x07A new toon is suppose to move in tomorrow, you know.",
+		LEAVING: ''},
+ 3213: {GREETING: '',
+		QUEST: "Finally, we don't want to scare the new toon away with those tall, disgusting buildings.\x07Take down a few and then I'll give you a neat reward.",
+		COMPLETE: "Thank you for all your hard work in helping me.\x07I'll be sure to tell this new toon about you, you're a great citizen!\x07Here's a big reward for you...",
 		LEAVING: ''}}
+  
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']
@@ -7176,6 +7367,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  6313: 'Relaxed Roger',
  6314: 'Vincent Vacation',
  6315: 'Bees-In-My-Eyes Johnson',
+ 6316: 'Awkward Adam',
  6316: 'Awkward Adam',
  6317: 'Nutty Nathan',
  6318: 'Irritable Ivy',
