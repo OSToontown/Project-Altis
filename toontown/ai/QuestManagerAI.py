@@ -32,6 +32,7 @@ class QuestManagerAI:
         if not av:
             return
 
+        history = av.getQuestHistory()
         avQuestPocketSize = av.getQuestCarryLimit()
         avQuests = av.getQuests()
 
@@ -97,13 +98,19 @@ class QuestManagerAI:
                 if choices != []:
                     for choice in choices:
                         questClass = Quests.QuestDict.get(choice[0])
-                        for required in questClass[0]:
-                            if required not in av.getQuestHistory():
-                                if choice in choices:
-                                    choices.remove(choice)
+                        for required in :
+                            if required not in history:
+                                if len(choices) == 1:
+                                    choices = []
+                                else:
+                                    if choice in choices:
+                                        choices.remove(choice)
                             else:
                                 continue
-                    npc.presentQuestChoice(avId, choices)
+                    if choices != []:
+                        npc.presentQuestChoice(avId, choices)
+                    else:
+                        npc.rejectAvatar(avId)
                 else:
                     npc.rejectAvatar(avId)
 
@@ -666,6 +673,11 @@ def quests(command, arg0=0, arg1=0):
             return 'progress needs 2 arguments.'
     elif command == 'getHistory':
         return invoker.getQuestHistory()
+    elif command == 'addHistory':
+        history = invoker.getQuestHistory()
+        history.append(arg0)
+        invoker.b_setQuestHistory(history)
+        return "Added %s to quest history!" % arg0
     elif command == 'getQuests':
         return invoker.getQuests()
     else:
