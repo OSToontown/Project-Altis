@@ -60,7 +60,7 @@ class OZPlayground(Playground.Playground):
         return Task.cont
 
     def __checkToonUnderwater(self, task):
-        if base.localAvatar.getZ() < 0.2 and not base.localAvatar.isFishing:
+        if base.localAvatar.getZ() < 0 and not base.localAvatar.isFishing:
             self.__submergeToon()
         else:
             self.__emergeToon()
