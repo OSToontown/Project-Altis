@@ -101,6 +101,8 @@ class TutorialManagerAI(DistributedObjectAI):
 
     def requestTutorial(self):
         avId = self.air.getAvatarIdFromSender()
+        if not avId:
+            return
 
         zones = {}
         zones['street'] = self.air.allocateZone()
@@ -117,6 +119,8 @@ class TutorialManagerAI(DistributedObjectAI):
 
     def requestSkipTutorial(self):
         avId = self.air.getAvatarIdFromSender()
+        if not avId:
+            return
         self.d_skipTutorialResponse(avId, 1)
 
 
@@ -136,6 +140,8 @@ class TutorialManagerAI(DistributedObjectAI):
     def allDone(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
+        if not avId:
+            return
         if av is not None:
             av.b_setTutorialAck(1)
         self.ignore(self.air.getAvatarExitEvent(avId))
@@ -148,7 +154,7 @@ class TutorialManagerAI(DistributedObjectAI):
     def toonArrived(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
-        if av is None:
+        if not av or avId:
             return
 
         if av.getTutorialAck():

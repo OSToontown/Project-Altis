@@ -80,6 +80,9 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
         self.setInvasionStatus(invasionStatus)
         self.d_setInvasionStatus(invasionStatus)
 
+    def setInvasionType(self, invasionType):
+        self.invasionType = invasionType
+
     def getInvasionStatus(self):
         return self.invasionStatus
 

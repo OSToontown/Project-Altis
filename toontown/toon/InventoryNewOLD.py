@@ -364,7 +364,9 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
             if damageBonus:
                 damageBonusStr = TTLocalizer.InventoryDamageBonus % damageBonus
         accString = AvTrackAccStrings[track]
-        if track == SQUIRT_TRACK or (track == TRAP_TRACK and organicBonus) or (track == DROP_TRACK and organicBonus) or track == ZAP_TRACK:
+        if track == DROP_TRACK and organicBonus:
+            accString += '(+10%)'
+        if track == SQUIRT_TRACK or (track == TRAP_TRACK and organicBonus) or track == ZAP_TRACK:
             self.detailDataLabel.configure(text=TTLocalizer.InventoryDetailDataExtra % {'accuracy': accString,
              'damageString': self.getToonupDmgStr(track, level),
              'damage': damage,
@@ -1267,8 +1269,6 @@ class InventoryNewOLD(InventoryBase.InventoryBase, DirectFrame):
             else:
                 text = TTLocalizer.ZapExtraText % str(InstaKillChance[level])
             return text
-        elif track == DROP_TRACK:
-            return TTLocalizer.DropExtraText
                 
 
     def getToonupDmgStr(self, track, level):
