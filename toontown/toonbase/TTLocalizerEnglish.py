@@ -909,7 +909,7 @@ QuestDialogDict = {
  2124: {QUEST:  "Oh, it's you again?\x07A pen? Well, tell Nona Seeya I said thank you!"}, # Return to Nona Seeya
  2125: {QUEST:  "Hey, you're back! I just remembered I also owe _toNpcName_ a fountain pen too so go ahead and deliver this to him."}, # Deliver a fountain pen 
  2126: {QUEST: "Heya, son! I've never seen you before.\x07A fountain pen? Well, my apprecations! There's just one problem...\x07I can't write with all those cogs stomping around! How about you go defeat some of those higher cogs and then maybe I could?"}, # Defeat 8 level 4+ cogs in TTC
- 2127: {QUEST:  "Hmmm... Still too shaky. Try defeating some of the higher cogs, then."}, # Defeat 4 level 5+ cogs in TTC
+ 2127: {QUEST:  "Hmmm... Still too shaky. Try defeating some of the elite cogs, then."}, # Defeat 4 level 5+ cogs in TTC
  2128: {QUEST:  "Ugh! The shakings better but I can't focus with all those noisy cog buildings!\x07Defeat one cog building for me, would you?"}, # Defeat a cog building
  2129: {QUEST:  "Just right! I can write again! Go back to Nona Seeya and tell her I said thanks."}, # Return to Nona Seeya
  2130: {QUEST:  "You're back? I almost thought that you let me forever!\x07Anyways, my friend Inky Ivon just asked me for a fountain pen. Would you please deliver one to him?"}, # Deliver a fountain pen to Inky Ivon
