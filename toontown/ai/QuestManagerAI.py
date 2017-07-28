@@ -98,7 +98,7 @@ class QuestManagerAI:
                 if choices != []:
                     for choice in choices:
                         questClass = Quests.QuestDict.get(choice[0])
-                        for required in :
+                        for required in questClass[0]:
                             if required not in history:
                                 if len(choices) == 1:
                                     choices = []
