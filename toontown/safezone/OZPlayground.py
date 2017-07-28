@@ -53,14 +53,14 @@ class OZPlayground(Playground.Playground):
         taskMgr.add(self.__checkCameraUnderwater, 'oz-check-cam-underwater')
 
     def __checkCameraUnderwater(self, task):
-        if camera.getZ(render) < self.waterLevel:
+        if camera.getZ(render) < self.waterLevel and not base.localAvatar.isFishing:
             self.__submergeCamera()
         else:
             self.__emergeCamera()
         return Task.cont
 
     def __checkToonUnderwater(self, task):
-        if base.localAvatar.getZ() < 0:
+        if base.localAvatar.getZ() < 0.2 and not base.localAvatar.isFishing:
             self.__submergeToon()
         else:
             self.__emergeToon()

@@ -235,6 +235,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.lastFrame = globalClock.getFrameCount()
         self.avId = avId
         self.localToonFishing = 0
+        if avId == base.localAvatar.doId:
+            base.localAvatar.isFishing = True
         if self.avId == 0:
             self.collSphere.setTangible(0)
         else:
@@ -399,6 +401,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.localToonFishing:
             self.fsm.request('leaving')
             self.d_requestExit()
+            if self.avId == base.localAvatar.doId:
+                base.localAvatar.isFishing = False
 
     def __sellFish(self, result = None):
         if self.localToonFishing:

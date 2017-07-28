@@ -17,7 +17,7 @@ class OZHood(ToonHood):
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.underwaterColor = Vec4(0, 0, 0.6, 1)
+        self.underwaterColor = Vec4(0.23921568627450980392156862745098, 0.84705882352941176470588235294118, 1, 1)
 
     def load(self):
         ToonHood.load(self)
