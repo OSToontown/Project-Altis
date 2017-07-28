@@ -7,5 +7,6 @@ from toontown.quest import Quests
 class DistributedNPCHQOfficerAI(DistributedNPCToonAI.DistributedNPCToonAI):
     FourthGagVelvetRopeBan = config.GetBool('want-ban-fourth-gag-velvet-rope', 0)
 
-    def __init__(self, air, npcId, questCallback = None, hq = 0):
+    def __init__(self, air, npcId, questCallback = None, hq = 1):
         DistributedNPCToonAI.DistributedNPCToonAI.__init__(self, air, npcId, questCallback)
+        self.hq = hq

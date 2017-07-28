@@ -1385,18 +1385,8 @@ class Toon(Avatar.Avatar, ToonHead):
                 if action == OTPGlobals.RUN_INDEX and deltaT > ToontownGlobals.WakeRunDelta or deltaT > ToontownGlobals.WakeWalkDelta:
                     self.getWake().createRipple(wakeWaterHeight, rate=1, startFrame=4)
                     self.lastWakeTime = currT
-                    if not self.swimRunLooping:
-                        base.playSfx(self.swimRunSfx, node=self, looping=1)
                     self.lastWakeTime = currT
-                    self.swimRunLooping = True
-            else:
-                self.stopSwimRunSfx()
         return action
-
-    def stopSwimRunSfx(self):
-        if self.swimRunLooping:
-            self.swimRunSfx.stop()
-            self.swimRunLooping = False
 
     def enterOff(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.setActiveShadow(0)
@@ -1577,7 +1567,6 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseBody(self, 'toon, exitRun')
 
     def enterSwim(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
-        self.stopSwimRunSfx()
         Emote.globalEmote.disableAll(self, 'enterSwim')
         self.playingAnim = 'swim'
         self.loop('swim')
