@@ -56,4 +56,7 @@ class DistributedDGFlower(DistributedObject.DistributedObject):
 
     def setHeight(self, newHeight):
         pos = self.bigFlower.getPos()
+        if newHeight == 0.5:
+            sfx = base.loader.loadSfx('phase_5/audio/sfx/AA_drop_bigweight_miss.ogg')
+            base.playSfx(sfx)
         self.bigFlower.posInterval(0.5, (pos[0], pos[1], newHeight)).start()
