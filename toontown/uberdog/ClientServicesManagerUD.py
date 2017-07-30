@@ -1093,11 +1093,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         getRealToken.request('GET', '/api/validatetoken?t=%s' % (cookie))
         try:
             getRealTokenResp = json.loads(httpReq.getresponse().read())
+            cookie = response['additional']            
         except:
             self.notify.debug("Fatal Error during Playtoken Resolve")
             self.killConnection(sender, "Fatal Error during Playtoken Resolve")
-        else:
-            cookie = response['additional']
 
         # Update the given token's HWID, as it's not banned
         try:
