@@ -1088,6 +1088,17 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             self.notify.debug("Fatal Error during HWID Check")
             self.killConnection(sender, "Fatal Error during HWID Check")
 
+        # Grab real token not one time fake token
+        getRealToken = httplib.HTTPConnection('www.projectaltis.com')
+        getRealToken.request('GET', '/api/validatetoken?t=%s' % (cookie))
+        try:
+            getRealTokenResp = json.loads(httpReq.getresponse().read())
+        except:
+            self.notify.debug("Fatal Error during Playtoken Resolve")
+            self.killConnection(sender, "Fatal Error during Playtoken Resolve")
+        else:
+            cookie = response['additional']
+
         # Update the given token's HWID, as it's not banned
         try:
             hwidUpgradation = httplib.HTTPSConnection('www.projectaltis.com')
