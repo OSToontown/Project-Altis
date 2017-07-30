@@ -25,8 +25,11 @@ class BanFSM(FSM):
         httpReq = httplib.HTTPConnection('www.projectaltis.com')
         httpReq.request('GET', '/api/ban/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s' % self.accountId)
         httpReq.getresponse().read()
+        banHwidReq = httplib.HTTPConnection('www.projectaltis.com')
+        banHwidReq.request('GET', '/api/hwid/ban/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s' % self.accountId)
+        banHwidReq.getresponse().read()
         print(self.accountId)
-                           
+
     def ejectPlayer(self):
         av = self.air.doId2do.get(self.avId)
         if not av:
