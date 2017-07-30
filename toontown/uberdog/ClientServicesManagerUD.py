@@ -44,7 +44,7 @@ def executeHttpRequest(url, **extras):
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
         request.add_header('X-CSM-' + k, v)
-    
+
     try:
         return urllib2.urlopen(request).read()
     except:
@@ -57,13 +57,13 @@ if blacklist:
 def judgeName(name): #All of this gunction is just fuckrd
     if not name:
         return False
-    
+
     if blacklist:
         for namePart in name.split(' '):
             namePart = namePart.lower()
             if len(namePart) < 1:
                 return False
-            
+
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
@@ -116,7 +116,7 @@ class LocalAccountDB(AccountDB):
             return
 
         if response['status'] != 'true':
-            
+
             callback({'success': False,
                       'reason': 'An issue has occured within the account server!'})
             return
@@ -130,7 +130,7 @@ class LocalAccountDB(AccountDB):
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
         sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
-        
+
         try:
             XYZ = sanityChecks.getresponse().read()
             print(str(XYZ))
@@ -140,15 +140,15 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
-        
+
         try:
             if response["isBanned"] == "true":
                 callback({'success': False,
                           'reason': 'Your account is banned from Project Altis!'})
                 return
-        except: 
+        except:
             pass
-                
+
         #if response["statuscheck"] == "false":
         #    callback({'success': False,
         #              'reason': 'Toontown Project Altis is closed until the 20th!'})
@@ -167,7 +167,7 @@ class LocalAccountDB(AccountDB):
                 'accountId': 0,
                 'accessLevel': 100
             }
-            
+
             callback(response)
             return response
 
@@ -188,7 +188,7 @@ class LocalAccountDB(AccountDB):
                     'accountId': int(self.dbm[str(cookie)]),
                     'accessLevel': int(150)
                 }
-            
+
             callback(response)
             return response
 
@@ -203,7 +203,7 @@ class LocalAccountDB(AccountDB):
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
         return 'Success'
-        
+
     def getNameStatus(self, avId):
         # check type a name
         self.notify.debug("debug: checking name from %s" %(avId))
@@ -211,10 +211,10 @@ class LocalAccountDB(AccountDB):
             nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
             nameCheck.request('GET', '/api/checktypeaname/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/avid/%s' % (avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
-            
+
             if resp[u"error"] == "true":
                 state = "ERROR"
-            
+
             status = resp[u"status"]
             if status == -1:
                 state = "REJECTED"
@@ -230,7 +230,7 @@ class LocalAccountDB(AccountDB):
             state = "ERROR"
         self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
         return state
-   
+
 # --- FSMs ---
 class OperationFSM(FSM):
     TARGET_CONNECTION = False
@@ -440,7 +440,7 @@ class CreateAvatarFSM(OperationFSM):
         elif pg ==2:
             for track in tracks:
                 self.trackAccess[track] = 1
-        
+
 
         # Okay, we're good to go, let's query their account.
         self.demand('RetrieveAccount')
@@ -478,7 +478,7 @@ class CreateAvatarFSM(OperationFSM):
             colorString = "Colorful"
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
-		
+
         toonFields = {
             'setName': (name,),
             'WishNameState': ('OPEN',),
@@ -487,7 +487,7 @@ class CreateAvatarFSM(OperationFSM):
             'setDISLid': (self.target,),
             'setUber': (self.uber,)
         }
-		
+
         if self.pg > 0:
             if self.pg == 1:
                 maxMoney = 50
@@ -501,8 +501,8 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 25
                 experience = [600, 800]
-                
-            elif self.pg == 2: 
+
+            elif self.pg == 2:
                 maxMoney = 60
                 maxCarry = 30
                 startingHood = 5000
@@ -516,16 +516,16 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 34
                 experience = [1000, 2400]
-			
+
             exp = Experience()
-            
+
             for i, t in enumerate(self.trackAccess):
                 if t:
                     chosenExp = random.randint(experience[0], experience[1])
                     exp.setExp(i, chosenExp)
 
             toonFields['setExperience'] = (exp.makeNetString(),)
-			
+
             toonFields['setMaxMoney'] = (maxMoney,)
             toonFields['setMaxCarry'] = (maxCarry,)
             toonFields['setTrackAccess'] = (self.trackAccess,)
@@ -538,7 +538,7 @@ class CreateAvatarFSM(OperationFSM):
             toonFields['setHp'] = (hp,)
             toonFields['setMaxHp'] = (hp,)
             toonFields['setTutorialAck'] = (1,)
-				
+
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['DistributedToonUD'],
@@ -762,7 +762,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
     def enterJudgeName(self):
         # Let's see if the name is valid:
         status = judgeName(self.name)
-        
+
         if self.avId and status:
             resp = self.csm.accountDB.addNameRequest(self.avId, self.name)
             if resp != 'Success':
@@ -1072,16 +1072,37 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
     def login(self, cookie, authKey):
         sender = self.air.getMsgSender()
-        
         hwid = cookie.split("#")[1]
-        print("HWID for current login: %s" %hwid)
         cookie = cookie.split("#")[0]
+        apiKey = "JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN"
+
+        # Check if Current HWID Is Already Banned, or has a Ban assigned to it
+        try:
+            hwidCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            hwidCheck.request('GET', '/api/hwid/check/%s' % hwid)
+            resp = json.loads(hwidCheck.getresponse().read())
+            if resp["isBanned"] == "true":
+                self.notify.debug("Banned HWID Has Tried Logging In!")
+                self.killConnection(sender, "HWID Has been Banned Previously!")
+        except:
+            self.notify.debug("Fatal Error during HWID Check")
+            self.killConnection(sender, "Fatal Error during HWID Check")
+
+        # Update the given token's HWID, as it's not banned
+        try:
+            hwidUpgradation = httplib.HTTPSConnection('www.projectaltis.com')
+            hwidUpgradation.request('GET', '/api/hwid/setid/%s/%s/%s' % (apiKey, cookie, hwid))
+            resp = json.loads(hwidUpgradation.getresponse().read())
+        except:
+            self.notify.debug("Fatal Error during HWID Upgradation")
+            self.killConnection(sender, "Fatal Error during HWID Upgradation")
+
         self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
         digest_maker.update(cookie)
-        
+
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
             # recieved a bad authentication key from the client, drop there connection!
             self.killConnection(sender, 'Failed to login, recieved a bad login cookie %s!' % (cookie))
@@ -1101,7 +1122,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def requestAvatars(self):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))
         self.runAccountFSM(GetAvatarsFSM)
-        
+
     def requestMOTD(self):
         acc = self.air.getAccountIdFromSender()
         motd = '[SHOULD NOT SEE]'
