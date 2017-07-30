@@ -104,25 +104,7 @@ class AccountDB:
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-    def lookup(self, username, callback):
-        httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
-        try:
-            XXX = httpReq.getresponse().read()
-            response = json.loads(XXX)
-        except:
-            callback({'success': False,
-                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
-            return
-
-        if response['status'] != 'true':
-
-            callback({'success': False,
-                      'reason': 'An issue has occured within the account server!'})
-            return
-        else:
-            cookie = response['additional']
-
+    def lookup(self, cookie, callback):
         if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
             callback({'success': False,
                       'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
@@ -1089,11 +1071,11 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             self.killConnection(sender, "Fatal Error during HWID Check")
 
         # Grab real token not one time fake token
-        getRealToken = httplib.HTTPConnection('www.projectaltis.com')
+        getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
         getRealToken.request('GET', '/api/validatetoken?t=%s' % (cookie))
         try:
-            getRealTokenResp = json.loads(httpReq.getresponse().read())
-            cookie = response['additional']            
+            getRealTokenResp = json.loads(getRealToken.getresponse().read())
+            cookie = getRealTokenResp['additional']            
         except:
             self.notify.debug("Fatal Error during Playtoken Resolve")
             self.killConnection(sender, "Fatal Error during Playtoken Resolve")
