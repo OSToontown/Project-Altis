@@ -1055,6 +1055,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def login(self, cookie, authKey):
         sender = self.air.getMsgSender()
         hwid = cookie.split("#")[1]
+        backupCookie = cookie.split("#")[0]
         cookie = cookie.split("#")[0]
         apiKey = "JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN"
 
@@ -1093,7 +1094,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
-        digest_maker.update(cookie)
+        digest_maker.update(backupCookie)
 
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
             # recieved a bad authentication key from the client, drop there connection!
