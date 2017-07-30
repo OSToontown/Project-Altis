@@ -127,7 +127,23 @@ def kick(reason='No reason specified'):
     datagram.addString('You were kicked by a moderator for the following reason: %s' % reason)
     simbase.air.send(datagram)
     return "Kicked %s from the game server!" % target.getName()
-
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[int, str])
+def kickId(id, reason='No reason specified'):
+    """
+    Kick the target from the game server.
+    """
+    target = simbase.air.doId2do.get(100000000+id)
+    if target == spellbook.getInvoker():
+        return "You can't kick yourself!"
+    datagram = PyDatagram()
+    datagram.addServerHeader(
+        target.GetPuppetConnectionChannel(target.doId),
+        simbase.air.ourChannel, CLIENTAGENT_EJECT)
+    datagram.addUint16(155)
+    datagram.addString('You were kicked by a moderator for the following reason: %s' % reason)
+    simbase.air.send(datagram)
+    return "Kicked %s from the game server!" % target.getName()
 
 @magicWord(category=CATEGORY_MODERATOR, types=[str])
 def ban(reason):
@@ -135,6 +151,24 @@ def ban(reason):
     Ban and Kick the target from the game server.
     """
     target = spellbook.getTarget()
+    if target == spellbook.getInvoker():
+        return "You can't ban yourself!"
+    simbase.air.banManager.ban(target.doId, reason)
+    datagram = PyDatagram()
+    datagram.addServerHeader(
+        target.GetPuppetConnectionChannel(target.doId),
+        simbase.air.ourChannel, CLIENTAGENT_EJECT)
+    datagram.addUint16(155)
+    datagram.addString('You were banned by a moderator for the following reason: %s' % reason)
+    simbase.air.send(datagram)
+    return "Kicked and Banned %s from the game server!" % target.getName()
+	
+@magicWord(category=CATEGORY_MODERATOR, types=[int, str])
+def banId(id, reason):
+    """
+    Ban and Kick the short id from the game server.
+    """
+    target = simbase.air.doId2do.get(100000000+id)
     if target == spellbook.getInvoker():
         return "You can't ban yourself!"
     simbase.air.banManager.ban(target.doId, reason)
