@@ -2822,7 +2822,7 @@ QuestDict = {
  3114: ([], Cont, (DeliverGagQuest, 1, 5, 3), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[3114], 3230, 175),
  
  #AA Mega Task
- 3200: ([2136, 3007, 3017, 3022, 3036, 3045, 3059, 3061, 3073, 3083, 3096, 3101, 3114], Start, (VisitQuest,), (6004, 6005, 6006, 6007), 6216, 310, 3201, TTLocalizer.QuestDialogDict[3200], 3500, 200),
+ 3200: ([2136, 3007, 3017, 3022, 3036, 3045, 3059, 3061, 3073, 3083, 3096, 3101, 3114], Start, (VisitQuest,), 6006, 6216, 310, 3201, TTLocalizer.QuestDialogDict[3200], 3500, 200),
  3201: ([], Cont, (CogQuest, Anywhere, 5, 'sd'), 6216, Same, 310, 3202, TTLocalizer.QuestDialogDict[3201], 3500, 200),
  3202: ([], Cont, (CogQuest, Anywhere, 5, 'mb'), Same, Same, 310, 3203, TTLocalizer.QuestDialogDict[3202], 3500, 200),
  3203: ([], Cont, (CogQuest, Anywhere, 5, 'tf'), Same, Same, 310, 3204, TTLocalizer.QuestDialogDict[3203], 3500, 200),
