@@ -18,7 +18,8 @@ toonSpeciesTypes = ['d',
  'b',
  's',
  'x',
- 'z']
+ 'z',
+ 'a']
 toonHeadTypes = ['dls',
  'dss',
  'dsl',
@@ -60,7 +61,11 @@ toonHeadTypes = ['dls',
  'zls',
  'zss',
  'zsl',
- 'zll']
+ 'zll',
+ 'als',
+ 'ass',
+ 'asl',
+ 'all']
 
 def getHeadList(species):
     headList = []
@@ -107,6 +112,8 @@ def getSpeciesName(head):
         speciesName = 'deer'
     elif species == 'z':
         speciesName = 'beaver'
+    elif species == 'a':
+        speciesName = 'alligator'
     return speciesName
 
 
@@ -120,7 +127,8 @@ toonHeadAnimalIndices = [0,
  26,
  30,
  34,
- 38]
+ 38,
+ 42]
 toonHeadAnimalIndicesTrial = [0,
  4,
  12,
@@ -128,7 +136,8 @@ toonHeadAnimalIndicesTrial = [0,
  18,
  30,
  34,
- 38]
+ 38,
+ 42]
 allToonHeadAnimalIndices = [0,
  1,
  2,
@@ -170,7 +179,11 @@ allToonHeadAnimalIndices = [0,
  38,
  39,
  40,
- 41]
+ 41,
+ 42,
+ 43,
+ 44,
+ 45]
 allToonHeadAnimalIndicesTrial = [0,
  1,
  2,
@@ -196,7 +209,11 @@ allToonHeadAnimalIndicesTrial = [0,
  34,
  35,
  36,
- 37]
+ 37,
+ 38,
+ 39,
+ 40,
+ 41]
 toonTorsoTypes = ['ss',
  'ms',
  'ls',
@@ -3001,6 +3018,8 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return 'deer'
         elif self.head[0] == 'z':
             return 'beaver'
+        elif self.head[0] == 'a':
+            return 'alligator'
         else:
             notify.error('unknown headStyle: ', self.head[0])
 

@@ -22,7 +22,8 @@ if not base.config.GetBool('want-new-anims', 1):
      'b': '/models/char/bear-heads-',
      's': '/models/char/pig-heads-',
      'x': '/models/char/deer-heads-',
-     'z': '/models/chat/beaver-heads-'}
+     'z': '/models/char/beaver-heads-',
+     'a': '/models/char/alligator-heads-'}
 else:
     HeadDict = {'dls': '/models/char/tt_a_chr_dgm_shorts_head_',
      'dss': '/models/char/tt_a_chr_dgm_skirt_head_',
@@ -37,7 +38,8 @@ else:
      'b': '/models/char/bear-heads-',
      's': '/models/char/pig-heads-',
      'x': '/models/char/deer-heads-',
-     'z': '/models/char/beaver-heads-'}
+     'z': '/models/char/beaver-heads-',
+     'a': '/models/char/alligator-heads-'}
 EyelashDict = {'d': '/models/char/dog-lashes',
  'c': '/models/char/cat-lashes',
  'h': '/models/char/horse-lashes',
@@ -48,7 +50,8 @@ EyelashDict = {'d': '/models/char/dog-lashes',
  'b': '/models/char/bear-lashes',
  's': '/models/char/pig-lashes',
  'x': '/models/char/deer-lashes',
- 'z': '/models/char/beaver-lashes'}
+ 'z': '/models/char/beaver-lashes',
+ 'a': '/models/char/alligator-lashes'}
 DogMuzzleDict = {'dls': '/models/char/dogMM_Shorts-headMuzzles-',
  'dss': '/models/char/dogMM_Skirt-headMuzzles-',
  'dsl': '/models/char/dogSS_Shorts-headMuzzles-',
@@ -422,6 +425,22 @@ class ToonHead(Actor.Actor):
             headHeight = 0.5
         elif headStyle == 'zll':
             filePrefix = HeadDict['z']
+            fix = self.__fixHeadLongLong
+            headHeight = 0.75
+        elif headStyle == 'als':
+            filePrefix = HeadDict['a']
+            fix = self.__fixHeadLongShort
+            headHeight = 0.75
+        elif headStyle == 'ass':
+            filePrefix = HeadDict['a']
+            fix = self.__fixHeadShortShort
+            headHeight = 0.5
+        elif headStyle == 'asl':
+            filePrefix = HeadDict['a']
+            fix = self.__fixHeadShortLong
+            headHeight = 0.5
+        elif headStyle == 'all':
+            filePrefix = HeadDict['a']
             fix = self.__fixHeadLongLong
             headHeight = 0.75
         else:
@@ -855,7 +874,7 @@ class ToonHead(Actor.Actor):
             searchRoot = self
         else:
             searchRoot = self.find('**/' + str(lodName))
-        if animalType != 'duck' and animalType != 'horse':
+        if animalType != 'duck' and animalType != 'horse' and animalType != 'alligator':
             if animalType == 'rabbit':
                 if copy:
                     searchRoot.find('**/ears-long').removeNode()
@@ -906,7 +925,7 @@ class ToonHead(Actor.Actor):
             searchRoot = self
         else:
             searchRoot = self.find('**/' + str(lodName))
-        if animalType != 'duck' and animalType != 'horse':
+        if animalType != 'duck' and animalType != 'horse' and animalType != 'alligator':
             if animalType == 'rabbit':
                 if copy:
                     searchRoot.find('**/ears-short').removeNode()
