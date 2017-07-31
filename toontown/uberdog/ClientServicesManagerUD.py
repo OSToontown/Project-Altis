@@ -21,9 +21,7 @@ from toontown.toonbase import TTLocalizer
 
 # Import from PyCrypto only if we are using a database that requires it. This
 # allows local hosted and developer builds of the game to run without it:
-accountDBType = simbase.config.GetString('accountdb-type', 'local')
-if accountDBType == 'remote':
-    from Crypto.Cipher import AES
+accountDBType = "local"
 
 # Sometimes we'll want to force a specific access level, such as on the
 # developer server:
@@ -46,7 +44,7 @@ def executeHttpRequest(url, **extras):
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
         request.add_header('X-CSM-' + k, v)
-    
+
     try:
         return urllib2.urlopen(request).read()
     except:
@@ -59,13 +57,13 @@ if blacklist:
 def judgeName(name): #All of this gunction is just fuckrd
     if not name:
         return False
-    
+
     if blacklist:
         for namePart in name.split(' '):
             namePart = namePart.lower()
             if len(namePart) < 1:
                 return False
-            
+
             for banned in blacklist.get(namePart[0], []):
                 if banned in namePart:
                     return False
@@ -103,67 +101,18 @@ class AccountDB:
             self.notify.warning('Unable to associate user %s with account %d!' % (userId, accountId))
             callback(False)
 
-class DeveloperAccountDB(AccountDB):
-    notify = directNotify.newCategory('DeveloperAccountDB')
-
-    def lookup(self, username, callback):
-        # Let's check if this user's ID is in your account database bridge:
-        if str(username) not in self.dbm:
-
-            # Nope. Let's associate them with a brand new Account object! We
-            # will assign them with 600 access just because they are a
-            # developer:
-            response = {
-                'success': True,
-                'userId': username,
-                'accountId': 0,
-                'accessLevel': max(600, minAccessLevel)
-            }
-            callback(response)
-            return response
-
-        else:
-
-            # We have an account already, let's return what we've got:
-            response = {
-                'success': True,
-                'userId': username,
-                'accountId': int(self.dbm[str(username)]),
-            }
-            callback(response)
-            return response
-
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-    def lookup(self, username, callback):
-        httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('GET', '/api/validatetoken?t=%s' % (username))
-        
-        try:
-            XXX = httpReq.getresponse().read()
-            response = json.loads(XXX)
-        except:
-            callback({'success': False,
-                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
-            return
-
-        if response['status'] != 'true':
-            
-            callback({'success': False,
-                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
-            return
-        else:
-            cookie = response['additional']
-
+    def lookup(self, cookie, callback):
         if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
             callback({'success': False,
-                      'reason': 'Invalid Cookie Specified!'})
+                      'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
             return
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
         sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
-        
+
         try:
             XYZ = sanityChecks.getresponse().read()
             print(str(XYZ))
@@ -173,15 +122,15 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'Account Server Overloaded. Please Try Again Later!'})
             return
-        
+
         try:
             if response["isBanned"] == "true":
                 callback({'success': False,
                           'reason': 'Your account is banned from Project Altis!'})
                 return
-        except: 
+        except:
             pass
-                
+
         #if response["statuscheck"] == "false":
         #    callback({'success': False,
         #              'reason': 'Toontown Project Altis is closed until the 20th!'})
@@ -200,7 +149,7 @@ class LocalAccountDB(AccountDB):
                 'accountId': 0,
                 'accessLevel': 100
             }
-            
+
             callback(response)
             return response
 
@@ -221,7 +170,7 @@ class LocalAccountDB(AccountDB):
                     'accountId': int(self.dbm[str(cookie)]),
                     'accessLevel': int(150)
                 }
-            
+
             callback(response)
             return response
 
@@ -236,7 +185,7 @@ class LocalAccountDB(AccountDB):
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
         return 'Success'
-        
+
     def getNameStatus(self, avId):
         # check type a name
         self.notify.debug("debug: checking name from %s" %(avId))
@@ -244,10 +193,10 @@ class LocalAccountDB(AccountDB):
             nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
             nameCheck.request('GET', '/api/checktypeaname/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/avid/%s' % (avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
-            
+
             if resp[u"error"] == "true":
                 state = "ERROR"
-            
+
             status = resp[u"status"]
             if status == -1:
                 state = "REJECTED"
@@ -263,118 +212,6 @@ class LocalAccountDB(AccountDB):
             state = "ERROR"
         self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
         return state
-    
-class RemoteAccountDB(AccountDB):
-    notify = directNotify.newCategory('RemoteAccountDB')
-
-    def addNameRequest(self, avId, name):
-        return executeHttpRequest('names/append', ID=str(avId), Name=name)
-
-    def getNameStatus(self, avId):
-        return executeHttpRequest('names/status/?Id=' + str(avId))
-
-    def removeNameRequest(self, avId):
-        return executeHttpRequest('names/remove', ID=str(avId))
-
-    def lookup(self, token, callback):
-        # First, base64 decode the token:
-        try:
-            token = base64.b64decode(token)
-        except TypeError:
-            self.notify.warning('Could not decode the provided token!')
-            response = {
-                'success': False,
-                'reason': "Can't decode this token."
-            }
-            callback(response)
-            return response
-
-        # Ensure this token is a valid size:
-        if (not token) or ((len(token) % 16) != 0):
-            self.notify.warning('Invalid token length!')
-            response = {
-                'success': False,
-                'reason': 'Invalid token length.'
-            }
-            callback(response)
-            return response
-
-        # Next, decrypt the token using AES-128 in CBC mode:
-        accountServerSecret = simbase.config.GetString(
-            'account-server-secret', 'sjHgh43h43ZMcHnJ')
-
-        # Ensure that our secret is the correct size:
-        if len(accountServerSecret) > AES.block_size:
-            self.notify.warning('account-server-secret is too big!')
-            accountServerSecret = accountServerSecret[:AES.block_size]
-        elif len(accountServerSecret) < AES.block_size:
-            self.notify.warning('account-server-secret is too small!')
-            accountServerSecret += '\x80'
-            while len(accountServerSecret) < AES.block_size:
-                accountServerSecret += '\x00'
-
-        # Take the initialization vector off the front of the token:
-        iv = token[:AES.block_size]
-
-        # Truncate the token to get our cipher text:
-        cipherText = token[AES.block_size:]
-
-        # Decrypt!
-        cipher = AES.new(accountServerSecret, mode=AES.MODE_CBC, IV=iv)
-        try:
-            token = json.loads(cipher.decrypt(cipherText).replace('\x00', ''))
-            if ('timestamp' not in token) or (not isinstance(token['timestamp'], int)):
-                raise ValueError
-            if ('userid' not in token) or (not isinstance(token['userid'], int)):
-                raise ValueError
-            if ('accesslevel' not in token) or (not isinstance(token['accesslevel'], int)):
-                raise ValueError
-        except ValueError, e:
-            print e
-            self.notify.warning('Invalid token.')
-            response = {
-                'success': False,
-                'reason': 'Invalid token.'
-            }
-            callback(response)
-            return response
-
-        # Next, check if this token has expired:
-        expiration = simbase.config.GetInt('account-token-expiration', 1800)
-        tokenDelta = int(time.time()) - token['timestamp']
-        if tokenDelta > expiration:
-            response = {
-                'success': False,
-                'reason': 'This token has expired.'
-            }
-            callback(response)
-            return response
-
-        # This token is valid. That's all we need to know. Next, let's check if
-        # this user's ID is in your account database bridge:
-        if str(token['userid']) not in self.dbm:
-
-            # Nope. Let's associate them with a brand new Account object!
-            response = {
-                'success': True,
-                'userId': token['userid'],
-                'accountId': 0,
-                'accessLevel': max(int(token['accesslevel']), minAccessLevel)
-            }
-            callback(response)
-            return response
-
-        else:
-
-            # Yep. Let's return their account ID and access level!
-            response = {
-                'success': True,
-                'userId': token['userid'],
-                'accountId': int(self.dbm[str(token['userid'])]),
-                'accessLevel': max(int(token['accesslevel']), minAccessLevel)
-            }
-            callback(response)
-            return response
 
 # --- FSMs ---
 class OperationFSM(FSM):
@@ -585,7 +422,7 @@ class CreateAvatarFSM(OperationFSM):
         elif pg ==2:
             for track in tracks:
                 self.trackAccess[track] = 1
-        
+
 
         # Okay, we're good to go, let's query their account.
         self.demand('RetrieveAccount')
@@ -623,7 +460,7 @@ class CreateAvatarFSM(OperationFSM):
             colorString = "Colorful"
         animalType = TTLocalizer.AnimalToSpecies[dna.getAnimal()]
         name = ' '.join((colorString, animalType))
-		
+
         toonFields = {
             'setName': (name,),
             'WishNameState': ('OPEN',),
@@ -632,7 +469,7 @@ class CreateAvatarFSM(OperationFSM):
             'setDISLid': (self.target,),
             'setUber': (self.uber,)
         }
-		
+
         if self.pg > 0:
             if self.pg == 1:
                 maxMoney = 50
@@ -646,8 +483,8 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 25
                 experience = [600, 800]
-                
-            elif self.pg == 2: 
+
+            elif self.pg == 2:
                 maxMoney = 60
                 maxCarry = 30
                 startingHood = 5000
@@ -661,16 +498,16 @@ class CreateAvatarFSM(OperationFSM):
                 else:
                     hp = 34
                 experience = [1000, 2400]
-			
+
             exp = Experience()
-            
+
             for i, t in enumerate(self.trackAccess):
                 if t:
                     chosenExp = random.randint(experience[0], experience[1])
                     exp.setExp(i, chosenExp)
 
             toonFields['setExperience'] = (exp.makeNetString(),)
-			
+
             toonFields['setMaxMoney'] = (maxMoney,)
             toonFields['setMaxCarry'] = (maxCarry,)
             toonFields['setTrackAccess'] = (self.trackAccess,)
@@ -683,7 +520,7 @@ class CreateAvatarFSM(OperationFSM):
             toonFields['setHp'] = (hp,)
             toonFields['setMaxHp'] = (hp,)
             toonFields['setTutorialAck'] = (1,)
-				
+
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['DistributedToonUD'],
@@ -907,7 +744,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
     def enterJudgeName(self):
         # Let's see if the name is valid:
         status = judgeName(self.name)
-        
+
         if self.avId and status:
             resp = self.csm.accountDB.addNameRequest(self.avId, self.name)
             if resp != 'Success':
@@ -1173,14 +1010,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.account2fsm = {}
 
         # Instantiate our account DB interface:
-        if accountDBType == 'developer':
-            self.accountDB = DeveloperAccountDB(self)
-        elif accountDBType == 'local':
-            self.accountDB = LocalAccountDB(self)
-        elif accountDBType == 'remote':
-            self.accountDB = RemoteAccountDB(self)
-        else:
-            self.notify.error('Invalid accountdb-type: ' + accountDBType)
+        self.accountDB = LocalAccountDB(self)
 
     def killConnection(self, connId, reason):
         datagram = PyDatagram()
@@ -1224,13 +1054,48 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
     def login(self, cookie, authKey):
         sender = self.air.getMsgSender()
-        
+        hwid = cookie.split("#")[1]
+        backupCookie = cookie.split("#")[0]
+        cookie = cookie.split("#")[0]
+        apiKey = "JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN"
+
+        # Check if Current HWID Is Already Banned, or has a Ban assigned to it
+        try:
+            hwidCheck = httplib.HTTPSConnection('www.projectaltis.com')
+            hwidCheck.request('GET', '/api/hwid/check/%s' % hwid)
+            resp = json.loads(hwidCheck.getresponse().read())
+            if resp["isBanned"] == "true":
+                self.notify.debug("Banned HWID Has Tried Logging In!")
+                self.killConnection(sender, "HWID Has been Banned Previously!")
+        except:
+            self.notify.debug("Fatal Error during HWID Check")
+            self.killConnection(sender, "Fatal Error during HWID Check")
+
+        # Grab real token not one time fake token
+        getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
+        getRealToken.request('GET', '/api/validatetoken?t=%s' % (cookie))
+        try:
+            getRealTokenResp = json.loads(getRealToken.getresponse().read())
+            cookie = getRealTokenResp['additional']            
+        except:
+            self.notify.debug("Fatal Error during Playtoken Resolve")
+            self.killConnection(sender, "Fatal Error during Playtoken Resolve")
+
+        # Update the given token's HWID, as it's not banned
+        try:
+            hwidUpgradation = httplib.HTTPSConnection('www.projectaltis.com')
+            hwidUpgradation.request('GET', '/api/hwid/setid/%s/%s/%s' % (apiKey, cookie, hwid))
+            resp = json.loads(hwidUpgradation.getresponse().read())
+        except:
+            self.notify.debug("Fatal Error during HWID Upgradation")
+            self.killConnection(sender, "Fatal Error during HWID Upgradation")
+
         self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
-        digest_maker.update(cookie)
-        
+        digest_maker.update(backupCookie)
+
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
             # recieved a bad authentication key from the client, drop there connection!
             self.killConnection(sender, 'Failed to login, recieved a bad login cookie %s!' % (cookie))
@@ -1250,7 +1115,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     def requestAvatars(self):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))
         self.runAccountFSM(GetAvatarsFSM)
-        
+
     def requestMOTD(self):
         acc = self.air.getAccountIdFromSender()
         motd = '[SHOULD NOT SEE]'

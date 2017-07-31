@@ -4,6 +4,9 @@ from toontown.chat.ChatGlobals import *
 from otp.distributed import OtpDoGlobals
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
+from time import gmtime, strftime
+import json
+import httplib
 
 class ChatAgentAI(DistributedObjectGlobalAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentAI")
@@ -21,6 +24,7 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         self.accept('requestOffenses', self.sendAvatarOffenses)
         self.accept('sendSystemMessage', self.sendSystemMessage)
         self.accept('chatBan', self.banAvatar)
+        self.accountId = 0
 
     def chatMessageResponse(self, sender, message, modifications, chatMode):
         if sender not in self.air.doId2do.keys():
@@ -36,6 +40,28 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         # broadcast chat message update
         av.b_setTalk(sender, self.chatMode2channel.get(chatMode, sender), av.getName(), message, modifications, 
             CFSpeech | CFQuicktalker | CFTimeout)
+        self.air.dbInterface.queryObject(self.air.dbId, av.DISLid, self.dbCallback)
+        getRealUsername = httplib.HTTPSConnection('www.projectaltis.com')
+        getRealUsername.request('GET', '/api/fetch/username/%s' % (self.accountId))
+        try:
+            getRealUsernameResp = json.loads(getRealUsername.getresponse().read())
+            username = getRealUsernameResp['data']            
+        except:
+            self.notify.debug("Fatal Error During Logging!")
+            username = 'ERRORED'
+        filename = 'data/%s_chatlog.txt' % str(self.air.districtId)
+        file = open(filename, 'a')
+        file.write(strftime("%Y-%m-%d %H:%M:%S", gmtime()) + ': ' + str(sender) + '(%s)' % username  + ': ' + message + "\n")
+        file.close()
+		
+    def dbCallback(self, dclass, fields):
+        if dclass != simbase.air.dclassesByName['AccountAI']:
+            return
+
+        self.accountId = fields.get('ACCOUNT_ID')
+
+        if not self.accountId:
+            return
 
     def getToonAccess(self, avId):
         av = self.air.doId2do[avId]

@@ -191,6 +191,7 @@ CRBootedReasons = {1: 'An unexpected problem has occurred.  Your connection has 
  152: "There has been a reported violation of our Terms of Use connected to '%(name)s'. For more details, please review the message sent to the e-mail address associated with '%(name)s'.",
  153: 'You have been disconnected from the district you were playing on, you should be able to restart the game and hop back in!',
  154: 'Project Altis is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Project Altis website or the Discord server.',
+ 420: 'You were disconnected to prevent a district reset',
  288: 'Sorry, you have used up all of your available minutes this month.',
  349: 'Sorry, you have used up all of your available minutes this month.'}
 CRBootedReasonUnknownCode = 'An unexpected problem has occurred (error code %s).  Your connection has been lost, but you should be able to connect again and go right back into the game.'
