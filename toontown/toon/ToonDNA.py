@@ -209,11 +209,7 @@ allToonHeadAnimalIndicesTrial = [0,
  34,
  35,
  36,
- 37,
- 38,
- 39,
- 40,
- 41]
+ 37]
 toonTorsoTypes = ['ss',
  'ms',
  'ls',
@@ -2927,10 +2923,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         self.gender = gender
         if not npc:
             if stage == MAKE_A_TOON:
-                if not base.cr.isPaid():
-                    animalIndicesToUse = allToonHeadAnimalIndicesTrial
-                else:
-                    animalIndicesToUse = allToonHeadAnimalIndices
+                animalIndicesToUse = allToonHeadAnimalIndicesTrial
                 animal = generator.choice(animalIndicesToUse)
                 self.head = toonHeadTypes[animal]
             else:
