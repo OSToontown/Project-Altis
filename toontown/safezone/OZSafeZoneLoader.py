@@ -15,7 +15,9 @@ from toontown.effects import Bubbles
 from toontown.hood import ZoneUtil
 from toontown.safezone.OZPlayground import OZPlayground
 from toontown.safezone.SafeZoneLoader import SafeZoneLoader
-from toontown.toon import Toon, ToonDNA
+from toontown.toon import Toon, ToonDNA, NPCToons
+from toontown.toonbase import TTLocalizer
+from direct.task.Task import Task
 
 class OZSafeZoneLoader(SafeZoneLoader):
 
@@ -26,6 +28,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.activityMusicFile = 'phase_6/audio/bgm/AA_SZ_activity.ogg'
         self.dnaFile = 'phase_6/dna/outdoor_zone_sz.pdna'
         self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.pdna'
+        self.beaver = NPCToons.createLocalNPC(7011)
 
     def load(self):
         self.done = 0
@@ -41,6 +44,19 @@ class OZSafeZoneLoader(SafeZoneLoader):
         water = self.geom.find('**/Water*')
         water.setTransparency(1)
         water.setBin('water', 51, 1)
+        self.beaver.reparentTo(render)
+        self.beaver.setPos(-28.453, 8.267, 16.054)
+        self.beaver.setH(295)
+        self.beaver.setName('Beaver')
+        self.beaver.initializeBodyCollisions('toon')
+        taskMgr.doMethodLater(1, self.__beaverDialog, 'beaver-dial')
+		
+    def __beaverDialog(self, task):
+        if self.beaver:
+            self.beaver.setChatAbsolute(random.choice(TTLocalizer.BeaverChatter), CFSpeech | CFTimeout)
+            time = random.random() * 20.0 + 2
+            taskMgr.doMethodLater(time, self.__beaverDialog, 'gator-dial')
+        return Task.done
 
     def exit(self):
         SafeZoneLoader.exit(self)
@@ -49,4 +65,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
         del self.birdSound
         SafeZoneLoader.unload(self)
         self.done = 1
+        taskMgr.remove('beaver-dial')
+        self.beaver.stash()
+        self.beaver = None
 

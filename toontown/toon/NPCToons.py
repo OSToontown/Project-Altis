@@ -12903,6 +12903,8 @@ NPCToonDict = {20000: (-1,
         'm',
         0,
         NPC_REGULAR),
+ 7010: (-1, lnames[2301], ('als', 'ls', 'l', 'm', 35, 0, 35, 35, 1, 3, 1, 3, 0, 6), 'm', 1, NPC_REGULAR),
+ 7011: (-1, lnames[2301], ('zls', 'ms', 'm', 'm', 50, 0, 50, 50, 4, 18, 4, 18, 6, 20), 'm', 1, NPC_REGULAR),
 # Prince Frizzy SOS
 # 5 Stars, Sound SOS, Opera 900 damage. "The sound of one last District.".
 91917: (-1,
