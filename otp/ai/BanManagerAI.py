@@ -26,7 +26,7 @@ class BanFSM(FSM):
         httpReq.request('GET', '/api/ban/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s' % self.accountId)
         httpReq.getresponse().read()
         banHwidReq = httplib.HTTPConnection('www.projectaltis.com')
-        banHwidReq.request('GET', '/api/hwid/ban/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s' % self.accountId)
+        banHwidReq.request('GET', '/api/hwid/ban/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/RandomDancing' % self.accountId)
         banHwidReq.getresponse().read()
         print(self.accountId)
 
