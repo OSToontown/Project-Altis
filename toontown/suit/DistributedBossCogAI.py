@@ -205,7 +205,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def enterWaitForToons(self):
         self.acceptNewToons()
         self.barrier = self.beginBarrier('WaitForToons', self.involvedToons, 5, self.__doneWaitForToons)
-        if len(self.involvedToons) == 1:
+        if len(self.involvedToons[:]) == 1:
             self.begunSolo = True
 
     def __doneWaitForToons(self, toons):
