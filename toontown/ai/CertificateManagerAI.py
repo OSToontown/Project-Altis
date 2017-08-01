@@ -25,6 +25,6 @@ class CertificateManagerAI():
         return code
 
     def sendCode(self, code):
-        request = httplib.HTTPSConnection('wwsw.projectaltis.com')
+        request = httplib.HTTPSConnection('www.projectaltis.com')
         request.request('GET', '/api/addbetacert/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s' % (code))
         print request.getresponse().read()
