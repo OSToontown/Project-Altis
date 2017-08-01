@@ -4,8 +4,6 @@ import httplib
 class CertificateManagerAI():
     def __init__(self, air):
         self.air = air
-        self.accountId = 0
-        self.certs = []
 
 
     def addCode(self, av, code):
