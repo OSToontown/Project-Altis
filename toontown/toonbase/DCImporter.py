@@ -979,7 +979,7 @@ dclass DistributedToon : DistributedPlayer {
   takeDamage(uint16) broadcast ownrecv;
   setBattleId(uint32 = 0) required broadcast ram;
   setToonExp(uint32 exp = 0) required broadcast ownrecv db;
-  setToonLevel(uint8 level = 0) required broadcast ownrecv db;
+  setToonLevel(uint8 level = 0) required broadcast ram db;
   setTrueFriends(uint32[] = []) ownrecv required db airecv;
   setTrueFriendRequest(uint32[] = [0, 0]) ram airecv;
   setExperience(blob = [0*16]) required broadcast db;
