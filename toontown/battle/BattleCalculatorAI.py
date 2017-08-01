@@ -629,7 +629,7 @@ class BattleCalculatorAI:
                 if atkTrack == HEAL:
                     result = result / len(targetList)
                     if organicBonus:
-                        toon.toonUp(result * len(targetList) * 0.2)
+                        toon.toonUp(result * 0.2)
                     if self.notify.getDebug():
                         self.notify.debug('Splitting heal among ' + str(len(targetList)) + ' targets')
                 if targetId in self.successfulLures and atkTrack == LURE:

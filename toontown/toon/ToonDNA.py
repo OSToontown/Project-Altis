@@ -17,7 +17,9 @@ toonSpeciesTypes = ['d',
  'p',
  'b',
  's',
- 'x']
+ 'x',
+ 'z',
+ 'a']
 toonHeadTypes = ['dls',
  'dss',
  'dsl',
@@ -55,7 +57,15 @@ toonHeadTypes = ['dls',
  'xls',
  'xss',
  'xsl',
- 'xll']
+ 'xll',
+ 'zls',
+ 'zss',
+ 'zsl',
+ 'zll',
+ 'als',
+ 'ass',
+ 'asl',
+ 'all']
 
 def getHeadList(species):
     headList = []
@@ -100,6 +110,10 @@ def getSpeciesName(head):
         speciesName = 'pig'
     elif species == 'x':
         speciesName = 'deer'
+    elif species == 'z':
+        speciesName = 'beaver'
+    elif species == 'a':
+        speciesName = 'alligator'
     return speciesName
 
 
@@ -112,14 +126,18 @@ toonHeadAnimalIndices = [0,
  22,
  26,
  30,
- 34]
+ 34,
+ 38,
+ 42]
 toonHeadAnimalIndicesTrial = [0,
  4,
  12,
  14,
  18,
  30,
- 34]
+ 34,
+ 38,
+ 42]
 allToonHeadAnimalIndices = [0,
  1,
  2,
@@ -157,7 +175,15 @@ allToonHeadAnimalIndices = [0,
  34,
  35,
  36,
- 37]
+ 37,
+ 38,
+ 39,
+ 40,
+ 41,
+ 42,
+ 43,
+ 44,
+ 45]
 allToonHeadAnimalIndicesTrial = [0,
  1,
  2,
@@ -179,7 +205,11 @@ allToonHeadAnimalIndicesTrial = [0,
  30,
  31,
  32,
- 33]
+ 33,
+ 34,
+ 35,
+ 36,
+ 37]
 toonTorsoTypes = ['ss',
  'ms',
  'ls',
@@ -2893,10 +2923,7 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         self.gender = gender
         if not npc:
             if stage == MAKE_A_TOON:
-                if not base.cr.isPaid():
-                    animalIndicesToUse = allToonHeadAnimalIndicesTrial
-                else:
-                    animalIndicesToUse = allToonHeadAnimalIndices
+                animalIndicesToUse = allToonHeadAnimalIndicesTrial
                 animal = generator.choice(animalIndicesToUse)
                 self.head = toonHeadTypes[animal]
             else:
@@ -2982,6 +3009,10 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return 'pig'
         elif self.head[0] == 'x':
             return 'deer'
+        elif self.head[0] == 'z':
+            return 'beaver'
+        elif self.head[0] == 'a':
+            return 'alligator'
         else:
             notify.error('unknown headStyle: ', self.head[0])
 
