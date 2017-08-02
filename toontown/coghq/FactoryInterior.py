@@ -69,7 +69,6 @@ class FactoryInterior(BattlePlace.BattlePlace):
         self.parentFSM.getStateNamed('factoryInterior').addChild(self.fsm)
         BattlePlace.BattlePlace.load(self)
         self.music = base.loader.loadMusic('phase_9/audio/bgm/CHQ_FACT_bg.ogg')
-        self.loader.battleMusic = base.loadMusic('phase_9/audio/bgm/encntr_fact.ogg')
 
     def unload(self):
         self.parentFSM.getStateNamed('factoryInterior').removeChild(self.fsm)
