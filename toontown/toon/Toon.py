@@ -48,6 +48,7 @@ PigDialogueArray = []
 DeerDialogueArray = []
 BeaverDialogueArray = []
 AlligatorDialogueArray = []
+FoxDialogueArray = []
 LegsAnimDict = {}
 TorsoAnimDict = {}
 HeadAnimDict = {}
@@ -395,6 +396,11 @@ def loadDialog():
     global AlligatorDialogueArray
     for file in gatorDialogFiles:
         AlligatorDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
+		
+    foxDialogFiles = ('AV_fox_short', 'AV_fox_med', 'AV_fox_long', 'AV_fox_question', 'AV_fox_exclaim', 'AV_fox_howl')
+    global FoxDialogueArray
+    for file in foxDialogFiles:
+        FoxDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
 
 def unloadDialog():
     global CatDialogueArray
@@ -409,6 +415,7 @@ def unloadDialog():
     global DeerDialogueArray
     global BeaverDialogueArray
     global AlligatorDialogueArray
+    global FoxDialogueArray
     DogDialogueArray = []
     CatDialogueArray = []
     HorseDialogueArray = []
@@ -421,6 +428,7 @@ def unloadDialog():
     DeerDialogueArray = []
     BeaverDialogueArray = []
     AlligatorDialogueArray = []
+    FoxDialogueArray = []
 
 
 class Toon(Avatar.Avatar, ToonHead):
@@ -1237,6 +1245,8 @@ class Toon(Avatar.Avatar, ToonHead):
                 dialogueArray = BeaverDialogueArray
             elif animalType == 'alligator':
                 dialogueArray = AlligatorDialogueArray
+            elif animalType == 'fox':
+                dialogueArray = FoxDialogueArray
             else:
                 dialogueArray = None
         return dialogueArray
