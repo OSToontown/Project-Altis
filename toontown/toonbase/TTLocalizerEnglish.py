@@ -5191,8 +5191,9 @@ AnimalToSpecies = {'dog': 'Dog',
  'deer': 'Deer',
  'beaver': 'Beaver',
  'alligator': 'Alligator',
- 'fox': 'Fox'}
-AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox')
+ 'fox': 'Fox',
+ 'bat': 'Bat'}
+AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox', 'Bat')
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
