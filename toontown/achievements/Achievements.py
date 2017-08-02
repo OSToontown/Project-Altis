@@ -76,6 +76,8 @@ class VPAchievement:
         if self.isSolo:
             if solo:
                 return 1
+            else:
+                return 0
         if times >= self.neededTimes:
             return 1
         else:
