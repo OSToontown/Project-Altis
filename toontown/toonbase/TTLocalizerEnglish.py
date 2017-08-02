@@ -592,6 +592,8 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  68: ['Cash', 'Rolls of Cash', 'some '],
  110: ['TIP Clothing Ticket', 'Clothing Tickets', 'a '],
  1000: ['Clothing Ticket', 'Clothing Tickets', 'a '],
+ 1001: ['Dried Suit', 'Dried Suits', 'a '],
+ 1002: ['Signed Check', 'Signed Checks', 'a '],
  2001: ['Textbook', 'Textbooks', 'a '],
  2002: ['Magnifying Glass', 'Magnifying Glasses', 'a '],
  2003: ['Lime', 'Limes', 'some '],
@@ -1132,7 +1134,23 @@ QuestDialogDict = {
  3213: {GREETING: '',
 		QUEST: "Finally, we don't want to scare the new toon away with those tall, disgusting buildings.\x07Take down a few and then I'll give you a neat reward.",
 		COMPLETE: "Thank you for all your hard work in helping me.\x07I'll be sure to tell this new toon about you, you're a great citizen!\x07Here's a big reward for you...",
+		LEAVING: ''},
+		
+ 4000: {QUEST: "I'm not sure exactly why, but _toNpcName_ is looking for help.\x07Please go see what's wrong with her._where_"},
+ 4001: {GREETING: '',
+		QUEST: "Oh, thank you for taking my request!\x07You see, the Bossbots came in here and took all my dried suits!\x07I think there were about 10 of them. Please get them before customers expect their suits back!",
+		LEAVING: ''},
+ 4002: {GREETING: '',
+		QUEST: "Thank goodness you got them back.\x07One of my customers came in while you were out recovering the dried suits and I told him you'd deliver it once you got back._where_",
+		LEAVING: "Make sure you don't leave without a signed check!"},
+ 4003: {GREETING: 'Ahoy, me bucko!',
+		QUEST: "Ah, that be me dry cleaning, thanks matey!\x07Eh? A signed check?\x07Errr, I gotta clear something up with me bank before I sign ye a check.\x07While I do that, maybe ye can defeat some of them big meaty Cogs on this street.",
+		LEAVING: "Good luck matey!"},
+ 4004: {GREETING: '',
+		QUEST: "Argh, here be me check.\x07Return it to _toNpcName_.",
+		COMPLETE: "Thanks so much for your help!\x07Here's a reward...",
 		LEAVING: ''}}
+		
   
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
@@ -9845,3 +9863,4 @@ Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
 			
 GatorChatter = ["Don't be a hater, vote for Gator!", 'My favorite jellybean color is green.', 'Wooow! I hope I win the election!', 'How are you guys doing?']
 BeaverChatter = ["Got spring fever? Vote for Beaver!", 'My favorite jellybean color is brown.', "If I win, I will build new houses for all toons. How does that sound?", "Gator's alright, but you beaver belive that I'm winning.", 'Be a believer! Vote Beaver!']
+
