@@ -23,7 +23,8 @@ if not base.config.GetBool('want-new-anims', 1):
      's': '/models/char/pig-heads-',
      'x': '/models/char/deer-heads-',
      'z': '/models/char/beaver-heads-',
-     'a': '/models/char/alligator-heads-'}
+     'a': '/models/char/alligator-heads-',
+     'v': '/models/char/fox-heads-'}
 else:
     HeadDict = {'dls': '/models/char/tt_a_chr_dgm_shorts_head_',
      'dss': '/models/char/tt_a_chr_dgm_skirt_head_',
@@ -39,7 +40,8 @@ else:
      's': '/models/char/pig-heads-',
      'x': '/models/char/deer-heads-',
      'z': '/models/char/beaver-heads-',
-     'a': '/models/char/alligator-heads-'}
+     'a': '/models/char/alligator-heads-',
+     'v': '/models/char/fox-heads-'}
 EyelashDict = {'d': '/models/char/dog-lashes',
  'c': '/models/char/cat-lashes',
  'h': '/models/char/horse-lashes',
@@ -51,7 +53,8 @@ EyelashDict = {'d': '/models/char/dog-lashes',
  's': '/models/char/pig-lashes',
  'x': '/models/char/deer-lashes',
  'z': '/models/char/beaver-lashes',
- 'a': '/models/char/alligator-lashes'}
+ 'a': '/models/char/alligator-lashes',
+ 'v': '/models/char/fox-lashes'}
 DogMuzzleDict = {'dls': '/models/char/dogMM_Shorts-headMuzzles-',
  'dss': '/models/char/dogMM_Skirt-headMuzzles-',
  'dsl': '/models/char/dogSS_Shorts-headMuzzles-',
@@ -443,6 +446,22 @@ class ToonHead(Actor.Actor):
             filePrefix = HeadDict['a']
             fix = self.__fixHeadLongLong
             headHeight = 0.75
+        elif headStyle == 'vls':
+            filePrefix = HeadDict['v']
+            fix = self.__fixHeadLongShort
+            headHeight = 0.75
+        elif headStyle == 'vss':
+            filePrefix = HeadDict['v']
+            fix = self.__fixHeadShortShort
+            headHeight = 0.5
+        elif headStyle == 'vsl':
+            filePrefix = HeadDict['v']
+            fix = self.__fixHeadShortLong
+            headHeight = 0.5
+        elif headStyle == 'vll':
+            filePrefix = HeadDict['v']
+            fix = self.__fixHeadLongLong
+            headHeight = 0.75
         else:
             ToonHead.notify.error('unknown head style: %s' % headStyle)
         if len(lods) == 1:
@@ -644,7 +663,7 @@ class ToonHead(Actor.Actor):
         parts = self.findAllMatches('**/head*')
         parts.setColor(style.getHeadColor())
         animalType = style.getAnimal()
-        if animalType == 'cat' or animalType == 'rabbit' or animalType == 'bear' or animalType == 'mouse' or animalType == 'pig' or animalType =='deer' or animalType == 'beaver':
+        if animalType == 'cat' or animalType == 'rabbit' or animalType == 'bear' or animalType == 'mouse' or animalType == 'pig' or animalType =='deer' or animalType == 'beaver' or animalType == 'fox':
             parts = self.findAllMatches('**/ear?-*')
             parts.setColor(style.getHeadColor())
 

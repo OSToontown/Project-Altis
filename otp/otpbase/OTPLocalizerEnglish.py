@@ -303,6 +303,8 @@ SCMenuWinter = 'WINTER'
 SCMenuSellbotInvasion = 'SELLBOT INVASION'
 SCMenuFieldOffice = 'FIELD OFFICES'
 SCMenuIdesOfMarch = 'GREEN'
+SCMenuElection = 'ELECTION'
+SCMenuSlogans = 'SLOGANS'
 ScMenuBugs = 'Bugs'
 FriendSecretNeedsPasswordWarningTitle = 'Parental Controls'
 FriendSecretNeedsParentLoginWarning = 'To get or enter a True Friend Code, log in with the Parent Account.  You can disable this prompt by changing your True Friend options.'
@@ -1537,6 +1539,21 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  10005: 'Be a honey! Vote Bear!',
  10006: 'Think big! Vote Pig!',
  10007: "Vote Goat - and that's all she wrote!",
+ 15000: "Don't be a brat, vote for Bat!",
+ 15001: 'Fox Rox!',
+ 15002: 'Got spring fever? Vote for Beaver!',
+ 15003: "Don't be a hater, vote for Gator!",
+ 15004: 'Sing some tunes and vote Racoon!',
+ 15005: 'Which species are you voting for?',
+ 15006: 'I hope Bat wins.',
+ 15007: 'I hope Fox wins.',
+ 15008: 'I hope Beaver wins.',
+ 15009: 'I hope Gator wins.',
+ 15010: 'I hope Raccoon wins.',
+ 15011: "I can't wait for the election!",
+ 15012: "It's so tough to choose!",
+ 15013: "I don't like any of the candidates...",
+ 15014: "I love ALL the candidates!",
  20000: SuitBrushOffs[None][0],
  20001: SuitBrushOffs[None][1],
  20002: SuitBrushOffs[None][2],
