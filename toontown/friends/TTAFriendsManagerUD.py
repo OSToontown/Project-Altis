@@ -254,7 +254,6 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
-                self.notify.info("Somebody tried to use MITM!")
                 self.blockedAvIds.append(senderId)
                 return
             inventory = fields['setInventory'][0]
@@ -278,7 +277,6 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
             senderId = self.air.getAvatarIdFromSender()
             def handlePet(dclass, fields):
                 if dclass != self.air.dclassesByName['DistributedPetAI']:
-                    self.notify.info("Somebody tried to use MITM!")
                     self.blockedAvIds.append(senderId)
 
                 dna = [fields.get(x, [0])[0] for x in ("setHead", "setEars", "setNose", "setTail", "setBodyTexture", "setColor",
