@@ -5196,8 +5196,9 @@ AnimalToSpecies = {'dog': 'Dog',
  'beaver': 'Beaver',
  'alligator': 'Alligator',
  'fox': 'Fox',
- 'bat': 'Bat'}
-AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox', 'Bat')
+ 'bat': 'Bat',
+ 'raccoon': 'Raccoon'}
+AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox', 'Bat', 'Raccoon')
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
@@ -9853,3 +9854,4 @@ GatorChatter = ["Don't be a hater, vote for Gator!", 'My favorite jellybean colo
 BeaverChatter = ["Got spring fever? Vote for Beaver!", 'My favorite jellybean color is brown.', "If I win, I will build new houses for all toons. How does that sound?", "Gator's alright, but you beaver belive that I'm winning.", 'Be a believer! Vote Beaver!']
 FoxChatter = ["Fox Rox!", 'My favorite jellybean color is orange.', "I'm adorable, how could you not vote for me? Owoooo!", "I'm the perfect combination of cat and dog!", 'Nobody mocks the fox, ya hear?']
 BatChatter = ["Don't be a brat, vote for Bat!", 'My favorite jellybean color is black.', "Whoooo dares awaken me!", "Got questions?", 'I gotta earn my wings, first.']
+RaccoonChatter = ["Sing some tunes and vote Raccoon!", 'My favorite jellybean color is purple.', "Oooh! There is half of an apple in here!", 'My friends call me "Trash Panda."', "I'm not rabid, I swear!"]

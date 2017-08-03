@@ -261,10 +261,10 @@ class BodyShop(StateData.StateData):
                (.3, 0, .1),  (.6, 0, .1),  (.9, 0, .1),
                (.3, 0, -.1), (.6, 0, -.1), (.9, 0, -.1),
                (.3, 0, -.3), (.6, 0, -.3), (.9, 0, -.3),
-               (.3, 0, -.5), (.6, 0, -.5)
+               (.3, 0, -.5), (.6, 0, -.5), (.9, 0, -.5)
               )
         
-        for x in xrange(len(ToonDNA.toonSpeciesTypes)-4):
+        for x in xrange(len(ToonDNA.toonSpeciesTypes)-5):
             name = TTLocalizer.AllSpecies[x]
             btn = DirectButton(relief = None, text_style = 3, image = (shuffleUp, shuffleDown, shuffleUp, shuffleDown), 
             image_scale = (0.6, 0.7, 0.7), image1_scale = (0.63, 0.7, 0.7), image2_scale = (0.63, 0.7, 0.7),
