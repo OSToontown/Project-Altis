@@ -11,15 +11,16 @@ class DistributedPublicPetAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.owner = owner
         self.proxy = None
+        self.proxyDo = 0
         self.petId = 0
 
     def acquireProxyFields(self):
         if self.proxy == None:
-            notify.warning("No pet proxy is present in public pet %d" % self.doId)
+            DistributedPublicPetAI.notify.warning("No pet proxy is present in public pet %d" % self.doId)
             return
 
         if self.owner.getPetId() == 0:
-            notify.warning("Toon %d doesn't have a pet" % owner.doId)
+            DistributedPublicPetAI.notify.warning("Toon %d doesn't have a pet" % self.owner.doId)
 
         self.petId = self.owner.getPetId()
         def handleGenerate(pet):
@@ -65,7 +66,7 @@ class DistributedPublicPetAI(DistributedObjectAI.DistributedObjectAI):
             self.proxy.setTrickAptitudes(pet.getTrickAptitudes())
             pet.requestDelete()
 
-            def activatePet(self):
+            def activatePet(task):
                 self.proxy.doNotDeallocateChannel = True
                 self.proxy.generateWithRequiredAndId(self.petId, self.owner.air.districtId, self.owner.zoneId)
                 self.proxy.broadcastDominantMood()
@@ -92,9 +93,13 @@ class DistributedPublicPetAI(DistributedObjectAI.DistributedObjectAI):
     def setProxyDo(self, do):
         self.proxyDo = do
 
+    def getProxyDo(self):
+        return self.proxyDo
+
     def b_setProxyDo(self, do):
         self.d_setProxyDo(do)
         self.setProxyDo(do)
 
     def d_setProxyDo(self, do):
         self.sendUpdate('setProxyDo', [do])
+

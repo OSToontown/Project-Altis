@@ -53,6 +53,7 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.TTLocalizerEnglish import SuitNameDropper
+from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
 from datetime import datetime
 
 if simbase.wantPets:
@@ -5743,9 +5744,8 @@ def getZone():
 @magicWord(category=CATEGORY_PROGRAMMER)
 def petTest():
     invoker = spellbook.getInvoker()
-    import toontown.pets.DistributedPublicPetAI
-    pet = DistributedPublicPetAI.DistributedPublicPetAI(simbase.air, invoker)
-    pet.generateWithRequired(simbase.air)
+    pet = DistributedPublicPetAI(simbase.air, invoker)
+    pet.generateWithRequired(invoker.zoneId)
     return 'Generated pet'
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])

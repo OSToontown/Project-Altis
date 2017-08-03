@@ -4007,6 +4007,15 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 dclass DistributedRainManager : DistributedWeatherMGR {
   spawnLightning(int16, int16) broadcast ram;
 };"""
+
+######## TURN ME OFF IN PRODUCTION ########
+if False:
+    with open('astron/dclass/toon.dc', 'r') as dc:
+        content = dc.read()
+
+    dcString = content
+
+
 dcStream = StringStream(dcString)
 def getDcStream():
     return dcStream

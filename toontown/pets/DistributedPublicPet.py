@@ -13,20 +13,20 @@ class DistributedPublicPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet,
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, cr)
         Pet.Pet.__init__(self)
         self.proxyDo = 0
-
-    def generate(self):
-        notify.info("Received generate")
-        DistributedSmoothNode.DistributedSmoothNode.generate(self)
+        self.proxy = None
 
     def beginPublicDisplay(self):
-        notify.info("Received begin for public display")
+        DistributedPublicPet.notify.info("Received begin for public display")
 
     def announceGenerate(self):
-        notify.info("Generated %d" % self.doId)
+        DistributedPublicPet.notify.info("Generated %d" % self.doId)
         DistributedSmoothNode.DistributedSmoothNode.announceGenerate(self)
 
     def setProxyDo(self, do):
+        DistributedPublicPet.notify.info("Acquired proxy; doId %d" % do)
         self.proxyDo = do
+        self.proxy = base.cr.doId2do[do]
+        print(self.proxy)
 
     def __initCollisions(self):
         cRay = CollisionRay(0.0, 0.0, 40000.0, 0.0, 0.0, -1.0)

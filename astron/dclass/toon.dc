@@ -3064,7 +3064,7 @@ dclass DistributedPetProxy : DistributedPet {
 };
 
 dclass DistributedPublicPet : DistributedSmoothNode {
- setProxyDo(uint32) required broadcast;
+ setProxyDo(uint32) broadcast;
  beginPublicDisplay(uint32) broadcast;
 }
 
