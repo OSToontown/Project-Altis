@@ -409,7 +409,7 @@ def loadDialog():
     for file in batDialogFiles:
         BatDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
 		
-    raccoonDialogFiles = ('AV_bat_short', 'AV_bat_med', 'AV_bat_long', 'AV_bat_question', 'AV_bat_exclaim', 'AV_bat_howl')
+    raccoonDialogFiles = ('AV_raccoon_short', 'AV_raccoon_med', 'AV_raccoon_long', 'AV_raccoon_question', 'AV_raccoon_exclaim', 'AV_raccoon_howl')
     global RaccoonDialogueArray
     for file in raccoonDialogFiles:
         RaccoonDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
