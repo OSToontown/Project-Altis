@@ -50,6 +50,7 @@ BeaverDialogueArray = []
 AlligatorDialogueArray = []
 FoxDialogueArray = []
 BatDialogueArray = []
+RaccoonDialogueArray = []
 LegsAnimDict = {}
 TorsoAnimDict = {}
 HeadAnimDict = {}
@@ -407,6 +408,11 @@ def loadDialog():
     global BatDialogueArray
     for file in batDialogFiles:
         BatDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
+		
+    raccoonDialogFiles = ('AV_bat_short', 'AV_bat_med', 'AV_bat_long', 'AV_bat_question', 'AV_bat_exclaim', 'AV_bat_howl')
+    global RaccoonDialogueArray
+    for file in raccoonDialogFiles:
+        RaccoonDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
 
 def unloadDialog():
     global CatDialogueArray
@@ -423,6 +429,7 @@ def unloadDialog():
     global AlligatorDialogueArray
     global FoxDialogueArray
     global BatDialogueArray
+    global RaccoonDialogueArray
     DogDialogueArray = []
     CatDialogueArray = []
     HorseDialogueArray = []
@@ -437,7 +444,7 @@ def unloadDialog():
     AlligatorDialogueArray = []
     FoxDialogueArray = []
     BatDialogueArray = []
-
+    RaccoonDialogueArray = []
 
 class Toon(Avatar.Avatar, ToonHead):
     notify = DirectNotifyGlobal.directNotify.newCategory('Toon')
@@ -1257,6 +1264,8 @@ class Toon(Avatar.Avatar, ToonHead):
                 dialogueArray = FoxDialogueArray
             elif animalType == 'bat':
                 dialogueArray = BatDialogueArray
+            elif animalType == 'raccoon':
+                dialogueArray = RaccoonDialogueArray
             else:
                 dialogueArray = None
         return dialogueArray
