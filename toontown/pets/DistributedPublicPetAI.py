@@ -1,14 +1,14 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
-from toontown.pets import DistributedPetProxyAI
+from toontown.pets import DistributedPetProxyAI, DistributedPetAI
 from direct.task import Task
 
 
-class DistributedPublicPetAI(DistributedObjectAI.DistributedObjectAI):
+class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetAI')
 
     def __init__(self, air, owner):
-        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
+        DistributedPetAI.DistributedPetAI.__init__(self, air)
         self.owner = owner
         self.proxy = None
         self.proxyDo = 0
@@ -24,53 +24,49 @@ class DistributedPublicPetAI(DistributedObjectAI.DistributedObjectAI):
 
         self.petId = self.owner.getPetId()
         def handleGenerate(pet):
-            self.proxy.setOwnerId(pet.getOwnerId())
-            self.proxy.setPetName(pet.getPetName())
-            self.proxy.setTraitSeed(pet.getTraitSeed())
-            self.proxy.setSafeZone(pet.getSafeZone())
-            self.proxy.setForgetfulness(pet.getForgetfulness())
-            self.proxy.setBoredomThreshold(pet.getBoredomThreshold())
-            self.proxy.setRestlessnessThreshold(pet.getRestlessnessThreshold())
-            self.proxy.setPlayfulnessThreshold(pet.getPlayfulnessThreshold())
-            self.proxy.setLonelinessThreshold(pet.getLonelinessThreshold())
-            self.proxy.setSadnessThreshold(pet.getSadnessThreshold())
-            self.proxy.setFatigueThreshold(pet.getFatigueThreshold())
-            self.proxy.setHungerThreshold(pet.getHungerThreshold())
-            self.proxy.setConfusionThreshold(pet.getConfusionThreshold())
-            self.proxy.setExcitementThreshold(pet.getExcitementThreshold())
-            self.proxy.setAngerThreshold(pet.getAngerThreshold())
-            self.proxy.setSurpriseThreshold(pet.getSurpriseThreshold())
-            self.proxy.setAffectionThreshold(pet.getAffectionThreshold())
-            self.proxy.setHead(pet.getHead())
-            self.proxy.setEars(pet.getEars())
-            self.proxy.setNose(pet.getNose())
-            self.proxy.setTail(pet.getTail())
-            self.proxy.setBodyTexture(pet.getBodyTexture())
-            self.proxy.setColor(pet.getColor())
-            self.proxy.setColorScale(pet.getColorScale())
-            self.proxy.setEyeColor(pet.getEyeColor())
-            self.proxy.setGender(pet.getGender())
-            self.proxy.setLastSeenTimestamp(pet.getLastSeenTimestamp())
-            self.proxy.setBoredom(pet.getBoredom())
-            self.proxy.setRestlessness(pet.getRestlessness())
-            self.proxy.setPlayfulness(pet.getPlayfulness())
-            self.proxy.setLoneliness(pet.getLoneliness())
-            self.proxy.setSadness(pet.getSadness())
-            self.proxy.setAffection(pet.getAffection())
-            self.proxy.setHunger(pet.getHunger())
-            self.proxy.setConfusion(pet.getConfusion())
-            self.proxy.setExcitement(pet.getExcitement())
-            self.proxy.setFatigue(pet.getFatigue())
-            self.proxy.setAnger(pet.getAnger())
-            self.proxy.setSurprise(pet.getSurprise())
-            self.proxy.setTrickAptitudes(pet.getTrickAptitudes())
+            self.setOwnerId_b(pet.getOwnerId())
+            self.setPetName_b(pet.getPetName())
+            self.setTraitSeed_b(pet.getTraitSeed())
+            self.setSafeZone_b(pet.getSafeZone())
+            self.setForgetfulness_b(pet.getForgetfulness())
+            self.setBoredomThreshold_b(pet.getBoredomThreshold())
+            self.setRestlessnessThreshold_b(pet.getRestlessnessThreshold())
+            self.setPlayfulnessThreshold_b(pet.getPlayfulnessThreshold())
+            self.setLonelinessThreshold_b(pet.getLonelinessThreshold())
+            self.setSadnessThreshold_b(pet.getSadnessThreshold())
+            self.setFatigueThreshold_b(pet.getFatigueThreshold())
+            self.setHungerThreshold_b(pet.getHungerThreshold())
+            self.setConfusionThreshold_b(pet.getConfusionThreshold())
+            self.setExcitementThreshold_b(pet.getExcitementThreshold())
+            self.setAngerThreshold_b(pet.getAngerThreshold())
+            self.setSurpriseThreshold_b(pet.getSurpriseThreshold())
+            self.setAffectionThreshold_b(pet.getAffectionThreshold())
+            self.setHead_b(pet.getHead())
+            self.setEars_b(pet.getEars())
+            self.setNose_b(pet.getNose())
+            self.setTail_b(pet.getTail())
+            self.setBodyTexture_b(pet.getBodyTexture())
+            self.setColor_b(pet.getColor())
+            self.setColorScale_b(pet.getColorScale())
+            self.setEyeColor_b(pet.getEyeColor())
+            self.setGender_b(pet.getGender())
+            self.setLastSeenTimestamp_b(pet.getLastSeenTimestamp())
+            self.setBoredom_b(pet.getBoredom())
+            self.setRestlessness_b(pet.getRestlessness())
+            self.setPlayfulness_b(pet.getPlayfulness())
+            self.setLoneliness_b(pet.getLoneliness())
+            self.setSadness_b(pet.getSadness())
+            self.setAffection_b(pet.getAffection())
+            self.setHunger_b(pet.getHunger())
+            self.setConfusion_b(pet.getConfusion())
+            self.setExcitement_b(pet.getExcitement())
+            self.setFatigue_b(pet.getFatigue())
+            self.setAnger_b(pet.getAnger())
+            self.setSurprise_b(pet.getSurprise())
+            self.setTrickAptitudes_b(pet.getTrickAptitudes())
             pet.requestDelete()
 
             def activatePet(task):
-                self.proxy.doNotDeallocateChannel = True
-                self.proxy.generateWithRequiredAndId(self.petId, self.owner.air.districtId, self.owner.zoneId)
-                self.proxy.broadcastDominantMood()
-                self.b_setProxyDo(self.proxy.doId)
                 return Task.done
 
             self.acceptOnce(self.air.getAvatarExitEvent(self.petId),
@@ -83,23 +79,10 @@ class DistributedPublicPetAI(DistributedObjectAI.DistributedObjectAI):
     def generate(self):
         self.proxy = DistributedPetProxyAI.DistributedPetProxyAI(self.air)
         self.acquireProxyFields()
-        DistributedObjectAI.DistributedObjectAI.generate(self)
+        DistributedPetAI.DistributedPetAI.generate(self)
 
     def announceGenerate(self):
         self.setLocation(self.owner.air.districtId, self.owner.zoneId)
-        # self.sendUpdate("beginPublicDisplay", [])
-        DistributedObjectAI.DistributedObjectAI.announceGenerate(self)
+        DistributedPetAI.DistributedPetAI.announceGenerate(self)
 
-    def setProxyDo(self, do):
-        self.proxyDo = do
-
-    def getProxyDo(self):
-        return self.proxyDo
-
-    def b_setProxyDo(self, do):
-        self.d_setProxyDo(do)
-        self.setProxyDo(do)
-
-    def d_setProxyDo(self, do):
-        self.sendUpdate('setProxyDo', [do])
 

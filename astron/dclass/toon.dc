@@ -3063,8 +3063,7 @@ dclass DistributedPetProxy : DistributedPet {
   setDominantMood(string) broadcast ram;
 };
 
-dclass DistributedPublicPet : DistributedSmoothNode {
- setProxyDo(uint32) broadcast;
+dclass DistributedPublicPet : DistributedPet {
  beginPublicDisplay(uint32) broadcast;
 }
 
