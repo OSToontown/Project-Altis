@@ -11,6 +11,7 @@ class DistributedPublicPetAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.owner = owner
         self.proxy = None
+        self.petId = 0
 
     def acquireProxyFields(self):
         if self.proxy == None:
