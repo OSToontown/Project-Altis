@@ -5740,6 +5740,14 @@ def getZone():
     zone = invoker.zoneId
     return 'ZoneID: %s' % (zone)
 
+@magicWord(category=CATEGORY_PROGRAMMER)
+def petTest():
+    invoker = spellbook.getInvoker()
+    import toontown.pets.DistributedPublicPetAI
+    pet = DistributedPublicPetAI.DistributedPublicPetAI(simbase.air, invoker)
+    pet.generateWithRequired(simbase.air)
+    return 'Generated pet'
+
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def nametagStyle(nametagStyle):
     currentAccess = spellbook.getInvokerAccess()
@@ -6059,4 +6067,3 @@ def i60Reset():
     if target != spellbook.getInvoker():
         return "Reset toon stats for i60 demo."
     return "Reset toon stats for i60 demo."
-	
