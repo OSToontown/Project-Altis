@@ -26,6 +26,26 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         self.accept('chatBan', self.banAvatar)
         self.accountId = 0
 
+    def chatMessage(self, message, fakeChatMode):
+        sender = self.air.getAvatarIdFromSender()
+        if not sender:
+            self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
+                                      'Account sent chat without an avatar', message)
+            return
+
+        if fakeChatMode != 0:
+            # We've caught a skid!
+            self.notify.warning('Fake chat mode was not zero for avatar %s' % sender)
+            return
+
+        av = self.air.doId2do.get(sender)
+        if not av:
+            return
+
+        chatMode = av.getChatMode()
+
+        self.sendUpdate('chatMessageAiToUd', [sender, message, chatMode])
+
     def chatMessageResponse(self, sender, message, modifications, chatMode):
         if sender not in self.air.doId2do.keys():
             # found an invalid sender!
@@ -53,9 +73,9 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         file = open(filename, 'a')
         file.write(strftime("%Y-%m-%d %H:%M:%S", gmtime()) + ': ' + str(sender) + '(%s)' % username  + ': ' + message + "\n")
         file.close()
-		
+
     def dbCallback(self, dclass, fields):
-        if dclass != simbase.air.dclassesByName['AccountAI']:
+        if dclass != self.air.dclassesByName['AccountAI']:
             return
 
         self.accountId = fields.get('ACCOUNT_ID')
@@ -64,7 +84,7 @@ class ChatAgentAI(DistributedObjectGlobalAI):
             return
 
     def getToonAccess(self, avId):
-        av = self.air.doId2do[avId]
+        av = self.air.doId2do.get(avId)
 
         if not av:
             return
@@ -96,7 +116,7 @@ class ChatAgentAI(DistributedObjectGlobalAI):
             self.notify.warning("Failed to send system message for %d" % (int(avId)))
             return
             
-        simbase.air.newsManager.sendSystemMessageToAvatar(av, message, 10)       
+        self.air.newsManager.sendSystemMessageToAvatar(av, message, 10)
     
     def updateWarnings(self, avId, count, doBan):
         av = self.air.doId2do.get(avId, 0)
