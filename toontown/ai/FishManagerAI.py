@@ -73,13 +73,6 @@ class FishManagerAI:
             return [itemType, genus, species, weight]
         elif itemType == FishGlobals.BootItem:
             return [itemType, 0, 0, 0]
-        elif itemType == FishGlobals.CertItem:
-            if random.random() < 0.005:
-                code = simbase.air.certManager.generateCode()
-                simbase.air.certManager.addCode(av, code)
-            else:
-                itemType = FishGlobals.BootItem
-            return [itemType, 0, 0, 0]
         elif itemType == FishGlobals.QuestItem:
             itemId = simbase.air.questManager.toonCaughtFishingItem(av)
 

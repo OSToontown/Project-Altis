@@ -24,8 +24,7 @@ BingoBoot = (BootItem, 99)
 ProbabilityDict = {94: FishItem,
                    92: QuestItem,
  95: JellybeanItem,
- 100: BootItem,
- 2: CertItem}
+ 100: BootItem}
 SortedProbabilityCutoffs = ProbabilityDict.keys()
 SortedProbabilityCutoffs.sort()
 Rod2JellybeanDict = {0: 10,
