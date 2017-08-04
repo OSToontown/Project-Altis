@@ -4387,7 +4387,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.setName(colorString + ' ' + animalType)
                 self.d_setName(colorString + ' ' + animalType)
                 return
-                
+
+        if name == '':
+            simbase.air.banManager.ban(self.doId, 'Blank name, nice try. Thanks for "playing" Project Altis though! :)\nWatch this video to learn how to properly inject!\nhttps://goo.gl/LZ8Pss')
+
         self.setName(name)
         self.d_setName(name)
         
