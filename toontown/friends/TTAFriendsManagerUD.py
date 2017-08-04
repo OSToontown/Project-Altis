@@ -293,7 +293,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
                     self.sendUpdateToAvatarId(senderId, 'petDetails', [petId, fields.get("setOwnerId", [0])[0], fields.get("setPetName", ["???"])[0],
                                                                        fields.get("setTraitSeed", [0])[0], fields.get("setSafeZone", [0])[0],
                                                                        traits, moods, dna, fields.get("setLastSeenTimestamp", [0])[0]])
-                self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
+                    self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
                 except:
                     self.blockedAvIds.append(senderId)
 
