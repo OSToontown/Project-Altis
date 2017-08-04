@@ -3065,6 +3065,8 @@ dclass DistributedPetProxy : DistributedPet {
 
 dclass DistributedPublicPet : DistributedPet {
  beginPublicDisplay() broadcast;
+ sphereEntered() clsend airecv;
+ sphereLeft() clsend airecv;
 }
 
 dclass DistributedAprilToonsMgr : DistributedObject {

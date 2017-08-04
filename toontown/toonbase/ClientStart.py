@@ -20,7 +20,7 @@ from panda3d.core import loadPrcFile
 # config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [BETA 1.0.5]
+window-title Project Altis [BETA 1.0.6]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -37,6 +37,7 @@ loader-num-threads 25
 # Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
+notify-level-DistributedPetAI info
 want-pstats #f
 
 # Audio:
@@ -191,12 +192,12 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Beta-1.0.5
+server-version TTPA-Beta-1.0.6
 shard-low-pop 50
 shard-mid-pop 80
 
 #Resources
-model-path /
+model-path ../resources
 
 # Core features:
 want-pets #t

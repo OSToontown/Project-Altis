@@ -12,6 +12,7 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
         DistributedPetAI.DistributedPetAI.__init__(self, air)
         self.owner = owner
         self.petId = 0
+        self.shouldMove = True
 
     def acquireProxyFields(self):
         if self.owner.getPetId() == 0:
@@ -74,12 +75,15 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
     def generate(self):
         DistributedPetAI.DistributedPetAI.generate(self)
 
+    def getFollowTaskName(self):
+        return self.uniqueName('petfollow-%d' % self.petId)
+
     def followTask(self, task):
-        if self.brain:
-            print(self.actionFSM.state)
+        print(self.actionFSM.state)
+        if self.brain and self.shouldMove == True:
             self.mover.walkToAvatar(self.owner)
 
-        taskMgr.doMethodLater(random.uniform(0.1, 0.3), self.followTask, self.uniqueName('petfollow-%d' % self.petId))
+        taskMgr.doMethodLater(random.uniform(0.2, 0.7), self.followTask, self.getFollowTaskName())
 
     def announceGenerate(self):
         self.acquireProxyFields()
@@ -87,7 +91,7 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
         def finishGenerate(task):
             self.sendUpdate('beginPublicDisplay', [])
-            DistributedPetAI.DistributedPetAI.announceGenerate(self)
+            DistributedPetAI.DistributedPetAI.announceGenerate(self, public = True)
 
             position = self.owner.getPos() - Point3(-1, -1, 0)
             self.d_setPos(position.getX(), position.getY(), position.getZ())
@@ -95,8 +99,26 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
             # Start following the toon
             taskMgr.doMethodLater(3.5, self.followTask, self.uniqueName('followStart'))
 
-
         # Leave a second so that doodle data can be fetched
-        taskMgr.doMethodLater(1, finishGenerate, self.uniqueName('petactivate-%d') % self.petId)
+        taskMgr.doMethodLater(2, finishGenerate, self.uniqueName('petactivate-%d') % self.petId)
+
+    def sphereEntered(self):
+        if self.air.getAvatarIdFromSender() != self.owner.doId:
+            self.notify.info("Invalid sphere update sent to pet %d" % self.petId)
+            return
+
+        self.shouldMove = False
+
+    def sphereLeft(self):
+        if self.air.getAvatarIdFromSender() != self.owner.doId:
+            self.notify.info("Invalid sphere update sent to pet %d" % self.petId)
+            return
+
+        self.shouldMove = True
+
+    def disable(self):
+        self.ignoreAll()
+        taskMgr.remove(self.getFollowTaskName())
+        DistributedObject.DistributedObject.disable(self)
 
 

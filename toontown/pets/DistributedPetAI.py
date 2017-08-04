@@ -55,6 +55,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.__generateDistTraitFuncs()
         self.__generateDistMoodFuncs()
         self.busy = 0
+        self.public = False
         self.gaitFSM = ClassicFSM.ClassicFSM('petGaitFSM', [State.State('off', self.gaitEnterOff, self.gaitExitOff),
          State.State('neutral', self.gaitEnterNeutral, self.gaitExitNeutral),
          State.State('happy', self.gaitEnterHappy, self.gaitExitHappy),
@@ -370,13 +371,13 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         return max(0.0, t)
 
     def __handleMoodSet(self, component, value):
-        if self.isGenerated():
+        if self.isGenerated() and self.mood:
             self.mood.setComponent(component, value)
         else:
             self.requiredMoodComponents[component] = value
 
     def __handleMoodGet(self, component):
-        if self.isGenerated():
+        if self.isGenerated() and self.mood:
             return self.mood.getComponent(component)
         else:
             return 0.0
@@ -450,7 +451,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             else:
                 self.setTrickAptitudes(aptitudes, local=1)
 
-    def announceGenerate(self):
+    def announceGenerate(self, public = False):
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
         self._hasCleanedUp = False
         self.setHasRequestedDelete(False)
@@ -464,6 +465,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.feedLogger = ServerEventBuffer.ServerEventAccumulator(self.air, 'petFeedings', self.doId)
         self.scratchLogger = ServerEventBuffer.ServerEventAccumulator(self.air, 'petScratchings', self.doId)
         self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
+        self.public = public
         if not hasattr(self, '_beingCreatedInDB'):
             for i in xrange(len(self.traitList)):
                 value = self.traitList[i]
@@ -494,6 +496,10 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.brain = PetBrain.PetBrain(self)
         self.mover = PetMoverAI(self)
         self.lockMover = PetMoverAI(self)
+        if public == True:
+            self.mover.fwdSpeed = 30
+            self.lockMover.fwdSpeed = 30
+
         self.createImpulses()
         self.enterPetLook()
         self.actionFSM = PetActionFSM.PetActionFSM(self)
@@ -671,8 +677,9 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             self.stopPosHprBroadcast()
             self.requestDelete()
             return Task.done
-            
-        taskMgr.doMethodLater(simbase.petMovePeriod, self.move, self.getMoveTaskName())
+
+        if self.public == False:
+            taskMgr.doMethodLater(simbase.petMovePeriod, self.move, self.getMoveTaskName())
         
     def startPosHprBroadcast(self):
         if self._outOfBounds:

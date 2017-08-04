@@ -64,8 +64,7 @@ class PetChase(Impulse.Impulse):
             vH = -rotSpeed
         elif relH > epsilon:
             vH = rotSpeed
-        else:
-            vH = 0
+
         if abs(vH * dt) > abs(relH):
             vH = relH / dt
         if distance > self.minDist and abs(relH) < self.moveAngle:
