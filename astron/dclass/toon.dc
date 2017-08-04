@@ -978,8 +978,8 @@ dclass DistributedToon : DistributedPlayer {
   toonUp(uint16) broadcast ownrecv;
   takeDamage(uint16) broadcast ownrecv;
   setBattleId(uint32 = 0) required broadcast ram;
-  setToonExp(int32 exp = 0) required broadcast ownrecv db;
-  setToonLevel(int32 level = 0) required broadcast ownrecv db;
+  setToonExp(uint32 exp = 0) required broadcast ownrecv db;
+  setToonLevel(uint8 level = 0) required broadcast ram db;
   setTrueFriends(uint32[] = []) ownrecv required db airecv;
   setTrueFriendRequest(uint32[] = [0, 0]) ram airecv;
   setExperience(blob = [0*16]) required broadcast db;
@@ -3900,10 +3900,10 @@ dclass TTAFriendsManager : DistributedObjectGlobal {
 
   getAvatarDetails(uint32) clsend;
   getPetDetails(uint32) clsend;
-  
+
   friendDetails(uint32, blob, uint16[], uint16, int16, int16, uint32, uint32, blob, blob, int8[]);
   petDetails(uint32, uint32, string, uint32, uint32, uint16/1000[], PetTrait[], int8[], uint32);
-  
+
   routeTeleportQuery(uint32 toId) clsend;
   teleportQuery(uint32 fromId);
 

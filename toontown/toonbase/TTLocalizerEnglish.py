@@ -980,7 +980,7 @@ QuestDialogDict = {
 		LEAVING: ''},
  #AA Task Four
  3030: {QUEST: "Looks like there's an issue at the insurance agency._where_"},
- 3031: {QUEST: "The Ambulance Chasers have been causing issues to the Toons around here.\x07They get in accidents often with them and when they need to exchange insurance information, those Cogs just run off with their insurance cards!\x07A Toon just called in and said her insurance card was taken, so I suspect it was an Ambulance Chaser.\x07Why not take some down and see if you can get it back?"},
+ 3031: {QUEST: "The Ambulance Chasers have been causing issues to the Toons around here.\x07They get in accidents often with them and when they need to exchange insurance information, those Cogs just run off with their insurance cards!\x07A Toon just called in and said his insurance card was taken, so I suspect it was an Ambulance Chaser.\x07Why not take some down and see if you can get it back?"},
  3032: {GREETING: '',
 		QUEST: "No insurance card?\x07Maybe they passed it along to one of their friends...",
 		LEAVING: ''},
@@ -1146,7 +1146,11 @@ ChatGarblerDuck = ['quack', 'quackity', 'quacky']
 ChatGarblerMonkey = ['ooh', 'ooo', 'ahh']
 ChatGarblerBear = ['growl', 'grrr']
 ChatGarblerPig = ['oink', 'oik', 'snort']
-ChatGarblerDeer = ['eee', 'yee', 'eee']
+ChatGarblerDeer = ['meh', 'mee']
+ChatGarblerBat = ['eee', 'yee', 'eew']
+ChatGarblerBeaver = ['ear', 'air', 'ree']
+ChatGarblerGator = ['snort', 'crunch', 'chomp']
+ChatGarblerFox = ['awo', 'ring ding', 'ow']
 ChatGarblerDefault = ['blah']
 Bossbot = 'Bossbot'
 Lawbot = 'Lawbot'
@@ -5188,8 +5192,13 @@ AnimalToSpecies = {'dog': 'Dog',
  'monkey': 'Monkey',
  'bear': 'Bear',
  'pig': 'Pig',
- 'deer': 'Deer'}
-AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer')
+ 'deer': 'Deer',
+ 'beaver': 'Beaver',
+ 'alligator': 'Alligator',
+ 'fox': 'Fox',
+ 'bat': 'Bat',
+ 'raccoon': 'Raccoon'}
+AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox', 'Bat', 'Raccoon')
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
@@ -5261,6 +5270,12 @@ V2InvasionEnd2 = lToonHQ + ': The Toons have saved the day once again!!!'
 V2InvasionBulletin1 = lToonHQ + ': There is a Cog invasion in progress!!!'
 V2InvasionBulletin2 = lToonHQ + ': A major firmware update has been released to the Cogs!!!'
 V2InvasionBulletin3 = lToonHQ + ': Version 2.0 Cogs have taken over Toontown!!!'
+SuitMegaInvasionBegin1 = lToonHQ + ': A MEGA invasion has begun!!!'
+SuitMegaInvasionBegin2 = lToonHQ + ': %s have taken over Toontown!!!'
+SuitMegaInvasionEnd1 = lToonHQ + ': The %s MEGA invasion has ended!!!'
+SuitMegaInvasionEnd2 = lToonHQ + ': The Toons have saved the day once again!!!'
+SuitMegaInvasionUpdate1 = lToonHQ + ': Bulletin incoming, Toons!!!'
+SuitMegaInvasionUpdate2 = lToonHQ + ': There are still a ton of cogs, but keep it up!!!'
 LeaderboardTitle = 'Toon Platoon'
 QuestScriptTutorialMickey_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMickey_2 = 'Sure, %s!'
@@ -9840,3 +9855,9 @@ RemapPrompt = 'Choose the keys you wish to remap.'
 RemapPopup = 'Press the key you wish to remap this control to.'
 Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
             'Jump:', 'Action Key:', 'Options Hotkey:', 'Chatbox Hotkey:', 'Screenshot Key:', 'Interact Key:']
+			
+GatorChatter = ["Don't be a hater, vote for Gator!", 'My favorite jellybean color is green.', 'Wooow! I hope I win the election!', 'How are you guys doing?']
+BeaverChatter = ["Got spring fever? Vote for Beaver!", 'My favorite jellybean color is brown.', "If I win, I will build new houses for all toons. How does that sound?", "Gator's alright, but you beaver belive that I'm winning.", 'Be a believer! Vote Beaver!']
+FoxChatter = ["Fox Rox!", 'My favorite jellybean color is orange.', "I'm adorable, how could you not vote for me? Owoooo!", "I'm the perfect combination of cat and dog!", 'Nobody mocks the fox, ya hear?']
+BatChatter = ["Don't be a brat, vote for Bat!", 'My favorite jellybean color is black.', "Whoooo dares awaken me!", "Got questions?", 'I gotta earn my wings, first.']
+RaccoonChatter = ["Sing some tunes and vote Raccoon!", 'My favorite jellybean color is purple.', "Oooh! There is half of an apple in here!", 'My friends call me "Trash Panda."', "I'm not rabid, I swear!"]
