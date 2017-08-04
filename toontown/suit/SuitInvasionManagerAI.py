@@ -1,4 +1,5 @@
 import time
+import random
 from toontown.battle import SuitBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit.SuitInvasionGlobals import *
@@ -45,10 +46,6 @@ class SuitInvasionManagerAI:
             # This invasion is no-op.
             return False
 
-        if flags and ((suitDeptIndex is not None) or (suitTypeIndex is not None)):
-            # For invasion flags to be present, it must be a generic invasion.
-            return False
-
         if (suitDeptIndex is None) and (suitTypeIndex is not None):
             # It's impossible to determine the invading Cog.
             return False
@@ -78,10 +75,11 @@ class SuitInvasionManagerAI:
 
         # How many suits do we want?
         if type == INVASION_TYPE_NORMAL:
-            self.total = 1000
+            self.total = random.randint(1000, 5000)
         elif type == INVASION_TYPE_MEGA:
             self.total = 0xFFFFFFFF
         self.remaining = self.total
+        self.type = type
 
         self.flySuits()
         self.notifyInvasionStarted()
@@ -145,6 +143,8 @@ class SuitInvasionManagerAI:
             msgType = ToontownGlobals.WaiterInvasionBegin
         elif self.flags & IFV2:
             msgType = ToontownGlobals.V2InvasionBegin
+        if self.type == INVASION_TYPE_MEGA:
+            msgType = ToontownGlobals.SuitMegaInvasionBegin
         self.air.newsManager.sendUpdate(
             'setInvasionStatus',
             [msgType, self.getSuitName(), self.total, self.flags])
@@ -157,6 +157,8 @@ class SuitInvasionManagerAI:
             msgType = ToontownGlobals.WaiterInvasionEnd
         elif self.flags & IFV2:
             msgType = ToontownGlobals.V2InvasionEnd
+        if self.type == INVASION_TYPE_MEGA:
+            msgType = ToontownGlobals.SuitMegaInvasionEnd
         self.air.newsManager.sendUpdate(
             'setInvasionStatus', [msgType, self.getSuitName(), 0, self.flags])
 
@@ -174,6 +176,8 @@ class SuitInvasionManagerAI:
             msgType = ToontownGlobals.WaiterInvasionBulletin
         elif self.flags & IFV2:
             msgType = ToontownGlobals.V2InvasionBulletin
+        if self.type == INVASION_TYPE_MEGA:
+            msgType = ToontownGlobals.SuitMegaInvasionBulletin
         self.air.newsManager.sendUpdateToAvatarId(
             avId, 'setInvasionStatus',
             [msgType, self.getSuitName(), self.remaining, self.flags])
