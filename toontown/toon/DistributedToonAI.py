@@ -562,7 +562,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setFriendsList(self, friendsList):
         self.friendsList = friendsList
-        self.setStat(ToontownGlobals.STATS_CURR_FRIENDS, len(self.friendsList))
 
     def getFriendsList(self):
         return self.friendsList
@@ -4620,6 +4619,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return 0
 
     def b_setStats(self, stats):
+        stats[ToontownGlobals.STATS_CURR_FRIENDS] = len(self.friendsList)
         self.d_setStats(stats)
         self.setStats(stats)
 
