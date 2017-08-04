@@ -1025,6 +1025,7 @@ V2InvasionBulletin = 12
 SuitMegaInvasionBegin = 13
 SuitMegaInvasionEnd = 14
 SuitMegaInvasionUpdate = 15
+SuitMegaInvasionBulletin = 16
 NO_HOLIDAY = 0
 JULY4_FIREWORKS = 1
 NEWYEARS_FIREWORKS = 2
