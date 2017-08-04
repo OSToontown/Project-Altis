@@ -196,7 +196,7 @@ shard-low-pop 50
 shard-mid-pop 80
 
 #Resources
-model-path ../resources
+model-path /
 
 # Core features:
 want-pets #t
