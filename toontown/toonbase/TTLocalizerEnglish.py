@@ -1420,7 +1420,11 @@ ChatGarblerDuck = ['quack', 'quackity', 'quacky']
 ChatGarblerMonkey = ['ooh', 'ooo', 'ahh']
 ChatGarblerBear = ['growl', 'grrr']
 ChatGarblerPig = ['oink', 'oik', 'snort']
-ChatGarblerDeer = ['eee', 'yee', 'eee']
+ChatGarblerDeer = ['meh', 'mee']
+ChatGarblerBat = ['eee', 'yee', 'eew']
+ChatGarblerBeaver = ['ear', 'air', 'ree']
+ChatGarblerGator = ['snort', 'crunch', 'chomp']
+ChatGarblerFox = ['awo', 'ring ding', 'ow']
 ChatGarblerDefault = ['blah']
 Bossbot = 'Bossbot'
 Lawbot = 'Lawbot'
@@ -5464,8 +5468,11 @@ AnimalToSpecies = {'dog': 'Dog',
  'pig': 'Pig',
  'deer': 'Deer',
  'beaver': 'Beaver',
- 'alligator': 'Alligator'}
-AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator')
+ 'alligator': 'Alligator',
+ 'fox': 'Fox',
+ 'bat': 'Bat',
+ 'raccoon': 'Raccoon'}
+AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox', 'Bat', 'Raccoon')
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
@@ -5537,6 +5544,12 @@ V2InvasionEnd2 = lToonHQ + ': The Toons have saved the day once again!!!'
 V2InvasionBulletin1 = lToonHQ + ': There is a Cog invasion in progress!!!'
 V2InvasionBulletin2 = lToonHQ + ': A major firmware update has been released to the Cogs!!!'
 V2InvasionBulletin3 = lToonHQ + ': Version 2.0 Cogs have taken over Toontown!!!'
+SuitMegaInvasionBegin1 = lToonHQ + ': A MEGA invasion has begun!!!'
+SuitMegaInvasionBegin2 = lToonHQ + ': %s have taken over Toontown!!!'
+SuitMegaInvasionEnd1 = lToonHQ + ': The %s MEGA invasion has ended!!!'
+SuitMegaInvasionEnd2 = lToonHQ + ': The Toons have saved the day once again!!!'
+SuitMegaInvasionUpdate1 = lToonHQ + ': Bulletin incoming, Toons!!!'
+SuitMegaInvasionUpdate2 = lToonHQ + ': There are still a ton of cogs, but keep it up!!!'
 LeaderboardTitle = 'Toon Platoon'
 QuestScriptTutorialMickey_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMickey_2 = 'Sure, %s!'

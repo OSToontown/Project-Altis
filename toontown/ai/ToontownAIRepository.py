@@ -331,9 +331,6 @@ class ToontownAIRepository(ToontownInternalRepository):
             httpReq = httplib.HTTPSConnection('www.projectaltis.com')
             httpReq.request('GET', '/api/addinvasion/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s/1/%s/%s/%s' % (self.districtName,
                                                                            pop, invstatus, total, defeated))
-
-            print(httpReq.getresponse().read())
-
         return task.again
 
     def statusToType(self, tupleInvasionStatus):
