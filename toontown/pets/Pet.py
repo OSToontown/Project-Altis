@@ -108,8 +108,8 @@ class Pet(Avatar.Avatar):
     def getDNA(self):
         return self.style
 
-    def setDNA(self, dna):
-        if self.style:
+    def setDNA(self, dna, forceDNA = False):
+        if self.style or forceDNA == True:
             pass
         else:
             self.style = dna

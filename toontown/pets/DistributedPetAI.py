@@ -484,7 +484,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.announceZoneChange(self.zoneId, ToontownGlobals.QuietZone)
         self.b_setParent(ToontownGlobals.SPRender)
         self.setPos(randFloat(-20, 20), randFloat(-20, 20), 0)
-        self.setH(randFloat(360))
+        self.setH(-90) # (randFloat(360))
         if self.initialDNA:
             self.setDNA(self.initialDNA)
         for mood, value in self.requiredMoodComponents.items():
@@ -912,10 +912,11 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def handleAvPetInteraction(self, mode, avId):
         if mode not in (PetConstants.PET_MOVIE_SCRATCH, PetConstants.PET_MOVIE_FEED, PetConstants.PET_MOVIE_CALL):
+            self.notify.info('fail 1')
             self.air.writeServerEvent('suspicious', avId, 'DistributedPetAI: unknown mode: %s' % mode)
             return
         if self.avatarInteract(avId):
-            self.notify.debug('handleAvPetInteraction() avatarInteract calling callback')
+            self.notify.info('handleAvPetInteraction() avatarInteract calling callback')
             self.movieMode = mode
             callback = {PetConstants.PET_MOVIE_SCRATCH: self.scratch,
              PetConstants.PET_MOVIE_FEED: self.feed,

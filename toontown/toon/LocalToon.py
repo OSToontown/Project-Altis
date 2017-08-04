@@ -193,6 +193,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.streamerMode = None
         self.chatLog = None
         self.prevToonIdx = 0
+        self.publicPetId = 0
 
     def setDNA(self, dna):
         base.localAvatarStyle = dna

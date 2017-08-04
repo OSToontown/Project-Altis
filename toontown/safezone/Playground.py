@@ -56,7 +56,14 @@ class Playground(BattlePlace.BattlePlace):
                             'stopped',
                             'fishing',
                             'battle',
-                            'WaitForBattle']),
+                            'WaitForBattle',
+                            'pet']),
+            State.State('pet',
+                        self.enterPet,
+                        self.exitPet, [
+                            'walk',
+                            'trialerFA'
+                        ]),
             State.State('stickerBook',
                         self.enterStickerBook,
                         self.exitStickerBook, [

@@ -53,7 +53,6 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.TTLocalizerEnglish import SuitNameDropper
-from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
 from datetime import datetime
 
 if simbase.wantPets:
@@ -3206,10 +3205,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.debug('setPetMovie: petId: %s, flag: %s' % (petId, flag))
             pet = simbase.air.doId2do.get(petId)
             if pet is not None:
-                if pet.__class__.__name__ == 'DistributedPetAI':
+                if pet.__class__.__name__ == 'DistributedPetAI' or pet.__class__.__name__ == 'DistributedPublicPetAI':
                     pet.handleAvPetInteraction(flag, self.getDoId())
                 else:
                     self.air.writeServerEvent('suspicious', self.doId, 'setPetMovie: playing pet movie %s on non-pet object %s' % (flag, petId))
+            else:
+                self.notify.info("pet is none")
 
         def setPetTutorialDone(self, bDone):
             self.notify.debug('setPetTutorialDone')
@@ -5743,6 +5744,7 @@ def getZone():
 
 @magicWord(category=CATEGORY_PROGRAMMER)
 def petTest():
+    from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
     invoker = spellbook.getInvoker()
     pet = DistributedPublicPetAI(simbase.air, invoker)
     pet.generateWithRequired(invoker.zoneId)

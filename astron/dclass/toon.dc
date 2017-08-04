@@ -3064,7 +3064,7 @@ dclass DistributedPetProxy : DistributedPet {
 };
 
 dclass DistributedPublicPet : DistributedPet {
- beginPublicDisplay(uint32) broadcast;
+ beginPublicDisplay() broadcast;
 }
 
 dclass DistributedAprilToonsMgr : DistributedObject {
