@@ -8355,8 +8355,6 @@ WHITELIST = [
     'coolly',
     'coolness',
     'cools',
-    'coon',
-    'coons',
     'coop',
     'cooper',
     'cooperate',
