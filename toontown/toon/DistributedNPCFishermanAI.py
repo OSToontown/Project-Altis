@@ -26,6 +26,10 @@ class DistributedNPCFishermanAI(DistributedNPCToonBaseAI):
         if self.isBusy():
             self.freeAvatar(avId)
             return
+        for spot in self.air.hoodId2Hood[self.zoneId]:
+            if spot.avId == avId:
+                return
+
         av = self.air.doId2do[avId]
         self.busy = avId
         self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
