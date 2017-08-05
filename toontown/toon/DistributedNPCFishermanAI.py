@@ -73,6 +73,12 @@ class DistributedNPCFishermanAI(DistributedNPCToonBaseAI):
             self.air.writeServerEvent('suspicious', avId, 'DistributedNPCFishermanAI.completeSale busy with %s' % self.busy)
             self.notify.warning('somebody called setMovieDone that I was not busy with! avId: %s' % avId)
             return
+
+        for spot in self.air.hoodId2Hood[self.zoneId]:
+            if spot.avId == avId:
+                self.sendClearMovie(None)
+                return
+
         if sell:
             av = simbase.air.doId2do.get(avId)
             if av:
