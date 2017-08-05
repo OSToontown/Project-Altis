@@ -79,11 +79,12 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
         return self.uniqueName('petfollow-%d' % self.petId)
 
     def followTask(self, task):
-        print(self.actionFSM.state)
         if self.brain and self.shouldMove == True:
             self.mover.walkToAvatar(self.owner)
+        else:
+            self.brain._stay(self.owner)
 
-        taskMgr.doMethodLater(random.uniform(0.2, 0.7), self.followTask, self.getFollowTaskName())
+        taskMgr.doMethodLater(random.uniform(0.4, 0.7), self.followTask, self.getFollowTaskName())
 
     def announceGenerate(self):
         self.acquireProxyFields()
@@ -98,6 +99,10 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
             # Start following the toon
             taskMgr.doMethodLater(3.5, self.followTask, self.uniqueName('followStart'))
+            self.acceptOnce(self.air.getAvatarExitEvent(self.owner.doId), self.__handleUnexpectedExit)
+
+            # Listen for zone changes. Note that this is logical because we don't want to go to the quiet zone
+            self.accept(self.owner.getLogicalZoneChangeEvent(), self.__handleOwnerZoneChange)
 
         # Leave a second so that doodle data can be fetched
         taskMgr.doMethodLater(2, finishGenerate, self.uniqueName('petactivate-%d') % self.petId)
@@ -116,9 +121,17 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
         self.shouldMove = True
 
-    def disable(self):
+    def __handleOwnerZoneChange(self, newZoneId, oldZoneId):
+        self.disable()
+
+    def __handleUnexpectedExit(self, avId):
+        self.notify.info("Our owner %d is gone, disabling public pet!" % avId)
+        self.sendUpdate('finishPublicDisplay', [])
+        taskMgr.doMethodLater(3, self.disable, self.uniqueName('cleanup-%d' % self.petId))
+
+    def disable(self, task = None):
         self.ignoreAll()
         taskMgr.remove(self.getFollowTaskName())
-        DistributedObject.DistributedObject.disable(self)
+        DistributedPetAI.DistributedPetAI.disable(self)
 
 

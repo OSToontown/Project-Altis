@@ -623,9 +623,15 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
     def createImpulses(self):
         from toontown.pets import PetWander
         self.createSphereImpulse()
-        self.chaseImpulse = PetChase.PetChase()
-        self.fleeImpulse = PetFlee.PetFlee()
-        self.wanderImpulse = PetWander.PetWander()
+        if self.public == False:
+            self.chaseImpulse = PetChase.PetChase()
+            self.fleeImpulse = PetFlee.PetFlee()
+            self.wanderImpulse = PetWander.PetWander()
+        else:
+            self.chaseImpulse = None
+            self.fleeImpulse = None
+            self.wanderImpulse = None
+
         self.lockChaseImpulse = PetChase.PetChase()
     
     def destroyImpulses(self):

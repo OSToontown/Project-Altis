@@ -94,6 +94,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.inGameNewsMgr = None
         self.whitelistMgr = None
         self.defaultShard = None
+        self.publicPetMgr = None
         self.toontownTimeManager = ToontownTimeManager.ToontownTimeManager()
         self.sillyMeterMgr = DistributedSillyMeterMgr.DistributedSillyMeterMgr(self)
         self.csm = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
@@ -102,7 +103,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.ttaFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTA_FRIENDS_MANAGER, 'TTAFriendsManager')
         self.speedchatRelay = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_SPEEDCHAT_RELAY, 'TTSpeedchatRelay')
         self.deliveryManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
-
         self.streetSign = None
         self.furnitureManager = None
         self.objectManager = None

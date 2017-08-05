@@ -14,7 +14,7 @@ class DistributedPublicPet(DistributedPet.DistributedPet):
 
     def makeSphere(self):
         # Tubby said I couldn't make CollisionSpheres on the AI so it's on the client now
-        self.cSphere = CollisionSphere(0.0, 0.0, 0.0, 3.0)
+        self.cSphere = CollisionSphere(0.0, 0.0, 0.0, 5.0)
         self.cSphere.setTangible(0)
         self.cSphereNode = CollisionNode('PetSphere')
         self.cSphereNode.addSolid(self.cSphere)
@@ -31,8 +31,11 @@ class DistributedPublicPet(DistributedPet.DistributedPet):
     def __collisionExit(self, collEntry):
         self.sendUpdate('sphereLeft', [])
 
+    def isOwner(self):
+        return self.getOwnerId() == base.localAvatar.doId
+
     def beginPublicDisplay(self):
-        DistributedPublicPet.notify.info("Received begin for public display")
+        DistributedPublicPet.notify.info("Received begin for public display for public pet %d" % self.doId)
         DistributedPet.DistributedPet.announceGenerate(self) # Hack to fix pet DNA
         self.ready = True
 
@@ -41,16 +44,25 @@ class DistributedPublicPet(DistributedPet.DistributedPet):
         g = Func(self.loop, 'neutral')
         Sequence(d, e, g).start()
 
-        if self.getOwnerId() == base.localAvatar.doId:
+        if self.isOwner():
             self.notify.info("Setting up our own pet")
             base.localAvatar.publicPetId = self.doId
             self.makeSphere()
+
+    def finishPublicDisplay(self):
+        DistributedPublicPet.notify.info("Finishing public display for public pet %d" % self.doId)
+        Sequence(self.getTeleportOutTrack()).start()
 
     def announceGenerate(self):
         DistributedPublicPet.notify.info("Waiting on announceGenerate for %d" % self.doId)
 
     def disable(self):
-        base.localAvatar.publicPetId = 0
+        if self.isOwner():
+            base.localAvatar.publicPetId = 0
+
         self.ignoreAll()
+        del self.cSphere
+        del self.cSphereNode
+        del self.cSphereNodePath
         DistributedPet.DistributedPet.disable(self)
 
