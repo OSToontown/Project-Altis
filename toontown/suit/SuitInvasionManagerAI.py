@@ -77,7 +77,7 @@ class SuitInvasionManagerAI:
         if type == INVASION_TYPE_NORMAL:
             self.total = random.randint(1000, 5000)
         elif type == INVASION_TYPE_MEGA:
-            self.total = 0xFFFFFFFF
+            self.total = 100000
         self.remaining = self.total
         self.type = type
 
