@@ -4,11 +4,12 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.gui.DirectGui import *
 
-class DistributedPublicPetMgrAI(DistributedObject.DistributedObject):
+class DistributedPublicPetMgr(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetMgrAI')
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
+        self.cr = cr
         self.cr.publicPetMgr = self
         self.buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         self.frame = None
@@ -42,6 +43,9 @@ class DistributedPublicPetMgrAI(DistributedObject.DistributedObject):
         self.sendUpdate('requestAppearance', [])
 
     def disable(self):
+        if self.frame:
+            self.frame.destroy()
+        
         self.buttons.removeNode()
         DistributedObject.DistributedObject.disable(self)
 

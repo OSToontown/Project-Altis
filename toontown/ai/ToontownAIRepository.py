@@ -171,8 +171,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.wantPets:
             self.petMgr = PetManagerAI(self)
 
-        # self.publicPetMgr = DistributedPublicPetMgrAI.DistributedPublicPetMgrAI(self)
-        # self.publicPetMgr.generateWithRequired(2)
+        self.publicPetMgr = DistributedPublicPetMgrAI.DistributedPublicPetMgrAI(self)
+        self.publicPetMgr.generateWithRequired(2)
 
         if self.wantParties:
             self.partyManager = DistributedPartyManagerAI(self)
