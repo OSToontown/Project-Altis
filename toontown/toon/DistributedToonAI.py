@@ -215,6 +215,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.trainingPoints = 0
         self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
         self.certs = []
+        self.chatMode = 0
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -471,6 +472,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getStyle(self):
         return self.dna
+
+    def setChatMode(self, chatMode):
+        self.chatMode = chatMode
+
+    def getChatMode(self):
+        return self.chatMode
 
     def b_setExperience(self, experience):
         self.d_setExperience(experience)
@@ -6073,4 +6080,27 @@ def i60Reset():
     if target != spellbook.getInvoker():
         return "Reset toon stats for i60 demo."
     return "Reset toon stats for i60 demo."
-	
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def chatmode(mode=-1):
+    """ Set the chat mode of the current avatar. """
+    mode2name = {
+        0 : "user",
+        1 : "moderator",
+        2 : "administrator",
+        3 : "system administrator",
+    }
+    invoker = spellbook.getInvoker()
+    if mode == -1:
+        return "You are currently talking in the %s chat mode." % mode2name.get(invoker.getChatMode(), "N/A")
+    if not 0 <= mode <= 3:
+        return "Invalid chat mode specified."
+    if mode == 3 and invoker.getAdminAccess() < 500:
+        return "Chat mode 3 is reserved for system administrators."
+    if mode == 2 and invoker.getAdminAccess() < 400:
+        return "Chat mode 2 is reserved for administrators."
+    if mode == 1 and invoker.getAdminAccess() < 200:
+        # Like this will ever happen, but whatever.
+        return "Chat mode 1 is reserved for moderators."
+    invoker.setChatMode(mode)
+    return "You are now talking in the %s chat mode." % mode2name.get(mode, "N/A")

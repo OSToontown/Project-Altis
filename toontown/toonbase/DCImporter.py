@@ -290,6 +290,7 @@ dclass OtpAvatarManager : DistributedObject {
 dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256), uint8 chatMode) clsend;
+  chatMessageAiToUd(uint32 avId, string(0-256), uint8 chatMode);
   chatMessageResponse(DoId, string, TalkModification [], uint8 chatMode) airecv;
   kickForSpam(uint32) airecv clsend;
 };
