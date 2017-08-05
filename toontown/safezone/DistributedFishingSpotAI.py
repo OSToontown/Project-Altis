@@ -4,7 +4,7 @@ from toontown.fishing import FishGlobals
 from toontown.fishing.FishBase import FishBase
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
-
+from direct.distributed.PyDatagram import PyDatagram
 import time
 
 
@@ -144,8 +144,15 @@ class DistributedFishingSpotAI(DistributedObjectAI):
 
     def rewardIfValid(self, target):
         if time.time() - self.lastHit <= 1.0:
+            av = self.air.doId2do.get(self.avId)
             self.removeFromPierWithAnim()
-            return
+            datagram = PyDatagram()
+            datagram.addServerHeader(
+                av.GetPuppetConnectionChannel(av.doId),
+                self.air.ourChannel, CLIENTAGENT_EJECT)
+            datagram.addUint16(155)
+            datagram.addString('You were kicked from the game for suspicion of exploit.')
+            self.air.send(datagram)
 
         self.lastHit = time.time()
         if not self.cast:
