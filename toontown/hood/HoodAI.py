@@ -23,6 +23,7 @@ class HoodAI:
         self.zoneId = zoneId
         self.canonicalHoodId = canonicalHoodId
         self.fishingPonds = []
+        self.fishingSpots = []
         self.partyGates = []
         self.treasurePlanner = None
         self.buildingManagers = []
@@ -141,6 +142,7 @@ class HoodAI:
         fishingSpots = []
         for (dnaGroup, fishingPond) in zip(fishingPondGroups, self.fishingPonds):
             fishingSpots.extend(self.findFishingSpots(dnaGroup, fishingPond))
+        self.fishingSpots = fishingSpots
 
     def findPartyGates(self, dnaGroup, zoneId):
         partyGates = []
