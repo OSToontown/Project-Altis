@@ -143,8 +143,8 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         taskMgr.doMethodLater(1, DistributedFishingSpotAI.removeFromPier, 'remove%d' % self.doId, [self])
 
     def rewardIfValid(self, target):
-        if time.time() - self.lastHit <= 3.0:
-            # This 3 second window may be too much...
+        if time.time() - self.lastHit <= 1.0:
+            self.removeFromPierWithAnim()
             return
 
         self.lastHit = time.time()
