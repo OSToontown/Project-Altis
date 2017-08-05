@@ -4,8 +4,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.gui.DirectGui import *
 
-class DistributedPublicPetMgrAI(DistributedObject.DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetMgrAI')
+class DistributedPublicPetMgr(DistributedObject.DistributedObject):
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetMgr')
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
