@@ -11,6 +11,7 @@ class DistributedPublicPet(DistributedPet.DistributedPet):
 
     def __init__(self, cr):
         DistributedPet.DistributedPet.__init__(self, cr, ready = False)
+        self.cSphere = None
 
     def makeSphere(self):
         # Tubby said I couldn't make CollisionSpheres on the AI so it's on the client now
@@ -36,33 +37,39 @@ class DistributedPublicPet(DistributedPet.DistributedPet):
 
     def beginPublicDisplay(self):
         DistributedPublicPet.notify.info("Received begin for public display for public pet %d" % self.doId)
-        DistributedPet.DistributedPet.announceGenerate(self) # Hack to fix pet DNA
-        self.ready = True
-
+        self.notify.info("Tail = " + str(self.tail))
         d = Func(self.pose, 'reappear', 0)
         e = self.getTeleportInTrack()
         g = Func(self.loop, 'neutral')
         Sequence(d, e, g).start()
 
-        if self.isOwner():
-            self.notify.info("Setting up our own pet")
-            base.localAvatar.publicPetId = self.doId
-            self.makeSphere()
 
     def finishPublicDisplay(self):
         DistributedPublicPet.notify.info("Finishing public display for public pet %d" % self.doId)
         Sequence(self.getTeleportOutTrack()).start()
 
+    def generate(self):
+        DistributedPublicPet.notify.info("Got generate!")
+        DistributedPet.DistributedPet.generate(self)
+
     def announceGenerate(self):
-        DistributedPublicPet.notify.info("Waiting on announceGenerate for %d" % self.doId)
+        self.notify.info(self.tail)
+        DistributedPublicPet.notify.info("Public pet announceGenerate for %d" % self.doId)
+        DistributedPet.DistributedPet.announceGenerate(self) # Hack to fix pet DNA
+        self.ready = True
+        if self.isOwner():
+            self.notify.info("Setting up our own pet")
+            base.localAvatar.publicPetId = self.doId
+            self.makeSphere()
 
     def disable(self):
         if self.isOwner():
             base.localAvatar.publicPetId = 0
 
         self.ignoreAll()
-        del self.cSphere
-        del self.cSphereNode
-        del self.cSphereNodePath
+        if self.cSphere: # Possibility that the cSphere doesn't exist because the doodle wasn't fully generated
+            del self.cSphere
+            del self.cSphereNode
+            del self.cSphereNodePath
         DistributedPet.DistributedPet.disable(self)
 

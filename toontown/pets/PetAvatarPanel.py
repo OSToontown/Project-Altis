@@ -29,6 +29,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         else:
             self.avatar = avatar
             self.petIsLocal = False
+
+        self.ownsPet = (self.avatar.getOwnerId() == base.localAvatar.doId)
         from toontown.friends import FriendsListPanel
         AvatarPanel.AvatarPanel.__init__(self, self.avatar, FriendsListPanel=FriendsListPanel)
         base.localAvatar.obscureFriendsListButton(1)
@@ -55,7 +57,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
          gui.find('**/ButtonGoToDown'),
          gui.find('**/ButtonGoToRollover'),
          gui.find('**/ButtonGoToUp')), geom=gui.find('**/PetControlGoToIcon'), geom3_color=disabledImageColor, image3_color=disabledImageColor, relief=None, text=TTLocalizer.PetPanelCall, text0_fg=text0Color, text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color, text_scale=TTLocalizer.PAPcallButton, text_pos=(-0.5, 1.3), text_align=TextNode.ALeft, command=self.__handleCall)
-        if not self.petIsLocal and not ((base.localAvatar.publicPetId == 0 and (base.localAvatar.zoneId in ToontownGlobals.safeZones)) and self.avatar.getOwnerId() == base.localAvatar.doId):
+        if not self.petIsLocal and not ((base.localAvatar.publicPetId == 0 and (base.localAvatar.zoneId in ToontownGlobals.safeZones)) and self.ownsPet):
             self.callButton['state'] = DGG.DISABLED
 
         self.scratchButton = DirectButton(parent=self.frame, image=(gui.find('**/ButtonScratchUp'),
@@ -222,7 +224,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: PET: Call')
         self.notify.debug('__handleCall(): doId=%s' % self.avatar.doId)
-        if base.localAvatar.publicPetId == 0 and (base.localAvatar.zoneId in ToontownGlobals.safeZones):
+        if base.localAvatar.publicPetId == 0 and (base.localAvatar.zoneId in ToontownGlobals.safeZones) and self.ownsPet:
             base.cr.publicPetMgr.requestAppearance(self)
             return
 
