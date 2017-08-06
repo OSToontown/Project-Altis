@@ -1,3 +1,4 @@
+from panda3d.core import *
 dcString = """
 from direct.distributed import DistributedObject/AI/UD
 from direct.distributed import DistributedNode/AI/UD
@@ -4027,13 +4028,8 @@ dclass DistributedRainManager : DistributedWeatherMGR {
 """
 
 ######## TURN ME OFF IN PRODUCTION ########
-if False:
-    with open('astron/dclass/toon.dc', 'r') as dc:
-        content = dc.read()
-
-    dcString = content
-
-
 dcStream = StringStream(dcString)
 def getDcStream():
     return dcStream
+
+import toontown.toonbase.ClientStart
