@@ -6,7 +6,10 @@ from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
 
 class DistributedPublicPetMgr(DistributedObject.DistributedObject):
+<<<<<<< HEAD
     neverDisable = 1
+=======
+>>>>>>> f45cda6fe80f7c77d903440e76dc6ee45cd24948
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetMgr')
 
     def __init__(self, cr):
