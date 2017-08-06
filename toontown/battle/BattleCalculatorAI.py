@@ -170,13 +170,13 @@ class BattleCalculatorAI:
                 propAcc = 0
                 if treebonus:
                     self.notify.debug('using organic bonus lure accuracy')
-                    propAcc += AvDropBonusAccuracy[atkLevel]
+                    propAcc = AvDropBonusAccuracy[atkLevel]
                 if propBonus:
                     self.notify.debug('using prop bonus lure accuracy')
-                    propAcc += AvDropBonusAccuracy[atkLevel]
+                    propAcc = AvDropBonusAccuracy[atkLevel]
             elif treebonus or propBonus:
                 self.notify.debug('using oragnic OR prop bonus lure accuracy')
-                propAcc += AvDropBonusAccuracy[atkLevel]
+                propAcc = AvDropBonusAccuracy[atkLevel]
         if atkTrack == ZAP:
             for tgt in atkTargets:
                 if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):

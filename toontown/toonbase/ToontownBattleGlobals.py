@@ -343,13 +343,13 @@ AvPropAccuracy = ((70,
   50,
   50,
   50))
-AvDropBonusAccuracy = (60,
- 60,
- 60,
- 60,
- 60,
- 60,
- 60)
+AvDropBonusAccuracy = (70,
+ 70,
+ 70,
+ 70,
+ 70,
+ 70,
+ 70)
 AvTrackAccStrings = TTLocalizer.BattleGlobalAvTrackAccStrings
 AvPropDamage = ((((8, 10), (Levels[0][0], Levels[0][1])),
   ((15, 18), (Levels[0][1], Levels[0][2])),
