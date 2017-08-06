@@ -4027,7 +4027,7 @@ dclass DistributedRainManager : DistributedWeatherMGR {
 """
 
 ######## TURN ME OFF IN PRODUCTION ########
-if True:
+if False:
     with open('astron/dclass/toon.dc', 'r') as dc:
         content = dc.read()
 
