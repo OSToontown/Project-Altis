@@ -43,6 +43,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.colorScale = 0
         self.eyeColor = 0
         self.gender = 0
+        self.mood = 0
         self.movieMode = None
         self.lockMoverEnabled = 0
         self.trickAptitudes = []

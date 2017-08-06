@@ -126,7 +126,7 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
         self.disable()
 
     def __handleUnexpectedExit(self):
-        self.notify.info("Our owner %d is gone, disabling public pet!" % avId)
+        self.notify.info("Our owner %d is gone, disabling public pet!" % self.owner.doId)
         self.sendUpdate('finishPublicDisplay', [])
         taskMgr.doMethodLater(3, self.disable, self.uniqueName('cleanup-%d' % self.petId))
 
