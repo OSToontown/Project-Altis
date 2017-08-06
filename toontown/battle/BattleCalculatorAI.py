@@ -1278,6 +1278,7 @@ class BattleCalculatorAI:
                     mult = 1.2
                 else:
                     mult = 1.0
+                mult *= theSuit.getDamageMultiplier()
                 result = int(atkInfo['hp'] * mult)
             targetIndex = self.battle.activeToons.index(toonId)
             attack[SUIT_HP_COL][targetIndex] = result

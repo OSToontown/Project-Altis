@@ -20,6 +20,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.virtual = 0
         self.waiter = 0
         self.isElite = 0
+        self.dmgMult = 1.0
         self.skeleRevives = 0
         self.maxSkeleRevives = 0
         self.reviveFlag = 0
@@ -129,6 +130,8 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.skeleRevives -= 1
         self.currHP = self.maxHP
         self.reviveFlag = 1
+        self.setDamageMultiplier(self.getDamageMultiplier() * 1.5)
+        self.b_setMaxHP(int(self.maxHP/2))
 
     def reviveCheckAndClear(self):
         returnValue = 0
@@ -152,6 +155,26 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
 
     def d_setHP(self, hp):
         self.sendUpdate('setHP', [hp])
+		
+    def setMaxHP(self, hp):
+        self.maxHP = hp
+        self.currHP = hp
+
+    def d_setMaxHP(self, hp):
+        self.sendUpdate('setMaxHP', [hp])
+		
+    def b_setMaxHP(self, hp):
+        self.d_setMaxHP(hp)
+        self.setMaxHP(hp)
+		
+    def getMaxHP(self):
+        return self.maxHP
+		
+    def setDamageMultiplier(self, mult):
+        self.dmgMult = mult
+		
+    def getDamageMultiplier(self):
+        return self.dmgMult
 
     def releaseControl(self):
         pass
