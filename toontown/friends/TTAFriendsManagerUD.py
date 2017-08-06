@@ -36,14 +36,14 @@ class OperationFSM(FSM):
             del self.mgr.operations[self.sender]
 
 class FriendsListOperation(OperationFSM):
-
     def enterStart(self):
         self.air.dbInterface.queryObject(self.air.dbId, self.sender,
             self.handleRetrieveSender)
 
     def handleRetrieveSender(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.demand('Error', 'Distributed Class was not a Toon.')
+            self.demand('Error', 'Distributed Class was not a Toon in FriendsListOperation')
+            self.mgr.blockedAvIds.append(self.sender)
             return
 
         self.demand('Retrieved', fields['setFriendsList'][0])
@@ -91,7 +91,8 @@ class RemoveFriendOperation(OperationFSM):
 
     def handleRetrieve(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.demand('Error', 'Distributed Class was not a Toon.')
+            self.demand('Error', 'Distributed Class was not a Toon in RemoveFriendOperation')
+            self.mgr.blockedAvIds.append(self.sender)
             return
         try:
             self.demand('Retrieved', fields['setFriendsList'][0], fields['setTrueFriends'][0])
@@ -142,7 +143,8 @@ class FriendDetailsOperation(OperationFSM):
 
     def handleRetrieve(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.demand('Error', 'Distributed Class was not a Toon.')
+            self.demand('Error', 'Distributed Class was not a Toon in FriendDetailsOperation')
+            self.mgr.blockedAvIds.append(self.sender)
             return
 
         self.demand('Retrieved', fields['setFriendsList'][0])
@@ -177,7 +179,8 @@ class ClearListOperation(OperationFSM):
 
     def handleRetrieved(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.demand('Error', 'Distributed Class was not a Toon.')
+            self.demand('Error', 'Distributed Class was not a Toon in ClearListOperation')
+            self.mgr.blockedAvIds.append(self.sender)
             return
         self.demand('Retrieved', fields['setFriendsList'][0])
 
@@ -200,10 +203,14 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
         self.whisperRequests = {}
         self.operations = []
         self.secret2avId = {}
+        self.blockedAvIds = []
         self.delayTime = 1.0
 
     def requestFriendsList(self):
         avId = self.air.getAvatarIdFromSender()
+        if avId in self.blockedAvIds:
+            return
+
         newOperation = FriendsListOperation(self, self.air, avId,
             callback = self.sendFriendsList)
         self.operations.append(newOperation)
@@ -216,6 +223,8 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
     def removeFriend(self, friendId):
         avId = self.air.getAvatarIdFromSender()
+        if avId in self.blockedAvIds:
+            return
 
         # Sender remove Friend
         newOperation = RemoveFriendOperation(self, self.air, avId, friendId)
@@ -230,6 +239,9 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
     def requestAvatarInfo(self, friendIdList):
         avId = self.air.getAvatarIdFromSender()
+        if avId in self.blockedAvIds:
+            return
+
         newOperation = FriendDetailsOperation(self, self.air, avId,
             friendIds = friendIdList)
         self.operations.append(newOperation)
@@ -237,9 +249,12 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
     def getAvatarDetails(self, avId):
         senderId = self.air.getAvatarIdFromSender()
-        
+        if avId in self.blockedAvIds:
+            return
+
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
+                self.blockedAvIds.append(senderId)
                 return
             inventory = fields['setInventory'][0]
             trackAccess = fields['setTrackAccess'][0]
@@ -262,21 +277,25 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
             senderId = self.air.getAvatarIdFromSender()
             def handlePet(dclass, fields):
                 if dclass != self.air.dclassesByName['DistributedPetAI']:
-                    return
-                dna = [fields.get(x, [0])[0] for x in ("setHead", "setEars", "setNose", "setTail", "setBodyTexture", "setColor",
-                                                     "setColorScale", "setEyeColor", "setGender")]
-                moods = [fields.get(x, [0])[0] for x in ("setBoredom", "setRestlessness", "setPlayfulness", "setLoneliness",
-                                                       "setSadness", "setAffection", "setHunger", "setConfusion", "setExcitement",
-                                                       "setFatigue", "setAnger", "setSurprise")]
-                traits = [fields.get(x, [0])[0] for x in ("setForgetfulness", "setBoredomThreshold", "setRestlessnessThreshold",
-                                                        "setPlayfulnessThreshold", "setLonelinessThreshold", "setSadnessThreshold",
-                                                        "setFatigueThreshold", "setHungerThreshold", "setConfusionThreshold",
-                                                        "setExcitementThreshold", "setAngerThreshold", "setSurpriseThreshold",
-                                                        "setAffectionThreshold")]
-                self.sendUpdateToAvatarId(senderId, 'petDetails', [petId, fields.get("setOwnerId", [0])[0], fields.get("setPetName", ["???"])[0],
-                                                                   fields.get("setTraitSeed", [0])[0], fields.get("setSafeZone", [0])[0],
-                                                                   traits, moods, dna, fields.get("setLastSeenTimestamp", [0])[0]])
-            self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
+                    self.blockedAvIds.append(senderId)
+                try:
+
+                    dna = [fields.get(x, [0])[0] for x in ("setHead", "setEars", "setNose", "setTail", "setBodyTexture", "setColor",
+                                                         "setColorScale", "setEyeColor", "setGender")]
+                    moods = [fields.get(x, [0])[0] for x in ("setBoredom", "setRestlessness", "setPlayfulness", "setLoneliness",
+                                                           "setSadness", "setAffection", "setHunger", "setConfusion", "setExcitement",
+                                                           "setFatigue", "setAnger", "setSurprise")]
+                    traits = [fields.get(x, [0])[0] for x in ("setForgetfulness", "setBoredomThreshold", "setRestlessnessThreshold",
+                                                            "setPlayfulnessThreshold", "setLonelinessThreshold", "setSadnessThreshold",
+                                                            "setFatigueThreshold", "setHungerThreshold", "setConfusionThreshold",
+                                                            "setExcitementThreshold", "setAngerThreshold", "setSurpriseThreshold",
+                                                            "setAffectionThreshold")]
+                    self.sendUpdateToAvatarId(senderId, 'petDetails', [petId, fields.get("setOwnerId", [0])[0], fields.get("setPetName", ["???"])[0],
+                                                                       fields.get("setTraitSeed", [0])[0], fields.get("setSafeZone", [0])[0],
+                                                                       traits, moods, dna, fields.get("setLastSeenTimestamp", [0])[0]])
+                    self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
+                except:
+                    self.blockedAvIds.append(senderId)
 
     def toonOnline(self, doId, friendsList):
         self.onlineToons.append(doId)
@@ -313,12 +332,18 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
         self.air.dbInterface.queryObject(self.air.dbId, doId, handleToon)
 
     def clearList(self, doId):
+        if doId in self.blockedAvIds:
+            return
+
         newOperation = ClearListOperation(self, self.air, doId)
         self.operations.append(newOperation)
         newOperation.demand('Start')
 
     def routeTeleportQuery(self, toId):
         fromId = self.air.getAvatarIdFromSender()
+        if fromId in self.blockedAvIds:
+            return
+
         if fromId in self.tpRequests.values():
             return
         self.tpRequests[fromId] = toId

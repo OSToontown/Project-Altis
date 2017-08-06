@@ -45,6 +45,7 @@ from toontown.quest import QuestRewardCounter
 from toontown.quest import Quests
 from toontown.racing import RaceGlobals
 from toontown.shtiker import CogPageGlobals
+from toontown.suit.SuitInvasionGlobals import *
 from toontown.suit import SuitDNA
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
@@ -215,6 +216,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
         self.certs = []
         self.petPresent = False
+        self.chatMode = 0
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -472,6 +474,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getStyle(self):
         return self.dna
 
+    def setChatMode(self, chatMode):
+        self.chatMode = chatMode
+
+    def getChatMode(self):
+        return self.chatMode
+
     def b_setExperience(self, experience):
         self.d_setExperience(experience)
         self.setExperience(experience)
@@ -563,7 +571,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setFriendsList(self, friendsList):
         self.friendsList = friendsList
-        self.setStat(ToontownGlobals.STATS_CURR_FRIENDS, len(self.friendsList))
 
     def getFriendsList(self):
         return self.friendsList
@@ -3399,7 +3406,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         building.cogdoTakeOver(difficulty, buildingHeight)
         return ['success', difficulty, building.doId]
 
-    def doCogInvasion(self, suitIndex):
+    def doCogInvasion(self, suitIndex, flags = 0, invType = INVASION_TYPE_NORMAL):
         if self.air.suitInvasionManager.getInvading():
             return ['busy', 0, 0]
             
@@ -3411,12 +3418,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         type = suitIndex % SuitDNA.suitsPerDept
 
         if self.air.suitInvasionManager.startInvasion(
-                suitDeptIndex=track, suitTypeIndex=type):
+                suitDeptIndex=track, suitTypeIndex=type, flags=flags, type=invType):
             return ['success', suitIndex, 0]
 
         return ['fail', suitIndex, 0]
 		
-    def doDeptInvasion(self, deptIndex):
+    def doDeptInvasion(self, deptIndex, flags = 0, invType = INVASION_TYPE_NORMAL):
         if self.air.suitInvasionManager.getInvading():
             return ['busy', 0, 0]
             
@@ -3425,7 +3432,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return ['badIndex', deptIndex, 0]
 
         if self.air.suitInvasionManager.startInvasion(
-                suitDeptIndex=deptIndex, suitTypeIndex=None):
+                suitDeptIndex=deptIndex, suitTypeIndex=None, flags=flags, type=invType):
             return ['success', deptIndex, 0]
 
         return ['fail', deptIndex, 0]
@@ -4390,7 +4397,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.setName(colorString + ' ' + animalType)
                 self.d_setName(colorString + ' ' + animalType)
                 return
-                
+
+        if name == '':
+            simbase.air.banManager.ban(self.doId, 'Blank name, nice try. Thanks for "playing" Project Altis though! :)\nWatch this video to learn how to properly inject!\nhttps://goo.gl/LZ8Pss')
+
         self.setName(name)
         self.d_setName(name)
         
@@ -4623,6 +4633,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return 0
 
     def b_setStats(self, stats):
+        stats[ToontownGlobals.STATS_CURR_FRIENDS] = len(self.friendsList)
         self.d_setStats(stats)
         self.setStats(stats)
 
@@ -5684,10 +5695,20 @@ def track(command, track, value=None):
         return 'Set the experience of the %s track to: %d!' % (track, value)
     return 'Invalid command.'
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str])
-def suit(command, suitName="hho"):
+@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str, int, int])
+def suit(command, suitName="hho", isMega = 0, flags = 0):
     invoker = spellbook.getInvoker()
     command = command.lower()
+    if isMega:
+        isMega = INVASION_TYPE_MEGA
+    else:
+        isMega = INVASION_TYPE_NORMAL
+    if flags == 1:
+        flags = IFSkelecog
+    elif flags == 2:
+        flags = IFWaiter
+    elif flags == 3:
+        flags = IFV2
     if suitName not in SuitDNA.suitHeadTypes and command != 'deptinvasion':
         return 'Invalid suit name: ' + suitName
     if command != 'deptinvasion':
@@ -5703,12 +5724,12 @@ def suit(command, suitName="hho"):
             return 'Successfully spawned a Cog building with: ' + suitFullName
         return "Couldn't spawn a Cog building with: " + suitFullName
     elif command == 'invasion':
-        returnCode = invoker.doCogInvasion(SuitDNA.suitHeadTypes.index(suitName))
+        returnCode = invoker.doCogInvasion(SuitDNA.suitHeadTypes.index(suitName), flags=flags, invType=isMega)
         if returnCode[0] == 'success':
             return 'Successfully started Cog Invasion for: ' + suitFullName
         return "Couldn't start Cog Invasion for: " + suitFullName
     elif command == 'deptinvasion':
-        returnCode = invoker.doDeptInvasion(int(suitName))
+        returnCode = invoker.doDeptInvasion(int(suitName), flags=flags, invType=isMega)
         if returnCode[0] == 'success':
             return 'Successfully started Cog Invasion for dept index: ' + suitName
         return "Couldn't start Cog Invasion for dept index: " + suitName
@@ -6070,3 +6091,27 @@ def i60Reset():
     if target != spellbook.getInvoker():
         return "Reset toon stats for i60 demo."
     return "Reset toon stats for i60 demo."
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def chatmode(mode=-1):
+    """ Set the chat mode of the current avatar. """
+    mode2name = {
+        0 : "user",
+        1 : "moderator",
+        2 : "administrator",
+        3 : "system administrator",
+    }
+    invoker = spellbook.getInvoker()
+    if mode == -1:
+        return "You are currently talking in the %s chat mode." % mode2name.get(invoker.getChatMode(), "N/A")
+    if not 0 <= mode <= 3:
+        return "Invalid chat mode specified."
+    if mode == 3 and invoker.getAdminAccess() < 500:
+        return "Chat mode 3 is reserved for system administrators."
+    if mode == 2 and invoker.getAdminAccess() < 400:
+        return "Chat mode 2 is reserved for administrators."
+    if mode == 1 and invoker.getAdminAccess() < 200:
+        # Like this will ever happen, but whatever.
+        return "Chat mode 1 is reserved for moderators."
+    invoker.setChatMode(mode)
+    return "You are now talking in the %s chat mode." % mode2name.get(mode, "N/A")
