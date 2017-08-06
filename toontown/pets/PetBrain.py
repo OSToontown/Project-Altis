@@ -7,8 +7,10 @@ from direct.distributed import DistributedObject, DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
 from direct.fsm import FSM
+from toontown.toonbase.ToonPythonUtil import reduceAngle
 from toontown.pets import PetConstants, PetObserve, PetGoal, PetGoalMgr
 from toontown.pets import PetTricks, PetLookerAI
+from direct.interval.IntervalGlobal import *
 import random, types
 
 class PetBrain(DirectObject.DirectObject):
@@ -284,11 +286,24 @@ class PetBrain(DirectObject.DirectObject):
     def _handleGenericObserve(self, observe):
         pass
 
+    def lookAtAv(self, av):
+        avatar = simbase.air.doId2do.get(av)
+        if avatar is None:
+            return
+
+        lookAtNode = NodePath('lookatNode')
+        lookAtNode.hide()
+        lookAtNode.reparentTo(self.pet)
+        lookAtNode.lookAt(avatar)
+        relH = reduceAngle(lookAtNode.getH(self.pet))
+        self.pet.d_setH(relH) # Hotfix for look bug; may look glitchy in-game
+        del lookAtNode
+
     def _handleActionObserve(self, observe):
         action = observe.getAction()
         avId = observe.getAvId()
         OA = PetObserve.Actions
-        dbg = PetBrain.notify.debug
+        dbg = PetBrain.notify.info
         if action == OA.ATTENDED_START:
             dbg('avatar %s is looking at me' % avId)
             self.pet.lerpMoods({'boredom': -.1,
@@ -343,6 +358,7 @@ class PetBrain(DirectObject.DirectObject):
              'sadness': -.2})
             self.updateLastInteractTime(avId)
             avatar = simbase.air.doId2do.get(avId)
+            self.lookAtAv(avId)
             if avatar is not None:
                 avatar.setHatePets(0)
         elif action == OA.SCRATCH:
@@ -358,6 +374,7 @@ class PetBrain(DirectObject.DirectObject):
              'sadness': -.2})
             self.updateLastInteractTime(avId)
             avatar = simbase.air.doId2do.get(avId)
+            self.lookAtAv(avId)
             if avatar is not None:
                 avatar.setHatePets(0)
         elif action == OA.GARDEN:
@@ -382,23 +399,35 @@ class PetBrain(DirectObject.DirectObject):
 
         def _handleComeHere(avId, self = self):
             avatar = simbase.air.doId2do.get(avId)
+            if avId != self.pet.ownerId and self.pet.public == True:
+                return
+
             if avatar:
                 self.pet.mover.walkToAvatar(avatar)
                 avatar.setHatePets(0)
 
         def _handleFollowMe(avId, self = self):
             avatar = simbase.air.doId2do.get(avId)
+            if avId != self.pet.ownerId and self.pet.public == True:
+                return
+
             if avatar:
                 self.pet.mover.walkToAvatar(avatar)
                 avatar.setHatePets(0)
 
         def _handleStay(avId, self = self):
             avatar = simbase.air.doId2do.get(avId)
+            if avId != self.pet.ownerId and self.pet.public == True:
+                return
+
             if avatar:
                 self._stay(avatar)
 
         def _handleCriticism(avId, self = self):
             ownerFactor = 0.5
+            if avId != self.pet.ownerId and self.pet.public == True:
+                return
+
             if avId == self.pet.ownerId:
                 ownerFactor = 1.0
             self.pet.lerpMoods({'affection': -.4,
@@ -412,7 +441,7 @@ class PetBrain(DirectObject.DirectObject):
         def _handleGoAway(avId, self = self):
             avatar = simbase.air.doId2do.get(avId)
             if avatar is not None:
-                if self.getFocus() == avatar:
+                if self.getFocus() == avatar and self.pet.public == False:
                     self._wander()
 
         def _handleDoTrick(trickId, avId, self = self):

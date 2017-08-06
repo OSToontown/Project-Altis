@@ -215,6 +215,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.trainingPoints = 0
         self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
         self.certs = []
+        self.petPresent = False
         self.chatMode = 0
 
     def generate(self):
@@ -3212,10 +3213,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.debug('setPetMovie: petId: %s, flag: %s' % (petId, flag))
             pet = simbase.air.doId2do.get(petId)
             if pet is not None:
-                if pet.__class__.__name__ == 'DistributedPetAI':
+                if pet.__class__.__name__ == 'DistributedPetAI' or pet.__class__.__name__ == 'DistributedPublicPetAI':
                     pet.handleAvPetInteraction(flag, self.getDoId())
                 else:
                     self.air.writeServerEvent('suspicious', self.doId, 'setPetMovie: playing pet movie %s on non-pet object %s' % (flag, petId))
+            else:
+                self.notify.info("pet is none")
 
         def setPetTutorialDone(self, bDone):
             self.notify.debug('setPetTutorialDone')
@@ -5760,6 +5763,14 @@ def getZone():
     invoker = spellbook.getInvoker()
     zone = invoker.zoneId
     return 'ZoneID: %s' % (zone)
+
+@magicWord(category=CATEGORY_PROGRAMMER)
+def petTest():
+    from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
+    invoker = spellbook.getInvoker()
+    pet = DistributedPublicPetAI(simbase.air, invoker)
+    pet.generateWithRequired(invoker.zoneId)
+    return 'Generated pet'
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def nametagStyle(nametagStyle):

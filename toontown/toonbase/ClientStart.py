@@ -37,6 +37,7 @@ loader-num-threads 25
 # Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
+notify-level-DistributedPetAI info
 want-pstats #f
 
 # Audio:

@@ -5,7 +5,7 @@ from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToonPythonUtil import *
 from direct.directnotify import DirectNotifyGlobal
-from direct.distributed import DistributedSmoothNode
+from direct.distributed import DistributedSmoothNode, DistributedObject
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.distributed.MsgTypes import *
 from direct.task import Task
@@ -33,10 +33,11 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
     callSfx = None
     petSfx = None
 
-    def __init__(self, cr, bFake = False):
+    def __init__(self, cr, ready = True, bFake = False):
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, cr)
         Pet.Pet.__init__(self)
         self.bFake = bFake
+        self.ready = ready
         self.isLocalToon = 0
         self.inWater = 0
         self.__funcsToDelete = []
@@ -46,6 +47,9 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.avDelayDelete = None
         self.setBlend(frameBlend = base.wantSmoothAnims)
         return
+
+    def isGenerated(self):
+        return DistributedObject.DistributedObject.isGenerated(self) and self.ready
 
     def generate(self):
         if not self.bFake:

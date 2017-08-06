@@ -57,7 +57,10 @@ class PetActionFSM(FSM.FSM):
                 if healAmt:
                     for avId, av in self.pet._getFullNearbyToonDict().items():
                         if isinstance(av, DistributedToonAI.DistributedToonAI):
-                            av.toonUp(healAmt)
+                            try:
+                                av.toonUp(healAmt)
+                            except:
+                                self.notify.warning("Error healing toon %d" % av.doId)
 
                 self.pet._handleDidTrick(trickId)
                 if not self.pet.isLockedDown():

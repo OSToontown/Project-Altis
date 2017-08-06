@@ -96,7 +96,7 @@ class PetMoverAI(FSM, Mover):
 
     def __init__(self, pet):
         self.pet = pet
-        self.fwdSpeed = 10.0
+        self.fwdSpeed = 15.0
         self.rotSpeed = 360.0
         self.dt = 0.0
         FSM.__init__(self, 'PetMoverAI-%d' % self.pet.doId)

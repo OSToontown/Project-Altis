@@ -59,6 +59,7 @@ from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
+from toontown.pets import DistributedPublicPetMgrAI
 from toontown.events.CharityScreenAI import CharityScreenAI
 
 class ToontownAIRepository(ToontownInternalRepository):
@@ -170,7 +171,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         if self.wantPets:
             self.petMgr = PetManagerAI(self)
-        
+
+        self.publicPetMgr = DistributedPublicPetMgrAI.DistributedPublicPetMgrAI(self)
+        self.publicPetMgr.generateWithRequired(2)
+
         if self.wantParties:
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)

@@ -145,72 +145,75 @@ class PickAToon(DirectObject):
             self.backgroundClassic = None
 
     def load(self):
-        self.patNode = render.attachNewNode('patNode')
-        self.patNode2d = aspect2d.attachNewNode('patNode2d')
-        self.patNode.setTransparency(1)
-        self.patNode2d.setTransparency(1)
-        self.patNode.setColorScale(1, 1, 1, 0)
-        self.patNode2d.setColorScale(1, 1, 1, 0)
-        gui = base.patgui
-        gui2 = base.gui2
-        newGui = base.newGui
-        matGui = base.matGui
-        shuffleUp = base.shuffleUp
-        shuffleDown = base.shuffleDown
+        try:
+            self.patNode = render.attachNewNode('patNode')
+            self.patNode2d = aspect2d.attachNewNode('patNode2d')
+            self.patNode.setTransparency(1)
+            self.patNode2d.setTransparency(1)
+            self.patNode.setColorScale(1, 1, 1, 0)
+            self.patNode2d.setColorScale(1, 1, 1, 0)
+            gui = base.patgui
+            gui2 = base.gui2
+            newGui = base.newGui
+            matGui = base.matGui
+            shuffleUp = base.shuffleUp
+            shuffleDown = base.shuffleDown
 
-        self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon, font = ToontownGlobals.getSignFont(), scale = TTLocalizer.ACtitle, parent = hidden, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.82))
+            self.title = OnscreenText(TTLocalizer.AvatarChooserPickAToon, font = ToontownGlobals.getSignFont(), scale = TTLocalizer.ACtitle, parent = hidden, fg = (1, 0.9, 0.1, 1), pos = (0.0, 0.82))
 
-        # Quit Button
-        quitHover = gui.find('**/QuitBtn_RLVR')
-        self.quitHover = quitHover
-        self.quitButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = TTLocalizer.AvatarChooserQuit, text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.quitGame)
-        self.quitButton.reparentTo(base.a2dBottomLeft)
-        self.quitButton.setPos(0.25, 0, 0.075)
+            # Quit Button
+            quitHover = gui.find('**/QuitBtn_RLVR')
+            self.quitHover = quitHover
+            self.quitButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = TTLocalizer.AvatarChooserQuit, text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.quitGame)
+            self.quitButton.reparentTo(base.a2dBottomLeft)
+            self.quitButton.setPos(0.25, 0, 0.075)
 
-        # Options Button
-        self.optionsButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Options', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.openOptions)
-        self.optionsButton.reparentTo(base.a2dBottomRight)
-        self.optionsButton.setPos(-0.25, 0, 0.075)
+            # Options Button
+            self.optionsButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Options', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.openOptions)
+            self.optionsButton.reparentTo(base.a2dBottomRight)
+            self.optionsButton.setPos(-0.25, 0, 0.075)
 
-        # Shard Selector Button
-        self.shardsButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Districts', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.openShardPicker)
-        self.shardsButton.reparentTo(base.a2dBottomLeft)
-        self.shardsButton.setPos(0.25, 0, 0.2)
+            # Shard Selector Button
+            self.shardsButton = DirectButton(image = (shuffleUp, shuffleDown, shuffleUp), relief = None, image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'Districts', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -0.02), text_scale = 0.06, scale = 1, pos = (1.08, 0, -0.907), command = self.openShardPicker)
+            self.shardsButton.reparentTo(base.a2dBottomLeft)
+            self.shardsButton.setPos(0.25, 0, 0.2)
 
-        # Area toon is in
-        self.area = OnscreenText(parent = self.patNode2d, font = ToontownGlobals.getToonFont(),
-                                 pos = (-.1, -.1), scale = .075, text = '', shadow = (0, 0, 0, 1), fg = COLORS[self.selectedToon])
+            # Area toon is in
+            self.area = OnscreenText(parent = self.patNode2d, font = ToontownGlobals.getToonFont(),
+                                     pos = (-.1, -.1), scale = .075, text = '', shadow = (0, 0, 0, 1), fg = COLORS[self.selectedToon])
 
-        # DMENU Pat Screen Stuff
-        self.play = DirectButton(relief = None, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'PLAY THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.035, scale = 1.4, pos = (0, 0, -0.90), command = self.playGame, parent = self.patNode2d)
+            # DMENU Pat Screen Stuff
+            self.play = DirectButton(relief = None, image = (shuffleUp, shuffleDown, shuffleUp), image_scale = (0.8, 0.7, 0.7), image1_scale = (0.83, 0.73, 0.73), image2_scale = (0.83, 0.73, 0.73), text = 'PLAY THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.035, scale = 1.4, pos = (0, 0, -0.90), command = self.playGame, parent = self.patNode2d)
 
-        self.toon = Toon.Toon()
-        self.toon.setPosHpr(Vec3(5, 0, 0), Vec3(150, 0, 0))
-        self.toon.reparentTo(base.cr.DMENU_SCREEN.background)
-        self.toon.stopLookAroundNow()
+            self.toon = Toon.Toon()
+            self.toon.setPosHpr(Vec3(5, 0, 0), Vec3(150, 0, 0))
+            self.toon.reparentTo(base.cr.DMENU_SCREEN.background)
+            self.toon.stopLookAroundNow()
 
-        self.pickAToonGui = newGui
-        self.buttonBgs = []
-        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareRed'))
-        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareGreen'))
-        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePurple'))
-        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareBlue'))
-        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePink'))
-        self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareYellow'))
-        buttonIndex = []
-        for av in self.avatarList:
-            self.setupButtons(av, position = av.position)
-            buttonIndex.append(av.position)
+            self.pickAToonGui = newGui
+            self.buttonBgs = []
+            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareRed'))
+            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareGreen'))
+            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePurple'))
+            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareBlue'))
+            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squarePink'))
+            self.buttonBgs.append(self.pickAToonGui.find('**/tt_t_gui_pat_squareYellow'))
+            buttonIndex = []
+            for av in self.avatarList:
+                self.setupButtons(av, position = av.position)
+                buttonIndex.append(av.position)
 
-        for pos in xrange(0, 6):
-            if pos not in buttonIndex:
-                button = self.setupButtons(position = pos)
+            for pos in xrange(0, 6):
+                if pos not in buttonIndex:
+                    button = self.setupButtons(position = pos)
 
-        base.graphicsEngine.renderFrame()
-        self.changeName = DirectButton(relief = None, image = (quitHover, quitHover, quitHover), text = 'NAME THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.045, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.4, pos = (0, 0, -0.75), command = self.__handleNameYourToon, parent = self.patNode2d)
+            base.graphicsEngine.renderFrame()
+            self.changeName = DirectButton(relief = None, image = (quitHover, quitHover, quitHover), text = 'NAME THIS TOON', text_font = ToontownGlobals.getSignFont(), text_fg = (0.977, 0.816, 0.133, 1), text_pos = (0, -.016), text_scale = 0.045, image_scale = 1, image1_scale = 1.05, image2_scale = 1.05, scale = 1.4, pos = (0, 0, -0.75), command = self.__handleNameYourToon, parent = self.patNode2d)
 
-        LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
-        LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+            LerpColorScaleInterval(self.patNode, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+            LerpColorScaleInterval(self.patNode2d, .5, Vec4(1, 1, 1, 1), Vec4(1, 1, 1, 0)).start()
+        except:
+            pass
 
     def toggleClassic(self):
         if self.isClassic:
@@ -246,33 +249,36 @@ class PickAToon(DirectObject):
         self.area['text'] = ''
 
     def showToon(self):
-        av = [x for x in self.avatarList if x.position == self.selectedToon][0]
-        dna = av.dna
-        if av.allowedName == 1:
-            self.toon.setName(av.name + '\n\1textShadow\1NAME REJECTED!\2')
-            self.changeName.show()
-        elif av.wantName != '':
-            self.toon.setName(av.name + '\n\1textShadow\1NAME PENDING!\2')
-            self.changeName.hide()
-        else:
-            self.toon.setName(av.name)
-            self.changeName.hide()
-        self.toon.setDNAString(dna)
-        self.laffMeter = LaffMeter.LaffMeter(ToonDNA.ToonDNA(dna), av.hp, av.maxHp)
-        self.laffMeter.set_pos(-.6, 0, -.5)
-        self.laffMeter.reparent_to(self.patNode2d)
-        self.laffMeter.start()
-        self.toon.setHat(av.hat[0], av.hat[1], av.hat[2])
-        self.toon.setGlasses(av.glasses[0], av.glasses[1], av.glasses[2])
-        self.toon.setBackpack(av.backpack[0], av.backpack[1], av.backpack[2])
-        self.toon.setShoes(av.shoes[0], av.shoes[1], av.shoes[2])
-        self.jumpIn = Sequence(
-                Func(self.toon.loop, 'wave'),
-                Wait(self.toon.getDuration('wave')),
-                Func(self.toon.animFSM.request, 'neutral'))
-        self.jumpIn.start() # ALTIS: TODO: Add the states to Toon.py
-        self.toon.animFSM.request('neutral')
-        self.toon.show()
+        try:
+            av = [x for x in self.avatarList if x.position == self.selectedToon][0]
+            dna = av.dna
+            if av.allowedName == 1:
+                self.toon.setName(av.name + '\n\1textShadow\1NAME REJECTED!\2')
+                self.changeName.show()
+            elif av.wantName != '':
+                self.toon.setName(av.name + '\n\1textShadow\1NAME PENDING!\2')
+                self.changeName.hide()
+            else:
+                self.toon.setName(av.name)
+                self.changeName.hide()
+            self.toon.setDNAString(dna)
+            self.laffMeter = LaffMeter.LaffMeter(ToonDNA.ToonDNA(dna), av.hp, av.maxHp)
+            self.laffMeter.set_pos(-.6, 0, -.5)
+            self.laffMeter.reparent_to(self.patNode2d)
+            self.laffMeter.start()
+            self.toon.setHat(av.hat[0], av.hat[1], av.hat[2])
+            self.toon.setGlasses(av.glasses[0], av.glasses[1], av.glasses[2])
+            self.toon.setBackpack(av.backpack[0], av.backpack[1], av.backpack[2])
+            self.toon.setShoes(av.shoes[0], av.shoes[1], av.shoes[2])
+            self.jumpIn = Sequence(
+                    Func(self.toon.loop, 'wave'),
+                    Wait(self.toon.getDuration('wave')),
+                    Func(self.toon.animFSM.request, 'neutral'))
+            self.jumpIn.start() # ALTIS: TODO: Add the states to Toon.py
+            self.toon.animFSM.request('neutral')
+            self.toon.show()
+        except:
+            pass
 
 
     def checkPlayButton(self):

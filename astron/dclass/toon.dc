@@ -706,6 +706,8 @@ from toontown.coghq import DistributedStageRoom/AI
 from toontown.coghq import DistributedStageBattle/AI
 from toontown.pets.PetDCImports/AI import *
 from toontown.pets import DistributedPetProxy/AI
+from toontown.pets import DistributedPublicPet/AI
+from toontown.pets import DistributedPublicPetMgr/AI
 from toontown.coghq.InGameEditorDCImports/AI import *
 from toontown.distributed import ToontownDistrict/AI
 from toontown.distributed import ToontownDistrictStats/AI
@@ -3061,6 +3063,18 @@ dclass DistributedPet : DistributedSmoothNode {
 
 dclass DistributedPetProxy : DistributedPet {
   setDominantMood(string) broadcast ram;
+};
+
+dclass DistributedPublicPet : DistributedPet {
+ beginPublicDisplay() broadcast;
+ finishPublicDisplay() broadcast;
+ sphereEntered() clsend airecv;
+ sphereLeft() clsend airecv;
+};
+
+dclass DistributedPublicPetMgr : DistributedObject {
+ requestAppearance() clsend airecv;
+ requestAppearanceResp(uint8);
 };
 
 dclass DistributedAprilToonsMgr : DistributedObject {

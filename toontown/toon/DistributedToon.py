@@ -1944,10 +1944,14 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.bFishBingoMarkTutorialDone = bDone
 
         def b_setPetMovie(self, petId, flag):
+            if base.localAvatar.publicPetId != 0:
+                petId = base.localAvatar.publicPetId
+
             self.d_setPetMovie(petId, flag)
             self.setPetMovie(petId, flag)
 
         def d_setPetMovie(self, petId, flag):
+            self.notify.info("setting movie " + str(petId) + ", " + str(flag))
             self.sendUpdate('setPetMovie', [petId, flag])
 
         def setPetMovie(self, petId, flag):
