@@ -3070,36 +3070,3 @@ def i60PanStop():
     base.cam.setP(0)
     base.oobe()
     base.oobe()
-
-@magicWord(category=CATEGORY_PROGRAMMER)
-def devInjector():
-    import Tkinter as tk
-    from direct.stdpy import thread
-
-    def runCode():
-        global text
-        try:
-            exec (text.get(1.0, "end"), globals())
-        except Exception, e: print e
-
-
-    root = tk.Tk()
-    root.geometry('600x400')
-    root.title('Development Injector')
-    root.resizable(False, False)
-
-    global text
-    frame = tk.Frame(root)
-    text = tk.Text(frame, width=70, height=20)
-
-    text.insert(1.0, '')
-
-    text.pack(side="left")
-    tk.Button(root, text="Inject", command=runCode).pack()
-    scroll = tk.Scrollbar(frame)
-    scroll.pack(fill="y",side="right")
-    scroll.config(command=text.yview)
-    text.config(yscrollcommand=scroll.set)
-    frame.pack(fill="y")
-
-    thread.start_new_thread(root.mainloop, ())
