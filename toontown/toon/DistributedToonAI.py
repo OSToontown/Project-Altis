@@ -2036,6 +2036,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 commentStr = 'Toon %s teleporting to a zone %s they do not have access to' % (self.doId, zoneId)
                 if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
                     simbase.air.banManager.ban(self.doId, commentStr)
+        else:
+            self.sendUpdate('checkTeleportAccessResponse', [zoneId])
 
     def setTeleportOverride(self, flag):
         self.teleportOverride = flag
