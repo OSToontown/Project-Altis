@@ -4573,7 +4573,7 @@ TrackPageHints = ['First of 2 pieces of the gag training reel, get both to unloc
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% damage bonus to Throw gags.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an extra round of soak to Squirt gags, as well as giving a -20 defense debuff to the cog, as long as the cog is soaked.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Increases the chance for Zap gags to cause a shortcircuit by 1.5x (50%).', '???', '???',
- 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% accuracy bonus to Drop gags.', '???', '???']
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 20% accuracy bonus to Drop gags.', '???', '???']
 QuestPageToonTasks = 'ToonTasks'
 QuestPageChoose = 'Choose'
 QuestPageLocked = 'Locked'

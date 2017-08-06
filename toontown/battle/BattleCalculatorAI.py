@@ -170,13 +170,13 @@ class BattleCalculatorAI:
                 propAcc = 0
                 if treebonus:
                     self.notify.debug('using organic bonus lure accuracy')
-                    propAcc += AvDropBonusAccuracy[atkLevel]
+                    propAcc = AvDropBonusAccuracy[atkLevel]
                 if propBonus:
                     self.notify.debug('using prop bonus lure accuracy')
-                    propAcc += AvDropBonusAccuracy[atkLevel]
+                    propAcc = AvDropBonusAccuracy[atkLevel]
             elif treebonus or propBonus:
                 self.notify.debug('using oragnic OR prop bonus lure accuracy')
-                propAcc += AvDropBonusAccuracy[atkLevel]
+                propAcc = AvDropBonusAccuracy[atkLevel]
         if atkTrack == ZAP:
             for tgt in atkTargets:
                 if self.__isWet(tgt.getDoId()) or self.__isRaining(tgt.getDoId()):
@@ -520,8 +520,8 @@ class BattleCalculatorAI:
                         if self.__isWet(targetId) or self.__isRaining(toon):
                             if random.randint(0,99) <= InstaKillChance[atkLevel]:
                                 suit = self.battle.findSuit(targetId)
-                                if suit.getHP() > 350:
-                                    attackDamage = 350
+                                if suit.getHP() > 500:
+                                    attackDamage = 500
                                 else:
                                     suit.b_setSkeleRevives(0)
                                     attackDamage = suit.getHP()
