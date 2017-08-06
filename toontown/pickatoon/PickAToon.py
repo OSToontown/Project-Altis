@@ -249,33 +249,36 @@ class PickAToon(DirectObject):
         self.area['text'] = ''
 
     def showToon(self):
-        av = [x for x in self.avatarList if x.position == self.selectedToon][0]
-        dna = av.dna
-        if av.allowedName == 1:
-            self.toon.setName(av.name + '\n\1textShadow\1NAME REJECTED!\2')
-            self.changeName.show()
-        elif av.wantName != '':
-            self.toon.setName(av.name + '\n\1textShadow\1NAME PENDING!\2')
-            self.changeName.hide()
-        else:
-            self.toon.setName(av.name)
-            self.changeName.hide()
-        self.toon.setDNAString(dna)
-        self.laffMeter = LaffMeter.LaffMeter(ToonDNA.ToonDNA(dna), av.hp, av.maxHp)
-        self.laffMeter.set_pos(-.6, 0, -.5)
-        self.laffMeter.reparent_to(self.patNode2d)
-        self.laffMeter.start()
-        self.toon.setHat(av.hat[0], av.hat[1], av.hat[2])
-        self.toon.setGlasses(av.glasses[0], av.glasses[1], av.glasses[2])
-        self.toon.setBackpack(av.backpack[0], av.backpack[1], av.backpack[2])
-        self.toon.setShoes(av.shoes[0], av.shoes[1], av.shoes[2])
-        self.jumpIn = Sequence(
-                Func(self.toon.loop, 'wave'),
-                Wait(self.toon.getDuration('wave')),
-                Func(self.toon.animFSM.request, 'neutral'))
-        self.jumpIn.start() # ALTIS: TODO: Add the states to Toon.py
-        self.toon.animFSM.request('neutral')
-        self.toon.show()
+        try:
+            av = [x for x in self.avatarList if x.position == self.selectedToon][0]
+            dna = av.dna
+            if av.allowedName == 1:
+                self.toon.setName(av.name + '\n\1textShadow\1NAME REJECTED!\2')
+                self.changeName.show()
+            elif av.wantName != '':
+                self.toon.setName(av.name + '\n\1textShadow\1NAME PENDING!\2')
+                self.changeName.hide()
+            else:
+                self.toon.setName(av.name)
+                self.changeName.hide()
+            self.toon.setDNAString(dna)
+            self.laffMeter = LaffMeter.LaffMeter(ToonDNA.ToonDNA(dna), av.hp, av.maxHp)
+            self.laffMeter.set_pos(-.6, 0, -.5)
+            self.laffMeter.reparent_to(self.patNode2d)
+            self.laffMeter.start()
+            self.toon.setHat(av.hat[0], av.hat[1], av.hat[2])
+            self.toon.setGlasses(av.glasses[0], av.glasses[1], av.glasses[2])
+            self.toon.setBackpack(av.backpack[0], av.backpack[1], av.backpack[2])
+            self.toon.setShoes(av.shoes[0], av.shoes[1], av.shoes[2])
+            self.jumpIn = Sequence(
+                    Func(self.toon.loop, 'wave'),
+                    Wait(self.toon.getDuration('wave')),
+                    Func(self.toon.animFSM.request, 'neutral'))
+            self.jumpIn.start() # ALTIS: TODO: Add the states to Toon.py
+            self.toon.animFSM.request('neutral')
+            self.toon.show()
+        except:
+            pass
 
 
     def checkPlayButton(self):

@@ -2,50 +2,56 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
+from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
 
 class DistributedPublicPetMgr(DistributedObject.DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetMgrAI')
+    neverDisable = 1
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetMgr')
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
-        self.cr = cr
-        self.cr.publicPetMgr = self
+        cr.publicPetMgr = self
         self.buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         self.frame = None
+        self.panel = None
 
-    def showResponsePanel(self, txt):
-        def handleOk():
+    def clearResponsePanel(self, value = 0):
+        if self.frame:
             self.frame.destroy()
 
-        self.frame = DirectFrame(pos=(-1.01, 0.1, -0.35), parent=base.a2dTopRight,
-                            image_color=ToontownGlobals.GlobalDialogColor, image_scale=(1.0, 1.0, 0.6), text=txt,
-                            text_wordwrap=13.5, text_scale=0.06, text_pos=(0.0, 0.18))
+        self.enableCallButton()
 
-        buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
-        self.bOk = DirectButton(self.frame, image=(
-            buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr')),
-                                relief=None, text=TTLocalizer.TeleportPanelOK, text_scale=0.05,
-                                text_pos=(0.0, -0.1), pos=(0.0, 0.0, -0.1), command=handleOk)
+    def showResponsePanel(self, txt):
+        self.frame = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=txt, command=self.clearResponsePanel)
+        self.frame.setPos(-1.01, 0.1, -0.27)
+        self.frame.reparentTo(base.a2dTopRight)
 
-        buttons.removeNode()
+    def enableCallButton(self):
+        if self.panel:
+            self.panel.callButton['state'] = DGG.ENABLED
+
+    def disableCallButton(self):
+        if self.panel:
+            self.panel.callButton['state'] = DGG.DISABLED
 
     def requestAppearanceResp(self, resp):
         if resp == 1:
             self.showResponsePanel(TTLocalizer.PetRequestBadLocation)
         elif resp == 2:
             self.showResponsePanel(TTLocalizer.PetRequestAlreadyPresent)
+        elif self.panel:
+            self.panel.doClose()
 
-    def requestAppearance(self):
+    def requestAppearance(self, panel):
         if self.frame:
             self.frame.destroy()
 
+        self.disableCallButton()
         self.sendUpdate('requestAppearance', [])
 
     def disable(self):
-        if self.frame:
-            self.frame.destroy()
-        
+        self.clearResponsePanel()
         self.buttons.removeNode()
         DistributedObject.DistributedObject.disable(self)
 

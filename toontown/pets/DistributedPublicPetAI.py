@@ -89,6 +89,7 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
     def announceGenerate(self):
         self.acquireProxyFields()
         self.setLocation(self.owner.air.districtId, self.owner.zoneId)
+        self.owner.petPresent = True
 
         def finishGenerate(task):
             self.sendUpdate('beginPublicDisplay', [])
@@ -124,7 +125,7 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
     def __handleOwnerZoneChange(self, newZoneId, oldZoneId):
         self.disable()
 
-    def __handleUnexpectedExit(self, avId):
+    def __handleUnexpectedExit(self):
         self.notify.info("Our owner %d is gone, disabling public pet!" % avId)
         self.sendUpdate('finishPublicDisplay', [])
         taskMgr.doMethodLater(3, self.disable, self.uniqueName('cleanup-%d' % self.petId))
@@ -132,6 +133,8 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
     def disable(self, task = None):
         self.ignoreAll()
         taskMgr.remove(self.getFollowTaskName())
-        DistributedPetAI.DistributedPetAI.disable(self)
+        if self.owner:
+            self.owner.petPresent = False
 
+        DistributedPetAI.DistributedPetAI.delete(self)
 

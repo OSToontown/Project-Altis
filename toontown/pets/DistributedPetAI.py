@@ -635,10 +635,11 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.lockChaseImpulse = PetChase.PetChase()
     
     def destroyImpulses(self):
-        self.wanderImpulse.destroy()
-        del self.chaseImpulse
-        del self.fleeImpulse
-        del self.wanderImpulse
+        if self.public == False:
+            self.wanderImpulse.destroy()
+            del self.chaseImpulse
+            del self.fleeImpulse
+            del self.wanderImpulse
         self.destroySphereImpulse()
         del self.lockChaseImpulse
         

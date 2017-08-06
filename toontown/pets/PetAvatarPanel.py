@@ -223,7 +223,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.notify.info('QA-REGRESSION: PET: Call')
         self.notify.debug('__handleCall(): doId=%s' % self.avatar.doId)
         if base.localAvatar.publicPetId == 0 and (base.localAvatar.zoneId in ToontownGlobals.safeZones):
-            base.cr.publicPetMgr.requestAppearance()
+            base.cr.publicPetMgr.requestAppearance(self)
+            return
 
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_CALL)
         base.panel.disableInteractionButtons()
@@ -265,6 +266,9 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
 
     def __handleGenerateAvatar(self, avatar):
         pass
+
+    def doClose(self):
+        self.__handleClose()
 
     def __handleClose(self):
         self.notify.debug('__handleClose(): doId=%s' % self.avatar.doId)

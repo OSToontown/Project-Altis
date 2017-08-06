@@ -214,6 +214,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.trainingPoints = 0
         self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
         self.certs = []
+        self.petPresent = False
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
