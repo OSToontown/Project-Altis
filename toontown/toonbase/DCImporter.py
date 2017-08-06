@@ -4031,3 +4031,5 @@ dclass DistributedRainManager : DistributedWeatherMGR {
 dcStream = StringStream(dcString)
 def getDcStream():
     return dcStream
+
+import toontown.toonbase.ClientStart
