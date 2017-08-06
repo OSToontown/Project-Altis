@@ -37,6 +37,7 @@ loader-num-threads 25
 # Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
+notify-level-DistributedPetAI info
 want-pstats #f
 
 # Audio:
@@ -196,7 +197,7 @@ shard-low-pop 50
 shard-mid-pop 80
 
 #Resources
-model-path /
+model-path ../resources
 
 # Core features:
 want-pets #t

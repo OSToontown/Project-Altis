@@ -1,4 +1,5 @@
-dcString = """from direct.distributed import DistributedObject/AI/UD
+dcString = """
+from direct.distributed import DistributedObject/AI/UD
 from direct.distributed import DistributedNode/AI/UD
 from direct.distributed import DistributedSmoothNode/AI
 from direct.distributed import DistributedCartesianGrid/AI
@@ -706,6 +707,8 @@ from toontown.coghq import DistributedStageRoom/AI
 from toontown.coghq import DistributedStageBattle/AI
 from toontown.pets.PetDCImports/AI import *
 from toontown.pets import DistributedPetProxy/AI
+from toontown.pets import DistributedPublicPet/AI
+from toontown.pets import DistributedPublicPetMgr/AI
 from toontown.coghq.InGameEditorDCImports/AI import *
 from toontown.distributed import ToontownDistrict/AI
 from toontown.distributed import ToontownDistrictStats/AI
@@ -3063,6 +3066,18 @@ dclass DistributedPetProxy : DistributedPet {
   setDominantMood(string) broadcast ram;
 };
 
+dclass DistributedPublicPet : DistributedPet {
+ beginPublicDisplay() broadcast;
+ finishPublicDisplay() broadcast;
+ sphereEntered() clsend airecv;
+ sphereLeft() clsend airecv;
+};
+
+dclass DistributedPublicPetMgr : DistributedObject {
+ requestAppearance() clsend airecv;
+ requestAppearanceResp(uint8);
+};
+
 dclass DistributedAprilToonsMgr : DistributedObject {
   setEventActive(uint8 eventId, bool) broadcast;
   requestEventsList() clsend airecv;
@@ -4007,9 +4022,18 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 
 dclass DistributedRainManager : DistributedWeatherMGR {
   spawnLightning(int16, int16) broadcast ram;
-};"""
+};
+
+"""
+
+######## TURN ME OFF IN PRODUCTION ########
+if True:
+    with open('astron/dclass/toon.dc', 'r') as dc:
+        content = dc.read()
+
+    dcString = content
+
+
 dcStream = StringStream(dcString)
 def getDcStream():
     return dcStream
-
-import toontown.toonbase.ClientStart
