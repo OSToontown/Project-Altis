@@ -2525,7 +2525,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.toonExp = exp
         
     def addToonExp(self, deltaExp):
-        self.toonExp = deltaExp + self.toonExp
+        self.b_setToonExp(self.toonExp + deltaExp)
         
     def getToonExp(self):
         return self.toonExp
