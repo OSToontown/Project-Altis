@@ -402,13 +402,13 @@ AvPropDamage = ((((8, 10), (Levels[0][0], Levels[0][1])),
   ((28, 60), (Levels[6][5], Levels[6][6])),
   ((80, 80), (Levels[6][6], MaxSkill))
  ),
- (((10, 10), (Levels[7][0], Levels[7][1])),
-  ((18, 18), (Levels[7][1], Levels[7][2])),
-  ((30, 30), (Levels[7][2], Levels[7][3])),
-  ((45, 45), (Levels[7][3], Levels[7][4])),
-  ((60, 60), (Levels[7][4], Levels[7][5])),
-  ((85, 170), (Levels[7][5], Levels[7][6])),
-  ((180, 180), (Levels[7][6], MaxSkill))))
+ (((10, 12), (Levels[7][0], Levels[7][1])),
+  ((18, 20), (Levels[7][1], Levels[7][2])),
+  ((30, 35), (Levels[7][2], Levels[7][3])),
+  ((45, 50), (Levels[7][3], Levels[7][4])),
+  ((60, 70), (Levels[7][4], Levels[7][5])),
+  ((90, 180), (Levels[7][5], Levels[7][6])),
+  ((195, 195), (Levels[7][6], MaxSkill))))
 ATK_SINGLE_TARGET = 0
 ATK_GROUP_TARGET = 1
 AvPropTargetCat = ((ATK_SINGLE_TARGET,
