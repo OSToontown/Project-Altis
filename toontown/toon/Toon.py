@@ -49,6 +49,8 @@ DeerDialogueArray = []
 BeaverDialogueArray = []
 AlligatorDialogueArray = []
 FoxDialogueArray = []
+BatDialogueArray = []
+RaccoonDialogueArray = []
 LegsAnimDict = {}
 TorsoAnimDict = {}
 HeadAnimDict = {}
@@ -402,6 +404,16 @@ def loadDialog():
     for file in foxDialogFiles:
         FoxDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
 
+    batDialogFiles = ('AV_bat_short', 'AV_bat_med', 'AV_bat_long', 'AV_bat_question', 'AV_bat_exclaim', 'AV_bat_howl')
+    global BatDialogueArray
+    for file in batDialogFiles:
+        BatDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
+		
+    raccoonDialogFiles = ('AV_raccoon_short', 'AV_raccoon_med', 'AV_raccoon_long', 'AV_raccoon_question', 'AV_raccoon_exclaim', 'AV_raccoon_howl')
+    global RaccoonDialogueArray
+    for file in raccoonDialogFiles:
+        RaccoonDialogueArray.append(base.loadSfx(loadPath + file + '.ogg'))
+
 def unloadDialog():
     global CatDialogueArray
     global PigDialogueArray
@@ -416,6 +428,8 @@ def unloadDialog():
     global BeaverDialogueArray
     global AlligatorDialogueArray
     global FoxDialogueArray
+    global BatDialogueArray
+    global RaccoonDialogueArray
     DogDialogueArray = []
     CatDialogueArray = []
     HorseDialogueArray = []
@@ -429,7 +443,8 @@ def unloadDialog():
     BeaverDialogueArray = []
     AlligatorDialogueArray = []
     FoxDialogueArray = []
-
+    BatDialogueArray = []
+    RaccoonDialogueArray = []
 
 class Toon(Avatar.Avatar, ToonHead):
     notify = DirectNotifyGlobal.directNotify.newCategory('Toon')
@@ -1247,6 +1262,10 @@ class Toon(Avatar.Avatar, ToonHead):
                 dialogueArray = AlligatorDialogueArray
             elif animalType == 'fox':
                 dialogueArray = FoxDialogueArray
+            elif animalType == 'bat':
+                dialogueArray = BatDialogueArray
+            elif animalType == 'raccoon':
+                dialogueArray = RaccoonDialogueArray
             else:
                 dialogueArray = None
         return dialogueArray

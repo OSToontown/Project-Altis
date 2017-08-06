@@ -20,7 +20,9 @@ toonSpeciesTypes = ['d',
  'x',
  'z',
  'a',
- 'v']
+ 'v',
+ 'n',
+ 't']
 toonHeadTypes = ['dls',
  'dss',
  'dsl',
@@ -70,7 +72,15 @@ toonHeadTypes = ['dls',
  'vls',
  'vss',
  'vsl',
- 'vll']
+ 'vll',
+ 'nls',
+ 'nss',
+ 'nsl',
+ 'nll',
+ 'tls',
+ 'tss',
+ 'tsl',
+ 'tll']
 
 def getHeadList(species):
     headList = []
@@ -121,6 +131,10 @@ def getSpeciesName(head):
         speciesName = 'alligator'
     elif species == 'v':
         speciesName = 'fox'
+    elif species == 'n':
+        speciesName = 'bat'
+    elif species == 't':
+        speciesName = 'raccoon'
     return speciesName
 
 
@@ -136,7 +150,9 @@ toonHeadAnimalIndices = [0,
  34,
  38,
  42,
- 46]
+ 46,
+ 50,
+ 54]
 toonHeadAnimalIndicesTrial = [0,
  4,
  12,
@@ -193,7 +209,15 @@ allToonHeadAnimalIndices = [0,
  46,
  47,
  48,
- 49]
+ 49,
+ 50,
+ 51,
+ 52,
+ 53,
+ 54,
+ 55,
+ 56,
+ 57]
 allToonHeadAnimalIndicesTrial = [0,
  1,
  2,
@@ -3025,6 +3049,10 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return 'alligator'
         elif self.head[0] == 'v':
             return 'fox'
+        elif self.head[0] == 'n':
+            return 'bat'
+        elif self.head[0] == 't':
+            return 'raccoon'
         else:
             notify.error('unknown headStyle: ', self.head[0])
 

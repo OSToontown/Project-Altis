@@ -50,7 +50,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     [ToontownGlobals.SleetStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 30, 60, 10), (5, 6, 7, 8), [], 20],
     [ToontownGlobals.PolarPlace, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 80, 5, 5, 5), (7, 8, 9), [], 25],
     [ToontownGlobals.AltoAvenue, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 25, 50, 25),(5, 6), [], 7.5],
-    [ToontownGlobals.BaritoneBoulevard, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 90, 10, 0), (5, 6, 7), [], 10],
+    [ToontownGlobals.BaritoneBoulevard, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 40, 10, 50), (5, 6, 7), [], 10],
     [ToontownGlobals.TenorTerrace, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 40, 0, 0, 20), (5, 6, 7, 8), [], 15],
     [ToontownGlobals.SopranoStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 80, 5, 5), (6, 7, 8), [], 25],
     [ToontownGlobals.ElmStreet, 8, 20, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 40, 40, 10), (4, 5, 6), [], 7.5],

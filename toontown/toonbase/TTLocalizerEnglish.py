@@ -592,6 +592,32 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  68: ['Cash', 'Rolls of Cash', 'some '],
  110: ['TIP Clothing Ticket', 'Clothing Tickets', 'a '],
  1000: ['Clothing Ticket', 'Clothing Tickets', 'a '],
+ 1001: ['Dried Suit', 'Dried Suits', 'a '],
+ 1002: ['Signed Check', 'Signed Checks', 'a '],
+ 1003: ['Board', 'Boards', 'a '],
+ 1004: ['Lucky Hook', 'Lucky Hooks', 'a '],
+ 1005: ['Cloth', 'Pieces of Cloth', 'some '],
+ 1006: ['Sail', 'Sails', 'a '],
+ 1007: ['Fishing Rod', 'Fishing Rods', 'a '],
+ 1008: ['Fishing Hook', 'Fishing Hooks', 'a '],
+ 1009: ['Can of Worms', 'Cans of Worms', 'a '],
+ 1010: ['Fish', 'Fish', 'some '],
+ 1011: ['Chips', 'Bags of Chips', 'some '],
+ 1012: ['Taxi Keys', 'Taxi Keys', 'some '],
+ 1013: ['Striped Shirt', 'Striped Shirts', 'a '],
+ 1014: ['Hat', 'Hats', 'a '],
+ 1015: ['Glasses', 'Glasses', 'some '],
+ 1016: ['Lipstick', 'Lipsticks', 'some '],
+ 1017: ['Blowdryer', 'Blowdryers', 'a '],
+ 1018: ['Earrings', 'Pairs of Earrings', 'some '],
+ 1019: ['Make-Up Kit', 'Make-Up Kits', 'a '],
+ 1020: ['Deed to Seacastle Contractors', 'Deeds', 'a '],
+ 1021: ["Glasses", "Glasses", "Captain Carl's  "],
+ 1022: ["Glasses", "Glasses", "Rusty Ralph's "],
+ 1023: ["Glasses Framework", "Glasses Frameworks", "a "],
+ 1024: ['Metal', 'Bars of Metal', 'some '],
+ 1025: ['Light Bulbs', 'Light Bulbs', 'some '],
+ 1026: ['Glass', 'Plates of Glass', 'some '],
  2001: ['Textbook', 'Textbooks', 'a '],
  2002: ['Magnifying Glass', 'Magnifying Glasses', 'a '],
  2003: ['Lime', 'Limes', 'some '],
@@ -606,7 +632,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  2012: ['Recipe', 'Recipes', 'a '],
  2013: ['Wrapper', 'Wrappers', 'a '],
  2014: ['Chocolate Bar', 'Chocolate Bars', 'a '],
- 2015: ['Jellybean', 'Jellybeans', 'a '],
+ 2015: ['Jar of Jellybeans', 'Jars of Jellybeans', 'a '],
  2016: ['Package', 'Packages', 'a '],
  2017: ['Banana Peel', 'Banana Peels', 'a '],
  2018: ['Net', 'Nets', 'a '],
@@ -1132,8 +1158,256 @@ QuestDialogDict = {
  3213: {GREETING: '',
 		QUEST: "Finally, we don't want to scare the new toon away with those tall, disgusting buildings.\x07Take down a few and then I'll give you a neat reward.",
 		COMPLETE: "Thank you for all your hard work in helping me.\x07I'll be sure to tell this new toon about you, you're a great citizen!\x07Here's a big reward for you...",
+		LEAVING: ''},
+		
+ #DD Task One
+ 4000: {QUEST: "I'm not sure exactly why, but _toNpcName_ is looking for help.\x07Please go see what's wrong with her._where_"},
+ 4001: {GREETING: '',
+		QUEST: "Oh, thank you for taking my request!\x07You see, the Bossbots came in here and took all my dried suits!\x07I think there were about 10 of them. Please get them before customers expect their suits back!",
+		LEAVING: ''},
+ 4002: {GREETING: '',
+		QUEST: "Thank goodness you got them back.\x07One of my customers came in while you were out recovering the dried suits and I told him you'd deliver it once you got back._where_",
+		LEAVING: "Make sure you don't leave without a signed check!"},
+ 4003: {GREETING: 'Ahoy, me bucko!',
+		QUEST: "Ah, that be me dry cleaning, thanks matey!\x07Eh? A signed check?\x07Errr, I gotta clear something up with me bank before I sign ye a check.\x07While I do that, maybe ye can defeat some of them big meaty Cogs on this street.",
+		LEAVING: "Good luck matey!"},
+ 4004: {GREETING: '',
+		QUEST: "Argh, here be me check.\x07Return it to _toNpcName_.",
+		COMPLETE: "Thanks so much for your help!\x07Here's a reward...",
+		LEAVING: ''},
+		
+ #DD Task Two
+ 4010: {QUEST: "_toNpcName_ seems to have crashed his pirate ship and needs help recovering from the incident._where_"},
+ 4011: {GREETING: 'Ahoy Matey!',
+		QUEST: "Come to help me, ye say?\x07Ye see, I was sailing through the seven seas, collecting me treasure, when suddenly I was attacked!\x07Cogs everywhere came flying down! Shiver me timbers, it's a horror to remember!\x07I need ye to help repair me pirate ship so I can continue to sail across the dock.\x07First, I need ye to fish out some boards of wood that the beavers drop in the pond on this here street.",
+		LEAVING: ''},
+ 4012: {GREETING: 'Avast, Matey!',
+		QUEST: "Arrrgh! Ye have brought me the boards, how wonderful!\x07Next, I need me lucky hook. The Backstabbers took it from me, and no pirate is right without his lucky hook!",
+		LEAVING: ''},
+ 4013: {GREETING: '',
+		QUEST: "Me lucky hook! The most valuable treasure I've ever come across!\x07Matey ye have done me a good service, but how could I ever sail without my sail?\x07I know! _toNpcName_ can make me a whicked sail in a heartbeat!\x07Could ye go get a sail from him?_where_",
+		LEAVING: ''},
+ 4014: {GREETING: '',
+		QUEST: "A new sail for Jack?\x07Arrrgh, I'd love to help, but I'm afraid that the Sellbots took all my pieces of cloth.\x07If you recover those for me, I'll gladly make a new sail.",
+		LEAVING: ''},
+ 4015: {GREETING: '',
+		QUEST: "Excellent!\x07I'll get started on this sail right away.\x07While I'm making this sail, please defeat some of the Cogs around here.",
+		LEAVING: ''},
+ 4016: {GREETING: '',
+		QUEST: "Great! Take this back to _toNpcName_ immediately!",
+		LEAVING: ''},
+ 4017: {GREETING: 'That be a brilliant sail ye got there!',
+		QUEST: "Time for me to get started on me ship.\x07While I repair me ship, I need ye to defeat some of them buildings out there to take revenge on those Cogs.\x07Don't worry matey, there is a treasuring reward with this here quest!",
+		COMPLETE: "The ship is all sailed!\x07Thank ye so much for all your help.\x07Would ye like to sign up as a matey of mine?\x07No? Then here be a reward instead...",
+		LEAVING: ''},
+
+ #DD Task Three
+ 4020: {QUEST: "_toNpcName_ is going on a big fishing expedition, but is totally unprepared._where_"},
+ 4021: {QUEST: "Ah yes, the fishing expedition.\x07I'm not ready to go and I could use a few favors.\x07Don't worry, there's a reward involved in this job.\x07First, I need a nice fishing rod from _toNpcName_. He makes some high quality fishing rods._where_"},
+ 4022: {QUEST: "So, you need some of my finest fishing rods, hmm?\x07I'd love to show you the display, but the Money Bags took all 5 of my fishing rods...",
+		LEAVING: ''},
+ 4023: {GREETING: '',
+		QUEST: "Hey! There's my display!\x07I guess I could give _toNpcName_ one for free since he sent you to help me.",
+		LEAVING: ''},
+ 4024: {GREETING: '',
+		QUEST: "Wow! What an excellent fishing rod!\x07Next, I need a bunch of hooks.\x07The Cashbots raided my supply and ran off with them.",
+		LEAVING: ''},
+ 4025: {GREETING: '',
+		QUEST: "Finally, I want you to fish out some cans of worms that I accidentally left on my last trip to the pond on this street.",
+		LEAVING: '',
+		COMPLETE: "Yep, that's everything!\x07I'm all set and ready to go, all thanks to you!\x07Here's a reward..."},
+		
+ #DD Task Four
+ 4030: {QUEST: "_toNpcName_'s shop has been a mess ever since the Cogs broke in._where_"},
+ 4031: {GREETING: '',
+		QUEST: "Oh, those awful Cogs!\x07First, those Sellbots came in and stole all my fish...",
+		LEAVING: ''},
+ 4032: {GREETING: '',
+		QUEST: "Then those nasty Boardbots stole all my chips!",
+		LEAVING: ''},
+ 4033: {GREETING: '',
+		QUEST: "Now it doesn't even feel safe to go boating with all these Cogs around the docks...",
+		COMPLETE: "Hmm, the area feels a lot safer.\x07Thanks for helping me out, _avName_. Sorry I was acting so uneasy.\x07Here's a reward for your troubles.",
+		LEAVING: ''},
+
+ #DD Task Five
+ 4040: {QUEST: "_toNpcName_'s taxi service has been going downhill because of the Cogs roaming the streets.\x07He wants to get back in business and needs help._where_"},
+ 4041: {GREETING: '',
+		QUEST: "Hey, _avName_. I'm in a bit of a fix.\x07My taxi service went out of business a long time ago when the Cogs first invaded.\x07I didn't do anything to fix my business, and now I have these bills that I can't pay off.\x07I need help restoring this business and it involves taking down those Cogs.\x07First, start by defeating the higher leveled Cogs on this street.",
+		LEAVING: ''},
+ 4042: {GREETING: '',
+		QUEST: "Great job!\x07Now, may I ask that you defeat those Cashbots?\x07They like to call my taxi over and take all the money I've earned.",
+		LEAVING: ''},
+ 4043: {GREETING: '',
+		QUEST: "Finally, I need my taxi keys back.\x07I'm pretty sure that they were taken by a Cashbot...",
+		COMPLETE: "Thanks for all your help, _avName_.\x07I think I'm ready to go back in business!\x07Here's your reward..."},
+		
+ #DD Task Six
+ 4050: {QUEST: "_toNpcName_'s lost and found has been raided by the Cogs.\x07He needs all the help he can get to get his inventory back._where_"},
+ 4051: {QUEST: "It's just awful! All the lost items here have been stolen!\x07Can you please help me get each item back?\x07First, the striped shirts I had were stolen by a bunch of Bossbots."},
+ 4052: {QUEST: "Perfect! A call came in about a lost striped shirt while you were away.\x07Let me see those shirts.\x07Mhm... Uh-huh... Oh, here it is.\x07Take this to _toNpcName_ please._where_"},
+ 4053: {QUEST: "My stolen striped shirt! You found it!\x07What? You thought I lost it?\x07No, those Lawbots love to steal my inventory. I was just lucky someone found my favorite striped shirt.\x07I know you're busy, but you don't think you could defeat some of those bratty Lawbots for me, do you?"},
+ 4054: {QUEST: "Thanks for your help.\x07Please bring this jar of jellybeans to _toNpcName_ for his troubles."},
+ 4055: {QUEST: "Oh, he didn't have to pay. That's so sweet.\x07Next, I want you to recover some hats taken by the Connoisseurs.\x07Believe it or not, they love to mix and match hats outside of those Top Hats."},
+ 4056: {QUEST: "Awesome! Now I need you to deliver this hat to _toNpcName_._where_"},
+ 4057: {GREETING: '',
+		QUEST: "Oh yep, that's my hat.\x07Give my thanks to _toNpcName_.",
+		LEAVING: ''},
+ 4058: {QUEST: "Finally, I need you to get back the inventory of glasses.\x07I'm not sure which specific Cogs took them, so just defeat those Cogs until you get them all back.",
+		COMPLETE: "I'll just deliver these on my own.\x07Thanks for all your help."},
+		
+ #DD Task Seven
+ 4060: {QUEST: "_toNpcName_'s world famous make-up supply has been taken and she needs help getting it back._where_"},
+ 4061: {GREETING: '',
+		QUEST: "Oh hey, _avName_.\x07I'm kind of in a mess right now. Those evil feminine Cogs raided my supply of make-up!\x07First, those Name Droppers took all my lipstick...",
+		LEAVING: ''},
+ 4062: {GREETING: '',
+		QUEST: "Now, I need my blowdryers back from those Micromanagers.",
+		LEAVING: ''},
+ 4063: {GREETING: '',
+		QUEST: "Then there were my special earrings that were taken by those Number Crunchers...",
+		LEAVING: ''},
+ 4064: {GREETING: '',
+		QUEST: "And lastly, my secret Make-Up Kit was taken by a Mingler...",
+		COMPLETE: "Wow! You got it all back!\x07Let me repay you for all your hard work...",
+		LEAVING: ''},
+		
+ #DD Task Eight
+ 4070: {QUEST: "_toNpcName_ has an issue with those strong Cashbots._where_"},
+ 4071: {GREETING: '',
+		QUEST: "Oh, those strong Cashbots are always busting my pipes and taking my water supply.\x07Can you defeat a handful of them for me? It'd really relieve my stress.",
+		LEAVING: ''},
+ 4072: {GREETING: '',
+		QUEST: "Now, I want them to feel the pain I feel when they bust my pipes.\x07Defeat several Cashbot Buildings and I'll reward you.",
+		COMPLETE: "Alright, I'll stick to my word.\x07Thanks for your help.",
+		LEAVING: ''},
+		
+ #DD Task Nine
+ 4080: {QUEST: "It seems like the Cogs are trying to put _toNpcName_ out of business.\x07We can't let another toon lose their shop to the Cogs! Go see what's up._where_"},
+ 4081: {GREETING: '',
+		QUEST: "Oh _avName_, it's just awful. Those Cogs keep trying to work out a deal to take ownership to my building.\x07A bunch of Middlemen come in here and always try to work out a deal with me.\x07When I refuse to accept, they damage my inventory and I'm sick of it!\x07Defeat those Middlemen and then return to me please.",
+		LEAVING: ''},
+ 4082: {GREETING: '',
+		QUEST: "Now those Sellbots are after the deed to my building so that they can sell it!\x07How do I know this? I got a note that stated they were after the deed.\x07Please go defeat those Sellbots.",
+		LEAVING: ''},
+ 4083: {GREETING: '',
+		QUEST: "I was wrong!\x07A Boardbot came in and took the deed to my building while you were away!",
+		COMPLETE: "You got it back!\x07Thanks for making me feel safe again, _avName_."},
+		
+ #DD Task Ten
+ 4090: {QUEST: "_toNpcName_ just called in and said that those Flunkies are causing trouble for him._where_"},
+ 4091: {GREETING: '',
+		QUEST: "Those Flunkies have just been obnoxious lately.\x07They think they deserve more respect and think they should be the only ones to wear glasses to feel superior.\x07As a result, they stole glasses from a client of mine.\x07Could you get them back for me?",
+		LEAVING: ''},
+ 4092: {GREETING: '',
+		QUEST: "Great! Now take these to _toNpcName_ right away!_where_",
+		LEAVING: ''},
+ 4093: {GREETING: '',
+		QUEST: "Ahoy matey!\x07Arrgh, these be me glasses indeed.\x07Give me thanks to _toNpcName_.",
+		LEAVING: ''},
+ 4094: {GREETING: '',
+		QUEST: "Now I need you to retrieve another stolen pair from those Flunkies.",
+		LEAVING: ''},
+ 4095: {GREETING: '',
+		QUEST: "Those brats left a scratch on here!\x07I'll need a new frame. Perhaps a fancy one from the Connoisseurs",
+		LEAVING: ''},
+ 4096: {GREETING: '',
+		QUEST: "Perfect! Let me just fit this in correctly...\x07And there we go.\x07Take this to _toNpcName_ immediately._where_",
+		LEAVING: ''},
+ 4097: {GREETING: '',
+		QUEST: "Oh goodie, my reading glasses!\x07Send my thanks to _toNpcName_",
+		LEAVING: ''},
+ 4098: {GREETING: '',
+		QUEST: "OK, one last thing and then I'll give you a reward.\x07Earlier, the Bossbots came in here and raided the glasses drop off.\x07I need those back, for they must be fixed and returned today.",
+		COMPLETE: "Awesome! Thanks for your help.\x07As I said before, I will give you a reward.",
+		LEAVING: ''},
+	
+ #DD Task Eleven
+ 4100: {QUEST: "Think you're tough? _toNpcName_ wants to test your strength._where_"},
+ 4101: {GREETING: '',
+		QUEST: "So, ya think you're tough?\x07Prove it to me. Defeat some of those Boardbots then return to me.",
+		LEAVING: ''},
+ 4102: {GREETING: '',
+		QUEST: "Oh, not tough enough for ya?\x07See if _toNpcName_ has a tougher challenge for ya._where_",
+		LEAVING: ''},
+ 4103: {GREETING: '',
+		QUEST: "So, ya think you're tough, eh?\x07Prove it. Defeat some of those Spin Doctors and prove that they can't take ya on a spin.",
+		LEAVING: ''},
+ 4104: {GREETING: '',
+		QUEST: "Not tough enough for ya, eh?\x07See if _toNpcName_ has a tougher challenge for ya._where_",
+		LEAVING: ''},
+ 4105: {GREETING: '',
+		QUEST: "So, ya think you're tough, do ya?\x07Prove it to me. Defeat some of the toughest Cogs out there.",
+		LEAVING: ''},
+ 4106: {GREETING: '',
+		QUEST: "Not tough enough for ya, hmm?\x07See if _toNpcName_ has a tougher challenge for ya._where_",
+		LEAVING: ''},
+ 4107: {GREETING: '',
+		QUEST: "So, ya think you're tou- Oh it's just ya again.\x07Hmm, I see ya completed all our challenges, so now I'll give ya an even tougher challenge.\x07Once ya defeat several large buildings, ya will have proven that you're a tough one.",
+		COMPLETE: "Ya seem to be tough enough to me.\x07Here's a reward for ya toughness...",
+		LEAVING: ''},
+		
+ #DD Task Twelve
+ 4110: {QUEST: "Your gags look like they could use some work.\x07Go see _toNpcName_ and see how you should train them._where_"},
+ 4111: {QUEST: "Oh yes, you could use some new gags.\x07For every gag that hits a Cog, you get points for that gag.\x07You can earn more points in Cog Invasions, Cog Headquarters, and any Cog Facility.\x07I want you to train your throw a little bit and then return to me."},
+ 4112: {QUEST: "Now you should train your squirt."},
+ 4113: {GREETING: '',
+		QUEST: "Great! Can I see that new throw gag of yours?",
+		LEAVING: ''},
+ 4114: {GREETING: '',
+		QUEST: "How about that new squirt?",
+		COMPLETE: "Good job on that training.\x07Here's a little bonus for your troubles.",
+		LEAVING: ''},
+		
+ #DD Mega Task
+ 4200: {QUEST: "Oh no! It seems a Cog cargo ship just crashed into the big lighthouse!\x07That is the pure symbol of Donald's Dock and everyone is panicking at its destruction.\x07_toNpcName_ needs your help collecting material in order to repair the lighthouse._where_"},
+ 4201: {GREETING: '',
+		QUEST: "Hey, _avName_. This isn't a great time...\x07Oh you're here about the lighthouse? Thank goodness.\x07I need all the help I can get.\x07First, I need some metal.\x07There's no metal shop here in Donald's Dock, but I think that _toNpcName_ has metal for his clock repair shop._where_",
+		LEAVING: ''},
+ 4202: {GREETING: '',
+		QUEST: "I did have metal, but those Cogs took my entire supply.\x07If you could get them back for me, I'll give you some to take back to Doctor Drift.",
+		LEAVING: ''},
+ 4203: {GREETING: '',
+		QUEST: "Well, a promise is a promise.\x07Take this metal to _toNpcName_.",
+		LEAVING: ''},
+ 4204: {GREETING: '',
+		QUEST: "Next on the list are some light bulbs.\x07See if _toNpcName_ has a spare supply of them._where_",
+		LEAVING: ''},
+ 4205: {GREETING: '',
+		QUEST: "Light bulbs?\x07Yeah, I had a supply, but they were taken by the Lawbots.\x07If you get them back, they're yours to keep.",
+		LEAVING: ''},
+ 4206: {GREETING: '',
+		QUEST: "Light bulbs?\x07Yeah, I had a supply, but they were taken by the Bossbots.\x07If you get them back, they're yours to keep.",
+		LEAVING: ''},
+ 4207: {GREETING: '',
+		QUEST: "Great job on those light bulbs!\x07I just found out that the Cogs in charge of the destruction were those awful Corporate Raiders.\x07Go invade those Bossbot buildings or attack them at Bossbot HQ in revenge for what they have done to our beloved town.",
+		LEAVING: ''},
+ 4208: {GREETING: '',
+		QUEST: "Alright, I've got the base of the lighthouse done.\x07We're going to need someone to paint this lighthouse once we're done.\x07The citizens did love the old design and only _toNpcName_ knew how to paint it.\x07Can you see if he'll paint it again?_where_",
+		LEAVING: ''},
+ 4209: {GREETING: '',
+		QUEST: "No way I'll go over to Lighthouse Lane to paint that new lighthouse!\x07At least, not with those strong Cogs over there...",
+		LEAVING: ''},
+ 4210: {GREETING: '',
+		QUEST: "You got rid of some of those strong Cogs for me?\x07Alright fine, tell _toNpcName_ that I'll come paint the lighthouse once it's ready.",
+		LEAVING: ''},
+ 4211: {GREETING: '',
+		QUEST: "Finally, I need some glass to protect the lights and to provide a brighter shine.\x07I haven't seen a glass studio anywhere around here, but I'm pretty sure _toNpcName_ knows where to get some glass._where_",
+		LEAVING: ''},
+ 4212: {GREETING: '',
+		QUEST: "Glass? I don't have any.\x07However, I could really use some for my mart since it's in high demand.\x07I think that the Cashbots have glass on them. Maybe you could get some from them?\x07Not sure why they would carry that around. Isn't that a bit dangerous?",
+		LEAVING: ''},
+ 4213: {GREETING: '',
+		QUEST: "Glass? I don't have any.\x07However, I could really use some for my mart since it's in high demand.\x07I think that the Sellbots have glass on them. Maybe you could get some from them?\x07Not sure why they would carry that around. Isn't that a bit dangerous?",
+		LEAVING: ''},
+ 4214: {GREETING: '',
+		QUEST: "Oh perfect!\x07Take these over to _toNpcName_ right away!",
+		LEAVING: ''},
+ 4215: {GREETING: '',
+		QUEST: "I have to put the finishing touches on the lighthouse.\x07In a final revenge act on those Cogs, I'd like you to take down a few of their biggest Cog Buildings.",
+		COMPLETE: "Thank you, citizen for all your hard work.\x07The citizens of Donald's Dock are all grateful and in your debt.\x07Here's a big reward for your help.",
 		LEAVING: ''}}
-  
+		
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']
@@ -1146,7 +1420,11 @@ ChatGarblerDuck = ['quack', 'quackity', 'quacky']
 ChatGarblerMonkey = ['ooh', 'ooo', 'ahh']
 ChatGarblerBear = ['growl', 'grrr']
 ChatGarblerPig = ['oink', 'oik', 'snort']
-ChatGarblerDeer = ['eee', 'yee', 'eee']
+ChatGarblerDeer = ['meh', 'mee']
+ChatGarblerBat = ['eee', 'yee', 'eew']
+ChatGarblerBeaver = ['ear', 'air', 'ree']
+ChatGarblerGator = ['snort', 'crunch', 'chomp']
+ChatGarblerFox = ['awo', 'ring ding', 'ow']
 ChatGarblerDefault = ['blah']
 Bossbot = 'Bossbot'
 Lawbot = 'Lawbot'
@@ -4293,7 +4571,7 @@ TrackPageHints = ['First of 2 pieces of the gag training reel, get both to unloc
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an additional round of stun to Lure gags.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'All Sound gags get a bonus damage equal to 1/2 the highest level cog in the battle.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% damage bonus to Throw gags.', '???', '???',
- 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an extra round of soak to Squirt gags, as well as giving a -20 defense debuff to any cog a squirt is used on.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an extra round of soak to Squirt gags, as well as giving a -20 defense debuff to the cog, as long as the cog is soaked.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Increases the chance for Zap gags to cause a shortcircuit by 1.5x (50%).', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% accuracy bonus to Drop gags.', '???', '???']
 QuestPageToonTasks = 'ToonTasks'
@@ -5193,8 +5471,10 @@ AnimalToSpecies = {'dog': 'Dog',
  'deer': 'Deer',
  'beaver': 'Beaver',
  'alligator': 'Alligator',
- 'fox': 'Fox'}
-AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox')
+ 'fox': 'Fox',
+ 'bat': 'Bat',
+ 'raccoon': 'Raccoon'}
+AllSpecies = ('Dog', 'Cat', 'Horse', 'Mouse', 'Rabbit', 'Duck', 'Monkey', 'Bear', 'Pig', 'Deer', 'Beaver', 'Alligator', 'Fox', 'Bat', 'Raccoon')
 NameTooLong = 'That name is too long. Please try again.'
 ToonAlreadyExists = 'You already have a toon named %s!'
 NameAlreadyInUse = 'That name is already used!'
@@ -5266,6 +5546,12 @@ V2InvasionEnd2 = lToonHQ + ': The Toons have saved the day once again!!!'
 V2InvasionBulletin1 = lToonHQ + ': There is a Cog invasion in progress!!!'
 V2InvasionBulletin2 = lToonHQ + ': A major firmware update has been released to the Cogs!!!'
 V2InvasionBulletin3 = lToonHQ + ': Version 2.0 Cogs have taken over Toontown!!!'
+SuitMegaInvasionBegin1 = lToonHQ + ': A MEGA invasion has begun!!!'
+SuitMegaInvasionBegin2 = lToonHQ + ': %s have taken over Toontown!!!'
+SuitMegaInvasionEnd1 = lToonHQ + ': The %s MEGA invasion has ended!!!'
+SuitMegaInvasionEnd2 = lToonHQ + ': The Toons have saved the day once again!!!'
+SuitMegaInvasionUpdate1 = lToonHQ + ': Bulletin incoming, Toons!!!'
+SuitMegaInvasionUpdate2 = lToonHQ + ': There are still a ton of cogs, but keep it up!!!'
 LeaderboardTitle = 'Toon Platoon'
 QuestScriptTutorialMickey_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMickey_2 = 'Sure, %s!'
@@ -6914,7 +7200,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  1315: 'Doctor Drift',
  1316: 'Wilma Wobble',
  1317: 'Paula Pylon',
- 1318: 'Dinghy Dan',
+ 1318: 'Captain Jack Harrow',
  1319: 'Davey Drydock',
  1320: 'Ted Calm',
  1321: 'Dinah Docker',
@@ -9849,3 +10135,5 @@ Controls = ['Move Up:', 'Move Left:', 'Move Down:', 'Move Right:',
 GatorChatter = ["Don't be a hater, vote for Gator!", 'My favorite jellybean color is green.', 'Wooow! I hope I win the election!', 'How are you guys doing?']
 BeaverChatter = ["Got spring fever? Vote for Beaver!", 'My favorite jellybean color is brown.', "If I win, I will build new houses for all toons. How does that sound?", "Gator's alright, but you beaver belive that I'm winning.", 'Be a believer! Vote Beaver!']
 FoxChatter = ["Fox Rox!", 'My favorite jellybean color is orange.', "I'm adorable, how could you not vote for me? Owoooo!", "I'm the perfect combination of cat and dog!", 'Nobody mocks the fox, ya hear?']
+BatChatter = ["Don't be a brat, vote for Bat!", 'My favorite jellybean color is black.', "Whoooo dares awaken me!", "Got questions?", 'I gotta earn my wings, first.']
+RaccoonChatter = ["Sing some tunes and vote Raccoon!", 'My favorite jellybean color is purple.', "Oooh! There is half of an apple in here!", 'My friends call me "Trash Panda."', "I'm not rabid, I swear!"]
