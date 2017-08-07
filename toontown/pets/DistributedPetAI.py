@@ -43,6 +43,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.colorScale = 0
         self.eyeColor = 0
         self.gender = 0
+        self.mood = 0
         self.movieMode = None
         self.lockMoverEnabled = 0
         self.trickAptitudes = []
@@ -55,6 +56,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.__generateDistTraitFuncs()
         self.__generateDistMoodFuncs()
         self.busy = 0
+        self.public = False
         self.gaitFSM = ClassicFSM.ClassicFSM('petGaitFSM', [State.State('off', self.gaitEnterOff, self.gaitExitOff),
          State.State('neutral', self.gaitEnterNeutral, self.gaitExitNeutral),
          State.State('happy', self.gaitEnterHappy, self.gaitExitHappy),
@@ -370,13 +372,13 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         return max(0.0, t)
 
     def __handleMoodSet(self, component, value):
-        if self.isGenerated():
+        if self.isGenerated() and self.mood:
             self.mood.setComponent(component, value)
         else:
             self.requiredMoodComponents[component] = value
 
     def __handleMoodGet(self, component):
-        if self.isGenerated():
+        if self.isGenerated() and self.mood:
             return self.mood.getComponent(component)
         else:
             return 0.0
@@ -450,7 +452,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             else:
                 self.setTrickAptitudes(aptitudes, local=1)
 
-    def announceGenerate(self):
+    def announceGenerate(self, public = False):
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
         self._hasCleanedUp = False
         self.setHasRequestedDelete(False)
@@ -464,6 +466,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.feedLogger = ServerEventBuffer.ServerEventAccumulator(self.air, 'petFeedings', self.doId)
         self.scratchLogger = ServerEventBuffer.ServerEventAccumulator(self.air, 'petScratchings', self.doId)
         self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
+        self.public = public
         if not hasattr(self, '_beingCreatedInDB'):
             for i in xrange(len(self.traitList)):
                 value = self.traitList[i]
@@ -484,7 +487,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.announceZoneChange(self.zoneId, ToontownGlobals.QuietZone)
         self.b_setParent(ToontownGlobals.SPRender)
         self.setPos(randFloat(-20, 20), randFloat(-20, 20), 0)
-        self.setH(randFloat(360))
+        self.setH(-90) # (randFloat(360))
         if self.initialDNA:
             self.setDNA(self.initialDNA)
         for mood, value in self.requiredMoodComponents.items():
@@ -494,6 +497,10 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.brain = PetBrain.PetBrain(self)
         self.mover = PetMoverAI(self)
         self.lockMover = PetMoverAI(self)
+        if public == True:
+            self.mover.fwdSpeed = 40
+            self.lockMover.fwdSpeed = 40
+
         self.createImpulses()
         self.enterPetLook()
         self.actionFSM = PetActionFSM.PetActionFSM(self)
@@ -617,16 +624,23 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
     def createImpulses(self):
         from toontown.pets import PetWander
         self.createSphereImpulse()
-        self.chaseImpulse = PetChase.PetChase()
-        self.fleeImpulse = PetFlee.PetFlee()
-        self.wanderImpulse = PetWander.PetWander()
+        if self.public == False:
+            self.chaseImpulse = PetChase.PetChase()
+            self.fleeImpulse = PetFlee.PetFlee()
+            self.wanderImpulse = PetWander.PetWander()
+        else:
+            self.chaseImpulse = None
+            self.fleeImpulse = None
+            self.wanderImpulse = None
+
         self.lockChaseImpulse = PetChase.PetChase()
     
     def destroyImpulses(self):
-        self.wanderImpulse.destroy()
-        del self.chaseImpulse
-        del self.fleeImpulse
-        del self.wanderImpulse
+        if self.public == False:
+            self.wanderImpulse.destroy()
+            del self.chaseImpulse
+            del self.fleeImpulse
+            del self.wanderImpulse
         self.destroySphereImpulse()
         del self.lockChaseImpulse
         
@@ -671,8 +685,9 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             self.stopPosHprBroadcast()
             self.requestDelete()
             return Task.done
-            
-        taskMgr.doMethodLater(simbase.petMovePeriod, self.move, self.getMoveTaskName())
+
+        if self.public == False:
+            taskMgr.doMethodLater(simbase.petMovePeriod, self.move, self.getMoveTaskName())
         
     def startPosHprBroadcast(self):
         if self._outOfBounds:
@@ -912,10 +927,11 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def handleAvPetInteraction(self, mode, avId):
         if mode not in (PetConstants.PET_MOVIE_SCRATCH, PetConstants.PET_MOVIE_FEED, PetConstants.PET_MOVIE_CALL):
+            self.notify.info('fail 1')
             self.air.writeServerEvent('suspicious', avId, 'DistributedPetAI: unknown mode: %s' % mode)
             return
         if self.avatarInteract(avId):
-            self.notify.debug('handleAvPetInteraction() avatarInteract calling callback')
+            self.notify.info('handleAvPetInteraction() avatarInteract calling callback')
             self.movieMode = mode
             callback = {PetConstants.PET_MOVIE_SCRATCH: self.scratch,
              PetConstants.PET_MOVIE_FEED: self.feed,

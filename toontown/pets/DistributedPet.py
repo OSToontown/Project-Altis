@@ -5,7 +5,7 @@ from panda3d.direct import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToonPythonUtil import *
 from direct.directnotify import DirectNotifyGlobal
-from direct.distributed import DistributedSmoothNode
+from direct.distributed import DistributedSmoothNode, DistributedObject
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.distributed.MsgTypes import *
 from direct.task import Task
@@ -33,10 +33,11 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
     callSfx = None
     petSfx = None
 
-    def __init__(self, cr, bFake = False):
+    def __init__(self, cr, ready = True, bFake = False):
         DistributedSmoothNode.DistributedSmoothNode.__init__(self, cr)
         Pet.Pet.__init__(self)
         self.bFake = bFake
+        self.ready = ready
         self.isLocalToon = 0
         self.inWater = 0
         self.__funcsToDelete = []
@@ -46,6 +47,9 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.avDelayDelete = None
         self.setBlend(frameBlend = base.wantSmoothAnims)
         return
+
+    def isGenerated(self):
+        return DistributedObject.DistributedObject.isGenerated(self) and self.ready
 
     def generate(self):
         if not self.bFake:
@@ -131,6 +135,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.nose = nose
 
     def setTail(self, tail):
+        self.notify.info("We are now receiving the tail update! :O")
         self.tail = tail
 
     def setBodyTexture(self, bodyTexture):
@@ -193,7 +198,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
     def getName(self):
         return Pet.Pet.getName(self)
 
-    def announceGenerate(self):
+    def announceGenerate(self, public = True):
         DistributedSmoothNode.DistributedSmoothNode.announceGenerate(self)
         if hasattr(self, 'petName'):
             Pet.Pet.setName(self, self.petName)
@@ -202,6 +207,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         for mood, value in self.requiredMoodComponents.items():
             self.mood.setComponent(mood, value, announce=0)
 
+        self.notify.info("We are now generating DNA, Tail is " + str(self.tail))
         self.requiredMoodComponents = {}
         self.setDNA([self.head,
          self.ears,
@@ -212,6 +218,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
          self.colorScale,
          self.eyeColor,
          self.gender])
+
         av = self.cr.doId2do.get(self.ownerId)
         if av:
             av.petDNA = self.style
@@ -308,7 +315,11 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
     def lockPet(self):
         if not self.lockedDown:
             self.prevAnimState = self.animFSM.getCurrentState().getName()
-            self.animFSM.request('neutral')
+
+            try:
+                self.animFSM.request('neutral')
+            except StopIteration:
+                self.notify.info("Received StopIteration on FSM request")
         self.lockedDown += 1
 
     def isLockedDown(self):

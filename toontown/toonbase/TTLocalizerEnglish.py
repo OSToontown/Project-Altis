@@ -1512,6 +1512,8 @@ IgnorePanelRemoveIgnore = 'Would you like to stop ignoring %s?'
 IgnorePanelEndIgnore = 'You are no longer ignoring %s.'
 IgnorePanelAddFriendAvatar = '%s is your friend, you cannot ignore them while you are friends.'
 IgnorePanelAddFriendPlayer = '%s (%s)is your friend, you cannot ignore them while you are friends.'
+PetRequestBadLocation = 'Your doodle is too far away to teleport here!'
+PetRequestAlreadyPresent = 'Your doodle is already with you!'
 PetPanelFeed = 'Feed'
 PetPanelCall = 'Call'
 PetPanelGoTo = 'Go To'
@@ -4569,9 +4571,9 @@ TrackPageHints = ['First of 2 pieces of the gag training reel, get both to unloc
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an additional round of stun to Lure gags.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'All Sound gags get a bonus damage equal to 1/2 the highest level cog in the battle.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% damage bonus to Throw gags.', '???', '???',
- 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an extra round of soak to Squirt gags, as well as giving a -20 defense debuff to any cog a squirt is used on.', '???', '???',
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an extra round of soak to Squirt gags, as well as giving a -20 defense debuff to the cog, as long as the cog is soaked.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Increases the chance for Zap gags to cause a shortcircuit by 1.5x (50%).', '???', '???',
- 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 10% accuracy bonus to Drop gags.', '???', '???']
+ 'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 20% accuracy bonus to Drop gags.', '???', '???']
 QuestPageToonTasks = 'ToonTasks'
 QuestPageChoose = 'Choose'
 QuestPageLocked = 'Locked'

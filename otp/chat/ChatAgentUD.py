@@ -27,13 +27,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         self.accept('setAvatarOffenses', self.updateAvatarOffenses)
         self.accept('requestToonAccessResponse', self.requestToonAccessResponse)
 
-    def chatMessage(self, message, chatMode):
-        sender = self.air.getAvatarIdFromSender()
-        if not sender:
-            self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
-                                         'Account sent chat without an avatar', message)
-            return
-            
+    def chatMessageAiToUd(self, sender, message, chatMode):
         if self.detectBadWords(sender, message):
             self.notify.info("Detected Bad Word or Blacklisted Pharse from %d" % (sender))
             return

@@ -290,6 +290,7 @@ dclass OtpAvatarManager : DistributedObject {
 dclass ChatAgent : DistributedObject {
   adminChat(uint32, string);
   chatMessage(string(0-256), uint8 chatMode) clsend;
+  chatMessageAiToUd(uint32 avId, string(0-256), uint8 chatMode);
   chatMessageResponse(DoId, string, TalkModification [], uint8 chatMode) airecv;
   kickForSpam(uint32) airecv clsend;
 };
@@ -705,6 +706,8 @@ from toontown.coghq import DistributedStageRoom/AI
 from toontown.coghq import DistributedStageBattle/AI
 from toontown.pets.PetDCImports/AI import *
 from toontown.pets import DistributedPetProxy/AI
+from toontown.pets import DistributedPublicPet/AI
+from toontown.pets import DistributedPublicPetMgr/AI
 from toontown.coghq.InGameEditorDCImports/AI import *
 from toontown.distributed import ToontownDistrict/AI
 from toontown.distributed import ToontownDistrictStats/AI
@@ -1040,6 +1043,7 @@ dclass DistributedToon : DistributedPlayer {
   setTeleportAccess(uint32[] = []) required ownrecv db;
   setScavengerHunt(uint32[] = []) required ownrecv db;
   checkTeleportAccess(uint16) airecv ownsend;
+  checkTeleportAccessResponse(uint16) ownrecv;
   battleSOS(uint32) ownrecv clsend;
   teleportQuery(uint32) ownrecv clsend;
   teleportResponse(uint32, int8, uint32, uint32, uint32) ownrecv clsend;
@@ -1287,6 +1291,7 @@ dclass DistributedSuitBase : DistributedObject {
   setSkeleRevives(uint8) required broadcast ram;
   setHP(int16) required broadcast ram;
   setElite(uint8) required broadcast ram;
+  setMaxHP(uint16) required broadcast ram;
 };
 
 dclass DistributedSuit : DistributedSuitBase {
@@ -3060,6 +3065,18 @@ dclass DistributedPet : DistributedSmoothNode {
 
 dclass DistributedPetProxy : DistributedPet {
   setDominantMood(string) broadcast ram;
+};
+
+dclass DistributedPublicPet : DistributedPet {
+ beginPublicDisplay() broadcast;
+ finishPublicDisplay() broadcast;
+ sphereEntered() clsend airecv;
+ sphereLeft() clsend airecv;
+};
+
+dclass DistributedPublicPetMgr : DistributedObject {
+ requestAppearance() clsend airecv;
+ requestAppearanceResp(uint8);
 };
 
 dclass DistributedAprilToonsMgr : DistributedObject {

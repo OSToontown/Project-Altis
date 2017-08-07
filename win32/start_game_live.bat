@@ -14,6 +14,7 @@ rem Export the environment variables:
 set TT_USERNAME=%ttUsername%
 set TT_PASSWORD=%ttPassword%
 set TT_GAMESERVER=gs1.projectaltis.com
+set model-path=../resources
 
 echo ===============================
 echo Starting Toontown Project Altis...

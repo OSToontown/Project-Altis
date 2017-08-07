@@ -4,6 +4,9 @@ from toontown.fishing import FishGlobals
 from toontown.fishing.FishBase import FishBase
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
+from direct.distributed.PyDatagram import PyDatagram
+import time
+
 
 class DistributedFishingSpotAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFishingSpotAI")
@@ -15,12 +18,13 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         self.posHpr = [None, None, None, None, None, None]
         self.cast = False
         self.lastFish = [None, None, None, None]
+        self.lastHit = 0
+        self.lastCast = [0, 0]
 
     def generate(self):
         DistributedObjectAI.generate(self)
         pond = self.air.doId2do[self.pondDoId]
         pond.addSpot(self)
-
 
     def setPondDoId(self, pondDoId):
         self.pondDoId = pondDoId
@@ -75,6 +79,12 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         self.d_setOccupied(avId)
 
     def doCast(self, p, h):
+        if [p, h] == self.lastCast:
+            self.removeFromPierWithAnim()
+            return
+
+        self.lastCast = [p, h]
+
         avId = self.air.getAvatarIdFromSender()
         if self.avId != avId:
             self.air.writeServerEvent('suspicious', avId, 'Toon tried to cast from a pier they\'re not on!')
@@ -124,6 +134,8 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         self.cancelAnimation()
         self.d_setOccupied(0)
         self.avId = None
+        self.lastCast = [0, 0]
+        self.lastHit = 0
 
     def removeFromPierWithAnim(self):
         taskMgr.remove('cancelAnimation%d' % self.doId)
@@ -131,6 +143,18 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         taskMgr.doMethodLater(1, DistributedFishingSpotAI.removeFromPier, 'remove%d' % self.doId, [self])
 
     def rewardIfValid(self, target):
+        if time.time() - self.lastHit <= 1.0:
+            av = self.air.doId2do.get(self.avId)
+            self.removeFromPierWithAnim()
+            datagram = PyDatagram()
+            datagram.addServerHeader(
+                av.GetPuppetConnectionChannel(av.doId),
+                self.air.ourChannel, CLIENTAGENT_EJECT)
+            datagram.addUint16(155)
+            datagram.addString('You were kicked from the game for suspicion of exploit.')
+            self.air.send(datagram)
+
+        self.lastHit = time.time()
         if not self.cast:
             self.air.writeServerEvent('suspicious', self.avId, 'Toon tried to fish without casting!')
             return
@@ -142,8 +166,6 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         
         self.d_setMovie(FishGlobals.PullInMovie, catch[0], catch[1], catch[2], catch[3], 0, 0)
         self.cast = False
-
-
 
     def cancelAnimation(self):
         self.d_setMovie(FishGlobals.NoMovie, 0, 0, 0, 0, 0, 0)

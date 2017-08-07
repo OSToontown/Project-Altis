@@ -215,6 +215,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.trainingPoints = 0
         self.spentTrainingPoints = [0, 0, 0, 0, 2, 2, 0, 0]
         self.certs = []
+        self.petPresent = False
+        self.chatMode = 0
 
     def generate(self):
         DistributedPlayerAI.DistributedPlayerAI.generate(self)
@@ -471,6 +473,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getStyle(self):
         return self.dna
+
+    def setChatMode(self, chatMode):
+        self.chatMode = chatMode
+
+    def getChatMode(self):
+        return self.chatMode
 
     def b_setExperience(self, experience):
         self.d_setExperience(experience)
@@ -2028,6 +2036,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 commentStr = 'Toon %s teleporting to a zone %s they do not have access to' % (self.doId, zoneId)
                 if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
                     simbase.air.banManager.ban(self.doId, commentStr)
+        else:
+            self.sendUpdate('checkTeleportAccessResponse', [zoneId])
 
     def setTeleportOverride(self, flag):
         self.teleportOverride = flag
@@ -2517,7 +2527,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.toonExp = exp
         
     def addToonExp(self, deltaExp):
-        self.toonExp = deltaExp + self.toonExp
+        self.b_setToonExp(self.toonExp + deltaExp)
         
     def getToonExp(self):
         return self.toonExp
@@ -3205,10 +3215,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.debug('setPetMovie: petId: %s, flag: %s' % (petId, flag))
             pet = simbase.air.doId2do.get(petId)
             if pet is not None:
-                if pet.__class__.__name__ == 'DistributedPetAI':
+                if pet.__class__.__name__ == 'DistributedPetAI' or pet.__class__.__name__ == 'DistributedPublicPetAI':
                     pet.handleAvPetInteraction(flag, self.getDoId())
                 else:
                     self.air.writeServerEvent('suspicious', self.doId, 'setPetMovie: playing pet movie %s on non-pet object %s' % (flag, petId))
+            else:
+                self.notify.info("pet is none")
 
         def setPetTutorialDone(self, bDone):
             self.notify.debug('setPetTutorialDone')
@@ -5754,6 +5766,20 @@ def getZone():
     zone = invoker.zoneId
     return 'ZoneID: %s' % (zone)
 
+@magicWord(category=CATEGORY_PROGRAMMER)
+def petTest():
+    from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
+    invoker = spellbook.getInvoker()
+
+    def generateCallback(pet):
+        print("Doing callback")
+        pet.doNotDeallocateChannel = True
+        pet.generateWithRequired(invoker.zoneId)
+
+    pet = DistributedPublicPetAI(simbase.air, invoker, generateCallback)
+    pet.generateInit()
+    return 'Generated pet'
+
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
 def nametagStyle(nametagStyle):
     currentAccess = spellbook.getInvokerAccess()
@@ -6073,4 +6099,27 @@ def i60Reset():
     if target != spellbook.getInvoker():
         return "Reset toon stats for i60 demo."
     return "Reset toon stats for i60 demo."
-	
+
+@magicWord(category=CATEGORY_MODERATOR, types=[int])
+def chatmode(mode=-1):
+    """ Set the chat mode of the current avatar. """
+    mode2name = {
+        0 : "user",
+        1 : "moderator",
+        2 : "administrator",
+        3 : "system administrator",
+    }
+    invoker = spellbook.getInvoker()
+    if mode == -1:
+        return "You are currently talking in the %s chat mode." % mode2name.get(invoker.getChatMode(), "N/A")
+    if not 0 <= mode <= 3:
+        return "Invalid chat mode specified."
+    if mode == 3 and invoker.getAdminAccess() < 500:
+        return "Chat mode 3 is reserved for system administrators."
+    if mode == 2 and invoker.getAdminAccess() < 400:
+        return "Chat mode 2 is reserved for administrators."
+    if mode == 1 and invoker.getAdminAccess() < 200:
+        # Like this will ever happen, but whatever.
+        return "Chat mode 1 is reserved for moderators."
+    invoker.setChatMode(mode)
+    return "You are now talking in the %s chat mode." % mode2name.get(mode, "N/A")

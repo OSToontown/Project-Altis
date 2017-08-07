@@ -569,6 +569,13 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  MyEstate: TTLocalizer.MyEstate,
  GolfZone: TTLocalizer.GolfZone,
  PartyHood: TTLocalizer.PartyHood}
+safeZones = [ToontownCentral,
+ OutdoorZone,
+ DonaldsDock,
+ DaisyGardens,
+ MinniesMelodyland,
+ TheBrrrgh,
+ DonaldsDreamland]
 safeZoneCountMap = {MyEstate: 8,
  Tutorial: 6,
  ToontownCentral: 6,

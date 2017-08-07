@@ -59,6 +59,7 @@ from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
+from toontown.pets import DistributedPublicPetMgrAI
 from toontown.events.CharityScreenAI import CharityScreenAI
 
 class ToontownAIRepository(ToontownInternalRepository):
@@ -70,6 +71,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.districtName = districtName
         self.notify.setInfo(True)
         self.hoods = []
+        self.hoodId2Hood = {}
         self.cogHeadquarters = []
         self.dnaStoreMap = {}
         self.dnaDataMap = {}
@@ -169,7 +171,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         if self.wantPets:
             self.petMgr = PetManagerAI(self)
-        
+
+        self.publicPetMgr = DistributedPublicPetMgrAI.DistributedPublicPetMgrAI(self)
+        self.publicPetMgr.generateWithRequired(2)
+
         if self.wantParties:
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)
@@ -182,24 +187,44 @@ class ToontownAIRepository(ToontownInternalRepository):
     def createSafeZones(self):
         NPCToons.generateZone2NpcDict()
         if self.config.GetBool('want-toontown-central', True):
-            self.hoods.append(TTHoodAI.TTHoodAI(self))
+            hood = TTHoodAI.TTHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-donalds-dock', True):
-            self.hoods.append(DDHoodAI.DDHoodAI(self))
+            hood = DDHoodAI.DDHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-daisys-garden', True):
-            self.hoods.append(DGHoodAI.DGHoodAI(self))
+            hood = DGHoodAI.DGHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-minnies-melodyland', True):
-            self.hoods.append(MMHoodAI.MMHoodAI(self))
+            hood = MMHoodAI.MMHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-the-burrrgh', True):
-            self.hoods.append(BRHoodAI.BRHoodAI(self))
+            hood = BRHoodAI.BRHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-donalds-dreamland', True):
-            self.hoods.append(DLHoodAI.DLHoodAI(self))
+            hood = DLHoodAI.DLHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-goofy-speedway', True):
-            self.hoods.append(GSHoodAI.GSHoodAI(self))
+            hood = GSHoodAI.GSHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-outdoor-zone', True):
-            self.hoods.append(OZHoodAI.OZHoodAI(self))
+            hood = OZHoodAI.OZHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
         if self.config.GetBool('want-golf-zone', True):
-            self.hoods.append(GZHoodAI.GZHoodAI(self))
-        self.hoods.append(TTOHoodAI.TTOHoodAI(self))
+            hood = GZHoodAI.GZHoodAI(self)
+            self.hoods.append(hood)
+            self.hoodId2Hood[hood.zoneId] = hood
+        hood = TTOHoodAI.TTOHoodAI(self)
+        self.hoods.append(hood)
+        self.hoodId2Hood[hood.zoneId] = hood
         
     def createCogHeadquarters(self):
         NPCToons.generateZone2NpcDict()
