@@ -355,7 +355,7 @@ class ToonBase(OTPBase.OTPBase):
         taskMgr.doMethodLater(1, self.injectDetect, 'inject-detect')
 		
     def injectDetect(self, task):
-        print "Test"
+        print "[Dubrari Anti-Cheat] Scanning Memory for Injector"
         taskMgr.doMethodLater(5, self.injectDetect, 'inject-detct')
         return Task.done
             
