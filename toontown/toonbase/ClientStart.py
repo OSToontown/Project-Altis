@@ -214,11 +214,11 @@ want-resistance-restock #t
 want-dev #f
 """
 
--production_model_path = '/'
- if(os.environ.get('model-path', production_model_path) == production_model_path):
-     config += '\nmodel-path ' + production_model_path
- else:
-     config += '\nmodel-path ' + os.environ.get('model-path', production_model_path)
+production_model_path = '/'
+if(os.environ.get('model-path', production_model_path) == production_model_path):
+    config += '\nmodel-path ' + production_model_path
+else:
+    config += '\nmodel-path ' + os.environ.get('model-path', production_model_path)
  
 
 
