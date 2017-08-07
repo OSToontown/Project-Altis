@@ -5770,8 +5770,14 @@ def getZone():
 def petTest():
     from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
     invoker = spellbook.getInvoker()
-    pet = DistributedPublicPetAI(simbase.air, invoker)
-    pet.generateWithRequired(invoker.zoneId)
+
+    def generateCallback(pet):
+        print("Doing callback")
+        pet.doNotDeallocateChannel = True
+        pet.generateWithRequired(invoker.zoneId)
+
+    pet = DistributedPublicPetAI(simbase.air, invoker, generateCallback)
+    pet.generateInit()
     return 'Generated pet'
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
