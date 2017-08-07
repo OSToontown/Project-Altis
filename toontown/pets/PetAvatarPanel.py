@@ -57,7 +57,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
          gui.find('**/ButtonGoToDown'),
          gui.find('**/ButtonGoToRollover'),
          gui.find('**/ButtonGoToUp')), geom=gui.find('**/PetControlGoToIcon'), geom3_color=disabledImageColor, image3_color=disabledImageColor, relief=None, text=TTLocalizer.PetPanelCall, text0_fg=text0Color, text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color, text_scale=TTLocalizer.PAPcallButton, text_pos=(-0.5, 1.3), text_align=TextNode.ALeft, command=self.__handleCall)
-        if not self.petIsLocal and not ((base.localAvatar.publicPetId == 0 and (base.localAvatar.zoneId in ToontownGlobals.safeZones)) and self.ownsPet):
+        self.notify.info(self.ownsPet)
+        if not self.petIsLocal and not (base.localAvatar.publicPetId == 0 and (base.localAvatar.zoneId in ToontownGlobals.safeZones) and self.ownsPet):
             self.callButton['state'] = DGG.DISABLED
 
         self.scratchButton = DirectButton(parent=self.frame, image=(gui.find('**/ButtonScratchUp'),

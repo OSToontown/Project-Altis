@@ -7,12 +7,13 @@ import random
 class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetAI')
 
-    def __init__(self, air, owner):
+    def __init__(self, air, owner, callback):
         from toontown.pets import DistributedPetAI
         DistributedPetAI.DistributedPetAI.__init__(self, air)
         self.owner = owner
         self.petId = 0
         self.shouldMove = True
+        self.callback = callback
 
     def acquireProxyFields(self):
         self.notify.info("Beginning generate of pet")
@@ -21,11 +22,10 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
         self.petId = self.owner.getPetId()
         def handleGenerate(pet):
-            self.notify.info("Reading pet!")
-            self.b_setOwnerId(pet.getOwnerId())
-            self.b_setPetName(pet.getPetName())
-            self.b_setTraitSeed(pet.getTraitSeed())
-            self.b_setSafeZone(pet.getSafeZone())
+            self.setOwnerId(pet.getOwnerId())
+            self.setPetName(pet.getPetName())
+            self.setTraitSeed(pet.getTraitSeed())
+            self.setSafeZone(pet.getSafeZone())
             self.setForgetfulness(pet.getForgetfulness())
             self.setBoredomThreshold(pet.getBoredomThreshold())
             self.setRestlessnessThreshold(pet.getRestlessnessThreshold())
@@ -39,17 +39,16 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
             self.setAngerThreshold(pet.getAngerThreshold())
             self.setSurpriseThreshold(pet.getSurpriseThreshold())
             self.setAffectionThreshold(pet.getAffectionThreshold())
-            self.notify.info(pet.getTail())
-            self.b_setHead(pet.getHead())
-            self.b_setEars(pet.getEars())
-            self.b_setNose(pet.getNose())
-            self.b_setTail(pet.getTail())
-            self.b_setBodyTexture(pet.getBodyTexture())
-            self.b_setColor(pet.getColor())
-            self.b_setColorScale(pet.getColorScale())
-            self.b_setEyeColor(pet.getEyeColor())
-            self.b_setGender(pet.getGender())
-            self.b_setLastSeenTimestamp(pet.getLastSeenTimestamp())
+            self.setHead(pet.getHead())
+            self.setEars(pet.getEars())
+            self.setNose(pet.getNose())
+            self.setTail(pet.getTail())
+            self.setBodyTexture(pet.getBodyTexture())
+            self.setColor(pet.getColor())
+            self.setColorScale(pet.getColorScale())
+            self.setEyeColor(pet.getEyeColor())
+            self.setGender(pet.getGender())
+            self.setLastSeenTimestamp(pet.getLastSeenTimestamp())
             self.setBoredom(pet.getBoredom())
             self.setRestlessness(pet.getRestlessness())
             self.setPlayfulness(pet.getPlayfulness())
@@ -62,24 +61,23 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
             self.setFatigue(pet.getFatigue())
             self.setAnger(pet.getAnger())
             self.setSurprise(pet.getSurprise())
-            self.b_setTrickAptitudes(pet.getTrickAptitudes())
+            self.setTrickAptitudes(pet.getTrickAptitudes())
             pet.requestDelete()
-
-            self.acceptOnce(self.air.getAvatarExitEvent(self.petId),
-                            lambda: taskMgr.doMethodLater(0,
-                                                          self.finishGenerate,
-                                                          self.uniqueName('petdel-%d' % self.petId)))
+            self.callback(self)
 
         self.air.sendActivate(self.petId, self.air.districtId, 0)
         self.acceptOnce('generate-%d' % self.petId, handleGenerate)
 
+
+    def generateInit(self):
+        self.acquireProxyFields()
+
     def generate(self):
         self.owner.petPresent = True
-        self.acquireProxyFields()
         DistributedPetAI.DistributedPetAI.generate(self)
 
     def announceGenerate(self):
-        self.notify.info("Announcing generate")
+        self.finishGenerate()
 
     def getFollowTaskName(self):
         return self.uniqueName('petfollow-%d' % self.petId)
@@ -90,8 +88,7 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
         taskMgr.doMethodLater(random.uniform(1, 1.5), self.followTask, self.getFollowTaskName())
 
-    def finishGenerate(self, task):
-        self.notify.info("Finishing generate!")
+    def finishGenerate(self):
         self.setLocation(self.owner.air.districtId, self.owner.zoneId)
         if self.getPetName() == 'unnamed':
             self.disable()
@@ -109,7 +106,6 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
         # Listen for zone changes. Note that this is logical because we don't want to go to the quiet zone
         self.accept(self.owner.getLogicalZoneChangeEvent(), self.__handleOwnerZoneChange)
-        return task.done
 
     def sphereEntered(self):
         if self.air.getAvatarIdFromSender() != self.owner.doId:

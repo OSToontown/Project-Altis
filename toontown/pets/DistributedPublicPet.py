@@ -37,7 +37,6 @@ class DistributedPublicPet(DistributedPet.DistributedPet):
 
     def beginPublicDisplay(self):
         DistributedPublicPet.notify.info("Received begin for public display for public pet %d" % self.doId)
-        self.notify.info("Tail = " + str(self.tail))
         d = Func(self.pose, 'reappear', 0)
         e = self.getTeleportInTrack()
         g = Func(self.loop, 'neutral')
@@ -48,17 +47,11 @@ class DistributedPublicPet(DistributedPet.DistributedPet):
         DistributedPublicPet.notify.info("Finishing public display for public pet %d" % self.doId)
         Sequence(self.getTeleportOutTrack()).start()
 
-    def generate(self):
-        DistributedPublicPet.notify.info("Got generate!")
-        DistributedPet.DistributedPet.generate(self)
 
     def announceGenerate(self):
-        self.notify.info(self.tail)
-        DistributedPublicPet.notify.info("Public pet announceGenerate for %d" % self.doId)
         DistributedPet.DistributedPet.announceGenerate(self) # Hack to fix pet DNA
         self.ready = True
         if self.isOwner():
-            self.notify.info("Setting up our own pet")
             base.localAvatar.publicPetId = self.doId
             self.makeSphere()
 
