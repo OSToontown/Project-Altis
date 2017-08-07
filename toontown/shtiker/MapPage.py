@@ -235,9 +235,11 @@ class MapPage(ShtikerPage.ShtikerPage):
     def __buttonCallback(self, hood):
         if hood in base.localAvatar.getTeleportAccess() and hood in base.cr.hoodMgr.getAvailableZones():
             base.localAvatar.sendUpdate('checkTeleportAccess', [hood])
-            self.doneStatus = {'mode': 'teleport',
-             'hood': hood}
-            messenger.send(self.doneEvent)
+
+    def checkTeleportAccessResponse(self, hood):
+        self.doneStatus = {'mode': 'teleport',
+                           'hood': hood}
+        messenger.send(self.doneEvent)
 
     def __hoverCallback(self, inside, hoodIndex, pos):
         alpha = PythonUtil.choice(inside, 0.25, 1.0)

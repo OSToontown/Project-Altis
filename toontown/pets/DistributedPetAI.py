@@ -43,6 +43,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.colorScale = 0
         self.eyeColor = 0
         self.gender = 0
+        self.mood = 0
         self.movieMode = None
         self.lockMoverEnabled = 0
         self.trickAptitudes = []
@@ -497,8 +498,8 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.mover = PetMoverAI(self)
         self.lockMover = PetMoverAI(self)
         if public == True:
-            self.mover.fwdSpeed = 30
-            self.lockMover.fwdSpeed = 30
+            self.mover.fwdSpeed = 40
+            self.lockMover.fwdSpeed = 40
 
         self.createImpulses()
         self.enterPetLook()

@@ -2036,6 +2036,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 commentStr = 'Toon %s teleporting to a zone %s they do not have access to' % (self.doId, zoneId)
                 if self.getAdminAccess() < MINIMUM_MAGICWORD_ACCESS:
                     simbase.air.banManager.ban(self.doId, commentStr)
+        else:
+            self.sendUpdate('checkTeleportAccessResponse', [zoneId])
 
     def setTeleportOverride(self, flag):
         self.teleportOverride = flag
@@ -5768,8 +5770,14 @@ def getZone():
 def petTest():
     from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
     invoker = spellbook.getInvoker()
-    pet = DistributedPublicPetAI(simbase.air, invoker)
-    pet.generateWithRequired(invoker.zoneId)
+
+    def generateCallback(pet):
+        print("Doing callback")
+        pet.doNotDeallocateChannel = True
+        pet.generateWithRequired(invoker.zoneId)
+
+    pet = DistributedPublicPetAI(simbase.air, invoker, generateCallback)
+    pet.generateInit()
     return 'Generated pet'
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
