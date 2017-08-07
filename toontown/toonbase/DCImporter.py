@@ -1293,7 +1293,7 @@ dclass DistributedSuitBase : DistributedObject {
   setSkeleRevives(uint8) required broadcast ram;
   setHP(int16) required broadcast ram;
   setElite(uint8) required broadcast ram;
-  setMaxHP(uint16) required broadcast ram;
+  setMaxHP(uint16) broadcast ram;
 };
 
 dclass DistributedSuit : DistributedSuitBase {
