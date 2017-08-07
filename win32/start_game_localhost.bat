@@ -15,6 +15,7 @@ set TT_PLAYCOOKIE=%ttUsername%
 set TT_USERNAME=%ttUsername%
 set TT_PASSWORD=%ttPassword%
 set TT_GAMESERVER=127.0.0.1
+set model-path=../resources
 
 echo ===============================
 echo Starting Toontown Project Altis...

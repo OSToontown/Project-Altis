@@ -135,6 +135,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.nose = nose
 
     def setTail(self, tail):
+        self.notify.info("We are now receiving the tail update! :O")
         self.tail = tail
 
     def setBodyTexture(self, bodyTexture):
@@ -197,7 +198,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
     def getName(self):
         return Pet.Pet.getName(self)
 
-    def announceGenerate(self):
+    def announceGenerate(self, public = True):
         DistributedSmoothNode.DistributedSmoothNode.announceGenerate(self)
         if hasattr(self, 'petName'):
             Pet.Pet.setName(self, self.petName)
@@ -206,6 +207,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         for mood, value in self.requiredMoodComponents.items():
             self.mood.setComponent(mood, value, announce=0)
 
+        self.notify.info("We are now generating DNA, Tail is " + str(self.tail))
         self.requiredMoodComponents = {}
         self.setDNA([self.head,
          self.ears,
@@ -216,6 +218,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
          self.colorScale,
          self.eyeColor,
          self.gender])
+
         av = self.cr.doId2do.get(self.ownerId)
         if av:
             av.petDNA = self.style
@@ -312,7 +315,11 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
     def lockPet(self):
         if not self.lockedDown:
             self.prevAnimState = self.animFSM.getCurrentState().getName()
-            self.animFSM.request('neutral')
+
+            try:
+                self.animFSM.request('neutral')
+            except StopIteration:
+                self.notify.info("Received StopIteration on FSM request")
         self.lockedDown += 1
 
     def isLockedDown(self):

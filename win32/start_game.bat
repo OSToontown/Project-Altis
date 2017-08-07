@@ -8,6 +8,7 @@ rem Get the user input:
 set /P ttUsername="Username: "
 set /P TT_GAMESERVER="Gameserver (DEFAULT: 167.114.28.238): " || ^
 set TT_GAMESERVER=167.114.28.238
+set model-path=../resources
 
 rem Export the environment variables:
 set ttPassword=password

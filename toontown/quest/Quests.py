@@ -2859,7 +2859,7 @@ QuestDict = {
  4021: ([], Cont, (VisitQuest,), 1216, 1221, NA, 4022, TTLocalizer.QuestDialogDict[4021], 7810, 205),
  4022: ([], Cont, (RecoverItemQuest, Anywhere, 5, 1007, 75, 'mb', 'type'), 1221, Same, NA, 4023, TTLocalizer.QuestDialogDict[4022], 7810, 205),
  4023: ([], Cont, (DeliverItemQuest, 1007), Same, 1216, NA, 4024, TTLocalizer.QuestDialogDict[4023], 7810, 205),
- 4024: ([], Cont, (RecoverItemQuest, Anywhere, 14, 1008, 65, 'm', 'type'), 1216, Same, NA, 4025, TTLocalizer.QuestDialogDict[4024], 7810, 205),
+ 4024: ([], Cont, (RecoverItemQuest, Anywhere, 14, 1008, 65, 'm', 'track'), 1216, Same, NA, 4025, TTLocalizer.QuestDialogDict[4024], 7810, 205),
  4025: ([], Cont, (RecoverItemQuest, 1200, 10, 1009, 50, AnyFish), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[4025], 7810, 205),
  
  #DD Task Four

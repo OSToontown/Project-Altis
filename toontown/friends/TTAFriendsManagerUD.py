@@ -278,6 +278,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
             def handlePet(dclass, fields):
                 if dclass != self.air.dclassesByName['DistributedPetAI']:
                     self.blockedAvIds.append(senderId)
+                    self.notify.info("BLOCKING1")
                 try:
 
                     dna = [fields.get(x, [0])[0] for x in ("setHead", "setEars", "setNose", "setTail", "setBodyTexture", "setColor",
@@ -295,6 +296,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
                                                                        traits, moods, dna, fields.get("setLastSeenTimestamp", [0])[0]])
                     self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
                 except:
+                    self.notify.info("BLOCKING2")
                     self.blockedAvIds.append(senderId)
 
     def toonOnline(self, doId, friendsList):

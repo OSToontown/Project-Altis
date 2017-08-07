@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 import __builtin__
+import os
 
 __builtin__.process = 'client'
 
@@ -196,8 +197,9 @@ server-version TTPA-Beta-1.0.6
 shard-low-pop 50
 shard-mid-pop 80
 
-#Resources
-model-path ../resources
+
+# Resources
+model-path /
 
 # Core features:
 want-pets #t
@@ -213,7 +215,13 @@ want-resistance-toonup #t
 want-resistance-restock #t
 
 # Developer options:
-want-dev #f"""
+want-dev #f
+"""
+production_model_path = '/'
+if(os.environ.get('model-path', production_model_path) == production_model_path):
+    config += '\nmodel-path ' + production_model_path
+else:
+    config += '\nmodel-path ' + os.environ.get('model-path', production_model_path)
 
 import sys
 from panda3d.core import *
