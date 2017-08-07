@@ -138,7 +138,7 @@ class NewsManager(DistributedObject.DistributedObject):
             messages.append(TTLocalizer.V2InvasionBulletin2)
             messages.append(TTLocalizer.V2InvasionBulletin3)
             self.invading = 1
-        if msgType == ToontownGlobals.SuitMegaInvasionBegin:
+        elif msgType == ToontownGlobals.SuitMegaInvasionBegin:
             messages.append(TTLocalizer.SuitMegaInvasionBegin1)
             messages.append(TTLocalizer.SuitMegaInvasionBegin2 % suitNamePlural)
             self.invading = 1
