@@ -113,6 +113,8 @@ class DistributedMintRoomAI(DistributedLevelAI.DistributedLevelAI, MintRoomBase.
 
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedMint(toon, self.mintId, activeVictors)
+            toon.addStat(ToontownGlobals.STATS_MINTS)
+            simbase.air.achievementsManager.mint(toon.doId)
 
     def b_setDefeated(self):
         self.d_setDefeated()

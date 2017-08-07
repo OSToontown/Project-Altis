@@ -229,6 +229,66 @@ class FishAchievement:
         else:
             return 0
 			
+class FactoryAchievement:
+
+    def __init__(self, facilities):
+        self.neededFacilities = facilities
+		
+    def hasComplete(self, av):
+        facilities = av.getStat(ToontownGlobals.STATS_FACTORIES)
+        if facilities >= self.neededFacilities:
+            return 1
+        else:
+            return 0
+			
+class MintAchievement:
+
+    def __init__(self, facilities):
+        self.neededFacilities = facilities
+		
+    def hasComplete(self, av):
+        facilities = av.getStat(ToontownGlobals.STATS_MINTS)
+        if facilities >= self.neededFacilities:
+            return 1
+        else:
+            return 0
+
+class StageAchievement:
+
+    def __init__(self, facilities):
+        self.neededFacilities = facilities
+		
+    def hasComplete(self, av):
+        facilities = av.getStat(ToontownGlobals.STATS_STAGES)
+        if facilities >= self.neededFacilities:
+            return 1
+        else:
+            return 0
+
+class ClubAchievement:
+
+    def __init__(self, facilities):
+        self.neededFacilities = facilities
+		
+    def hasComplete(self, av):
+        facilities = av.getStat(ToontownGlobals.STATS_CLUBS)
+        if facilities >= self.neededFacilities:
+            return 1
+        else:
+            return 0
+
+class BoardOfficeAchievement:
+
+    def __init__(self, facilities):
+        self.neededFacilities = facilities
+		
+    def hasComplete(self, av):
+        facilities = av.getStat(ToontownGlobals.STATS_BOARD_OFFICES)
+        if facilities >= self.neededFacilities:
+            return 1
+        else:
+            return 0
+			
 # WORD OF CAUTION: After release DO NOT add in achievements into the middle of the dictionary, ONLY append
 
 AchievementsDict = (FriendAchievement(neededFriends = 1),
@@ -308,7 +368,22 @@ AchievementsDict = (FriendAchievement(neededFriends = 1),
                     BuildingAchievement(bldgs = 10),
                     BuildingAchievement(bldgs = 50),
                     BuildingAchievement(bldgs = 100),
-                    BuildingAchievement(bldgs = 250))
+                    BuildingAchievement(bldgs = 250),
+                    FactoryAchievement(facilities = 1),
+                    FactoryAchievement(facilities = 10),
+                    FactoryAchievement(facilities = 50),
+                    MintAchievement(facilities = 1),
+                    MintAchievement(facilities = 10),
+                    MintAchievement(facilities = 50),
+                    StageAchievement(facilities = 1),
+                    StageAchievement(facilities = 10),
+                    StageAchievement(facilities = 50),
+                    ClubAchievement(facilities = 1),
+                    ClubAchievement(facilities = 10),
+                    ClubAchievement(facilities = 50),
+                    BoardOfficeAchievement(facilities = 1),
+                    BoardOfficeAchievement(facilities = 10),
+                    BoardOfficeAchievement(facilities = 50))
 
 type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        CatalogAchievement: [3, 4, 5, 6],
@@ -328,7 +403,12 @@ type2AchievementIds = {FriendAchievement: [0, 1, 2],
                        SofieSquirtAchievement: [62],
                        DoodleAchievement: [63],
                        ResistanceAchievement: [64],
-                       BuildingAchievement: [73, 74, 75, 76, 77]}
+                       BuildingAchievement: [73, 74, 75, 76, 77],
+                       FactoryAchievement: [78, 79, 80],
+                       MintAchievement: [81, 82, 83],
+                       StageAchievement: [84, 85, 86],
+                       ClubAchievement: [87, 88, 89],
+                       BoardOfficeAchievement: [90, 91, 92]}
 					   
 type2Category = {FriendAchievement: CAT_FRIENDS,
                  CatalogAchievement: CAT_CATALOG,
@@ -348,7 +428,12 @@ type2Category = {FriendAchievement: CAT_FRIENDS,
                  SofieSquirtAchievement: CAT_SPECIAL,
                  DoodleAchievement: CAT_FRIENDS,
                  ResistanceAchievement: CAT_SPECIAL,
-                 BuildingAchievement: CAT_COGS}
+                 BuildingAchievement: CAT_COGS,
+                 FactoryAchievement: CAT_COGS,
+                 MintAchievement: CAT_COGS,
+                 StageAchievement: CAT_COGS,
+                 ClubAchievement: CAT_COGS,
+                 BoardOfficeAchievement: CAT_COGS}
 
 def getAchievementsOfType(type):
     return type2AchievementIds.get(type)
