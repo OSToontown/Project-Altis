@@ -8,7 +8,6 @@ show-frame-rate-meter #f
 # Debug
 default-directnotify-level info
 notify-level-DistributedNPCScientistAI info
-notify-level-DistributedPetAI
 want-pstats #f
 
 # Audio:

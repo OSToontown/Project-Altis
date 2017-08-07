@@ -20,8 +20,13 @@ class DistributedPublicPetMgrAI(DistributedObjectAI.DistributedObjectAI):
             self.sendUpdateToAvatarId(avId, 'requestAppearanceResp', [1])
             return
 
-        pet = DistributedPublicPetAI(self.air, av)
-        pet.generateWithRequired(av.zoneId)
+        def generateCallback(pet):
+            self.notify.info("Doing callback")
+            pet.generateWithRequired(av.zoneId)
+
+        pet = DistributedPublicPetAI(self.air, av, generateCallback)
+        pet.generateInit()
+
 
 
 
