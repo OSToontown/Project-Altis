@@ -115,6 +115,8 @@ class DistributedStageRoomAI(DistributedLevelAI.DistributedLevelAI, StageRoomBas
             self.air.writeServerEvent('stageDefeated', avId, description)
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedStage(toon, self.stageId, activeVictors)
+            toon.addStat(ToontownGlobals.STATS_STAGES)
+            simbase.air.achievementsManager.club(toon.doId)
 
     def b_setDefeated(self):
         self.d_setDefeated()

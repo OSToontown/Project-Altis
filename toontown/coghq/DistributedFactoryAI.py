@@ -102,6 +102,8 @@ class DistributedFactoryAI(DistributedLevelAI.DistributedLevelAI, FactoryBase.Fa
             self.air.writeServerEvent('factoryDefeated', avId, description)
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedFactory(toon, self.factoryId, activeVictors)
+            toon.addStat(ToontownGlobals.STATS_FACTORIES)
+            simbase.air.achievementsManager.factory(toon.doId)
 
     def b_setDefeated(self):
         self.d_setDefeated()

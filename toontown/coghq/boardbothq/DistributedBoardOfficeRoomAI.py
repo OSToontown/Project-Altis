@@ -113,6 +113,8 @@ class DistributedBoardOfficeRoomAI(DistributedLevelAI.DistributedLevelAI, BoardO
 
         for toon in activeVictors:
             simbase.air.questManager.toonDefeatedBoardOffice(toon, self.boardofficeId, activeVictors)
+            toon.addStat(ToontownGlobals.STATS_BOARD_OFFICES)
+            simbase.air.achievementsManager.bdo(toon.doId)
 
     def b_setDefeated(self):
         self.d_setDefeated()

@@ -21,6 +21,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         self.statRows = []
         self.index = 0
         self.offset = 0
+        self.statOffset = 0
 
         self.gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         self.accept(localAvatar.uniqueName('achievementsChange'), self.updatePage)
@@ -69,13 +70,18 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         self.setLButton = DirectButton(parent=self.setFrame, relief=None, image=shuffleImage, image_scale=halfButtonScale, image1_scale=halfButtonHoverScale, image2_scale=halfButtonHoverScale, pos=(-0.2, 0, 0), command=self.doSetPageChange, extraArgs = [-1])
         self.setRButton = DirectButton(parent=self.setFrame, relief=None, image=shuffleImage, image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.doSetPageChange, extraArgs = [1])
         self.setFrame.hide()
+        self.statFrame = DirectFrame(parent=self.statsPageNode, image=shuffleFrame, image_scale=halfButtonInvertScale, relief=None, pos=(0, 0, 0.4), hpr=(0, 0, 3), scale=(0.8), frameColor=(1, 1, 1, 1), text='', text_scale=0.0625, text_pos=(-0.001, -0.015), text_fg=(1, 1, 1, 1))
+        self.statLButton = DirectButton(parent=self.statFrame, relief=None, image=shuffleImage, image_scale=halfButtonScale, image1_scale=halfButtonHoverScale, image2_scale=halfButtonHoverScale, pos=(-0.2, 0, 0), command=self.doStatPageChange, extraArgs = [-1])
+        self.statRButton = DirectButton(parent=self.statFrame, relief=None, image=shuffleImage, image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.doStatPageChange, extraArgs = [1])
+        self.statFrame.hide()
         self.doAchievementPageChange(0)
+        self.doStatPageChange(0)
 
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
         self.avAchievements = localAvatar.achievements
-        self.title = DirectLabel(parent = self, relief = None, text = TTLocalizer.AchievementsPageTitle, text_scale = 0.12, textMayChange = 1, pos = (0, 0, 0.62))
+        self.title = DirectLabel(parent = self, relief = None, text = TTLocalizer.AchievementsPageTitle, text_scale = 0.1, textMayChange = 1, pos = (0, 0, 0.665))
 
         cardModel = loader.loadModel('phase_3.5/models/gui/playingCard')
 
@@ -207,6 +213,20 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
             self.setRButton['state'] = DGG.NORMAL
         self.setFrame['text'] = 'Page ' + str((self.offset/4) + 1)
         self.updatePage()
+		
+    def doStatPageChange(self, direction):
+        self.statOffset += (direction * 26)
+        if self.statOffset <= 0:
+            self.statLButton['state'] = DGG.DISABLED
+            self.statRButton['state'] = DGG.NORMAL
+        elif self.statOffset >= len(base.localAvatar.getStats()) - 26:
+            self.statLButton['state'] = DGG.NORMAL
+            self.statRButton['state'] = DGG.DISABLED
+        else:
+            self.statLButton['state'] = DGG.NORMAL
+            self.statRButton['state'] = DGG.NORMAL
+        self.statFrame['text'] = 'Page ' + str((self.statOffset/26) + 1)
+        self.updateStats()
 
     def updateStats(self):
         rowYs = (.6, .5, .4, .3, .2, .1, 0, -.1, -.2, -.3, -.4, -.5, -.6)
@@ -216,12 +236,16 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         statRows2 = [self.createStat(y, 0.8) for y in (rowYs)]
         self.statRows += statRows2
         self.stats = base.localAvatar.getStats()
-        for stat in xrange(len(self.stats)):
-            statText = TTLocalizer.StatsList[stat] % self.stats[stat]
+        for stat in xrange(self.statOffset, self.statOffset + 26):
             try:
-                self.statRows[stat]['text'] = statText
+                statText = TTLocalizer.StatsList[stat] % self.stats[stat]
+                self.statRows[stat - 26]['text'] = statText
             except:
-                print "UNDEFINED STAT AT INDEX %s" % stat
+                pass
+        if len(self.stats) > 26:
+            self.statFrame.show()
+        else:
+            self.statFrame.hide()
 
     def createStat(self, y, x = -0.8):
         if x < 0:
