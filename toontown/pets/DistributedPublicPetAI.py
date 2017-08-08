@@ -105,21 +105,29 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
         self.acceptOnce(self.air.getAvatarExitEvent(self.owner.doId), self.__handleUnexpectedExit)
 
         # Listen for zone changes. Note that this is logical because we don't want to go to the quiet zone
-        self.accept(self.owner.getLogicalZoneChangeEvent(), self.__handleOwnerZoneChange)
+        self.accept(self.owner.getZoneChangeEvent(), self.__handleOwnerZoneChange)
 
     def sphereEntered(self):
-        if self.air.getAvatarIdFromSender() != self.owner.doId:
-            self.notify.info("Invalid sphere update sent to pet %d" % self.petId)
-            return
+        try:
+            if self.air.getAvatarIdFromSender() != self.owner.doId:
+                self.notify.info("Invalid sphere update sent to pet %d" % self.petId)
+                return
 
-        self.shouldMove = False
+            self.shouldMove = False
+        except:
+            self.notify.info("Sphere update with exception sent to pet %d" % self.petId)
+            return
 
     def sphereLeft(self):
-        if self.air.getAvatarIdFromSender() != self.owner.doId:
-            self.notify.info("Invalid sphere update sent to pet %d" % self.petId)
-            return
+        try:
+            if self.air.getAvatarIdFromSender() != self.owner.doId:
+                self.notify.info("Invalid sphere update sent to pet %d" % self.petId)
+                return
 
-        self.shouldMove = True
+            self.shouldMove = True
+        except:
+            self.notify.info("Sphere update with exception sent to pet %d" % self.petId)
+            return
 
     def __handleOwnerZoneChange(self, newZoneId, oldZoneId):
         self.disable()
