@@ -71,8 +71,9 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
 
     def setElite(self, flag):
         self.isElite = flag
-        self.maxHP = int(self.maxHP * 1.5)
-        self.currHP = int(self.currHP * 1.5)
+        if flag:
+            self.maxHP = int(self.maxHP * 1.5)
+            self.currHP = int(self.currHP * 1.5)
 
     def getElite(self):
         return self.isElite

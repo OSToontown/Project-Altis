@@ -3825,7 +3825,12 @@ StatsList = [
 "SOS Cards used: %s",
 "Unites used: %s",
 "Summons used: %s",
-"Fires used: %s"
+"Fires used: %s",
+"Factories defeated: %s",
+"Mints defeated: %s",
+"District Attorney Offices defeated: %s",
+"Cog Golf Courses defeated: %s",
+"??? defeated: %s"
 ]
 
 EarnedAchievement = 'You earned an achievement!'
@@ -3919,7 +3924,22 @@ Achievements = [
  "Depreciation!",
  "Evicted!",
  "Forclosure!",
- "Deed to the City!"
+ "Deed to the City!",
+ "Shutting down the Factory!",
+ "Plant Shutdown!",
+ "Seizing the Means of Production!",
+ "Loose Change!",
+ "Making it Rain!",
+ "Making it Pour!",
+ "Corporate Espionage!",
+ "Extradition!",
+ "Legal Breakdown!",
+ "Round of Putt-Putt!",
+ "Country Club Regular!",
+ "Tiger Woods!",
+ "Board?",
+ "I'd Like to Make a Proposal!",
+ "Motion Acknowledged!"
 ]
 AchievementsDesc = ("Make a friend",
  "Make 10 friends",
@@ -3998,7 +4018,22 @@ AchievementsDesc = ("Make a friend",
  "Reclaim 10 Cog buildings.",
  "Reclaim 50 Cog buildings.",
  "Reclaim 100 Cog buildings.",
- "Reclaim 250 Cog buildings.")
+ "Reclaim 250 Cog buildings.",
+ "Defeat a Factory.",
+ "Defeat 10 Factories.",
+ "Defeat 50 Factories.",
+ "Defeat a Mint.",
+ "Defeat 10 Mints.",
+ "Defeat 50 Mints.",
+ "Defeat a District Attorney's Office.",
+ "Defeat 10 District Attorney's Offices.",
+ "Defeat 50 District Attorney's Offices.",
+ "Defeat a Cog Golf Course.",
+ "Defeat 10 Cog Golf Courses.",
+ "Defeat 50 Cog Golf Courses.",
+ "Defeat a Board Office.",
+ "Defeat 10 Board Offices.",
+ "Defeat 50 Board Offices.")
 NPCFriendPageTitle = 'SOS Toons'
 PartyDateFormat = '%(mm)s %(dd)d, %(yyyy).4d'
 PartyTimeFormat = '%d:%.2d %s'

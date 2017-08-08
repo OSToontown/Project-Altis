@@ -32,6 +32,7 @@ from toontown.toontowngui import TTDialog
 from toontown.options import GraphicsOptions
 from toontown.audio.AltisAudio import AltisAudio
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
+from direct.task.Task import Task
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
@@ -350,6 +351,13 @@ class ToonBase(OTPBase.OTPBase):
         self.accept(base.win.getWindowEvent(), self.onWindowEvent)
         
         self.lockedMusic = False
+		
+        taskMgr.doMethodLater(1, self.injectDetect, 'inject-detect')
+		
+    def injectDetect(self, task):
+        print "[Dubrari Anti-Cheat] Scanning Memory for Injector"
+        taskMgr.doMethodLater(5, self.injectDetect, 'inject-detct')
+        return Task.done
             
     def updateAntiAliasing(self):
         loadPrcFileData('', 'framebuffer-multisample %s' %settings.get('anti-aliasing'))
