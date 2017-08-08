@@ -1,8 +1,10 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from direct.distributed.MsgTypes import *
 from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPGlobals
 from datetime import datetime
+from direct.distributed.PyDatagram import PyDatagram
 import time
 import uuid
 import string
@@ -39,22 +41,15 @@ class FriendManagerAI(DistributedObjectAI):
         
         if not av:
             return
-        
-        request = av.getTrueFriendRequest()
-        
-        if request[1] >= OTPGlobals.TF_MAX_TRIES and request[0] >= time():
-            self.sendUpdateToAvatarId(avId, 'trueFriendsResponse', [OTPGlobals.TF_COOLDOWN, ''])
-            return
-        
-        code = str(self.getCode())
-        
-        if hasattr(self, 'data'):
-            self.data[code] = avId
-        else:
-            self.air.dbGlobalCursor.trueFriendCodes.insert({'_id': code, 'date': datetime.utcnow(), 'avId': avId})
 
-        av.b_setTrueFriendRequest((time.time() + OTPGlobals.TF_COOLDOWN, request[1] + 1))
-        self.sendUpdateToAvatarId(avId, 'trueFriendResponse', [OTPGlobals.TF_SUCCESS, code])
+        self.air.banManager.ban(avId, "Heh heh, we all know you don't have any friends.")
+        datagram = PyDatagram()
+        datagram.addServerHeader(
+            av.GetPuppetConnectionChannel(av.doId),
+            self.air.ourChannel, CLIENTAGENT_EJECT)
+        datagram.addUint16(155)
+        datagram.addString("Heh heh, we all know you don't have any friends.")
+        self.air.send(datagram)
         
     def useTrueFriendCode(self, code):
         avId = self.air.getAvatarIdFromSender()

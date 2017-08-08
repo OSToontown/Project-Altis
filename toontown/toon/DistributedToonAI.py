@@ -1059,6 +1059,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.hp -= hpLost
                 if self.hp <= 0:
                     self.hp = -1
+                    self.addStat(ToontownGlobals.STATS_SAD)
                     messenger.send(self.getGoneSadMessage())
         if not self.hpOwnedByBattle:
             self.hp = min(self.hp, self.maxHp)
