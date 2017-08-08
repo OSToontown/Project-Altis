@@ -3,6 +3,7 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPGlobals
 from datetime import datetime
+from direct.distributed.PyDatagram import PyDatagram
 import time
 import uuid
 import string
@@ -44,6 +45,14 @@ class FriendManagerAI(DistributedObjectAI):
         
         if request[1] >= OTPGlobals.TF_MAX_TRIES and request[0] >= time():
             self.sendUpdateToAvatarId(avId, 'trueFriendsResponse', [OTPGlobals.TF_COOLDOWN, ''])
+            if request[1] ?= OTPGlobals.TF_MAX_TRIES_KICK  and request[0] >= time():
+                datagram = PyDatagram()
+                datagram.addServerHeader(
+                    av.GetPuppetConnectionChannel(av.doId),
+                    simbase.air.ourChannel, CLIENTAGENT_EJECT)
+                datagram.addUint16(155)
+                datagram.addString('You were removed from the game due to spam.')
+                simbase.air.send(datagram)
             return
         
         code = str(self.getCode())
