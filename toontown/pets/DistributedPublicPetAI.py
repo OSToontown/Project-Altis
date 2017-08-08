@@ -115,7 +115,8 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
             self.shouldMove = False
         except:
-            pass
+            self.notify.info("Sphere update with exception sent to pet %d" % self.petId)
+            return
 
     def sphereLeft(self):
         try:
@@ -125,7 +126,8 @@ class DistributedPublicPetAI(DistributedPetAI.DistributedPetAI):
 
             self.shouldMove = True
         except:
-            pass
+            self.notify.info("Sphere update with exception sent to pet %d" % self.petId)
+            return
 
     def __handleOwnerZoneChange(self, newZoneId, oldZoneId):
         self.disable()
