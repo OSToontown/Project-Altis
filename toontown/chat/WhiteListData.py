@@ -35713,6 +35713,7 @@ WHITELIST = [
     'unlocking',
     'unlocks',
     'unlucky',
+    'unlure',
     'unlured',
     'unmeant',
     'unmet',
