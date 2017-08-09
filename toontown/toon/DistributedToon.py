@@ -3043,7 +3043,7 @@ def globalTp(streetZone):
     spellbook.getInvoker().magicTeleportInitiate(ZoneUtil.getHoodId(streetZone), streetZone)
     return "Teleporting to zone %d!" % streetZone 
     
-@magicWord(category=CATEGORY_CREATIVE)
+@magicWord(category=CATEGORY_MODERATOR)
 def sleep():
     if not base.localAvatar.neverSleep:
         base.localAvatar.disableSleeping()

@@ -1351,6 +1351,7 @@ dclass DistributedSellbotBoss : DistributedBossCog {
   setDooberIds(uint32[]) broadcast ram;
   setBossDamage(uint16, uint8, int16) broadcast ram;
   setState(string) broadcast ram;
+  setBattleDifficulty(uint8) broadcast ram;
   hitBoss(uint8) airecv clsend;
   hitBossInsides() airecv clsend;
   hitToon(uint32) airecv clsend;
