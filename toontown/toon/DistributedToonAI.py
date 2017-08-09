@@ -5137,7 +5137,7 @@ def warn(banWorthy):
     if target == spellbook.getInvoker():
         return "You can't warn yourself! Who made you a mod anyways?"
     target.incrementWarningCount(noBan = banWorthy)
-    return '%(name)s now has %(warnings)d warnings.' % {'name': target.getName(), 'warnings': target.getWarningCount()}
+    return '%s now has %d warnings.' % (target.getName(), target.getWarningCount())
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def money(money):
