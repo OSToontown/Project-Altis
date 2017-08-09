@@ -1302,6 +1302,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if not lastCog:
                 self.cogTypes[dept] += 1
                 self.d_setCogTypes(self.cogTypes)
+                if self.cogTypes[dept] >= 4:
+                    tpZone = ToontownGlobals.dept2cogHQ.get(SuitDNA.suitDepts[dept])
+                    if tpZone not in self.teleportZoneArray:
+                        self.addTeleportAccess(tpZone)
                 cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
                 self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
                 self.d_setCogLevels(self.cogLevels)
