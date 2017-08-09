@@ -1,10 +1,5 @@
 from toontown.safezone import SafeZoneLoader
 from toontown.safezone import DDPlayground
-from toontown.toon import NPCToons
-from toontown.chat.ChatGlobals import *
-from toontown.toonbase import TTLocalizer
-import random
-from direct.task.Task import Task
 
 class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 
@@ -15,7 +10,6 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.activityMusicFile = 'phase_6/audio/bgm/DD_SZ_activity.ogg'
         self.dnaFile = 'phase_6/dna/donalds_dock_sz.pdna'
         self.safeZoneStorageDNAFile = 'phase_6/dna/storage_DD_sz.pdna'
-        self.gator = NPCToons.createLocalNPC(7010)
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)
@@ -40,19 +34,6 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.foghornSound = base.loader.loadSfx('phase_5/audio/sfx/SZ_DD_foghorn.ogg')
         self.bellSound = base.loader.loadSfx('phase_6/audio/sfx/SZ_DD_shipbell.ogg')
         self.waterSound = base.loader.loadSfx('phase_6/audio/sfx/SZ_DD_waterlap.ogg')
-        self.gator.reparentTo(render)
-        self.gator.setPos(42.798, 63.956, -1.884)
-        self.gator.setH(-230)
-        self.gator.setName('Gator')
-        self.gator.initializeBodyCollisions('toon')
-        taskMgr.doMethodLater(1, self.__gatorDialog, 'gator-dial')
-		
-    def __gatorDialog(self, task):
-        if self.gator:
-            self.gator.setChatAbsolute(random.choice(TTLocalizer.GatorChatter), CFSpeech | CFTimeout)
-            time = random.random() * 20.0 + 2
-            taskMgr.doMethodLater(time, self.__gatorDialog, 'gator-dial')
-        return Task.done
 
     def unload(self):
         SafeZoneLoader.SafeZoneLoader.unload(self)
@@ -65,6 +46,3 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         del self.waterSound
         del self.submergeSound
         del self.boat
-        taskMgr.remove('gator-dial')
-        self.gator.stash()
-        self.gator = None
