@@ -1986,7 +1986,8 @@ SuitLegalEagleP = 'Legal Eagles'
 SuitBigWigP = 'Big Wigs'
 SuitFaceoffDefaultTaunts = ['Boo!']
 SuitAttackDefaultTaunts = ['Take that!', 'Take a memo on this!']
-SuitAttackNames = {'Audit': 'Audit!',
+SuitAttackNames = {'AcidRain': 'Acid Rain!',
+ 'Audit': 'Audit!',
  'Bite': 'Bite!',
  'BounceCheck': 'Bounce Check!',
  'BrainStorm': 'Brain Storm!',
@@ -2053,7 +2054,12 @@ SuitAttackNames = {'Audit': 'Audit!',
  'Watercooler': 'Watercooler!',
  'Withdrawal': 'Withdrawal!',
  'WriteOff': 'Write Off!'}
-SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
+SuitAttackTaunts = {'AcidRain': ["It's sulfur you.",
+           "A little CO2 didn't hurt anybody, right?",
+           'Environment, Shmenvironment.',
+           "Today's Forecast: Rainy with a chance of dissolution.",
+           'pHew! That was close!'],
+ 'Audit': ["I believe your books don't balance.",
            "Looks like you're in the red.",
            'Let me help you with your books.',
            'Your debit column is much too high.',
