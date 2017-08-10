@@ -1124,7 +1124,10 @@ class QuestPoster(DirectFrame):
             rIconGeom = self.createNpcToonHead(toNpcId)
             rIconGeomScale = IMAGE_SCALE_SMALL
             captions = captions[:1]
-            captions.append(toNpcName)
+            try:
+                captions.append(toNpcName)
+            except:
+                pass
             auxText = TTLocalizer.QuestPosterAuxReturnTo
             headlineString = TTLocalizer.QuestPosterComplete
             infoText = TTLocalizer.QuestPageDestination % (toNpcBuildingName, toNpcStreetName, toNpcLocationName)

@@ -1065,11 +1065,11 @@ class VPQuest(CogQuest):
         else:
             return TTLocalizer.CogVPs
 
-    def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
+    def doesCogCount(self, avId, dept, zoneId, avList):
+        return dept == 's' and self.isLocationMatch(zoneId)
 
-    def doesVPCount(self, avId, cogDict, zoneId, avList):
-        return self.doesCogCount(avId, cogDict, zoneId, avList)
+    def doesVPCount(self, avId, dept, zoneId, avList):
+        return self.doesCogCount(avId, dept, zoneId, avList)
 
 
 class VPNewbieQuest(VPQuest, NewbieQuest):
@@ -1083,8 +1083,8 @@ class VPNewbieQuest(VPQuest, NewbieQuest):
     def getString(self):
         return NewbieQuest.getString(self)
 
-    def doesVPCount(self, avId, cogDict, zoneId, avList):
-        if VPQuest.doesVPCount(self, avId, cogDict, zoneId, avList):
+    def doesVPCount(self, avId, dept, zoneId, avList):
+        if VPQuest.doesVPCount(self, avId, dept, zoneId, avList):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
@@ -1142,11 +1142,11 @@ class CFOQuest(CogQuest):
         else:
             return TTLocalizer.CogCFOs
 
-    def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
+    def doesCogCount(self, avId, dept, zoneId, avList):
+        return dept == 'm' and self.isLocationMatch(zoneId)
 
-    def doesCFOCount(self, avId, cogDict, zoneId, avList):
-        return self.doesCogCount(avId, cogDict, zoneId, avList)
+    def doesCFOCount(self, avId, dept, zoneId, avList):
+        return self.doesCogCount(avId, dept, zoneId, avList)
 
 
 class CFONewbieQuest(CFOQuest, NewbieQuest):
@@ -1160,8 +1160,8 @@ class CFONewbieQuest(CFOQuest, NewbieQuest):
     def getString(self):
         return NewbieQuest.getString(self)
 
-    def doesCFOCount(self, avId, cogDict, zoneId, avList):
-        if CFOQuest.doesCFOCount(self, avId, cogDict, zoneId, avList):
+    def doesCFOCount(self, avId, dept, zoneId, avList):
+        if CFOQuest.doesCFOCount(self, avId, dept, zoneId, avList):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
@@ -1181,11 +1181,11 @@ class CJQuest(CogQuest):
         else:
             return TTLocalizer.CogCJs
 
-    def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
+    def doesCogCount(self, avId, dept, zoneId, avList):
+        return dept == 'l' and self.isLocationMatch(zoneId)
 
-    def doesCJCount(self, avId, cogDict, zoneId, avList):
-        return self.doesCogCount(avId, cogDict, zoneId, avList)
+    def doesCJCount(self, avId, dept, zoneId, avList):
+        return self.doesCogCount(avId, dept, zoneId, avList)
 
 
 class CJNewbieQuest(CJQuest, NewbieQuest):
@@ -1199,8 +1199,8 @@ class CJNewbieQuest(CJQuest, NewbieQuest):
     def getString(self):
         return NewbieQuest.getString(self)
 
-    def doesCJCount(self, avId, cogDict, zoneId, avList):
-        if CJQuest.doesCJCount(self, avId, cogDict, zoneId, avList):
+    def doesCJCount(self, avId, dept, zoneId, avList):
+        if CJQuest.doesCJCount(self, avId, dept, zoneId, avList):
             return self.getNumNewbies(avId, avList)
         else:
             return 0
@@ -1220,11 +1220,11 @@ class CEOQuest(CogQuest):
         else:
             return TTLocalizer.CogCEOs
 
-    def doesCogCount(self, avId, cogDict, zoneId, avList):
-        return cogDict['isBoss'] > 0 and self.isLocationMatch(zoneId)
+    def doesCogCount(self, avId, dept, zoneId, avList):
+        return dept == 's' and self.isLocationMatch(zoneId)
 
-    def doesCEOCount(self, avId, cogDict, zoneId, avList):
-        return self.doesCogCount(avId, cogDict, zoneId, avList)
+    def doesCEOCount(self, avId, dept, zoneId, avList):
+        return self.doesCogCount(avId, dept, zoneId, avList)
 
 
 class CEONewbieQuest(CEOQuest, NewbieQuest):

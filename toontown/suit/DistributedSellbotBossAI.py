@@ -395,6 +395,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                     self.notify.info('%s.unable to add NPCFriend %s to %s.' % (self.doId, self.cagedToonNpcId, toonId))
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_VP)
+                simbase.air.questManager.toonDefeatedBoss(toon, ToontownGlobals.dept2cogHQ(self.dept), self.dna.dept, self.involvedToons)
             if len(self.involvedToons[:]) == 1 and self.begunSolo:
                 isSolo = 1
             else:

@@ -603,6 +603,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 self.givePinkSlipReward(toon)
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_CEO)
+                simbase.air.questManager.toonDefeatedBoss(toon, ToontownGlobals.dept2cogHQ(self.dept), self.dna.dept, self.involvedToons)
             if len(self.involvedToons[:]) == 1 and self.begunSolo:
                 isSolo = 1
             else:
