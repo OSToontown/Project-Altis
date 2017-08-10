@@ -1773,7 +1773,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                 45,
                 50,
                 55),
-        'attacks': (('CigarSmoke',
+        'attacks': (('AcidRain',
                      (9,
                       12,
                       14,
@@ -7046,7 +7046,8 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
 ATK_TGT_UNKNOWN = 1
 ATK_TGT_SINGLE = 2
 ATK_TGT_GROUP = 3
-SuitAttacks = {'Audit': ('phone', ATK_TGT_SINGLE),
+SuitAttacks = {'AcidRain': ('magic1', ATK_TGT_SINGLE),
+ 'Audit': ('phone', ATK_TGT_SINGLE),
  'Bite': ('throw-paper', ATK_TGT_SINGLE),
  'BounceCheck': ('throw-paper', ATK_TGT_SINGLE),
  'BrainStorm': ('effort', ATK_TGT_SINGLE),
@@ -7114,6 +7115,7 @@ SuitAttacks = {'Audit': ('phone', ATK_TGT_SINGLE),
  'Withdrawal': ('magic1', ATK_TGT_SINGLE),
  'WriteOff': ('hold-pencil', ATK_TGT_SINGLE),
  'Overdraft': ('hold-pencil', ATK_TGT_SINGLE)}
+ACID_RAIN = SuitAttacks.keys().index('AcidRain')
 AUDIT = SuitAttacks.keys().index('Audit')
 BITE = SuitAttacks.keys().index('Bite')
 BOUNCE_CHECK = SuitAttacks.keys().index('BounceCheck')

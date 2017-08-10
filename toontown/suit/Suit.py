@@ -133,8 +133,7 @@ sw = (('phone', 'phone', 5),
 mdm = (('smile', 'smile', 5),
  ('roll-o-dex', 'roll-o-dex', 5),      
  ('magic3', 'magic3', 5))
-txm = (('cigar-smoke', 'cigar-smoke', 8),
- ('pen-squirt', 'fountain-pen', 7),
+txm = (('pen-squirt', 'fountain-pen', 5),
  ('glower', 'glower', 5),
  ('magic1', 'magic1', 5))
 mg = (('speak', 'speak', 5),
