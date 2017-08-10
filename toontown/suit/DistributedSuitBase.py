@@ -372,8 +372,7 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         SuitBase.SuitBase.setElite(self, flag)
         if flag:
             self.resetNameForElite()
-            self.maxHP = int(self.maxHP * 1.5)
-            self.currHP = int(self.currHP * 1.5)
+            self.setMaxHP(self.maxHP * 1.5)
 			
     def setMaxHP(self, hp):
         self.maxHP = int(hp)
