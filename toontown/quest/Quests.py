@@ -2904,15 +2904,15 @@ QuestDict = {
  4083: ([], Cont, (RecoverItemQuest, ToontownGlobals.DonaldsDock, 1, 1020, 20, 'g', 'track'), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[4083], 7810, 200),
  
  #DD Task Ten
- 4090: ([2136, 3213], Start, (VisitQuest,), 1004, 1105, NA, 4091, TTLocalizer.QuestDialogDict[4090], 7820, 210),
- 4091: ([], Cont, (RecoverItemQuest, Anywhere, 1, 1021, 75, 'f', 'type'), 1105, Same, NA, 4092, TTLocalizer.QuestDialogDict[4091], 7820, 210),
+ 4090: ([2136, 3213], Start, (VisitQuest,), 1004, 1104, NA, 4091, TTLocalizer.QuestDialogDict[4090], 7820, 210),
+ 4091: ([], Cont, (RecoverItemQuest, Anywhere, 1, 1021, 75, 'f', 'type'), 1104, Same, NA, 4092, TTLocalizer.QuestDialogDict[4091], 7820, 210),
  4092: ([], Cont, (DeliverItemQuest, 1021), Same, 1102, NA, 4093, TTLocalizer.QuestDialogDict[4092], 7820, 210),
- 4093: ([], Cont, (VisitQuest,), 1102, 1105, NA, 4094, TTLocalizer.QuestDialogDict[4093], 7820, 210),
- 4094: ([], Cont, (RecoverItemQuest, Anywhere, 1, 1022, 25, 'f', 'type'), 1105, Same, NA, 4095, TTLocalizer.QuestDialogDict[4094], 7820, 210),
+ 4093: ([], Cont, (VisitQuest,), 1102, 1104, NA, 4094, TTLocalizer.QuestDialogDict[4093], 7820, 210),
+ 4094: ([], Cont, (RecoverItemQuest, Anywhere, 1, 1022, 25, 'f', 'type'), 1104, Same, NA, 4095, TTLocalizer.QuestDialogDict[4094], 7820, 210),
  4095: ([], Cont, (RecoverItemQuest, Anywhere, 1, 1023, 25, 'cn', 'type'), Same, Same, NA, 4096, TTLocalizer.QuestDialogDict[4095], 7820, 210),
  4096: ([], Cont, (DeliverItemQuest, 1022), Same, 1314, NA, 4097, TTLocalizer.QuestDialogDict[4096], 7820, 210),
- 4097: ([], Cont, (VisitQuest,), 1314, 1105, NA, 4098, TTLocalizer.QuestDialogDict[4097], 7820, 210),
- 4098: ([], Cont, (RecoverItemQuest, Anywhere, 10, 1, 75, 'c', 'track'), 1105, Same, NA, NA, TTLocalizer.QuestDialogDict[4098], 7820, 210),
+ 4097: ([], Cont, (VisitQuest,), 1314, 1104, NA, 4098, TTLocalizer.QuestDialogDict[4097], 7820, 210),
+ 4098: ([], Cont, (RecoverItemQuest, Anywhere, 10, 1, 75, 'c', 'track'), 1104, Same, NA, NA, TTLocalizer.QuestDialogDict[4098], 7820, 210),
  
  #DD Task Eleven
  4100: ([2136, 3213], Start, (VisitQuest,), 1005, 1204, NA, 4101, TTLocalizer.QuestDialogDict[4100], 7830, 230),
