@@ -24,13 +24,27 @@ class ClientServicesManager(DistributedObjectGlobal):
 
         conn = httplib.HTTPConnection('www.projectaltis.com')
         conn.request("POST", "/api/login", params, headers)
-        
+
         try:
             response = json.loads(str(conn.getresponse().read()))
             conn.close()
         except:
             self.notify.error('Failed to decode json login API response!')
-            return
+            try:
+                response = json.loads(str(conn.getresponse().read()))
+                conn.close()
+            except:
+                self.notify.error('Failed to decode json login API response! (Second Time)')
+                try:
+                    response = json.loads(str(conn.getresponse().read()))
+                    conn.close()
+                except:
+                    self.notify.error('Failed to decode json login API response! (Third Time)')
+                    try:
+                        response = json.loads(str(conn.getresponse().read()))
+                        conn.close()
+                    except:
+                        return
 
         if response['status'] != 'true':
             # looks like we got a hacker!
@@ -53,9 +67,9 @@ class ClientServicesManager(DistributedObjectGlobal):
 
     def requestAvatars(self):
         self.sendUpdate('requestAvatars')
-        
+
         #self.sendUpdate('requestMOTD')
-        
+
     def setMOTD(self, motd):
         base.cr.motdText = motd
 
@@ -110,9 +124,9 @@ class ClientServicesManager(DistributedObjectGlobal):
     def systemMessage(self, message):
         whisper = WhisperPopup(message, OTPGlobals.getInterfaceFont(), WTSystem)
         whisper.manage(base.marginManager)
-        
+
         if hasattr(base.cr, 'chatLog'):
             base.cr.chatLog.addToLog("\1orangeText\1System Message: %s\2" %(message))
-            
+
         # play the system message sound effect
         base.playSfx(base.loader.loadSfx('phase_3/audio/sfx/clock03.ogg'))

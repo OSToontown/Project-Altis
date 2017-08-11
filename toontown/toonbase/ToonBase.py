@@ -33,7 +33,7 @@ from toontown.options import GraphicsOptions
 from toontown.audio.AltisAudio import AltisAudio
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 from direct.task.Task import Task
-# from ctypes import *
+from toontown.pandautils.ctypes import *
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
@@ -389,7 +389,7 @@ class ToonBase(OTPBase.OTPBase):
         return None
     
     def injectDetect(self, task):
-        # self.getAllModules()
+        self.getAllModules()
         taskMgr.doMethodLater(25, self.injectDetect, 'inject-detct')
         return Task.done
             
