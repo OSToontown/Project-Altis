@@ -1,5 +1,5 @@
 # The most useful windows datatypes
-from ctypes import *
+from toontown.pandautils.ctypes import *
 
 BYTE = c_byte
 WORD = c_ushort
@@ -15,7 +15,7 @@ FLOAT = c_float
 BOOLEAN = BYTE
 BOOL = c_long
 
-from ctypes import _SimpleCData
+from toontown.pandautils.ctypes import _SimpleCData
 class VARIANT_BOOL(_SimpleCData):
     _type_ = "v"
     def __repr__(self):

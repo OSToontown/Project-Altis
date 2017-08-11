@@ -4,20 +4,20 @@ import os as _os, sys as _sys
 
 __version__ = "1.1.0"
 
-from _ctypes import Union, Structure, Array
-from _ctypes import _Pointer
-from _ctypes import CFuncPtr as _CFuncPtr
-from _ctypes import __version__ as _ctypes_version
-from _ctypes import RTLD_LOCAL, RTLD_GLOBAL
-from _ctypes import ArgumentError
+from toontown.pandautils.ctypes import Union, Structure, Array
+from toontown.pandautils.ctypes import _Pointer
+from toontown.pandautils.ctypes import CFuncPtr as _CFuncPtr
+from toontown.pandautils.ctypes import __version__ as toontown.pandautils.ctypes_version
+from toontown.pandautils.ctypes import RTLD_LOCAL, RTLD_GLOBAL
+from toontown.pandautils.ctypes import ArgumentError
 
 from struct import calcsize as _calcsize
 
-if __version__ != _ctypes_version:
-    raise Exception("Version number mismatch", __version__, _ctypes_version)
+if __version__ != toontown.pandautils.ctypes_version:
+    raise Exception("Version number mismatch", __version__, toontown.pandautils.ctypes_version)
 
 if _os.name in ("nt", "ce"):
-    from _ctypes import FormatError
+    from toontown.pandautils.ctypes import FormatError
 
 DEFAULT_MODE = RTLD_LOCAL
 if _os.name == "posix" and _sys.platform == "darwin":
@@ -29,7 +29,7 @@ if _os.name == "posix" and _sys.platform == "darwin":
     if int(_os.uname()[2].split('.')[0]) < 8:
         DEFAULT_MODE = RTLD_GLOBAL
 
-from _ctypes import FUNCFLAG_CDECL as _FUNCFLAG_CDECL, \
+from toontown.pandautils.ctypes import FUNCFLAG_CDECL as _FUNCFLAG_CDECL, \
      FUNCFLAG_PYTHONAPI as _FUNCFLAG_PYTHONAPI, \
      FUNCFLAG_USE_ERRNO as _FUNCFLAG_USE_ERRNO, \
      FUNCFLAG_USE_LASTERROR as _FUNCFLAG_USE_LASTERROR
@@ -106,8 +106,8 @@ def CFUNCTYPE(restype, *argtypes, **kw):
         return CFunctionType
 
 if _os.name in ("nt", "ce"):
-    from _ctypes import LoadLibrary as _dlopen
-    from _ctypes import FUNCFLAG_STDCALL as _FUNCFLAG_STDCALL
+    from toontown.pandautils.ctypes import LoadLibrary as _dlopen
+    from toontown.pandautils.ctypes import FUNCFLAG_STDCALL as _FUNCFLAG_STDCALL
     if _os.name == "ce":
         # 'ce' doesn't have the stdcall calling convention
         _FUNCFLAG_STDCALL = _FUNCFLAG_CDECL
@@ -135,11 +135,11 @@ if _os.name in ("nt", "ce"):
         WINFUNCTYPE.__doc__ = CFUNCTYPE.__doc__.replace("CFUNCTYPE", "WINFUNCTYPE")
 
 elif _os.name == "posix":
-    from _ctypes import dlopen as _dlopen
+    from toontown.pandautils.ctypes import dlopen as _dlopen
 
-from _ctypes import sizeof, byref, addressof, alignment, resize
-from _ctypes import get_errno, set_errno
-from _ctypes import _SimpleCData
+from toontown.pandautils.ctypes import sizeof, byref, addressof, alignment, resize
+from toontown.pandautils.ctypes import get_errno, set_errno
+from toontown.pandautils.ctypes import _SimpleCData
 
 def _check_size(typ, typecode=None):
     # Check if sizeof(ctypes_type) against struct.calcsize.  This
@@ -257,7 +257,7 @@ _check_size(c_void_p)
 class c_bool(_SimpleCData):
     _type_ = "?"
 
-from _ctypes import POINTER, pointer, _pointer_type_cache
+from toontown.pandautils.ctypes import POINTER, pointer, _pointer_type_cache
 
 def _reset_cache():
     _pointer_type_cache.clear()
@@ -271,12 +271,12 @@ def _reset_cache():
     _pointer_type_cache[None] = c_void_p
     # XXX for whatever reasons, creating the first instance of a callback
     # function is needed for the unittests on Win64 to succeed.  This MAY
-    # be a compiler bug, since the problem occurs only when _ctypes is
+    # be a compiler bug, since the problem occurs only when toontown.pandautils.ctypes is
     # compiled with the MS SDK compiler.  Or an uninitialized variable?
     CFUNCTYPE(c_int)(lambda: None)
 
 try:
-    from _ctypes import set_conversion_mode
+    from toontown.pandautils.ctypes import set_conversion_mode
 except ImportError:
     pass
 else:
@@ -399,7 +399,7 @@ if _os.name in ("nt", "ce"):
 
     # XXX Hm, what about HRESULT as normal parameter?
     # Mustn't it derive from c_long then?
-    from _ctypes import _check_HRESULT, _SimpleCData
+    from toontown.pandautils.ctypes import _check_HRESULT, _SimpleCData
     class HRESULT(_SimpleCData):
         _type_ = "l"
         # _check_retval_ is called with the function's result when it
@@ -458,7 +458,7 @@ if _os.name in ("nt", "ce"):
         GetLastError = windll.kernel32.GetLastError
     else:
         GetLastError = windll.coredll.GetLastError
-    from _ctypes import get_last_error, set_last_error
+    from toontown.pandautils.ctypes import get_last_error, set_last_error
 
     def WinError(code=None, descr=None):
         if code is None:
@@ -479,7 +479,7 @@ elif sizeof(c_ulonglong) == sizeof(c_void_p):
 
 # functions
 
-from _ctypes import _memmove_addr, _memset_addr, _string_at_addr, _cast_addr
+from toontown.pandautils.ctypes import _memmove_addr, _memset_addr, _string_at_addr, _cast_addr
 
 ## void *memmove(void *, const void *, size_t);
 memmove = CFUNCTYPE(c_void_p, c_void_p, c_void_p, c_size_t)(_memmove_addr)
@@ -506,7 +506,7 @@ def string_at(ptr, size=-1):
     return _string_at(ptr, size)
 
 try:
-    from _ctypes import _wstring_at_addr
+    from toontown.pandautils.ctypes import _wstring_at_addr
 except ImportError:
     pass
 else:
