@@ -131,11 +131,6 @@ class LocalAccountDB(AccountDB):
         except:
             pass
 
-        #if response["statuscheck"] == "false":
-        #    callback({'success': False,
-        #              'reason': 'Toontown Project Altis is closed until the 20th!'})
-        #    return
-
         if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
             callback({'success': False,
                       'reason': 'Invalid Cookie Specified!'})
@@ -149,10 +144,8 @@ class LocalAccountDB(AccountDB):
                 'accountId': 0,
                 'accessLevel': 100
             }
-
             callback(response)
             return response
-
         else:
             try:
                 # We have an account already, let's return what we've got:
@@ -1076,7 +1069,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         getRealToken.request('GET', '/api/validatetoken?t=%s' % (cookie))
         try:
             getRealTokenResp = json.loads(getRealToken.getresponse().read())
-            cookie = getRealTokenResp['additional']            
+            cookie = getRealTokenResp['additional']
         except:
             self.notify.debug("Fatal Error during Playtoken Resolve")
             self.killConnection(sender, "Fatal Error during Playtoken Resolve")
