@@ -12,9 +12,9 @@ suitHeadTypes = ['f', 'p', 'ym', 'mm', 'ds', 'hh', 'cr', 'tbc',
  'sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'ls', 'rb',
  'cc', 'tm', 'nd', 'gh', 'ms', 'tf', 'm', 'mh',
  'ca', 'cn', 'sw', 'mdm', 'txm', 'mg', 'bfh', 'hho']
-suitATypes = ['ym', 'hh', 'tbc', 'dt', 'bs', 'le', 'bw', 'pp', 'nc', 'rb', 'nd', 'tf', 'm', 'mh', 'sw', 'mdm', 'txm', 'mg', 'hho']
+suitATypes = ['ym', 'hh', 'tbc', 'dt', 'bs', 'le', 'bw', 'pp', 'nc', 'rb', 'nd', 'tf', 'm', 'mh', 'sw', 'mdm', 'mg', 'hho']
 suitBTypes = ['p', 'ds', 'b', 'ac', 'sd', 'bc', 'br', 'ls', 'tm', 'ms', 'cn']
-suitCTypes = ['f', 'mm', 'cr', 'bf', 'sc', 'tw', 'mb', 'cc', 'gh', 'ca', 'bfh']
+suitCTypes = ['f', 'mm', 'cr', 'bf', 'sc', 'tw', 'mb', 'cc', 'gh', 'ca', 'txm', 'bfh']
 suitDepts = ['c', 'l', 'm', 's', 'g']
 suitDeptFullnames = {'c': TTLocalizer.Bossbot,
  'l': TTLocalizer.Lawbot,

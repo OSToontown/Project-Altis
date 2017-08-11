@@ -300,13 +300,7 @@ class QuestPoster(DirectFrame):
         if quest == None:
             self.notify.warning('Tried to display poster for unknown quest %s' % questId)
             return
-        if rewardId == Quests.NA:
-            finalReward = Quests.getFinalRewardId(questId, fAll=1)
-            transformedReward = Quests.transformReward(finalReward, base.localAvatar)
-            reward = Quests.getReward(transformedReward)
-        else:
-            reward = Quests.getReward(rewardId)
-        if isinstance(reward, Quests.TeleportReward):
+        if rewardId >= 100:
             self.rewardCircle.show()
         if questExp:
            self.expCircle['text'] = str(questExp)

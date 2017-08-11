@@ -25,8 +25,12 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.doobers = []
         self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
         self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
+        self.battleOnePlanner = SuitBuildingGlobals.SUIT_PLANNER_VP
+        self.battleTwoPlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS
         self.recoverRate = 0
         self.recoverStartTime = 0
+        self.battleDifficulty = 0
+        self.numSos = 1
         self.nerfed = ToontownGlobals.SELLBOT_NERF_HOLIDAY in simbase.air.holidayManager.currentHolidays
 
     def delete(self):
@@ -207,9 +211,9 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_NERFED_VP_SKELECOGS, 1)
         else:
             if battleNumber == 1:
-                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP, 0)
+                return self.invokeSuitPlanner(self.battleOnePlanner, 0)
             else:
-                return self.invokeSuitPlanner(SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS, 1)
+                return self.invokeSuitPlanner(self.battleTwoPlanner, 1)
 
     def removeToon(self, avId):
         toon = simbase.air.doId2do.get(avId)
@@ -226,6 +230,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.b_setBossDamage(0, 0, 0)
 
     def enterIntroduction(self):
+        self.calcAndSetBattleDifficulty()
         DistributedBossCogAI.DistributedBossCogAI.enterIntroduction(self)
         self.__makeDoobers()
         self.b_setBossDamage(0, 0, 0)
@@ -246,6 +251,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def enterPrepareBattleTwo(self):
         self.barrier = self.beginBarrier('PrepareBattleTwo', self.involvedToons, 30, self.__donePrepareBattleTwo)
+        self.calcAndSetBattleDifficulty()
         self.makeBattleTwoBattles()
 
     def __donePrepareBattleTwo(self, avIds):
@@ -269,6 +275,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def enterPrepareBattleThree(self):
         self.barrier = self.beginBarrier('PrepareBattleThree', self.involvedToons, 30, self.__donePrepareBattleThree)
+        self.calcAndSetBattleDifficulty()
 
     def __donePrepareBattleThree(self, avIds):
         self.b_setState('BattleThree')
@@ -391,7 +398,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         for toonId in self.involvedToons:
             toon = self.air.doId2do.get(toonId)
             if toon:
-                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls=2):
+                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls=self.numSos):
                     self.notify.info('%s.unable to add NPCFriend %s to %s.' % (self.doId, self.cagedToonNpcId, toonId))
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_VP)
@@ -449,6 +456,57 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def enterReward(self):
         DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
+		
+    def getToonDifficulty(self):
+        totalCogSuitTier = 0
+        totalToons = 0
+
+        for toonId in self.involvedToons:
+            toon = simbase.air.doId2do.get(toonId)
+            if toon:
+                totalToons += 1
+                totalCogSuitTier += toon.cogTypes[2]
+
+        averageTier = math.floor(totalCogSuitTier / totalToons) + 1
+        return int(averageTier)
+
+    def calcAndSetBattleDifficulty(self):
+        self.toonLevels = self.getToonDifficulty()
+        battleDifficulty = int(self.toonLevels)
+        self.b_setBattleDifficulty(battleDifficulty)
+        self.recalcDifficulty()
+		
+    def b_setBattleDifficulty(self, batDiff):
+        self.setBattleDifficulty(batDiff)
+        self.d_setBattleDifficulty(batDiff)
+
+    def setBattleDifficulty(self, batDiff):
+        self.battleDifficulty = batDiff
+
+    def d_setBattleDifficulty(self, batDiff):
+        self.sendUpdate('setBattleDifficulty', [batDiff])
+		
+    def recalcDifficulty(self):
+        if self.battleDifficulty >= 7:
+            self.numPies = 30
+            self.battleOnePlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_HARD
+            self.battleTwoPlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS_HARD
+            self.numSos = 3
+        elif self.battleDifficulty >= 5:
+            self.numPies = 40
+            self.battleOnePlanner = SuitBuildingGlobals.SUIT_PLANNER_VP
+            self.battleTwoPlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS
+            self.numSos = 2
+        elif self.battleDifficulty >= 3:
+            self.numPies = 50
+            self.battleOnePlanner = SuitBuildingGlobals.SUIT_PLANNER_VP
+            self.battleTwoPlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS
+            self.numSos = 2
+        else:
+            self.numPies = 60
+            self.battleOnePlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_EASY
+            self.battleTwoPlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS_EASY
+            self.numSos = 1
         
 
 @magicWord(category=CATEGORY_PROGRAMMER)

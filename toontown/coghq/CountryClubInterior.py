@@ -75,6 +75,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         BattlePlace.BattlePlace.load(self)
         musicName = random.choice(['phase_12/audio/bgm/Bossbot_Factory_v1.ogg', 'phase_12/audio/bgm/Bossbot_Factory_v2.ogg', 'phase_12/audio/bgm/Bossbot_Factory_v3.ogg'])
         self.music = base.loader.loadMusic(musicName)
+        self.loader.battleMusic = base.loadMusic('phase_12/audio/bgm/encntr_club.ogg')
 
     def unload(self):
         self.parentFSM.getStateNamed('countryClubInterior').removeChild(self.fsm)
