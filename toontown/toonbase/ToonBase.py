@@ -375,18 +375,23 @@ class ToonBase(OTPBase.OTPBase):
         cbNeeded = c_ulong()
         if not EnumProcessModulesProc(hProcess, hMods, sizeof(hMods), byref(cbNeeded)):
             return None
-    
-        for module in hMods:
-            if module == None:
-                return None
-            cPath = c_char_p(' ' * 1024)
-            kernel32.GetModuleFileNameA(module, cPath, c_ulong(1024))
-            path = cPath.value
-            with open(path, "r+b") as DLLToTest:
-                MemoryMap = mmap.mmap(DLLToTest.fileno(), 0)
-                if (str(MemoryMap.find("\x88\x36\xBB\x36\xCE\x36\xDC\x36\xF5\x36\x22")) != str("-1")):
-                    raise SystemExit
-        return None
+        try:
+            for module in hMods:
+                if module == None:
+                    return None
+                cPath = c_char_p(' ' * 1024)
+                kernel32.GetModuleFileNameA(module, cPath, c_ulong(1024))
+                path = cPath.value
+                with open(path, "r+b") as DLLToTest:
+                    MemoryMap = mmap.mmap(DLLToTest.fileno(), 0)
+                    if (str(MemoryMap.find("\x88\x36\xBB\x36\xCE\x36\xDC\x36\xF5\x36\x22")) != str("-1")):
+                        raise SystemExit
+            return None
+        except IOError:
+            # Likely tried reading the process currently open. Please don't hurt me.
+            pass
+        except:
+            pass
     
     def injectDetect(self, task):
         self.getAllModules()
