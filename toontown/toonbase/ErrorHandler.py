@@ -37,7 +37,7 @@ class ErrorHandler(object):
             'CONTENT': error
         })
         params = urllib.urlencode(self.tags)
-        conn = httplib.HTTPSConnection('public.dev', context=ssl._create_unverified_context())
+        conn = httplib.HTTPSConnection('www.projectaltis.com', context=ssl._create_unverified_context())
         headers = {"Content-type": "application/x-www-form-urlencoded"}
         conn.request('POST', '/api/crash', params, headers)
         response = conn.getresponse()
