@@ -98,3 +98,9 @@ class ToontownDistrictStatsAI(DistributedObjectAI):
 
     def getInvasionTotal(self):
         return self.air.suitInvasionManager.total
+
+    def getInvasionTimeRemaining(self):
+        tasks = taskMgr.getTasksNamed('invasionTimeout')
+        if len(tasks) == 0:
+            return 0
+        return abs(tasks[0].time)
