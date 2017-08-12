@@ -436,6 +436,7 @@ del version
 base.loader = base.loader
 __builtin__.loader = base.loader
 autoRun = ConfigVariableBool('toontown-auto-run', 1)
+
 if autoRun:
     try:
         base.run()
@@ -444,6 +445,10 @@ if autoRun:
     except:
         from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
-        from raven import Client
-        Client('https://9f93fee0d57347bdae79c1190261c775:a0259c6732514a7a8a7f13446af83a3e@sentry.io/185896').captureMessage(message=PythonUtil.describeException())
+        from toontown.toonbase import ErrorHandler
+        ErrorHandler = ErrorHandler.ErrorHandler()
+        ErrorHandler.addtags({
+            'VERSION': serverVersion
+        })
+        ErrorHandler.reporterror(PythonUtil.describeException())
         raise
