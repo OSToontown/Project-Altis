@@ -521,6 +521,29 @@ class QuestManagerAI:
             questList.append(questDesc)
 
         av.b_setQuests(questList)
+		
+    def toonDefeatedBoss(self, av, zone, dept, activeVictors):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.VPQuest):
+                if questClass.doesVPCount(av, dept, zone, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            elif isinstance(questClass, Quests.CFOQuest):
+                if questClass.doesCFOCount(av, dept, zone, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            elif isinstance(questClass, Quests.CJQuest):
+                if questClass.doesCJCount(av, dept, zone, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            elif isinstance(questClass, Quests.CEOQuest):
+                if questClass.doesCEOCount(av, dept, zone, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
 
     def toonDefeatedBoardOffice(self, av, clubId, activeVictors):
         '''# Get the avatars current quests.
@@ -551,7 +574,7 @@ class QuestManagerAI:
             questClass = Quests.getQuest(questDesc[QuestIdIndex])
 
             # Check if they are doing a cog quest
-            if isinstance(questClass, Quests.CogQuest):
+            if isinstance(questClass, Quests.CogQuest) and not (isinstance(questClass, Quests.VPQuest) or isinstance(questClass, Quests.CFOQuest) or isinstance(questClass, Quests.CJQuest) or isinstance(questClass, Quests.CEOQuest)):
 
                 # Check if the cog counts...
                 for suit in suitsKilled:

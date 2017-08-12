@@ -54,7 +54,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         if self.air.suitInvasionManager.getInvading() and ZoneUtil.isCogHQZone(self.zoneId):
             mult = getMegaMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
-        if self.air.suitInvasionManager.getInvading() or ZoneUtil.isCogHQZone(self.zoneId):
+        elif self.air.suitInvasionManager.getInvading() or ZoneUtil.isCogHQZone(self.zoneId):
             mult = getInvasionMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)
         if self.air.holidayManager.isMoreXpHolidayRunning():

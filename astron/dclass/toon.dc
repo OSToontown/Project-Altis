@@ -1171,7 +1171,7 @@ dclass DistributedToon : DistributedPlayer {
   requestFishingRod(uint8) airecv ownsend;
   requestCheesyEffects(uint8) airecv ownsend;
   setWarningCount(uint8) ownrecv db;
-  setStats(uint32[] = [0*23]) required ownrecv db;
+  setStats(uint32[] = [0*28]) required ownrecv db;
   setInteriorLayout(uint8 = 0) required ownrecv db;
   setRedeemedCodes(string [] = []) required ownrecv db;
   setTrainingPoints(uint8 = 0) required ownrecv db;
@@ -1291,7 +1291,7 @@ dclass DistributedSuitBase : DistributedObject {
   setSkeleRevives(uint8) required broadcast ram;
   setHP(int16) required broadcast ram;
   setElite(uint8) required broadcast ram;
-  setMaxHP(uint16) required broadcast ram;
+  setMaxHP(uint16) broadcast ram;
 };
 
 dclass DistributedSuit : DistributedSuitBase {
@@ -1349,6 +1349,7 @@ dclass DistributedSellbotBoss : DistributedBossCog {
   setDooberIds(uint32[]) broadcast ram;
   setBossDamage(uint16, uint8, int16) broadcast ram;
   setState(string) broadcast ram;
+  setBattleDifficulty(uint8) broadcast ram;
   hitBoss(uint8) airecv clsend;
   hitBossInsides() airecv clsend;
   hitToon(uint32) airecv clsend;

@@ -29,6 +29,10 @@ SUIT_PLANNER_CEO = 15
 SUIT_PLANNER_CEO_DINERS = 18
 SUIT_PLANNER_CM = 19
 SUIT_PLANNER_CM_SKELECOGS = 20
+SUIT_PLANNER_VP_EASY = 21
+SUIT_PLANNER_VP_SKELECOGS_EASY = 21
+SUIT_PLANNER_VP_HARD = 22
+SUIT_PLANNER_VP_SKELECOGS_HARD = 23
 
 SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
  ((1, 2), (2, 4), (5, 5), (10, 11), (1, 1.2)), # Buildings
@@ -50,7 +54,11 @@ SuitBuildingInfo = (((1, 1), (1, 3), (4, 4), (8, 10), (1,)), # Buildings
  ((1, 1), (4, 7), (5, 5), (50, 50), (1, 1, 1, 1, 1)), # Storm Sellbot VP Round 2
  ((1, 1), (10, 12), (12, 12), (206, 206), (1, 1, 1, 1, 1), (1,)), # CEO Diner Cogs (Only uses level range and revives flag, cogs are decided based on tables served)
  ((1, 1), (5, 20), (20, 20), (206, 206), (1, 1, 1, 1, 1), (1,)), # Chairman Cogs
- ((1, 1), (10, 20), (20, 20), (206, 206), (1, 1, 1, 1, 1))) # Chairman Skelecogs
+ ((1, 1), (10, 20), (20, 20), (206, 206), (1, 1, 1, 1, 1)), # Chairman Skelecogs
+ ((1, 1), (5, 12), (12, 12), (100, 100), (1, 1, 1, 1, 1)), # VP Round 1 Easy
+ ((1, 1), (8, 12), (12, 12), (150, 150), (1, 1, 1, 1, 1)), # VP Round 2 Easy
+ ((1, 1), (5, 14), (14, 14), (100, 100), (1, 1, 1, 1, 1)), # VP Round 1 Hard
+ ((1, 1), (8, 14), (14, 14), (150, 150), (1, 1, 1, 1, 1))) # VP Round 2 Hard
 
 buildingMinMax = {
     ToontownGlobals.ToontownCentralOld: (0, 0),

@@ -847,8 +847,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 self.notify.debug('calling setCommonAndWL %s' % str(self.friendPendingChatSettaFriendsManagerngs[doId]))
                 handle.setCommonAndWhitelistChatFlags(*self.friendPendingChatSettaFriendsManagerngs[doId])
 
-        if base.wantPets and base.localAvatar.hasPet():
-
+        if base.localAvatar.hasPet():
             def handleAddedPet():
                 self.friendsMapPending = 0
                 messenger.send('friendsMapComplete')

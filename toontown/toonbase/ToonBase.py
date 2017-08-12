@@ -32,6 +32,7 @@ from toontown.toontowngui import TTDialog
 from toontown.options import GraphicsOptions
 from toontown.audio.AltisAudio import AltisAudio
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
+from direct.task.Task import Task
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')

@@ -75,7 +75,22 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
                      ('phase_3/maps/achievements/ttpa_achievement_building_10.png'), # 10 bldgs
                      ('phase_3/maps/achievements/ttpa_achievement_building_50.png'), # 50 bldgs
                      ('phase_3/maps/achievements/ttpa_achievement_building_100.png'), # 100 bldgs
-                     ('phase_3/maps/achievements/ttpa_achievement_building_250.png')) # 250 bldgs
+                     ('phase_3/maps/achievements/ttpa_achievement_building_250.png'), # 250 bldgs
+                     ('phase_3/maps/achievements/ttpa_achievement_factory_1.png'), # 1 fact
+                     ('phase_3/maps/achievements/ttpa_achievement_factory_10.png'), # 10 facts
+                     ('phase_3/maps/achievements/ttpa_achievement_factory_50.png'), # 50 facts
+                     ('phase_3/maps/achievements/ttpa_achievement_mint_1.png'), # 1 mints
+                     ('phase_3/maps/achievements/ttpa_achievement_mint_10.png'), # 10 mints
+                     ('phase_3/maps/achievements/ttpa_achievement_mint_50.png'), # 50 mints
+                     ('phase_3/maps/achievements/ttpa_achievement_stage_1.png'), # 1 stages
+                     ('phase_3/maps/achievements/ttpa_achievement_stage_10.png'), # 10 stages
+                     ('phase_3/maps/achievements/ttpa_achievement_stage_50.png'), # 50 stages
+                     ('phase_3/maps/achievements/ttpa_achievement_cgc_1.png'), # 1 clubs
+                     ('phase_3/maps/achievements/ttpa_achievement_cgc_10.png'), # 10 clubs
+                     ('phase_3/maps/achievements/ttpa_achievement_cgc_50.png'), # 50 clubs
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # 1 bdos
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png'), # 10 bdos
+                     ('phase_3/maps/achievements/ttpa_achievement_unknown.png')) # 50 bdos
 					 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
@@ -120,12 +135,12 @@ AchievementExperience = (10, # 1 friend
                          25, # visit lbhq
                          25, # visit bdhq
                          5, # 1 cog
-                         15, # 10 cogs
-                         50, # 100 cogs
-                         250, # 1000 cogs
-                         750, # 10000 cogs
-                         2500, # 100000 cogs
-                         10000, # 1000000 cogs
+                         50, # 10 cogs
+                         250, # 100 cogs
+                         2500, # 1000 cogs
+                         7500, # 10000 cogs
+                         25000, # 100000 cogs
+                         1000000, # 1000000 cogs
                          5, # 1 fish
                          15, # 10 fish
                          50, # 100 fish
@@ -145,13 +160,28 @@ AchievementExperience = (10, # 1 friend
                          20, # 10 trolley
                          75, # 50 trolley
                          150, # 100 trolley
-                         2500, # solo vp
-                         2500, # solo cfo
-                         2500, # solo cj
-                         2500, # solo ceo
-                         2500, # solo cm
+                         25000, # solo vp
+                         25000, # solo cfo
+                         25000, # solo cj
+                         25000, # solo ceo
+                         25000, # solo cm
                          50, # one bldg
                          100, # 10 bldgs
                          250, # 50 bldgs
                          1000, # 100 bldgs
-                         2500) # 250 bldgs
+                         2500, # 250 bldgs
+                         200, # 1 fact
+                         750, # 10 facts
+                         5000, # 50 facts
+                         200, # 1 mint
+                         750, # 10 mints
+                         5000, # 50 mints
+                         200, # 1 stage
+                         750, # 10 stages
+                         5000, # 50 stages
+                         200, # 1 club
+                         750, # 10 clubs
+                         5000, # 50 clubs
+                         200, # 1 bdo
+                         750, # 10 bdos
+                         5000) # 50 bdos

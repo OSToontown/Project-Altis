@@ -5,8 +5,12 @@ from toontown.toonbase import ToontownGlobals
 
 class DistributedPublicPetMgrAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPublicPetMgrAI')
+    wantPetMgr = False
 
     def requestAppearance(self):
+        if DistributedPublicPetMgrAI.wantPetMgr == False:
+            return
+
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
         if not av:
@@ -20,8 +24,13 @@ class DistributedPublicPetMgrAI(DistributedObjectAI.DistributedObjectAI):
             self.sendUpdateToAvatarId(avId, 'requestAppearanceResp', [1])
             return
 
-        pet = DistributedPublicPetAI(self.air, av)
-        pet.generateWithRequired(av.zoneId)
+        def generateCallback(pet):
+            self.notify.info("Doing callback")
+            pet.generateWithRequired(av.zoneId)
+
+        pet = DistributedPublicPetAI(self.air, av, generateCallback)
+        pet.generateInit()
+
 
 
 

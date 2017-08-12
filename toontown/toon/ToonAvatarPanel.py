@@ -191,7 +191,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             image_scale=0.9,
             relief=None,
             pos=(-0.103, 0, -0.13),
-            text=TTLocalizer.AvatarPanelSecrets,
+            text='',
             text0_fg=self.text0Color,
             text1_fg=self.text1Color,
             text2_fg=self.text2Color,
@@ -200,6 +200,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             text_pos=(0.055, -0.01),
             text_align=TextNode.ALeft,
             command=self.__handleSecrets)
+        self.secretsButton['state'] = DGG.DISABLED
 
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
             self.secretsButton['state'] = DGG.DISABLED

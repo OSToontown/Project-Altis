@@ -1059,6 +1059,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.hp -= hpLost
                 if self.hp <= 0:
                     self.hp = -1
+                    self.addStat(ToontownGlobals.STATS_SAD)
                     messenger.send(self.getGoneSadMessage())
         if not self.hpOwnedByBattle:
             self.hp = min(self.hp, self.maxHp)
@@ -1301,6 +1302,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if not lastCog:
                 self.cogTypes[dept] += 1
                 self.d_setCogTypes(self.cogTypes)
+                if self.cogTypes[dept] >= 4:
+                    tpZone = ToontownGlobals.dept2cogHQ.get(SuitDNA.suitDepts[dept])
+                    if tpZone not in self.teleportZoneArray:
+                        self.addTeleportAccess(tpZone)
                 cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
                 self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
                 self.d_setCogLevels(self.cogLevels)
@@ -5132,7 +5137,7 @@ def warn(banWorthy):
     if target == spellbook.getInvoker():
         return "You can't warn yourself! Who made you a mod anyways?"
     target.incrementWarningCount(noBan = banWorthy)
-    return '%(name)s now has %(warnings)d warnings.' % {'name': target.getName(), 'warnings': target.getWarningCount()}
+    return '%s now has %d warnings.' % (target.getName(), target.getWarningCount())
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int])
 def money(money):
@@ -5770,8 +5775,14 @@ def getZone():
 def petTest():
     from toontown.pets.DistributedPublicPetAI import DistributedPublicPetAI
     invoker = spellbook.getInvoker()
-    pet = DistributedPublicPetAI(simbase.air, invoker)
-    pet.generateWithRequired(invoker.zoneId)
+
+    def generateCallback(pet):
+        print("Doing callback")
+        pet.doNotDeallocateChannel = True
+        pet.generateWithRequired(invoker.zoneId)
+
+    pet = DistributedPublicPetAI(simbase.air, invoker, generateCallback)
+    pet.generateInit()
     return 'Generated pet'
 
 @magicWord(category=CATEGORY_MODERATOR, types=[int])
