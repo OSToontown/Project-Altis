@@ -2,7 +2,6 @@ from otp.ai.AIBaseGlobal import *
 from pandac.PandaModules import *
 from toontown.toon.DistributedNPCToonBaseAI import *
 from toontown.fishing import FishGlobals
-from toontown.hood import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.fishing import FishGlobals
 from direct.task import Task
@@ -27,7 +26,7 @@ class DistributedNPCFishermanAI(DistributedNPCToonBaseAI):
         if self.isBusy():
             self.freeAvatar(avId)
             return
-        for spot in self.air.hoodId2Hood[ZoneUtil.getCanonicalBranchZone(self.zoneId)].fishingSpots: 
+        for spot in self.air.hoodId2Hood[self.zoneId].fishingSpots:
             if spot.avId == avId:
                 return
 
