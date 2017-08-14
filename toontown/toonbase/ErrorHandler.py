@@ -33,7 +33,7 @@ class ErrorHandler(object):
             return self.message('Tried reporting error that wasn\'t a string')
 
         self.addtags({
-            'USER_KEY': 'c9Z7mZt7RGZSMRms9nuYJrIUznO9iDljM0Mcccy1a0caMEWujcDVmV0cj1fV2wr745gH5MdNJkoeKpz99W7atGNVhWnDdTjv21Re',
+            'USER_KEY': 'Jb03JXqzPvF53fFwzgq2HB88IDCs1pdpYAjcqTuBnSjHqvfzYHYBPo5KX0T2gWfd2S1ZZWGFUFkRyxBJg9t6HOFHlZPO38qJZnID',
             'CONTENT': error
         })
         params = urllib.urlencode(self.tags)

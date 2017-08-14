@@ -445,10 +445,11 @@ if autoRun:
     except:
         from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
+        import traceback
         from toontown.toonbase import ErrorHandler
         ErrorHandler = ErrorHandler.ErrorHandler()
         ErrorHandler.addtags({
             'VERSION': serverVersion
         })
-        ErrorHandler.reporterror(PythonUtil.describeException())
+        ErrorHandler.reporterror(traceback.format_exc())
         raise
