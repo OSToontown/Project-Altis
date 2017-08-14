@@ -21,7 +21,7 @@ from panda3d.core import loadPrcFile
 # config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [BETA 1.0.6]
+window-title Project Altis [BETA 1.1.0]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -193,7 +193,7 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Beta-1.0.6
+server-version TTPA-Beta-1.1.0
 shard-low-pop 50
 shard-mid-pop 80
 
@@ -436,6 +436,7 @@ del version
 base.loader = base.loader
 __builtin__.loader = base.loader
 autoRun = ConfigVariableBool('toontown-auto-run', 1)
+
 if autoRun:
     try:
         base.run()
@@ -444,6 +445,10 @@ if autoRun:
     except:
         from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
-        from raven import Client
-        Client('https://9f93fee0d57347bdae79c1190261c775:a0259c6732514a7a8a7f13446af83a3e@sentry.io/185896').captureMessage(message=PythonUtil.describeException())
+        from toontown.toonbase import ErrorHandler
+        ErrorHandler = ErrorHandler.ErrorHandler()
+        ErrorHandler.addtags({
+            'VERSION': serverVersion
+        })
+        ErrorHandler.reporterror(PythonUtil.describeException())
         raise

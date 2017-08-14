@@ -337,6 +337,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         defeated = total - self.districtStats.getInvasionRemaining()
         tupleStatus = (self.districtStats.getInvasionStatus(), self.districtStats.getInvasionType())
         invstatus = self.statusToType(tupleStatus)
+        timeleft = self.districtStats.getInvasionTimeRemaining()
       #  if pop == self.invLastPop and invstatus == self.invLastStatus:
       #      return task.again # Don't attempt to update the database, its a waste
 	  # No it's not a waste. PLZ
@@ -354,8 +355,8 @@ class ToontownAIRepository(ToontownInternalRepository):
             print(httpReqkill.getresponse().read())
         else:
             httpReq = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReq.request('GET', '/api/addinvasion/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s/1/%s/%s/%s' % (self.districtName,
-                                                                           pop, invstatus, total, defeated))
+            httpReq.request('GET', '/api/addinvasion/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s/1/%s/%s/%s/%s' % (self.districtName,
+                                                                           pop, invstatus, total, defeated, timeleft))
         return task.again
 
     def statusToType(self, tupleInvasionStatus):
