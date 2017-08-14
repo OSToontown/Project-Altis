@@ -654,9 +654,9 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  2034: ['Invisible Ink', 'Invisible Ink', 'a bottle of '],
  2035: ['Fountain Pen', 'Fountain Pens', 'a '],
  2036: ['Ink Sac', 'Ink Sacs', 'an '],
- 4001: ["Tina's Inventory", "Tina's Inventories", ''],
- 4002: ["Yuki's Inventory", "Yuki's Inventories", ''],
- 4003: ['Inventory Form', 'Inventory Forms', 'an '],
+ 4001: ["Tire", "Tires", 'a '],
+ 4002: ["Bologna Sandwich", "Bologna Sandwiches", 'a '],
+ 4003: ['Meatball Sub', 'Meatball Subs', 'a '],
  4004: ["Fifi's Inventory", "Fifi's Inventories", ''],
  4005: ["Lumber Jack's Ticket", "Lumber Jack's Tickets", ''],
  4006: ["Tabitha's Ticket", "Tabitha's Tickets", ''],
@@ -1622,7 +1622,59 @@ QuestDialogDict = {
  5213: {GREETING: '',
 		QUEST: "Finally, I want you to gather a group of toons, infultrate the Sellbot Lobby, and then defeat the Senior Vice President.\x07This is a dangerous job, and you must be prepared for the worst.\x07It's best if you train your gags before attempting this challenge.",
 		LEAVING: '',
-		COMPLETE: "Wow, you really did a great job with this challenge.\x07Take this huge reward for your success."}}
+		COMPLETE: "Wow, you really did a great job with this challenge.\x07Take this huge reward for your success."},
+		
+ #MML Task One
+ 6000: {QUEST: "_toNpcName_ wants you to infultrate the mints in the Cashbot Headquarters._where_"},
+ 6001: {GREETING: "",
+		QUEST: "Ah, you're here about the mint situation, huh?\x07Let me explain: The Coin Mints are a threat to the citizens of Minnie's Melodyland.\x07According to my theory, if the Cogs in the Coin Mint activate all the stompers at once, it could cause a wicked earthquake that could destroy Minnie's Melodyland.\x07Luckily, the Cashbots don't know this yet.\x07I want you to defeat some of those workers in the Coin Mint before they find out about this.",
+		LEAVING: ''},
+ 6002: {GREETING: '',
+		QUEST: "Oh no!\x07I think some Robber Barons were eavesdropping on our conversation!\x07They went back to the Coin Mint. Go stop them before the news spreads!",
+		LEAVING: '',
+		COMPLETE: "While you were away, I did some recalculations.\x07Well, it seems that my theory was... rather wrong.\x07Yeah, sorry for wasting your time. Let me make it up to you."},
+
+ #MML Task Two		
+ 6010: {QUEST: "_toNpcName_ isn't able to repair customer tires with those Cogs bugging him._where_"},
+ 6011: {GREETING: '',
+		QUEST: "Oh, _avName_, you've gotta help me!\x07I keep trying to repair these tires and a bunch of Boardbots come in when I'm finished and pop them all.\x07They have no right to do that!\x07Please go defeat several of them while I repair more tires.",
+		LEAVING: ''},
+ 6012: {GREETING: '',
+		QUEST: "Perfect. Got these tires repaired with no issues from those Boardbots.\x07In fact, could you make a couple deliveries for me?\x07Start by returning this tire to _toNpcName_._where_",
+		LEAVING: ''},
+ 6013: {GREETING: '',
+		QUEST: "Oh hey, my tire!\x07Thank you, but may I ask for a favor?\x07See, the reason I got into an accident was because I was driving behind a Mr. Hollywood.\x07He thought it was funny to shine those bright teeth on my windshield and I couldn't see where I was going.\x07Those Mr. Hollywoods are a threat to toons everywhere and they must be punished.\x07Go out and defeat several of them.",
+		LEAVING: ''},
+ 6014: {GREETING: '',
+		QUEST: "Good job on those Hollywoods.\x07_toNpcName_ just called to ask you to return to him.",
+		LEAVING: ''},
+ 6015: {GREETING: '',
+		QUEST: "Alright, next delivery goes to _toNpcName_._where_",
+		LEAVING: ''},
+ 6016: {GREETING: '',
+		QUEST: "Ah, my tire.\x07Thanks, but I need some help real quick if you don't mind.\x07Cogs everywhere have been stealing and destroying Toons karts, claiming them to be theirs and committing insurance fraud.\x07Now, there's no way I can prove it so I have to give them payment regardless.\x07If you could defeat a lot of Cogs, that'd show them not to mess with my insurance.",
+		LEAVING: ''},
+ 6017: {GREETING: '',
+		QUEST: "_toNpcName_ just called. He wants to see you again.",
+		LEAVING: '',
+		COMPLETE: "Thank you for delivering those tires for me.\x07I've got a reward for your help..."},
+		
+ #MML Task Three
+ 6020: {QUEST: "_toNpcName_ has a certain issue with the Mint Supervisors.\x07I'm not sure why, but can you check it out anyways?_where_"},
+ 6021: {GREETING: '',
+		QUEST: "Hey _avName_.\x07Those Supervisors that run the Cashbot Mints are just so uncool.\x07I asked them to fund my shop and they refused, so I think you should go teach a few a lesson.\x07What? You think I'm being unreasonable?\x07Stop being uncool and just do it.",
+		LEAVING: "Stay cool.",
+		COMPLETE: "Groovy, thanks for the help.\x07Here's a cool reward..."},
+		
+ #MML Task Four
+ 6030: {QUEST: "_toNpcName_ can't enjoy a meal without those Cashbots interrupting him._where_"},
+ 6031: {GREETING: '',
+		QUEST: "Heya _avName_.\x07Those-a darn Cashbots are always-a takin' my lunch.\x07I was just enjoying a bologna sandwich and then a Cashbot comes-a in here and takes it to the mint.\x07He said that he needed HIS lunch break.\x07Why couldn't he just get-a his own lunch?\x07Could you-a get my delicious sandwich back for me please?",
+		LEAVING: ''},
+ 6032: {GREETING: '',
+		QUEST: "Oh-a no!\x07I went to get a meatball sub while you were away and another Cashbot came in and-a took it!\x07He also needed a lunch break and refuses to-a pay for his own meals.\x07Can you-a get that back for me please?",
+		LEAVING: '',
+		COMPLETE: "Oh-a thank you!"}}
 		
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
