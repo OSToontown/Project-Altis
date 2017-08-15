@@ -1,16 +1,15 @@
-from direct.distributed.DistributedObjectUD import DistributedObjectUD
-
+from toontown.suit.SuitDNA import suitDepts, suitsPerDept
 from toontown.suit.SuitInvasionGlobals import *
 
 import random
 
 
-class InvasionManagerUD(DistributedObjectUD):
+class InvasionManagerUD:
 
     def __init__(self, air):
-        DistributedObjectUD.__init__(self, air)
-    
-    def chooseInvasion(self):
+        self.air = air
+
+    def chooseInvasion(self, task=None):
         # Choose the invasion type:
         invasion = INVASION_TYPE_NORMAL 
         if random.random() <= 0.05:
@@ -25,3 +24,12 @@ class InvasionManagerUD(DistributedObjectUD):
             flags = IFWaiter
         elif flagChance <= 0.02:
             flags = IFSkelecog
+
+        dept = random.randrange(0, len(suitDepts))
+        suit = random.randrange(-1, suitsPerDept)
+
+        if suit == -1:
+            # No index, department invasion.
+            invasion = INVASION_TYPE_MEGA
+
+        print self.air.rpcServer.handler.shardStatus.shards
