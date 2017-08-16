@@ -330,14 +330,6 @@ class TalkAssistant(DirectObject.DirectObject):
         if senderAvId != localAvatar.doId:
             self.addHandle(senderAvId, newMessage)
         reject = 0
-        if senderAvId:
-            reject = self.addToHistoryDoId(newMessage, senderAvId, scrubbed)
-        if accountId:
-            self.addToHistoryDISLId(newMessage, accountId)
-        if reject == 1:
-            newMessage.setBody(OTPLocalizer.AntiSpamInChat)
-            if senderAvId == localAvatar.doId:
-                localAvatar.setSystemMessage(0, "Spam detected! Please slow down your chat!")
         if reject != 2:
             isSpam = self.spamDictByDoId.get(senderAvId) and reject
             if not isSpam:
