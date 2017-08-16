@@ -2267,28 +2267,34 @@ class Toon(Avatar.Avatar, ToonHead):
         return results
 
     def applyCheesyEffect(self, effect, lerpTime = 0):
-        if self.effectTrack != None:
-            self.effectTrack.finish()
-            self.effectTrack = None
-        if self.cheesyEffect != effect:
-            oldEffect = self.cheesyEffect
-            self.cheesyEffect = effect
-            if oldEffect == ToontownGlobals.CENormal:
-                self.effectTrack = self.__doCheesyEffect(effect, lerpTime)
-            elif effect == ToontownGlobals.CENormal:
-                self.effectTrack = self.__undoCheesyEffect(oldEffect, lerpTime)
-            else:
-                self.effectTrack = Sequence(self.__undoCheesyEffect(oldEffect, lerpTime / 2.0), self.__doCheesyEffect(effect, lerpTime / 2.0))
-            if self.effectTrack:
-                self.effectTrack.start()
+        try:
+            if self.effectTrack != None:
+                self.effectTrack.finish()
+                self.effectTrack = None
+            if self.cheesyEffect != effect:
+                oldEffect = self.cheesyEffect
+                self.cheesyEffect = effect
+                if oldEffect == ToontownGlobals.CENormal:
+                    self.effectTrack = self.__doCheesyEffect(effect, lerpTime)
+                elif effect == ToontownGlobals.CENormal:
+                    self.effectTrack = self.__undoCheesyEffect(oldEffect, lerpTime)
+                else:
+                    self.effectTrack = Sequence(self.__undoCheesyEffect(oldEffect, lerpTime / 2.0), self.__doCheesyEffect(effect, lerpTime / 2.0))
+                if self.effectTrack:
+                    self.effectTrack.start()
+        except:
+            pass
 
     def reapplyCheesyEffect(self, lerpTime = 0):
-        if self.effectTrack != None:
-            self.effectTrack.finish()
-            self.effectTrack = None
-        effect = self.cheesyEffect
-        self.effectTrack = Sequence(self.__undoCheesyEffect(effect, 0), self.__doCheesyEffect(effect, lerpTime))
-        self.effectTrack.start()
+        try:
+            if self.effectTrack != None:
+                self.effectTrack.finish()
+                self.effectTrack = None
+            effect = self.cheesyEffect
+            self.effectTrack = Sequence(self.__undoCheesyEffect(effect, 0), self.__doCheesyEffect(effect, lerpTime))
+            self.effectTrack.start()
+        except:
+            pass
 
     def clearCheesyEffect(self, lerpTime = 0):
         self.applyCheesyEffect(ToontownGlobals.CENormal, lerpTime=lerpTime)

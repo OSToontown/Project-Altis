@@ -1302,13 +1302,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if not lastCog:
                 self.cogTypes[dept] += 1
                 self.d_setCogTypes(self.cogTypes)
-                if self.cogTypes[dept] >= 4:
-                    tpZone = ToontownGlobals.dept2cogHQ.get(SuitDNA.suitDepts[dept])
-                    if tpZone not in self.teleportZoneArray:
-                        self.addTeleportAccess(tpZone)
                 cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
                 self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
                 self.d_setCogLevels(self.cogLevels)
+                if self.cogTypes[dept] >= 4:
+                    tpZone = ToontownGlobals.dept2cogHQ(SuitDNA.suitDepts[dept])
+                    if tpZone not in self.teleportZoneArray:
+                        self.addTeleportAccess(tpZone)
         else:
             self.cogLevels[dept] += 1
             self.d_setCogLevels(self.cogLevels)
@@ -1318,6 +1318,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
                     self.b_setMaxHp(maxHp)
                     self.toonUp(maxHp)
+                if self.cogTypes[dept] >= 4:
+                    tpZone = ToontownGlobals.dept2cogHQ(SuitDNA.suitDepts[dept])
+                    if tpZone not in self.teleportZoneArray:
+                        self.addTeleportAccess(tpZone)
         self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
 		
     def b_setCogReviveLevels(self, levels):
