@@ -24,7 +24,8 @@ class DistributedTreasureAI(DistributedObjectAI.DistributedObjectAI):
     def d_setGrab(self, avId):
         self.sendUpdate('setGrab', [avId])
         av = simbase.air.doId2do.get(avId)
-        av.addStat(ToontownGlobals.STATS_TREASURES)
+        if av:
+            av.addStat(ToontownGlobals.STATS_TREASURES)
 
     def d_setReject(self):
         self.sendUpdate('setReject', [])

@@ -94,6 +94,8 @@ class CFOAchievement:
         if self.isSolo:
             if solo:
                 return 1
+            else:
+                return 0
         if times >= self.neededTimes:
             return 1
         else:
@@ -110,6 +112,8 @@ class CJAchievement:
         if self.isSolo:
             if solo:
                 return 1
+            else:
+                return 0
         if times >= self.neededTimes:
             return 1
         else:
@@ -126,6 +130,8 @@ class CEOAchievement:
         if self.isSolo:
             if solo:
                 return 1
+            else:
+                return 0
         if times >= self.neededTimes:
             return 1
         else:
@@ -142,6 +148,8 @@ class CMAchievement:
         if self.isSolo:
             if solo:
                 return 1
+            else:
+                return 0
         if times >= self.neededTimes:
             return 1
         else:

@@ -62,12 +62,14 @@ except Exception:
         raise
     from raven import Client
     import getpass
+    import traceback
     errorReporter = Client('https://bd12b482b0d04047b97a99be5d8a59f8:cadf8d958a194867b89fd77b61fdad45@sentry.io/189240')
-    errorReporter.user_context({
+    errorReporter.tags_context({
         'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
         'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
         'ACID_SENDER': simbase.air.getAccountIdFromSender(),
-        'HostName': getpass.getuser()
+        'HostName': getpass.getuser(),
+        'CRITICAL': 'True'
     })
-    errorReporter.captureMessage(info)
+    errorReporter.captureMessage('NOT caused by an avid!!\n' + traceback.format_exc())
     raise

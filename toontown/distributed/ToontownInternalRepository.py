@@ -50,5 +50,20 @@ class ToontownInternalRepository(AstronInternalRepository):
             self.notify.warning('EXCEPTION-POTENTIAL-CRASH: %s (%s)' % (repr(e), self.getAvatarIdFromSender()))
             print traceback.format_exc()
             sys.exc_clear()
+            import os
+            if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
+                raise
+            from raven import Client
+            import getpass
+            errorReporter = Client(
+                'https://bd12b482b0d04047b97a99be5d8a59f8:cadf8d958a194867b89fd77b61fdad45@sentry.io/189240')
+            errorReporter.tags_context({
+                'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
+                'AVID_SENDER': self.getAvatarIdFromSender(),
+                'ACID_SENDER': self.getAccountIdFromSender(),
+                'HostName': getpass.getuser(),
+                'CRITICAL': 'False'
+            })
+            errorReporter.captureMessage(traceback.format_exc())
             
         return 1

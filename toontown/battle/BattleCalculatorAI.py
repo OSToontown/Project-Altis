@@ -627,6 +627,8 @@ class BattleCalculatorAI:
                     continue
                 targetIndex = targets.index(targetList[currTarget])
                 if atkTrack == HEAL:
+                    organicBonus = toon.checkGagBonus(attackTrack, attackLevel)
+                    propBonus = self.__checkPropBonus(attackTrack)
                     result = result / len(targetList)
                     if organicBonus:
                         toon.toonUp(result * 0.2)

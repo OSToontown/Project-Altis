@@ -360,8 +360,9 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
 
     def setSkelecog(self, flag):
         SuitBase.SuitBase.setSkelecog(self, flag)
+        elite = self.getElite()
         if flag:
-            Suit.Suit.makeSkeleton(self)
+            Suit.Suit.makeSkeleton(self, elite)
 
     def setWaiter(self, flag):
         SuitBase.SuitBase.setWaiter(self, flag)
