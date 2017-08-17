@@ -3066,7 +3066,21 @@ QuestDict = {
  #MML Task Four
  6030: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4005, 4313, NA, 6031, TTLocalizer.QuestDialogDict[6030], 23320, 405),
  6031: ([], Cont, (RecoverItemQuest, ToontownGlobals.CashbotMintIntA, 1, 4002, 20, 'm', 'track'), 4313, Same, NA, 6032, TTLocalizer.QuestDialogDict[6031], 23320, 405),
- 6032: ([], Cont, (RecoverItemQuest, ToontownGlobals.CashbotMintIntA, 1, 4003, 20, 'm', 'track'), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6032], 23320, 405)
+ 6032: ([], Cont, (RecoverItemQuest, ToontownGlobals.CashbotMintIntA, 1, 4003, 20, 'm', 'track'), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6032], 23320, 405),
+ 
+ #MML Task Five
+ 6040: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4002, 4131, NA, (6041, 6042), TTLocalizer.QuestDialogDict[6040], 23310, 400),
+ 6041: ([], Cont, (RecoverItemQuest, Anywhere, 16, 4004, 75, 'm', 'track'), 4131, Same, NA, (6043, 6044), TTLocalizer.QuestDialogDict[6041], 23310, 400),
+ 6042: ([], Cont, (RecoverItemQuest, Anywhere, 16, 4004, 75, 'l', 'track'), 4131, Same, NA, (6043, 6044), TTLocalizer.QuestDialogDict[6042], 23310, 400),
+ 6043: ([], Cont, (RecoverItemQuest, Anywhere, 10, 4005, 50, 's', 'track'), Same, Same, NA, 6045, TTLocalizer.QuestDialogDict[6043], 23310, 400),
+ 6044: ([], Cont, (RecoverItemQuest, Anywhere, 10, 4005, 50, 'c', 'track'), Same, Same, NA, 6045, TTLocalizer.QuestDialogDict[6044], 23310, 400),
+ 6045: ([], Cont, (RecoverItemQuest, Anywhere, 5, 4006, 25, 'g', 'track'), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6045], 23310, 400),
+ 
+ #MML Task Six
+ 6050: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4003, 4213, NA, 6051, TTLocalizer.QuestDialogDict[6050], 23350, 410),
+ 6051: ([], Cont, (CogLevelQuest, Anywhere, 25, 7), 4213, Same, NA, 6052, TTLocalizer.QuestDialogDict[6051], 23350, 410),
+ 6052: ([], Cont, (RecoverItemQuest, ToontownGlobals.CashbotMintIntA, 1, 4007, 20, 'm', 'track'), Same, Same, NA, 6053, TTLocalizer.QuestDialogDict[6052], 23350, 410),
+ 6053: ([], Cont, (BuildingQuest, ToontownGlobals.MinniesMelodyland, 6, Any, 1), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6053], 23350, 410)
  
  }
 
