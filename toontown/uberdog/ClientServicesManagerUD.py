@@ -1060,9 +1060,11 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             if resp["isBanned"] == "true":
                 self.notify.debug("Banned HWID Has Tried Logging In!")
                 self.killConnection(sender, "HWID Has been Banned Previously!")
+                return False
         except:
             self.notify.debug("Fatal Error during HWID Check")
             self.killConnection(sender, "Fatal Error during HWID Check")
+            return False
 
         # Grab real token not one time fake token
         getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
