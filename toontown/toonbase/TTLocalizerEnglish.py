@@ -1809,7 +1809,7 @@ QuestDialogDict = {
 		LEAVING: ''},
 		
  #MML Mega Task
- 6200: {QUEST: "It seems like the Cogs has launcher a massive invasion against Minnie's Melodyland.\x07The streets were flooded with them all of a sudden and it seems they have ruined the tune of the playground.\x07_toNpcName_ needs your help getting it back, as well as the other citizens of Minnie's Melodyland._where_"},
+ 6200: {QUEST: "It seems like the Cogs have launched a massive invasion against Minnie's Melodyland.\x07The streets were flooded with them all of a sudden and it seems they have ruined the tune of the playground.\x07_toNpcName_ needs your help getting it back, as well as the other citizens of Minnie's Melodyland._where_"},
  6201: {GREETING: '',
 		QUEST: "Oh, you must be here about the issue with the tune of this playground.\x07Let me explain, not long ago, the Cogs were ordered to invade Minnie's Melodyland and make the peaceful and beautiful sound of the playground come to a stop.\x07Nobody is certain who the leader of this operation is, and I am trying to figure out who it could be.\x07While I investigate, could you go see _toNpcName_ to see how you could help fix the tune around here?_where_",
 		LEAVING: ''},
