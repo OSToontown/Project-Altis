@@ -992,7 +992,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # Temporary HMAC key:
         self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
 		
-        self.blacklistedSenders = []
+        self.blacklistedHWIDs = []
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
@@ -1061,16 +1061,18 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             resp = json.loads(hwidCheck.getresponse().read())
             if resp["isBanned"] == "true":
                 self.notify.debug("Banned HWID Has Tried Logging In!")
-                if sender not in self.blacklistedSenders:
+                if hwid not in self.blacklistedHWIDs:
                     self.killConnection(sender, "HWID Has been Banned Previously!")
-                    self.blacklistedSenders.append(sender)
-                return False
+                    self.blacklistedHWIDs.append(hwid)
+                else:
+                    return False
         except:
             self.notify.debug("Fatal Error during HWID Check")
-            if sender not in self.blacklistedSenders:
+            if hwid not in self.blacklistedHWIDs:
                 self.killConnection(sender, "Fatal Error during HWID Check")
-                self.blacklistedSenders.append(sender)
-            return False
+                self.blacklistedHWIDs.append(hwid)
+            else:
+                return False
 
         # Grab real token not one time fake token
         getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
