@@ -465,7 +465,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             toon = simbase.air.doId2do.get(toonId)
             if toon:
                 totalToons += 1
-                totalCogSuitTier += toon.cogTypes[2]
+                totalCogSuitTier += toon.cogTypes[3]
 
         averageTier = math.floor(totalCogSuitTier / totalToons) + 1
         return int(averageTier)
