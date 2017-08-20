@@ -3080,7 +3080,49 @@ QuestDict = {
  6050: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4003, 4213, NA, 6051, TTLocalizer.QuestDialogDict[6050], 23350, 410),
  6051: ([], Cont, (CogLevelQuest, Anywhere, 25, 7), 4213, Same, NA, 6052, TTLocalizer.QuestDialogDict[6051], 23350, 410),
  6052: ([], Cont, (RecoverItemQuest, ToontownGlobals.CashbotMintIntA, 1, 4007, 20, 'm', 'track'), Same, Same, NA, 6053, TTLocalizer.QuestDialogDict[6052], 23350, 410),
- 6053: ([], Cont, (BuildingQuest, ToontownGlobals.MinniesMelodyland, 6, Any, 1), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6053], 23350, 410)
+ 6053: ([], Cont, (BuildingQuest, ToontownGlobals.MinniesMelodyland, 6, Any, 1), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6053], 23350, 410),
+ 
+ #MML Task Seven
+ 6060: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4004, 4135, NA, 6061, TTLocalizer.QuestDialogDict[6060], 23370, 415),
+ 6061: ([], Cont, (DeliverItemQuest, 4008), 4135, 4406, NA, 6062, TTLocalizer.QuestDialogDict[6061], 23370, 415),
+ 6062: ([], Cont, (CogTrackLevelQuest, Anywhere, 42, 'm', 6), 4406, Same, NA, 6063, TTLocalizer.QuestDialogDict[6062], 23370, 415),
+ 6063: ([], Cont, (VisitQuest,), Same, 4135, NA, 6064, TTLocalizer.QuestDialogDict[6063], 23370, 415),
+ 6064: ([], Cont, (DeliverGagQuest, 1, 4, 5), 4135, Same, NA, 6065, TTLocalizer.QuestDialogDict[6064], 23370, 415),
+ 6065: ([], Cont, (DeliverGagQuest, 3, 5, 5), 4135, Same, NA, NA, TTLocalizer.QuestDialogDict[6065], 23370, 415),
+ 
+ #MML Task Eight
+ 6070: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4005, 4119, NA, (6071, 6072), TTLocalizer.QuestDialogDict[6070], 23320, 405),
+ 6071: ([], Cont, (RecoverItemQuest, Anywhere, 6, 4009, 50, 'tbc', 'type'), 4119, Same, NA, (6073, 6074, 6075), TTLocalizer.QuestDialogDict[6071], 23320, 405),
+ 6072: ([], Cont, (RecoverItemQuest, Anywhere, 6, 4009, 50, 'rb', 'type'), 4119, Same, NA, (6073, 6074, 6075), TTLocalizer.QuestDialogDict[6072], 23320, 405),
+ 6073: ([], Cont, (RecoverItemQuest, Anywhere, 5, 4010, 45, 'hho', 'type'), Same, Same, NA, 6076, TTLocalizer.QuestDialogDict[6073], 23320, 405),
+ 6074: ([], Cont, (RecoverItemQuest, Anywhere, 5, 4010, 45, 'mh', 'type'), Same, Same, NA, 6076, TTLocalizer.QuestDialogDict[6074], 23320, 405),
+ 6075: ([], Cont, (RecoverItemQuest, Anywhere, 5, 4010, 45, 'bw', 'type'), Same, Same, NA, 6076, TTLocalizer.QuestDialogDict[6075], 23320, 405),
+ 6076: ([], Cont, (CogLevelQuest, Anywhere, 25, 8), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6076], 23320, 405),
+ 
+ #MML Task Nine
+ 6080: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4002, 4405, NA, 6081, TTLocalizer.QuestDialogDict[6080], 23330, 400),
+ 6081: ([], Cont, (RecoverItemQuest, ToontownGlobals.CashbotMintIntA, 1, 4011, 20, 9, 'level'), 4405, Same, NA, 6082, TTLocalizer.QuestDialogDict[6081], 23330, 400),
+ 6082: ([], Cont, (DeliverItemQuest, 4011), Same, 4212, NA, 6083, TTLocalizer.QuestDialogDict[6082], 23330, 400),
+ 6083: ([], Cont, (SkelecogQuest, ToontownGlobals.CashbotMintIntA, 15), 4212, Same, NA, NA, TTLocalizer.QuestDialogDict[6083], 400),
+ 
+ #MML Task Ten
+ 6090: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4003, 4329, NA, 6091, TTLocalizer.QuestDialogDict[6090], 23300, 400),
+ 6091: ([], Cont, (EliteCogQuest, Anywhere, 35), 4329, Same, NA, NA, TTLocalizer.QuestDialogDict[6091], 23300, 400),
+ 
+ #MML Task Eleven
+ 6100: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4004, 4333, NA, (6101, 6102), TTLocalizer.QuestDialogDict[6100], 23400, 425),
+ 6101: ([], Cont, (CogTrackQuest, Anywhere, 45, 'c'), 4333, Same, NA, (6103, 6104), TTLocalizer.QuestDialogDict[6101], 23400, 425),
+ 6102: ([], Cont, (CogTrackQuest, Anywhere, 45, 'l'), 4333, Same, NA, (6103, 6104), TTLocalizer.QuestDialogDict[6102], 23400, 425),
+ 6103: ([], Cont, (CogQuest, Anywhere, 12, 'txm'), Same, Same, NA, (6105, 6106, 6107), TTLocalizer.QuestDialogDict[6103], 23400, 425),
+ 6104: ([], Cont, (CogQuest, Anywhere, 12, 'ds'), Same, Same, NA, (6105, 6106, 6107), TTLocalizer.QuestDialogDict[6104], 23400, 425),
+ 6105: ([], Cont, (BuildingQuest, Anywhere, 4, 's', 3), Same, Same, NA, 6108, TTLocalizer.QuestDialogDict[6105], 23400, 425),
+ 6106: ([], Cont, (BuildingQuest, Anywhere, 4, 'm', 3), Same, Same, NA, 6108, TTLocalizer.QuestDialogDict[6106], 23400, 425),
+ 6107: ([], Cont, (BuildingQuest, Anywhere, 4, 'g', 3), Same, Same, NA, 6108, TTLocalizer.QuestDialogDict[6107], 23400, 425),
+ 6108: ([], Cont, (RecoverItemQuest, ToontownGlobals.MinniesMelodyland, 1, 4012, 20, AnyFish), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6108], 23400, 425),
+ 
+ #MML Task Twelve
+ 6110: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4005, 4211, NA, 6111, TTLocalizer.QuestDialogDict[6110], 23300, 400),
+ 6111: ([], Cont, (RecoverItemQuest, ToontownGlobals.MinniesMelodyland, 1, 4013, 20, 'le', 'type'), 4211, Same, NA, NA, TTLocalizer.QuestDialogDict[6111], 23300, 400) 
  
  }
 
