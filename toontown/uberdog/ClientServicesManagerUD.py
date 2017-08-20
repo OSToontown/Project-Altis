@@ -1064,13 +1064,15 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
                 if hwid not in self.blacklistedHWIDs:
                     self.killConnection(sender, "HWID Has been Banned Previously!")
                     self.blacklistedHWIDs.append(hwid)
-                return False
+                else:
+                    return False
         except:
             self.notify.debug("Fatal Error during HWID Check")
             if hwid not in self.blacklistedHWIDs:
                 self.killConnection(sender, "Fatal Error during HWID Check")
                 self.blacklistedHWIDs.append(hwid)
-            return False
+            else:
+                return False
 
         # Grab real token not one time fake token
         getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
