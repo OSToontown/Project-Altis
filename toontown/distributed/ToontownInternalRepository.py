@@ -61,7 +61,6 @@ class ToontownInternalRepository(AstronInternalRepository):
                 'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
                 'AVID_SENDER': self.getAvatarIdFromSender(),
                 'ACID_SENDER': self.getAccountIdFromSender(),
-                'HostName': getpass.getuser(),
                 'CRITICAL': 'False'
             })
             errorReporter.captureMessage(traceback.format_exc())
