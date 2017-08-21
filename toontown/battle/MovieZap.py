@@ -166,7 +166,7 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
         suitTrack.append(updateHealthBar)
         suitTrack.append(sival)
         bonusTrack = Sequence(Wait(tContact))
-        if kbbonus == 0:
+        if kbbonus > 0:
             suitTrack.append(__createSuitResetPosTrack(suit, battle))
             suitTrack.append(Func(battle.unlureSuit, suit))
         if hpbonus > 0:

@@ -94,11 +94,11 @@ AchievementImages = (('phase_3/maps/achievements/ttpa_achievement_makefriend_1.p
 					 
 AchievementExperience = (10, # 1 friend
                          20, # 10 friends
-                         50, # 50 friends
+                         200, # 50 friends
                          10, # catalog 1
-                         15, # catalog 10
-                         20, # catalog 50
-                         25, # catalog 100
+                         50, # catalog 10
+                         150, # catalog 50
+                         250, # catalog 100
                          10, # trolley
                          10, # loopys balls
                          100, # vp 1
@@ -110,12 +110,12 @@ AchievementExperience = (10, # 1 friend
                          100, # ceo 1
                          1000, # ceo 10
                          100, # cm 1
-                         1000, # cm 10
-                         3000, # sellbot suit max
-                         3000, # cashbot suit max
-                         3000, # lawbot suit max
-                         3000, # bossbot suit max
-                         3000, # boardbot suit max
+                         10000, # cm 10
+                         1500, # sellbot suit max
+                         15000, # cashbot suit max
+                         15000, # lawbot suit max
+                         15000, # bossbot suit max
+                         15000, # boardbot suit max
                          250, # unlock toonup
                          250, # unlock trap
                          250, # unlock lure
@@ -138,8 +138,8 @@ AchievementExperience = (10, # 1 friend
                          50, # 10 cogs
                          250, # 100 cogs
                          2500, # 1000 cogs
-                         7500, # 10000 cogs
-                         25000, # 100000 cogs
+                         15000, # 10000 cogs
+                         40000, # 100000 cogs
                          1000000, # 1000000 cogs
                          5, # 1 fish
                          15, # 10 fish
