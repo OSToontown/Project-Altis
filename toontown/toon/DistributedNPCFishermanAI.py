@@ -75,7 +75,7 @@ class DistributedNPCFishermanAI(DistributedNPCToonBaseAI):
             self.notify.warning('somebody called setMovieDone that I was not busy with! avId: %s' % avId)
             return
 
-        for spot in self.air.hoodId2Hood[self.zoneId].fishingSpots:
+        for spot in self.air.hoodId2Hood[ZoneUtil.getCanonicalBranchZone(self.zoneId)].fishingSpots:
             if spot.avId == avId:
                 self.sendClearMovie(None)
                 return
