@@ -52,7 +52,7 @@ class ToontownInternalRepository(AstronInternalRepository):
             sys.exc_clear()
             import os
             if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
-                raise
+                return 1
             from raven import Client
             import getpass
             errorReporter = Client(
