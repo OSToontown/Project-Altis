@@ -3103,7 +3103,7 @@ QuestDict = {
  6080: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4002, 4405, NA, 6081, TTLocalizer.QuestDialogDict[6080], 23330, 400),
  6081: ([], Cont, (RecoverItemQuest, ToontownGlobals.CashbotMintIntA, 1, 4011, 20, 9, 'level'), 4405, Same, NA, 6082, TTLocalizer.QuestDialogDict[6081], 23330, 400),
  6082: ([], Cont, (DeliverItemQuest, 4011), Same, 4212, NA, 6083, TTLocalizer.QuestDialogDict[6082], 23330, 400),
- 6083: ([], Cont, (SkelecogQuest, ToontownGlobals.CashbotMintIntA, 15), 4212, Same, NA, NA, TTLocalizer.QuestDialogDict[6083], 400),
+ 6083: ([], Cont, (SkelecogQuest, ToontownGlobals.CashbotMintIntA, 15), 4212, Same, NA, NA, TTLocalizer.QuestDialogDict[6083], 23330, 400),
  
  #MML Task Ten
  6090: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4003, 4329, NA, 6091, TTLocalizer.QuestDialogDict[6090], 23300, 400),
