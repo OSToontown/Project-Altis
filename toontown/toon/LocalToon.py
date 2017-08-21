@@ -224,8 +224,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             surfaceType = intoNode.getTag('surface')
         else:
             surfaceType = 'regular'
-        self.updateWalkSound(self.movementSounds['walk_' + surfaceType])
-        self.updateRunSound(self.movementSounds['run_' + surfaceType])
+        try:
+            self.updateWalkSound(self.movementSounds['walk_' + surfaceType])
+            self.updateRunSound(self.movementSounds['run_' + surfaceType])
+        except:
+            surfaceType = 'regular'
+            self.updateWalkSound(self.movementSounds['walk_' + surfaceType])
+            self.updateRunSound(self.movementSounds['run_' + surfaceType])
 		
     def handleOffFloor(self, collEntry):
         pass
