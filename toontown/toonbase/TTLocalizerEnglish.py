@@ -1850,7 +1850,7 @@ QuestDialogDict = {
 		QUEST: "No, the signature is scratched off here. Must've been a worn out memo.\x07I know. Maybe a Head Honcho has a better memo.\x07After all, the Cogs at the top of the corporate ladder get the most classified information.",
 		LEAVING: ''},
  6214: {GREETING: '',
-		QUEST: "Okay, let's see here...\x07Blah, blah, blah, boring Cog stuff...\x07Signed, the CFO.\x07Bingo! It was all planned by our neighboring Cashbot fiends. I should've known.\x07Well, if they're going to take us down, maybe we should take them down as well.\x07Defeat a load of Cashbots in the Coin Mints.",
+		QUEST: "Okay, let's check out the signature...\x07\"Signed, the CFO.\"\x07Bingo! It was all planned by our neighboring Cashbot fiends! I should've known.\x07Well, if they're going to invade our town, let's just invade their workplace.\x07Go and stop those workers in the Cashbot Coin Mint. That'll slow down their production progress.",
 		LEAVING: ''},
  6215: {GREETING: '',
 		QUEST: "Next, shut down a Dollar Mint, the higher up Mint in Cashbot Headquarters.",
