@@ -3047,7 +3047,7 @@ QuestDict = {
  #MML Task One
  6000: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4002, 4400, NA, 6001, TTLocalizer.QuestDialogDict[6000], 23300, 400),
  6001: ([], Cont, (CogTrackLevelQuest, ToontownGlobals.CashbotMintIntA, 40, 'm', 8), 4400, Same, NA, 6002, TTLocalizer.QuestDialogDict[6001], 23300, 400),
- 6002: ([], Cont, (CogQuest, ToontownGlobals.CashbotMintIntA, 10, 'rb'), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6002], TTLocalizer.QuestDialogDict[6002], 23300, 400),
+ 6002: ([], Cont, (CogQuest, ToontownGlobals.CashbotMintIntA, 10, 'rb'), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[6002], 23300, 400),
  
  #MML Task Two
  6010: ([2136, 3213, 4215, 5213], Start, (VisitQuest,), 4003, 4216, NA, 6011, TTLocalizer.QuestDialogDict[6010], 23350, 410),
