@@ -1454,18 +1454,18 @@ class BattleCalculatorAI:
             if npc_track == NPC_TOONS_HIT:
                 if self.roundsToonsHit < rounds:
                     self.roundsToonsHit = rounds
-                    BattleCalculatorAI.toonsAlwaysHit = 1
+                    self.toonsAlwaysHit = 1
                     toonsHit = 1
                 else:
-                    BattleCalculatorAI.toonsAlwaysHit = 1
+                    self.toonsAlwaysHit = 1
                     toonsHit = 1
             elif npc_track == NPC_COGS_MISS:
                 if self.roundsCogsMiss < rounds:
                     self.roundsCogsMiss = rounds
-                    BattleCalculatorAI.suitsAlwaysMiss = 1
+                    self.suitsAlwaysMiss = 1
                     cogsMiss = 1
                 else:
-                    BattleCalculatorAI.suitsAlwaysMiss = 1
+                    self.suitsAlwaysMiss = 1
                     cogsMiss = 1
         if self.roundsToonsHit > 0:
            toonsHit =1
@@ -1519,9 +1519,9 @@ class BattleCalculatorAI:
         if self.roundsCogsMiss > 0:
             self.roundsCogsMiss -= 1
         if toonsHit == 1 and self.roundsToonsHit <= 0:
-            BattleCalculatorAI.toonsAlwaysHit = 0
+            self.toonsAlwaysHit = 0
         if cogsMiss == 1 and self.roundsCogsMiss <= 0:
-            BattleCalculatorAI.suitsAlwaysMiss = 0
+            self.suitsAlwaysMiss = 0
         if self.notify.getDebug():
             self.notify.debug('Toon skills gained after this round: ' + repr(self.toonSkillPtsGained))
             self.__printSuitAtkStats()
