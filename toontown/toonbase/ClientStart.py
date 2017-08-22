@@ -21,7 +21,7 @@ from panda3d.core import loadPrcFile
 # config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [BETA 1.1.0]
+window-title Project Altis [BETA 1.1.1]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -193,7 +193,7 @@ want-old-fireworks #t
 want-live-updates #t
 
 # Server:
-server-version TTPA-Beta-1.1.0
+server-version TTPA-Beta-1.1.1
 shard-low-pop 50
 shard-mid-pop 80
 
@@ -201,7 +201,7 @@ shard-mid-pop 80
 want-pets #t
 want-parties #f
 want-cogdominiums #t
-want-achievements #f
+want-achievements #t
 
 # Chat:
 want-whitelist #t
