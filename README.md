@@ -1,6 +1,11 @@
-![logo](https://projectaltis.com/_assets/_img/logo.png)
+<p align="center"> 
+<a href="https://projectaltis.com"><img src="https://projectaltis.com/_assets/_img/logo.png" alt="logo"></a>
+</p>
 
 # Project Altis
+
+[![Build Status](https://travis-ci.com/CodeAnGo/Altis.svg?token=gEmYwqjDCsLTVbma9rmy&branch=develop)](https://travis-ci.com/CodeAnGo/Altis) [![Secondary Build Status](https://teamcity.projectalt.is/app/rest/builds/buildType:Altis_Build/statusIcon)](https://teamcity.projectalt.is)
+
 Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Online.
 
 ## Contributors
@@ -16,15 +21,12 @@ Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Onl
 
 ### Technical Team
 * Ben | Launcher Developer | **Signed NDA**
-* Judge2020 | Launcher Developer | **Signed NDA** | GPG: **5BFD17372D7812CC**
-* Roast Duck | Game Developer | Pending NDA
+* Judge2020 | Developer | **Signed NDA** | GPG: **5BFD17372D7812CC**
 * Nosyliam | Game Developer | **Signed NDA**
-* Atomizer | Game Developer | Pending NDA
 * Barks | Game Developer | **Signed NDA**
 
 ### Creative Team
 * Maddie | Texture Artist | NDA Not Needed
-* Midnight | Modeller | NDA Not Needed
 * Professor Felix | Composer | NDA Not Needed
 * DSDASavage | Animator | NDA Not Needed
 * SpookyRandi | Artist | NDA Not Needed
@@ -56,6 +58,9 @@ Thanks to those who have contributed to the game in the past.
 * VoidPoro | Texture Artist | NDA Not Needed
 * Dan | Game Developer | **Signed NDA**
 * Barks | Game Developer | **Signed NDA**
+* Midnight | Modeller | NDA Not Needed
+* Atomizer | The Spy from TF2 | No NDA
+
 
 
 
