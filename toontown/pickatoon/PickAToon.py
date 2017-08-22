@@ -379,7 +379,7 @@ class PickAToon(DirectObject):
         av = [x for x in self.avatarList if x.position == position][0]
 
         def dodelete(itreallywantstohaveanargumentheresoletsjustputonethatwontbeusedatall = None):
-            if self.passwordEntry.get().lower() == av.name.lower():
+            if self.passwordEntry.get().lower() == 'delete':
                 self.deleteWithPasswordFrame.destroy()
                 delDialog.cleanup()
                 base.transitions.noFade()
