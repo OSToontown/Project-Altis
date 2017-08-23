@@ -212,6 +212,7 @@ WackyWay = 2400
 WalrusWay = 3100
 SleetStreet = 3200
 PolarPlace = 3300
+ArcticAvenue = 3400
 AltoAvenue = 4100
 BaritoneBoulevard = 4200
 TenorTerrace = 4300
@@ -226,7 +227,7 @@ ToonHall = 2513
 ToontownCentralOld = 20000
 HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace, WackyWay),
  DonaldsDock: (BarnacleBoulevard, SeaweedStreet, LighthouseLane, AhoyAvenue),
- TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace),
+ TheBrrrgh: (WalrusWay, SleetStreet, PolarPlace, ArcticAvenue),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
  OutdoorZone: (AcornAvenue, PeanutPlace, WalnutWay, LegumeLane),
