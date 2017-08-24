@@ -11,10 +11,9 @@ class ToontownNetMessengerAI:
     """
     notify = directNotify.newCategory('ToontownNetMessengerAI')
 
-    def __init__(self, air, msgChannel=40000, msgType=54321):
+    def __init__(self, air, msgType=54321):
         self.air = air
-        self.air.registerForChannel(msgChannel)
-        self.msgChannel = msgChannel
+        self.air.registerForChannel(OtpDoGlobals.MESSENGER_CHANNEL_ALL)
         self.msgType = msgType
         
     def prepare(self, message, sentArgs=[], channels=None):

@@ -5,6 +5,7 @@ from direct.distributed.PyDatagram import PyDatagram
 import traceback
 import sys
 
+
 class ToontownInternalRepository(AstronInternalRepository):
     GameGlobalsId = OTP_DO_ID_TOONTOWN
     dbId = 4003
@@ -31,9 +32,19 @@ class ToontownInternalRepository(AstronInternalRepository):
     def _isValidPlayerLocation(self, parentId, zoneId):
         return False if zoneId < 1000 and zoneId != 1 else True
         
-    def sendNetEvent(self, message, sentArgs=[]):
-        self.__messenger.send(message, sentArgs)
-		
+    def sendNetEvent(self, message, sentArgs=[], channels=None):
+        self.__messenger.send(message, sentArgs, channels)
+
+    def handleDatagram(self, di):
+        msgType = self.getMsgType()
+
+        if msgType == self.__messenger.msgType:
+            self.__messenger.handle(msgType, di)
+            return
+
+        AstronInternalRepository.handleDatagram(self, di)
+
+
     def readerPollOnce(self):
         try:
             return AstronInternalRepository.readerPollOnce(self)
