@@ -1,5 +1,8 @@
 import time
 import random
+
+from otp.distributed.OtpDoGlobals import MESSENGER_CHANNEL_UD
+
 from toontown.battle import SuitBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit.SuitInvasionGlobals import *
@@ -124,6 +127,7 @@ class SuitInvasionManagerAI:
         self.flySuits()
 
         self.sendInvasionStatus()
+        self.air.sendNetEvent('invasionEnded' [self.air.ourChannel], channels=[MESSENGER_CHANNEL_UD])
         return True
 
     def getSuitName(self):
