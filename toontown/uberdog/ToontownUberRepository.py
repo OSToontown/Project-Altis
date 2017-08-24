@@ -32,6 +32,8 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.notify.setInfo(True)
 
     def handleConnected(self):
+        self.registerForChannel(MESSENGER_CHANNEL_UD)
+
         rootObj = DistributedDirectoryAI(self)
         rootObj.generateWithRequiredAndId(self.getGameDoId(), 0, 0)
 

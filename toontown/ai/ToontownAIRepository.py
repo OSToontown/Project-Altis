@@ -62,12 +62,11 @@ from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.pets import DistributedPublicPetMgrAI
 from toontown.events.CharityScreenAI import CharityScreenAI
 
+
 class ToontownAIRepository(ToontownInternalRepository):
 
-    def __init__(self, baseChannel, stateServerChannel, districtName, startTime = 6):
-        ToontownInternalRepository.__init__(self, baseChannel, stateServerChannel, 
-            dcSuffix='AI')
-
+    def __init__(self, baseChannel, stateServerChannel, districtName, startTime=6):
+        ToontownInternalRepository.__init__(self, baseChannel, stateServerChannel, dcSuffix='AI')
         self.districtName = districtName
         self.notify.setInfo(True)
         self.hoods = []
@@ -245,6 +244,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         #    self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
 
     def handleConnected(self):
+        self.registerForChannel(MESSENGER_CHANNEL_AI)
+
         self.districtId = self.allocateChannel()
         self.notify.info('Creating ToontownDistrictAI(%d)...' % self.districtId)
         self.distributedDistrict = ToontownDistrictAI(self)
