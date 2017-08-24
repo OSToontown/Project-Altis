@@ -1,5 +1,7 @@
 from direct.showbase.DirectObject import DirectObject
 
+from otp.distributed.OtpDoGlobals import MESSENGER_CHANNEL_AI
+
 from toontown.suit.SuitDNA import suitDepts, suitsPerDept
 from toontown.suit.SuitInvasionGlobals import *
 
@@ -73,5 +75,5 @@ class InvasionManagerUD(DirectObject):
             invasion = INVASION_TYPE_MEGA
 
         self.occupiedShards.append(shardId)
-        self.air.sendNetEvent('startInvasion', [shardId, [dept, suit, flags, invasion]])
+        self.air.sendNetEvent('startInvasion', [shardId, [dept, suit, flags, invasion]], channels=[MESSENGER_CHANNEL_AI])
         return task.again
