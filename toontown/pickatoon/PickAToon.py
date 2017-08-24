@@ -379,7 +379,7 @@ class PickAToon(DirectObject):
         av = [x for x in self.avatarList if x.position == position][0]
 
         def dodelete(itreallywantstohaveanargumentheresoletsjustputonethatwontbeusedatall = None):
-            if self.passwordEntry.get().lower() == av.name.lower():
+            if self.passwordEntry.get().lower() == TTLocalizer.AvatarChoiceDeleteConfirmUserTypes:
                 self.deleteWithPasswordFrame.destroy()
                 delDialog.cleanup()
                 base.transitions.noFade()
@@ -403,7 +403,7 @@ class PickAToon(DirectObject):
                 cancelButtonImage = (buttons.find('**/CloseBtn_UP'), buttons.find('**/CloseBtn_DN'), buttons.find('**/CloseBtn_Rllvr'))
                 deleteText = TTLocalizer.AvatarChoiceDeleteConfirmText % {
                 'name': av.name,
-                'confirm': "your Toon's name"}
+                'confirm': TTLocalizer.AvatarChoiceDeleteConfirmUserTypes}
                 self.deleteWithPasswordFrame = DirectFrame(pos=(0.0, 0.1, 0.2), parent=aspect2dp, relief=None, image=DGG.getDefaultDialogGeom(), image_color=ToontownGlobals.GlobalDialogColor, image_scale=(1.4, 1.0, 1.0), text=deleteText, text_wordwrap=19, text_scale=TTLocalizer.ACdeleteWithPasswordFrame, text_pos=(0, 0.25), textMayChange=1, sortOrder=NO_FADE_SORT_INDEX)
                 self.passwordEntry = DirectEntry(parent=self.deleteWithPasswordFrame, relief=None, image=nameBalloon, image1_color=(0.8, 0.8, 0.8, 1.0), scale=0.064, pos=(-0.3, 0.0, -0.2), width=10, numLines=1, focus=1, cursorKeys=1, command=dodelete)
                 self.passwordEntry.flattenMedium()
