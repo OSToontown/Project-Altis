@@ -8,8 +8,8 @@ from toontown.suit.SuitInvasionGlobals import *
 import random
 
 
-class InvasionManagerUD(DirectObject):
-    notify = directNotify.newCategory('InvasionManagerUD')
+class SuitInvasionManagerUD(DirectObject):
+    notify = directNotify.newCategory('SuitInvasionManagerUD')
 
     def __init__(self, air):
         DirectObject.__init__(self)
