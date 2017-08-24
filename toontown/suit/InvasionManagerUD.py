@@ -14,7 +14,20 @@ class InvasionManagerUD(DirectObject):
 
         self.air = air
         self.shards = []
+        self.occupiedShards = []
         self.accept('registerShard', self.registerShard)
+        self.accept('invasionEnded', self.invasionEnded)
+
+    def invasionEnded(self, shardId):
+        if shardId not in self.occupiedShards:
+            return
+        self.occupiedShards.remove(shardId)
+
+    def getRandomDelay(self):
+        return int(3600 * random.random())
+
+    def startInitialInvasion(self):
+        taskMgr.doMethodLater(self.getRandomDelay(), self.chooseInvasion, 'choose-task')
 
     def registerShard(self, shardId, online):
         if online and (shardId not in self.shards):
@@ -23,9 +36,15 @@ class InvasionManagerUD(DirectObject):
             self.shards.remove(shardId)
 
     def chooseInvasion(self, task=None):
+        task.delayTime = self.getRandomDelay()
         if not len(self.shards):
             return task.again
 
+        shardId = random.choice(self.shards)
+        
+        if shardId in self.occupiedShards:
+            return task.again
+        
         # 40% chance to start an invasion:
         invasionChance = random.random()
         if invasionChance >= 0.40:
@@ -37,7 +56,7 @@ class InvasionManagerUD(DirectObject):
             invasion = INVASION_TYPE_MEGA
         
         # Decide whether or not the invasion will have flags:
-        flags = None
+        flags = 0
         flagChance = random.random()
         if flagChance <= 0.1:
             flags = IFV2
@@ -50,11 +69,9 @@ class InvasionManagerUD(DirectObject):
         suit = random.randrange(-1, suitsPerDept)
 
         if suit == -1:
-            # No index, department invasion.
+            # No suit index, therefore it must be a department invasion.
             invasion = INVASION_TYPE_MEGA
 
-        self.notify.warning([invasion, flags, flagChance, dept, suit])
-        shard = random.choice(self.shards)
-
-        task.delayTime = 3600 # TODO: Generate a random time.
+        self.occupiedShards.append(shardId)
+        self.air.sendNetEvent('startInvasion', [shardId, [dept, suit, flags, invasion]])
         return task.again
