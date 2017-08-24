@@ -58,3 +58,4 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.deliveryManager = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
         self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
         self.invasionMgr = InvasionManagerUD(self)
+        self.invasionMgr.chooseInvasion(task=None)

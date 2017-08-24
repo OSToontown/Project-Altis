@@ -44,7 +44,6 @@ class ToontownInternalRepository(AstronInternalRepository):
 
         AstronInternalRepository.handleDatagram(self, di)
 
-
     def readerPollOnce(self):
         try:
             return AstronInternalRepository.readerPollOnce(self)

@@ -62,6 +62,8 @@ from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.pets import DistributedPublicPetMgrAI
 from toontown.events.CharityScreenAI import CharityScreenAI
 
+import atexit
+
 
 class ToontownAIRepository(ToontownInternalRepository):
 
@@ -280,6 +282,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info("Starting Invasion Tracker...")
         taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
         self.notify.info("Invasion Tracker Started!")
+        self.sendNetEvent('registerShard', [self.districtId, True], channels=[MESSENGER_CHANNEL_UD])
+
+        atexit.register(self.shardDeath)
+
+    def shardDeath(self):
+        self.sendNetEvent('registerShard', [self.districtId, False], channels=[MESSENGER_CHANNEL_UD])
 
     def lookupDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)
