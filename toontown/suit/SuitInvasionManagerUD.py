@@ -29,13 +29,17 @@ class SuitInvasionManagerUD(DirectObject):
         return int(3600 * random.random())
 
     def startInitialInvasion(self):
+        self.air.sendNetEvent('requestShards', channels=[MESSENGER_CHANNEL_AI])
         taskMgr.doMethodLater(self.getRandomDelay(), self.chooseInvasion, 'choose-task')
 
     def registerShard(self, shardId, online):
+        shardId -= 1
         if online and (shardId not in self.shards):
             self.shards.append(shardId)
         elif (not online) and (shardId in self.shards):
             self.shards.remove(shardId)
+            if shardId in self.occupiedShards:
+                self.occupiedShards.remove(shardId)
 
     def chooseInvasion(self, task=None):
         task.delayTime = self.getRandomDelay()
@@ -67,7 +71,7 @@ class SuitInvasionManagerUD(DirectObject):
         elif flagChance <= 0.02:
             flags = IFSkelecog
 
-        dept = random.randrange(0, len(suitDepts))
+        dept = random.randrange(0, len(suitDepts)-1)
         suit = random.randrange(-1, suitsPerDept)
 
         if suit == -1:
@@ -75,5 +79,5 @@ class SuitInvasionManagerUD(DirectObject):
             invasion = INVASION_TYPE_MEGA
 
         self.occupiedShards.append(shardId)
-        self.air.sendNetEvent('startInvasion', [shardId, [dept, suit, flags, invasion]], channels=[MESSENGER_CHANNEL_AI])
+        self.air.sendNetEvent('startInvasion', [shardId, dept, suit, flags, invasion], channels=[MESSENGER_CHANNEL_AI])
         return task.again
