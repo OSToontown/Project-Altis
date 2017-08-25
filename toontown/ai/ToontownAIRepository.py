@@ -62,12 +62,13 @@ from toontown.tutorial.TutorialManagerAI import TutorialManagerAI
 from toontown.pets import DistributedPublicPetMgrAI
 from toontown.events.CharityScreenAI import CharityScreenAI
 
+import atexit
+
+
 class ToontownAIRepository(ToontownInternalRepository):
 
-    def __init__(self, baseChannel, stateServerChannel, districtName, startTime = 6):
-        ToontownInternalRepository.__init__(self, baseChannel, stateServerChannel, 
-            dcSuffix='AI')
-
+    def __init__(self, baseChannel, stateServerChannel, districtName, startTime=6):
+        ToontownInternalRepository.__init__(self, baseChannel, stateServerChannel, dcSuffix='AI')
         self.districtName = districtName
         self.notify.setInfo(True)
         self.hoods = []
@@ -245,6 +246,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         #    self.cogHeadquarters.append(BoardbotHQAI.BoardbotHQAI(self))
 
     def handleConnected(self):
+        self.registerForChannel(MESSENGER_CHANNEL_AI)
+
         self.districtId = self.allocateChannel()
         self.notify.info('Creating ToontownDistrictAI(%d)...' % self.districtId)
         self.distributedDistrict = ToontownDistrictAI(self)
@@ -279,6 +282,12 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info("Starting Invasion Tracker...")
         taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
         self.notify.info("Invasion Tracker Started!")
+        self.sendNetEvent('registerShard', [self.districtId, True], channels=[MESSENGER_CHANNEL_UD])
+
+        atexit.register(self.shardDeath)
+
+    def shardDeath(self):
+        self.sendNetEvent('registerShard', [self.districtId, False], channels=[MESSENGER_CHANNEL_UD])
 
     def lookupDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)

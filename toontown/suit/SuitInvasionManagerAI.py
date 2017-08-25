@@ -1,13 +1,21 @@
 import time
 import random
+
+from direct.showbase.DirectObject import DirectObject
+
+from otp.distributed.OtpDoGlobals import MESSENGER_CHANNEL_UD
+
 from toontown.battle import SuitBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit.SuitInvasionGlobals import *
 from toontown.toonbase import ToontownGlobals
 
-class SuitInvasionManagerAI:
+
+class SuitInvasionManagerAI(DirectObject):
+    notify = directNotify.newCategory('SuitInvasionManagerAI')
 
     def __init__(self, air):
+        DirectObject.__init__(self)
         self.air = air
 
         self.invading = False
@@ -18,16 +26,18 @@ class SuitInvasionManagerAI:
         self.suitTypeIndex = None
         self.flags = 0
 
-        self.air.netMessenger.accept(
-            'startInvasion', self, self.handleStartInvasion)
-        self.air.netMessenger.accept(
-            'stopInvasion', self, self.handleStopInvasion)
+        self.accept('startInvasion', self.handleStartInvasion)
+        self.accept('stopInvasion', self.handleStopInvasion)
 
         # We want to handle shard status queries so that a ShardStatusReceiver
         # being created after we're created will know where we're at:
-        self.air.netMessenger.accept('queryShardStatus', self, self.sendInvasionStatus)
+        self.accept('queryShardStatus', self.sendInvasionStatus)
+        self.accept('requestShards', self.sendRequestResponse)
 
         self.sendInvasionStatus()
+
+    def sendRequestResponse(self):
+        self.air.sendNetEvent('registerShard', [self.air.districtId, True], channels=[MESSENGER_CHANNEL_UD])
 
     def getInvading(self):
         return self.invading
@@ -124,6 +134,7 @@ class SuitInvasionManagerAI:
         self.flySuits()
 
         self.sendInvasionStatus()
+        self.air.sendNetEvent('invasionEnded' [self.air.ourChannel], channels=[MESSENGER_CHANNEL_UD])
         return True
 
     def getSuitName(self):

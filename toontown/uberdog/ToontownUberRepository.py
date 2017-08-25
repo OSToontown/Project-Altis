@@ -4,7 +4,8 @@ from otp.distributed.DistributedDirectoryAI import DistributedDirectoryAI
 from otp.distributed.OtpDoGlobals import *
 from otp.otpbase import BackupManager
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
-import toontown.minigame.MinigameCreatorAI
+from toontown.suit.SuitInvasionManagerUD import SuitInvasionManagerUD
+
 
 from toontown.rpc.ToontownRPCServer import ToontownRPCServer
 from toontown.rpc.ToontownRPCHandler import ToontownRPCHandler
@@ -31,6 +32,8 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.notify.setInfo(True)
 
     def handleConnected(self):
+        self.registerForChannel(MESSENGER_CHANNEL_UD)
+
         rootObj = DistributedDirectoryAI(self)
         rootObj.generateWithRequiredAndId(self.getGameDoId(), 0, 0)
 
@@ -54,3 +57,5 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.friendsManager = simbase.air.generateGlobalObject(OTP_DO_ID_TTA_FRIENDS_MANAGER, 'TTAFriendsManager')
         self.deliveryManager = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
         self.codeRedemptionMgr = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
+        self.invasionMgr = SuitInvasionManagerUD(self)
+        self.invasionMgr.startInitialInvasion()
