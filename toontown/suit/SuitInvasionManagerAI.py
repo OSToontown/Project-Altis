@@ -134,7 +134,7 @@ class SuitInvasionManagerAI(DirectObject):
         self.flySuits()
 
         self.sendInvasionStatus()
-        self.air.sendNetEvent('invasionEnded' [self.air.ourChannel], channels=[MESSENGER_CHANNEL_UD])
+        self.air.sendNetEvent('invasionEnded', [self.air.ourChannel], channels=[MESSENGER_CHANNEL_UD])
         return True
 
     def getSuitName(self):
