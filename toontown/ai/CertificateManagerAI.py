@@ -14,7 +14,7 @@ class CertificateManagerAI():
         certs.append(code)
         av.b_setCerts(certs)
         self.sendCode(code)
-		
+
     def generateCode(self):
         code = ''
         for i in xrange(12):
@@ -25,6 +25,8 @@ class CertificateManagerAI():
         return code
 
     def sendCode(self, code):
-        request = httplib.HTTPSConnection('www.projectaltis.com')
-        request.request('GET', '/api/addbetacert/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s' % (code))
+        domain = str(ConfigVariableString('ws-domain', 'localhost'))
+        key = str(ConfigVariableString('ws-key', 'secretkey'))
+        request = httplib.HTTPSConnection(domain)
+        request.request('GET', '/api/addbetacert/%s/%s' % (key, code))
         print request.getresponse().read()

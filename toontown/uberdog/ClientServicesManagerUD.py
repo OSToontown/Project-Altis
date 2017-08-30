@@ -172,8 +172,10 @@ class LocalAccountDB(AccountDB):
         # add type a name
         self.notify.debug("adding name from %s : %s" %(avId, name))
         try:
-            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            nameCheck.request('GET', '/api/addtypeaname2/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s' % (avId, name))
+            domain = str(ConfigVariableString('ws-domain', 'localhost'))
+            key = str(ConfigVariableString('ws-key', 'secretkey'))
+            nameCheck = httplib.HTTPSConnection(domain)
+            nameCheck.request('GET', '/api/addtypeaname2/%s/%s/%s' % (key, avId, name))
             resp = json.loads(nameCheck.getresponse().read())
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
@@ -183,8 +185,10 @@ class LocalAccountDB(AccountDB):
         # check type a name
         self.notify.debug("debug: checking name from %s" %(avId))
         try:
-            nameCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            nameCheck.request('GET', '/api/checktypeaname/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/avid/%s' % (avId)) # this should just use avid
+            domain = str(ConfigVariableString('ws-domain', 'localhost'))
+            key = str(ConfigVariableString('ws-key', 'secretkey'))
+            nameCheck = httplib.HTTPSConnection(domain)
+            nameCheck.request('GET', '/api/checktypeaname/%s/avid/%s' % (key, avId)) # this should just use avid
             resp = json.loads(nameCheck.getresponse().read())
 
             if resp[u"error"] == "true":
@@ -991,7 +995,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
         # Temporary HMAC key:
         self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
-		
+
         self.blacklistedHWIDs = []
 
     def announceGenerate(self):

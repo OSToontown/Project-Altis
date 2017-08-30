@@ -93,7 +93,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.invLastStatus = None
 
         import pymongo
-        
+
         # Mongo stuff to store seperate database things
         self.dbConn = pymongo.MongoClient(config.GetString('mongodb-url', 'localhost'))
         self.dbGlobalCursor = self.dbConn.altis
@@ -157,11 +157,11 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.trolleyHolidayMgr = TrolleyHolidayMgrAI(self, ToontownGlobals.TROLLEY_HOLIDAY)
         self.trolleyWeekendMgr = TrolleyWeekendMgrAI(self, ToontownGlobals.TROLLEY_WEEKEND)
         self.holidayManager = HolidayManagerAI(self)
-        
-        
+
+
         if self.wantFishing:
             self.fishManager = FishManagerAI(self)
-        
+
         if self.wantHousing:
             self.estateManager = EstateManagerAI(self)
             self.estateManager.generateWithRequired(2)
@@ -169,7 +169,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.catalogManager.generateWithRequired(2)
             self.deliveryManager = self.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
             self.mailManager = self.generateGlobalObject(OTP_DO_ID_TOONTOWN_MAIL_MANAGER, 'DistributedMailManager')
-        
+
         if self.wantPets:
             self.petMgr = PetManagerAI(self)
 
@@ -181,7 +181,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.partyManager.generateWithRequired(2)
             self.globalPartyMgr = self.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
 
-        self.codeRedemptionMgr = TTCodeRedemptionMgrAI(self) 
+        self.codeRedemptionMgr = TTCodeRedemptionMgrAI(self)
         self.codeRedemptionMgr.generateWithRequired(2)
         self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
 
@@ -226,7 +226,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         hood = TTOHoodAI.TTOHoodAI(self)
         self.hoods.append(hood)
         self.hoodId2Hood[hood.zoneId] = hood
-        
+
     def createCogHeadquarters(self):
         NPCToons.generateZone2NpcDict()
         if self.config.GetBool('want-sellbot-headquarters', True):
@@ -254,15 +254,15 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.distributedDistrict.setName(self.districtName)
         self.distributedDistrict.generateWithRequiredAndId(
             self.districtId, self.getGameDoId(), 2)
-        
+
         self.notify.info('Claiming ownership of channel ID: %d...' % self.districtId)
         self.setAI(self.districtId, self.ourChannel)
 
         self.districtStats = ToontownDistrictStatsAI(self)
         self.districtStats.settoontownDistrictId(self.districtId)
-        self.districtStats.generateWithRequiredAndId(self.allocateChannel(), 
+        self.districtStats.generateWithRequiredAndId(self.allocateChannel(),
             self.getGameDoId(), 3)
-        
+
         self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
 
         self.notify.info('Creating managers...')
@@ -270,7 +270,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         if self.config.GetBool('want-safe-zones', True):
             self.notify.info('Creating safe zones...')
             self.createSafeZones()
-        
+
         if self.config.GetBool('want-cog-headquarters', True):
             self.notify.info('Creating Cog headquarters...')
             self.createCogHeadquarters()
@@ -278,7 +278,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Making district available...')
         self.distributedDistrict.b_setAvailable(1)
         self.notify.info('Done.')
-        
+
         self.notify.info("Starting Invasion Tracker...")
         taskMgr.doMethodLater(2, self.updateInvasionTrackerTask, 'updateInvasionTracker-%d' % self.ourChannel)
         self.notify.info("Invasion Tracker Started!")
@@ -298,7 +298,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             phaseNum = ToontownGlobals.phaseMap[hoodId]
         else:
             phaseNum = ToontownGlobals.streetPhaseMap[hoodId]
-        
+
         return 'phase_%s/dna/%s_%s.pdna' % (phaseNum, hood, zoneId)
 
     def loadDNAFileAI(self, dnastore, filename):
@@ -347,25 +347,29 @@ class ToontownAIRepository(ToontownInternalRepository):
         tupleStatus = (self.districtStats.getInvasionStatus(), self.districtStats.getInvasionType())
         invstatus = self.statusToType(tupleStatus)
         timeleft = self.districtStats.getInvasionTimeRemaining()
-      #  if pop == self.invLastPop and invstatus == self.invLastStatus:
-      #      return task.again # Don't attempt to update the database, its a waste
-	  # No it's not a waste. PLZ
-        
+
         self.invLastPop = pop
         self.invLastStatus = invstatus
 
         if self.districtName == "Test Canvas":
             return
         print invstatus
+        domain = str(ConfigVariableString('ws-domain', 'localhost'))
+        key = str(ConfigVariableString('ws-key', 'secretkey'))
         if invstatus == 'None':
-            httpReqkill = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReqkill.request('GET', '/api/addinvasion/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s/0/%s/0/0' % (self.districtName,
+            httpReqkill = httplib.HTTPSConnection(domain)
+            httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (key, self.districtName,
                                                                                pop, invstatus))
-            print(httpReqkill.getresponse().read())
+            resp = httpReqkill.getresponse()
+            if resp.status != 200:
+                print 'Invaison api returned response ' + str(resp.status)
         else:
-            httpReq = httplib.HTTPSConnection('www.projectaltis.com')
-            httpReq.request('GET', '/api/addinvasion/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/%s/1/%s/%s/%s/%s' % (self.districtName,
+            httpReq = httplib.HTTPSConnection(domain)
+            httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/%s/%s/%s' % (key, self.districtName,
                                                                            pop, invstatus, total, defeated, timeleft))
+            resp = httpReqkill.getresponse()
+            if resp.status != 200:
+                print 'Invasion api returned response ' + str(resp.status)
         return task.again
 
     def statusToType(self, tupleInvasionStatus):
