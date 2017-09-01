@@ -687,9 +687,9 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  5015: [lSellbotHQ + ' Memo', lSellbotHQ + ' Memos', 'a '],
  5016: [lSellbotHQ + ' Memo', lSellbotHQ + ' Memos', 'a '],
  5017: [lSellbotHQ + ' Memo', lSellbotHQ + ' Memos', 'a '],
- 3001: ['Soccer ball', 'Soccer balls', 'a '],
- 3002: ['Toboggan', 'Toboggans', 'a '],
- 3003: ['Ice cube', 'Ice cubes', 'an '],
+ 3001: ['Tuxedo', 'Tuxedos', 'a '],
+ 3002: ['Lawbot HQ Plans', 'Lawbot HQ Plans', 'some '],
+ 3003: ['Lawbot HQ Blueprints', 'Lawbot HQ Blueprints', 'some '],
  3004: ['Love letter', 'Love letters', 'a '],
  3005: ['Wiener dog', 'Wiener dogs', 'a '],
  3006: ['Engagement ring', 'Engagement rings', 'an '],
@@ -1859,7 +1859,33 @@ QuestDialogDict = {
  6216: {GREETING: '',
 		QUEST: "Now I want you to show that CFO a lesson and teach him not to mess with us.\x07Gather a group of toons and get out there and defeat him!",
 		COMPLETE: "The number of Cogs around here have decreased a ton.\x07I'm pretty sure that CFO learned his lesson, or at least I hope he did.\x07Here, take this as a thanks on behalf of the citizens of Minnie's Melodyland...",
-		LEAVING: ''}}
+		LEAVING: ''},
+		
+ #TB Task One
+ 7000: {QUEST: "_toNpcName_ is offering experience points to those who can help her with a small job._where_"},
+ 7001: {GREETING: '',
+		QUEST: "Hey _avName_. I need you to do me a couple favors.\x07Firstly, I lent a tuxedo to _toNpcName_ awhile back and he's overdue for returning it.\x07Can you go see if he can return it to me?_where_",
+		LEAVING: ''},
+ 7002: {GREETING: '',
+		QUEST: "Oh, you came in just in time, _avName_.\x07I need your help.\x07The Bossbots raided my building and once they left, I noticed that my tuxedo was missing!\x07Can you get that back for me please?",
+		LEAVING: ''},
+ 7003: {GREETING: '',
+		QUEST: "Awesome! Thanks for getting that back for me.\x07Now, why did you come here in the first place?\x07Oh, you needed to return that tuxedo to _toNpcName_, hmm?\x07Alright, tell her I say thanks.",
+		LEAVING: ''},
+ 7004: {GREETING: '',
+		QUEST: "Alright, that's one job done.\x07Now I want you to defeat some of those high leveled Cogs for me. They make me feel uneasy whenever I work here.",
+		LEAVING: '',
+		COMPLETE: "Thanks for taking care of those Cogs.\x07Here, this is for you..."},
+		
+ #TB Task Two
+ 7010: {QUEST: "Oh no. _toNpcName_ is running his mouth again about those Lawbots..._where_"},
+ 7011: {GREETING: '',
+		QUEST: "Those no good Lawbots.\x07They come into our town, make fake laws, destroy our buildings, they need to be stopped.\x07I think we should build a wall blocking all ties between Lawbot Headquarters and The Brrrgh. It'll be huge.\x07However, before we cut off all ties, I must know their secrets.\x07I need you to snoop around, gather any important information you can find.",
+		LEAVING: "Did I forget to mention that we'd make those Lawbots pay for the wall too?"},
+ 7012: {GREETING: '',
+		QUEST: "Excellent. Now I need some blueprints.\x07Go find them while I analyze these plans.",
+		LEAVING: '',
+		COMPLETE: "Hmm. These plans state that they plan to extend the Lawbot Headquarters.\x07However, with these new blueprints, we can get started on that wall where they plan to extend.\x07All thanks to you, citizen.\x07Let me give you a HUGE reward."}}
 		
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
@@ -10667,3 +10693,4 @@ BeaverChatter = ["Got spring fever? Vote for Beaver!", 'My favorite jellybean co
 FoxChatter = ["Fox Rox!", 'My favorite jellybean color is orange.', "I'm adorable, how could you not vote for me? Owoooo!", "I'm the perfect combination of cat and dog!", 'Nobody mocks the fox, ya hear?']
 BatChatter = ["Don't be a brat, vote for Bat!", 'My favorite jellybean color is black.', "Whoooo dares awaken me!", "Got questions?", 'I gotta earn my wings, first.']
 RaccoonChatter = ["Sing some tunes and vote Raccoon!", 'My favorite jellybean color is purple.', "Oooh! There is half of an apple in here!", 'My friends call me "Trash Panda."', "I'm not rabid, I swear!"]
+

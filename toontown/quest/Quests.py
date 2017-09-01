@@ -3141,7 +3141,19 @@ QuestDict = {
  6213: ([], Cont, (RecoverItemQuest, ToontownGlobals.MinniesMelodyland, 1, 4015, 20, 'hho', 'type'), Same, Same, 303, 6214, TTLocalizer.QuestDialogDict[6213], 30000, 700),
  6214: ([], Cont, (CogTrackQuest, ToontownGlobals.CashbotMintIntA, 70, 'm'), Same, Same, 303, 6215, TTLocalizer.QuestDialogDict[6214], 30000, 700),
  6215: ([], Cont, (MintQuest, ToontownGlobals.CashbotMintIntB, 1), Same, Same, 303, 6216, TTLocalizer.QuestDialogDict[6215], 30000, 700),
- 6216: ([], Cont, (CFOQuest, ToontownGlobals.CashbotHQ, 1), Same, Same, 303, NA, TTLocalizer.QuestDialogDict[6216], 30000, 700)
+ 6216: ([], Cont, (CFOQuest, ToontownGlobals.CashbotHQ, 1), Same, Same, 303, NA, TTLocalizer.QuestDialogDict[6216], 30000, 700),
+ 
+ #TB Task One
+ 7000: ([2136, 3213, 4215, 5213, 6216], Start, (VisitQuest,), 3002, 3136, NA, 7001, TTLocalizer.QuestDialogDict[7000], 34000, 500),
+ 7001: ([], Cont, (VisitQuest,), 3136, 3134, NA, 7002, TTLocalizer.QuestDialogDict[7001], 34000, 500),
+ 7002: ([], Cont, (RecoverItemQuest, ToontownGlobals.TheBrrrgh, 1, 3001, 15, 'c', 'track'), 3134, Same, NA, 7003, TTLocalizer.QuestDialogDict[7002], 34000, 500),
+ 7003: ([], Cont, (DeliverItemQuest, 3001), Same, 3136, NA, 7004, TTLocalizer.QuestDialogDict[7003], 34000, 500),
+ 7004: ([], Cont, (CogLevelQuest, Anywhere, 55, 8), 3136, Same, NA, NA, TTLocalizer.QuestDialogDict[7004], 34000, 500),
+ 
+ #TB Task Two
+ 7010: ([2136, 3213, 4215, 5213, 6216], Start, (VisitQuest,), 3003, 3308, NA, 7011, TTLocalizer.QuestDialogDict[7010], 34050, 520),
+ 7011: ([], Cont, (RecoverItemQuest, ToontownGlobals.LawbotStageIntA, 1, 3002, 20, 'l', 'track'), 3308, Same, NA, 7012, TTLocalizer.QuestDialogDict[7011], 34050, 520),
+ 7012: ([], Cont, (RecoverItemQuest, ToontownGlobals.LawbotStageIntA, 1, 3003, 20, 'l', 'track'), Same, Same, NA, NA, TTLocalizer.QuestDialogDict[7012], 34050, 520)
  
  }
 
