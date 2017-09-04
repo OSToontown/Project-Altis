@@ -22,11 +22,13 @@ class BanFSM(FSM):
         self.avName = None
 
     def performBan(self):
-        httpReq = httplib.HTTPConnection('www.projectaltis.com')
-        httpReq.request('GET', '/api/ban/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s' % self.accountId)
+        domain = str(ConfigVariableString('ws-domain', 'localhost'))
+        key = str(ConfigVariableString('ws-key', 'secretkey'))
+        httpReq = httplib.HTTPConnection(domain)
+        httpReq.request('GET', '/api/ban/%s/%s' % (key, self.accountId))
         httpReq.getresponse().read()
-        banHwidReq = httplib.HTTPConnection('www.projectaltis.com')
-        banHwidReq.request('GET', '/api/hwid/ban/JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN/%s/RandomDancing' % self.accountId)
+        banHwidReq = httplib.HTTPConnection(domain)
+        banHwidReq.request('GET', '/api/hwid/ban/%s/%s/RandomDancing' % (key, self.accountId))
         banHwidReq.getresponse().read()
         self.ejectPlayer()
         print(self.accountId)
@@ -128,7 +130,7 @@ def kick(reason='No reason specified'):
     datagram.addString('You were kicked by a moderator for the following reason: %s' % reason)
     simbase.air.send(datagram)
     return "Kicked %s from the game server!" % target.getName()
-	
+
 @magicWord(category=CATEGORY_MODERATOR, types=[int, str])
 def kickId(id, reason='No reason specified'):
     """
@@ -163,7 +165,7 @@ def ban(reason):
     datagram.addString('You were banned by a moderator for the following reason: %s' % reason)
     simbase.air.send(datagram)
     return "Kicked and Banned %s from the game server!" % target.getName()
-	
+
 @magicWord(category=CATEGORY_MODERATOR, types=[int, str])
 def banId(id, reason):
     """
