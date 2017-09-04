@@ -260,6 +260,11 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def enterReward(self):
         self.resetBattles()
+        for toon in self.involvedToons:
+            if random.random() <= .05:
+                toon.d_setSystemMessage(0, "Congratulations! You have earned a beta key for defeating a C.O.G. boss! Check your certificates page!")
+                code = simbase.air.certManager.generateCode()
+                simbase.air.certManager.addCode(toon, code)
         self.barrier = self.beginBarrier('Reward', self.involvedToons, BattleBase.BUILDING_REWARD_TIMEOUT, self.__doneReward)
 
     def __doneReward(self, avIds):
