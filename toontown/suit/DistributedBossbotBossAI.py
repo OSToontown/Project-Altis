@@ -767,7 +767,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.toonLevels = self.getToonDifficulty()
         battleDifficulty = int(math.floor(self.toonLevels / 2))
         self.b_setBattleDifficulty(battleDifficulty)
-        self.b_setMaxHP(ToontownGlobals.BossbotBossMaxDamage + int(self.battleDifficulty * 75))
+        self.b_setMaxHp(ToontownGlobals.BossbotBossMaxDamage + int(self.battleDifficulty * 75))
 
     def b_setBattleDifficulty(self, batDiff):
         self.setBattleDifficulty(batDiff)
