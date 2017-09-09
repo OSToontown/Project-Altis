@@ -223,6 +223,7 @@ OakStreet = 5300
 RoseValley = 5400
 LullabyLane = 9100
 PajamaPlace = 9200
+TwilightTerrace = 9300
 ToonHall = 2513
 ToontownCentralOld = 20000
 HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace, WackyWay),
@@ -231,7 +232,7 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace, Wacky
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
  OutdoorZone: (AcornAvenue, PeanutPlace, WalnutWay, LegumeLane),
- DonaldsDreamland: (LullabyLane, PajamaPlace),
+ DonaldsDreamland: (LullabyLane, PajamaPlace, TwilightTerrace),
  GoofySpeedway: (),
  ToontownCentralOld: ()}
 WelcomeValleyToken = 0
