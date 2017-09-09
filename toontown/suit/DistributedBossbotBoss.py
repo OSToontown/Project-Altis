@@ -693,6 +693,9 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         
         self.bossDamage = bossDamage
         self.updateHealthBar()
+		
+    def setMaxHp(self, hp):
+        self.bossMaxDamage = hp
 
     def setGolfSpot(self, golfSpot, golfSpotIndex):
         self.golfSpots[golfSpotIndex] = golfSpot

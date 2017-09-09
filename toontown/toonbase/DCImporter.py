@@ -3581,6 +3581,7 @@ dclass DistributedBossbotBoss : DistributedBossCog {
   hitBoss(uint8) airecv clsend;
   hitToon(uint32) airecv clsend;
   ballHitBoss(uint8) airecv clsend;
+  setMaxHp(uint16) broadcast ram;
   setBossDamage(uint16, uint8, int16) broadcast ram;
   setSpeedDamage(uint16, uint8, int16) broadcast ram;
   reachedTable(uint8) airecv clsend;
