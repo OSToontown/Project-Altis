@@ -219,8 +219,6 @@ class LocalAccountDB(AccountDB):
         displayname = str(ConfigVariableString('nwh-displayname'))
         avatarurl = str(ConfigVariableString('nws-avatarurl'))
         urllink = str(ConfigVariableString('nwh-urllink'))
-        print title
-        print urllink
         content = {
             "username": displayname,
             "avatar_url": avatarurl,
