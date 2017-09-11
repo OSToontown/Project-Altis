@@ -172,7 +172,10 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                     numElites += 1
                 else:
                     mult = 2.5
-                toonExp += int(level * mult)
+                if toonExp >= ToontownBattleGlobals.ExperienceCap:
+                    toonExp = ToontownBattleGlobals.ExperienceCap
+                else:
+                    toonExp += int(level * mult)
         currToonExp = toon.getToonExp()
         toon.b_setToonExp(currToonExp + toonExp)
         toon.b_setExperience(toon.experience.makeNetString())
