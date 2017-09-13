@@ -27200,6 +27200,8 @@ WHITELIST = [
     'poe',
     'poem',
     'poems',
+    'poena',
+    'poenas',
     'poetry',
     'poforums',
     'pogchamp',
