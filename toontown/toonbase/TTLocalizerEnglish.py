@@ -2276,7 +2276,7 @@ RewardPanelEndTrack = 'Yay! %(avName)s has reached the end of the %(gagName)s Ga
 RewardPanelPromotionPending = 'Pending promotion...'
 RewardPanelMeritsMaxed = 'Maxed'
 RewardPanelMeritBarLabels = ['Stock Options',
- 'Jury Notices',
+ 'Subpoenas',
  'Cogbucks',
  'Merits',
  'Invoices']
