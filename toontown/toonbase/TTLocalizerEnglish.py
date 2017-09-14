@@ -121,6 +121,7 @@ GlobalStreetNames = {15000: ('to', 'on', 'Tutorial Terrace'),
  9000: ('to the', 'in the', 'Playground'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
+ 9300: ('to', 'on', 'Twilight Terrace'),
  10000: ('to', 'in', 'Bossbot HQ Country Club'),
  10100: ('to the', 'in the', 'Bossbot HQ Lobby'),
  10200: ('to the', 'in the', 'The Clubhouse'),
@@ -2275,7 +2276,7 @@ RewardPanelEndTrack = 'Yay! %(avName)s has reached the end of the %(gagName)s Ga
 RewardPanelPromotionPending = 'Pending promotion...'
 RewardPanelMeritsMaxed = 'Maxed'
 RewardPanelMeritBarLabels = ['Stock Options',
- 'Jury Notices',
+ 'Subpoenas',
  'Cogbucks',
  'Merits',
  'Invoices']
