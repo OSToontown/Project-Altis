@@ -93,7 +93,7 @@ class DistributedNPCRodClerkAI(DistributedNPCToonBaseAI):
                         av.b_setFishingRod(newIndex)
                         movieType = NPCToons.SELL_MOVIE_ROD
                     else:
-                        movieType = NPCToons.SELL_MOVIE_COMPLETE
+                        movieType = NPCToons.SELL_MOVIE_NOROD
                         extraArgs = []
                 except:
                     movieType = NPCToons.SELL_MOVIE_COMPLETE
@@ -111,7 +111,7 @@ class DistributedNPCRodClerkAI(DistributedNPCToonBaseAI):
                         av.b_setMaxFishTank(newTank)
                         movieType = NPCToons.SELL_MOVIE_BUCKET
                     else:
-                        movieType = NPCToons.SELL_MOVIE_COMPLETE
+                        movieType = NPCToons.SELL_MOVIE_NOROD
                 except:
                     movieType = NPCToons.SELL_MOVIE_COMPLETE
                     extraArgs = []

@@ -121,6 +121,10 @@ class DistributedNPCRodClerk(DistributedNPCToonBase):
             chatStr = TTLocalizer.STOREOWNER_GOODBYE
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
             self.resetFisherman()
+        elif mode == NPCToons.SELL_MOVIE_NOROD:
+            chatStr = TTLocalizer.STOREOWNER_NEEDJELLYBEANS
+            self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
+            self.resetFisherman()
         elif mode == NPCToons.SELL_MOVIE_ROD:
             self.av = base.cr.doId2do.get(avId)
             if self.av is None:
