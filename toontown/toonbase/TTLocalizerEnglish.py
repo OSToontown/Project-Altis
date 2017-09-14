@@ -6014,6 +6014,7 @@ STOREOWNER_CANCEL = lCancel
 STOREOWNER_TROPHY = 'Wow! You collected %s of %s fish. That deserves a trophy and a Laff boost!'
 STOREOWNER_BANKING = 'Welcome to The Toontown Bank! How may I help you?'
 STOREOWNER_ROD_BUY = 'Congratulations on your new fishing rod! You can access it from the \'Items\' page of your shtiker book!'
+STOREOWNER_BUCKET_BUY = 'Congratulations on your new fishing bucket! Your bucket has been automatically upgraded.'
 SuitInvasionBegin1 = lToonHQ + ': A Cog invasion has begun!!!'
 SuitInvasionBegin2 = lToonHQ + ': %s have taken over Toontown!!!'
 SuitInvasionEnd1 = lToonHQ + ': The %s invasion has ended!!!'

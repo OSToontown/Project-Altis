@@ -129,6 +129,14 @@ class DistributedNPCRodClerk(DistributedNPCToonBase):
             else:
                 self.setChatAbsolute(TTLocalizer.STOREOWNER_ROD_BUY, CFSpeech | CFTimeout)
             self.resetFisherman()
+        elif mode == NPCToons.SELL_MOVIE_BUCKET:
+            self.av = base.cr.doId2do.get(avId)
+            if self.av is None:
+                self.notify.warning('Avatar %d not found in doId' % avId)
+                return
+            else:
+                self.setChatAbsolute(TTLocalizer.STOREOWNER_BUCKET_BUY, CFSpeech | CFTimeout)
+            self.resetFisherman()
         elif mode == NPCToons.SELL_MOVIE_NOROD:
             chatStr = TTLocalizer.STOREOWNER_NOFISH
             self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)

@@ -109,7 +109,7 @@ class DistributedNPCRodClerkAI(DistributedNPCToonBaseAI):
                     if av.getTotalMoney() >= ToontownGlobals.BucketCosts.get(newTank):
                         av.takeMoney(ToontownGlobals.BucketCosts.get(newTank), bUseBank=True)
                         av.b_setMaxFishTank(newTank)
-                        movieType = NPCToons.SELL_MOVIE_ROD
+                        movieType = NPCToons.SELL_MOVIE_BUCKET
                     else:
                         movieType = NPCToons.SELL_MOVIE_COMPLETE
                 except:

@@ -44,7 +44,8 @@ class RodBuyGUI(DirectFrame):
         if not base.localAvatar.getMaxFishTank() == 100:
             gui = loader.loadModel('phase_4/models/gui/fishingGui')
             bucket = gui.find('**/bucket')
-            self.bucketButton = DirectButton(parent=self, relief=None, geom=DGG.getDefaultDialogGeom(), geom_scale=(0.5, 0.5, 0.75), pos=(0.5, 0, 0), image=bucket, image_pos=(0, 0, 0), text=TTLocalizer.FishingJellybeanItem % ToontownGlobals.BucketCosts.get(base.localAvatar.getMaxFishTank() + 10), text_scale=TTLocalizer.FSGUIokButton, text_pos=(0, -0.3), command=self.promptBuyBucket)
+            bucket.setBin("gui-popup", 50)
+            self.bucketButton = DirectButton(parent=self, relief=None, geom=DGG.getDefaultDialogGeom(), geom_scale=(0.5, 0.5, 0.75), pos=(0.5, 0, 0), image=bucket, image_scale=0.8, image_pos=(-0.9, 0, 1), text=TTLocalizer.FishingJellybeanItem % ToontownGlobals.BucketCosts.get(base.localAvatar.getMaxFishTank() + 10), text_scale=TTLocalizer.FSGUIokButton, text_pos=(0, -0.3), command=self.promptBuyBucket)
         buttons.removeNode()
 
     def destroy(self):
