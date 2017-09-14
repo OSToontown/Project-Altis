@@ -619,6 +619,7 @@ from toontown.toon import DistributedNPCClerk/AI
 from toontown.toon import DistributedNPCTailor/AI
 from toontown.toon import DistributedNPCBlocker/AI
 from toontown.toon import DistributedNPCFisherman/AI
+from toontown.toon import DistributedNPCRodClerk/AI
 from toontown.toon import DistributedNPCPartyPerson/AI
 from toontown.toon import DistributedNPCPetclerk/AI
 from toontown.toon import DistributedNPCKartClerk/AI
@@ -2461,6 +2462,11 @@ dclass DistributedNPCBlocker : DistributedNPCToonBase {
 };
 
 dclass DistributedNPCFisherman : DistributedNPCToonBase {
+  setMovie(uint8, uint32, uint32, uint32[], int16) broadcast ram;
+  completeSale(uint8) airecv clsend;
+};
+
+dclass DistributedNPCRodClerk : DistributedNPCToonBase {
   setMovie(uint8, uint32, uint32, uint32[], int16) broadcast ram;
   completeSale(uint8) airecv clsend;
 };
