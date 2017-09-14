@@ -1096,7 +1096,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         hwid = cookie.split("#")[1]
         backupCookie = cookie.split("#")[0]
         cookie = cookie.split("#")[0]
-        apiKey = "JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN"
+        apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
 
         # Check if Current HWID Is Already Banned, or has a Ban assigned to it
         try:
