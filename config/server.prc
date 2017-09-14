@@ -1,6 +1,6 @@
 # API Settings
 ws-domain www.projectaltis.com
-ws-key JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN
+ws-key x9IS4Pk3AGGOrfhg2UEnVj4zlW4Zrz3D1kDA5hXcLuNXAPyX92Aose6bDNvBi97X
 
 #names webhook info
 ##### nwh-url https://discordapp.com/api/webhooks/...
