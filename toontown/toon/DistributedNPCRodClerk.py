@@ -141,10 +141,6 @@ class DistributedNPCRodClerk(DistributedNPCToonBase):
             else:
                 self.setChatAbsolute(TTLocalizer.STOREOWNER_BUCKET_BUY, CFSpeech | CFTimeout)
             self.resetFisherman()
-        elif mode == NPCToons.SELL_MOVIE_NOROD:
-            chatStr = TTLocalizer.STOREOWNER_NOFISH
-            self.setChatAbsolute(chatStr, CFSpeech | CFTimeout)
-            self.resetFisherman()
         elif mode == NPCToons.SELL_MOVIE_NO_MONEY:
             self.notify.warning('SELL_MOVIE_NO_MONEY should not be called')
             self.resetFisherman()
