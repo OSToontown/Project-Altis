@@ -3192,6 +3192,7 @@ QuestDict = {
  7053: ([], Cont, (RecoverItemQuest, Anywhere, 15, 3011, 70, 's', 'track'), Same, Same, NA, 7056, TTLocalizer.QuestDialogDict[7053], 34100, 520),
  7054: ([], Cont, (RecoverItemQuest, Anywhere, 15, 3011, 70, 'c', 'track'), Same, Same, NA, 7056, TTLocalizer.QuestDialogDict[7054], 34100, 520),
  7055: ([], Cont, (RecoverItemQuest, Anywhere, 15, 3011, 70, 'm', 'track'), Same, Same, NA, 7056, TTLocalizer.QuestDialogDict[7055], 34100, 520),
+ 7056: ([], Cont, (VisitQuest,), Same, 3306, NA, 7057, TTLocalizer.QuestDialogDict[7056], 34100, 520),
  7057: ([], Cont, (RecoverItemQuest, ToontownGlobals.TheBrrrgh, 1, 3012, 10, Any, 'type'), 3306, Same, NA, 7058, TTLocalizer.QuestDialogDict[7057], 34100, 520),
  7058: ([], Cont, (DeliverItemQuest, 3013), Same, 3319, NA, 7059, TTLocalizer.QuestDialogDict[7058], 34100, 520),
  7059: ([], Cont, (BuildingQuest, Anywhere, 5, 'l', 4), 3319, Same, NA, NA, TTLocalizer.QuestDialogDict[7059], 34100, 520)
