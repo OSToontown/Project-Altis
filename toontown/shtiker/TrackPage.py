@@ -7,6 +7,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import Toon
+from toontown.toontowngui import TTDialog
 
 class TrackPage(ShtikerPage.ShtikerPage):
 
@@ -45,7 +46,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
                 button = DirectButton(parent=self.trackRows[track], image=(self.upButton,
                  self.downButton,
                  self.rolloverButton,
-                 self.flatButton), text='', text_scale=0.04, text_align=TextNode.ARight, geom_scale=0.7, geom_pos=(-0.01, -0.1, 0), text_fg=Vec4(1, 1, 1, 1), text_pos=(0.07, -0.04), textMayChange=1, relief=None, image_color=(0, 0.6, 1, 1), image_scale=(1.05, 1, 1), pos=(ButtonXOffset + item * ButtonXSpacing + -0.06825, -0.1, 0), command=self.upgradeMe, extraArgs=[track, item])
+                 self.flatButton), text='', text_scale=0.04, text_align=TextNode.ARight, geom_scale=0.7, geom_pos=(-0.01, -0.1, 0), text_fg=Vec4(1, 1, 1, 1), text_pos=(0.07, -0.04), textMayChange=1, relief=None, image_color=(0, 0.6, 1, 1), image_scale=(1.05, 1, 1), pos=(ButtonXOffset + item * ButtonXSpacing + -0.06825, -0.1, 0), command=self.handleUpgrade, extraArgs=[track, item])
                 button.bind(DGG.WITHIN, self.showInfo, extraArgs = [((track * 5) + item), False])
                 self.buttons[track].append(button)
         self.accept('skillPointChange', self.updatePage)
@@ -135,14 +136,42 @@ class TrackPage(ShtikerPage.ShtikerPage):
                 else:
                     for button in self.buttons[track]:
                         button['state'] = DGG.DISABLED
+						
+    def handleUpgrade(self, track, index):
+        if index <= 1:
+            warning = TTLocalizer.TrackPageAckTakeback % {'track': TTLocalizer.BattleGlobalTracks[track].upper()}
+        else:
+            warning = TTLocalizer.TrackPageAckPrestige % {'track': TTLocalizer.BattleGlobalTracks[track].upper(), 'bonus': TTLocalizer.TrackPageHints[(track * 5) + index]}
+        self.dialog = TTDialog.TTGlobalDialog(
+            style=TTDialog.TwoChoice,
+            text=warning,
+            text_wordwrap=18.5,
+            text_scale=TTLocalizer.APBdialog,
+            okButtonText=TTLocalizer.lOK,
+            cancelButtonText=TTLocalizer.lCancel,
+            doneEvent='IgnoreConfirm',
+            command=self.upgradeMe,
+            extraArgs=[track, index])
+        DirectLabel(
+            parent=self.dialog,
+            relief=None,
+            pos=(0, 0, 0.325),
+            text=TTLocalizer.TrackPageUpgrade,
+            textMayChange=0,
+            text_scale=0.08)
+        self.dialog.show()
 				
-    def upgradeMe(self, track, index):
+    def upgradeMe(self, value, track, index):
+        if value == -1:
+            self.dialog.hide()
+            return
         av = base.localAvatar
         pointArray = av.getSpentTrainingPoints()
         if pointArray[track] == 1 and index == 0:
             av.sendUpdate('requestSkillReturn', [track])
         else:
             av.sendUpdate('requestSkillSpend', [track])
+        self.dialog.hide()
         self.updatePage()
 		
     def downgradeMe(self, track, index):

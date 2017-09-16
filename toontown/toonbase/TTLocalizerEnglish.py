@@ -5138,6 +5138,9 @@ TrackPageHints = ['First of 2 pieces of the gag training reel, get both to unloc
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds an extra round of soak to Squirt gags, as well as giving a -20 defense debuff to the cog, as long as the cog is soaked.', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Increases the chance for Zap gags to cause a shortcircuit by 1.5x (50%).', '???', '???',
  'First of 2 pieces of the gag training reel, get both to unlock the gag track!', 'Last piece of the gag training reel, get both to unlock the gag track!', 'Adds a 20% accuracy bonus to Drop gags.', '???', '???']
+TrackPageUpgrade = 'Training Point Use'
+TrackPageAckTakeback = 'You are about to allocate a training point into the %(track)s gag track, you can take the training point back IF you have only allocated one point into the track. Once the second point is allocated, you can no longer take those points back! Are you sure you want to use your training point?'
+TrackPageAckPrestige = 'You are about to allocate a training point into the %(track)s gag track, it will add the following bonus:\n\n%(bonus)s\n\nThis third training point is not permanent, but it isn\'t cheap to buy back! Are you sure you want to upgrade %(track)s?'
 QuestPageToonTasks = 'ToonTasks'
 QuestPageChoose = 'Choose'
 QuestPageLocked = 'Locked'
@@ -5837,7 +5840,7 @@ GagShopPlayerExited = '%s has exited'
 GagShopPlayerPlayAgain = 'Play Again'
 GagShopPlayerBuying = 'Buying'
 PopupTouchControls = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy Project Altis!'
-PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an BETA build of Project Altis! We are currently doing a stress test over the next 3 days to test our server capabilities. Anything you do in game WILL TRANSFER to open beta! Thanks for participating in this stress test!'
+PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an BETA build of Project Altis! Things that are in game may be subject to change! There is some incomplete content as well, so stay tooned for the updated content! Thanks for participating in Project Altis\' Beta!'
 QuitConfirm = 'Are you sure you want to quit?'
 PlayGame = 'Pick-A-Toon'
 DiscordButton = 'News'
