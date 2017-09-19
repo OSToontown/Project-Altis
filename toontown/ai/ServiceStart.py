@@ -68,7 +68,6 @@ except Exception:
         'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
         'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
         'ACID_SENDER': simbase.air.getAccountIdFromSender(),
-        'HostName': getpass.getuser(),
         'CRITICAL': 'True'
     })
     errorReporter.captureMessage('NOT caused by an avid!!\n' + traceback.format_exc())
