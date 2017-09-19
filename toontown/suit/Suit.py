@@ -624,6 +624,10 @@ class Suit(Avatar.Avatar):
         headModel = loader.loadModel('phase_' + str(phase) + filePrefix + 'heads')
         headReferences = headModel.findAllMatches('**/' + headType)
         for i in xrange(0, headReferences.getNumPaths()):
+            if self.style.body == 'a':
+                headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'to_head')
+            else:
+                headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
             headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
             headPart.setTwoSided(True)
             if self.headTexture:
