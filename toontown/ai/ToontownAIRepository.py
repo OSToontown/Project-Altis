@@ -356,6 +356,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         print invstatus
         domain = str(ConfigVariableString('ws-domain', 'localhost'))
         key = str(ConfigVariableString('ws-key', 'secretkey'))
+        print domain
+        print key
         if invstatus == 'None':
             httpReqkill = httplib.HTTPSConnection(domain)
             httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (key, self.districtName,
@@ -367,7 +369,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             httpReq = httplib.HTTPSConnection(domain)
             httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/%s/%s/%s' % (key, self.districtName,
                                                                            pop, invstatus, total, defeated, timeleft))
-            resp = httpReqkill.getresponse()
+            resp = httpReq.getresponse()
             if resp.status != 200:
                 print 'Invasion api returned response ' + str(resp.status)
         return task.again
