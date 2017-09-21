@@ -245,7 +245,7 @@ class LocalAccountDB(AccountDB):
                 }
             ]}
         headers = {"Content-type": "application/json"}
-        conn = requests.post("https://discordapp.com/api/webhooks/356268247823286272/_tcC-BwcoLBn9VAczrxXiTX7ua5psXroX5qo9zRQttHJHQvg76jOVkhVBk243yrg6CZ5", data=json.dumps(content), headers=headers)
+        conn = requests.post("https://discordapp.com/api/webhooks/360528244350648321/3qErsLnMXJaZd2JWf9QGinQCnIXU0E8lm3JuwDPwsirk_QU9Uk1QiPRhd9Fs_CQnaQej", data=json.dumps(content), headers=headers)
         if conn.status_code != 204:
             print 'Discord webhook returned ' + str(conn.status_code) + ' instead of 204 with message ' + conn.text
 
