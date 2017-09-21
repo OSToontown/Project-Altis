@@ -356,8 +356,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         print invstatus
         domain = str(ConfigVariableString('ws-domain', 'localhost'))
         key = str(ConfigVariableString('ws-key', 'secretkey'))
-        print domain
-        print key
         if invstatus == 'None':
             httpReqkill = httplib.HTTPSConnection(domain)
             httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (key, self.districtName,
