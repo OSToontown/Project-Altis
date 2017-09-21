@@ -260,7 +260,8 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def enterReward(self):
         self.resetBattles()
-        for toon in self.involvedToons:
+        for toonId in self.involvedToons:
+            toon = simbase.air.doId2do.get(toonId)
             if random.random() <= .05:
                 toon.d_setSystemMessage(0, "Congratulations! You have earned a beta key for defeating a C.O.G. boss! Check your certificates page!")
                 code = simbase.air.certManager.generateCode()
