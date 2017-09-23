@@ -123,6 +123,10 @@ class TownBattleToonPanel(DirectFrame):
             self.gag = invButton.instanceUnderNode(self.gagNode, 'gag')
             self.gag.setScale(0.8)
             self.gag.setPos(0, 0, 0.02)
+            if self.avatar.trackBonusLevel[track] >= 1:
+                self.gag.setColor(0.6, 0.6, 1.0, 1)
+            else:
+                self.gag.setColor(1, 1, 1, 1)
             self.hasGag = 1
             if numTargets is not None and targetIndex is not None and localNum is not None:
                 self.whichText.show()
@@ -155,7 +159,7 @@ class TownBattleToonPanel(DirectFrame):
         targetList = range(numTargets)
         targetList.reverse()
         try:
-            if self.avatar.trackBonusLevel[track] == 1:
+            if self.avatar.trackBonusLevel[track] >= 1:
                 marker = 'O'
             else:
                 marker = 'X'

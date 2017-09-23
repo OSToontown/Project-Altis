@@ -121,6 +121,7 @@ GlobalStreetNames = {15000: ('to', 'on', 'Tutorial Terrace'),
  9000: ('to the', 'in the', 'Playground'),
  9100: ('to', 'on', 'Lullaby Lane'),
  9200: ('to', 'on', 'Pajama Place'),
+ 9300: ('to', 'on', 'Twilight Terrace'),
  10000: ('to', 'in', 'Bossbot HQ Country Club'),
  10100: ('to the', 'in the', 'Bossbot HQ Lobby'),
  10200: ('to the', 'in the', 'The Clubhouse'),
@@ -2407,7 +2408,7 @@ RewardPanelEndTrack = 'Yay! %(avName)s has reached the end of the %(gagName)s Ga
 RewardPanelPromotionPending = 'Pending promotion...'
 RewardPanelMeritsMaxed = 'Maxed'
 RewardPanelMeritBarLabels = ['Stock Options',
- 'Jury Notices',
+ 'Subpoenas',
  'Cogbucks',
  'Merits',
  'Invoices']
@@ -6144,6 +6145,8 @@ STOREOWNER_OK = lOK
 STOREOWNER_CANCEL = lCancel
 STOREOWNER_TROPHY = 'Wow! You collected %s of %s fish. That deserves a trophy and a Laff boost!'
 STOREOWNER_BANKING = 'Welcome to The Toontown Bank! How may I help you?'
+STOREOWNER_ROD_BUY = 'Congratulations on your new fishing rod! You can access it from the \'Items\' page of your shtiker book!'
+STOREOWNER_BUCKET_BUY = 'Congratulations on your new fishing bucket! Your bucket has been automatically upgraded.'
 SuitInvasionBegin1 = lToonHQ + ': A Cog invasion has begun!!!'
 SuitInvasionBegin2 = lToonHQ + ': %s have taken over Toontown!!!'
 SuitInvasionEnd1 = lToonHQ + ': The %s invasion has ended!!!'
@@ -9180,6 +9183,10 @@ DistributedBankNotOwner = 'Sorry, this is not your bank.'
 FishGuiCancel = lCancel
 FishGuiOk = 'Sell All'
 FishTankValue = 'Hi, %(name)s! You have %(num)s fish in your bucket worth a total of %(value)s Jellybeans. Do you want to sell them all?'
+FishItemBuyPageTitle = 'Would you like to upgrade your fishing rod or your bucket today?'
+FishRodBuy = 'Would you like to buy the %(type)s rod for %(beans)s jellybeans?'
+FishBucketBuy = 'Would you like to upgrade your fishing bucket capacity by 10 for %s jellybeans?'
+FishPurchase = 'Purchase'
 FlowerGuiCancel = lCancel
 FlowerGuiOk = 'Sell All'
 FlowerBasketValue = '%(name)s, you have %(num)s flowers in your basket worth a total of %(value)s Jellybeans. Do you want to sell them all?'

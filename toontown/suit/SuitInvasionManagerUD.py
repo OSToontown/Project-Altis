@@ -58,18 +58,9 @@ class SuitInvasionManagerUD(DirectObject):
 
         # Choose the invasion type:
         invasion = INVASION_TYPE_NORMAL 
-        if random.random() <= 0.05:
-            invasion = INVASION_TYPE_MEGA
         
         # Decide whether or not the invasion will have flags:
         flags = 0
-        flagChance = random.random()
-        if flagChance <= 0.1:
-            flags = IFV2
-        elif flagChance <= 0.03:
-            flags = IFWaiter
-        elif flagChance <= 0.02:
-            flags = IFSkelecog
 
         dept = random.randrange(0, len(suitDepts)-1)
         suit = random.randrange(-1, suitsPerDept)

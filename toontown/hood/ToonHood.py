@@ -212,7 +212,7 @@ class ToonHood(Hood):
     def startSky(self):
         if not self.sky.getTag('sky') == 'Regular':
             self.endSpookySky()
-        #SkyUtil.startCloudSky(self)
+        SkyUtil.startCloudSky(self)
 
     def startSpookySky(self):
         if hasattr(self, 'sky') and self.sky:

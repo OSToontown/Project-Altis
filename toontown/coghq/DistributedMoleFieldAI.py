@@ -82,6 +82,11 @@ class DistributedMoleFieldAI(DistributedEntityAI.DistributedEntityAI, MoleFieldB
         self.removeTask(self.moleFieldEndTimeTaskName)
         roomId = self.getLevelDoId()
         room = simbase.air.doId2do.get(roomId)
+        if self.roundsFailed == 0 and not pityWin:
+            for avId in room.presentAvIds:
+                av = simbase.air.doId2do.get(avId)
+                if av:
+                    av.toonUp(20)
         if room:
             self.challengeDefeated = True
             room.challengeDefeated()

@@ -7,6 +7,8 @@ import time
 import random
 import urllib2
 import httplib
+import requests
+from datetime import datetime
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
@@ -170,13 +172,14 @@ class LocalAccountDB(AccountDB):
 
     def addNameRequest(self, avId, name):
         # add type a name
-        self.notify.debug("adding name from %s : %s" %(avId, name))
+        self.notify.debug("name for avid %s requested: `%s`" %(avId, name))
         try:
             domain = str(ConfigVariableString('ws-domain', 'localhost'))
             key = str(ConfigVariableString('ws-key', 'secretkey'))
             nameCheck = httplib.HTTPSConnection(domain)
             nameCheck.request('GET', '/api/addtypeaname2/%s/%s/%s' % (key, avId, name))
             resp = json.loads(nameCheck.getresponse().read())
+            self.sendWebhook(avId, name)
         except:
             self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
         return 'Success'
@@ -209,6 +212,43 @@ class LocalAccountDB(AccountDB):
             state = "ERROR"
         self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
         return state
+
+    @staticmethod
+    def sendWebhook(avid, requestedname):
+        title = str(ConfigVariableString('nwh-title'))
+        displayname = str(ConfigVariableString('nwh-displayname'))
+        avatarurl = str(ConfigVariableString('nws-avatarurl'))
+        urllink = str(ConfigVariableString('nwh-urllink'))
+        content = {
+            "username": displayname,
+            "avatar_url": avatarurl,
+            "embeds": [
+                {
+                    "title": title,
+                    "url": urllink,
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "color": 3447003,
+                    "provider": {
+                        "name": "Project Altis",
+                        "url": "https://projectaltis.com"
+                    },
+                    "fields": [
+                        {
+                            "name": "Avid",
+                            "value": str(avid)
+                        },
+                        {
+                            "name": "Requested Name",
+                            "value": requestedname
+                        }
+                    ]
+                }
+            ]}
+        headers = {"Content-type": "application/json"}
+        conn = requests.post("https://discordapp.com/api/webhooks/360528244350648321/3qErsLnMXJaZd2JWf9QGinQCnIXU0E8lm3JuwDPwsirk_QU9Uk1QiPRhd9Fs_CQnaQej", data=json.dumps(content), headers=headers)
+        if conn.status_code != 204:
+            print 'Discord webhook returned ' + str(conn.status_code) + ' instead of 204 with message ' + conn.text
+
 
 # --- FSMs ---
 class OperationFSM(FSM):
@@ -1056,7 +1096,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         hwid = cookie.split("#")[1]
         backupCookie = cookie.split("#")[0]
         cookie = cookie.split("#")[0]
-        apiKey = "JBPAWDT3JM6CTMLUH3476RBVVGDPN2XHHSA45KVMMF69K94RAVQBMPQLKTS5WDDN"
+        apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
 
         # Check if Current HWID Is Already Banned, or has a Ban assigned to it
         try:
