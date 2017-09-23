@@ -509,11 +509,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         emptyString = emptyInv.makeNetString()
         lengthMatch = len(inventoryNetString) - len(emptyString)
         if lengthMatch != 0:
-            if len(inventoryNetString) == 42:
-                oldTracks = 7
+            if len(inventoryNetString) == 48:
+                oldTracks = 8
                 oldLevels = 6
-            elif len(inventoryNetString) == 49:
-                oldTracks = 7
+            elif len(inventoryNetString) == 56:
+                oldTracks = 8
                 oldLevels = 7
             else:
                 oldTracks = 0
