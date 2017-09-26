@@ -530,14 +530,20 @@ class NewPickAToonOptions(DirectObject):
         self.optionsBox.setScale(render2d, Vec3(1))
         
     def __doHelpInteractKey(self):
-        self.interactKey_help = OptionHelp.OptionHelp(parent = self.interactKey_helpButton, helpText = 'Enabling this option will require a key to be pressed before interacting with an NPC.', moviePath = 'phase_3/movies/ttpa_help_npc_interaction.mp4')
-        self.interactKey_help.setScale(20)
-        self.interactKey_help.setPos(1.5, 0, 0)
+        try:
+            self.interactKey_help = OptionHelp.OptionHelp(parent = self.interactKey_helpButton, helpText = 'Enabling this option will require a key to be pressed before interacting with an NPC.', moviePath = 'phase_3/movies/ttpa_help_npc_interaction.mp4')
+            self.interactKey_help.setScale(20)
+            self.interactKey_help.setPos(1.5, 0, 0)
+        except:
+            pass
     
     def __doHelpDoorKey(self):
-        self.doorKey_help = OptionHelp.OptionHelp(parent = self.doorKey_helpButton, helpText = 'Enabling this option will require a key to be pressed before using a door.', moviePath = 'phase_3/movies/ttpa_help_door_interaction.mp4')
-        self.doorKey_help.setScale(20)
-        self.doorKey_help.setPos(1.5, 0, 0)
+        try:
+            self.doorKey_help = OptionHelp.OptionHelp(parent = self.doorKey_helpButton, helpText = 'Enabling this option will require a key to be pressed before using a door.', moviePath = 'phase_3/movies/ttpa_help_door_interaction.mp4')
+            self.doorKey_help.setScale(20)
+            self.doorKey_help.setPos(1.5, 0, 0)
+        except:
+            pass
         
     def showInteractKeyHelp(self, event):
         self.interactKey_help.show()

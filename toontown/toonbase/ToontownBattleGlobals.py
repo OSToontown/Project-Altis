@@ -54,7 +54,7 @@ Levels = [[0, 20, 200, 800, 2000, 6000, 10000], # Toon-Up
  [0, 20, 100, 500, 2000, 6000, 10000],   # Zap
  [0, 20, 100, 500, 2000, 6000, 10000]]  # Drop
 regMaxSkill = 10000
-UberSkill = 500
+UberSkill = 1000
 MaxSkill = UberSkill + regMaxSkill
 UnpaidMaxSkills = [Levels[0][1] - 1,
  Levels[1][1] - 1,
