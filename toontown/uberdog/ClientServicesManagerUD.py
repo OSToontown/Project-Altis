@@ -111,9 +111,12 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
             return
+			
+        from urllib2 import urlopen
+        ip = urlopen('http://ip.42.pl/raw').read()
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
-        sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
+        sanityChecks.request('GET', '/api/sanitycheck/%s/%s' % (cookie, ip))
 
         try:
             XYZ = sanityChecks.getresponse().read()
