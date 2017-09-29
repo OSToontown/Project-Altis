@@ -56,11 +56,12 @@ class ClientServicesManager(DistributedObjectGlobal):
         key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
+        ip = '0.0.0.0'
         import uuid
         cookie = cookie + ("#%s" % uuid.getnode())
         del uuid
 
-        self.sendUpdate('login', [cookie, digest_maker.hexdigest()])
+        self.sendUpdate('login', [cookie, ip, digest_maker.hexdigest()])
 
     def acceptLogin(self, timestamp):
         messenger.send(self.doneEvent, [{'mode': 'success', 'timestamp': timestamp}])

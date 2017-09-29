@@ -106,14 +106,11 @@ class AccountDB:
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-    def lookup(self, cookie, callback):
+    def lookup(self, cookie, ip, callback):
         if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
             callback({'success': False,
                       'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
             return
-			
-        from urllib2 import urlopen
-        ip = urlopen('http://ip.42.pl/raw').read()
 
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
         sanityChecks.request('GET', '/api/sanitycheck/%s/%s' % (cookie, ip))
@@ -281,12 +278,13 @@ class LoginAccountFSM(OperationFSM):
     notify = directNotify.newCategory('LoginAccountFSM')
     TARGET_CONNECTION = True
 
-    def enterStart(self, token):
+    def enterStart(self, token, ip):
         self.token = token
+        self.ip = ip
         self.demand('QueryAccountDB')
 
     def enterQueryAccountDB(self):
-        self.csm.accountDB.lookup(self.token, self.__handleLookup)
+        self.csm.accountDB.lookup(self.token, self.ip, self.__handleLookup)
 
     def __handleLookup(self, result):
         if not result.get('success'):
@@ -1094,7 +1092,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.account2fsm[sender] = fsmtype(self, sender)
         self.account2fsm[sender].request('Start', *args)
 
-    def login(self, cookie, authKey):
+    def login(self, cookie, ip, authKey):
         sender = self.air.getMsgSender()
         hwid = cookie.split("#")[1]
         backupCookie = cookie.split("#")[0]
@@ -1160,7 +1158,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             return
 
         self.connection2fsm[sender] = LoginAccountFSM(self, sender)
-        self.connection2fsm[sender].request('Start', cookie)
+        self.connection2fsm[sender].request('Start', cookie, ip)
 
     def requestAvatars(self):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))
