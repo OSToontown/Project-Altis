@@ -111,9 +111,9 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
             return
-
+        apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
-        sanityChecks.request('GET', '/api/sanitycheck/%s/%s' % (cookie, ip))
+        sanityChecks.request('GET', '/api/sanitycheck/%s/%s/%s' % (apiKey, cookie, ip))
 
         try:
             XYZ = sanityChecks.getresponse().read()
@@ -1121,13 +1121,14 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
         # Grab real token not one time fake token
         getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
-        getRealToken.request('GET', '/api/validatetoken?t=%s' % (cookie))
+        getRealToken.request('GET', '/api/validatetoken?key=%s&t=%s' % (apiKey, cookie))
         try:
             getRealTokenResp = json.loads(getRealToken.getresponse().read())
             cookie = getRealTokenResp['additional']
         except:
             self.notify.debug("Fatal Error during Playtoken Resolve")
             self.killConnection(sender, "Fatal Error during Playtoken Resolve")
+            return
 
         # Update the given token's HWID, as it's not banned
         try:
