@@ -3836,7 +3836,7 @@ struct PotentialToon {
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
-  login(string cookie, char auth [0-256]) clsend;
+  login(string cookie, string ip, char auth [0-256]) clsend;
   acceptLogin(uint32 timestamp);
 
   requestAvatars() clsend;
@@ -4033,6 +4033,9 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 
 dclass DistributedRainManager : DistributedWeatherMGR {
   spawnLightning(int16, int16) broadcast ram;
+};
+
+dclass IwNEFKfzGHouaaXAaaXoWxDViVmgEJMMweGSXTWBJuKtkALzesSKMgRZEIgWcIMqXlIaEMsYBpYdUWlKbfpHXyYHipiUSVEBGwzG : DistributedObject {
 };
 
 """
