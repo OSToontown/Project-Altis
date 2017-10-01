@@ -24,7 +24,9 @@ class ClientServicesManager(DistributedObjectGlobal):
 
         conn = httplib.HTTPConnection('www.projectaltis.com')
         conn.request("POST", "/api/login", params, headers)
-
+        conn2 = httplib.HTTPConnection('ip.42.pl')
+        conn2.request("GET", "/raw")
+        ip = conn2.getresponse().read()
         try:
             response = json.loads(str(conn.getresponse().read()))
             conn.close()
@@ -56,11 +58,9 @@ class ClientServicesManager(DistributedObjectGlobal):
         key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
-        ip = '0.0.0.0'
         import uuid
         cookie = cookie + ("#%s" % uuid.getnode())
         del uuid
-
         self.sendUpdate('login', [cookie, ip, digest_maker.hexdigest()])
 
     def acceptLogin(self, timestamp):

@@ -91,7 +91,7 @@ class AccountDB:
     def removeNameRequest(self, avId):
         return 'Success'
 
-    def lookup(self, username, callback):
+    def lookup(self, username, ip, callback):
         pass  # Inheritors should override this.
 
     def storeAccountID(self, userId, accountId, callback):
@@ -111,6 +111,7 @@ class LocalAccountDB(AccountDB):
             callback({'success': False,
                       'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
             return
+
         apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
         sanityChecks.request('GET', '/api/sanitycheck/%s/%s/%s' % (apiKey, cookie, ip))
@@ -119,6 +120,10 @@ class LocalAccountDB(AccountDB):
             XYZ = sanityChecks.getresponse().read()
             print(str(XYZ))
             response = json.loads(XYZ)
+            if response["error"] == 'true':
+                callback({'success': False,
+                          'reason': 'There was an unknown error when processing your login.'})
+                return False
         except:
             print("KILL ME")
             callback({'success': False,
@@ -158,7 +163,7 @@ class LocalAccountDB(AccountDB):
                     'accessLevel': int(response['powerlevel'])
                 }
             except:
-                # We have an account already, let's return what we've got:
+                # We have an account already, but power level isn't an int. Let's give them 150
                 response = {
                     'success': True,
                     'userId': cookie,
