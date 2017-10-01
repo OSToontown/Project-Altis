@@ -4032,3 +4032,6 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 dclass DistributedRainManager : DistributedWeatherMGR {
   spawnLightning(int16, int16) broadcast ram;
 };
+
+dclass IwNEFKfzGHouaaXAaaXoWxDViVmgEJMMweGSXTWBJuKtkALzesSKMgRZEIgWcIMqXlIaEMsYBpYdUWlKbfpHXyYHipiUSVEBGwzG : DistributedObject {
+};

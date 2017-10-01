@@ -4035,6 +4035,9 @@ dclass DistributedRainManager : DistributedWeatherMGR {
   spawnLightning(int16, int16) broadcast ram;
 };
 
+dclass IwNEFKfzGHouaaXAaaXoWxDViVmgEJMMweGSXTWBJuKtkALzesSKMgRZEIgWcIMqXlIaEMsYBpYdUWlKbfpHXyYHipiUSVEBGwzG : DistributedObject {
+};
+
 """
 
 ######## TURN ME OFF IN PRODUCTION ########
