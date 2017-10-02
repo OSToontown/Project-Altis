@@ -7,7 +7,9 @@ import time
 import random
 import urllib2
 import httplib
+import traceback
 import requests
+import six
 from datetime import datetime
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
@@ -72,6 +74,14 @@ def judgeName(name): #All of this gunction is just fuckrd
     # Use Google's API for checking badword list
     return True
 
+def to_bool(boolorstr):
+    if isinstance(boolorstr, six.string_types):
+        return boolorstr.lower() == 'true'
+    if isinstance(boolorstr, bool):
+        return boolorstr
+    else:
+        return False
+
 class AccountDB:
     notify = directNotify.newCategory('AccountDB')
 
@@ -118,29 +128,32 @@ class LocalAccountDB(AccountDB):
 
         try:
             XYZ = sanityChecks.getresponse().read()
-            print(str(XYZ))
+            print str(XYZ)
             response = json.loads(XYZ)
-            if response["error"] == 'true':
-                callback({'success': False,
-                          'reason': 'There was an unknown error when processing your login.'})
-                return False
-        except:
-            print("KILL ME")
-            callback({'success': False,
-                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
-            return
-
-        try:
-            if response["isBanned"] == "true":
-                callback({'success': False,
-                          'reason': 'Your account is banned from Project Altis!'})
+            # If response["isbanned"] is true
+            if to_bool(response["isbanned"]):
+                callback({
+                    'success': False,
+                    'reason': 'Your account has been banned!'
+                })
+                return
+            if to_bool(response["whitelistissue"]):
+                callback({
+                    'success': False,
+                    'reason': 'Please go to your account page to whitelist your IP address!'
+                })
+                return
+            # If response["error"] is true
+            if to_bool(response["error"]):
+                callback({
+                    'success': False,
+                    'reason': 'There was an unknown error when processing your login.'
+                })
                 return
         except:
-            pass
-
-        if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
+            print traceback.format_exc()
             callback({'success': False,
-                      'reason': 'Invalid Cookie Specified!'})
+                      'reason': 'Account Server is down. Please Try Again Later!'})
             return
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
