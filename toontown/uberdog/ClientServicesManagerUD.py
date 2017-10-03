@@ -7,7 +7,9 @@ import time
 import random
 import urllib2
 import httplib
+import traceback
 import requests
+import six
 from datetime import datetime
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
@@ -72,6 +74,14 @@ def judgeName(name): #All of this gunction is just fuckrd
     # Use Google's API for checking badword list
     return True
 
+def to_bool(boolorstr):
+    if isinstance(boolorstr, six.string_types):
+        return boolorstr.lower() == 'true'
+    if isinstance(boolorstr, bool):
+        return boolorstr
+    else:
+        return False
+
 class AccountDB:
     notify = directNotify.newCategory('AccountDB')
 
@@ -91,7 +101,7 @@ class AccountDB:
     def removeNameRequest(self, avId):
         return 'Success'
 
-    def lookup(self, username, callback):
+    def lookup(self, username, ip, callback):
         pass  # Inheritors should override this.
 
     def storeAccountID(self, userId, accountId, callback):
@@ -106,36 +116,44 @@ class AccountDB:
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
-    def lookup(self, cookie, callback):
+    def lookup(self, cookie, ip, callback):
         if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
             callback({'success': False,
                       'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
             return
 
+        apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
         sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
-        sanityChecks.request('GET', '/api/sanitycheck/%s' % (cookie))
+        sanityChecks.request('GET', '/api/sanitycheck/%s/%s/%s' % (apiKey, cookie, ip))
 
         try:
             XYZ = sanityChecks.getresponse().read()
-            print(str(XYZ))
+            print str(XYZ)
             response = json.loads(XYZ)
-        except:
-            print("KILL ME")
-            callback({'success': False,
-                      'reason': 'Account Server Overloaded. Please Try Again Later!'})
-            return
-
-        try:
-            if response["isBanned"] == "true":
-                callback({'success': False,
-                          'reason': 'Your account is banned from Project Altis!'})
+            # If response["isbanned"] is true
+            if to_bool(response["isbanned"]):
+                callback({
+                    'success': False,
+                    'reason': 'Your account has been banned!'
+                })
+                return
+            if to_bool(response["whitelistissue"]):
+                callback({
+                    'success': False,
+                    'reason': 'Please go to your account page to whitelist your IP address!'
+                })
+                return
+            # If response["error"] is true
+            if to_bool(response["error"]):
+                callback({
+                    'success': False,
+                    'reason': 'There was an unknown error when processing your login.'
+                })
                 return
         except:
-            pass
-
-        if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
+            print traceback.format_exc()
             callback({'success': False,
-                      'reason': 'Invalid Cookie Specified!'})
+                      'reason': 'Account Server is down. Please Try Again Later!'})
             return
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
@@ -158,7 +176,7 @@ class LocalAccountDB(AccountDB):
                     'accessLevel': int(response['powerlevel'])
                 }
             except:
-                # We have an account already, let's return what we've got:
+                # We have an account already, but power level isn't an int. Let's give them 150
                 response = {
                     'success': True,
                     'userId': cookie,
@@ -278,12 +296,13 @@ class LoginAccountFSM(OperationFSM):
     notify = directNotify.newCategory('LoginAccountFSM')
     TARGET_CONNECTION = True
 
-    def enterStart(self, token):
+    def enterStart(self, token, ip):
         self.token = token
+        self.ip = ip
         self.demand('QueryAccountDB')
 
     def enterQueryAccountDB(self):
-        self.csm.accountDB.lookup(self.token, self.__handleLookup)
+        self.csm.accountDB.lookup(self.token, self.ip, self.__handleLookup)
 
     def __handleLookup(self, result):
         if not result.get('success'):
@@ -1091,7 +1110,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.account2fsm[sender] = fsmtype(self, sender)
         self.account2fsm[sender].request('Start', *args)
 
-    def login(self, cookie, authKey):
+    def login(self, cookie, ip, authKey):
         sender = self.air.getMsgSender()
         hwid = cookie.split("#")[1]
         backupCookie = cookie.split("#")[0]
@@ -1120,13 +1139,14 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
         # Grab real token not one time fake token
         getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
-        getRealToken.request('GET', '/api/validatetoken?t=%s' % (cookie))
+        getRealToken.request('GET', '/api/validatetoken?key=%s&t=%s' % (apiKey, cookie))
         try:
             getRealTokenResp = json.loads(getRealToken.getresponse().read())
             cookie = getRealTokenResp['additional']
         except:
             self.notify.debug("Fatal Error during Playtoken Resolve")
             self.killConnection(sender, "Fatal Error during Playtoken Resolve")
+            return
 
         # Update the given token's HWID, as it's not banned
         try:
@@ -1157,7 +1177,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             return
 
         self.connection2fsm[sender] = LoginAccountFSM(self, sender)
-        self.connection2fsm[sender].request('Start', cookie)
+        self.connection2fsm[sender].request('Start', cookie, ip)
 
     def requestAvatars(self):
         self.notify.debug('Received avatar list request from %d' % (self.air.getMsgSender()))

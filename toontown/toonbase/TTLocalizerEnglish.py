@@ -5903,7 +5903,7 @@ MintBossConfrontedMsg = '%s is battling the Supervisor!'
 StageBossConfrontedMsg = '%s is battling the Clerk!'
 BoardOfficeBossConfrontedMsg = '%s is battling the Executive Board Member!'
 stageToonEnterElevator = '%s \nhas entered the elevator'
-ForcedLeaveStageAckMsg = 'The Law was defeated before you could reach him. You did not recover any Jury Notices.'
+ForcedLeaveStageAckMsg = 'The Clerk was defeated before you could reach him. You did not recover any Subpoenas.'
 MinigameWaitingForOtherPlayers = 'Waiting for other players to join...'
 MinigamePleaseWait = 'Please wait...'
 DefaultMinigameTitle = 'Minigame Title'
@@ -9541,13 +9541,13 @@ TipDict = {TIP_NONE: ('',),
              'You can jump on Cog Goons to temporarily disable them.',
              'Collect Cog Merits by defeating Sellbot Cogs in battle.',
              'Collect Cogbucks by defeating Cashbot Cogs in battle.',
-             'Collect Jury Notices by defeating Lawbot Cogs in battle.',
+             'Collect Subpoenas by defeating Lawbot Cogs in battle.',
              'Collect Stock Options by defeating Bossbot Cogs in battle.',
              'Collect ??? by defeating ??? in battle.',
-             'You get more Merits, Cogbucks, Jury Notices, Stock Options, or Gears from higher level Cogs.',
+             'You get more Merits, Cogbucks, Subpoenas, Stock Options, or Gears from higher level Cogs.',
              'When you collect enough Cog Merits to earn a promotion, go see the Sellbot V.P.!',
              'When you collect enough Cogbucks to earn a promotion, go see the Cashbot C.F.O.!',
-             'When you collect enough Jury Notices to earn a promotion, go see the Lawbot Chief Justice!',
+             'When you collect enough Subpoenas to earn a promotion, go see the Lawbot Chief Justice!',
              'When you collect enough Stock Options to earn a promotion, go see the Bossbot C.E.O.!',
              'When you collect enough ??? to earn a promotion, go see the ???!',
              'You can talk like a Cog when you are wearing your Cog Disguise.',
@@ -9573,7 +9573,7 @@ TipDict = {TIP_NONE: ('',),
              'You must defeat the "This is above your paygrade, toon." to recover a ???.',
              'Cashbots manufacture and distribute their currency, Cogbucks, in three Mints - Coin, Dollar and Bullion.',
              'Wait until the C.F.O. is dizzy to throw a safe, or he will use it as a helmet! Hit the helmet with another safe to knock it off.',
-             "It pays to be puzzled: the virtual Cogs in Lawbot HQ won't reward you with Jury Notices."),
+             "It pays to be puzzled: the virtual Cogs in Lawbot HQ won't reward you with Subpoenas."),
  TIP_ESTATE: ('Doodles can understand some SpeedChat phrases. Try them!',
               'Use the "Pet" SpeedChat menu to ask your Doodle to do tricks.',
               "You can teach Doodles tricks with training lessons from Clarabelle's Cattlelog.",
