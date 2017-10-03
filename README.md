@@ -8,6 +8,17 @@
 
 Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Online.
 
+# Merging
+
+All merges should go through a three-step process:
+
+1. PR goes up by creator when the changes are ready
+2. PR is reviewed by another person
+3. PR is reviewed and merged by a third person
+
+For emergency/security merges, only steps 1/2 are required if time is an issue.
+
+
 ## Contributors
 
 ### Management Team 

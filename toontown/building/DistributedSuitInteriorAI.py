@@ -451,6 +451,6 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         pass
 		
     def giveJbReward(self, toon):
-        floor2jbAmount = [50, 100, 200, 300, 400, 500]
+        floor2jbAmount = [20, 40, 60, 80, 100, 150]
         toon.addMoney(floor2jbAmount[self.topFloor])
         toon.d_setSystemMessage(0, TTLocalizer.ShopkeeperThanks % floor2jbAmount[self.topFloor])

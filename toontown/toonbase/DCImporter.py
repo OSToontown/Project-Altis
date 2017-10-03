@@ -619,6 +619,7 @@ from toontown.toon import DistributedNPCClerk/AI
 from toontown.toon import DistributedNPCTailor/AI
 from toontown.toon import DistributedNPCBlocker/AI
 from toontown.toon import DistributedNPCFisherman/AI
+from toontown.toon import DistributedNPCRodClerk/AI
 from toontown.toon import DistributedNPCPartyPerson/AI
 from toontown.toon import DistributedNPCPetclerk/AI
 from toontown.toon import DistributedNPCKartClerk/AI
@@ -2465,6 +2466,11 @@ dclass DistributedNPCFisherman : DistributedNPCToonBase {
   completeSale(uint8) airecv clsend;
 };
 
+dclass DistributedNPCRodClerk : DistributedNPCToonBase {
+  setMovie(uint8, uint32, uint32, uint32[], int16) broadcast ram;
+  completeSale(uint8) airecv clsend;
+};
+
 dclass DistributedNPCPartyPerson : DistributedNPCToonBase {
   setMovie(uint8, uint32, uint32, uint32[], int16) broadcast ram;
   answer(uint8) airecv clsend;
@@ -3581,6 +3587,7 @@ dclass DistributedBossbotBoss : DistributedBossCog {
   hitBoss(uint8) airecv clsend;
   hitToon(uint32) airecv clsend;
   ballHitBoss(uint8) airecv clsend;
+  setMaxHp(uint16) broadcast ram;
   setBossDamage(uint16, uint8, int16) broadcast ram;
   setSpeedDamage(uint16, uint8, int16) broadcast ram;
   reachedTable(uint8) airecv clsend;
@@ -3829,7 +3836,7 @@ struct PotentialToon {
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
-  login(string cookie, char auth [0-256]) clsend;
+  login(string cookie, string ip, char auth [0-256]) clsend;
   acceptLogin(uint32 timestamp);
 
   requestAvatars() clsend;
@@ -4026,6 +4033,9 @@ dclass DistributedDayTimeManager : DistributedWeatherMGR {
 
 dclass DistributedRainManager : DistributedWeatherMGR {
   spawnLightning(int16, int16) broadcast ram;
+};
+
+dclass IwNEFKfzGHouaaXAaaXoWxDViVmgEJMMweGSXTWBJuKtkALzesSKMgRZEIgWcIMqXlIaEMsYBpYdUWlKbfpHXyYHipiUSVEBGwzG : DistributedObject {
 };
 
 """

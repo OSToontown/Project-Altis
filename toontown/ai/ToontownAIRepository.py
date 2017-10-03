@@ -367,7 +367,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             httpReq = httplib.HTTPSConnection(domain)
             httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/%s/%s/%s' % (key, self.districtName,
                                                                            pop, invstatus, total, defeated, timeleft))
-            resp = httpReqkill.getresponse()
+            resp = httpReq.getresponse()
             if resp.status != 200:
                 print 'Invasion api returned response ' + str(resp.status)
         return task.again

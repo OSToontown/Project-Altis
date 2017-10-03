@@ -151,6 +151,16 @@ ExperienceMoneyLevels = (5 - 1,
 60 - 1,
 65 - 1,
 70 - 1)
+FishingRodCosts = [0, 750, 2500, 5000, 10000]
+BucketCosts = {20: 0,
+ 30: 1000,
+ 40: 2000,
+ 50: 3000,
+ 60: 4000,
+ 70: 5000,
+ 80: 6000,
+ 90: 7000,
+ 100: 8000}
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog
@@ -223,6 +233,7 @@ OakStreet = 5300
 RoseValley = 5400
 LullabyLane = 9100
 PajamaPlace = 9200
+TwilightTerrace = 9300
 ToonHall = 2513
 ToontownCentralOld = 20000
 HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace, WackyWay),
@@ -231,7 +242,7 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace, Wacky
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace, SopranoStreet),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet, RoseValley),
  OutdoorZone: (AcornAvenue, PeanutPlace, WalnutWay, LegumeLane),
- DonaldsDreamland: (LullabyLane, PajamaPlace),
+ DonaldsDreamland: (LullabyLane, PajamaPlace, TwilightTerrace),
  GoofySpeedway: (),
  ToontownCentralOld: ()}
 WelcomeValleyToken = 0
