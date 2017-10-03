@@ -127,6 +127,10 @@ class TownBattleCogPanel(DirectFrame):
         if settings.get('show-cog-levels', True):
             if self.cog:
                 self.updateHealthBar()
+            if hasattr(self.cog, 'isElite'):
+                self['image_color'] = Vec4(0.4, 0.4, 0.4, 0.8)
+            else:
+                self['image_color'] = Vec4(0.7, 0.7, 0.7, 0.8)
             self.hidden = False
             self.healthNode.show()
             self.button.show()
