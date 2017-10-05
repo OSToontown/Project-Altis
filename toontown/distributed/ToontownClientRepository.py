@@ -342,6 +342,22 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 self.loginFSM.request('chooseAvatar', [avList])
         else:
             self.notify.error('Invalid doneStatus from MakeAToon: ' + str(done))
+			
+    def enterConnect(self, serverList = []):
+        self.checkHttp()
+        dist = config.GetString('distribution', 'dev')
+        if config.GetBool('server-force-ssl', False):
+            try:
+                serverpem = open('astron/ssl/altis_cert.pem', 'r').read()
+            except:
+                serverpem = None
+
+            if serverpem is not None:
+                for server in serverList:
+                    self.http.addPreapprovedServerCertificatePem(server, serverpem)
+
+        self.http.setVerifySsl(HTTPClient.VSNoDateCheck)
+        OTPClientRepository.OTPClientRepository.enterConnect(self, serverList)
 
     def exitCreateAvatar(self):
         self.ignore('makeAToonComplete')
