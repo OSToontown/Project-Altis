@@ -585,25 +585,10 @@ class ToonBase(OTPBase.OTPBase):
         serverList = []
         for name in gameServer.split(';'):
             url = URLSpec(name, 1)
-            if base.config.GetBool('server-force-ssl', False):
-                url.setScheme('s')
+            url.setScheme('https')
             if not url.hasPort():
                 url.setPort(serverPort)
             serverList.append(url)
-
-        if len(serverList) == 1:
-            failover = base.config.GetString('server-failover', '')
-            serverURL = serverList[0]
-            for arg in failover.split():
-                try:
-                    port = int(arg)
-                    url = URLSpec(serverURL)
-                    url.setPort(port)
-                except:
-                    url = URLSpec(arg, 1)
-
-                if url != serverURL:
-                    serverList.append(url)
 
         cr.loginFSM.request('connect', [serverList])
         self.ttAccess = ToontownAccess.ToontownAccess()
