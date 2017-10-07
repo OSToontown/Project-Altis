@@ -1053,7 +1053,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.nameGenerator = NameGenerator()
 
         # Temporary HMAC key:
-        self.key = 'ed7dfd72f2a4e146e1421cda26737abf6435gfs4'
+        self.key = 'oa1qt8fwc0r750gkse3fgt6k3scyhzptudk422u5'
 
         self.blacklistedHWIDs = []
 
