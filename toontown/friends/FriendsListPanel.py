@@ -549,7 +549,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
                     
         if self.panelType == FLPLOCAL:
             for objId, obj in base.cr.doId2do.items():
-                if isinstance(obj, DistributedToon.DistributedToon):
+                if obj.dclass == base.cr.dclassesByName['DistributedToon']:
                     localToons.append((objId, 0))
 
         if self.panelType == FLPEnemies:
