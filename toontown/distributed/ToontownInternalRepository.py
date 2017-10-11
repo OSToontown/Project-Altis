@@ -2,6 +2,7 @@ from direct.distributed.AstronInternalRepository import AstronInternalRepository
 from otp.distributed.OtpDoGlobals import *
 from toontown.distributed.ToontownNetMessengerAI import ToontownNetMessengerAI
 from direct.distributed.PyDatagram import PyDatagram
+import direct.distributed.MsgTypes
 import traceback
 import sys
 
@@ -40,6 +41,17 @@ class ToontownInternalRepository(AstronInternalRepository):
 
         if msgType == self.__messenger.msgType:
             self.__messenger.handle(msgType, di)
+            return
+
+        if msgType == CLIENTAGENT_GET_NETWORK_ADDRESS_RESP:
+            context = di.getUint32()
+            remoteIp = di.getString()
+            port = di.getUint16()
+            localIp = di.getString()
+            localPort = di.getUint16()
+            if self.csm:
+                self.csm.completeLogin(context, remoteIp)
+
             return
 
         AstronInternalRepository.handleDatagram(self, di)
