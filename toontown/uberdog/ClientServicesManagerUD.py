@@ -1066,6 +1066,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # of race conditions.
         self.connection2fsm = {}
         self.account2fsm = {}
+        self.pendingLogins = {}
 
         # Instantiate our account DB interface:
         self.accountDB = LocalAccountDB(self)
@@ -1110,12 +1111,31 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.account2fsm[sender] = fsmtype(self, sender)
         self.account2fsm[sender].request('Start', *args)
 
-    def login(self, cookie, ip, authKey):
+    def login(self, cookie, authKey):
         sender = self.air.getMsgSender()
         hwid = cookie.split("#")[1]
         backupCookie = cookie.split("#")[0]
         cookie = cookie.split("#")[0]
+        self.pendingLogins[sender] = (sender, hwid, backupCookie, cookie, authKey)
+
+        # CLIENTAGENT_GET_NETWORK_ADDRESS is defined in OtpDoGlobals for backwards compatibility with old versions of Panda3D
+        datagram = PyDatagram()
+        datagram.addServerHeader(sender, self.air.ourChannel, OtpDoGlobals.CLIENTAGENT_GET_NETWORK_ADDRESS)
+        datagram.addUint32(sender)
+        self.air.send(datagram)
+
+    def completeLogin(self, context, ip):
+        login = self.pendingLogins.get(context)
+        if not login:
+            return
+
+        sender = login[0]
+        hwid = login[1]
+        backupCookie = login[2]
+        cookie = login[3]
+        authKey = login[4]
         apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
+        del self.pendingLogins[context]
 
         # Check if Current HWID Is Already Banned, or has a Ban assigned to it
         try:
