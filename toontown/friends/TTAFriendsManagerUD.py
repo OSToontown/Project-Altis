@@ -40,6 +40,7 @@ class FriendsListOperation(OperationFSM):
     def handleRetrieveSender(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
             self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.demand('Error', 'Friend was not a Toon')
             return
 
         self.demand('Retrieved', fields['setFriendsList'][0])
@@ -59,6 +60,7 @@ class FriendsListOperation(OperationFSM):
 
     def addFriend(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
+            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
             self.demand('Error', 'Friend was not a Toon')
             return
 
@@ -157,7 +159,8 @@ class FriendDetailsOperation(OperationFSM):
 
     def handleFriend(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.demand('Error', 'Distributed Class was not a Toon.')
+            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.demand('Error', 'Distributed Class was not a Toon in FriendDetailsOperation.')
             return
 
         name = fields['setName'][0]
@@ -176,6 +179,7 @@ class ClearListOperation(OperationFSM):
     def handleRetrieved(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
             self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.demand('Error', 'Distributed Class was not a Toon in ClearListOperation.')
             return
 
         self.demand('Retrieved', fields['setFriendsList'][0])
@@ -184,8 +188,8 @@ class ClearListOperation(OperationFSM):
         for friend in friendsList:
             newOperation = RemoveFriendOperation(self.mgr, self.air, friend[0],
                                                  targetAvId=self.sender, alert=True)
-            self.mgr.operations.append(newOperation)
             newOperation.demand('Start')
+
         self.demand('Off')
 
 
@@ -198,7 +202,6 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
         self.onlineToons = []
         self.tpRequests = {}
         self.whisperRequests = {}
-        self.operations = []
         self.secret2avId = {}
         self.delayTime = 1.0
 
@@ -213,7 +216,6 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
         avId = self.air.getAvatarIdFromSender()
 
         newOperation = FriendsListOperation(self, self.air, avId, callback=self.sendFriendsList)
-        self.operations.append(newOperation)
         newOperation.demand('Start')
 
     def sendFriendsList(self, sender, friendsList):
@@ -227,7 +229,6 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
         # Sender remove Friend
         newOperation = RemoveFriendOperation(self, self.air, avId, friendId)
-        self.operations.append(newOperation)
         newOperation.demand('Start')
 
         # Friend remove Sender
@@ -238,7 +239,6 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
     def requestAvatarInfo(self, friendIdList):
         avId = self.air.getAvatarIdFromSender()
-
         newOperation = FriendDetailsOperation(self, self.air, avId,
                                               friendIds=friendIdList)
         newOperation.demand('Start')
@@ -299,9 +299,10 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
                                                                        fields.get("setSafeZone", [0])[0],
                                                                        traits, moods, dna,
                                                                        fields.get("setLastSeenTimestamp", [0])[0]])
-                    self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
                 except:
                     self.bootClient("An error occured while processing a pet query. Please contact a developer.", senderId)
+
+        self.air.dbInterface.queryObject(self.air.dbId, petId, handlePet)
 
     def toonOnline(self, doId, friendsList):
         self.onlineToons.append(doId)
@@ -323,7 +324,6 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
     def goingOffline(self, avId):
         self.toonOffline(avId)
 
-
     def toonOffline(self, doId):
         if doId not in self.onlineToons:
             return
@@ -344,9 +344,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
     def clearList(self, doId):
         newOperation = ClearListOperation(self, self.air, doId)
-        self.operations.append(newOperation)
         newOperation.demand('Start')
-
 
     def routeTeleportQuery(self, toId):
         fromId = self.air.getAvatarIdFromSender()
