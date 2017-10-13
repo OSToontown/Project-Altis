@@ -277,7 +277,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
             def handlePet(dclass, fields):
                 if dclass != self.air.dclassesByName['DistributedPetAI']:
-                    self.bootClient("You were disconnected for an invalid pet request. Please contact a developer.", senderId)
+                    return
                 try:
 
                     dna = [fields.get(x, [0])[0] for x in
