@@ -39,7 +39,7 @@ class FriendsListOperation(OperationFSM):
 
     def handleRetrieveSender(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.mgr.bootClient("(1) You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
             self.demand('Error', 'Friend was not a Toon')
             return
 
@@ -60,7 +60,7 @@ class FriendsListOperation(OperationFSM):
 
     def addFriend(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.mgr.bootClient("(2) You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
             self.demand('Error', 'Friend was not a Toon')
             return
 
@@ -89,7 +89,7 @@ class RemoveFriendOperation(OperationFSM):
 
     def handleRetrieve(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.mgr.bootClient("(3) You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
             self.demand('Error', 'Distributed Class was not a Toon in RemoveFriendOperation')
             return
         try:
@@ -139,7 +139,7 @@ class FriendDetailsOperation(OperationFSM):
 
     def handleRetrieve(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.mgr.bootClient("(4) You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
             self.demand('Error', 'Distributed Class was not a Toon in FriendDetailsOperation')
             return
 
@@ -159,7 +159,7 @@ class FriendDetailsOperation(OperationFSM):
 
     def handleFriend(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.mgr.bootClient("(5) You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
             self.demand('Error', 'Distributed Class was not a Toon in FriendDetailsOperation.')
             return
 
@@ -178,7 +178,7 @@ class ClearListOperation(OperationFSM):
 
     def handleRetrieved(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonUD']:
-            self.mgr.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
+            self.mgr.bootClient("(6) You were disconnected for an invalid friend request. Please contact a developer.", self.sender)
             self.demand('Error', 'Distributed Class was not a Toon in ClearListOperation.')
             return
 
@@ -249,7 +249,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
-                self.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", senderId)
+                self.bootClient("(7) You were disconnected for an invalid friend request. Please contact a developer.", senderId)
                 return
 
             inventory = fields['setInventory'][0]
@@ -277,7 +277,7 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
             def handlePet(dclass, fields):
                 if dclass != self.air.dclassesByName['DistributedPetAI']:
-                    self.bootClient("You were disconnected for an invalid friend request. Please contact a developer.", senderId)
+                    self.bootClient("You were disconnected for an invalid pet request. Please contact a developer.", senderId)
                 try:
 
                     dna = [fields.get(x, [0])[0] for x in

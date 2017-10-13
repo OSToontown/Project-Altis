@@ -559,7 +559,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         if self.panelType == FLPAll or self.panelType == FLPOnline:
             if base.localAvatar.hasPet():
                 self.notify.info("Inserting our pet friend %d" % base.localAvatar.getPetId())
-                petFriends.insert(0, (base.localAvatar.getPetId(), 0))
+                # petFriends.insert(0, (base.localAvatar.getPetId(), 0))
 
         for friendPair in self.friends.keys():
             friendButton = self.friends[friendPair]
