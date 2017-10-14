@@ -42,13 +42,13 @@ class FriendManagerAI(DistributedObjectAI):
         if not av:
             return
 
-        self.air.banManager.ban(avId, "Heh heh, we all know you don't have any friends.")
+        self.air.banManager.ban(avId, "An error occured while processing your request.")
         datagram = PyDatagram()
         datagram.addServerHeader(
             av.GetPuppetConnectionChannel(av.doId),
             self.air.ourChannel, CLIENTAGENT_EJECT)
         datagram.addUint16(155)
-        datagram.addString("Heh heh, we all know you don't have any friends.")
+        datagram.addString("An error occured while processing your request.")
         self.air.send(datagram)
         
     def useTrueFriendCode(self, code):

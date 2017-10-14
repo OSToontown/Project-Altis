@@ -55,6 +55,9 @@ class FriendsListOperation(OperationFSM):
         self.friendIndex = 0
         self.realFriendsList = []
 
+        if self.friendsList[0][0] < MONGODB_MINIMUM:
+            return
+
         self.air.dbInterface.queryObject(self.air.dbId, self.friendsList[0][0],
                                          self.addFriend)
 
@@ -74,6 +77,10 @@ class FriendsListOperation(OperationFSM):
             return
 
         self.friendIndex += 1
+
+        if self.friendsList[self.friendIndex][0] < MONGODB_MINIMUM:
+            return
+
         self.air.dbInterface.queryObject(self.air.dbId,
                                          self.friendsList[self.friendIndex][0], self.addFriend)
 
@@ -151,6 +158,9 @@ class FriendDetailsOperation(OperationFSM):
             for friend in friendsList:
                 if friend[0] == id:
                     self.currId = id
+                    if id < MONGODB_MINIMUM:
+                        continue
+
                     self.air.dbInterface.queryObject(self.air.dbId, id,
                                                      self.handleFriend)
                     break
@@ -246,6 +256,8 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
 
     def getAvatarDetails(self, avId):
         senderId = self.air.getAvatarIdFromSender()
+        if avId < MONGODB_MINIMUM:
+            return
 
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
@@ -274,6 +286,8 @@ class TTAFriendsManagerUD(DistributedObjectGlobalUD):
     def getPetDetails(self, petId):
         if simbase.config.GetBool('want-pets', True):
             senderId = self.air.getAvatarIdFromSender()
+            if petId < MONGODB_MINIMUM:
+                return
 
             def handlePet(dclass, fields):
                 if dclass != self.air.dclassesByName['DistributedPetAI']:
