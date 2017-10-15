@@ -7,6 +7,15 @@ from direct.distributed.MsgTypes import *
 from time import gmtime, strftime
 import json
 import httplib
+import six
+
+def to_bool(boolorstr):
+    if isinstance(boolorstr, six.string_types):
+        return boolorstr.lower() == 'true'
+    if isinstance(boolorstr, bool):
+        return boolorstr
+    else:
+        return False
 
 class ChatAgentAI(DistributedObjectGlobalAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentAI")
@@ -25,6 +34,8 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         self.accept('sendSystemMessage', self.sendSystemMessage)
         self.accept('chatBan', self.banAvatar)
         self.accountId = 0
+        self.domain = str(ConfigVariableString('ws-domain', 'localhost'))
+        self.key = str(ConfigVariableString('ws-key', 'secretkey'))
 
     def chatMessage(self, message, fakeChatMode):
         sender = self.air.getAvatarIdFromSender()
@@ -61,11 +72,15 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         av.b_setTalk(sender, self.chatMode2channel.get(chatMode, sender), av.getName(), message, modifications, 
             CFSpeech | CFQuicktalker | CFTimeout)
         self.air.dbInterface.queryObject(self.air.dbId, av.DISLid, self.dbCallback)
-        getRealUsername = httplib.HTTPSConnection('www.projectaltis.com')
-        getRealUsername.request('GET', '/api/fetch/username/%s' % (self.accountId))
+        getRealUsername = httplib.HTTPSConnection(self.domain)
+        getRealUsername.request('GET', '/api/tokentousername/%s/%s' % (self.key, self.accountId))
         try:
-            getRealUsernameResp = json.loads(getRealUsername.getresponse().read())
-            username = getRealUsernameResp['data']            
+            f = getRealUsername.getresponse().read()
+            getRealUsernameResp = json.loads(f)
+            if to_bool(getRealUsernameResp["error"]):
+                username = "ERROR " + getRealUsernameResp["message"]
+            else:
+                username = getRealUsernameResp['username']
         except:
             self.notify.debug("Fatal Error During Logging!")
             username = 'ERRORED'
