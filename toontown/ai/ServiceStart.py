@@ -52,7 +52,7 @@ simbase.air.connect(host, port)
 
 try:
     run()
-except SystemExit:
+except (SystemExit, KeyboardInterrupt):
     raise
 except Exception:
     info = PythonUtil.describeException()
@@ -61,14 +61,15 @@ except Exception:
     if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
         raise
     from raven import Client
-    import getpass
+    from os.path import expanduser
     import traceback
     errorReporter = Client('https://bd12b482b0d04047b97a99be5d8a59f8:cadf8d958a194867b89fd77b61fdad45@sentry.io/189240')
     errorReporter.tags_context({
         'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
         'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
         'ACID_SENDER': simbase.air.getAccountIdFromSender(),
+        'homedir': expanduser('~'),
         'CRITICAL': 'True'
     })
-    errorReporter.captureMessage('NOT caused by an avid!!\n' + traceback.format_exc())
+    errorReporter.captureException()
     raise

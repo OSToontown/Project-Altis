@@ -56,19 +56,20 @@ simbase.air.connect(host, port)
 
 try:
     run()
-except SystemExit:
+except (SystemExit, KeyboardInterrupt):
     raise
 except Exception:
     info = PythonUtil.describeException()
     simbase.air.writeServerEvent('uberdog-exception', simbase.air.getAvatarIdFromSender(), simbase.air.getAccountIdFromSender(), info)
     from raven import Client
-    import getpass
+    from os.path import expanduser
     import traceback
     errorReporter = Client('https://45206ecaaba840498741f18ed05e1b8b:39f55ef5dba047abb57cad0aa3a23d47@sentry.io/189241')
     errorReporter.user_context({
         'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
         'ACID_SENDER': simbase.air.getAccountIdFromSender(),
-        'HostName': getpass.getuser()
+        'homedir': expanduser('~'),
+        'critical': 'True'
     })
     errorReporter.captureMessage(traceback.format_exc())
     raise

@@ -59,7 +59,7 @@ class ToontownInternalRepository(AstronInternalRepository):
     def readerPollOnce(self):
         try:
             return AstronInternalRepository.readerPollOnce(self)
-        except SystemExit, KeyboardInterrupt:
+        except (SystemExit, KeyboardInterrupt):
             raise
         except Exception as e:
             if self.getAvatarIdFromSender() > 100000000: # If an avatar is sending, boot them
@@ -76,15 +76,16 @@ class ToontownInternalRepository(AstronInternalRepository):
             if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
                 return 1
             from raven import Client
-            import getpass
+            from os.path import expanduser
             errorReporter = Client(
                 'https://bd12b482b0d04047b97a99be5d8a59f8:cadf8d958a194867b89fd77b61fdad45@sentry.io/189240')
             errorReporter.tags_context({
                 'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
                 'AVID_SENDER': self.getAvatarIdFromSender(),
                 'ACID_SENDER': self.getAccountIdFromSender(),
+                'homedir': expanduser('~'),
                 'CRITICAL': 'False'
             })
-            errorReporter.captureMessage(traceback.format_exc())
+            errorReporter.captureException()
             
         return 1
