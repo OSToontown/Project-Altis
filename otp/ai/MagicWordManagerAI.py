@@ -80,7 +80,10 @@ class MagicWordManagerAI(DistributedObjectAI):
             'TargetAccess': target.getAdminAccess(),
             'response': response
         })
-        self.client.captureMessage('~' + word)
+        if invokerId != targetId:
+            self.client.captureMessage('~~' + word)
+        else:
+            self.client.captureMessage('~' + word)
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def help(wordName=None):
