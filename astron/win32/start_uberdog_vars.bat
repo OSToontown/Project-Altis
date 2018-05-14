@@ -3,7 +3,7 @@ cd ../../
 title Uberdog
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
-set PPYTHON_PATH="C:\Panda3D-Develop\python\ppython.exe"
+set /P PPYTHON_PATH=<PPYTHON_PATH
 
 rem Define some constants for our UberDOG server:
 set MAX_CHANNELS=999999

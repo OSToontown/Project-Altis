@@ -1,0 +1,867 @@
+group "daisysGarden" [
+ visgroup "6000:safe_zone" [
+  vis [   "6000:safe_zone"   ]
+  group "props" [
+   prop "outdoor_zone_DNARoot" [
+    code [ "outdoor_zone" ]
+    pos [ -59.9998 -20 17 ]
+    nhpr [ -0 0 -0 ]
+    scale [ 0.887285 0.887285 0.887285 ]
+   ]
+   prop "neighborhood_sign_DD_DNARoot" [
+    code [ "neighborhood_sign_DD" ]
+    pos [ 174.498 61.3934 10 ]
+    nhpr [ -30 0 0 ]
+   ]
+   prop "neighborhood_sign_DD_DNARoot" [
+    code [ "neighborhood_sign_DD" ]
+    pos [ 195.151 49.8155 9 ]
+    nhpr [ 150 0 0 ]
+   ]
+   prop "neighborhood_sign_DG_DNARoot" [
+    code [ "neighborhood_sign_DG" ]
+    pos [ -212.155 -54.1491 8.5 ]
+    nhpr [ 75 0 0 ]
+   ]
+   prop "neighborhood_sign_DG_DNARoot" [
+    code [ "neighborhood_sign_DG" ]
+    pos [ -204.471 -30.2209 8.75 ]
+    nhpr [ -105 0 0 ]
+   ]
+   prop "neighborhood_sign_TT_DNARoot" [
+    code [ "neighborhood_sign_TT" ]
+    pos [ -38.9537 175.784 9.45466 ]
+    nhpr [ 10 0 0 ]
+   ]
+   prop "neighborhood_sign_TT_DNARoot" [
+    code [ "neighborhood_sign_TT" ]
+    pos [ -13.0635 179.616 9.45466 ]
+    nhpr [ -171 0 0 ]
+   ]
+  ]
+  node "buildings" [
+   prop "linktunnel_gz_17000_DNARoot" [
+    code [ "prop_chip_dale_enterance" ]
+    pos [ -75.136 -200.34 9.185 ]
+    nhpr [ 165 0 0 ]
+   ]
+   prop "linktunnel_oz_6301_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [ 168.49 -111.437 9.1 ]
+    nhpr [ -120 0 0 ]
+    scale [ 1.4559 1.4559 1.4559 ]
+    sign [
+     code [ "DD_sign2" ]
+     nhpr [ 0 0 -3 ]
+     scale [ 1.85 1 1.35 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.4646 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "W" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "l" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "u" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "W" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "y" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+     ]
+    ]
+   ]
+   landmark_building "tb3:toon_landmark_DD_clothes_shop_DNARoot" [
+    code [ "toon_landmark_DD_clothes_shop" ]
+    building_type [ "clotheshop" ]
+    title [ "" ]
+    pos [ 83.5471 175.149 8.7693 ]
+    nhpr [ -30 0 0 ]
+    door [
+     code [ "door_double_round_ur" ]
+     color [ 1 1 1 1 ]
+    ]
+    sign [
+     baseline [
+      code [ "mickey" ]
+      color [ 1 0.34902 0.34902 1 ]
+      pos [ 0 0 -0.5 ]
+      scale [ 1.5 1 1.5 ]
+      text [
+       letters [ "C" ]
+      ]
+      text [
+       letters [ "l" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+      text [
+       letters [ "h" ]
+      ]
+      text [
+       letters [ "i" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "g" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "h" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "p" ]
+      ]
+     ]
+    ]
+   ]
+   landmark_building "tb5:toon_landmark_DD_gag_shop_DNARoot" [
+    code [ "toon_landmark_DD_gag_shop" ]
+    building_type [ "gagshop" ]
+    title [ "" ]
+    pos [ 187.569 -5.89434 8.72186 ]
+    nhpr [ 90 0 0 ]
+    door [
+     code [ "door_double_curved_ur" ]
+     color [ 1 1 1 1 ]
+    ]
+   ]
+   landmark_building "tb8:toon_landmark_hqTT_DNARoot" [
+    code [ "toon_landmark_hqTT" ]
+    building_type [ "hq" ]
+    title [ "" ]
+    pos [ -27.8017 -8.4913 16.0862 ]
+    nhpr [ 265 0 -0 ]
+   ]
+   landmark_building "tb6:toon_landmark_DD_pet_shop_DNARoot" [
+    code [ "toon_landmark_DD_pet_shop" ]
+    building_type [ "petshop" ]
+    title [ "" ]
+    pos [ 138.273 -177.577 8.44999 ]
+    nhpr [ -135 0 0 ]
+    door [
+     code [ "door_double_round_ur" ]
+     color [ 1 1 1 1 ]
+    ]
+    sign [
+     baseline [
+      code [ "mickey" ]
+      color [ 0.980392 0.886275 0.372549 1 ]
+      pos [ 0 0 0.169949 ]
+      scale [ 1.63225 1 2.18888 ]
+      kern [ 0.272801 ]
+      width [ 22.9899 ]
+      height [ 22.9899 ]
+      text [
+       letters [ "P" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "h" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "p" ]
+      ]
+     ]
+    ]
+   ]
+   prop "prop_trolley_station_DNARoot" [
+    code [ "prop_trolley_station" ]
+    pos [ 226.819 50.0375 9.73323 ]
+    nhpr [ -120 0 0 ]
+   ]
+   prop "linktunnel_oz_6201_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [ 188.95 64.2262 10 ]
+    nhpr [ -30 0 0 ]
+    scale [ 1.3 1.3 1.3 ]
+    sign [
+     code [ "DD_sign2" ]
+     nhpr [ 0 0 -3 ]
+     scale [ 1.85 1 1.35 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.4646 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "P" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "u" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "P" ]
+      ]
+      text [
+       letters [ "l" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+     ]
+    ]
+   ]
+   prop "linktunnel_oz_6101_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [ -217.748 -39.6312 9.00004 ]
+    nhpr [ 75 0 0 ]
+    scale [ 1.3 1.3 1.3 ]
+    sign [
+     code [ "DD_sign2" ]
+     nhpr [ 0 0 -3 ]
+     scale [ 1.85 1 1.35 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.4646 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "v" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "u" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+     ]
+    ]
+   ]
+   prop "linktunnel_oz_6401_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [ -27.2903 186.899 9.04267 ]
+    nhpr [ 9 -0 0 ]
+    scale [ 1.3 1.3 1.3 ]
+    sign [
+     code [ "DD_sign2" ]
+     nhpr [ 0 0 -3 ]
+     scale [ 1.85 1 1.35 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.4646 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "g" ]
+      ]
+      text [
+       letters [ "u" ]
+      ]
+      text [
+       letters [ "m" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ]
+ prop "prop_blockade_DNARoot" [
+  code [ "prop_blockade" ]
+  pos [ -67.8387 -143.259 0.0650934 ]
+  nhpr [ -180 0 0 ]
+ ]
+ prop "prop_blockade_DNARoot" [
+  code [ "prop_blockade" ]
+  pos [ -67.8387 -143.259 0.0650934 ]
+  nhpr [ -180 0 0 ]
+ ]
+ prop "prop_blockade_DNARoot" [
+  code [ "prop_blockade" ]
+  pos [ -67.8388 -143.259 0.0650935 ]
+  nhpr [ 0 0 0 ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 211.819 24.0568 9.73323 ]
+  nhpr [ -135 0 0 ]
+  width [ 20 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 0.59 1 ]
+   windows [
+    code [ "window_sm_shuttered_ul" ]
+    color [ 0.73 0.63 0.37 1 ]
+    count [ 2 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 197.677 9.91469 9.73323 ]
+  nhpr [ -90 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_2" ]
+   color [ 1 0.87 0.88 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.88 0.03 0.05 1 ]
+    count [ 1 ]
+   ]
+   flat_door [
+    code [ "door_garage_ur" ]
+    color [ 1 1 1 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 197.677 -5.08532 9.73323 ]
+  nhpr [ -60 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 0.59 1 ]
+   windows [
+    code [ "window_sm_round_ul" ]
+    color [ 1 0.5 0.38 1 ]
+    count [ 2 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 234.155 -47.0535 9.73323 ]
+  nhpr [ 30 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 0.59 1 ]
+   windows [
+    code [ "window_sm_shuttered_ul" ]
+    color [ 0.73 0.63 0.37 1 ]
+    count [ 2 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 234.319 63.028 9.73323 ]
+  nhpr [ -120 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 1 1 ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 234.911 80.3593 9.73323 ]
+  nhpr [ -75 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 0.59 1 ]
+   flat_door [
+    code [ "door_single_round_ur" ]
+    color [ 0.75 0.79 0.55 1 ]
+   ]
+  ]
+ ]
+ prop "neighborhood_sign_bossBotHQ_DNARoot" [
+  code [ "neighborhood_sign_bossBotHQ" ]
+  pos [ 164.815 -93.4929 9.00001 ]
+  nhpr [ -120 0 0 ]
+ ]
+ prop "neighborhood_sign_bossBotHQ_DNARoot" [
+  code [ "neighborhood_sign_bossBotHQ" ]
+  pos [ 150.148 -118.5 9 ]
+  nhpr [ 60 0 0 ]
+ ]
+ node "fishing_pond_1" [
+  prop "npc_fisherman_origin_0" [
+   code [ "DCS" ]
+   pos [ -88 -63.8 6.03 ]
+   nhpr [ 60 0 0 ]
+  ]
+  prop "fishing_spot_DNARoot" [
+   code [ "fishing_spot" ]
+   pos [ -120.742 -48.3756 6.4 ]
+   nhpr [ 120 0 0 ]
+  ]
+  prop "fishing_spot_DNARoot" [
+   code [ "fishing_spot" ]
+   pos [ -108.242 -70.0263 6.4 ]
+   nhpr [ 120 0 -0 ]
+  ]
+  prop "fishing_spot_DNARoot" [
+   code [ "fishing_spot" ]
+   pos [ -117.242 -54.4379 6.4 ]
+   nhpr [ 120 0 -0 ]
+  ]
+  prop "fishing_spot_DNARoot" [
+   code [ "fishing_spot" ]
+   pos [ -111.742 -63.9643 6.4 ]
+   nhpr [ 120 0 -0 ]
+  ]
+  prop "fishing_spot_DNARoot" [
+   code [ "fishing_spot" ]
+   pos [ -124.242 -42.3135 6.4 ]
+   nhpr [ 120 0 -0 ]
+  ]
+  prop "fishing_spot_DNARoot" [
+   code [ "fishing_spot" ]
+   pos [ -104.742 -76.0885 6.4 ]
+   nhpr [ 120 0 -0 ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -93.1604 -190.334 9.185 ]
+  nhpr [ 180 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 1 1 ]
+   windows [
+    code [ "window_sm_shuttered_ur" ]
+    color [ 1 0.87 0.87 1 ]
+    count [ 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -121.151 -197.834 9.185 ]
+  nhpr [ -120 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 0.59 1 ]
+   windows [
+    code [ "window_sm_round_ul" ]
+    color [ 1 0.5 0.38 1 ]
+    count [ 2 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -128.651 -210.824 9.185 ]
+  nhpr [ -90 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 0.59 1 ]
+   windows [
+    code [ "window_sm_round_ul" ]
+    color [ 1 0.5 0.38 1 ]
+    count [ 2 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -30.5582 -214.036 9.185 ]
+  nhpr [ 120 0 0 ]
+  width [ 10 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_2" ]
+   color [ 1 1 1 1 ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -35.5582 -205.376 9.185 ]
+  nhpr [ 150 0 0 ]
+  width [ 20 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 1 1 ]
+   windows [
+    code [ "window_sm_shuttered_ur" ]
+    color [ 1 0.87 0.87 1 ]
+    count [ 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -108.16 -190.334 9.185 ]
+  nhpr [ -150 0 0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 0.65 0.82 0.94 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.88 0.03 0.05 1 ]
+    count [ 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -27.97 -223.696 9.185 ]
+  nhpr [ 105 0 0 ]
+  width [ 10 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 1 0.59 1 ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -35.47 -236.686 9.185 ]
+  nhpr [ 60 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_2" ]
+   color [ 1 1 1 1 ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ -42.97 -249.677 9.185 ]
+  nhpr [ 60 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_2" ]
+   color [ 1 0.87 0.88 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.88 0.03 0.05 1 ]
+    count [ 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 205.177 -18.0757 9.73323 ]
+  nhpr [ -75 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 0.65 0.82 0.94 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.88 0.03 0.05 1 ]
+    count [ 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 209.059 -32.5646 9.73323 ]
+  nhpr [ -45 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_1" ]
+   color [ 1 0.87 0.88 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.88 0.03 0.05 1 ]
+    count [ 1 ]
+   ]
+  ]
+ ]
+ flat_building "tb0:random_DNARoot" [
+  pos [ 219.666 -43.1711 9.73323 ]
+  nhpr [ -15 0 -0 ]
+  width [ 15 ]
+  wall [
+   height [ 20 ]
+   code [ "wall_oz_2" ]
+   color [ 1 0.87 0.88 1 ]
+   windows [
+    code [ "window_sm_pointed_ur" ]
+    color [ 0.88 0.03 0.05 1 ]
+    count [ 1 ]
+   ]
+  ]
+ ]
+]

@@ -1,0 +1,7 @@
+node "CogGolfHub" [
+ prop "CogGolfHub_DNARoot" [
+  code [ "CogGolfHub" ]
+  pos [ 0 0 0 ]
+  nhpr [ 0 0 0 ]
+ ]
+]

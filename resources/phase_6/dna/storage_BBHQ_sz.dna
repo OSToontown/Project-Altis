@@ -1,0 +1,4 @@
+// Parties
+place_model "phase_12/models/bossbotHQCogGolfHub" [
+ 	store_node [ "prop" "CogGolfHub" ]
+	]
