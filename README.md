@@ -2,6 +2,10 @@
 <a href="http://www.themostamazingwebsiteontheinternet.com/"><img src="https://imgur.com/Pn1zK66.png" alt="logo"></a>
 </p>
 
+<p align="center"> 
+<a href="http://www.themostamazingwebsiteontheinternet.com/"><img src="https://cdn.discordapp.com/attachments/399095311299117058/399110434793193473/MGRacerBestDeve.png" alt="logo2"></a>
+</p>
+
 # BEST SERVER
 
 original code
