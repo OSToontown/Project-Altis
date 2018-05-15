@@ -64,7 +64,6 @@ from toontown.events.CharityScreenAI import CharityScreenAI
 
 import atexit
 
-
 class ToontownAIRepository(ToontownInternalRepository):
 
     def __init__(self, baseChannel, stateServerChannel, districtName, startTime=6):
@@ -350,26 +349,9 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.invLastPop = pop
         self.invLastStatus = invstatus
+		
+		print invstatus
 
-        if self.districtName == "Test Canvas":
-            return
-        print invstatus
-        domain = str(ConfigVariableString('ws-domain', 'localhost'))
-        key = str(ConfigVariableString('ws-key', 'secretkey'))
-        if invstatus == 'None':
-            httpReqkill = httplib.HTTPSConnection(domain)
-            httpReqkill.request('GET', '/api/addinvasion/%s/%s/%s/0/%s/0/0' % (key, self.districtName,
-                                                                               pop, invstatus))
-            resp = httpReqkill.getresponse()
-            if resp.status != 200:
-                print 'Invaison api returned response ' + str(resp.status)
-        else:
-            httpReq = httplib.HTTPSConnection(domain)
-            httpReq.request('GET', '/api/addinvasion/%s/%s/%s/1/%s/%s/%s/%s' % (key, self.districtName,
-                                                                           pop, invstatus, total, defeated, timeleft))
-            resp = httpReq.getresponse()
-            if resp.status != 200:
-                print 'Invasion api returned response ' + str(resp.status)
         return task.again
 
     def statusToType(self, tupleInvasionStatus):

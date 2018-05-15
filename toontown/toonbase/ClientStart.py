@@ -21,13 +21,13 @@ from panda3d.core import loadPrcFile
 # config = aes.decrypt(config, key, iv)
 
 config = """# Window settings:
-window-title Project Altis [BETA 1.2.0]
+window-title DubitTown [BETA]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
 show-frame-rate-meter #f
 
-# Altis Engine 3.0
+# DubitTown Engine 3.0
 want-vive #f
 want-android #f
 want-headless #f
@@ -242,7 +242,7 @@ del config
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.settings.Settings import Settings
 
-notify = directNotify.newCategory('AltisClient')
+notify = directNotify.newCategory('DubitTownClient')
 notify.setInfo(True)
 
 preferencesFilename = ConfigVariableString(
@@ -316,7 +316,7 @@ from toontown.pgui import DirectGuiGlobals as PGUIGlobals
 DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 PGUIGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
-notify.info('Loading AltisBase...')
+notify.info('Loading DubitTownBase...')
 from toontown.toonbase import ToonBase
 ToonBase.ToonBase()
 from panda3d.core import *
@@ -445,11 +445,4 @@ if autoRun:
     except:
         from toontown.toonbase import ToonPythonUtil as PythonUtil
         print PythonUtil.describeException()
-        import traceback
-        from toontown.toonbase import ErrorHandler
-        ErrorHandler = ErrorHandler.ErrorHandler()
-        ErrorHandler.addtags({
-            'VERSION': serverVersion
-        })
-        ErrorHandler.reporterror(traceback.format_exc())
         raise

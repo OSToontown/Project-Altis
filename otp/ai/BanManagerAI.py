@@ -22,14 +22,6 @@ class BanFSM(FSM):
         self.avName = None
 
     def performBan(self):
-        domain = str(ConfigVariableString('ws-domain', 'localhost'))
-        key = str(ConfigVariableString('ws-key', 'secretkey'))
-        httpReq = httplib.HTTPConnection(domain)
-        httpReq.request('GET', '/api/ban/%s/%s' % (key, self.accountId))
-        httpReq.getresponse().read()
-        banHwidReq = httplib.HTTPConnection(domain)
-        banHwidReq.request('GET', '/api/hwid/ban/%s/%s/RandomDancing' % (key, self.accountId))
-        banHwidReq.getresponse().read()
         self.ejectPlayer()
         print(self.accountId)
 

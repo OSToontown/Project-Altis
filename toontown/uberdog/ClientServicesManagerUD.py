@@ -8,9 +8,7 @@ import random
 import urllib2
 import httplib
 import traceback
-import requests
 import six
-from datetime import datetime
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
@@ -32,7 +30,7 @@ accountDBType = "local"
 minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
 accountServerEndpoint = simbase.config.GetString(
-    'account-server-endpoint', 'https://projectaltis.com/api/')
+    'account-server-endpoint', 'https://DubitTown.com/api/')
 accountServerSecret = simbase.config.GetString(
     'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
@@ -43,11 +41,11 @@ def executeHttpRequest(url, **extras):
     timestamp = str(int(time.time()))
     signature = hmac.new(accountServerSecret, timestamp, hashlib.sha256)
     request = urllib2.Request(accountServerEndpoint + url)
-    request.add_header('User-Agent', 'TTA-CSM')
+    request.add_header('User-Agent', 'DubitTown-CSM')
     request.add_header('X-CSM-Timestamp', timestamp)
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
-        request.add_header('X-CSM-' + k, v)
+        request.add_header('DubitTown-CSM-' + k, v)
 
     try:
         return urllib2.urlopen(request).read()
@@ -58,20 +56,7 @@ blacklist = executeHttpRequest('names/blacklist.json')
 if blacklist:
     blacklist = json.loads(blacklist)
 
-def judgeName(name): #All of this gunction is just fuckrd
-    if not name:
-        return False
-
-    if blacklist:
-        for namePart in name.split(' '):
-            namePart = namePart.lower()
-            if len(namePart) < 1:
-                return False
-
-            for banned in blacklist.get(namePart[0], []):
-                if banned in namePart:
-                    return False
-    # Use Google's API for checking badword list
+def judgeName(name):
     return True
 
 def to_bool(boolorstr):
@@ -151,84 +136,13 @@ class LocalAccountDB(AccountDB):
 
 
     def addNameRequest(self, avId, name):
-        # add type a name
-        self.notify.debug("name for avid %s requested: `%s`" %(avId, name))
-        try:
-            domain = str(ConfigVariableString('ws-domain', 'localhost'))
-            key = str(ConfigVariableString('ws-key', 'secretkey'))
-            nameCheck = httplib.HTTPSConnection(domain)
-            nameCheck.request('GET', '/api/addtypeaname2/%s/%s/%s' % (key, avId, name))
-            resp = json.loads(nameCheck.getresponse().read())
-            self.sendWebhook(avId, name)
-        except:
-            self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
         return 'Success'
 
     def getNameStatus(self, avId):
-        # check type a name
-        self.notify.debug("debug: checking name from %s" %(avId))
-        try:
-            domain = str(ConfigVariableString('ws-domain', 'localhost'))
-            key = str(ConfigVariableString('ws-key', 'secretkey'))
-            nameCheck = httplib.HTTPSConnection(domain)
-            nameCheck.request('GET', '/api/checktypeaname/%s/avid/%s' % (key, avId)) # this should just use avid
-            resp = json.loads(nameCheck.getresponse().read())
-
-            if resp[u"error"] == "true":
-                state = "ERROR"
-
-            status = resp[u"status"]
-            if status == -1:
-                state = "REJECTED"
-            elif status == 0:
-                state = "PENDING"
-            elif status == 1:
-                state = "APPROVED"
-            else:
-                self.notify.debug("Get name status for av %s didnt return an expected value, got %s, setting to PENDING" % (avId, str(status)))
-                state = "REJECTED"
-        except:
-            self.notify.debug("Get name status failed for av %s, setting to pending" % avId)
-            state = "ERROR"
-        self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
-        return state
-
-    @staticmethod
-    def sendWebhook(avid, requestedname):
-        title = str(ConfigVariableString('nwh-title'))
-        displayname = str(ConfigVariableString('nwh-displayname'))
-        avatarurl = str(ConfigVariableString('nws-avatarurl'))
-        urllink = str(ConfigVariableString('nwh-urllink'))
-        content = {
-            "username": displayname,
-            "avatar_url": avatarurl,
-            "embeds": [
-                {
-                    "title": title,
-                    "url": urllink,
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "color": 3447003,
-                    "provider": {
-                        "name": "Project Altis",
-                        "url": "https://projectaltis.com"
-                    },
-                    "fields": [
-                        {
-                            "name": "Avid",
-                            "value": str(avid)
-                        },
-                        {
-                            "name": "Requested Name",
-                            "value": requestedname
-                        }
-                    ]
-                }
-            ]}
-        headers = {"Content-type": "application/json"}
-        conn = requests.post("https://discordapp.com/api/webhooks/360528244350648321/3qErsLnMXJaZd2JWf9QGinQCnIXU0E8lm3JuwDPwsirk_QU9Uk1QiPRhd9Fs_CQnaQej", data=json.dumps(content), headers=headers)
-        if conn.status_code != 204:
-            print 'Discord webhook returned ' + str(conn.status_code) + ' instead of 204 with message ' + conn.text
-
+        return 'APPROVED'
+		
+    def removeNameRequest(self, avId):
+        return 'Success'
 
 # --- FSMs ---
 class OperationFSM(FSM):
