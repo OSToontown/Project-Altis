@@ -117,44 +117,6 @@ class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
     def lookup(self, cookie, ip, callback):
-        if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
-            callback({'success': False,
-                      'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
-            return
-
-        apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
-        sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
-        sanityChecks.request('GET', '/api/sanitycheck/%s/%s/%s' % (apiKey, cookie, ip))
-
-        try:
-            XYZ = sanityChecks.getresponse().read()
-            print str(XYZ)
-            response = json.loads(XYZ)
-            # If response["isbanned"] is true
-            if to_bool(response["isbanned"]):
-                callback({
-                    'success': False,
-                    'reason': 'Your account has been banned!'
-                })
-                return
-            if to_bool(response["whitelistissue"]):
-                callback({
-                    'success': False,
-                    'reason': 'Please go to your account page to whitelist your IP address!'
-                })
-                return
-            # If response["error"] is true
-            if to_bool(response["error"]):
-                callback({
-                    'success': False,
-                    'reason': 'There was an unknown error when processing your login.'
-                })
-                return
-        except:
-            print traceback.format_exc()
-            callback({'success': False,
-                      'reason': 'Account Server is down. Please Try Again Later!'})
-            return
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -1136,48 +1098,6 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         authKey = login[4]
         apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
         del self.pendingLogins[context]
-
-        # Check if Current HWID Is Already Banned, or has a Ban assigned to it
-        try:
-            hwidCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            hwidCheck.request('GET', '/api/hwid/check/%s' % hwid)
-            resp = json.loads(hwidCheck.getresponse().read())
-            if resp["isBanned"] == "true":
-                self.notify.debug("Banned HWID Has Tried Logging In!")
-                if hwid not in self.blacklistedHWIDs:
-                    self.killConnection(sender, "HWID Has been Banned Previously!")
-                    self.blacklistedHWIDs.append(hwid)
-                else:
-                    return False
-        except:
-            self.notify.debug("Fatal Error during HWID Check")
-            if hwid not in self.blacklistedHWIDs:
-                self.killConnection(sender, "Fatal Error during HWID Check")
-                self.blacklistedHWIDs.append(hwid)
-            else:
-                return False
-
-        # Grab real token not one time fake token
-        getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
-        getRealToken.request('GET', '/api/validatetoken?key=%s&t=%s' % (apiKey, cookie))
-        try:
-            getRealTokenResp = json.loads(getRealToken.getresponse().read())
-            cookie = getRealTokenResp['additional']
-        except:
-            self.notify.debug("Fatal Error during Playtoken Resolve")
-            self.killConnection(sender, "Fatal Error during Playtoken Resolve")
-            return
-
-        # Update the given token's HWID, as it's not banned
-        try:
-            hwidUpgradation = httplib.HTTPSConnection('www.projectaltis.com')
-            hwidUpgradation.request('GET', '/api/hwid/setid/%s/%s/%s' % (apiKey, cookie, hwid))
-            resp = json.loads(hwidUpgradation.getresponse().read())
-        except:
-            self.notify.debug("Fatal Error during HWID Upgradation")
-            self.killConnection(sender, "Fatal Error during HWID Upgradation")
-
-        self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)
