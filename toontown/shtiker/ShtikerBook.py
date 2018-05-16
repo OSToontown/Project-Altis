@@ -67,8 +67,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         messenger.send('stickerBookEntered')
         base.playSfx(self.openSound)
         base.disableMouse()
-        base.render.hide()
-        base.setBackgroundColor(0.05, 0.15, 0.4)
+        base.render.setColorScale(0.05, 0.15, 0.4, 1)
         base.setCellsActive([base.rightCells[0]], 0)
         NametagGlobals.setForce2dNametags(True)
         NametagGlobals.setForceOnscreenChat(True)
@@ -98,11 +97,9 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         for obj in base.cr.doId2do.values():
             if isinstance(obj, DistributedFireworkShow.DistributedFireworkShow) or isinstance(obj, DistributedPartyFireworksActivity.DistributedPartyFireworksActivity):
                 setBlackBackground = 1
-
         if setBlackBackground:
             base.setBackgroundColor(Vec4(0, 0, 0, 1))
-        else:
-            base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
+        base.render.clearColorScale()
         gsg = base.win.getGsg()
         if gsg:
             base.render.prepareScene(gsg)
