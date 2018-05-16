@@ -349,8 +349,6 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.invLastPop = pop
         self.invLastStatus = invstatus
-		
-		print invstatus
 
         return task.again
 

@@ -2224,12 +2224,12 @@ ReportPanelCategoryHacking = 'Hacking'
 ReportPanelConfirmations = ('You are about to report that %s has used obscene, bigoted or sexually explicit language.',
  'You are about to report that %s is being unsafe by giving out or requesting a phone number, address, last name, email address, password or account name.',
  'You are about to report that %s is bullying, harassing, or using extreme behavior to disrupt the game.',
- "You are about to report that %s has created a name that does not follow the Project Altis rules.",
+ "You are about to report that %s has created a name that does not follow the DubitTown rules.",
  'You are about to report that %s has hacked/tampered with the game or used third party software.')
 ReportPanelWarning = "We take reporting very seriously. Your report will be viewed by a Moderator who will take appropriate action for anyone breaking our rules. If your account is found to have participated in breaking the rules, or if you make false reports or abuse the 'Report a Player' system, a Moderator may take action against your account. Are you absolutely sure you want to report this player?"
 ReportPanelThanks = 'Thank you! Your report has been sent to a Moderator for review. There is no need to contact us again about the issue. The moderation team will take appropriate action for a player found breaking our rules.'
 ReportPanelRemovedFriend = 'We have automatically removed %s from your Toon Friends List.'
-ReportPanelRemovedPlayerFriend = 'We have automatically removed %s as a Player friend so as such you will not see them as your friend in any Project Altis product.'
+ReportPanelRemovedPlayerFriend = 'We have automatically removed %s as a Player friend so as such you will not see them as your friend in any DubitTown product.'
 ReportPanelAlreadyReported = 'You have already reported %s during this session. A Moderator will review your previous report.'
 IgnorePanelTitle = 'Ignore A Player'
 IgnorePanelAddIgnore = 'Would you like to ignore %s for the rest of this session?'
@@ -3086,7 +3086,7 @@ SuitAttackTaunts = {'AcidRain': ["It's sulfur you.",
               "You aren't above the law!",
               'There should be a law against you.',
               "There's no ex post facto with me!",
-              "The opinions expressed in this attack are not those of Project Altis.",
+              "The opinions expressed in this attack are not those of DubitTown.",
               'We cannot be held responsible for damages suffered in this attack.',
               'Your results for this attack may vary.',
               'This attack is void where prohibited.',
@@ -4390,7 +4390,7 @@ FriendInviterPlayer = 'Player'
 FriendInviterThatPlayer = 'That player'
 FriendInviterBegin = 'What type of friend would you like to make?'
 FriendInviterToonFriendInfo = 'A friend only in Toontown'
-FriendInviterPlayerFriendInfo = 'A friend across the Project Altis network'
+FriendInviterPlayerFriendInfo = 'A friend across the DubitTown network'
 FriendInviterToonTooMany = 'You have too many toon friends to add another one now. You will have to remove some toon friends if you want to make friends with %s. You could also try making player friends them.'
 FriendInviterPlayerTooMany = 'You have too many player friends to add another one now. You will have to remove some player friends if you want to make friends with %s. You could also try making toon friends with them.'
 FriendInviterToonAlready = '%s is already your toon friend.'
@@ -4455,7 +4455,7 @@ LauncherPhaseNames = {0: 'Initialization',
  12: Bossbot + ' HQ',
  13: 'Parties'}
 LauncherProgress = '%(name)s (%(current)s of %(total)s)'
-LauncherStartingMessage = "Starting Project Altis... "
+LauncherStartingMessage = "Starting DubitTown... "
 LauncherDownloadFile = 'Downloading update for ' + LauncherProgress + '...'
 LauncherDownloadFileBytes = 'Downloading update for ' + LauncherProgress + ': %(bytes)s'
 LauncherDownloadFilePercent = 'Downloading update for ' + LauncherProgress + ': %(percent)s%%'
@@ -4465,16 +4465,16 @@ LauncherExtractingFile = 'Extracting update for ' + LauncherProgress + '...'
 LauncherExtractingPercent = 'Extracting update for ' + LauncherProgress + ': %(percent)s%%'
 LauncherPatchingFile = 'Applying update for ' + LauncherProgress + '...'
 LauncherPatchingPercent = 'Applying update for ' + LauncherProgress + ': %(percent)s%%'
-LauncherConnectProxyAttempt = 'Connecting to Project Altis: %s (proxy: %s) attempt: %s'
-LauncherConnectAttempt = 'Connecting to Project Altis: %s attempt %s'
-LauncherDownloadServerFileList = 'Updating Project Altis...'
-LauncherCreatingDownloadDb = 'Updating Project Altis...'
-LauncherDownloadClientFileList = 'Updating Project Altis...'
-LauncherFinishedDownloadDb = 'Updating Project Altis... '
-LauncherStartingGame = 'Starting Project Altis...'
-LauncherRecoverFiles = 'Updating Project Altis. Recovering files...'
+LauncherConnectProxyAttempt = 'Connecting to DubitTown: %s (proxy: %s) attempt: %s'
+LauncherConnectAttempt = 'Connecting to DubitTown: %s attempt %s'
+LauncherDownloadServerFileList = 'Updating DubitTown...'
+LauncherCreatingDownloadDb = 'Updating DubitTown...'
+LauncherDownloadClientFileList = 'Updating DubitTown...'
+LauncherFinishedDownloadDb = 'Updating DubitTown... '
+LauncherStartingGame = 'Starting DubitTown...'
+LauncherRecoverFiles = 'Updating DubitTown. Recovering files...'
 LauncherCheckUpdates = 'Checking for updates for ' + LauncherProgress
-LauncherVerifyPhase = 'Updating Project Altis...'
+LauncherVerifyPhase = 'Updating DubitTown...'
 LoadingDownloadWatcherUpdate = 'Loading %s'
 AvatarChoiceMakeAToon = 'Make A\nToon'
 AvatarChoicePlayThisToon = 'Play\nThis Toon'
@@ -4905,7 +4905,7 @@ MusicEncntrGeneralBg = 'Encounter With Cogs'
 MusicTcSzActivity = 'Toontorial Medley'
 MusicTcSz = 'Strolling Along'
 MusicCreateAToon = 'The New Toon in Town'
-MusicTtpaTheme = 'The Project Altis Theme'
+MusicTtpaTheme = 'The DubitTown Theme'
 MusicTtTheme = 'The Toontown Theme'
 MusicMinigameRace = 'Slow and Steady'
 MusicMgPairing = 'Remember Me?'
@@ -5748,7 +5748,7 @@ BattleGlobalLureAccLow = 'Low'
 BattleGlobalLureAccMedium = 'Medium'
 AttackMissed = 'MISSED'
 NPCCallButtonLabel = 'CALL'
-LoaderLabel = 'Loading Project Altis...'
+LoaderLabel = 'Loading DubitTown...'
 StarringIn = 'Starring In...'
 HeadingToHood = 'Loading %(hood)s...'
 HeadingToYourEstate = 'Loading your estate...'
@@ -5796,7 +5796,7 @@ FishingBroke = 'You do not have any more Jellybeans for bait! Ride the trolley o
 FishingHowToFirstTime = 'Click and drag down from the Cast button. The farther down you drag, the stronger your cast will be. Adjust your angle to hit the fish targets.\n\nTry it now!'
 FishingHowToFailed = 'Click and drag down from the Cast button. The farther down you drag, the stronger your cast will be. Adjust your angle to hit the fish targets.\n\nTry it again now!'
 FishingBootItem = 'An old boot'
-BetaCertificateItem = 'A Project Altis Beta Certificate'
+BetaCertificateItem = 'A DubitTown Beta Certificate'
 FishingJellybeanItem = '%s Jellybeans'
 FishingNewEntry = 'New Species!'
 FishingNewRecord = 'New Record!'
@@ -6042,8 +6042,8 @@ GagShopPlayerDisconnected = '%s has disconnected'
 GagShopPlayerExited = '%s has exited'
 GagShopPlayerPlayAgain = 'Play Again'
 GagShopPlayerBuying = 'Buying'
-PopupTouchControls = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy Project Altis!'
-PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an BETA build of Project Altis! Things that are in game may be subject to change! There is some incomplete content as well, so stay tooned for the updated content! Thanks for participating in Project Altis\' Beta!'
+PopupTouchControls = 'You are using the \1textShadow\1EXPERIMENTAL\2 touch controls. These are very early in development and may be buggy. Please report any issues to the team. Thanks, and enjoy DubitTown!'
+PopupAlphaDisclaimer = '\1textShadow\1Disclaimer:\2\nThis is an BETA build of DubitTown! Things that are in game may be subject to change! There is some incomplete content as well, so stay tooned for the updated content! Thanks for participating in DubitTown\' Beta!'
 QuitConfirm = 'Are you sure you want to quit?'
 PlayGame = 'Pick-A-Toon'
 DiscordButton = 'News'
@@ -6365,7 +6365,7 @@ QuestScriptTutorialBlocker_3 = "Oh! You don't know how to use SpeedChat!"
 QuestScriptTutorialBlocker_4 = 'Click on the button to say something.'
 QuestScriptTutorialBlocker_5 = 'Very good!\x07Where you are going there are many Toons to talk to.'
 QuestScriptTutorialBlocker_6 = "If you want to chat with other Toons using the keyboard, there's another button you can use."
-QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. You need to turn on Speedchat Plus in your Account Manager on the Project Altis Website to use it."
+QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. You need to turn on Speedchat Plus in your Account Manager on the DubitTown Website to use it."
 QuestScriptTutorialBlocker_8 = 'Good luck! See you later!'
 
 QuestScriptGagShop_1 = 'Welcome to the Gag Shop!'
@@ -6395,12 +6395,12 @@ QuestScript150_2 = 'To make friends, find another player, and use the New Friend
 QuestScript150_3 = 'Once you have made a friend, come back here.'
 QuestScript150_4 = 'Some tasks are too difficult to do alone!'
 
-QuestScript600_1 = "Welcome to Toontown: Project Altis!"
+QuestScript600_1 = "Welcome to Toontown: DubitTown!"
 QuestScript600_2 = "There are many shop keepers out there who will require your help."
 QuestScript600_3 = "Those toons send help requests here to the Toon HQ, where we give the job to toons like you."
 QuestScript600_4 = "Jester Chester can help you get used to this habbit."
 QuestScript600_5 = "He can be found at Jest for Laughs on Loopy Lane."
-QuestScript600_6 = "Have fun in Toontown: Project Altis!"
+QuestScript600_6 = "Have fun in Toontown: DubitTown!"
 
 QuestScript10301_1 = "Welcome to Loopy's Balls!"
 QuestScript10301_2 = "We sell the freshest swedish meatballs in all of Toontown!"
@@ -9446,7 +9446,7 @@ TipDict = {TIP_NONE: ('',),
                'Open your Friends List by pressing the "F7" key.',
                'Open or close your Shticker Book by pressing the "F8" key.',
                'You can look up by pressing the "Page Up" key and look down by pressing the "Page Down" key.',
-               'Press the "F9" key to take a screenshot, which will be saved in your Project Altis folder on your computer.',
+               'Press the "F9" key to take a screenshot, which will be saved in your DubitTown folder on your computer.',
                'You can change your screen resolution, adjust audio, and control other options on the Options Page in the Shticker Book.',
                "Try on your friend's clothing at the closet in their house.",
                'You can go to your house using the "Go Home" button on your map.',
@@ -9460,7 +9460,7 @@ TipDict = {TIP_NONE: ('',),
                'Change to different views of your Toon by pressing the Tab Key.',
                'Sometimes you can find several different ToonTasks offered for the same reward. Shop around!',
                'Finding friends with similar ToonTasks is a fun way to progress through the game.',
-               'You never need to save your Toontown progress. The Project Altis servers continually save all the necessary information.',
+               'You never need to save your Toontown progress. The DubitTown servers continually save all the necessary information.',
                'You can whisper to other Toons either by clicking on them or by selecting them from your Friends List.',
                'Some SpeedChat phrases play emotion animations on your Toon.',
                'If the area you are in is crowded, try changing Districts. Go to the District Page in the Shticker Book and select a different one.',
