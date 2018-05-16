@@ -109,7 +109,7 @@ class LocalAccountDB(AccountDB):
                 'success': True,
                 'userId': cookie,
                 'accountId': 0,
-                'accessLevel': 100
+                'accessLevel': 500
             }
             callback(response)
             return response
@@ -128,7 +128,7 @@ class LocalAccountDB(AccountDB):
                     'success': True,
                     'userId': cookie,
                     'accountId': int(self.dbm[str(cookie)]),
-                    'accessLevel': int(150)
+                    'accessLevel': int(500)
                 }
 
             callback(response)
@@ -279,7 +279,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ACCESS_LEVEL', 0)
+        access = self.account.get('ACCESS_LEVEL', 500)
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
@@ -860,7 +860,7 @@ class LoadAvatarFSM(AvatarOperationFSM):
 
         # Activate the avatar on the DBSS:
         self.csm.air.sendActivate(self.avId, 0, 0, self.csm.air.dclassesByName['DistributedToonUD'], {'setAdminAccess': \
-            [self.account.get('ACCESS_LEVEL', 100)]})
+            [self.account.get('ACCESS_LEVEL', 500)]})
 
         # Next, add them to the avatar channel:
         datagram = PyDatagram()
