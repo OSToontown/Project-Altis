@@ -7,3 +7,7 @@
 * Boardbot HQ collision is broken as heck
 * BDHQ spawn position needs to be fixed so it doesnt spawn you in the castle
 * BDHQ doors work wrong (the entrance is on the wrong side)
+* Random crashes that I have no idea about (dont think its memory leaks so what could it be?)
+* Whatever bugs happen with walking your doodle
+* On my (toonjoeys) end when a song from the jukebox stops and another one is going to play theres a wait of 3(?) seconds
+* If you change the window size while text is onscreen the text gets corrupted for a second
