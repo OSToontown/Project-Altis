@@ -55,7 +55,7 @@ GM_NAMES = ('TOON COUNCIL',
  'TOON TROOPER',
  'RESISTANCE RANGER',
  'GC')
-ProductPrefix = 'TTPA'
+ProductPrefix = 'DT'
 Mickey = 'Mickey'
 VampireMickey = 'VampireMickey'
 Minnie = 'Minnie'
@@ -702,7 +702,7 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
  3012: ['Mittens', 'Mittens', 'a pair of '],
  3013: ['Aviator Hats', 'Aviator Hats', 'some '],
  3014: ['Loaf of Bread', 'Loaves of Bread', 'a '],
- 3015: ['Hambuger Rolls', 'Hamburger Rolls', 'some '],
+ 3015: ['Steamed Ham Rolls', 'Steamed Ham Rolls', 'some '],
  3016: ['Swiss Cheese Lump', 'Swiss Cheese Lumps', 'a '],
  3017: ['Cheddar Cheese', 'Lumps of Cheddar Cheese', 'some '],
  3018: ['Grill', 'Grills', "Chef Bumblesoup's "],
@@ -2007,10 +2007,10 @@ QuestDialogDict = {
  #TB Task Eight
  7070: {QUEST: "_toNpcName_ needs help gathering ingredients for his world famous hambrrrghers._where_"},
  7071: {GREETING: '',
-		QUEST: "Oh, you're just in time _avName_.\x07I don't have all that I need to create my signature burger, \"The Hambrrrghers.\"\x07See, I've already gathered the meat, but it didn't occur to me that I was missing some hamburger rolls.\x07I need some rolls, specifically from _toNpcName_. She makes the best kinds of bread._where_",
+		QUEST: "Oh, you're just in time _avName_.\x07I don't have all that I need to create my signature burger, \"The Hambrrrghers.\"\x07See, I've already gathered the meat, but it didn't occur to me that I was missing some steamed ham rolls.\x07I need some rolls, specifically from _toNpcName_. She makes the best kinds of bread._where_",
 		LEAVING: ''},
  7072: {GREETING: '',
-		QUEST: "Hamburger rolls?\x07Yeah, I can get you some, but I'll need you to do me a favor first.\x07The Bossbots around here decided to break into this here store and take all my loaves of bread.\x07If you get them all back for me, I'll gladly give you these here hamburger rolls.",
+		QUEST: "Steamed ham rolls?\x07Yeah, I can get you some, but I'll need you to do me a favor first.\x07The Bossbots around here decided to break into this here store and take all my loaves of bread.\x07If you get them all back for me, I'll gladly give you these here steamed ham rolls.",
 		LEAVING: ''},
  7073: {GREETING: '',
 		QUEST: "I reckon a deal's a deal.\x07Take these here rolls to _toNpcName_.",
@@ -3563,7 +3563,7 @@ KnockKnockJokes = [['Who', "Bad echo in here, isn't there?"],
  ['Harriet', "Harriet all my lunch, I'm starving."],
  ['Wooden', 'Wooden you like to know?'],
  ['Punch', 'Not me, please.'],
- ['Gorilla', 'Gorilla me a hamburger.'],
+ ['Gorilla', 'Gorilla me a steamed ham.'],
  ['Jupiter', "Jupiter hurry, or you'll miss the trolley."],
  ['Bertha', 'Happy Bertha to you!'],
  ['Cows', 'Cows go "moo" not "who."'],
