@@ -6,3 +6,4 @@
 * Beta event isn't functional (IMPORTANT!!!!!!!!!)
 * Boardbot HQ collision is broken as heck
 * BDHQ spawn position needs to be fixed so it doesnt spawn you in the castle
+* BDHQ doors work wrong (the entrance is on the wrong side)
