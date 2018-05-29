@@ -2,6 +2,7 @@ from panda3d.core import NodePath
 import math
 
 class AudioComponent3d(NodePath):
+    #dont change these settings these are the max/min audio volumes
     AUDIO_MAX = 1.0
     AUDIO_MIN = 0.0
 
@@ -19,6 +20,7 @@ class AudioComponent3d(NodePath):
         return getattr(self.__component, *args, **kw)
 
     def play(self):
+        #play music
         taskMgr.add(self.__doUpdate, 'audio-update-%s' % self.id)
 
         self.__component.play()
@@ -36,6 +38,7 @@ class AudioComponent3d(NodePath):
         return task.cont
 
     def stop(self):
+        #stop the music
         taskMgr.remove('audio-update-%s' % self.id)
 
         self.__component.stop()
