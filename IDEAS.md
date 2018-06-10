@@ -10,5 +10,6 @@ whether itd be new playgrounds or literally just some simple fixes
 * project altis exposed as the main theme (this is simple)
 * redone toon tips
 * revert the design changes for the boardbots
+* super mario 64 remixes for the ost (easy as heck)
 
 these are all just random ideas i thought of so i dont care if they dont get in or something
