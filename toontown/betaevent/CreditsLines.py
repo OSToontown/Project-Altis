@@ -1,15 +1,10 @@
-'''
-Created on Dec 31, 2016
-
-@author: Drew
-'''
 # Name, Role, Text Side
-dubito = ["Dubito", "Director of Operations\nDeveloper"]
-judge = ["Judge", "Director of Operations"]
-drew = ["Leroy Wackyboing (Drew)", "Assistant Director of Operations\nLead Developer"]
-skipps = ["SkippsDev", "Lead Developer"]
-dan = ["Dan (ponyboy837)", "Developer"]
-loopy = ["LoopyGoopyG", "Content Director\nModerator"]
+dubito = ["Dubito", "Source\nThat Guy"]
+rocket = ["Rocket", "Lead Programmer\nHackerman"]
+toonjoey = ["toonjoey", "Ideas\nResident Dinosaur Planet Guy"]
+leo = ["Leo", "Programmer\nMajor Oofenton"]
+darch = ["Comrade Napoleon AKA DarchYTPs", "Panda3D Detection System\nFriendly Neighborhood Rito"]
+angerysh = ["angery shedletsky", "Cog Idea\nHedgehog"]
 owen = ["Owen", "Content Director\nCommunity Manager"]
 smirky = ["Smirky Bumberpop", "Community Manager"]
 ollie = ["Xanon", "Web Developer"]
@@ -21,9 +16,10 @@ geezer = ["Old Geezer", "Composer\nModeller"]
 limey = ["Limey Mouse", "Artist"]
 
 # TODO: more
-
+specialthanks = "Special Thanks"
 # Extra Contributors
-kh = ["Dank Mickey / KHDecoder", "Boardbot development"]
-swag = ["Swag Foreman", "Boardbot models\nBeing an overall meme lord"]
-john = ["John Linderman (i think i got that right xd)", "Deer Models"]
-whoeverthefuckmadeourlogo = ["whoeverthefuckmadeourlogo", "Creator of the Project Altis logo"]
+dwise = ["David Wise", "Dinosaur Planet Composer\nGood"]
+sean = ["SeanPai", "Our own c00l dude"]
+pateam = ["Project Altis Team", "Original developers\nNone of this would be possible without you guys!"]
+toontown = ["Toontown Onlines Developers", "Creating a game with care that lasted for years to come\nThanks for everything!"]
+you = ["You", "Playing the game and supporting it (even if you didn\'t like it)"
