@@ -19,7 +19,6 @@ limey = ["Limey Mouse", "Artist"]
 specialthanks = "Special Thanks"
 # Extra Contributors
 dwise = ["David Wise", "Dinosaur Planet Composer\nGood"]
-sean = ["SeanPai", "Our own c00l dude"]
 pateam = ["Project Altis Team", "Original developers\nNone of this would be possible without you guys!"]
 toontown = ["Toontown Onlines Developers", "Creating a game with care that lasted for years to come\nThanks for everything!"]
 you = ["You", "Playing the game and supporting it (even if you didn\'t like it)"
