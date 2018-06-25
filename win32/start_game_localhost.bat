@@ -1,8 +1,14 @@
 @echo off
 cd ../
 
-rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
-set /P PPYTHON_PATH=<PPYTHON_PATH
+rem Check to see what version of Panda the user has:
+if exist C:\Panda3D-1.10.0-x64 (
+    echo 64 bit Panda detected!
+    set /P PPYTHON_PATH=<PPYTHON_PATH_X64
+) else if exist C:\Panda3D-1.10.0 (
+    echo 32 bit Panda detected!
+    set /P PPYTHON_PATH=<PPYTHON_PATH
+)
 
 rem Get the user input:
 set /P ttUsername="Username: "
