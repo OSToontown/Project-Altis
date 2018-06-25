@@ -8,7 +8,6 @@ import random
 import urllib2
 import httplib
 import traceback
-import six
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
