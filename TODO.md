@@ -12,3 +12,5 @@
 * On my (toonjoeys) end when a song from the jukebox stops and another one is going to play theres a wait of 3(?) seconds
 * If you change the window size while text is onscreen the text gets corrupted for a second
 * Add textures for the doors/paintings in BDHQ (currently just vertex colors)
+# Features
+* Windy Valley + Wele object
