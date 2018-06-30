@@ -812,8 +812,8 @@ PhaseToMusicData40 = {3.5: {'encntr_general_bg.ogg': [TTLocalizer.MusicEncntrGen
       'party_polka_dance.ogg': [TTLocalizer.MusicPartyPolkaDance, 63],
       'party_waltz_dance.ogg': [TTLocalizer.MusicPartyWaltzDance, 63],
       'party_generic_theme_jazzy.ogg': [TTLocalizer.MusicPartyGenericThemeJazzy, 64]}
-dubito: {'WV_SZ.ogg': [TTLocalizer.MusicWvSz, 56], # Can someone tell me what the numbers do please
-      'WV_SZ_activity.ogg': [TTLocalizer.MusicWvSzActivity, 63]}}
+#dubito: {'WV_SZ.ogg': [TTLocalizer.MusicWvSz, 56], # Can someone tell me what the numbers do please
+#      'WV_SZ_activity.ogg': [TTLocalizer.MusicWvSzActivity, 63]}}
 
 def countMusic():
     numMusic = 0
