@@ -1,23 +1,22 @@
-<img src="https://raw.githubusercontent.com/NormalNed/ToontownStride/master/resources/phase_3/etc/icon.ico" align="right" width="200"/>
+<img src="https://raw.githubusercontent.com/NormalNed/Project-Altis/master/resources/phase_3/etc/icon.ico" align="right" width="200"/>
 
-# Toontown Stride
-September build of Toontown Stride, that just works.
+# Project Altis
+Project Altis Beta Source, that just works.
 
 # ❓ What is Toontown Stride
-Toontown Stride is a Community Focused Toontown Server. We are going to keep up this tradition finishing and polishing Toontown Stride for the community.
-# 🔨 Setting Up
+Project Altis is a Private Server Aimee around adding a crap ton of new features. We are going to keep up this tradition finishing and polishing up Altis for the community.
+This project is not related to Corporate Clash. We simply are porting the Altis Codebase and continuing it not adding everything clash did.
 
+# 🔨 Setting Up
 Support is currently being worked on for MacOS and Non Arch Based Linux Distros
+
 ## 💻 Windows
 
 ### Installing Panda
 To get the source running you need to install the [Panda3D](https://github.com/NormalNed/ToontownStride/blob/master/Panda3D-1.11.0.exe) located in this repo.
 
 ### Installing Pip Dependencies
-The next part is to get our Dependencies. To get them open a Command Prompt Window inside of the Toontown Stride folder and run
-```bash
-ppython -m pip install -r requirements.txt
-```
+The next part is to get our Dependencies. To get them run the **get-pip-packages.bat**
 
 ### Running the Game
 Now run the [Start.bat](Start.bat) file to launch the game.
