@@ -1,6 +1,6 @@
 @echo off
 cd "../astron/"
-title Toontown Stride Astron
+title Project Altis Astron
 
 :start
 astrond --loglevel info config/cluster.yml
