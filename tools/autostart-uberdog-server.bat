@@ -1,6 +1,6 @@
 @echo off
 cd ..
-title Toontown Stride UberDOG
+title Project Altis Stride UberDOG
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PYTHON_PATH=<PYTHON_PATH
@@ -16,7 +16,7 @@ set BASE_CHANNEL=1000000
 
 :main
 
-%PPYTHON_PATH% -m toontown.uberdog.ServiceStart --base-channel %BASE_CHANNEL% ^
+%PYTHON_PATH% -m toontown.uberdog.ServiceStart --base-channel %BASE_CHANNEL% ^
                --max-channels %MAX_CHANNELS% --stateserver %STATESERVER% ^
                --astron-ip %ASTRON_IP% --eventlogger-ip %EVENTLOGGER_IP%
 PAUSE
