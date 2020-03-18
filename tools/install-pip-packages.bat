@@ -1,8 +1,8 @@
 @echo off
 cd ..
-title Toontown Stride UberDOG
+title Project Altis Pip Packages Installer
 
-%PPYTHON_PATH% -m pip install -r requirements.txt
+%PYTHON_PATH% -m pip install -r requirements.txt
 
 PAUSE
 goto main
