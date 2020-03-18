@@ -19,7 +19,7 @@ parser.add_argument('--district-name', help="What this AI Server's district will
 parser.add_argument('--astron-ip', help="The IP address of the Astron Message Director to connect to.")
 parser.add_argument('--eventlogger-ip', help="The IP address of the Astron Event Logger to log to.")
 parser.add_argument('--start-time', help="The time of day to start at")
-parser.add_argument('config', nargs='*', default=['config/general.prc', 'config/release/dev.prc', 'config/server.prc'], help="PRC file(s) to load.")
+parser.add_argument('config', nargs='*', default=['config/general.prc', 'config/release/dev.prc'], help="PRC file(s) to load.")
 args = parser.parse_args()
 
 for prc in args.config:
@@ -57,19 +57,4 @@ except (SystemExit, KeyboardInterrupt):
 except Exception:
     info = PythonUtil.describeException()
     simbase.air.writeServerEvent('ai-exception', simbase.air.getAvatarIdFromSender(), simbase.air.getAccountIdFromSender(), info)
-    import os
-    if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
-        raise
-    from raven import Client
-    from os.path import expanduser
-    import traceback
-    errorReporter = Client('https://bd12b482b0d04047b97a99be5d8a59f8:cadf8d958a194867b89fd77b61fdad45@sentry.io/189240')
-    errorReporter.tags_context({
-        'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
-        'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
-        'ACID_SENDER': simbase.air.getAccountIdFromSender(),
-        'homedir': expanduser('~'),
-        'CRITICAL': 'True'
-    })
-    errorReporter.captureException()
     raise

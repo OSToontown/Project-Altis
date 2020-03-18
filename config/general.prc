@@ -1,5 +1,5 @@
 # Window settings:
-window-title Project Altis [BETA]
+window-title Project Altis [BETA 1.2.0]
 win-origin -2 -2
 icon-filename phase_3/etc/icon.ico
 cursor-filename phase_3/etc/toonmono.cur
@@ -126,6 +126,7 @@ want-sellbot-headquarters #t
 want-cashbot-headquarters #t
 want-lawbot-headquarters #t
 want-bossbot-headquarters #t
+want-boardbot-headquarters #f
 
 # Cashbot boss:
 want-resistance-toonup #f

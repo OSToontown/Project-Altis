@@ -71,23 +71,6 @@ class ChatAgentAI(DistributedObjectGlobalAI):
         # broadcast chat message update
         av.b_setTalk(sender, self.chatMode2channel.get(chatMode, sender), av.getName(), message, modifications, 
             CFSpeech | CFQuicktalker | CFTimeout)
-        self.air.dbInterface.queryObject(self.air.dbId, av.DISLid, self.dbCallback)
-        getRealUsername = httplib.HTTPSConnection(self.domain)
-        getRealUsername.request('GET', '/api/tokentousername/%s/%s' % (self.key, self.accountId))
-        try:
-            f = getRealUsername.getresponse().read()
-            getRealUsernameResp = json.loads(f)
-            if to_bool(getRealUsernameResp["error"]):
-                username = "ERROR " + getRealUsernameResp["message"]
-            else:
-                username = getRealUsernameResp['username']
-        except:
-            self.notify.debug("Fatal Error During Logging!")
-            username = 'ERRORED'
-        filename = 'data/%s_chatlog.txt' % str(self.air.districtId)
-        file = open(filename, 'a')
-        file.write(strftime("%Y-%m-%d %H:%M:%S", gmtime()) + ': ' + str(sender) + '(%s)' % username  + ': ' + message + "\n")
-        file.close()
 
     def dbCallback(self, dclass, fields):
         if dclass != self.air.dclassesByName['AccountAI']:

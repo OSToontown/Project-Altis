@@ -6,7 +6,6 @@ import direct.distributed.MsgTypes
 import traceback
 import sys
 
-
 class ToontownInternalRepository(AstronInternalRepository):
     GameGlobalsId = OTP_DO_ID_TOONTOWN
     dbId = 4003
@@ -71,21 +70,5 @@ class ToontownInternalRepository(AstronInternalRepository):
             self.writeServerEvent('EXCEPTION-POTENTIAL-CRASH', self.getAvatarIdFromSender(), self.getAccountIdFromSender(), repr(e), traceback.format_exc())
             self.notify.warning('EXCEPTION-POTENTIAL-CRASH: %s (%s)' % (repr(e), self.getAvatarIdFromSender()))
             print traceback.format_exc()
-            sys.exc_clear()
-            import os
-            if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
-                return 1
-            from raven import Client
-            from os.path import expanduser
-            errorReporter = Client(
-                'https://bd12b482b0d04047b97a99be5d8a59f8:cadf8d958a194867b89fd77b61fdad45@sentry.io/189240')
-            errorReporter.tags_context({
-                'district_name': os.getenv('DISTRICT_NAME', 'UNDEFINED'),
-                'AVID_SENDER': self.getAvatarIdFromSender(),
-                'ACID_SENDER': self.getAccountIdFromSender(),
-                'homedir': expanduser('~'),
-                'CRITICAL': 'False'
-            })
-            errorReporter.captureException()
             
         return 1

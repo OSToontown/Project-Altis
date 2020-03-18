@@ -8,7 +8,7 @@ import types
 from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed import DistributedSmoothNode
-from otp.distributed.ClientRepositoryBaseOR import ClientRepositoryBaseOR as ClientRepositoryBase
+from direct.distributed.ClientRepositoryBase import ClientRepositoryBase
 from direct.distributed.MsgTypes import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
@@ -1762,11 +1762,12 @@ class OTPClientRepository(ClientRepositoryBase):
 
     def gotInterestDoneMessage(self, di):
         if self.deferredGenerates:
-            dg = Datagram(di.getDatagram())
+            dg = Datagram(di.getDatagram().getMessage())
             di = DatagramIterator(dg, di.getCurrentIndex())
             self.deferredGenerates.append((CLIENT_DONE_INTEREST_RESP, (dg, di)))
         else:
-            di2 = DatagramIterator(di.getDatagram(), di.getCurrentIndex())
+            dg = Datagram(di.getDatagram().getMessage())
+            di2 = DatagramIterator(dg, di.getCurrentIndex())
             di2.getUint32() # Ignore the context.
             handle = di2.getUint16()
             self.__playBackGenerates(handle)
@@ -1775,7 +1776,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
     def gotObjectLocationMessage(self, di):
         if self.deferredGenerates:
-            dg = Datagram(di.getDatagram())
+            dg = Datagram(di.getDatagram().getMessage())
             di = DatagramIterator(dg, di.getCurrentIndex())
             di2 = DatagramIterator(dg, di.getCurrentIndex())
             doId = di2.getUint32()
@@ -1842,7 +1843,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def handleDatagram(self, di):
         if self.notify.getDebug():
             print 'ClientRepository received datagram:'
-            di.getDatagram().dumpHex(ostream)
+            di.getDatagram().getMessage().dumpHex(ostream)
 
         msgType = self.getMsgType()
         if msgType == 65535:
@@ -1916,31 +1917,22 @@ class OTPClientRepository(ClientRepositoryBase):
         parentId = di.getUint32()
         zoneId = di.getUint32()
         classId = di.getUint16()
-
-        # Decide whether we should add this to the interest's pending
-        # generates, or process it right away:
         for handle, interest in self._interests.items():
             if parentId != interest.parentId:
                 continue
-
             if isinstance(interest.zoneIdList, list):
                 if zoneId not in interest.zoneIdList:
                     continue
             else:
                 if zoneId != interest.zoneIdList:
                     continue
-
             break
         else:
             interest = None
-
         if (not interest) or (not interest.events):
-            # This object can be generated right away:
             return self.__doGenerate(doId, parentId, zoneId, classId, di, other)
-
-        # This object must be generated when the operation completes:
         pending = self.__pendingGenerates.setdefault(handle, [])
-        pending.append((doId, parentId, zoneId, classId, Datagram(di.getDatagram()), other))
+        pending.append((doId, parentId, zoneId, classId, Datagram(di.getDatagram().getMessage()), other))
         self.__doId2pendingInterest[doId] = handle
 
     def __playBackGenerates(self, handle):

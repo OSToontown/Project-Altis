@@ -1,9 +1,9 @@
 # Art assets:
-model-path ../resources
+model-path resources
 
 # Server:
 server-version TTPA-Beta-1.2.0
-min-access-level 600
+min-access-level 700
 accountdb-type local
 shard-low-pop 50
 shard-mid-pop 100

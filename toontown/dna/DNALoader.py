@@ -197,7 +197,7 @@ class DNALoader(object):
             _file = _file.replace(".dna", ".pdna")
             #_file = _file.replace("../resources/", "")
         if __debug__:
-            _file = Filename("../resources/" + _file)
+            _file = Filename("resources/" + _file)
         else:
             _file = Filename("/" + _file)
 

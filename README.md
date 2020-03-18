@@ -1,84 +1,70 @@
-<p align="center"> 
-<a href="https://projectaltis.com"><img src="https://projectaltis.com/_assets/_img/logo.png" alt="logo"></a>
-</p>
+<img src="https://raw.githubusercontent.com/NormalNed/ToontownStride/master/resources/phase_3/etc/icon.ico" align="right" width="200"/>
 
-# Project Altis
+# Toontown Stride
+September build of Toontown Stride, that just works.
 
-[![Build Status](https://travis-ci.com/CodeAnGo/Altis.svg?token=gEmYwqjDCsLTVbma9rmy&branch=develop)](https://travis-ci.com/CodeAnGo/Altis) [![Secondary Build Status](https://teamcity.projectalt.is/app/rest/builds/buildType:Altis_Build/statusIcon)](https://teamcity.projectalt.is)
+# ❓ What is Toontown Stride
+Toontown Stride is a Community Focused Toontown Server. We are going to keep up this tradition finishing and polishing Toontown Stride for the community.
+# 🔨 Setting Up
 
-Project Altis is a private server for Disney's now defunct MMO-RPG, Toontown Online.
+Support is currently being worked on for MacOS and Non Arch Based Linux Distros
+## 💻 Windows
 
-# Merging
+### Installing Panda
+To get the source running you need to install the [Panda3D](https://github.com/NormalNed/ToontownStride/blob/master/Panda3D-1.11.0.exe) located in this repo.
 
-All merges should go through a three-step process:
+### Installing Pip Dependencies
+The next part is to get our Dependencies. To get them open a Command Prompt Window inside of the Toontown Stride folder and run
+```bash
+ppython -m pip install -r requirements.txt
+```
 
-1. PR goes up by creator when the changes are ready
-2. PR is reviewed by another person
-3. PR is reviewed and merged by a third person
+### Running the Game
+Now run the [Start.bat](Start.bat) file to launch the game.
 
-For emergency/security merges, only steps 1/2 are required if time is an issue.
+## 🐧 Linux
+### Gathering Basic Dependencies
+##### Arch / Manjaro
+```yay -S xorg-server  xterm  libgl  python  openssl  libjpeg  libpng  freetype2  gtk2  libtiff  nvidia-cg-toolkit  openal  zlib  libxxf86dga  assimp  bullet  eigen  ffmpeg  fmodex  libxcursor  libxrandr  git  opencv  libgles  libegl```
 
+##### Debian / Ubuntu / Linux Mint
+```sudo apt-get install build-essential xterm pkg-config fakeroot python-dev libpng-dev libjpeg-dev libtiff-dev zlib1g-dev libssl-dev libx11-dev libgl1-mesa-dev libxrandr-dev libxxf86dga-dev libxcursor-dev bison flex libfreetype6-dev libvorbis-dev libeigen3-dev libopenal-dev libode-dev libbullet-dev nvidia-cg-toolkit libgtk2.0-dev libassimp-dev libopenexr-dev```
 
-## Contributors
+### Getting Python 2
 
-### Management Team 
-* Dubito / Luke | Founder & Director | GPG: **1F67B457BEBEF9CE**
-* Bethy / Limey Mouse | Director | **Signed NDA**
-* Sir Tubby Cheezyfish | Lead Game Developer | **Signed NDA** | GPG: **78381CFB4BC90C8D**
-* Loopy Goopy Googlenerd | Content Director | **Signed NDA**
-* Old Geezer | Lead Modeller | Composer | **Signed NDA**
-* Pascal | Modeller & Head Moderator | NDA Not Needed
-* Royko | Content Director | NDA Not Needed
+The First step to get this Source running is obtaining a version of Python 2. The Python we use is located [here](https://github.com/NormalNed/python) but feel free to use the one in your package manager (should be **python2**)
 
-### Technical Team
-* Ben | Launcher Developer | **Signed NDA**
-* Judge2020 | Developer | **Signed NDA** | GPG: **5BFD17372D7812CC**
-* Nosyliam | Game Developer | **Signed NDA**
-* Barks | Game Developer | **Signed NDA**
+### Installing Pip
 
-### Creative Team
-* Maddie | Texture Artist | NDA Not Needed
-* Professor Felix | Composer | NDA Not Needed
-* DSDASavage | Animator | NDA Not Needed
-* SpookyRandi | Artist | NDA Not Needed
-* Bannini | Artist | NDA Not Needed
+Once you get the Python installed you need to type these following commands to install Pip
+```bash
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python2 get-pip.py
+```
 
-### Contributors
-* Dank Mickey | Former Developer | Boardbot Development
-* Josh Zimmer | Former Developer
-* Swag Foreman | Boardbot Models | Various parts of Cog Rooftops
-* Aura | Pick-A-Toon Concept / Inspiration
+### Installing Pip Dependencies
+The next part is to get our Dependencies. Open a Terminal inside of the Stride Project and follow these instructions below.
+```bash
+pip2.7 install -r requirements.txt
+```
 
-### Special Thanks
-* Toontown Infinite | Various Resources
-* Piplup | New battle GUI concept
-* Chandler | DNA Parser | Safely disclosing security issues
-* Developers of Panda3D
-* Developers of Astron
-* Toontown Rewritten | Reviving the sprit of Toontown
+### Installing "our" Panda 3D
+We use a version of Astron Panda3D that is upstream code from the main repo. To set it up follow these instructions
 
-### Ex-staff
-Thanks to those who have contributed to the game in the past.
-* Smirky Bumberpop | External Community Manager | **Signed NDA**
-* Drew | Technical Team Lead | **Signed NDA**
-* Malverde | Game Developer | No NDA
-* Judge | Investor | **Signed NDA**
-* Jakebooy | Web Developer / Discord Manager | **Signed NDA**
-* Matthew | Game Developer | **Signed NDA**
-* Alice | Web Developer | **Signed NDA**
-* VoidPoro | Texture Artist | NDA Not Needed
-* Dan | Game Developer | **Signed NDA**
-* Barks | Game Developer | **Signed NDA**
-* Midnight | Modeller | NDA Not Needed
-* Atomizer | The Spy from TF2 | No NDA
+```bash
+git clone https://github.com/NormalNed/panda3d.git
+cd panda3d
+python2 makepanda/makepanda.py --everything --installer --no-egl --no-gles --no-gles2 --no-opencv --threads=4
+sudo python2 makepanda/installpanda.py
+sudo ldconfig
+```
 
+### Running the Game
+Now run the [Start.sh](Start.sh) file to launch the game.
 
+# 📝 Notice
 
+This repository contains code derived from the [BigNed repository.](https://github.com/BigNed/ToontownStride)
 
+BigNed is operated by rocketprogrammer, toonjoey, Jeeperpretzel, and EliasTDev.
 
-## License
-Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements. See the NOTICE file distributed with this work for additional information regarding copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.

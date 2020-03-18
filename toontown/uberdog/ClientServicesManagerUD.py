@@ -8,9 +8,6 @@ import random
 import urllib2
 import httplib
 import traceback
-import requests
-import six
-from datetime import datetime
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
@@ -32,7 +29,7 @@ accountDBType = "local"
 minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
 accountServerEndpoint = simbase.config.GetString(
-    'account-server-endpoint', 'https://projectaltis.com/api/')
+    'account-server-endpoint', 'https://DubitTown.com/api/')
 accountServerSecret = simbase.config.GetString(
     'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
@@ -43,11 +40,11 @@ def executeHttpRequest(url, **extras):
     timestamp = str(int(time.time()))
     signature = hmac.new(accountServerSecret, timestamp, hashlib.sha256)
     request = urllib2.Request(accountServerEndpoint + url)
-    request.add_header('User-Agent', 'TTA-CSM')
+    request.add_header('User-Agent', 'DubitTown-CSM')
     request.add_header('X-CSM-Timestamp', timestamp)
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
-        request.add_header('X-CSM-' + k, v)
+        request.add_header('DubitTown-CSM-' + k, v)
 
     try:
         return urllib2.urlopen(request).read()
@@ -58,20 +55,7 @@ blacklist = executeHttpRequest('names/blacklist.json')
 if blacklist:
     blacklist = json.loads(blacklist)
 
-def judgeName(name): #All of this gunction is just fuckrd
-    if not name:
-        return False
-
-    if blacklist:
-        for namePart in name.split(' '):
-            namePart = namePart.lower()
-            if len(namePart) < 1:
-                return False
-
-            for banned in blacklist.get(namePart[0], []):
-                if banned in namePart:
-                    return False
-    # Use Google's API for checking badword list
+def judgeName(name):
     return True
 
 def to_bool(boolorstr):
@@ -117,44 +101,6 @@ class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
     def lookup(self, cookie, ip, callback):
-        if len(cookie) != 64: # Cookies should be exactly 64 Characters long!
-            callback({'success': False,
-                      'reason': 'FATAL ERROR IN COOKIE RESPONSE [%s]!'%cookie})
-            return
-
-        apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
-        sanityChecks = httplib.HTTPConnection('www.projectaltis.com')
-        sanityChecks.request('GET', '/api/sanitycheck/%s/%s/%s' % (apiKey, cookie, ip))
-
-        try:
-            XYZ = sanityChecks.getresponse().read()
-            print str(XYZ)
-            response = json.loads(XYZ)
-            # If response["isbanned"] is true
-            if to_bool(response["isbanned"]):
-                callback({
-                    'success': False,
-                    'reason': 'Your account has been banned!'
-                })
-                return
-            if to_bool(response["whitelistissue"]):
-                callback({
-                    'success': False,
-                    'reason': 'Please go to your account page to whitelist your IP address!'
-                })
-                return
-            # If response["error"] is true
-            if to_bool(response["error"]):
-                callback({
-                    'success': False,
-                    'reason': 'There was an unknown error when processing your login.'
-                })
-                return
-        except:
-            print traceback.format_exc()
-            callback({'success': False,
-                      'reason': 'Account Server is down. Please Try Again Later!'})
-            return
         # Let's check if this user's ID is in your account database bridge:
         if str(cookie) not in self.dbm:
             # Nope. Let's associate them with a brand new Account object!
@@ -162,7 +108,7 @@ class LocalAccountDB(AccountDB):
                 'success': True,
                 'userId': cookie,
                 'accountId': 0,
-                'accessLevel': 100
+                'accessLevel': 500
             }
             callback(response)
             return response
@@ -181,7 +127,7 @@ class LocalAccountDB(AccountDB):
                     'success': True,
                     'userId': cookie,
                     'accountId': int(self.dbm[str(cookie)]),
-                    'accessLevel': int(150)
+                    'accessLevel': int(500)
                 }
 
             callback(response)
@@ -189,84 +135,13 @@ class LocalAccountDB(AccountDB):
 
 
     def addNameRequest(self, avId, name):
-        # add type a name
-        self.notify.debug("name for avid %s requested: `%s`" %(avId, name))
-        try:
-            domain = str(ConfigVariableString('ws-domain', 'localhost'))
-            key = str(ConfigVariableString('ws-key', 'secretkey'))
-            nameCheck = httplib.HTTPSConnection(domain)
-            nameCheck.request('GET', '/api/addtypeaname2/%s/%s/%s' % (key, avId, name))
-            resp = json.loads(nameCheck.getresponse().read())
-            self.sendWebhook(avId, name)
-        except:
-            self.notify.debug("Unable to add name request from %s (%s)" %(avId, name))
         return 'Success'
 
     def getNameStatus(self, avId):
-        # check type a name
-        self.notify.debug("debug: checking name from %s" %(avId))
-        try:
-            domain = str(ConfigVariableString('ws-domain', 'localhost'))
-            key = str(ConfigVariableString('ws-key', 'secretkey'))
-            nameCheck = httplib.HTTPSConnection(domain)
-            nameCheck.request('GET', '/api/checktypeaname/%s/avid/%s' % (key, avId)) # this should just use avid
-            resp = json.loads(nameCheck.getresponse().read())
-
-            if resp[u"error"] == "true":
-                state = "ERROR"
-
-            status = resp[u"status"]
-            if status == -1:
-                state = "REJECTED"
-            elif status == 0:
-                state = "PENDING"
-            elif status == 1:
-                state = "APPROVED"
-            else:
-                self.notify.debug("Get name status for av %s didnt return an expected value, got %s, setting to PENDING" % (avId, str(status)))
-                state = "REJECTED"
-        except:
-            self.notify.debug("Get name status failed for av %s, setting to pending" % avId)
-            state = "ERROR"
-        self.notify.debug("Get name status for av %s returned state %s" % (avId, state))
-        return state
-
-    @staticmethod
-    def sendWebhook(avid, requestedname):
-        title = str(ConfigVariableString('nwh-title'))
-        displayname = str(ConfigVariableString('nwh-displayname'))
-        avatarurl = str(ConfigVariableString('nws-avatarurl'))
-        urllink = str(ConfigVariableString('nwh-urllink'))
-        content = {
-            "username": displayname,
-            "avatar_url": avatarurl,
-            "embeds": [
-                {
-                    "title": title,
-                    "url": urllink,
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "color": 3447003,
-                    "provider": {
-                        "name": "Project Altis",
-                        "url": "https://projectaltis.com"
-                    },
-                    "fields": [
-                        {
-                            "name": "Avid",
-                            "value": str(avid)
-                        },
-                        {
-                            "name": "Requested Name",
-                            "value": requestedname
-                        }
-                    ]
-                }
-            ]}
-        headers = {"Content-type": "application/json"}
-        conn = requests.post("https://discordapp.com/api/webhooks/360528244350648321/3qErsLnMXJaZd2JWf9QGinQCnIXU0E8lm3JuwDPwsirk_QU9Uk1QiPRhd9Fs_CQnaQej", data=json.dumps(content), headers=headers)
-        if conn.status_code != 204:
-            print 'Discord webhook returned ' + str(conn.status_code) + ' instead of 204 with message ' + conn.text
-
+        return 'APPROVED'
+		
+    def removeNameRequest(self, avId):
+        return 'Success'
 
 # --- FSMs ---
 class OperationFSM(FSM):
@@ -403,7 +278,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ACCESS_LEVEL', 0)
+        access = self.account.get('ACCESS_LEVEL', 500)
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
@@ -984,7 +859,7 @@ class LoadAvatarFSM(AvatarOperationFSM):
 
         # Activate the avatar on the DBSS:
         self.csm.air.sendActivate(self.avId, 0, 0, self.csm.air.dclassesByName['DistributedToonUD'], {'setAdminAccess': \
-            [self.account.get('ACCESS_LEVEL', 100)]})
+            [self.account.get('ACCESS_LEVEL', 500)]})
 
         # Next, add them to the avatar channel:
         datagram = PyDatagram()
@@ -1136,48 +1011,6 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         authKey = login[4]
         apiKey = str(ConfigVariableString('ws-key', 'secretkey'))
         del self.pendingLogins[context]
-
-        # Check if Current HWID Is Already Banned, or has a Ban assigned to it
-        try:
-            hwidCheck = httplib.HTTPSConnection('www.projectaltis.com')
-            hwidCheck.request('GET', '/api/hwid/check/%s' % hwid)
-            resp = json.loads(hwidCheck.getresponse().read())
-            if resp["isBanned"] == "true":
-                self.notify.debug("Banned HWID Has Tried Logging In!")
-                if hwid not in self.blacklistedHWIDs:
-                    self.killConnection(sender, "HWID Has been Banned Previously!")
-                    self.blacklistedHWIDs.append(hwid)
-                else:
-                    return False
-        except:
-            self.notify.debug("Fatal Error during HWID Check")
-            if hwid not in self.blacklistedHWIDs:
-                self.killConnection(sender, "Fatal Error during HWID Check")
-                self.blacklistedHWIDs.append(hwid)
-            else:
-                return False
-
-        # Grab real token not one time fake token
-        getRealToken = httplib.HTTPSConnection('www.projectaltis.com')
-        getRealToken.request('GET', '/api/validatetoken?key=%s&t=%s' % (apiKey, cookie))
-        try:
-            getRealTokenResp = json.loads(getRealToken.getresponse().read())
-            cookie = getRealTokenResp['additional']
-        except:
-            self.notify.debug("Fatal Error during Playtoken Resolve")
-            self.killConnection(sender, "Fatal Error during Playtoken Resolve")
-            return
-
-        # Update the given token's HWID, as it's not banned
-        try:
-            hwidUpgradation = httplib.HTTPSConnection('www.projectaltis.com')
-            hwidUpgradation.request('GET', '/api/hwid/setid/%s/%s/%s' % (apiKey, cookie, hwid))
-            resp = json.loads(hwidUpgradation.getresponse().read())
-        except:
-            self.notify.debug("Fatal Error during HWID Upgradation")
-            self.killConnection(sender, "Fatal Error during HWID Upgradation")
-
-        self.notify.debug('Received login cookie %r from %d' % (cookie, sender))
 
         # Time to check this login to see if its authentic
         digest_maker = hmac.new(self.key)

@@ -22,7 +22,7 @@ parser.add_argument('--max-channels', help='The number of channels the server ma
 parser.add_argument('--stateserver', help="The control channel of this UD's designated State Server.")
 parser.add_argument('--astron-ip', help="The IP address of the Astron Message Director to connect to.")
 parser.add_argument('--eventlogger-ip', help="The IP address of the Astron Event Logger to log to.")
-parser.add_argument('config', nargs='*', default=['config/general.prc', 'config/release/dev.prc', 'config/server.prc'], help="PRC file(s) to load.")
+parser.add_argument('config', nargs='*', default=['config/general.prc', 'config/release/dev.prc'], help="PRC file(s) to load.")
 args = parser.parse_args()
 
 for prc in args.config:
@@ -61,15 +61,4 @@ except (SystemExit, KeyboardInterrupt):
 except Exception:
     info = PythonUtil.describeException()
     simbase.air.writeServerEvent('uberdog-exception', simbase.air.getAvatarIdFromSender(), simbase.air.getAccountIdFromSender(), info)
-    from raven import Client
-    from os.path import expanduser
-    import traceback
-    errorReporter = Client('https://45206ecaaba840498741f18ed05e1b8b:39f55ef5dba047abb57cad0aa3a23d47@sentry.io/189241')
-    errorReporter.user_context({
-        'AVID_SENDER': simbase.air.getAvatarIdFromSender(),
-        'ACID_SENDER': simbase.air.getAccountIdFromSender(),
-        'homedir': expanduser('~'),
-        'critical': 'True'
-    })
-    errorReporter.captureMessage(traceback.format_exc())
     raise
