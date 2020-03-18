@@ -8,7 +8,7 @@ import types
 from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed import DistributedSmoothNode
-from otp.distributed.ClientRepositoryBaseOR import ClientRepositoryBaseOR as ClientRepositoryBase
+from direct.distributed.ClientRepositoryBase import ClientRepositoryBase
 from direct.distributed.MsgTypes import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
