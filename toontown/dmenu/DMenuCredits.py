@@ -27,7 +27,7 @@ class DMenuCredits:
 
 \1orangeText\1Open Source Toontown Servers\2
 Cranky Supetoon | Director
-ComradeNapCal | Panda3D Detection System | Friendly Neighborhood Rito
+ComradeNapCal | Friendly Neighborhood Rito
 Rocket | Hackerman
 Leo | Major Oofenton
 ToonJoey | Resident Dinosaur Planet Guy
