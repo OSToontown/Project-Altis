@@ -3,7 +3,7 @@
 # Project Altis
 Project Altis Beta Source, that just works.
 
-# ❓ What is Toontown Stride
+# ❓ What is Project Altis
 Project Altis is a Private Server Aimee around adding a crap ton of new features. We are going to keep up this tradition finishing and polishing up Altis for the community.
 This project is not related to Corporate Clash. We simply are porting the Altis Codebase and continuing it not adding everything clash did.
 
@@ -60,10 +60,3 @@ sudo ldconfig
 
 ### Running the Game
 Now run the [Start.sh](Start.sh) file to launch the game.
-
-# 📝 Notice
-
-This repository contains code derived from the [BigNed repository.](https://github.com/BigNed/ToontownStride)
-
-BigNed is operated by rocketprogrammer, toonjoey, Jeeperpretzel, and EliasTDev.
-
