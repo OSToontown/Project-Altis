@@ -81,7 +81,7 @@ set TT_PASSWORD=%ttUsername%
 echo.
 cls
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-echo Welcome to Project Altis, %ttsUsername%!
+echo Welcome to Project Altis, %ttUsername%!
 echo The Tooniverse Awaits You!
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 :startgame
