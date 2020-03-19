@@ -1,3 +1,8 @@
+'''
+Created on Dec 30, 2016
+
+@author: Drew
+'''
 from panda3d.core import Vec4, TransparencyAttrib, Point3, VBase3, VBase4, TextNode
 from direct.interval.IntervalGlobal import * 
 from toontown.toon import Toon, ToonDNA
@@ -7,14 +12,15 @@ from toontown.betaevent.CreditsLines import *
 from toontown.toonbase import ToontownGlobals
 
 class CreditsScreen:
-
-   # "Roll credits!" - CinemaSins
-   # The credits scene for the event
+    '''
+    The ending of the event, the all original credits sequence that no other server has ever put at the end of an event!
+    '''
 
 
     def __init__(self):
-
-       # Setup the screen
+        '''
+        Setup the screen
+        '''
         self.creditsSequence = None
         self.text = None
         self.roleText = None
@@ -36,7 +42,7 @@ class CreditsScreen:
 
     def startCredits(self):
         base.musicManager.stopAllSounds()
-        self.music = loader.loadMusic('phase_dubito/audio/bgm/event_credits.ogg')
+        self.music = loader.loadMusic('phase_3/audio/bgm/downloader.ogg')
         base.playMusic(self.music, looping = 1)
 
         self.creditsSequence = Sequence(
@@ -56,15 +62,15 @@ class CreditsScreen:
             Wait(6),
             Func(self.hideText),
             Wait(1),
-            Func(self.displayText, rocket),
+            Func(self.displayText, judge),
             Wait(6),
             Func(self.hideText),
             Wait(1),
-            Func(self.displayText, toonjoey),
+            Func(self.displayText, drew),
             Wait(6),
             Func(self.hideText),
             Wait(1),
-            Func(self.displayText, leo),
+            Func(self.displayText, skipps),
             Wait(6),
             Func(self.hideText),
             ).start()
