@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/NormalNed/Project-Altis/master/resources/phase_3/etc/icon.ico" align="right" width="200"/>
+<img src="https://raw.githubusercontent.com/NormalNed/Project-Altis/53168140c5b29f018467bedec35b4e59a83d0609/resources/phase_3.5/etc/transicon.png" align="right" width="200"/>
 
 # Project Altis
 Project Altis Beta Source, that just works.
