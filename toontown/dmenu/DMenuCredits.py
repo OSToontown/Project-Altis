@@ -26,7 +26,7 @@ class DMenuCredits:
 \1orangeText\1Credits\2
 
 \1orangeText\1Open Source Toontown Servers\2
-Cranky Supetoon | Director
+Cranky Supertoon | Director
 ComradeNapCal | Notorious Leaker
 Rocket | Hackerman
 Leo | Major Oofenton
