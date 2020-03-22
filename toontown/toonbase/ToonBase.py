@@ -25,6 +25,7 @@ from toontown.launcher import ToontownDownloadWatcher
 from toontown.margins import MarginGlobals
 from toontown.margins.MarginManager import MarginManager
 from toontown.nametag import NametagGlobals
+from toontown.toonbase.TTFrameRateMeter import TTFrameRateMeter
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownAccess
 from toontown.toonbase import ToontownBattleGlobals
@@ -698,6 +699,15 @@ class ToonBase(OTPBase.OTPBase):
         
     def fadeMusicOut(self, musicFile):
         self.audioMgr.fadeOutMusic(musicFile)
+
+    def setFrameRateMeter(self, flag):
+        if flag:
+            if not self.frameRateMeter:
+                self.frameRateMeter = TTFrameRateMeter()
+        else:
+            if self.frameRateMeter:
+                self.frameRateMeter.destroy()
+                self.frameRateMeter = None
 
     def exitOSX(self):
         self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=TTLocalizer.OptionsPageExitConfirm, 

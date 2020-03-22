@@ -315,7 +315,8 @@ class OptionsTabPage(DirectFrame):
         self.Friends_Label = DirectLabel(self.privacyNode, relief = None, text = '', text_align = TextNode.ALeft, text_scale = options_text_scale, text_wordwrap = 16, pos = (leftMargin, 0, textStartHeight))
         self.Whispers_Label = DirectLabel(self.privacyNode, relief = None, text = '', text_align = TextNode.ALeft, text_scale = options_text_scale, text_wordwrap = 16, pos = (leftMargin, 0, textStartHeight - textRowHeight))
         self.Friends_toggleButton = DirectButton(self.privacyNode, relief = None, image = (guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = button_image_scale, text = '', text_scale = options_text_scale, text_pos = button_textpos, pos = (buttonbase_xcoord, 0.0, buttonbase_ycoord), command = self.__doToggleAcceptFriends)
-        self.Whispers_toggleButton = DirectButton(self.privacyNode, relief = None, image = (guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = button_image_scale, text = '', text_scale = options_text_scale, text_pos = button_textpos, pos = (buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight), command = self.__doToggleAcceptWhispers)
+        self.FPS_toggleButton = DirectButton(self.privacyNode, relief = None, image = (guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = button_image_scale, text = '', text_scale = options_text_scale, text_pos = button_textpos, pos = (buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight), command = self.__doToggleAcceptWhispers)        
+        self.Whispers_toggleButton = DirectButton(self.privacyNode, relief = None, image = (guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale = button_image_scale, text = '', text_scale = options_text_scale, text_pos = button_textpos, pos = (buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight), command = self.__doToggleFpsMeter)
 
         self.tpMessages_Label = DirectLabel(parent = self.privacyNode, relief = None, text = '', text_align = TextNode.ALeft,
                                       text_scale = options_text_scale, text_wordwrap = 16,
@@ -330,12 +331,26 @@ class OptionsTabPage(DirectFrame):
         self.friendMessages_Label = DirectLabel(parent = self.privacyNode, relief = None, text = '', text_align = TextNode.ALeft,
                                       text_scale = options_text_scale, text_wordwrap = 16,
                                       pos = (leftMargin, 0, textStartHeight - 3* textRowHeight))
+                                      
         self.friendMessages_toggleButton = DirectButton(parent = self.privacyNode, relief = None, image = (
         guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
                                               image_scale = button_image_scale, text = '', text_scale = options_text_scale,
                                               text_pos = button_textpos,
                                               pos = (buttonbase_xcoord, 0.0, buttonbase_ycoord - 3* textRowHeight),
                                               command = self.__doToggleFriendMessages)
+        
+        self.FPS_Label = DirectLabel(parent = self.privacyNode, relief = None, text = '', text_align = TextNode.ALeft,
+                                      text_scale = options_text_scale, text_wordwrap = 16,
+                                      pos = (leftMargin, 0, textStartHeight - 4* textRowHeight))
+                                      
+        self.FPS_toggleButton = DirectButton(parent = self.privacyNode, relief = None, image = (
+        guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')),
+                                              image_scale = button_image_scale, text = '', text_scale = options_text_scale,
+                                              text_pos = button_textpos,
+                                              pos = (buttonbase_xcoord, 0.0, buttonbase_ycoord - 4* textRowHeight),
+                                              command = self.__doToggleFpsMeter)
+
+
         # Display
         self.DisplaySettings_Label = DirectLabel(self.displayNode, relief = None, text = '', text_align = TextNode.ALeft, text_scale = options_text_scale, text_wordwrap = 10, pos = (leftMargin, 0, textStartHeight))
 
@@ -483,6 +498,7 @@ class OptionsTabPage(DirectFrame):
         taskMgr.remove(self.DisplaySettingsTaskName)
         self.settingsChanged = 0
         self.__setAcceptFriendsButton()
+        self.__setFpsMeterButton()
         self.__setAcceptWhispersButton()
         self.__setDisplaySettings()
         self.__setToonChatSoundsButton()
@@ -533,6 +549,7 @@ class OptionsTabPage(DirectFrame):
         del self.SoundFX_Label
         del self.Music_Label
         del self.Friends_Label
+        del self.FPS_Label
         del self.Whispers_Label
         del self.SpeedChatStyle_Label
         del self.SoundFX_toggleSlider
@@ -637,6 +654,10 @@ class OptionsTabPage(DirectFrame):
         self.settingsChanged = 1
         self.__setAcceptFriendsButton()
 
+    def __doToggleFpsMeter(self):
+        messenger.send('wakeup')
+        self.__setFpsMeterButton()
+
     def __doToggleAcceptWhispers(self):
         messenger.send('wakeup')
         acceptingNonFriendWhispers = settings.get('acceptingNonFriendWhispers', {})
@@ -650,6 +671,7 @@ class OptionsTabPage(DirectFrame):
         self.settingsChanged = 1
         self.__setAcceptWhispersButton()
 
+
     def __setAcceptFriendsButton(self):
         if base.localAvatar.acceptingNewFriends:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsEnabledLabel
@@ -657,6 +679,14 @@ class OptionsTabPage(DirectFrame):
         else:
             self.Friends_Label['text'] = TTLocalizer.OptionsPageFriendsDisabledLabel
             self.Friends_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
+
+    #def __setFpsMeterButton(self):
+    #    if base.localAvatar.acceptingNewFriends:
+    #        self.FPS_Label['text'] = TTLocalizer.OptionsPageFPSEnabledLabel
+    #        self.FPS_toggleButton['text'] = TTLocalizer.OptionsPageToggleOff
+    #    else:
+    #        self.FPS_Label['text'] = TTLocalizer.OptionsPageFPSDisabledLabel
+    #        self.FPS_toggleButton['text'] = TTLocalizer.OptionsPageToggleOn
 
     def __setAcceptWhispersButton(self):
         if base.localAvatar.acceptingNonFriendWhispers:

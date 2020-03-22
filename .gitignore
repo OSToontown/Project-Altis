@@ -4,6 +4,7 @@
 # Logs are Spam
 logs/
 *.log
+preferences.json
 
 # Git Needs to know my district
 streamerinfo_district.txt
