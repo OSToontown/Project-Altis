@@ -498,7 +498,7 @@ class OptionsTabPage(DirectFrame):
         taskMgr.remove(self.DisplaySettingsTaskName)
         self.settingsChanged = 0
         self.__setAcceptFriendsButton()
-        self.__setFpsMeterButton()
+        #self.__setFpsMeterButton()
         self.__setAcceptWhispersButton()
         self.__setDisplaySettings()
         self.__setToonChatSoundsButton()
