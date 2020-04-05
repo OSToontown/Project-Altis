@@ -1,6 +1,6 @@
 @echo off
 cd ..
-title Project Altis Stride UberDOG
+title Project Altis UberDOG
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PYTHON_PATH=<PYTHON_PATH
@@ -10,8 +10,6 @@ set MAX_CHANNELS=999999
 set STATESERVER=4002
 set ASTRON_IP=127.0.0.1:7199
 set EVENTLOGGER_IP=127.0.0.1:7197
-
-rem Get the user input:
 set BASE_CHANNEL=1000000
 
 :main

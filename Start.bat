@@ -50,14 +50,12 @@ echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 echo Starting Localhost!
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 cd tools
-echo Launching the Mongo Database...
-START autostart-mongo-database.bat
-echo Launching the AI Server...
-START autostart-ai-server.bat
 echo Launching Astron...
 START autostart-astron-cluster.bat
 echo Launching the Uberdog Server...
 START autostart-uberdog-server.bat
+echo Launching the AI Server...
+START autostart-ai-server.bat
 cd ..
 SET TT_GAMESERVER=127.0.0.1
 goto game
