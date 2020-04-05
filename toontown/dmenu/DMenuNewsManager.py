@@ -6,7 +6,7 @@ Created on Apr 14, 2017
 from direct.showbase.DirectObject import DirectObject
 import httplib
 
-RELEASE_NOTES_URL = '/altisofficial/ProjectAltis-docs/master/changelogs/latest.md'
+RELEASE_NOTES_URL = '/OSToontown/Project-Altis/master/resources/phase_3/etc/changelog.md'
 
 class DMenuNewsManager(DirectObject):
 
