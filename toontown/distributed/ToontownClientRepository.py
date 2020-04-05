@@ -281,7 +281,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         elif done == 'create':
             self.loginFSM.request('createAvatar', [avList, index])
         elif done == 'delete':
-            self.loginFSM.request('waitForDeleteAvatarResponse', [avatarChoice])
+            if hasattr(self, 'avatarChoice'):
+                self.loginFSM.request('waitForDeleteAvatarResponse', [avatarChoice])
 
     def __handleDownloadAck(self, avList, index, doneStatus):
         if doneStatus['mode'] == 'complete':
