@@ -19,7 +19,9 @@ class FriendManagerAI(DistributedObjectAI):
         self.currentContext = 0
         self.requests = {}
         self.trueFriendFSMs = {}
-        self.trueFriendDatabase() # store true friends stuf in a diff database
+        # We comment this function out due to it being hardcoded to Mongo.
+        # TODO: Detect if user is using Mongo and enable TFs.
+        # self.trueFriendDatabase() # store true friends stuf in a diff database
         
     def trueFriendDatabase(self):
         self.air.dbGlobalCursor.trueFriendCodes.ensure_index('date', expireAfterSeconds = OTPGlobals.TF_CODE_EXPIRE)
