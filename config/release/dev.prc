@@ -34,7 +34,7 @@ want-resistance-money #f
 # Developer options:
 show-population #t
 show-total-population #t
-force-skip-tutorial #t
+force-skip-tutorial #f
 want-instant-parties #f
 
 # Weather

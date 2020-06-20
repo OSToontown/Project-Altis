@@ -15,8 +15,8 @@ class TutorialManager(DistributedObject.DistributedObject):
         messenger.send('tmGenerate')
         self.cr.tutorialManager = self
         self.accept('requestTutorial', self.d_requestTutorial)
-        self.accept('requestSkipTutorial', self.d_requestSkipTutorial)
-        self.accept('rejectTutorial', self.d_rejectTutorial)
+        self.accept('requestSkipTutorial', self.d_requestTutorial)
+        self.accept('rejectTutorial', self.d_requestTutorial)
 
     def disable(self):
         self.ignoreAll()
