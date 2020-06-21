@@ -586,7 +586,10 @@ class ToonBase(OTPBase.OTPBase):
         serverList = []
         for name in gameServer.split(';'):
             url = URLSpec(name, 1)
-            url.setScheme('https')
+            if config.GetBool('server-force-ssl', True):
+                url.setScheme('https')
+            else:
+                url.setScheme('http')
             if url.getServer() == "127.0.0.1":
                 url.setScheme('')
 
