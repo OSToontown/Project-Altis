@@ -170,3 +170,6 @@ want-old-fireworks #t
 
 # Live updates:
 want-live-updates #t
+
+# SSL
+server-force-ssl #f
