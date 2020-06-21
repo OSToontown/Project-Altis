@@ -47,6 +47,7 @@ class TownLoader(StateData.StateData):
 
     def load(self, zoneId):
         self.zoneId = zoneId
+        Discord.setZone(zoneId)        
         self.parentFSMState.addChild(self.fsm)
         self.loadBattleAnims()
         self.branchZone = ZoneUtil.getBranchZone(zoneId)

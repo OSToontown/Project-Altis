@@ -885,6 +885,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def enterAfkTimeout(self):
         self.sendSetAvatarIdMsg(0)
         msg = OTPLocalizer.AfkForceAcknowledgeMessage
+        Discord.setData(details="I'm Sleeping", image="logo", imageTxt="AFK")        
         dialogClass = OTPGlobals.getDialogClass()
         self.afkDialog = dialogClass(text = msg, command = self.__handleAfkOk, style = OTPDialog.Acknowledge)
         self.handler = self.handleMessageType
@@ -1478,6 +1479,7 @@ class OTPClientRepository(ClientRepositoryBase):
             avId]
 
         localAvatar.setLeftDistrict()
+        Discord.setDistrict(base.cr.activeDistrictMap[shardId].name)        
         self.removeShardInterest(self._handleOldShardGone)
         taskMgr.remove('streamerUpdateDist')
         taskMgr.doMethodLater(2, self.updateDistrictName, 'streamerUpdateDist')
@@ -1606,6 +1608,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
         if district is not None:
             self.notify.debug('chose %s: pop %s' % (district.name, district.avatarCount))
+            Discord.setDistrict(district.name)
         return district
 
     def getShardName(self, shardId):
