@@ -27,10 +27,12 @@ echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 echo. 
 echo #1 - Locally Host a Server
 echo #2 - Connect to an Existing Server
-echo #3 - Go Back
+echo #3 - Connect to the Official Server
+echo #4 - Go Back
 echo.
-choice /C:123 /n /m "Selection: "
-if errorlevel ==3 goto menu
+choice /C:1234 /n /m "Selection: "
+if errorlevel ==4 goto menu
+if errorlevel ==3 goto awsserver
 if errorlevel ==2 goto connect
 if errorlevel ==1 goto db
 
@@ -90,6 +92,10 @@ echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 echo What Server are you connecting to!
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 set /P TT_GAMESERVER="Server IP: "
+goto game
+
+:awsserver
+set TT_GAMESERVER=crankysupertoon.ddns.net
 
 :game
 cls
