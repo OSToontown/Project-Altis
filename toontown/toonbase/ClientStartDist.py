@@ -1,5 +1,5 @@
 # This is a temp patch.
-# It should really be done by the runtime (e.g. DubitTown.exe):
+# It should really be done by the runtime (e.g. Project Altis.exe):
 import sys
 import __builtin__
 

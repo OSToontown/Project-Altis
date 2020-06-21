@@ -29,7 +29,7 @@ accountDBType = "local"
 minAccessLevel = simbase.config.GetInt('min-access-level', 100)
 
 accountServerEndpoint = simbase.config.GetString(
-    'account-server-endpoint', 'https://DubitTown.com/api/')
+    'account-server-endpoint', 'https://Project Altis.com/api/')
 accountServerSecret = simbase.config.GetString(
     'account-server-secret', 'sjHgh43h43ZMcHnJ')
 
@@ -40,11 +40,11 @@ def executeHttpRequest(url, **extras):
     timestamp = str(int(time.time()))
     signature = hmac.new(accountServerSecret, timestamp, hashlib.sha256)
     request = urllib2.Request(accountServerEndpoint + url)
-    request.add_header('User-Agent', 'DubitTown-CSM')
+    request.add_header('User-Agent', 'Project Altis-CSM')
     request.add_header('X-CSM-Timestamp', timestamp)
     request.add_header('X-CSM-Signature', signature.hexdigest())
     for k, v in extras.items():
-        request.add_header('DubitTown-CSM-' + k, v)
+        request.add_header('Project Altis-CSM-' + k, v)
 
     try:
         return urllib2.urlopen(request).read()
