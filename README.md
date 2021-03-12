@@ -11,15 +11,7 @@ This project is not related to Corporate Clash. We simply are porting the Altis 
 Support is currently being worked on for MacOS and Non Arch Based Linux Distros
 
 ## 💻 Windows
-
-### Installing Panda
-To get the source running you need to install the [Panda3D](https://github.com/NormalNed/ToontownStride/blob/master/Panda3D-1.11.0.exe) located in this repo.
-
-### Installing Pip Dependencies
-The next part is to get our Dependencies. To get them run the **get-pip-packages.bat**
-
-### Running the Game
-Now run the [Start.bat](Start.bat) file to launch the game.
+Run the [Start.bat](Start.bat) file to launch the game.
 
 ## 🐧 Linux
 ### Gathering Basic Dependencies
