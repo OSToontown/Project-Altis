@@ -128,8 +128,6 @@ logo = OnscreenImage(
 logo.setTransparency(TransparencyAttrib.MAlpha)
 logo.setBin('fixed', 20)
 logo.reparentTo(backgroundNodePath)
-from toontown.toonbase.TTFrameRateMeter import TTFrameRateMeter
-TTFrameRateMeter()
 backgroundNodePath.find('**/bg').setBin('fixed', 10)
 base.graphicsEngine.renderFrame()
 DirectGuiGlobals.setDefaultRolloverSound(base.loader.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
