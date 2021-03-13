@@ -5686,8 +5686,6 @@ def track(command, track, value=None):
     if (command.lower() not in ('add',)) and (not trackAccess[index]):
         return "You don't have that track!"
     if command.lower() == 'remove':
-        if index in (4, 5):
-            return "You can't remove throw and squirt!"
         trackAccess[index] = 0
         invoker.b_setTrackAccess(trackAccess)
         return 'Removed the %s track!' % track
