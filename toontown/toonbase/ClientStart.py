@@ -106,14 +106,6 @@ if base.win is None:
 
 launcher.setPandaErrorCode(0)
 launcher.setPandaWindowOpen()
-try:
-    import __builtin__
-except:
-    import builtins
-    __builtin__ = builtins
-from toontown.distributed.DiscordRPC import DiscordRPC
-__builtin__.Discord = DiscordRPC()
-Discord.Launching()
 ConfigVariableDouble('decompressor-step-time').setValue(0.01)
 ConfigVariableDouble('extractor-step-time').setValue(0.01)
 backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
@@ -187,7 +179,7 @@ del version
 base.loader = base.loader
 __builtin__.loader = base.loader
 autoRun = ConfigVariableBool('toontown-auto-run', 1)
-Discord.StartTasks()
+
 if autoRun:
     try:
         base.run()

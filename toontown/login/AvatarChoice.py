@@ -9,7 +9,7 @@ from direct.gui.DirectGui import *
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TeaserPanel
-from toontown.distributed.DiscordRPC import *
+#from toontown.toonbase import UserFunnel
 NAME_ROTATIONS = (0, 0, 0, 0, 0, 0)
 NAME_POSITIONS = ((0, 0, 0.16),
  (0, 0, 0.3),
@@ -33,7 +33,6 @@ class AvatarChoice(DirectButton):
     MODE_LOCKED = 2
 
     def __init__(self, av = None, position = 0, paid = 0, okToLockout = 1):
-        Discord.AvChoice()        
         DirectButton.__init__(self, relief=None, text='', text_font=ToontownGlobals.getSignFont())
         self.initialiseoptions(AvatarChoice)
         self.hasPaid = paid

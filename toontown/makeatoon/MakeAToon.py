@@ -27,7 +27,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from decimal import Decimal
-from toontown.distributed.DiscordRPC import *
+
 
 class MakeAToon(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('MakeAToon')
@@ -99,7 +99,6 @@ class MakeAToon(StateData.StateData):
         return self.toon
 
     def enter(self):
-        Discord.Making()        
         self.notify.debug('Starting Make A Toon.')
         if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: MAKEATOON: Starting Make A Toon')

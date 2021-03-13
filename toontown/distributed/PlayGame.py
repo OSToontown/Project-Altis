@@ -27,7 +27,6 @@ from toontown.hood import PartyHood
 from toontown.toonbase import TTLocalizer
 from toontown.parties.PartyGlobals import GoToPartyStatus
 from toontown.dna.DNAParser import *
-from toontown.distributed.DiscordRPC import *
 
 class PlayGame(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('PlayGame')
@@ -136,15 +135,12 @@ class PlayGame(StateData.StateData):
           'zoneId': zoneId,
           'shardId': None,
           'avId': avId}])
-        Discord.setZone(zoneId)
 
     def exit(self):
         if base.placeBeforeObjects and self.quietZoneStateData:
             self.quietZoneStateData.exit()
             self.quietZoneStateData.unload()
             self.quietZoneStateData = None
-        self.zoneids = zoneId
-        Discord.setZone(zoneId)        
         self.ignore(self.quietZoneDoneEvent)
 
     def load(self):
