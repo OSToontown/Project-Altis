@@ -5391,7 +5391,7 @@ def tickets(tickets):
 '''
 @magicWord(category=CATEGORY_PROGRAMMER)
 def generateNpcs():
-    file = open('data/npcs.txt', 'w')
+    file = open('dependencies/data/npcs.txt', 'w')
     for i in xrange(100):
         file.write(''.join(str(NPCToons.getRandomDNA(None, random.choice(['m', 'f'])))) + "\n")
     file.close()

@@ -51,7 +51,7 @@ cls
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 echo Starting Localhost!
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-cd tools
+cd scripts
 echo Launching Astron...
 START astron_yaml-win32.bat
 echo Launching the Uberdog Server...
@@ -68,7 +68,7 @@ cls
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 echo Starting Localhost!
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-cd tools
+cd scripts
 echo Launching Mongo...
 START mongo-win32.bat
 echo Launching Astron...
@@ -109,6 +109,6 @@ echo The Tooniverse Awaits You!
 echo = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 :startgame
 title Project Altis Client
-"panda/python/python.exe" -m toontown.toonbase.ClientStart
+"dependencies/panda/python/python.exe" -m toontown.toonbase.ClientStart
 PAUSE
 goto startgame

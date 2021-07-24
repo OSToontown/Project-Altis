@@ -7,7 +7,7 @@ class CertificateManagerAI():
 
 
     def addCode(self, av, code):
-        file = open('data/certificate_fishing_codes.txt', 'a')
+        file = open('dependencies/data/certificate_fishing_codes.txt', 'a')
         file.write(code + "\n")
         file.close()
         certs = av.getCerts()

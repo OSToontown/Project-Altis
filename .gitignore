@@ -11,6 +11,7 @@ streamerinfo_district.txt
 
 # Toon Databases are Ugly
 backups/
+user/
 astron/databases/account-bridge.db
 
 # Pip logs

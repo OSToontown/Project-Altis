@@ -145,7 +145,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
 
         code = str(code.lower().replace(' ', '').replace('-', '').replace('_', '')) # Make every code lower case with no spaces or dashes of any sort
         allinsomniacodes = []
-        codefile = open('data/insomnia_codes.txt', 'r')
+        codefile = open('dependencies/data/insomnia_codes.txt', 'r')
         insomniacodes = codefile.read().split('\n')
         for line in insomniacodes:
             allinsomniacodes.append(line)
@@ -153,7 +153,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         codefile.close()
         
         if code in allinsomniacodes and code != '':
-            with open('data/insomnia_codes.txt', 'w') as file:
+            with open('dependencies/data/insomnia_codes.txt', 'w') as file:
                 allinsomniacodes.remove(code)
                 for code in allinsomniacodes:
                     file.write(code + "\n")

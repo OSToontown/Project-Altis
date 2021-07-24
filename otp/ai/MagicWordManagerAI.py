@@ -48,8 +48,8 @@ class MagicWordManagerAI(DistributedObjectAI):
                                   targetId, target.getAdminAccess(),
                                   word, response)
 
-        if not os.path.exists('logs/mw'):
-            os.makedirs('logs/mw')
+        if not os.path.exists('user/logs/mw'):
+            os.makedirs('user/logs/mw')
 
 
         with open("logs/mw/magic-words.txt","a") as textFile:

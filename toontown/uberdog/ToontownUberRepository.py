@@ -42,7 +42,7 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.rpcServer = ToontownRPCServer(endpoint, ToontownRPCHandler(self))
         self.rpcServer.start(useTaskChain=True)
         self.backups = BackupManager.BackupManager(
-            filepath = 'backups/',
+            filepath = 'user/backups/',
             extension = '.json')
         self.createGlobals()
         self.notify.info('Done.')
