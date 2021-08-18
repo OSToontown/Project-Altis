@@ -7,11 +7,9 @@ from toontown.toon.DistributedToonAI import DistributedToonAI
 import time
 import datetime
 import os
-import raven
 
 class MagicWordManagerAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("MagicWordManagerAI")
-    client = raven.Client('https://4e7951caa8ce4dd180a3bd032f645d71:6949b0a5d126453b92434392457d60dc@sentry.io/194824')
 
     def sendMagicWord(self, word, targetId):
         invokerId = self.air.getAvatarIdFromSender()
@@ -51,10 +49,6 @@ class MagicWordManagerAI(DistributedObjectAI):
         if not os.path.exists('user/logs/mw'):
             os.makedirs('user/logs/mw')
 
-
-        with open("logs/mw/magic-words.txt","a") as textFile:
-            textFile.write("%s | %s : %s\n" % (now, invokerId, word))
-
         print("%s | %s : %s\n" % (now, invokerId, word))
 
         if os.getenv('DISTRICT_NAME', 'Test Canvas') == "Test Canvas":
@@ -63,27 +57,6 @@ class MagicWordManagerAI(DistributedObjectAI):
         if ' ' in word:
             baseword = word.split()[0]
 
-        self.client.tags_context({
-            'WordUsed': baseword,
-            'InvokerAvId': invokerId,
-            'InvokerToonName': invoker.getName(),
-            'TargetAvId': targetId,
-            'TargetToonName': target.getName()
-        })
-        self.client.user_context({
-            'InvokerAvId': invokerId,
-            'InvokerToonName': invoker.getName(),
-            'InvokerAccess': invoker.getAdminAccess(),
-            'time': now,
-            'TargetAvId': targetId,
-            'TargetToonName': target.getName(),
-            'TargetAccess': target.getAdminAccess(),
-            'response': response
-        })
-        if invokerId != targetId:
-            self.client.captureMessage('~~' + word)
-        else:
-            self.client.captureMessage('~' + word)
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def help(wordName=None):
