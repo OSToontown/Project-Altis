@@ -235,7 +235,6 @@ class DistributedBoardbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.F
         DistributedBossCogAI.DistributedBossCogAI.enterIntroduction(self)
         self.__makeDoobers()
         self.b_setBossDamage(0, 0, 0)
-        self.air.achievementsManager.toonsStartedVP(self.involvedToons)
 
     def exitIntroduction(self):
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
@@ -384,10 +383,10 @@ class DistributedBoardbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.F
          'track': self.dna.dept,
          'isSkelecog': 0,
          'isForeman': 0,
-         'isVP': 1,
-         'isCFO': 0,
+         'isBoss': 1,
          'isSupervisor': 0,
          'isVirtual': 0,
+         'isElite': 0,
          'activeToons': self.involvedToons[:]})
         self.barrier = self.beginBarrier('Victory', self.involvedToons, 10, self.__doneVictory)
 
@@ -448,7 +447,6 @@ class DistributedBoardbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.F
         self.b_setAttackCode(ToontownGlobals.BossCogRecoverDizzyAttack)
 
     def enterReward(self):
-        self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
         DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
         
 
