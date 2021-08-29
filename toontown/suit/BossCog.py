@@ -95,7 +95,7 @@ class BossCog(Avatar.Avatar):
         self.swishSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_swish.ogg')
         self.boomSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_boom.ogg')
         self.deathSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_big_death.ogg')
-        self.treadsSfx = loader.loadSfx('CHQ_VP_tractor_treads.ogg')
+        self.treadsSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_tractor_treads.ogg')
         self.headshakeSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_headshake.ogg')
         self.upSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_raise_up.ogg')
         self.downSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_collapse.ogg')
