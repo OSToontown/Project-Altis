@@ -669,7 +669,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return 0
 
     def startChat(self):
-        if self.tutorialAck:
+        if not self.tutorialAck:
             self.notify.info('calling LocalAvatar.startchat')
             LocalAvatar.LocalAvatar.startChat(self)
             self.accept('chatUpdateSCToontask', self.b_setSCToontask)
