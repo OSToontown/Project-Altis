@@ -11,7 +11,7 @@ class CogdoFlyingLevelQuadrant:
         self.serialNum = serialNum
         self._model = model
         self._level = level
-        self._root = NodePath('Quadrant' + `serialNum`)
+        self._root = NodePath('Quadrant' + repr(serialNum))
         self._model.reparentTo(self._root)
         self._root.reparentTo(parent)
         self._visible = True
@@ -65,7 +65,7 @@ class CogdoFlyingLevelQuadrant:
             self.platforms[platform.getName()] = platform
 
     def _destroyPlatforms(self):
-        for platform in self.platforms.values():
+        for platform in list(self.platforms.values()):
             platform.destroy()
 
         del self.platforms
@@ -138,7 +138,7 @@ class CogdoFlyingLevelQuadrant:
                 gatherable.removeNode()
 
         def generatePowerUps():
-            for powerupType, locName in Globals.Level.PowerupType2Loc.iteritems():
+            for powerupType, locName in list(Globals.Level.PowerupType2Loc.items()):
                 gatherables = gatherableModel.findAllMatches('**/%s' % locName)
                 for gatherable in gatherables:
                     pickup = self._level.gatherableFactory.createPowerup(powerupType)

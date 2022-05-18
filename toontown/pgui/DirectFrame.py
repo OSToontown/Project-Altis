@@ -3,10 +3,10 @@
 __all__ = ['DirectFrame']
 
 from pandac.PandaModules import *
-import DirectGuiGlobals as DGG
-from DirectGuiBase import *
-from OnscreenImage import OnscreenImage
-from OnscreenGeom import OnscreenGeom
+from . import DirectGuiGlobals as DGG
+from .DirectGuiBase import *
+from .OnscreenImage import OnscreenImage
+from .OnscreenGeom import OnscreenGeom
 import string, types
 
 class DirectFrame(DirectGuiWidget):
@@ -54,7 +54,7 @@ class DirectFrame(DirectGuiWidget):
         # Determine if user passed in single string or a sequence
         if self['text'] == None:
             textList = (None,) * self['numStates']
-        elif isinstance(self['text'], types.StringTypes):
+        elif isinstance(self['text'], (str,)):
             # If just passing in a single string, make a tuple out of it
             textList = (self['text'],) * self['numStates']
         else:
@@ -80,7 +80,7 @@ class DirectFrame(DirectGuiWidget):
                 if text == None:
                     return
                 else:
-                    from OnscreenText import OnscreenText
+                    from .OnscreenText import OnscreenText
                     self.createcomponent(
                         component, (), 'text',
                         OnscreenText,
@@ -97,7 +97,7 @@ class DirectFrame(DirectGuiWidget):
             # Passed in None
             geomList = (None,) * self['numStates']
         elif isinstance(geom, NodePath) or \
-             isinstance(geom, types.StringTypes):
+             isinstance(geom, (str,)):
             # Passed in a single node path, make a tuple out of it
             geomList = (geom,) * self['numStates']
         else:
@@ -139,14 +139,14 @@ class DirectFrame(DirectGuiWidget):
             imageList = (None,) * self['numStates']
         elif isinstance(arg, NodePath) or \
              isinstance(arg, Texture) or \
-             isinstance(arg, types.StringTypes):
+             isinstance(arg, (str,)):
             # Passed in a single node path, make a tuple out of it
             imageList = (arg,) * self['numStates']
         else:
             # Otherwise, hope that the user has passed in a tuple/list
             if ((len(arg) == 2) and
-                isinstance(arg[0], types.StringTypes) and
-                isinstance(arg[1], types.StringTypes)):
+                isinstance(arg[0], (str,)) and
+                isinstance(arg[1], (str,))):
                 # Its a model/node pair of strings
                 imageList = (arg,) * self['numStates']
             else:

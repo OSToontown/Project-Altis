@@ -59,7 +59,7 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI, FSM):
             self.air.writeServerEvent('suspicious',avId,'Toon incorrectly reported height!')
             
     def enterActive(self):
-        self.jellybeans = range(PartyGlobals.TrampolineNumJellyBeans)
+        self.jellybeans = list(range(PartyGlobals.TrampolineNumJellyBeans))
         taskMgr.doMethodLater(PartyGlobals.TrampolineDuration, self.sendUpdate, 'exitTrampoline%d' % self.doId, extraArgs=['leaveTrampoline', []])
         self.sendUpdate('setState', ['Active', globalClockDelta.getRealNetworkTime()])
         self.collected = 0

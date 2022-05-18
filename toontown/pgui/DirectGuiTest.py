@@ -5,7 +5,7 @@ __all__ = []
 
 if __name__ == "__main__":
     from direct.directbase import DirectStart
-    from DirectGui import *
+    from .DirectGui import *
     #from whrandom import *
     from random import *
 
@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     # Here we specify the button's command
     def dummyCmd(index):
-        print 'Button %d POW!!!!' % index
+        print('Button %d POW!!!!' % index)
 
     # Define some commands to bind to enter, exit and click events
     def shrink(db):
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     # DIRECT ENTRY EXAMPLE
     def printEntryText(text):
-        print 'Text:', text
+        print('Text:', text)
 
     # Here we create an entry, and specify everything up front
     # CALL de1.get() and de1.set('new text') to get and set entry contents
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
     # DIRECT DIALOG EXAMPLE
     def printDialogValue(value):
-        print 'Value:', value
+        print('Value:', value)
 
     simpleDialog = YesNoDialog(text = 'Simple',
                                command = printDialogValue)
@@ -125,7 +125,7 @@ if __name__ == "__main__":
 
     customDialog = DirectDialog(text = 'Pick a number',
                                 buttonTextList = [str(i) for i in range(10)],
-                                buttonValueList = range(10),
+                                buttonValueList = list(range(10)),
                                 command = printDialogValue)
 
 
@@ -133,9 +133,9 @@ if __name__ == "__main__":
     # NOTE: There are some utility functions which help you get size
     # of a direct gui widget.  These can be used to position and scale an
     # image after you've created the entry.  scale = (width/2, 1, height/2)
-    print 'BOUNDS:', de1.getBounds()
-    print 'WIDTH:', de1.getWidth()
-    print 'HEIGHT:', de1.getHeight()
-    print 'CENTER:', de1.getCenter()
+    print('BOUNDS:', de1.getBounds())
+    print('WIDTH:', de1.getWidth())
+    print('HEIGHT:', de1.getHeight())
+    print('CENTER:', de1.getCenter())
 
     run()

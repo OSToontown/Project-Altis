@@ -22,7 +22,7 @@ class RemoteValueSet:
                 continue
             try:
                 name, value = line.split('=', 1)
-            except ValueError, e:
+            except ValueError as e:
                 errMsg = 'unexpected response: %s' % response
                 self.notify.warning(errMsg)
                 onUnexpectedResponse(errMsg)

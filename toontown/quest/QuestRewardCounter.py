@@ -91,7 +91,7 @@ class QuestRewardCounter:
 
     def setRewardIndex(self, tier, rewardIds, rewardHistory):
         self.reset()
-        for tierNum in xrange(tier):
+        for tierNum in range(tier):
             for rewardId in Quests.getRewardsInTier(tierNum):
                 reward = Quests.getReward(rewardId)
                 reward.countReward(self)

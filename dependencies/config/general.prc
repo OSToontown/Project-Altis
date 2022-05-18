@@ -11,7 +11,7 @@ notify-level-DistributedNPCScientistAI info
 want-pstats #f
 
 # Audio:
-audio-library-name p3fmod_audio
+audio-library-name p3openal_audio
 
 # Graphics:
 aux-display pandagl

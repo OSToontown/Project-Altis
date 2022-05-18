@@ -146,9 +146,9 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         start_pos = LVecBase3(.4, 1, -0.26)
         seperation = LVecBase3(0, 0, 0.7)
 		
-        possibleAchievementTypes = Achievements.type2AchievementIds.keys()
+        possibleAchievementTypes = list(Achievements.type2AchievementIds.keys())
 		
-        for type in xrange(len(possibleAchievementTypes)):
+        for type in range(len(possibleAchievementTypes)):
             for achievement in Achievements.AchievementsDict:
                 if isinstance(achievement, possibleAchievementTypes[type]):
                     cat = Achievements.type2Category.get(achievement.__class__)
@@ -159,7 +159,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         else:
             self.setFrame.hide()
 
-        for achievement in xrange(self.offset, self.offset + 4):
+        for achievement in range(self.offset, self.offset + 4):
             try:
                 achievementFrame = DirectFrame(parent = self.achievementsPageNode, image = DGG.getDefaultDialogGeom(), scale = (0.55, 0, 0.55),
                                                relief = None, pos = (POSITIONS[achievement % 4]),
@@ -236,7 +236,7 @@ class AchievementsPage(ShtikerPage.ShtikerPage):
         statRows2 = [self.createStat(y, 0.8) for y in (rowYs)]
         self.statRows += statRows2
         self.stats = base.localAvatar.getStats()
-        for stat in xrange(self.statOffset, self.statOffset + 26):
+        for stat in range(self.statOffset, self.statOffset + 26):
             try:
                 statText = TTLocalizer.StatsList[stat] % self.stats[stat]
                 self.statRows[stat - 26]['text'] = statText

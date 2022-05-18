@@ -4,7 +4,7 @@ from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from direct.task import Task
 from pandac.PandaModules import *
-from Avatar import Avatar
+from .Avatar import Avatar
 from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPGlobals
 from toontown.battle.BattleProps import globalPropPool

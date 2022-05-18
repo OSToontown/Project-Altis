@@ -7,10 +7,10 @@ from toontown.battle import BattleBase
 from toontown.building.ElevatorConstants import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToontownBattleGlobals import *
-import DistCogdoMazeGameAI, CogdoMazeGameGlobals, DistributedCogdoElevatorIntAI
-import DistCogdoFlyingGameAI, DistributedCogdoBarrelAI
-from DistributedCogdoBattleBldgAI import DistributedCogdoBattleBldgAI
-from SuitPlannerCogdoInteriorAI import SuitPlannerCogdoInteriorAI
+from . import DistCogdoMazeGameAI, CogdoMazeGameGlobals, DistributedCogdoElevatorIntAI
+from . import DistCogdoFlyingGameAI, DistributedCogdoBarrelAI
+from .DistributedCogdoBattleBldgAI import DistributedCogdoBattleBldgAI
+from .SuitPlannerCogdoInteriorAI import SuitPlannerCogdoInteriorAI
 from toontown.cogdominium import CogdoBarrelRoomConsts
 from toontown.toon import InventoryBase
 from toontown.battle import BattleExperienceAI
@@ -37,7 +37,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
     def __init__(self, air, exterior):
         DistributedObjectAI.__init__(self, air)
         FSM.FSM.__init__(self, 'CogdoInteriorAIFSM')
-        self.toons = filter(None, exterior.elevator.seats[:])
+        self.toons = [_f for _f in exterior.elevator.seats[:] if _f]
         self.responses = {}
         self.bldgDoId = exterior.doId
         self.numFloors = NUM_FLOORS_DICT[exterior.track]
@@ -90,7 +90,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         self.maxToonLevels = 77
 
     def __generateSOS(self, difficulty):
-        g = lambda: random.choice(NPCToons.FOnpcFriends.keys())
+        g = lambda: random.choice(list(NPCToons.FOnpcFriends.keys()))
         v = g()
         getStars = lambda x: NPCToons.getNPCTrackLevelHpRarity(x)[-1]
         maxStars = min(2, int(math.ceil(difficulty / 5.)))
@@ -191,7 +191,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
     def addToon(self, avId):
         if not avId in self.toons:
             self.toons.append(avId)
-        if self.air.doId2do.has_key(avId):
+        if avId in self.air.doId2do:
             event = self.air.getAvatarExitEvent(avId)
             self.accept(event, self.__handleUnexpectedExit, [avId])
 
@@ -244,7 +244,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         if not self.air:
             return
         self.b_setState('CollectBarrels')
-        for i in xrange(len(CogdoBarrelRoomConsts.BarrelProps)):
+        for i in range(len(CogdoBarrelRoomConsts.BarrelProps)):
             barrel = DistributedCogdoBarrelAI.DistributedCogdoBarrelAI(self.air, i)
             barrel.generateWithRequired(self.zoneId)
             self.barrels.append(barrel)
@@ -283,7 +283,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         for toon in self.toons:
             if toon not in seats:
                 self.removeToon(toon)
-        self.toons = filter(None, seats)
+        self.toons = [_f for _f in seats if _f]
         self.d_setToons()
         self.request('Elevator')
 
@@ -484,8 +484,8 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
                         foundOne = True
                         break
 
-                possibleCogLevel = range(SuitDNA.suitsPerDept)
-                possibleDeptIndex = range(len(SuitDNA.suitDepts)-1)
+                possibleCogLevel = list(range(SuitDNA.suitsPerDept))
+                possibleDeptIndex = list(range(len(SuitDNA.suitDepts)-1))
                 possibleSummonType = ['single']
                 typeWeights = ['single'] * 70
                 if not foundOne:

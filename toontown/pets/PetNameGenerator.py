@@ -7,7 +7,7 @@ from direct.directnotify import DirectNotifyGlobal
 from panda3d.core import *
 from panda3d.direct import *
 from toontown.pets import PetNamesEnglish
-from StringIO import StringIO
+from io import StringIO
 
 class PetNameGenerator:
     notify = DirectNotifyGlobal.directNotify.newCategory('PetNameGenerator')
@@ -33,7 +33,7 @@ class PetNameGenerator:
             currentLine = input.readline()
 
         masterList = [self.boyFirsts, self.girlFirsts, self.neutralFirsts]
-        for tu in self.nameDictionary.values():
+        for tu in list(self.nameDictionary.values()):
             masterList[tu[0]].append(tu[1])
 
         return 1
@@ -49,7 +49,7 @@ class PetNameGenerator:
         newtu[0] = (0, name)
         newtu[1] = (1, name)
         newtu[2] = (2, name)
-        for tu in self.nameDictionary.items():
+        for tu in list(self.nameDictionary.items()):
             for g in newtu:
                 if tu[1] == g:
                     return tu[0]

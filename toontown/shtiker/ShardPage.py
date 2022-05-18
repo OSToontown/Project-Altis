@@ -246,7 +246,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
         currentMap = {}
         self.shardButtons = []
 
-        for i in xrange(len(curShardTuples)):
+        for i in range(len(curShardTuples)):
 
             shardId, name, pop, WVPop, invasionStatus = curShardTuples[i]
 
@@ -286,7 +286,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
                 removeInvasionMarker(buttonTuple[3])
                 anyChanges = 1
 
-        for shardId, buttonTuple in self.shardButtonMap.items():
+        for shardId, buttonTuple in list(self.shardButtonMap.items()):
 
             if shardId not in currentMap:
                 buttonTuple[3].removeNode()

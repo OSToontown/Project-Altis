@@ -516,7 +516,7 @@ class ClientRepositoryBaseOR(ConnectionRepository):
         """ returns dict of doId:object, containing all objects
         that inherit from 'class'. returned dict is safely mutable. """
         doDict = {}
-        for doId, do in self.doId2do.items():
+        for doId, do in list(self.doId2do.items()):
             if isinstance(do, objClass):
                 doDict[doId] = do
         return doDict
@@ -526,7 +526,7 @@ class ClientRepositoryBaseOR(ConnectionRepository):
         are exactly of type 'class' (neglecting inheritance). returned
         dict is safely mutable. """
         doDict = {}
-        for doId, do in self.doId2do.items():
+        for doId, do in list(self.doId2do.items()):
             if do.__class__ == objClass:
                 doDict[doId] = do
         return doDict
@@ -604,6 +604,6 @@ class ClientRepositoryBaseOR(ConnectionRepository):
     def printDelayDeletes(self):
         print('DelayDeletes:')
         print('=============')
-        for obj in self._delayDeletedDOs.values():
-            print('%s\t%s (%s)\tdelayDeletes=%s' % (
-                obj.doId, safeRepr(obj), itype(obj), obj.getDelayDeleteNames()))
+        for obj in list(self._delayDeletedDOs.values()):
+            print(('%s\t%s (%s)\tdelayDeletes=%s' % (
+                obj.doId, safeRepr(obj), itype(obj), obj.getDelayDeleteNames())))

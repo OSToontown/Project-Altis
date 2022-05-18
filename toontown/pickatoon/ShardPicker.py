@@ -264,7 +264,7 @@ class ShardPicker(ShtikerPage.ShtikerPage):
             else:
                 removeInvasionMarker(buttonTuple[3])
 
-        for shardId, buttonTuple in self.shardButtonMap.items():
+        for shardId, buttonTuple in list(self.shardButtonMap.items()):
             if shardId not in currentMap:
                 buttonTuple[0].destroy()
                 del self.shardButtonMap[shardId]

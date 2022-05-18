@@ -21,7 +21,7 @@ class FactoryBase:
     if __dev__:
 
         def getEntityTypeReg(self):
-            import FactoryEntityTypes
+            from . import FactoryEntityTypes
             from otp.level import EntityTypeRegistry
             typeReg = EntityTypeRegistry.EntityTypeRegistry(FactoryEntityTypes)
             return typeReg

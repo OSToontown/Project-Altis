@@ -167,7 +167,7 @@ def __createMagnetMultiTrack(lure, magnet, pos, hpr, scale, isSmallMagnet = 1, n
                 suitTrack.append(Func(suit.loop, 'neutral'))
                 suitTrack.append(Wait(suitDelay))
                 suitTrack.append(ActorInterval(suit, 'landing', startTime=2.37, endTime=1.82))
-                for i in xrange(0, numShakes):
+                for i in range(0, numShakes):
                     suitTrack.append(ActorInterval(suit, 'landing', startTime=1.82, endTime=1.16, duration=shakeDuration))
 
                 suitTrack.append(ActorInterval(suit, 'landing', startTime=1.16, endTime=0.7))
@@ -237,8 +237,8 @@ def __createHypnoGogglesMultiTrack(lure, npcs = []):
                 if revived != 0:
                     suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
                 elif died != 0:
-                    print trapProp
-                    print suit
+                    print(trapProp)
+                    print(suit)
                     if trapProp:
                         if not (trapProp.getName() == 'tnt' and suit.maxHP <= 42):
                             suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
@@ -525,7 +525,7 @@ def getSplicedLerpAnimsTrack(object, animName, origDuration, newDuration, startT
     numIvals = origDuration * fps
     timeInterval = newDuration / numIvals
     animInterval = origDuration / numIvals
-    for i in xrange(0, int(numIvals)):
+    for i in range(0, int(numIvals)):
         track.append(Wait(timeInterval))
         track.append(ActorInterval(object, animName, startTime=startTime + addition, duration=animInterval))
         addition += animInterval

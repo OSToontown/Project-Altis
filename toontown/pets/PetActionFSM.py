@@ -55,7 +55,7 @@ class PetActionFSM(FSM.FSM):
                 aptitude = self.pet.getTrickAptitude(trickId)
                 healAmt = int(lerp(healRange[0], healRange[1], aptitude))
                 if healAmt:
-                    for avId, av in self.pet._getFullNearbyToonDict().items():
+                    for avId, av in list(self.pet._getFullNearbyToonDict().items()):
                         if isinstance(av, DistributedToonAI.DistributedToonAI):
                             try:
                                 av.toonUp(healAmt)

@@ -61,7 +61,7 @@ class ColorShop(StateData.StateData):
         try:
             del self.toon
         except:
-            print 'ColorShop: toon not found'
+            print('ColorShop: toon not found')
 
         self.hideButtons()
 
@@ -180,8 +180,8 @@ class ColorShop(StateData.StateData):
         return ((limitMax - limitMin) * (value - baseMin) / (baseMax - baseMin)) + limitMin
     
     def __chooseHue(self):
-        for x in xrange(self.pickImage.getXSize()):
-            for y in xrange(self.pickImage.getYSize()):
+        for x in range(self.pickImage.getXSize()):
+            for y in range(self.pickImage.getYSize()):
                 self.pickImage.setXel(x, y, colorsys.hsv_to_rgb(self.hueSlider['value'], (x / 100.0) + 0.25, (y / 100.0) + 0.4))
         
         texture = Texture()

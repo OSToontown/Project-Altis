@@ -4,6 +4,7 @@ from pandac import PandaModules as PM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase.ToonPythonUtil import list2dict, uniqueElements
 from otp.level import LevelConstants
+import importlib
 if __dev__:
     import os
 
@@ -15,11 +16,11 @@ class LevelSpec:
         newSpec = 0
         if type(spec) is types.ModuleType:
             if __dev__:
-                reload(spec)
+                importlib.reload(spec)
             self.specDict = spec.levelSpec
             if __dev__:
                 self.setFilename(spec.__file__)
-        elif type(spec) is types.DictType:
+        elif type(spec) is dict:
             self.specDict = spec
         elif spec is None:
             if __dev__:
@@ -28,14 +29,14 @@ class LevelSpec:
                  'scenarios': [{}]}
         self.entId2specDict = {}
         self.entId2specDict.update(list2dict(self.getGlobalEntIds(), value=self.privGetGlobalEntityDict()))
-        for i in xrange(self.getNumScenarios()):
+        for i in range(self.getNumScenarios()):
             self.entId2specDict.update(list2dict(self.getScenarioEntIds(i), value=self.privGetScenarioEntityDict(i)))
 
         self.setScenario(scenario)
         if __dev__:
             if newSpec:
-                import EntityTypes
-                import EntityTypeRegistry
+                from . import EntityTypes
+                from . import EntityTypeRegistry
                 etr = EntityTypeRegistry.EntityTypeRegistry(EntityTypes)
                 self.setEntityTypeReg(etr)
                 entId = LevelConstants.UberZoneEntId
@@ -67,19 +68,19 @@ class LevelSpec:
         return self.scenario
 
     def getGlobalEntIds(self):
-        return self.privGetGlobalEntityDict().keys()
+        return list(self.privGetGlobalEntityDict().keys())
 
     def getScenarioEntIds(self, scenario = None):
         if scenario is None:
             scenario = self.scenario
-        return self.privGetScenarioEntityDict(scenario).keys()
+        return list(self.privGetScenarioEntityDict(scenario).keys())
 
     def getAllEntIds(self):
         return self.getGlobalEntIds() + self.getScenarioEntIds()
 
     def getAllEntIdsFromAllScenarios(self):
         entIds = self.getGlobalEntIds()
-        for scenario in xrange(self.getNumScenarios()):
+        for scenario in range(self.getNumScenarios()):
             entIds.extend(self.getScenarioEntIds(scenario))
 
         return entIds
@@ -129,7 +130,7 @@ class LevelSpec:
         zoneIds.sort()
         for zoneNum in zoneIds:
             spec = self.getEntitySpec(zoneNum)
-            print 'zone %s: %s' % (zoneNum, spec['name'])
+            print(('zone %s: %s' % (zoneNum, spec['name'])))
 
     if __dev__:
 
@@ -146,7 +147,7 @@ class LevelSpec:
                 type = self.getEntityType(entId)
                 typeDesc = self.entTypeReg.getTypeDesc(type)
                 attribDescDict = typeDesc.getAttribDescDict()
-                for attribName, desc in attribDescDict.iteritems():
+                for attribName, desc in list(attribDescDict.items()):
                     if attribName not in spec:
                         spec[attribName] = desc.getDefaultValue()
 
@@ -178,7 +179,7 @@ class LevelSpec:
             globalEnts[entId] = {}
             spec = globalEnts[entId]
             attribDescs = self.entTypeReg.getTypeDesc(entType).getAttribDescDict()
-            for name, desc in attribDescs.items():
+            for name, desc in list(attribDescs.items()):
                 spec[name] = desc.getDefaultValue()
 
             spec['type'] = entType
@@ -231,7 +232,7 @@ class LevelSpec:
                     backupFilename = self.privGetBackupFilename(filename)
                     self.privRemoveFile(backupFilename)
                     os.rename(filename, backupFilename)
-                except OSError, e:
+                except OSError as e:
                     LevelSpec.notify.warning('error during backup: %s' % str(e))
 
             LevelSpec.notify.info("writing to '%s'" % filename)
@@ -292,9 +293,9 @@ class LevelSpec:
                 firstTypes = ('levelMgr', 'editMgr', 'zone')
                 firstAttribs = ('type', 'name', 'comment', 'parentEntId', 'pos', 'x', 'y', 'z', 'hpr', 'h', 'p', 'r', 'scale', 'sx', 'sy', 'sz', 'color', 'model')
                 str = t(0) + '%s = {\n' % name
-                entIds = dict.keys()
+                entIds = list(dict.keys())
                 entType2ids = self.getEntType2ids(entIds)
-                types = sortList(entType2ids.keys(), firstTypes)
+                types = sortList(list(entType2ids.keys()), firstTypes)
                 for type in types:
                     str += t(1) + '# %s\n' % type.upper()
                     entIds = entType2ids[type]
@@ -302,7 +303,7 @@ class LevelSpec:
                     for entId in entIds:
                         str += t(1) + '%s: {\n' % entId
                         spec = dict[entId]
-                        attribs = sortList(spec.keys(), firstAttribs)
+                        attribs = sortList(list(spec.keys()), firstAttribs)
                         for attrib in attribs:
                             str += t(2) + "'%s': %s,\n" % (attrib, repr(spec[attrib]))
 
@@ -319,7 +320,7 @@ class LevelSpec:
                 str = t(0) + '%s = {\n' % topLevelName
                 str += t(1) + "'globalEntities': %s,\n" % globalEntitiesName
                 str += t(1) + "'scenarios': [\n"
-                for i in xrange(self.getNumScenarios()):
+                for i in range(self.getNumScenarios()):
                     str += t(2) + '%s,\n' % (scenarioEntitiesName % i)
 
                 str += t(2) + '],\n'
@@ -331,7 +332,7 @@ class LevelSpec:
             str += getPrettyEntityDictStr('GlobalEntities', self.privGetGlobalEntityDict())
             str += '\n'
             numScenarios = self.getNumScenarios()
-            for i in xrange(numScenarios):
+            for i in range(numScenarios):
                 str += getPrettyEntityDictStr('Scenario%s' % i, self.privGetScenarioEntityDict(i))
                 str += '\n'
 
@@ -355,7 +356,7 @@ class LevelSpec:
                         s += '\nBAD VALUE(%s): %s != %s\n' % (key, strd1, strd2)
                         errorCount += 1
 
-            print s
+            print(s)
             if errorCount == 0:
                 return 1
             else:
@@ -367,7 +368,7 @@ class LevelSpec:
         def checkSpecIntegrity(self):
             entIds = self.getGlobalEntIds()
             entIds = list2dict(entIds)
-            for i in xrange(self.getNumScenarios()):
+            for i in range(self.getNumScenarios()):
                 for id in self.getScenarioEntIds(i):
                     entIds[id] = None
 
@@ -379,7 +380,7 @@ class LevelSpec:
                     typeDesc = self.entTypeReg.getTypeDesc(entType)
                     attribNames = typeDesc.getAttribNames()
                     attribDescs = typeDesc.getAttribDescDict()
-                    for attrib in spec.keys():
+                    for attrib in list(spec.keys()):
                         if attrib not in attribNames:
                             LevelSpec.notify.warning("entId %s (%s): unknown attrib '%s', omitting" % (entId, spec['type'], attrib))
                             del spec[attrib]

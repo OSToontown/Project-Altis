@@ -194,7 +194,7 @@ class SuitInvasionManagerAI(DirectObject):
             [msgType, self.getSuitName(), self.remaining, self.flags])
 
     def flySuits(self):
-        for suitPlanner in self.air.suitPlanners.values():
+        for suitPlanner in list(self.air.suitPlanners.values()):
             suitPlanner.flySuits()
 
     def handleSuitDefeated(self):

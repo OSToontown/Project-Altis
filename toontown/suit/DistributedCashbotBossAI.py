@@ -88,14 +88,14 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def __makeBattleThreeObjects(self):
         if self.cranes == None:
             self.cranes = []
-            for index in xrange(len(ToontownGlobals.CashbotBossCranePosHprs)):
+            for index in range(len(ToontownGlobals.CashbotBossCranePosHprs)):
                 crane = DistributedCashbotBossCraneAI.DistributedCashbotBossCraneAI(self.air, self, index)
                 crane.generateWithRequired(self.zoneId)
                 self.cranes.append(crane)
 
         if self.safes == None:
             self.safes = []
-            for index in xrange(len(ToontownGlobals.CashbotBossSafePosHprs)):
+            for index in range(len(ToontownGlobals.CashbotBossSafePosHprs)):
                 safe = DistributedCashbotBossSafeAI.DistributedCashbotBossSafeAI(self.air, self, index)
                 safe.generateWithRequired(self.zoneId)
                 self.safes.append(safe)
@@ -210,11 +210,11 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             self.recycledTreasures.append(treasure)
 
     def deleteAllTreasures(self):
-        for treasure in self.treasures.values():
+        for treasure in list(self.treasures.values()):
             treasure.requestDelete()
 
         self.treasures = {}
-        for treasure in self.grabbingTreasures.values():
+        for treasure in list(self.grabbingTreasures.values()):
             taskMgr.remove(treasure.uniqueName('recycleTreasure'))
             treasure.requestDelete()
 
@@ -623,7 +623,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             if toon:
                 toon.addResistanceMessage(self.rewardId)
                 if self.bonusUnites:
-                    for x in xrange(self.bonusUnites):
+                    for x in range(self.bonusUnites):
                         toon.addResistanceMessage(ResistanceChat.getRandomId())
                 toon.b_promote(self.deptIndex)
                 toon.addStat(ToontownGlobals.STATS_CFO)
@@ -649,7 +649,7 @@ def restartCraneRound():
     """
     invoker = spellbook.getInvoker()
     boss = None
-    for do in simbase.air.doId2do.values():
+    for do in list(simbase.air.doId2do.values()):
         if isinstance(do, DistributedCashbotBossAI):
             if invoker.doId in do.involvedToons:
                 boss = do
@@ -669,7 +669,7 @@ def skipCFO():
     """
     invoker = spellbook.getInvoker()
     boss = None
-    for do in simbase.air.doId2do.values():
+    for do in list(simbase.air.doId2do.values()):
         if isinstance(do, DistributedCashbotBossAI):
             if invoker.doId in do.involvedToons:
                 boss = do
@@ -689,7 +689,7 @@ def cfo2():
     """
     invoker = spellbook.getInvoker()
     boss = None
-    for do in simbase.air.doId2do.values():
+    for do in list(simbase.air.doId2do.values()):
         if isinstance(do, DistributedCashbotBossAI):
             if invoker.doId in do.involvedToons:
                 boss = do
@@ -707,7 +707,7 @@ def killCFO():
     """
     invoker = spellbook.getInvoker()
     boss = None
-    for do in simbase.air.doId2do.values():
+    for do in list(simbase.air.doId2do.values()):
         if isinstance(do, DistributedCashbotBossAI):
             if invoker.doId in do.involvedToons:
                 boss = do

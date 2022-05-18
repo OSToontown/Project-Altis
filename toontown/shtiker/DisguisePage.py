@@ -53,11 +53,11 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         self.cogLevel = DirectLabel(parent=self.frame, relief=None, text='', text_font=ToontownGlobals.getSuitFont(), text_scale=0.09, text_align=TextNode.ACenter, pos=(-0.91, 0, -1.02))
         self.partFrame = DirectFrame(parent=self.frame, relief=None)
         self.parts = []
-        for partNum in xrange(0, 17):
+        for partNum in range(0, 17):
             self.parts.append(DirectFrame(parent=self.partFrame, relief=None, geom=gui.find('**/robot/' + PartNames[partNum])))
 
         self.holes = []
-        for partNum in xrange(0, 17):
+        for partNum in range(0, 17):
             self.holes.append(DirectFrame(parent=self.partFrame, relief=None, geom=gui.find('**/robot_hole/' + PartNames[partNum])))
 
         self.cogPartRatio = DirectLabel(parent=self.frame, relief=None, text='', text_font=ToontownGlobals.getSuitFont(), text_scale=0.08, text_align=TextNode.ACenter, pos=(-0.91, 0, -0.82))
@@ -67,7 +67,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
         self.meterFace = DirectLabel(parent=self.frame, relief=None, geom=meterFace, color=self.meterColor, pos=(0.455, 0.0, 0.04))
         self.meterFaceHalf1 = DirectLabel(parent=self.frame, relief=None, geom=meterFaceHalf, color=self.meterActiveColor, pos=(0.455, 0.0, 0.04))
         self.meterFaceHalf2 = DirectLabel(parent=self.frame, relief=None, geom=meterFaceHalf, color=self.meterColor, pos=(0.455, 0.0, 0.04))
-        for dept in xrange(len(SuitDNA.suitDepts)):
+        for dept in range(len(SuitDNA.suitDepts)):
             button = DirectButton(parent=self.frame, relief=None, pos=(-1 + self.xOffset * dept, 0, 1.05), image=icons.find(SuitDNA.suitDeptModelPaths[dept]), image_scale=0.25, image2_color=(1, 1, 1, 0.75), command = self.doTab, extraArgs=[dept])
             self.buttons.append(button)
         self.frame.hide()

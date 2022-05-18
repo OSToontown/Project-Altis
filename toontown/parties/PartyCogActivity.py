@@ -71,7 +71,7 @@ class PartyCogActivity(DirectObject):
         self.arrows = []
         self.distanceLabels = []
         self.teamColors = list(PartyGlobals.CogActivityColors) + [PartyGlobals.TeamActivityStatusColor]
-        for i in xrange(3):
+        for i in range(3):
             start = self.arena.find('**/cog%d_start_locator' % (i + 1))
             end = self.arena.find('**/cog%d_end_locator' % (i + 1))
             cog = self.cogManager.generateCog(self.arena)
@@ -106,13 +106,13 @@ class PartyCogActivity(DirectObject):
     def _initArenaDoors(self):
         self._arenaDoors = (self.arena.find('**/doorL'), self.arena.find('**/doorR'))
         arenaDoorLocators = (self.arena.find('**/doorL_locator'), self.arena.find('**/doorR_locator'))
-        for i in xrange(len(arenaDoorLocators)):
+        for i in range(len(arenaDoorLocators)):
             arenaDoorLocators[i].wrtReparentTo(self._arenaDoors[i])
 
         self._arenaDoorTimers = (self.createDoorTimer(PartyGlobals.TeamActivityTeams.LeftTeam), self.createDoorTimer(PartyGlobals.TeamActivityTeams.RightTeam))
         self._arenaDoorIvals = [None, None]
         self._doorStartPos = []
-        for i in xrange(len(self._arenaDoors)):
+        for i in range(len(self._arenaDoors)):
             door = self._arenaDoors[i]
             timer = self._arenaDoorTimers[i]
             timer.reparentTo(arenaDoorLocators[i])
@@ -198,7 +198,7 @@ class PartyCogActivity(DirectObject):
 
         self.distanceLabels = None
         if len(self.players):
-            for player in self.players.values():
+            for player in list(self.players.values()):
                 player.disable()
                 player.destroy()
 
@@ -215,11 +215,11 @@ class PartyCogActivity(DirectObject):
             self._destroyArenaDoors()
             self.arena.removeNode()
             self.arena = None
-        for ival in self.toonPieTracks.values():
+        for ival in list(self.toonPieTracks.values()):
             if ival is not None and ival.isPlaying():
                 try:
                     ival.finish()
-                except Exception, theException:
+                except Exception as theException:
                     self.notify.warning('Ival could not finish:\n %s \nException %s ' % (str(ival), str(theException)))
 
         self.toonPieTracks = {}
@@ -227,12 +227,12 @@ class PartyCogActivity(DirectObject):
             if ival is not None and ival.isPlaying():
                 try:
                     ival.finish()
-                except Exception, theException:
+                except Exception as theException:
                     self.notify.warning('Ival could not finish:\n %s \nException %s ' % (str(ival), str(theException)))
 
         self.pieIvals = []
         self.toonIdsToAnimIntervals = {}
-        for eventName in self.toonPieEventNames.values():
+        for eventName in list(self.toonPieEventNames.values()):
             self.ignore(eventName)
 
         self.toonPieEventNames = {}
@@ -271,12 +271,12 @@ class PartyCogActivity(DirectObject):
 
     def openArenaDoors(self):
         self.enableEnterGateCollision()
-        for i in xrange(len(self._arenaDoors)):
+        for i in range(len(self._arenaDoors)):
             self.openArenaDoorForTeam(i)
 
     def closeArenaDoors(self):
         self.disableEnterGateCollision()
-        for i in xrange(len(self._arenaDoors)):
+        for i in range(len(self._arenaDoors)):
             self.closeArenaDoorForTeam(i)
 
     def showArenaDoorTimers(self, duration):
@@ -418,7 +418,7 @@ class PartyCogActivity(DirectObject):
         if self.player is not None:
             self.player.resetScore()
             self.hideTeamFlags(self.player.team)
-        for player in self.players.values():
+        for player in list(self.players.values()):
             self.finishToonIval(player.toon.doId)
             player.enable()
 
@@ -433,10 +433,10 @@ class PartyCogActivity(DirectObject):
         return
 
     def stopActivity(self):
-        for player in self.players.values():
+        for player in list(self.players.values()):
             player.disable()
 
-        for eventName in self.toonPieEventNames.values():
+        for eventName in list(self.toonPieEventNames.values()):
             self.ignore(eventName)
 
         self.toonPieEventNames.clear()
@@ -636,7 +636,7 @@ class PartyCogActivity(DirectObject):
         for point in points:
             point.setY(Y)
 
-        for i in xrange(len(arrows)):
+        for i in range(len(arrows)):
             arrow = arrows[i]
             arrow.draw(points[i].getPos(), cog.root.getPos(), animate=False)
             arrow.unstash()

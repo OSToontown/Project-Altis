@@ -1,8 +1,8 @@
-import __builtin__
+import builtins
 
-__builtin__.process = 'ai'
+builtins.process = 'ai'
 
-__builtin__.__dict__.update(__import__('panda3d.core', fromlist = ['*']).__dict__)
+builtins.__dict__.update(__import__('panda3d.core', fromlist = ['*']).__dict__)
 
 from direct.extensions_native import HTTPChannel_extensions
 

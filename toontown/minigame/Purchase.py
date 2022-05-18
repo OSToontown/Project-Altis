@@ -78,7 +78,7 @@ class Purchase(PurchaseBase):
         numAvs = 0
         count = 0
         localToonIndex = 0
-        for index in xrange(len(self.ids)):
+        for index in range(len(self.ids)):
             avId = self.ids[index]
             if avId == base.localAvatar.doId:
                 localToonIndex = index
@@ -100,7 +100,7 @@ class Purchase(PurchaseBase):
         TOON_INDEX = 2
         self.avInfoArray = [(base.localAvatar.doId, headFramePosList[0], localToonIndex)]
         pos = 1
-        for index in xrange(len(self.ids)):
+        for index in range(len(self.ids)):
             avId = self.ids[index]
             if self.states[index] != PURCHASE_NO_CLIENT_STATE and self.states[index] != PURCHASE_DISCONNECTED_STATE:
                 if avId != base.localAvatar.doId:
@@ -313,7 +313,7 @@ class Purchase(PurchaseBase):
         floorNode.addSolid(floor)
         self.collisionFloor = render.attachNewNode(floorNode)
         NametagGlobals.setForceOnscreenChat(True)
-        for index in xrange(len(self.ids)):
+        for index in range(len(self.ids)):
             avId = self.ids[index]
             if self.states[index] != PURCHASE_NO_CLIENT_STATE and self.states[index] != PURCHASE_DISCONNECTED_STATE and avId in base.cr.doId2do:
                 numToons += 1
@@ -381,7 +381,7 @@ class Purchase(PurchaseBase):
                 counter.hide()
 
             winningPoints = max(task.pointsArray)
-            for i in xrange(len(task.ids)):
+            for i in range(len(task.ids)):
                 if task.pointsArray[i] == winningPoints:
                     avId = task.ids[i]
                     if avId in base.cr.doId2do:
@@ -516,7 +516,7 @@ class Purchase(PurchaseBase):
         if base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.JELLYBEAN_TROLLEY_HOLIDAY_MONTH):
             self.rewardDoubledJellybeanLabel.show()
         counterIndex = 0
-        for index in xrange(len(self.ids)):
+        for index in range(len(self.ids)):
             avId = self.ids[index]
             if self.states[index] != PURCHASE_NO_CLIENT_STATE and self.states[index] != PURCHASE_DISCONNECTED_STATE and avId in base.cr.doId2do:
                 self.counters[counterIndex].count = 0
@@ -531,7 +531,7 @@ class Purchase(PurchaseBase):
                 base.playSfx(state.countSound)
             return Task.done
 
-        for count in xrange(0, self.maxVotes):
+        for count in range(0, self.maxVotes):
             for counter in self.counters:
                 index = self.counters.index(counter)
                 if count < counter.max:
@@ -560,7 +560,7 @@ class Purchase(PurchaseBase):
                     base.playSfx(state.overMaxSound)
             return Task.done
 
-        for count in xrange(0, self.maxVotes):
+        for count in range(0, self.maxVotes):
             for counter in self.counters:
                 if count < counter.max:
                     index = self.counters.index(counter)

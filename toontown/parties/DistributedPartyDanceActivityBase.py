@@ -43,7 +43,7 @@ class DistributedPartyDanceActivityBase(DistributedPartyActivity):
     def generateInit(self):
         self.notify.debug('generateInit')
         DistributedPartyActivity.generateInit(self)
-        self.keyCodes = KeyCodes(patterns=self.dancePatternToAnims.keys())
+        self.keyCodes = KeyCodes(patterns=list(self.dancePatternToAnims.keys()))
         self.gui = KeyCodesGui(self.keyCodes)
         self.__initOrthoWalk()
         self.activityFSM = DanceActivityFSM(self)
@@ -84,7 +84,7 @@ class DistributedPartyDanceActivityBase(DistributedPartyActivity):
             self.danceFloor.removeNode()
             self.danceFloor = None
         self.__destroyOrthoWalk()
-        for toonId in self.dancingToonFSMs.keys():
+        for toonId in list(self.dancingToonFSMs.keys()):
             self.dancingToonFSMs[toonId].destroy()
             del self.dancingToonFSMs[toonId]
 

@@ -271,7 +271,7 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
         return model
 
     def cleanupIntervals(self):
-        for interval in self.activeIntervals.values():
+        for interval in list(self.activeIntervals.values()):
             interval.finish()
 
         self.activeIntervals = {}

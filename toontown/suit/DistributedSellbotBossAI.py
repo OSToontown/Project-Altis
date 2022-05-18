@@ -23,7 +23,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
         FSM.FSM.__init__(self, 'DistributedSellbotBossAI')
         self.doobers = []
-        self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
+        self.cagedToonNpcId = random.choice(list(NPCToons.HQnpcFriends.keys()))
         self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
         self.battleOnePlanner = SuitBuildingGlobals.SUIT_PLANNER_VP
         self.battleTwoPlanner = SuitBuildingGlobals.SUIT_PLANNER_VP_SKELECOGS
@@ -424,7 +424,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def __makeDoobers(self):
         self.__resetDoobers()
-        for i in xrange(8):
+        for i in range(8):
             suit = DistributedSuitAI.DistributedSuitAI(self.air, None)
             level = random.randrange(len(SuitDNA.suitsPerLevel))
             suit.dna = SuitDNA.SuitDNA()
@@ -516,7 +516,7 @@ def skipVP():
     """
     invoker = spellbook.getInvoker()
     boss = None
-    for do in simbase.air.doId2do.values():
+    for do in list(simbase.air.doId2do.values()):
         if isinstance(do, DistributedSellbotBossAI):
             if invoker.doId in do.involvedToons:
                 boss = do
@@ -536,7 +536,7 @@ def killVP():
     """
     invoker = spellbook.getInvoker()
     boss = None
-    for do in simbase.air.doId2do.values():
+    for do in list(simbase.air.doId2do.values()):
         if isinstance(do, DistributedSellbotBossAI):
             if invoker.doId in do.involvedToons:
                 boss = do

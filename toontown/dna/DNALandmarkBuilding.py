@@ -37,7 +37,7 @@ class DNALandmarkBuilding(DNANode.DNANode):
             name = 's' + name[1:]
             node = nodePathB.find('**/*suit_building_origin')
             if node.isEmpty():
-                print 'DNALandmarkBuilding ' + name + ' did not find **/*suit_building_origin'
+                print('DNALandmarkBuilding ' + name + ' did not find **/*suit_building_origin')
                 node = nodePathA.attachNewNode(name)
                 node.setPosHprScale(self.pos, self.hpr, self.scale)
             else:

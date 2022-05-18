@@ -227,7 +227,7 @@ Preloaded = {}
 def loadModels():
     global Preloaded
     if not Preloaded:
-        print 'Preloading suits...'
+        print('Preloading suits...')
         
         def preload(task):
             for filepath in SuitParts:
@@ -250,7 +250,7 @@ def unloadSuits(level):
     unloadDialog(level)
 
 def loadSuitModelsAndAnims(level, flag = 0):
-    for key in ModelDict.keys():
+    for key in list(ModelDict.keys()):
         model, phase = ModelDict[key]
         if flag:
             filepath = 'phase_3.5' + model + 'mod'
@@ -282,7 +282,7 @@ def loadSuitAnims(suit, flag = 1):
             animList = ()
 
     else:
-        print 'Invalid suit name: ', suit
+        print('Invalid suit name: ', suit)
         return -1
     for anim in animList:
         phase = 'phase_' + str(anim[2])
@@ -623,7 +623,7 @@ class Suit(Avatar.Avatar):
         filePrefix, phase = ModelDict[self.style.body]
         headModel = loader.loadModel('phase_' + str(phase) + filePrefix + 'heads')
         headReferences = headModel.findAllMatches('**/' + headType)
-        for i in xrange(0, headReferences.getNumPaths()):
+        for i in range(0, headReferences.getNumPaths()):
             if self.style.body == 'a':
                 headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'to_head')
             else:
@@ -867,7 +867,7 @@ class Suit(Avatar.Avatar):
         self.setBlend(frameBlend = base.wantSmoothAnims)
         self.setLODAnimation(base.lodMaxRange, base.lodMinRange, base.lodDelayFactor)
         parts = self.findAllMatches('**/pPlane*')
-        for partNum in xrange(0, parts.getNumPaths()):
+        for partNum in range(0, parts.getNumPaths()):
             bb = parts.getPath(partNum)
             bb.setTwoSided(1)
 

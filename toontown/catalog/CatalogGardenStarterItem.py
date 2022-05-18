@@ -38,7 +38,7 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
                 if av:
                     av.b_setGardenStarted(1)
             else:
-                print 'starter garden-- something not there'
+                print('starter garden-- something not there')
         return ToontownGlobals.P_ItemAvailable
 
     def getPicture(self, avatar):

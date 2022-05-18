@@ -98,7 +98,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
 
             def setSpecBlob(specBlob, blobSender = blobSender, self = self):
                 blobSender.sendAck()
-                from LevelSpec import LevelSpec
+                from .LevelSpec import LevelSpec
                 spec = eval(specBlob)
                 if spec is None:
                     spec = self.candidateSpec
@@ -116,7 +116,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
     def privGotSpec(self, levelSpec):
         Level.Level.initializeLevel(self, self.doId, levelSpec, self.scenarioIndex)
         modelZoneNums = self.zoneNums
-        specZoneNums = self.zoneNum2zoneId.keys()
+        specZoneNums = list(self.zoneNum2zoneId.keys())
         if not sameElements(modelZoneNums, specZoneNums):
             self.reportModelSpecSyncError('model zone nums (%s) do not match spec zone nums (%s)' % (modelZoneNums, specZoneNums))
         self.initVisibility()
@@ -168,14 +168,14 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         levelMgr = self.getEntity(LevelConstants.LevelMgrEntId)
         self.geom = levelMgr.geom
         self.zoneNum2node = LevelUtil.getZoneNum2Node(self.geom)
-        self.zoneNums = self.zoneNum2node.keys()
+        self.zoneNums = list(self.zoneNum2node.keys())
         self.zoneNums.sort()
         self.zoneNumDict = list2dict(self.zoneNums)
         DistributedLevel.notify.debug('zones from model: %s' % self.zoneNums)
         self.fixupLevelModel()
 
     def fixupLevelModel(self):
-        for zoneNum, zoneNode in self.zoneNum2node.items():
+        for zoneNum, zoneNode in list(self.zoneNum2node.items()):
             if zoneNum == LevelConstants.UberZoneEntId:
                 continue
             allColls = zoneNode.findAllMatches('**/+CollisionNode')
@@ -400,7 +400,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         removedZoneNums = []
         allVZ = dict(visibleZoneNums)
         allVZ.update(self.curVisibleZoneNums)
-        for vz, dummy in allVZ.items():
+        for vz, dummy in list(allVZ.items()):
             new = vz in visibleZoneNums
             old = vz in self.curVisibleZoneNums
             if new and old:
@@ -423,7 +423,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
                 self.hideZone(rz)
 
         if vizZonesChanged or self.fForceSetZoneThisFrame:
-            self.setVisibility(visibleZoneNums.keys())
+            self.setVisibility(list(visibleZoneNums.keys()))
             self.fForceSetZoneThisFrame = 0
         self.curZoneNum = zoneNum
         self.curVisibleZoneNums = visibleZoneNums
@@ -444,7 +444,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
     def resetVisibility(self):
         self.curVisibleZoneNums = list2dict(self.zoneNums)
         del self.curVisibleZoneNums[LevelConstants.UberZoneEntId]
-        for vz, dummy in self.curVisibleZoneNums.items():
+        for vz, dummy in list(self.curVisibleZoneNums.items()):
             self.showZone(vz)
 
         self.updateVisibility()

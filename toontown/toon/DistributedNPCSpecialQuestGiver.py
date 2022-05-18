@@ -24,7 +24,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
 
     def announceGenerate(self):
         self.setAnimState('neutral', 0.9, None, None)
-        npcOrigin = self.cr.playGame.hood.loader.geom.find('**/npc_origin_' + `(self.posIndex)`)
+        npcOrigin = self.cr.playGame.hood.loader.geom.find('**/npc_origin_' + repr((self.posIndex)))
         if not npcOrigin.isEmpty():
             self.reparentTo(npcOrigin)
             self.clearMat()

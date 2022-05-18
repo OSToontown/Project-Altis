@@ -56,7 +56,7 @@ class DoCollectionManagerOR:
         """
         Returns list of distributed objects with matching str in value.
         """
-        for value in self.doId2do.values():
+        for value in list(self.doId2do.values()):
             if repr(value).find(str) >= 0:
                 return value
 
@@ -65,7 +65,7 @@ class DoCollectionManagerOR:
         Returns list of distributed objects with matching str in value.
         """
         matches = []
-        for value in self.doId2do.values():
+        for value in list(self.doId2do.values()):
             if repr(value).find(str) >= 0:
                 matches.append(value)
         return matches
@@ -75,7 +75,7 @@ class DoCollectionManagerOR:
         Returns list of distributed objects with matching str in value.
         """
         matches = []
-        for value in self.doId2do.values():
+        for value in list(self.doId2do.values()):
             if re.search(str,repr(value)):
                 matches.append(value)
         return matches
@@ -86,14 +86,14 @@ class DoCollectionManagerOR:
         for objects of a particular type
         """
         matches = []
-        for value in self.doId2do.values():
+        for value in list(self.doId2do.values()):
             if query in str(value.__class__):
                 matches.append(value)
         return matches, len(matches)
 
     def doFindAllInstances(self, cls):
         matches = []
-        for value in self.doId2do.values():
+        for value in list(self.doId2do.values()):
             if isinstance(value, cls):
                 matches.append(value)
         return matches
@@ -124,26 +124,26 @@ class DoCollectionManagerOR:
     def doByDistance(self):
         objs = self.dosByDistance()
         for obj in objs:
-            print('%s\t%s\t%s' % (obj.doId, self._getDistanceFromLA(obj),
-                                  obj.dclass.getName()))
+            print(('%s\t%s\t%s' % (obj.doId, self._getDistanceFromLA(obj),
+                                  obj.dclass.getName())))
 
     if __debug__:
         def printObjects(self):
             format="%10s %10s %10s %30s %20s"
             title=format%("parentId", "zoneId", "doId", "dclass", "name")
             print(title)
-            print('-'*len(title))
-            for distObj in self.doId2do.values():
-                print(format%(
+            print(('-'*len(title)))
+            for distObj in list(self.doId2do.values()):
+                print((format%(
                     distObj.__dict__.get("parentId"),
                     distObj.__dict__.get("zoneId"),
                     distObj.__dict__.get("doId"),
                     distObj.dclass.getName(),
-                    distObj.__dict__.get("name")))
+                    distObj.__dict__.get("name"))))
 
     def _printObjects(self, table):
         class2count = {}
-        for obj in self.getDoTable(ownerView=False).values():
+        for obj in list(self.getDoTable(ownerView=False).values()):
             className = obj.__class__.__name__
             class2count.setdefault(className, 0)
             class2count[className] += 1
@@ -154,13 +154,13 @@ class DoCollectionManagerOR:
         for count in counts:
             count2classes[count].sort()
             for name in count2classes[count]:
-                print('%s %s' % (count, name))
+                print(('%s %s' % (count, name)))
         print('')
 
     def _returnObjects(self, table):
         class2count = {}
         stringToReturn = ''
-        for obj in self.getDoTable(ownerView=False).values():
+        for obj in list(self.getDoTable(ownerView=False).values()):
             className = obj.__class__.__name__
             class2count.setdefault(className, 0)
             class2count[className] += 1
@@ -224,7 +224,7 @@ class DoCollectionManagerOR:
     def getOwnerViewDoList(self, classType):
         assert self.hasOwnerView()
         l = []
-        for obj in self.doId2ownerView.values():
+        for obj in list(self.doId2ownerView.values()):
             if isinstance(obj, classType):
                 l.append(obj)
         return l
@@ -232,7 +232,7 @@ class DoCollectionManagerOR:
     def getOwnerViewDoIdList(self, classType):
         assert self.hasOwnerView()
         l = []
-        for doId, obj in self.doId2ownerView.items():
+        for doId, obj in list(self.doId2ownerView.items()):
             if isinstance(obj, classType):
                 l.append(doId)
         return l
@@ -243,7 +243,7 @@ class DoCollectionManagerOR:
         repository (for testing purposes)
         """
         count = 0
-        for dobj in self.doId2do.values():
+        for dobj in list(self.doId2do.values()):
             if isinstance(dobj, classType):
                 count += 1
         return count
@@ -253,14 +253,14 @@ class DoCollectionManagerOR:
         # Returns a list of all DistributedObjects in the repository
         # of a particular type.
         result = []
-        for obj in self.doId2do.values():
+        for obj in list(self.doId2do.values()):
             if isinstance(obj, type):
                 result.append(obj)
         return result
 
     def findAnyOfType(self, type):
         # Searches the repository for any object of the given type.
-        for obj in self.doId2do.values():
+        for obj in list(self.doId2do.values()):
             if isinstance(obj, type):
                 return obj
         return None
@@ -269,7 +269,7 @@ class DoCollectionManagerOR:
 
     def deleteDistributedObjects(self):
         # Get rid of all the distributed objects
-        for doId in self.doId2do.keys():
+        for doId in list(self.doId2do.keys()):
             # Look up the object
             do = self.doId2do[doId]
             self.deleteDistObject(do)

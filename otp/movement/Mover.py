@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.movement.PyVec3 import PyVec3
 from toontown.toonbase import ToonPythonUtil as PythonUtil
-import __builtin__
+import builtins
 
 class Mover:
     notify = DirectNotifyGlobal.directNotify.newCategory('Mover')
@@ -20,7 +20,7 @@ class Mover:
             self.pscPy = PStatCollector(Mover.PSCPy)
 
     def destroy(self):
-        for name, impulse in self.impulses.items():
+        for name, impulse in list(self.impulses.items()):
             Mover.notify.debug('removing impulse: %s' % name)
             self.removeImpulse(name)
 
@@ -39,17 +39,17 @@ class Mover:
         if Mover.Profile and not profile:
 
             def func(doMove = self.move):
-                for i in xrange(10000):
+                for i in range(10000):
                     doMove(dt, profile=1)
 
-            __builtin__.func = func
+            builtins.func = func
             PythonUtil.startProfile(cmd='func()', filename='profile', sorts=['cumulative'], callInfo=0)
-            del __builtin__.func
+            del builtins.func
             return
 
         if Mover.Pstats:
             self.pscPy.start()
-        for impulse in self.impulses.values():
+        for impulse in list(self.impulses.values()):
             impulse._process(self.getDt())
         if Mover.Pstats:
             self.pscPy.stop()

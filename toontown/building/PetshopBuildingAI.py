@@ -1,6 +1,6 @@
-import DistributedDoorAI
-import DistributedPetshopInteriorAI
-import DoorTypes
+from . import DistributedDoorAI
+from . import DistributedPetshopInteriorAI
+from . import DoorTypes
 from panda3d.core import *
 from panda3d.direct import *
 from toontown.hood import ZoneUtil

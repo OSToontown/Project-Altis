@@ -13,7 +13,7 @@ from direct.showbase import RandomNumGen
 from toontown.toonbase import TTLocalizer
 import random
 import random
-import cPickle
+import pickle
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.hood import Place
 from toontown.estate import Estate
@@ -31,7 +31,7 @@ class DistributedGarden(DistributedObject.DistributedObject):
         self.radius = 0
         self.gridCells = 20
         self.propTable = [None] * self.gridCells
-        for i in xrange(len(self.propTable)):
+        for i in range(len(self.propTable)):
             self.propTable[i] = [None] * self.gridCells
 
         self.dx = 1.0 / self.gridCells
@@ -61,10 +61,10 @@ class DistributedGarden(DistributedObject.DistributedObject):
 
     def sendNewProp(self, prop, x, y, z):
         self.notify.debug('sendNewProp')
-        print 'new prop (%d) = %s,%s,%s' % (prop,
+        print('new prop (%d) = %s,%s,%s' % (prop,
          x,
          y,
-         z)
+         z))
         if prop == HouseGlobals.PROP_ICECUBE:
             model = loader.loadModel('phase_8/models/props/icecube.bam')
         elif prop == HouseGlobals.PROP_FLOWER:

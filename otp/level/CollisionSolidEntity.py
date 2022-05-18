@@ -39,5 +39,5 @@ class CollisionSolidEntity(BasicEntities.NodePathEntity):
     if __dev__:
 
         def attribChanged(self, attrib, value):
-            print 'attribChanged'
+            print('attribChanged')
             self.initSolid()

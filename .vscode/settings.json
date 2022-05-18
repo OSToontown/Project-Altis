@@ -1,0 +1,4 @@
+{
+    "discord.removeRemoteRepository": true,
+    "discord.lowerDetailsEditing": "line: {current_line}"
+}

@@ -53,7 +53,7 @@ class BoardbotHQAI(CogHQAI.CogHQAI):
             ToontownGlobals.BoardOfficeIntC
         )
         mins = ToontownGlobals.FactoryLaffMinimums[1]
-        for i in xrange(len(destZones)):
+        for i in range(len(destZones)):
             boardofficeElevator = DistributedBoardOfficeElevatorExtAI(
                 self.air, self.air.boardofficeMgr, destZones[i],
                 antiShuffle=0, minLaff=mins[i])

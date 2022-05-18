@@ -43,7 +43,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
         for gag in self.livingGags:
             gag.requestDelete()
         self.air.deallocateZone(self.zoneId)
-        for i in xrange(len(self.gags)):
+        for i in range(len(self.gags)):
             taskMgr.remove('regenGag%i-%i' % (i, self.doId))
         DistributedObjectAI.delete(self)
 
@@ -58,7 +58,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
         self.beginBarrier('waitingForReady', self.avatars, 60, self.readyBarrierCallback)
         self.gagPoints = RaceGlobals.TrackDict[self.trackId][4]
         if self.raceType != RaceGlobals.Practice:
-            for i in xrange(len(self.gagPoints)):
+            for i in range(len(self.gagPoints)):
                 gagId = random.randint(0, 5)
                 self.b_genGag(i, 1, gagId)
         self.d_prepForRace()
@@ -321,7 +321,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
         kartingHistory = av.getKartingHistory()
         avTrophies = av.getKartingTrophies()
         numTrophies = 0
-        for i in xrange(30):
+        for i in range(30):
             if avTrophies[i] != 0:
                 numTrophies += 1
         oldLaffBoost = int(numTrophies/10)
@@ -333,7 +333,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
             if kartingHistory[3] > RaceGlobals.TotalWonRaces:
                 avTrophies[RaceGlobals.TotalWins] = 1
                 trophies.append(RaceGlobals.TotalWins)
-            for i in xrange(3):
+            for i in range(3):
                 if kartingHistory[genre] >= RaceGlobals.WonRaces[i] and avTrophies[RaceGlobals.AllWinsList[genre][i]] != 1:
                     avTrophies[RaceGlobals.AllWinsList[genre][i]] = 1
                     trophies.append(RaceGlobals.AllWinsList[genre][i])
@@ -343,7 +343,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
             if kartingHistory[7] >= RaceGlobals.TotalQualifiedRaces and avTrophies[RaceGlobals.TotalQuals] != 1:
                 avTrophies[RaceGlobals.TotalQuals] = 1
                 trophies.append(RaceGlobals.TotalQuals)
-            for i in xrange(3):
+            for i in range(3):
                 if kartingHistory[genre + 4] >= RaceGlobals.QualifiedRaces[i] and avTrophies[RaceGlobals.AllQualsList[genre][i]] != 1:
                     avTrophies[RaceGlobals.AllQualsList[genre][i]] = 1
                     trophies.append(RaceGlobals.AllQualsList[genre][i])
@@ -352,7 +352,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
                 kartingHistory[i] = 255
         av.b_setKartingHistory(kartingHistory)
         pKartingBest = av.getKartingPersonalBestAll()
-        trackIndex = TTLocalizer.KartRace_TrackNames.keys().index(self.trackId)
+        trackIndex = list(TTLocalizer.KartRace_TrackNames.keys()).index(self.trackId)
         if pKartingBest[trackIndex] > time or not pKartingBest[trackIndex]:
             pKartingBest[trackIndex] = time
             av.b_setKartingPersonalBest(pKartingBest)
@@ -366,7 +366,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
                 trophies.append(RaceGlobals.GrandTouring)
         newLaffBoost = int((len(trophies) + numTrophies)/10)
         if newLaffBoost - oldLaffBoost != 0:
-            for i in xrange(newLaffBoost):
+            for i in range(newLaffBoost):
                 if avTrophies[RaceGlobals.TrophyCups[i]] != 1:
                     avTrophies[RaceGlobals.TrophyCups[i]] = 1
                     trophies.append(RaceGlobals.TrophyCups[i])

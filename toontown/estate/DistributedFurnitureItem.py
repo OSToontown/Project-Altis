@@ -117,7 +117,7 @@ class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, Distri
         return (pos[0], pos[1], pos[2], hpr[0], 0, 0)
 
     def __comparePosHpr(self, a, b, threshold):
-        for i in xrange(len(a)):
+        for i in range(len(a)):
             if abs(a[i] - b[i]) >= threshold:
                 return 1
 

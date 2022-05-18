@@ -1,6 +1,6 @@
 import hmac
-import httplib
-import urllib
+import http.client
+import urllib.request, urllib.parse, urllib.error
 import json
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal

@@ -83,7 +83,7 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts, deathList,
     countToons = 0
     uberListNew = []
     for t in toons:
-        if isinstance(t, types.IntType):
+        if isinstance(t, int):
             t = base.cr.doId2do.get(t)
         if t:
             toonList.append(t)
@@ -101,7 +101,7 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts, deathList,
     skipper = ToonVictorySkipper(len(toonList), noSkip)
     lastListenIndex = 0
     track.append(skipper.getSetupFunc(lastListenIndex))
-    for tIndex in xrange(len(toonList)):
+    for tIndex in range(len(toonList)):
         t = toonList[tIndex]
         rdict = __findToonReward(rewardDicts, t)
         if rdict != None:

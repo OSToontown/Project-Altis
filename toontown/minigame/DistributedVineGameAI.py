@@ -50,7 +50,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         self.numTreasures = VineGameGlobals.NumVines - 1
         self.numTreasuresTaken = 0
         self.takenTable = [0] * self.numTreasures
-        for avId in self.scoreDict.keys():
+        for avId in list(self.scoreDict.keys()):
             self.scoreDict[avId] = 0
             self.finishedBonus[avId] = 0
             self.finishedTimeLeft[avId] = -1
@@ -286,10 +286,10 @@ class DistributedVineGameAI(DistributedMinigameAI):
 
         maxSpiders = VineGameGlobals.SpiderLimits[szId]
         curSpiders = 0
-        for i in xrange(4):
+        for i in range(4):
             spidersLeft = maxSpiders - curSpiders
             validChoices = []
-            for numSpiders in xrange(spidersLeft + 1):
+            for numSpiders in range(spidersLeft + 1):
                 validChoices += pool[numSpiders]
 
             if not validChoices:

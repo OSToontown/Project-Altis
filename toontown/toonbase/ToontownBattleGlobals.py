@@ -1,6 +1,6 @@
-from ToontownGlobals import *
+from .ToontownGlobals import *
 import math
-import TTLocalizer
+from . import TTLocalizer
 BattleCamFaceOffFov = 30.0
 BattleCamFaceOffPos = Point3(0, -10, 4)
 BattleCamDefaultPos1 = Point3(0, -16, 3)
@@ -535,7 +535,7 @@ def getMoreXpHolidayMultiplier():
 
 def encodeUber(trackList):
     bitField = 0
-    for trackIndex in xrange(len(trackList)):
+    for trackIndex in range(len(trackList)):
         if trackList[trackIndex] > 0:
             bitField += pow(2, trackIndex)
 

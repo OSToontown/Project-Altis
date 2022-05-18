@@ -64,7 +64,7 @@ class PickAToon(DirectObject):
 
     def __init__(self, avatarList, parentFSM, doneEvent):
         DirectObject.__init__(self)
-        self.toonList = {i: (i in [x.position for x in avatarList]) for i in xrange(6)}
+        self.toonList = {i: (i in [x.position for x in avatarList]) for i in range(6)}
         self.avatarList = avatarList
         self.selectedToon = 0
         self.doneEvent = doneEvent
@@ -203,7 +203,7 @@ class PickAToon(DirectObject):
                 self.setupButtons(av, position = av.position)
                 buttonIndex.append(av.position)
 
-            for pos in xrange(0, 6):
+            for pos in range(0, 6):
                 if pos not in buttonIndex:
                     button = self.setupButtons(position = pos)
 

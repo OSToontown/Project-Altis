@@ -19,7 +19,7 @@ class CogdoFlyingGatherableFactory:
         self._memoModel = CogdoUtil.loadModel('memo', 'shared').find('**/memo')
         self._propellerModel = CogdoUtil.loadFlyingModel('propellers').find('**/mesh')
         self._powerUpModels = {}
-        for type, modelName in Globals.Level.PowerupType2Model.items():
+        for type, modelName in list(Globals.Level.PowerupType2Model.items()):
             model = CogdoUtil.loadFlyingModel(modelName).find('**/' + Globals.Level.PowerupType2Node[type])
             self._powerUpModels[type] = model
             model.setTransparency(True)
@@ -80,7 +80,7 @@ class CogdoFlyingGatherableFactory:
         del self._memoModel
         self._propellerModel.removeNode()
         del self._propellerModel
-        for model in self._powerUpModels.values():
+        for model in list(self._powerUpModels.values()):
             model.removeNode()
 
         del self._powerUpModels

@@ -334,7 +334,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             numberOfLoops = random.randrange(minLoop, maxLoop + 1)
             pauseTime = random.randrange(minPauseTime, maxPauseTime + 1)
             result = Sequence()
-            for i in xrange(numberOfLoops):
+            for i in range(numberOfLoops):
                 result.append(idleAnimAndSound)
 
             if self.getSettleName(whichIdleAnim):
@@ -495,7 +495,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
                 baseAnimName = animName.split('/')[-1]
                 if localAvatar.zoneId == self.visId:
                     self.notify.info('playing %s' % baseAnimName)
-            except Exception, e:
+            except Exception as e:
                 self.notify.warning('Unknown error in printAnimIfClose, giving up:\n%s' % str(e))
 
     def clearCurIval(self):

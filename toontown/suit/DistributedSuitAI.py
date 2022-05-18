@@ -206,7 +206,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.makeLegList()
         if self.notify.getDebug():
             self.notify.debug('Leg list:')
-            print self.legList
+            print(self.legList)
         idx1 = self.startPoint.getIndex()
         idx2 = self.endPoint.getIndex()
         self.pathStartTime = globalClock.getFrameTime()

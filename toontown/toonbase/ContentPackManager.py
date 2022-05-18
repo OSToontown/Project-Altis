@@ -70,8 +70,8 @@ class ContentPackManager:
         for subfilename in mf.getSubfileNames():
             if os.path.splitext(subfilename)[1] not in SupportedExtensions:
                 mf.removeSubfile(subfilename)
-                print("Removing a file that is not allowed: %s" % str(subfilename))
+                print(("Removing a file that is not allowed: %s" % str(subfilename)))
 
         self.vfSys.mount(mf, self.mountPoint, 0)
-        print('Successfully Mounted: ' + str(filename))
+        print(('Successfully Mounted: ' + str(filename)))
 

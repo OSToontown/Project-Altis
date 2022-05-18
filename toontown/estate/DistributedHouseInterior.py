@@ -14,7 +14,7 @@ from toontown.catalog import CatalogFlooringItem
 from toontown.catalog import CatalogMouldingItem
 from toontown.catalog import CatalogWainscotingItem
 from toontown.dna.DNAParser import DNADoor
-import HouseInteriorGlobals
+from . import HouseInteriorGlobals
 
 WindowPlugNames = ('**/windowcut_a*', '**/windowcut_b*', '**/windowcut_c*', '**/windowcut_d*', '**/windowcut_e*', '**/windowcut_f*')
 RoomNames = ('**/group2', '**/group1')
@@ -105,11 +105,11 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
             return
         numSurfaceTypes = CatalogSurfaceItem.NUM_ST_TYPES
         numRooms = min(len(self.wallpaper) / numSurfaceTypes, len(self.roomNames))
-        for room in xrange(numRooms):
+        for room in range(numRooms):
             roomName = self.roomNames[room]
             roomNode = self.interior.find(roomName)
             if not roomNode.isEmpty():
-                for surface in xrange(numSurfaceTypes):
+                for surface in range(numSurfaceTypes):
                     slot = room * numSurfaceTypes + surface
                     wallpaper = self.wallpaper[slot]
                     color = wallpaper.getColor()

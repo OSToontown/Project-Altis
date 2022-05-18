@@ -7,7 +7,7 @@ from sys import platform
 import sys
 import tempfile
 import time
-import ToontownAsyncLoader
+from . import ToontownAsyncLoader
 from direct.directnotify import DirectNotifyGlobal
 from direct.filter.CommonFilters import CommonFilters
 from direct.gui import DirectGuiGlobals
@@ -42,7 +42,7 @@ class ToonBase(OTPBase.OTPBase):
         # First, build a list of all possible resolutions:
         self.resList = []
         displayInfo = self.pipe.getDisplayInformation()
-        for i in xrange(displayInfo.getTotalDisplayModes()):
+        for i in range(displayInfo.getTotalDisplayModes()):
             width = displayInfo.getDisplayModeWidth(i)
             height = displayInfo.getDisplayModeHeight(i)
             if (width, height) not in self.resList:
@@ -67,7 +67,7 @@ class ToonBase(OTPBase.OTPBase):
                 # If we're fullscreen, we want to fit the entire screen:
                 res = (self.nativeWidth, self.nativeHeight)
             elif self.nativeRatio not in self.resDict:
-                print "base.resDict does not contain the native resolution: %r" % self.resDict
+                print("base.resDict does not contain the native resolution: %r" % self.resDict)
                 res = (800, 600)
             elif len(self.resDict[self.nativeRatio]) > 1:
                 # We have resolutions that match our native ratio and fit it!
@@ -77,7 +77,7 @@ class ToonBase(OTPBase.OTPBase):
                 # Okay, we don't have any resolutions that match our native
                 # ratio and fit it. Let's just use one of the second largest
                 # ratio's resolutions:
-                ratios = sorted(self.resDict.keys(), reverse=False)
+                ratios = sorted(list(self.resDict.keys()), reverse=False)
                 nativeIndex = ratios.index(self.nativeRatio)
                 res = sorted(self.resDict[ratios[nativeIndex - 1]])[0]
 

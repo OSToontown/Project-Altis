@@ -3,9 +3,9 @@
 __all__ = ['DirectCheckButton']
 
 from pandac.PandaModules import *
-import DirectGuiGlobals as DGG
-from DirectButton import *
-from DirectLabel import *
+from . import DirectGuiGlobals as DGG
+from .DirectButton import *
+from .DirectLabel import *
 
 class DirectCheckButton(DirectButton):
     """
@@ -170,7 +170,7 @@ class DirectCheckButton(DirectButton):
 
         if self['command']:
             # Pass any extra args to command
-            apply(self['command'], [self['indicatorValue']] + self['extraArgs'])
+            self['command'](*[self['indicatorValue']] + self['extraArgs'])
 
     def setIndicatorValue(self):
         self.component('indicator').guiItem.setState(self['indicatorValue'])

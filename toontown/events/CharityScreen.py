@@ -7,6 +7,7 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 from direct.gui.DirectGui import DirectLabel
 
+
 class CharityScreen(DistributedObject):
     notify = directNotify.newCategory('CharityScreen')
 
@@ -69,7 +70,8 @@ class CharityScreen(DistributedObject):
             self.bob = None
         if self.screenObject:
             self.screenObject.removeNode()
-            self.screenObject = None       
+            self.screenObject = None
+       
     def delete(self):
         self.cr.chairityEvent = None
         self.notify.debug("Deleting Charity Screen!")

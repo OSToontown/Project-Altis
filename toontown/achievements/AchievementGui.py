@@ -1,4 +1,4 @@
-import AchievementsGlobals
+from . import AchievementsGlobals
 from direct.gui.DirectGui import DirectFrame, DirectLabel
 from direct.interval.IntervalGlobal import *
 from direct.interval.LerpInterval import *

@@ -151,7 +151,7 @@ class DistributedBoardOfficeRoom(DistributedLevel.DistributedLevel, BoardOfficeR
             pos = base.localAvatar.getPos(thisZone)
             h = base.localAvatar.getH(thisZone)
             roomName = BoardOfficeRoomSpecs.BoardOfficeRoomId2RoomName[self.roomId]
-            print 'boardoffice pos: %s, h: %s, room: %s' % (repr(pos), h, roomName)
+            print(('boardoffice pos: %s, h: %s, room: %s' % (repr(pos), h, roomName)))
             if self.boardoffice is not None:
                 floorNum = self.boardoffice.floorNum
             else:

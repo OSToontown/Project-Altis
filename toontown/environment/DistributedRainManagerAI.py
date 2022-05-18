@@ -10,8 +10,8 @@ from toontown.toonbase import TTLocalizer
 import random
 import time
 from direct.showbase import PythonUtil
-import DayTimeGlobals
-from DistributedWeatherMGRAI import DistributedWeatherMGRAI
+from . import DayTimeGlobals
+from .DistributedWeatherMGRAI import DistributedWeatherMGRAI
 
 class DistributedRainManagerAI(DistributedWeatherMGRAI):
     notify = directNotify.newCategory('DistributedRainManagerAI')

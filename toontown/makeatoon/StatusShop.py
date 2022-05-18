@@ -35,7 +35,7 @@ class StatusShop(StateData.StateData):
         try:
             del self.toon
         except:
-            print 'StatusShop: toon not found'
+            print('StatusShop: toon not found')
 
         self.hideButtons()
 

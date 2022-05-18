@@ -1502,7 +1502,7 @@ class CatalogGenerator:
         lastBackCatalog = avatar.backCatalog[:]
         thisWeek = min(len(WeeklySchedule), week - 1)
         lastWeek = min(len(WeeklySchedule), previousWeek)
-        for week in xrange(thisWeek, lastWeek, -1):
+        for week in range(thisWeek, lastWeek, -1):
             self.notify.debug('Adding items from week %s to back catalog' % week)
             schedule = WeeklySchedule[week - 1]
             if not isinstance(schedule, Sale):
@@ -1596,9 +1596,9 @@ class CatalogGenerator:
             saleItem = 1
         if callable(item):
             item = item(avatar, duplicateItems)
-        if isinstance(item, types.TupleType):
+        if isinstance(item, tuple):
             chooseCount, item = item
-        if isinstance(item, types.IntType):
+        if isinstance(item, int):
             item = MetaItems[item]
         selection = []
         if isinstance(item, CatalogItem.CatalogItem):
@@ -1607,7 +1607,7 @@ class CatalogGenerator:
                 selection.append(item)
         elif item != None:
             list = item[:]
-            for i in xrange(chooseCount):
+            for i in range(chooseCount):
                 if len(list) == 0:
                     return selection
                 item = self.__chooseFromList(avatar, list, duplicateItems)
@@ -1633,7 +1633,7 @@ class CatalogGenerator:
     def outputSchedule(self, filename):
         out = open(Filename(filename).toOsSpecific(), 'w')
         sched = self.generateScheduleDictionary()
-        items = sched.keys()
+        items = list(sched.keys())
         items.sort()
         for item in items:
             weeklist, maybeWeeklist = sched[item]
@@ -1641,7 +1641,7 @@ class CatalogGenerator:
             seriesDict = {}
             self.__determineSeries(seriesDict, weeklist)
             self.__determineSeries(seriesDict, maybeWeeklist)
-            seriesList = seriesDict.keys()
+            seriesList = list(seriesDict.keys())
             seriesList.sort()
             series = str(seriesList)[1:-1]
             week = self.__formatWeeklist(weeklist)
@@ -1667,7 +1667,7 @@ class CatalogGenerator:
 
     def __determineSeries(self, seriesDict, weeklist):
         for week in weeklist:
-            if isinstance(week, types.IntType):
+            if isinstance(week, int):
                 series = (week - 1) / ToontownGlobals.CatalogNumWeeksPerSeries + 1
                 seriesDict[series] = None
 
@@ -1680,7 +1680,7 @@ class CatalogGenerator:
 
     def generateScheduleDictionary(self):
         sched = {}
-        for index in xrange(len(WeeklySchedule)):
+        for index in range(len(WeeklySchedule)):
             week = index + 1
             schedule = WeeklySchedule[index]
             if isinstance(schedule, Sale):
@@ -1722,9 +1722,9 @@ class CatalogGenerator:
                 else:
                     self.notify.warning("Don't know how to interpret function " % repr(name))
                     item = None
-            elif isinstance(item, types.TupleType):
+            elif isinstance(item, tuple):
                 item = item[1]
-            if isinstance(item, types.IntType):
+            if isinstance(item, int):
                 item = MetaItems[item]
             if isinstance(item, CatalogItem.CatalogItem):
                 self.__recordScheduleItem(sched, weekCode, None, item)

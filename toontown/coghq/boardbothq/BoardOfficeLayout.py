@@ -6,33 +6,33 @@ from toontown.toonbase.ToonPythonUtil import normalDistrib, lerp
 import random
 
 def printAllBoardbotInfo():
-    print 'roomId: roomName'
-    for roomId, roomName in BoardOfficeRoomSpecs.BoardOfficeRoomId2RoomName.items():
-        print '%s: %s' % (roomId, roomName)
+    print('roomId: roomName')
+    for roomId, roomName in list(BoardOfficeRoomSpecs.BoardOfficeRoomId2RoomName.items()):
+        print(('%s: %s' % (roomId, roomName)))
 
-    print '\nroomId: numBattles'
-    for roomId, numBattles in BoardOfficeRoomSpecs.roomId2numBattles.items():
-        print '%s: %s' % (roomId, numBattles)
+    print('\nroomId: numBattles')
+    for roomId, numBattles in list(BoardOfficeRoomSpecs.roomId2numBattles.items()):
+        print(('%s: %s' % (roomId, numBattles)))
 
-    print '\nboardofficeId floor roomIds'
+    print('\nboardofficeId floor roomIds')
     printBoardOfficeRoomIds()
-    print '\nboardofficeId floor numRooms'
+    print('\nboardofficeId floor numRooms')
     printNumRooms()
-    print '\nboardofficeId floor numForcedBattles'
+    print('\nboardofficeId floor numForcedBattles')
     printNumBattles()
 
 
 def iterateBoardOffices(func):
     from toontown.toonbase import ToontownGlobals
     for boardofficeId in [ToontownGlobals.BoardOfficeIntA, ToontownGlobals.BoardOfficeIntB, ToontownGlobals.BoardOfficeIntC]:
-        for floorNum in xrange(ToontownGlobals.BoardOfficeNumFloors[boardofficeId]):
+        for floorNum in range(ToontownGlobals.BoardOfficeNumFloors[boardofficeId]):
             func(BoardOfficeLayout(boardofficeId, floorNum))
 
 
 def printBoardOfficeInfo():
 
     def func(ml):
-        print ml
+        print(ml)
 
     iterateBoardOffices(func)
 
@@ -40,7 +40,7 @@ def printBoardOfficeInfo():
 def printBoardOfficeRoomIds():
 
     def func(ml):
-        print ml.getBoardOfficeId(), ml.getFloorNum(), ml.getRoomIds()
+        print((ml.getBoardOfficeId(), ml.getFloorNum(), ml.getRoomIds()))
 
     iterateBoardOffices(func)
 
@@ -48,7 +48,7 @@ def printBoardOfficeRoomIds():
 def printBoardOfficeRoomNames():
 
     def func(ml):
-        print ml.getBoardOfficeId(), ml.getFloorNum(), ml.getRoomNames()
+        print((ml.getBoardOfficeId(), ml.getFloorNum(), ml.getRoomNames()))
 
     iterateBoardOffices(func)
 
@@ -56,7 +56,7 @@ def printBoardOfficeRoomNames():
 def printNumRooms():
 
     def func(ml):
-        print ml.getBoardOfficeId(), ml.getFloorNum(), ml.getNumRooms()
+        print((ml.getBoardOfficeId(), ml.getFloorNum(), ml.getNumRooms()))
 
     iterateBoardOffices(func)
 
@@ -64,7 +64,7 @@ def printNumRooms():
 def printNumBattles():
 
     def func(ml):
-        print ml.getBoardOfficeId(), ml.getFloorNum(), ml.getNumBattles()
+        print((ml.getBoardOfficeId(), ml.getFloorNum(), ml.getNumBattles()))
 
     iterateBoardOffices(func)
 
@@ -723,7 +723,7 @@ class BoardOfficeLayout:
             self.roomIds = self._genFloorLayout()
         hallwayRng = self.getRng()
         connectorRoomNames = BoardOfficeRoomSpecs.BoardOfficeConnectorRooms
-        for i in xrange(self.numHallways):
+        for i in range(self.numHallways):
             self.hallways.append(hallwayRng.choice(connectorRoomNames))
 
     def _genFloorLayout(self):
@@ -743,7 +743,7 @@ class BoardOfficeLayout:
         numBattles2middleRoomIds = invertDictLossless(BoardOfficeRoomSpecs.middleRoomId2numBattles)
 
         allBattleRooms = []
-        for num, roomIds in numBattles2middleRoomIds.items():
+        for num, roomIds in list(numBattles2middleRoomIds.items()):
             if num > 0:
                 allBattleRooms.extend(roomIds)
         while 1:
@@ -761,7 +761,7 @@ class BoardOfficeLayout:
 
         if middleRoomsLeft > 0:
             actionRoomIds = numBattles2middleRoomIds[0]
-            for i in xrange(middleRoomsLeft):
+            for i in range(middleRoomsLeft):
                 roomId = rng.choice(actionRoomIds)
                 actionRoomIds.remove(roomId)
                 middleRoomIds.append(roomId)

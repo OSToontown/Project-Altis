@@ -27,7 +27,7 @@ class DNABulkLoader:
 
     def loadDNAFiles(self):
         for file in self.dnaFiles:
-            print 'Reading DNA file...', file
+            print('Reading DNA file...', file)
             loadDNABulk(self.dnaStorage, file)
         
         del self.dnaStorage
@@ -39,7 +39,7 @@ def loadDNABulk(dnaStorage, file):
     dnaLoader.destroy()
 
 def loadDNAFile(dnaStorage, file):
-    print 'Reading DNA file...', file
+    print('Reading DNA file...', file)
     dnaLoader = DNALoader.DNALoader()
     node = dnaLoader.loadDNAFile(dnaStorage, file)
     dnaLoader.destroy()

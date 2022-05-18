@@ -4,4 +4,4 @@ def dgiExtractString8(dgi):
     return dgi.getString()
 
 def dgiExtractColor(dgi):
-    return LVector4f(*(dgi.getUint8() / 255.0 for _ in xrange(4)))
+    return LVector4f(*(dgi.getUint8() / 255.0 for _ in range(4)))

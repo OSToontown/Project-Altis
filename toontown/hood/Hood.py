@@ -175,7 +175,7 @@ class Hood(StateData.StateData):
         elif loaderName == 'minigame':
             pass
         elif loaderName == 'cogHQLoader':
-            print 'should be loading HQ'
+            print('should be loading HQ')
 
     def handleLeftQuietZone(self):
         status = self.quietZoneStateData.getRequestStatus()
@@ -293,7 +293,7 @@ class Hood(StateData.StateData):
     def skyTransition(self, sky):
         if self.id != DonaldsDreamland or self.id != DonaldsDock or self.id != TheBrrrgh:
             if self.sky.getTag('sky').lower() != sky:
-                print(self.sky.getTag('sky') + "-->" + sky)
+                print((self.sky.getTag('sky') + "-->" + sky))
                 if hasattr(self, 'sky'):
                     self.oldSky = self.sky
                 if sky == 'mml':

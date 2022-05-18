@@ -57,7 +57,7 @@ BossbotCountryClubMiddleRoomIDs = (2, 5, 6)
 BossbotCountryClubFinalRoomIDs = (18,)
 BossbotCountryClubConnectorRooms = ('phase_12/models/bossbotHQ/Connector_Tunnel_A', 'phase_12/models/bossbotHQ/Connector_Tunnel_B')
 CashbotMintSpecModules = {}
-for roomName, roomId in BossbotCountryClubRoomName2RoomId.items():
+for roomName, roomId in list(BossbotCountryClubRoomName2RoomId.items()):
     CashbotMintSpecModules[roomId] = locals()[roomName]
 
 CogSpecModules = {'BossbotCountryClubEntrance_Action00': BossbotCountryClubEntrance_Action00_Cogs,
@@ -68,7 +68,7 @@ CogSpecModules = {'BossbotCountryClubEntrance_Action00': BossbotCountryClubEntra
  'BossbotCountryClubKartRoom_Battle00': BossbotCountryClubKartRoom_Battle00_Cogs,
  'BossbotCountryClubPresidentRoom_Battle00': BossbotCountryClubPresidentRoom_Battle00_Cogs}
 roomId2numBattles = {}
-for roomName, roomId in BossbotCountryClubRoomName2RoomId.items():
+for roomName, roomId in list(BossbotCountryClubRoomName2RoomId.items()):
     if roomName not in CogSpecModules:
         roomId2numBattles[roomId] = 0
     else:

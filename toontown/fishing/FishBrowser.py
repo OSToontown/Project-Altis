@@ -30,7 +30,7 @@ class FishBrowser(DirectScrolledList):
          ('decButton_pos', (0, 0, 0.525), None),
          ('decButton_image3_color', Vec4(0.8, 0.8, 0.8, 0.5), None),
          ('numItemsVisible', 1, None),
-         ('items', map(str, FishGlobals.getGenera()), None),
+         ('items', list(map(str, FishGlobals.getGenera())), None),
          ('scrollSpeed', 4, None),
          ('itemMakeFunction', GenusPanel.GenusPanel, None),
          ('itemMakeExtraArgs', None, None))

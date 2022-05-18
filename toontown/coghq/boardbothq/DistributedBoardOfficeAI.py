@@ -21,7 +21,7 @@ class DistributedBoardOfficeAI(DistributedObjectAI.DistributedObjectAI):
         self.layout = BoardOfficeLayout.BoardOfficeLayout(self.boardofficeId, self.floorNum)
         self.rooms = []
         self.battleExpAggreg = BattleExperienceAggregatorAI.BattleExperienceAggregatorAI()
-        for i in xrange(self.layout.getNumRooms()):
+        for i in range(self.layout.getNumRooms()):
             room = DistributedBoardOfficeRoomAI.DistributedBoardOfficeRoomAI(self.air, self.boardofficeId, self.doId, self.zoneId, self.layout.getRoomId(i), i * 2, self.avIds, self.battleExpAggreg)
             room.generateWithRequired(self.zoneId)
             self.rooms.append(room)

@@ -69,6 +69,6 @@ class ToontownInternalRepository(AstronInternalRepository):
                 self.send(dg)
             self.writeServerEvent('EXCEPTION-POTENTIAL-CRASH', self.getAvatarIdFromSender(), self.getAccountIdFromSender(), repr(e), traceback.format_exc())
             self.notify.warning('EXCEPTION-POTENTIAL-CRASH: %s (%s)' % (repr(e), self.getAvatarIdFromSender()))
-            print traceback.format_exc()
+            print(traceback.format_exc())
             
         return 1

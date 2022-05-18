@@ -129,7 +129,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
             del suit.battleTrap
 
         del self.finishCallback
-        for petProxy in self.pets.values():
+        for petProxy in list(self.pets.values()):
             petProxy.requestDelete()
 
         DistributedObjectAI.DistributedObjectAI.delete(self)
@@ -859,7 +859,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
     def __addJoinResponse(self, avId, taskName, toon = 0):
         if toon == 1:
-            for jr in self.joinResponses.values():
+            for jr in list(self.joinResponses.values()):
                 jr[avId] = 0
 
         self.joinResponses[avId] = {}
@@ -871,7 +871,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
     def __removeJoinResponses(self, avId):
         self.__removeJoinResponse(avId)
         removedOne = 0
-        for j in self.joinResponses.values():
+        for j in list(self.joinResponses.values()):
             if avId in j:
                 del j[avId]
                 removedOne = 1
@@ -895,7 +895,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         return 1
 
     def __cleanupJoinResponses(self):
-        for jr in self.joinResponses.values():
+        for jr in list(self.joinResponses.values()):
             taskMgr.remove(jr['taskName'])
             del jr
 
@@ -1516,7 +1516,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                                         deadSuits.append(target)
 
         self.exitedToons = []
-        for suitKey in trapDict.keys():
+        for suitKey in list(trapDict.keys()):
             attackList = trapDict[suitKey]
             attack = attackList[0]
             target = self.findSuit(attack[TOON_TGT_COL])
@@ -1709,7 +1709,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 eventMsg[msgName] = 1
 
         msgText = ''
-        for msgName, count in eventMsg.items():
+        for msgName, count in list(eventMsg.items()):
             if msgText != '':
                 msgText += ','
             msgText += '%s%s' % (count, msgName)

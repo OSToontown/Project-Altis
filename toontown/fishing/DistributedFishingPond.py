@@ -60,7 +60,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
     def checkTargets(self, task = None):
         self.notify.debug('checkTargets')
         if self.localToonSpot != None:
-            for target in self.targets.values():
+            for target in list(self.targets.values()):
                 targetPos = target.getPos(render)
                 distVec = Vec3(targetPos - self.localToonBobPos)
                 dist = distVec.length()
@@ -118,9 +118,9 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
         return self.localToonSpot
 
     def resetSpotGui(self):
-        for spot in self.visitedSpots.values():
+        for spot in list(self.visitedSpots.values()):
             spot.resetCastGui()
 
     def setSpotGui(self):
-        for spot in self.visitedSpots.values():
+        for spot in list(self.visitedSpots.values()):
             spot.setCastGui()

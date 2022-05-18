@@ -103,7 +103,7 @@ class DivingFishSpawn(DirectObject):
 
     def destroy(self):
         self.ignoreAll()
-        for fish in self.fishArray.values():
+        for fish in list(self.fishArray.values()):
             fish.moveLerp.pause()
             fish.specialLerp.finish()
             if hasattr(fish, 'sound'):

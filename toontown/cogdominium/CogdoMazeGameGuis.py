@@ -22,7 +22,7 @@ class CogdoMazeMapGui(MazeMapGui):
         self.setScale(Globals.MapGuiScale)
 
     def destroy(self):
-        for marker in self._suit2marker.values():
+        for marker in list(self._suit2marker.values()):
             marker.removeNode()
 
         del self._suit2marker
@@ -187,7 +187,7 @@ class CogdoMazeBossGui(DirectFrame):
         self._openDoor.stash()
         spacingX = codeFrameWidth + codeFrameGap
         startX = -0.5 * ((self._codeLength - 1) * spacingX - codeFrameGap)
-        for i in xrange(self._codeLength):
+        for i in range(self._codeLength):
             marker = CogdoMazeBossCodeFrame(i, self._code[i], bossCard)
             marker.reparentTo(self)
             marker.setPos(bossCard, startX + spacingX * i, 0, 0)

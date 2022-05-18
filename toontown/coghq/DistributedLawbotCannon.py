@@ -269,7 +269,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
             if self.flashingLabel:
                 self.flashingLabel.stop()
             flashingTrack = Sequence()
-            for i in xrange(10):
+            for i in range(10):
                 flashingTrack.append(LerpColorScaleInterval(self.cannonBallLabel, 0.5, VBase4(1, 0, 0, 1)))
                 flashingTrack.append(LerpColorScaleInterval(self.cannonBallLabel, 0.5, VBase4(1, 1, 1, 1)))
 
@@ -771,7 +771,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         if self.localToonShooting:
             pass
         chairlist = ['trigger-chair']
-        for index in xrange(len(ToontownGlobals.LawbotBossChairPosHprs)):
+        for index in range(len(ToontownGlobals.LawbotBossChairPosHprs)):
             chairlist.append('Chair-%s' % index)
 
         if hitNode in chairlist:

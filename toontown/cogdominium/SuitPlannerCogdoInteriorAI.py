@@ -34,7 +34,7 @@ class SuitPlannerCogdoInteriorAI:
 
         self.respectInvasions = 1
 
-        if isinstance(difficulty, types.StringType):
+        if isinstance(difficulty, bytes):
             self.notify.warning('difficulty is a string!')
             difficulty = int(difficulty)
 
@@ -168,9 +168,9 @@ class SuitPlannerCogdoInteriorAI:
             actives = currInfo['activeSuits']
             reserves = currInfo['reserveSuits']
             for idx, currActive in enumerate(actives):
-                type, track, level, revives = map(lambda x: currActive[x], ('type', 'track', 'level', 'revives'))
+                type, track, level, revives = [currActive[x] for x in ('type', 'track', 'level', 'revives')]
             for idx, currReserve in enumerate(reserves):
-                type, track, level, revives, res = map(lambda x: currReserve[x], ('type', 'track', 'level', 'revives', 'joinChance'))
+                type, track, level, revives, res = [currReserve[x] for x in ('type', 'track', 'level', 'revives', 'joinChance')]
 
     def genFloorSuits(self, floor):
         suitHandles = {}

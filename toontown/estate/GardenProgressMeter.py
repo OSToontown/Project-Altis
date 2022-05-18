@@ -16,7 +16,7 @@ from direct.showbase import RandomNumGen
 from toontown.toonbase import TTLocalizer
 import random
 import random
-import cPickle
+import pickle
 from toontown.toonbase import ToonPythonUtil as PythonUtil
 from toontown.estate import GameSprite
 from math import pi
@@ -35,7 +35,7 @@ class GardenProgressMeter(DirectObject.DirectObject):
         elif typePromotion == 'game':
             self.typePromotion == GAMEWIN
         else:
-            print 'No type of %s' % typePromotion
+            print('No type of %s' % typePromotion)
         self.level = level
         self.acceptErrorDialog = None
         self.doneEvent = 'game Done'
