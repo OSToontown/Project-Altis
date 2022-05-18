@@ -19,7 +19,7 @@ class ClientServicesManager(DistributedObjectGlobal):
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
         cookie = base.launcher.getUsername()
-        key = 'oa1qt8fwc0r750gkse3fgt6k3scyhzptudk422u5'
+        key = b'oa1qt8fwc0r750gkse3fgt6k3scyhzptudk422u5'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
         import uuid

@@ -277,15 +277,15 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         return track
 
     def debugGeom(self, decomposed):
-        print('numPrimitives = %d' % decomposed.getNumPrimitives())
+        print(('numPrimitives = %d' % decomposed.getNumPrimitives()))
         for primIndex in range(decomposed.getNumPrimitives()):
             prim = decomposed.getPrimitive(primIndex)
-            print('prim = %s' % prim)
-            print('isIndexed = %d' % prim.isIndexed())
-            print('prim.getNumPrimitives = %d' % prim.getNumPrimitives())
+            print(('prim = %s' % prim))
+            print(('isIndexed = %d' % prim.isIndexed()))
+            print(('prim.getNumPrimitives = %d' % prim.getNumPrimitives()))
             for basicPrim in range(prim.getNumPrimitives()):
-                print('%d start=%d' % (basicPrim, prim.getPrimitiveStart(basicPrim)))
-                print('%d end=%d' % (basicPrim, prim.getPrimitiveEnd(basicPrim)))
+                print(('%d start=%d' % (basicPrim, prim.getPrimitiveStart(basicPrim))))
+                print(('%d end=%d' % (basicPrim, prim.getPrimitiveEnd(basicPrim))))
 
     def loadOnePlatform(self, version, radius, zOffset, score, multiplier):
         self.notify.debug('loadOnePlatform version=%d' % version)

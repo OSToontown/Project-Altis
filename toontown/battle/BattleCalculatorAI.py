@@ -704,12 +704,12 @@ class BattleCalculatorAI:
             return False
 
     def checkIfStreetZone(self, toon):
-	try:
+        try:
             if ZoneUtil.getWhereName(toon.zoneId, True) == 'street' and not ZoneUtil.isDynamicZone(toon.zoneId):
                 return True
             else:
                 return False
-	except:
+        except:
             return False
 
     def __attackDamageForTgt(self, attack, tgtPos, suit = 0):

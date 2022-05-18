@@ -1,4 +1,4 @@
-import json, httplib, threading
+import threading
 from panda3d.core import *
 from direct.distributed.DistributedObject import DistributedObject
 from direct.interval.IntervalGlobal import *

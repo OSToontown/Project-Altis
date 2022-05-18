@@ -27,7 +27,7 @@ resolution_table = [
     (1280, 720),
     (1920, 1080)]
 
-class DMenuOptions(DirectObject, FSM):
+class DMenuOptions(FSM, DirectObject):
 
     def __init__(self):
         FSM.__init__(self, 'DMenuOptions')

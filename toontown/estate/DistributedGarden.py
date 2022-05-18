@@ -61,10 +61,10 @@ class DistributedGarden(DistributedObject.DistributedObject):
 
     def sendNewProp(self, prop, x, y, z):
         self.notify.debug('sendNewProp')
-        print('new prop (%d) = %s,%s,%s' % (prop,
+        print(('new prop (%d) = %s,%s,%s' % (prop,
          x,
          y,
-         z))
+         z)))
         if prop == HouseGlobals.PROP_ICECUBE:
             model = loader.loadModel('phase_8/models/props/icecube.bam')
         elif prop == HouseGlobals.PROP_FLOWER:

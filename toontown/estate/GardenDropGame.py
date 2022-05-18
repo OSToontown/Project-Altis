@@ -62,7 +62,7 @@ class GardenDropGame(DirectObject.DirectObject):
         self.controlOffsetX = 0.0
         self.controlOffsetZ = 0.0
         self.queExtent = 3
-        print('Grid Dimensions X%s Z%s' % (gX, gZ))
+        print(('Grid Dimensions X%s Z%s' % (gX, gZ)))
         self.grid = []
         self.gridDimX = gX
         self.gridDimZ = gZ
@@ -242,7 +242,7 @@ class GardenDropGame(DirectObject.DirectObject):
         tileDimZ = rangeZ / self.gridDimZ
         tileX = int(framedX / tileDimX)
         tileZ = int(framedZ / tileDimZ)
-        print('find Grid tileX%s tileZ%s' % (tileX, tileZ))
+        print(('find Grid tileX%s tileZ%s' % (tileX, tileZ)))
         return (tileX, tileZ)
 
     def findPos(self, x, z):
@@ -252,7 +252,7 @@ class GardenDropGame(DirectObject.DirectObject):
         tileDimZ = rangeZ / self.gridDimZ
         posX = tileDimX * x + self.minX
         posZ = tileDimZ * z + self.minZ
-        print('find Pos X%s Z%s' % (posX, posZ))
+        print(('find Pos X%s Z%s' % (posX, posZ)))
         return (posX, posZ)
 
     def placeIntoGrid(self, sprite, x, z):
@@ -262,7 +262,7 @@ class GardenDropGame(DirectObject.DirectObject):
             newX, newZ = self.findPos(x, z)
             sprite.setX(newX)
             sprite.setZ(newZ)
-            print('Setting Final Pos X%s Z%s' % (newX, newZ))
+            print(('Setting Final Pos X%s Z%s' % (newX, newZ)))
         else:
             self.placeIntoGrid(sprite, x + 1, z - 1)
 

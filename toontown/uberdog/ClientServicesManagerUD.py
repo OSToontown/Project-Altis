@@ -37,8 +37,10 @@ http = HTTPClient()
 http.setVerifySsl(0)
 
 def executeHttpRequest(url, **extras):
+    # TODO fix
+    pass
     timestamp = str(int(time.time()))
-    signature = hmac.new(accountServerSecret, timestamp, hashlib.sha256)
+    signature = hmac.new(accountServerSecret.encode('utf-8'), timestamp, hashlib.sha256)
     request = urllib.request.Request(accountServerEndpoint + url)
     request.add_header('User-Agent', 'Project Altis-CSM')
     request.add_header('X-CSM-Timestamp', timestamp)
@@ -51,7 +53,7 @@ def executeHttpRequest(url, **extras):
     except:
         return None
 
-blacklist = executeHttpRequest('names/blacklist.json')
+blacklist = False
 if blacklist:
     blacklist = json.loads(blacklist)
 
@@ -1013,7 +1015,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         del self.pendingLogins[context]
 
         # Time to check this login to see if its authentic
-        digest_maker = hmac.new(self.key)
+        digest_maker = hmac.new(self.key.encode())
         digest_maker.update(backupCookie)
 
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):
