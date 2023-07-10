@@ -8,7 +8,7 @@ Project Altis was a private server aimed around adding a crap ton of new feature
 This project is not related to Corporate Clash. We simply are porting the Altis Codebase and continuing it not adding everything clash did.
 
 # ❗ Notice
-This source is only intented for personal exploration. (i.e: exploring the game by yourself or with a few friends) It is not meant to be a base to build a private server from.
+This source is only intented for personal/historical exploration. (i.e: exploring the game by yourself or with a few friends to see what Altis was like before it's rebranding) It is not meant to be a base to build a private server from.
 
 Many ideas in this server where carried over to Corporate Clash, where they have been improved and stabilized. Not only that, but this source also contains potential vulnerabilities and exploits that hackers could leverage, making hosting a public server unsafe.
 
