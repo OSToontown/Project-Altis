@@ -62,7 +62,7 @@ class SuitPlannerBase:
         heights = [0, 0, 0, 0, 0, 0]
         for level in levels:
             minFloors, maxFloors = SuitBuildingGlobals.SuitBuildingInfo[level - 1][0]
-            for i in xrange(minFloors - 1, maxFloors):
+            for i in range(minFloors - 1, maxFloors):
                 heights[i] += 1
 
         currHoodInfo[SUIT_HOOD_INFO_HEIGHTS] = heights
@@ -123,7 +123,7 @@ class SuitPlannerBase:
             self.notify.info('zone %s has %s disconnected suit paths.' % (self.zoneId, numGraphs))
         self.battlePosDict = {}
         self.cellToGagBonusDict = {}
-        for i in xrange(self.dnaStore.getNumDNAVisGroupsAI()):
+        for i in range(self.dnaStore.getNumDNAVisGroupsAI()):
             vg = self.dnaStore.getDNAVisGroupAI(i)
             zoneId = int(self.extractGroupName(vg.getName()))
             if vg.getNumBattleCells() == 1:
@@ -141,7 +141,7 @@ class SuitPlannerBase:
                         if battleCellId == -1:
                             self.notify.warning('interactive prop %s  at %s not associated with a a battle' % (childDnaGroup, zoneId))
                         elif battleCellId == 0:
-                            if self.cellToGagBonusDict.has_key(zoneId):
+                            if zoneId in self.cellToGagBonusDict:
                                 self.notify.error('FIXME battle cell at zone %s has two props %s %s linked to it' % (zoneId, self.cellToGagBonusDict[zoneId], childDnaGroup))
                             else:
                                 name = childDnaGroup.getName()
@@ -158,7 +158,7 @@ class SuitPlannerBase:
         self.sidedoorPointList = []
         self.cogHQDoorPointList = []
         numPoints = self.dnaStore.getNumSuitPoints()
-        for i in xrange(numPoints):
+        for i in range(numPoints):
             point = self.dnaStore.getSuitPointAtIndex(i)
             if point.getPointType() == DNASuitPoint.FRONT_DOOR_POINT:
                 self.frontdoorPointList.append(point)
@@ -180,10 +180,10 @@ class SuitPlannerBase:
         endPoint = startAndEnd[1]
         path = self.dnaStore.getSuitPath(startPoint, endPoint)
         numPathPoints = path.getNumPoints()
-        for i in xrange(numPathPoints - 1):
+        for i in range(numPathPoints - 1):
             zone = self.dnaStore.getSuitEdgeZone(path.getPointIndex(i), path.getPointIndex(i + 1))
             travelTime = self.dnaStore.getSuitEdgeTravelTime(path.getPointIndex(i), path.getPointIndex(i + 1), self.suitWalkSpeed)
-            self.notify.debug('edge from point ' + `i` + ' to point ' + `(i + 1)` + ' is in zone: ' + `zone` + ' and will take ' + `travelTime` + ' seconds to walk.')
+            self.notify.debug('edge from point ' + repr(i) + ' to point ' + repr((i + 1)) + ' is in zone: ' + repr(zone) + ' and will take ' + repr(travelTime) + ' seconds to walk.')
 
     def genPath(self, startPoint, endPoint, minPathLen, maxPathLen):
         return self.dnaStore.getSuitPath(startPoint, endPoint, minPathLen, maxPathLen)

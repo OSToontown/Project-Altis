@@ -1,6 +1,6 @@
 import hmac
-import httplib
-import urllib
+import http.client
+import urllib.request, urllib.parse, urllib.error
 import json
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
@@ -19,7 +19,7 @@ class ClientServicesManager(DistributedObjectGlobal):
     def performLogin(self, doneEvent):
         self.doneEvent = doneEvent
         cookie = base.launcher.getUsername()
-        key = 'oa1qt8fwc0r750gkse3fgt6k3scyhzptudk422u5'
+        key = b'oa1qt8fwc0r750gkse3fgt6k3scyhzptudk422u5'
         digest_maker = hmac.new(key)
         digest_maker.update(cookie)
         import uuid

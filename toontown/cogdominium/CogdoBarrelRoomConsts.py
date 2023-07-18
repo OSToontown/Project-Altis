@@ -96,7 +96,7 @@ BarrelBumpSound = 'phase_4/audio/sfx/Golf_Hit_Barrier_2.ogg'
 BarrelGrabSound = 'phase_4/audio/sfx/SZ_DD_treasure.ogg'
 BarrelAvailableTexture = 'phase_5/maps/tt_t_ara_cbr_Barrel_notUsed.jpg'
 BarrelUsedTexture = 'phase_5/maps/tt_t_ara_cbr_Barrel_Used.jpg'
-StateHidden, StateAvailable, StateUsed, StateCrushed = range(4)
+StateHidden, StateAvailable, StateUsed, StateCrushed = list(range(4))
 
 def numBarrels():
     return len(BarrelProps)

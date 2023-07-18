@@ -1,4 +1,4 @@
-from CrateGlobals import *
+from .CrateGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import DistributedCrushableEntityAI
 from direct.task import Task

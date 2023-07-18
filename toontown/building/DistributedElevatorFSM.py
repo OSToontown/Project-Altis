@@ -100,7 +100,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         if self.bldgRequest:
             self.cr.relatedObjectMgr.abortRequest(self.bldgRequest)
             self.bldgRequest = None
-        for request in self.toonRequests.values():
+        for request in list(self.toonRequests.values()):
             self.cr.relatedObjectMgr.abortRequest(request)
 
         self.toonRequests = {}
@@ -213,8 +213,8 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             else:
                 toon.setAnimState('run', 1.0)
                 animFunc = Func(toon.setAnimState, 'neutral', 1.0)
-            toon.headsUp(self.getElevatorModel(), apply(Point3, self.getScaledPoint(index)))
-            track = Sequence(LerpPosInterval(toon, TOON_BOARD_ELEVATOR_TIME * 0.75, apply(Point3, self.getScaledPoint(index)), other=self.getElevatorModel()), LerpHprInterval(toon, TOON_BOARD_ELEVATOR_TIME * 0.25, Point3(180, 0, 0), other=self.getElevatorModel()), animFunc, name=toon.uniqueName('fillElevator'), autoPause=1)
+            toon.headsUp(self.getElevatorModel(), Point3(*self.getScaledPoint(index)))
+            track = Sequence(LerpPosInterval(toon, TOON_BOARD_ELEVATOR_TIME * 0.75, Point3(*self.getScaledPoint(index)), other=self.getElevatorModel()), LerpHprInterval(toon, TOON_BOARD_ELEVATOR_TIME * 0.25, Point3(180, 0, 0), other=self.getElevatorModel()), animFunc, name=toon.uniqueName('fillElevator'), autoPause=1)
             track.start()
             self.boardedAvIds[avId] = index
 
@@ -246,7 +246,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         if self.cr:
             toon.setAnimState('neutral', 1.0)
             if toon == base.localAvatar:
-                print 'moving the local toon off the elevator'
+                print('moving the local toon off the elevator')
                 doneStatus = {'where': 'exit'}
                 elevator = self.getPlaceElevator()
                 elevator.signalDone(doneStatus)
@@ -256,7 +256,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             return
 
     def emptySlot(self, index, avId, bailFlag, timestamp):
-        print 'Emptying slot: %d for %d' % (index, avId)
+        print(('Emptying slot: %d for %d' % (index, avId)))
         if avId == 0:
             pass
         elif not self.isSetup:
@@ -284,7 +284,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
                 if self.offTrack[index].isPlaying():
                     self.offTrack[index].finish()
                     self.offTrack[index] = None
-            self.offTrack[index] = Sequence(LerpPosInterval(toon, TOON_EXIT_ELEVATOR_TIME, Point3(0, -ElevatorData[self.type]['collRadius'], 0), startPos=apply(Point3, self.getScaledPoint(index)), other=self.getElevatorModel()), animFunc, Func(self.notifyToonOffElevator, toon), name=toon.uniqueName('emptyElevator'), autoPause=1)
+            self.offTrack[index] = Sequence(LerpPosInterval(toon, TOON_EXIT_ELEVATOR_TIME, Point3(0, -ElevatorData[self.type]['collRadius'], 0), startPos=Point3(*self.getScaledPoint(index)), other=self.getElevatorModel()), animFunc, Func(self.notifyToonOffElevator, toon), name=toon.uniqueName('emptyElevator'), autoPause=1)
             if avId == base.localAvatar.getDoId():
                 messenger.send('exitElevator')
                 scale = base.localAvatar.getScale()
@@ -297,7 +297,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
 
     def handleEnterSphere(self, collEntry):
         self.notify.debug('Entering Elevator Sphere....')
-        print 'FSMhandleEnterSphere elevator%s avatar%s' % (self.elevatorTripId, localAvatar.lastElevatorLeft)
+        print(('FSMhandleEnterSphere elevator%s avatar%s' % (self.elevatorTripId, localAvatar.lastElevatorLeft)))
         if self.elevatorTripId and localAvatar.lastElevatorLeft == self.elevatorTripId:
             self.rejectBoard(base.localAvatar.doId, REJECT_SHUFFLE)
         elif base.localAvatar.hp > 0:
@@ -306,7 +306,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             self.sendUpdate('requestBoard', [])
 
     def rejectBoard(self, avId, reason = 0):
-        print 'rejectBoard %s' % reason
+        print(('rejectBoard %s' % reason))
         if hasattr(base.localAvatar, 'elevatorNotifier'):
             if reason == REJECT_SHUFFLE:
                 base.localAvatar.elevatorNotifier.showMe(TTLocalizer.ElevatorHoppedOff)
@@ -372,7 +372,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         pass
 
     def onDoorCloseFinish(self):
-        for avId in self.boardedAvIds.keys():
+        for avId in list(self.boardedAvIds.keys()):
             av = self.cr.doId2do.get(avId)
             if av is not None:
                 if av.getParent().compareTo(self.getElevatorModel()) == 0:

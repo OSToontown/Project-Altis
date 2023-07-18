@@ -37,7 +37,7 @@ class TemperatureManagerAI:
                 hood.rainMgr.b_setState('Rain')
     
     def unloadHood(self, zoneId):
-        if zoneId not in self._temperatures.keys():
+        if zoneId not in list(self._temperatures.keys()):
             return
         
         del self._temperatures[zoneId]

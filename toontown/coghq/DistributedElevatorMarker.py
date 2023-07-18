@@ -1,7 +1,7 @@
 import math
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from StomperGlobals import *
+from .StomperGlobals import *
 from direct.distributed import ClockDelta
 from toontown.toonbase.ToonPythonUtil import lerp
 from otp.level import DistributedEntity

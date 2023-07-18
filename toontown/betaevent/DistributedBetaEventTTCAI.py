@@ -1,4 +1,4 @@
-from DistributedEventAI import DistributedEventAI
+from .DistributedEventAI import DistributedEventAI
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
 from direct.task.TaskManagerGlobal import taskMgr
@@ -34,11 +34,11 @@ class DistributedBetaEventTTCAI(DistributedEventAI):
                 visGroups[zone] = self.air.allocateZone()
             visGroup.name = str(visGroups[zone])
 
-        for suitEdges in suitPlanner.dnaStore.suitEdges.values():
+        for suitEdges in list(suitPlanner.dnaStore.suitEdges.values()):
             for suitEdge in suitEdges:
                 suitEdge.setZoneId(visGroups[suitEdge.zoneId])
 
-        self.setVisGroups(visGroups.values())
+        self.setVisGroups(list(visGroups.values()))
         suitPlanner.initDNAInfo()
         
     def systemMessageAll(self, text):

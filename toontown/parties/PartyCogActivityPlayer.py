@@ -12,10 +12,10 @@ from toontown.minigame.OrthoWalk import OrthoWalk
 from toontown.battle.BattleProps import globalPropPool
 from toontown.battle.BattleSounds import globalBattleSoundCache
 from toontown.parties import PartyGlobals
-from PartyCogActivityInput import PartyCogActivityInput
-from PartyCogActivityGui import PartyCogActivityGui
-from PartyCogUtils import CameraManager
-from PartyCogUtils import StrafingControl
+from .PartyCogActivityInput import PartyCogActivityInput
+from .PartyCogActivityGui import PartyCogActivityGui
+from .PartyCogUtils import CameraManager
+from .PartyCogUtils import StrafingControl
 
 UPDATE_TASK_NAME = 'PartyCogActivityLocalPlayer_UpdateTask'
 THROW_PIE_LIMIT_TIME = 0.2

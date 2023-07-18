@@ -132,11 +132,11 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
          1,
          1,
          1]
-        for index in xrange(len(self.golfCourse.getGolferIds())):
+        for index in range(len(self.golfCourse.getGolferIds())):
             self.watched[index] = 0
 
     def setWatched(self, avId):
-        for index in xrange(len(self.golfCourse.getGolferIds())):
+        for index in range(len(self.golfCourse.getGolferIds())):
             if self.golfCourse.getGolferIds()[index] == avId:
                 self.watched[index] = 1
 
@@ -448,14 +448,14 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             if 'optionalMovers' in self.holeInfo:
                 for optionalMoverId in self.holeInfo['optionalMovers']:
                     searchStr = 'optional_mover_' + str(optionalMoverId)
-                    for objIndex in xrange(objectCollection.getNumPaths()):
+                    for objIndex in range(objectCollection.getNumPaths()):
                         object = objectCollection.getPath(objIndex)
                         if searchStr in object.getName():
                             self.fillLocator(objectCollection, objIndex)
                             break
 
         else:
-            for index in xrange(objectCollection.getNumPaths()):
+            for index in range(objectCollection.getNumPaths()):
                 self.fillLocator(objectCollection, index)
 
     def fillLocator(self, objectCollection, index):

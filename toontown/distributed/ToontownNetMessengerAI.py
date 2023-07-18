@@ -1,7 +1,7 @@
 from direct.distributed.PyDatagram import PyDatagram
 from otp.distributed import OtpDoGlobals
 
-import cPickle, zlib
+import pickle, zlib
 
 
 class ToontownNetMessengerAI:
@@ -29,7 +29,7 @@ class ToontownNetMessengerAI:
         dg.addChannel(self.msgType)
         dg.addUint16(self.msgType)
         dg.addString(message)
-        dg.addString(zlib.compress(cPickle.dumps(sentArgs)))
+        dg.addString(zlib.compress(pickle.dumps(sentArgs)))
         return dg
         
     def send(self, message, sentArgs=[], channels=None):
@@ -40,5 +40,5 @@ class ToontownNetMessengerAI:
     def handle(self, msgType, di):
         message = di.getString()
         data = zlib.decompress(di.getString())
-        sentArgs = cPickle.loads(data)
+        sentArgs = pickle.loads(data)
         messenger.send(message, sentArgs)

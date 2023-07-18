@@ -34,7 +34,7 @@ class DistributedBoardOfficeElevatorExtAI(DistributedElevatorExtAI.DistributedEl
                     players.append(i)
 
             boardofficeZone = self.bldg.createBoardOffice(self.boardofficeId, players)
-            for seatIndex in xrange(len(self.seats)):
+            for seatIndex in range(len(self.seats)):
                 avId = self.seats[seatIndex]
                 if avId:
                     self.sendUpdateToAvatarId(avId, 'setBoardOfficeInteriorZone', [boardofficeZone])

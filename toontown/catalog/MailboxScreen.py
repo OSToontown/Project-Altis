@@ -44,9 +44,9 @@ class MailboxScreen(DirectObject.DirectObject):
         else:
             self.notify.warning('hide called, but frame is deleted, self.frame deleted in:')
             if hasattr(self, 'frameDelStackTrace'):
-                print self.frameDelStackTrace
+                print((self.frameDelStackTrace))
             self.notify.warning('current stackTrace =')
-            print StackTrace()
+            print((StackTrace()))
             self.notify.warning('crash averted, but root cause unknown')
 
     def load(self):
@@ -237,7 +237,7 @@ class MailboxScreen(DirectObject.DirectObject):
         if not hasattr(self, 'frame'):
             return
         if retcode == ToontownGlobals.P_UserCancelled:
-            print 'mailbox screen user canceled'
+            print('mailbox screen user canceled')
             self.acceptingIndex = None
             self.__updateItems()
             return
@@ -285,7 +285,7 @@ class MailboxScreen(DirectObject.DirectObject):
             self.dialogBox = None
         self.items = self.getItems()
         if self.itemIndex > index or self.itemIndex >= len(self.items):
-            print 'adjusting item index -1'
+            print('adjusting item index -1')
             self.itemIndex -= 1
         if len(self.items) < 1:
             self.__handleExit()
@@ -303,10 +303,10 @@ class MailboxScreen(DirectObject.DirectObject):
             self.dialogBox = None
         self.items = self.getItems()
         if self.itemIndex >= len(self.items):
-            print 'adjusting item index -1'
+            print('adjusting item index -1')
             self.itemIndex = len(self.items) - 1
         if len(self.items) == 0:
-            print 'exiting due to lack of items'
+            print('exiting due to lack of items')
             self.__handleExit()
             return
         self.itemCountLabel['text'] = (self.__getNumberOfItemsText(),)

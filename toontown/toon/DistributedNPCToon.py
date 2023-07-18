@@ -282,7 +282,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
         potentialQuests = []
         nyaQuests = []
         av = base.localAvatar
-        for quest in Quests.QuestDict.keys():
+        for quest in list(Quests.QuestDict.keys()):
             questEntry = Quests.QuestDict.get(quest)
             if NPCToons.getNPCName(questEntry[Quests.QuestDictFromNpcIndex]) == self.getName():
                 if questEntry[1] == Quests.Start:

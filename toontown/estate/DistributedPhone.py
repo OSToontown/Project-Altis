@@ -372,7 +372,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         w = 0.05
         shakeOnce = Sequence(Func(phone.setR, r), Wait(w), Func(phone.setR, -r), Wait(w))
         shakeSeq = Sequence()
-        for i in xrange(16):
+        for i in range(16):
             shakeSeq.append(shakeOnce)
 
         ringIval = Parallel(Func(base.playSfx, self.ringSfx), shakeSeq, Func(phone.setR, 0))

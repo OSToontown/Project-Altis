@@ -229,12 +229,12 @@ class TalkAssistant(DirectObject.DirectObject):
         self.floodThreshold = hold
 
     def printHistoryComplete(self):
-        print 'HISTORY COMPLETE'
+        print('HISTORY COMPLETE')
         for message in self.historyComplete:
-            print '%s %s %s\n%s\n' % (message.getTimeStamp(),
+            print(('%s %s %s\n%s\n' % (message.getTimeStamp(),
              message.getSenderAvatarName(),
              message.getSenderAccountName(),
-             message.getBody())
+             message.getBody())))
 
     def checkOpenTypedChat(self):
         if base.localAvatar.commonChatFlags & OTPGlobals.CommonChat:
@@ -653,7 +653,7 @@ class TalkAssistant(DirectObject.DirectObject):
         if self.checkGuildTypedChat():
             base.cr.guildManager.sendTalk(message)
         else:
-            print 'Guild chat error'
+            print('Guild chat error')
             error = ERROR_NO_GUILD_CHAT
         
         return error
@@ -722,7 +722,7 @@ class TalkAssistant(DirectObject.DirectObject):
         if self.checkGuildSpeedChat():
             base.cr.guildManager.sendSC(msgIndex)
         else:
-            print 'Guild Speedchat error'
+            print('Guild Speedchat error')
             error = ERROR_NO_GUILD_CHAT
         return error
 

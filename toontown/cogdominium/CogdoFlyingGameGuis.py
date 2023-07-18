@@ -63,7 +63,7 @@ class CogdoFlyingProgressGui(DirectFrame):
         return type
 
     def update(self):
-        for toon, marker in self._toonMarkers.items():
+        for toon, marker in list(self._toonMarkers.items()):
             progress = clamp((toon.getY() - self._levelStartY) / self._levelDistance, self._levelStartY, self._levelEndY)
             marker.setZ(clamp(self._lineStart + self._lineDistance * progress, self._lineStart, self._lineEnd))
 
@@ -147,13 +147,13 @@ class CogdoFlyingFuelGui(DirectFrame):
             return
         numBlades = fuelState - 1
         if len(self.activeBlades) != numBlades:
-            for i in xrange(len(self.activeBlades)):
+            for i in range(len(self.activeBlades)):
                 blade = self.activeBlades.pop()
                 blade.stash()
 
             if numBlades > len(self.blades):
                 numBlades = len(self.blades)
-            for i in xrange(numBlades):
+            for i in range(numBlades):
                 blade = self.blades[i]
                 self.activeBlades.append(blade)
                 blade.unstash()

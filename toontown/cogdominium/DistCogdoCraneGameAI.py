@@ -25,7 +25,7 @@ class DistCogdoCraneGameAI(DistCogdoLevelGameAI, CogdoCraneGameBase):
         self.finishEvent = self.uniqueName('CogdoCraneGameDone')
         self.gameOverEvent = self.uniqueName('CogdoCraneGameLose')
 
-        for index in xrange(4):
+        for index in range(4):
             crane = DistCogdoCraneAI(self.air, self.doId)
             crane.setIndex(index)
             crane.generateWithRequired(self.zoneId)

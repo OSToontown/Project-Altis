@@ -134,7 +134,7 @@ class TownBattle(StateData.StateData):
         self.parentFSMState.addChild(self.fsm)
         if not self.isLoaded:
             self.load()
-        print 'Battle Event %s' % event
+        print('Battle Event %s' % event)
         self.battleEvent = event
         self.fsm.enterInitialState()
         base.localAvatar.laffMeter.start()
@@ -419,11 +419,11 @@ class TownBattle(StateData.StateData):
         return (canHeal, canTrap, canLure)
 
     def adjustCogsAndToons(self, cogs, luredIndices, trappedIndices, toons):
-        cogIds = map(lambda cog: cog.doId, cogs)
+        cogIds = [cog.doId for cog in cogs]
         self.notify.debug('adjustCogsAndToons() cogIds: %s self.cogs: %s' % (cogIds, self.cogs))
         self.notify.debug('adjustCogsAndToons() luredIndices: %s self.luredIndices: %s' % (luredIndices, self.luredIndices))
         self.notify.debug('adjustCogsAndToons() trappedIndices: %s self.trappedIndices: %s' % (trappedIndices, self.trappedIndices))
-        toonIds = map(lambda toon: toon.doId, toons)
+        toonIds = [toon.doId for toon in toons]
         self.notify.debug('adjustCogsAndToons() toonIds: %s self.toons: %s' % (toonIds, self.toons))
         maxSuitLevel = 0
         cogFireCostIndex = 0

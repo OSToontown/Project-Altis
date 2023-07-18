@@ -518,9 +518,9 @@ def getTexCardNode(accId):
 def checkKartDNAValidity(dna):
     if not checkNumFieldsValidity(len(dna)):
         return 0
-    for field in xrange(len(dna)):
+    for field in range(len(dna)):
         if field == KartDNA.bodyType:
-            if dna[field] not in KartDict.keys():
+            if dna[field] not in list(KartDict.keys()):
                 return 0
         elif field == KartDNA.bodyColor or field == KartDNA.accColor:
             accList = [InvalidEntry] + AccessoryTypeDict.get(KartDNA.bodyColor)
@@ -556,19 +556,19 @@ def getAccessoryItemList(accessoryType):
 
 
 def getKartTypeInfo(type):
-    if type in KartDict.keys():
+    if type in list(KartDict.keys()):
         return KartDict[type]
     return InvalidEntry
 
 
 def getAccessoryInfo(index):
-    if index in AccessoryDict.keys():
+    if index in list(AccessoryDict.keys()):
         return AccessoryDict[index]
     return InvalidEntry
 
 
 def getAccessoryType(accessoryId):
-    for key in AccessoryTypeDict.keys():
+    for key in list(AccessoryTypeDict.keys()):
         if accessoryId in AccessoryTypeDict[key]:
             return key
 
@@ -591,7 +591,7 @@ def getAccessoryDictFromOwned(accessoryOwnedList, pType = -1):
 
 def getAccessDictByType(accessoryOwnedList):
     accessDict = {}
-    if type(accessoryOwnedList) == types.ListType:
+    if type(accessoryOwnedList) == list:
         for accOwnedId in accessoryOwnedList:
             accType = getAccessoryType(accOwnedId)
             if accType != InvalidEntry:
@@ -600,7 +600,7 @@ def getAccessDictByType(accessoryOwnedList):
                 accessDict[accType].append(accOwnedId)
 
     else:
-        print 'KartDNA: getAccessDictByType: bad accessory list: ', accessoryOwnedList
+        print('KartDNA: getAccessDictByType: bad accessory list: ', accessoryOwnedList)
     return accessDict
 
 

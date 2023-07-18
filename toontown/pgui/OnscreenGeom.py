@@ -3,7 +3,7 @@
 __all__ = ['OnscreenGeom']
 
 from pandac.PandaModules import *
-import DirectGuiGlobals as DGG
+from . import DirectGuiGlobals as DGG
 from direct.showbase.DirectObject import DirectObject
 import string,types
 
@@ -50,25 +50,25 @@ class OnscreenGeom(DirectObject, NodePath):
 
         # Adjust pose
         # Set pos
-        if (isinstance(pos, types.TupleType) or
-            isinstance(pos, types.ListType)):
-            apply(self.setPos, pos)
+        if (isinstance(pos, tuple) or
+            isinstance(pos, list)):
+            self.setPos(*pos)
         elif isinstance(pos, VBase3):
             self.setPos(pos)
         # Hpr
-        if (isinstance(hpr, types.TupleType) or
-            isinstance(hpr, types.ListType)):
-            apply(self.setHpr, hpr)
+        if (isinstance(hpr, tuple) or
+            isinstance(hpr, list)):
+            self.setHpr(*hpr)
         elif isinstance(hpr, VBase3):
             self.setPos(hpr)
         # Scale
-        if (isinstance(scale, types.TupleType) or
-            isinstance(scale, types.ListType)):
-            apply(self.setScale, scale)
+        if (isinstance(scale, tuple) or
+            isinstance(scale, list)):
+            self.setScale(*scale)
         elif isinstance(scale, VBase3):
             self.setPos(scale)
-        elif (isinstance(scale, types.FloatType) or
-              isinstance(scale, types.IntType)):
+        elif (isinstance(scale, float) or
+              isinstance(scale, int)):
             self.setScale(scale)
 
     def setGeom(self, geom,
@@ -94,7 +94,7 @@ class OnscreenGeom(DirectObject, NodePath):
         # Assign geometry
         if isinstance(geom, NodePath):
             self.assign(geom.copyTo(parent, sort))
-        elif isinstance(geom, types.StringTypes):
+        elif isinstance(geom, (str,)):
             self.assign(loader.loadModel(geom))
             self.reparentTo(parent, sort)
 
@@ -110,24 +110,24 @@ class OnscreenGeom(DirectObject, NodePath):
         return self
 
     def configure(self, option=None, **kw):
-        for option, value in kw.items():
+        for option, value in list(kw.items()):
             # Use option string to access setter function
             try:
                 setter = getattr(self, 'set' + option[0].upper() + option[1:])
                 if (((setter == self.setPos) or
                      (setter == self.setHpr) or
                      (setter == self.setScale)) and
-                    (isinstance(value, types.TupleType) or
-                     isinstance(value, types.ListType))):
-                    apply(setter, value)
+                    (isinstance(value, tuple) or
+                     isinstance(value, list))):
+                    setter(*value)
                 else:
                     setter(value)
             except AttributeError:
-                print 'OnscreenText.configure: invalid option:', option
+                print('OnscreenText.configure: invalid option:', option)
 
     # Allow index style references
     def __setitem__(self, key, value):
-        apply(self.configure, (), {key: value})
+        self.configure(*(), **{key: value})
 
     def cget(self, option):
         # Get current configuration setting.

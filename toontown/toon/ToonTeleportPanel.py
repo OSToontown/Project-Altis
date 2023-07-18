@@ -236,7 +236,7 @@ class ToonTeleportPanel(DirectFrame):
         shardName = base.cr.getShardName(shardId)
         if shardName is None:
             shardName = 'unknown'
-        print 'enterTeleport: %r, %r, %r, %r, %r' % (shardId, shardName, hoodId, zoneId, self.avId)
+        print('enterTeleport: %r, %r, %r, %r, %r' % (shardId, shardName, hoodId, zoneId, self.avId))
         hoodsVisited = base.localAvatar.hoodsVisited
         canonicalHoodId = ZoneUtil.getCanonicalZoneId(hoodId)
         if hoodId == ToontownGlobals.MyEstate:
@@ -250,7 +250,7 @@ class ToonTeleportPanel(DirectFrame):
             teleportNotify.debug('enterTeleport: unknownHood')
             self.fsm.request('unknownHood', [hoodId])
         elif canonicalHoodId not in base.cr.hoodMgr.getAvailableZones():
-            print 'hoodId %d not ready' % hoodId
+            print('hoodId %d not ready' % hoodId)
             self.fsm.request('unavailableHood', [hoodId])
         else:
             if shardId == base.localAvatar.defaultShard:

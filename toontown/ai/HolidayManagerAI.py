@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal 
 from toontown.toonbase import ToontownGlobals
 from datetime import datetime
-from HolidayGlobals import *
+from .HolidayGlobals import *
 from direct.showbase.DirectObject import DirectObject
 
 class HolidayManagerAI(DirectObject):

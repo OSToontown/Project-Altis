@@ -54,7 +54,7 @@ def doZaps(zaps):
             else:
                 suitZapsDict[suitId] = [zap]
 
-    suitZaps = suitZapsDict.values()
+    suitZaps = list(suitZapsDict.values())
 
     def compFunc(a, b):
         if len(a) > len(b):
@@ -225,7 +225,7 @@ def shortCircuitTrack(suit, battle):
 
 
 def say(statement):
-    print statement
+    print(statement)
 
 
 def __getSoundTrack(level, hitSuit, delay, node = None):

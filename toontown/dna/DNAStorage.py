@@ -137,7 +137,7 @@ class DNAStorage(object):
         try:
            model = loader.pdnaModel(Filename(filename))
         except:
-           print "DNAStorage: Failed to load %s!" % (filename)
+           print("DNAStorage: Failed to load %s!" % (filename))
            return
         
         if search:
@@ -291,7 +291,7 @@ class DNAStorage(object):
         endPoint = self.getSuitPointWithIndex(endIndex)
 
         if not startPoint or not endPoint:
-            print "DNAStorage: Attempted to add edge with unknown startPoint(%s) and/or endPoint(%s)" % (startIndex, endIndex)
+            print("DNAStorage: Attempted to add edge with unknown startPoint(%s) and/or endPoint(%s)" % (startIndex, endIndex))
 
         if not startIndex in self.suitEdges:
             self.suitEdges[startIndex] = []
@@ -325,19 +325,19 @@ class DNAStorage(object):
         self.suitPoints = []
 
     def resetSuitEdges(self):
-        for suitEdge in self.suitEdges.items():
+        for suitEdge in list(self.suitEdges.items()):
             del suitEdge
 
     def findDNAGroup(self, node):
         return self.DNAGroups[node]
 
     def removeDNAGroup(self, dnagroup):
-        for node, group in self.DNAGroups.items():
+        for node, group in list(self.DNAGroups.items()):
             if group == dnagroup:
                 del self.DNAGroups[node]
 
     def resetDNAGroups(self):
-        for group in self.DNAGroups.items():
+        for group in list(self.DNAGroups.items()):
             del group
 
         self.DNAGroups = {}

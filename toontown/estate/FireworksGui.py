@@ -47,7 +47,7 @@ class FireworksGui(DirectFrame):
         self.hilightColor = VBase4(1, 1, 1, 1)
         self.bgColor = VBase4(0.8, 0.8, 0.8, 1)
         self.colorButtons = []
-        for i in Fireworks.colors.keys():
+        for i in list(Fireworks.colors.keys()):
             color = Fireworks.colors[i]
             height = 0.07
             paddedHeight = 0.1
@@ -79,7 +79,7 @@ class FireworksGui(DirectFrame):
 
     def __handleColor(self, index):
         color = Fireworks.colors[index]
-        for i in xrange(len(self.colorButtons)):
+        for i in range(len(self.colorButtons)):
             self.colorButtons[i][1]['geom_color'] = self.bgColor
             self.colorButtons[i][1].setScale(1)
 

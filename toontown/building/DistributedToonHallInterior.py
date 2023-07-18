@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 import random
 import time
 from toontown.toonbase.ToonBaseGlobal import *
@@ -7,7 +7,7 @@ from direct.distributed.ClockDelta import *
 from direct.showbase import Audio3DManager
 from toontown.toonbase import ToontownGlobals
 from toontown.dna.DNAParser import DNADoor
-from DistributedToonInterior import DistributedToonInterior
+from .DistributedToonInterior import DistributedToonInterior
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.distributed import DistributedObject

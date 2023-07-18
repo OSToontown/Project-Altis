@@ -3,9 +3,9 @@
 __all__ = ['DirectEntry']
 
 from pandac.PandaModules import *
-import DirectGuiGlobals as DGG
-from DirectFrame import *
-from OnscreenText import OnscreenText
+from . import DirectGuiGlobals as DGG
+from .DirectFrame import *
+from .OnscreenText import OnscreenText
 import string,types
 # import this to make sure it gets pulled into the publish
 import encodings.utf_8
@@ -175,12 +175,12 @@ class DirectEntry(DirectFrame):
     def commandFunc(self, event):
         if self['command']:
             # Pass any extra args to command
-            apply(self['command'], [self.get()] + self['extraArgs'])
+            self['command'](*[self.get()] + self['extraArgs'])
 
     def failedCommandFunc(self, event):
         if self['failedCommand']:
             # Pass any extra args
-            apply(self['failedCommand'], [self.get()] + self['failedExtraArgs'])
+            self['failedCommand'](*[self.get()] + self['failedExtraArgs'])
 
     def autoCapitalizeFunc(self):
         if self['autoCapitalize']:
@@ -192,7 +192,7 @@ class DirectEntry(DirectFrame):
 
     def focusInCommandFunc(self):
         if self['focusInCommand']:
-            apply(self['focusInCommand'], self['focusInExtraArgs'])
+            self['focusInCommand'](*self['focusInExtraArgs'])
         if self['autoCapitalize']:
             self.accept(self.guiItem.getTypeEvent(), self._handleTyping)
             self.accept(self.guiItem.getEraseEvent(), self._handleErasing)
@@ -210,7 +210,7 @@ class DirectEntry(DirectFrame):
         wordSoFar = ''
         # track whether the previous character was part of a word or not
         wasNonWordChar = True
-        for i in xrange(len(name)):
+        for i in range(len(name)):
             character = name[i]
             # test to see if we are between words
             # - Count characters that can't be capitalized as a break between words
@@ -247,7 +247,7 @@ class DirectEntry(DirectFrame):
 
     def focusOutCommandFunc(self):
         if self['focusOutCommand']:
-            apply(self['focusOutCommand'], self['focusOutExtraArgs'])
+            self['focusOutCommand'](*self['focusOutExtraArgs'])
         if self['autoCapitalize']:
             self.ignore(self.guiItem.getTypeEvent())
             self.ignore(self.guiItem.getEraseEvent())
@@ -257,7 +257,7 @@ class DirectEntry(DirectFrame):
         does not change the current cursor position.  Also see
         enterText(). """
         
-        self.unicodeText = isinstance(text, types.UnicodeType)
+        self.unicodeText = isinstance(text, str)
         if self.unicodeText:
             self.guiItem.setWtext(text)
         else:

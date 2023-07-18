@@ -37,7 +37,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
         self.dclassesByNumber = {}
         self.hashVal = 0
 
-        if isinstance(dcFileNames, types.StringTypes):
+        if isinstance(dcFileNames, (str,)):
             # If we were given a single string, make it a list.
             dcFileNames = [dcFileNames]
 
@@ -105,7 +105,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                         continue
                     classDef = getattr(classDef, className)
 
-                if type(classDef) != types.ClassType and type(classDef) != types.TypeType:
+                if type(classDef) != type and type(classDef) != type:
                     self.notify.error("Symbol %s is not a class name." % (className))
                 else:
                     dclass.setClassDef(classDef)

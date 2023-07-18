@@ -156,7 +156,7 @@ class TownBattleToonPanel(DirectFrame):
 
     def determineWhichText(self, numTargets, targetIndex, localNum, index, track):
         returnStr = ''
-        targetList = range(numTargets)
+        targetList = list(range(numTargets))
         targetList.reverse()
         try:
             if self.avatar.trackBonusLevel[track] >= 1:

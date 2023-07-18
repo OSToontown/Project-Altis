@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-import DistributedBoardOfficeAI
+from . import DistributedBoardOfficeAI
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq.boardbothq import BoardOfficeLayout
 from direct.showbase import DirectObject
@@ -34,7 +34,7 @@ class BoardOfficeManagerAI(DirectObject.DirectObject):
         for avId in players:
             if bboard.has('mintRoom-%s' % avId):
                 roomId = bboard.get('mintRoom-%s' % avId)
-                for i in xrange(numFloors):
+                for i in range(numFloors):
                     layout = BoardOfficeLayout.BoardOfficeLayout(boardofficeId, i)
                     if roomId in layout.getRoomIds():
                         floor = i

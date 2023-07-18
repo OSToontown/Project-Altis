@@ -80,7 +80,7 @@ class PetManagerAI:
         self.air = air
 
     def getAvailablePets(self, numPets=5):
-        return random.sample(xrange(256), numPets)
+        return random.sample(range(256), numPets)
 
     def createNewPetFromSeed(self, avId, petSeeds, nameIndex, gender, safeZoneId):
         creator = PetCreator(self.air, avId, petSeeds, nameIndex, gender, safeZoneId)

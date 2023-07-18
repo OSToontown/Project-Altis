@@ -206,7 +206,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
         if self.tunnelSign:
             textNodePaths = self.tunnelSign.findAllMatches('**/+TextNode')
             numTextNodePaths = textNodePaths.getNumPaths()
-            for i in xrange(numTextNodePaths):
+            for i in range(numTextNodePaths):
                 textNodePath = textNodePaths.getPath(i)
                 textNodePath.hide()
 
@@ -214,7 +214,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
         if self.tunnelSign:
             textNodePaths = self.tunnelSign.findAllMatches('**/+TextNode')
             numTextNodePaths = textNodePaths.getNumPaths()
-            for i in xrange(numTextNodePaths):
+            for i in range(numTextNodePaths):
                 textNodePath = textNodePaths.getPath(i)
                 textNodePath.show()
 
@@ -265,7 +265,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
         if self.tunnelSign:
             textNodePaths = self.tunnelSign.findAllMatches('**/+TextNode')
             numTextNodePaths = textNodePaths.getNumPaths()
-            for i in xrange(numTextNodePaths):
+            for i in range(numTextNodePaths):
                 textNodePath = textNodePaths.getPath(i)
                 textNodePath.removeNode()
                 textNodePath = None

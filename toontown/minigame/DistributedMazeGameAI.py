@@ -35,7 +35,7 @@ class DistributedMazeGameAI(DistributedMinigameAI):
         self.numTreasures = len(mData['treasurePosList'])
         self.numTreasuresTaken = 0
         self.takenTable = [0] * self.numTreasures
-        for avId in self.scoreDict.keys():
+        for avId in list(self.scoreDict.keys()):
             self.scoreDict[avId] = 0
 
     def setGameStart(self, timestamp):
@@ -109,11 +109,11 @@ class DistributedMazeGameAI(DistributedMinigameAI):
 
     def __doneShowingScores(self, task):
         self.notify.debug('doneShowingScores')
-        for key in self.scoreDict.keys():
+        for key in list(self.scoreDict.keys()):
             self.scoreDict[key] = max(1, self.scoreDict[key] / 12)
 
         if self.numTreasuresTaken >= self.numTreasures:
-            for key in self.scoreDict.keys():
+            for key in list(self.scoreDict.keys()):
                 self.scoreDict[key] += 8
 
         self.gameOver()

@@ -29,7 +29,7 @@ DisabledMinigames = []
 
 def getDisabledMinigames():
     if not DisabledMinigames:
-        for name, minigameId in ToontownGlobals.MinigameNames.items():
+        for name, minigameId in list(ToontownGlobals.MinigameNames.items()):
             if not simbase.config.GetBool('want-%s-game' % name, True):
                 if minigameId not in DisabledMinigames:
                     DisabledMinigames.append(minigameId)
@@ -96,13 +96,13 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone=None,
         ToontownGlobals.TwoDGameId: DistributedTwoDGameAI.DistributedTwoDGameAI,
         ToontownGlobals.TravelGameId: DistributedTravelGameAI.DistributedTravelGameAI,
     }
-    from TempMinigameAI import TempMgCtors
-    for key, value in TempMgCtors.items():
+    from .TempMinigameAI import TempMgCtors
+    for key, value in list(TempMgCtors.items()):
         mgCtors[key] = value
     try:
         mg = mgCtors[mgId](air, mgId)
     except KeyError:
-        raise Exception, 'unknown minigame ID: %s' % mgId
+        raise Exception('unknown minigame ID: %s' % mgId)
     mg.setExpectedAvatars(playerArray)
     mg.setNewbieIds(newbieIds)
     mg.setTrolleyZone(trolleyZone)
@@ -111,11 +111,11 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone=None,
         for avId in playerArray:
             mg.setStartingVote(avId, TravelGameGlobals.DefaultStartingVotes)
     else:
-        for index in xrange(len(startingVotes)):
+        for index in range(len(startingVotes)):
             avId = playerArray[index]
             votes = startingVotes[index]
             if votes < 0:
-                print 'createMinigame negative votes, avId=%s votes=%s' % (avId, votes)
+                print('createMinigame negative votes, avId=%s votes=%s' % (avId, votes))
                 votes = 0
             mg.setStartingVote(avId, votes)
     mg.setMetagameRound(metagameRound)
@@ -199,7 +199,7 @@ def minigame(command, arg0=None):
         RequestMinigame[invoker.doId] = request[:3] + (arg0,) + request[4:]
         return 'Stored your request for the minigame safezone: ' + str(arg0)
     if command == 'abort':
-        for do in simbase.air.doId2do.values():
+        for do in list(simbase.air.doId2do.values()):
             from toontown.minigame import DistributedMinigameAI
             if not isinstance(do, DistributedMinigameAI.DistributedMinigameAI):
                 continue

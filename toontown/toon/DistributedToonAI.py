@@ -3082,7 +3082,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return owned
 
         def addOwnedAccessory(self, accessoryId):
-            print 'in add owned accessory'
+            print('in add owned accessory')
             if accessoryId in AccessoryDict:
                 if self.accessories.count(accessoryId) > 0:
                     self.air.writeServerEvent('suspicious', self.doId, 'attempt to add accessory %s which is already owned!' % accessoryId)
@@ -3792,7 +3792,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return trackBonus >= level
 
     def giveMeSpecials(self, id = None):
-        print 'Specials Go!!'
+        print('Specials Go!!')
         self.b_setGardenSpecials([(0, 3),
          (1, 2),
          (2, 3),
@@ -4060,7 +4060,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def logMessage(self, message):
         avId = self.air.getAvatarIdFromSender()
         if __dev__:
-            print 'CLIENT LOG MESSAGE %s %s' % (avId, message)
+            print('CLIENT LOG MESSAGE %s %s' % (avId, message))
         try:
             self.air.writeServerEvent('clientLog', avId, message)
         except:
@@ -4606,17 +4606,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.animalSound
 
     def setAchievements(self, achievements):
-        for i in xrange(len(achievements)):
-            if not achievements[i] in xrange(len(Achievements.AchievementsDict)):
-                print 'Unknown AchievementId %s'%(achievements[i])
+        for i in range(len(achievements)):
+            if not achievements[i] in range(len(Achievements.AchievementsDict)):
+                print ('Unknown AchievementId %s'%(achievements[i]))
                 del achievements[i]
 
         self.achievements = achievements
 
     def d_setAchievements(self, achievements):
-        for i in xrange(len(achievements)):
-            if not achievements[i] in xrange(len(Achievements.AchievementsDict)):
-                print 'Unknown AchievementId %s'%(achievements[i])
+        for i in range(len(achievements)):
+            if not achievements[i] in range(len(Achievements.AchievementsDict)):
+                print('Unknown AchievementId %s'%(achievements[i]))
                 del achievements[i]
 
         self.sendUpdate('setAchievements', args=[achievements])

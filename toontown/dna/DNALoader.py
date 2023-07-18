@@ -71,7 +71,7 @@ class DNALoader(object):
         self.loadDNAFileBase(store, _file)
 
         if not self.curComp:
-            print "DNA has no component, returning empty nodepath"
+            print("DNA has no component, returning empty nodepath")
             return NodePath()
 
         np = NodePath("dna")
@@ -178,7 +178,7 @@ class DNALoader(object):
                     new_comp = DNAVisGroup.DNAVisGroup("unnamed_comp")
                     self.curStore.storeDNAVisGroup(new_comp)
                 else:
-                    if comp_code in compClassTable.keys():
+                    if comp_code in list(compClassTable.keys()):
                         new_comp = compClassTable[comp_code]("unnamed_comp")
                     else:
                         raise DNAError.DNAError("Invalid comp code %s" % comp_code)

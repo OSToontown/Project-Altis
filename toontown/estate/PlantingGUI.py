@@ -105,7 +105,7 @@ class JellyBeanPicker(DirectFrame):
         self.jellyBeanBoxList.append(newBox)
 
     def setColorText(self):
-        for beanIndex in xrange(len(self.jellyBeanBoxList)):
+        for beanIndex in range(len(self.jellyBeanBoxList)):
             if JELLY_BEAN_PICKER_HAS_EMPTY_BOX:
                 if beanIndex:
                     box = self.jellyBeanBoxList[beanIndex]
@@ -122,7 +122,7 @@ class JellyBeanPicker(DirectFrame):
         if JELLY_BEAN_PICKER_HAS_EMPTY_BOX:
             maxBoxes += 1
         startingXCoord = -0.1 * float(maxBoxes) / 2.0 + 0.075
-        for activeBox in xrange(maxBoxes):
+        for activeBox in range(maxBoxes):
             xPos = xIncrement * activeBox + startingXCoord
             self.createJellyBeanBox(activeBox, xPos, zCoord)
 
@@ -250,14 +250,14 @@ class PlantingGUI(DirectFrame):
         xIncrement = 0.1
         xPos = 0
         startingXCoord = -0.1 * float(self.maxBoxes) / 2.0 + 0.05
-        for activeBox in xrange(self.availableBoxes):
+        for activeBox in range(self.availableBoxes):
             xPos = xIncrement * activeBox + startingXCoord
             if USE_SCROLLING_BEAN_BOX:
                 self.createScrollingBeanBox(activeBox, xPos, zCoord, True)
             else:
                 self.createSpiffyBeanBox(activeBox, xPos, zCoord, True)
 
-        for disabledBox in xrange(self.availableBoxes, self.maxBoxes):
+        for disabledBox in range(self.availableBoxes, self.maxBoxes):
             xPos = xIncrement * disabledBox + startingXCoord
             if USE_SCROLLING_BEAN_BOX:
                 self.createScrollingBeanBox(disabledBox, xPos, zCoord, False)
@@ -316,7 +316,7 @@ class PlantingGUI(DirectFrame):
         if active:
             tempItem = BoxItem(self.attachNewNode('emptyBean'))
             items.append(tempItem)
-            for curBean in xrange(len(GardenGlobals.BeanColors)):
+            for curBean in range(len(GardenGlobals.BeanColors)):
                 tempItem = BoxItem(self.attachNewNode('bean-%d-%d' % (index, curBean)))
                 loadJellyBean(tempItem, curBean)
                 items.append(tempItem)
@@ -360,7 +360,7 @@ class PlantingGUI(DirectFrame):
 
         if FORCE_LEFT_TO_RIGHT:
             boxIndexToEnable = len(self.getRecipeStr())
-            for i in xrange(0, boxIndexToEnable):
+            for i in range(0, boxIndexToEnable):
                 box = self.boxList[i]
                 if ONLY_ONE_SPIFFY_BOX_CAN_BE_CLICKED:
                     box['state'] = DGG.DISABLED
@@ -373,7 +373,7 @@ class PlantingGUI(DirectFrame):
                     box['state'] = DGG.DISABLED
                     box.setState()
                     box.setColorScale(0.5, 0.5, 0.5, 1)
-            for i in xrange(boxIndexToEnable + 1, len(self.boxList)):
+            for i in range(boxIndexToEnable + 1, len(self.boxList)):
                 box = self.boxList[i]
                 box['state'] = DGG.DISABLED
                 box.setState()

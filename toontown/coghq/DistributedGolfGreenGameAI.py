@@ -8,7 +8,7 @@ from otp.level import BasicEntities
 from toontown.coghq import BattleBlockerAI
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownBattleGlobals
-from GolfGreenGameGlobals import *
+from .GolfGreenGameGlobals import *
 import random
 import time
 
@@ -58,9 +58,9 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         if hasattr(self, 'level'):
             numToons = len(self.level.presentAvIds)
         numBoards = self.puzzleBase + numToons * self.puzzlePerPlayer
-        boardSelect = range(0, len(gameBoards))
+        boardSelect = list(range(0, len(gameBoards)))
         didGetLast = 1
-        for index in xrange(numBoards):
+        for index in range(numBoards):
             choice = random.choice(boardSelect)
             if not didGetLast:
                 didGetLast = 1
@@ -79,8 +79,8 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
     def processPreData(self):
         for board in self.preData:
             x = []
-            for rowIndex in xrange(1, len(board)):
-                for columnIndex in xrange(len(board[rowIndex])):
+            for rowIndex in range(1, len(board)):
+                for columnIndex in range(len(board[rowIndex])):
                     color = self.translateData.get(board[rowIndex][columnIndex])
                     if color != None:
                         x.append((len(board[rowIndex]) - (columnIndex + 1), rowIndex - 1, color))
@@ -93,9 +93,9 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
             for ball in attackString:
                 color = self.translateData.get(ball)
                 if color or color == 0:
-                    place = random.choice(range(0, len(attackPattern) + 1))
+                    place = random.choice(list(range(0, len(attackPattern) + 1)))
                     attackPattern.insert(place, color)
-                    place = random.choice(range(0, len(attackPattern) + 1))
+                    place = random.choice(list(range(0, len(attackPattern) + 1)))
                     attackPattern.insert(place, color)
 
             self.attackPatterns.append(attackPattern)
@@ -106,7 +106,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         self.sendUpdate('setTimerStart', [self.totalTime, self.startTime])
 
     def __printTime(self, task):
-        print 'Time Left %s' % self.getTimeLeft()
+        print(('Time Left %s' % self.getTimeLeft()))
         taskMgr.doMethodLater(1.0, self.__printTime, self.taskName('GolfGreenGameTimeout Print'))
         return task.done
 
@@ -127,14 +127,14 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         dataSize = len(self.boardData)
         indexChoice = int(random.random() * dataSize)
         boardToAssign = None
-        for boardIndex in xrange(len(self.boardList)):
+        for boardIndex in range(len(self.boardList)):
             board = self.boardList[boardIndex]
             if self.boardList[boardIndex][0] == 'closed':
                 pass
             elif boardToAssign == None or len(self.boardList[boardIndex][0]) < len(self.boardList[boardToAssign][0]):
                 boardToAssign = boardIndex
             elif len(self.boardList[boardIndex][0]) == len(self.boardList[boardToAssign][0]):
-                choice = random.choice(range(2))
+                choice = random.choice(list(range(2)))
                 if choice:
                     boardToAssign = boardIndex
 
@@ -143,7 +143,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         return boardToAssign
 
     def checkForAssigned(self, avId):
-        for index in xrange(len(self.boardList)):
+        for index in range(len(self.boardList)):
             board = self.boardList[index]
             if board[0] == 'closed':
                 pass

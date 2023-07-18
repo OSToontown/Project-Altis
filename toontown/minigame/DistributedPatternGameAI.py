@@ -98,7 +98,7 @@ class DistributedPatternGameAI(DistributedMinigameAI):
         self.round += 1
         targetLen = PatternGameGlobals.INITIAL_ROUND_LENGTH + PatternGameGlobals.ROUND_LENGTH_INCREMENT * (self.round - 1)
         count = targetLen - len(self.pattern)
-        for i in xrange(0, count):
+        for i in range(0, count):
             self.pattern.append(random.randint(0, 3))
 
         self.gameFSM.request('waitForResults')
@@ -161,13 +161,13 @@ class DistributedPatternGameAI(DistributedMinigameAI):
 
     def __gotAllPatterns(self):
         patterns = [[]] * 4
-        for i in xrange(0, len(self.results)):
+        for i in range(0, len(self.results)):
             patterns[i] = self.results[i]
             if patterns[i] is None:
                 patterns[i] = []
 
         self.sendUpdate('setPlayerPatterns', patterns + [self.fastestAvId])
-        for i in xrange(0, self.numPlayers):
+        for i in range(0, self.numPlayers):
             avId = self.avIdList[i]
             if not self.results[i] == self.pattern:
                 self.perfectResults[avId] = 0

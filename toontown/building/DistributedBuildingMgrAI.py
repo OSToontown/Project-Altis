@@ -21,7 +21,7 @@ class DistributedBuildingMgrAI:
         self.findAllLandmarkBuildings()
 
     def cleanup(self):
-        for building in self.__buildings.values():
+        for building in list(self.__buildings.values()):
             building.cleanup()
         self.__buildings = {}
 
@@ -35,21 +35,21 @@ class DistributedBuildingMgrAI:
 
     def getSuitBlocks(self):
         blocks = []
-        for blockNumber, building in self.__buildings.items():
+        for blockNumber, building in list(self.__buildings.items()):
             if building.isSuitBlock():
                 blocks.append(blockNumber)
         return blocks
 
     def getEstablishedSuitBlocks(self):
         blocks = []
-        for blockNumber, building in self.__buildings.items():
+        for blockNumber, building in list(self.__buildings.items()):
             if building.isEstablishedSuitBlock():
                 blocks.append(blockNumber)
         return blocks
 
     def getToonBlocks(self):
         blocks = []
-        for blockNumber, building in self.__buildings.items():
+        for blockNumber, building in list(self.__buildings.items()):
             if isinstance(building, HQBuildingAI.HQBuildingAI):
                 continue
             if isinstance(building, GagshopBuildingAI.GagshopBuildingAI):
@@ -63,7 +63,7 @@ class DistributedBuildingMgrAI:
         return blocks
 
     def getBuildings(self):
-        return self.__buildings.values()
+        return list(self.__buildings.values())
 
     def getFrontDoorPoint(self, blockNumber):
         if self.isValidBlockNumber(blockNumber):
@@ -88,7 +88,7 @@ class DistributedBuildingMgrAI:
         petshopBlocks = []
         kartshopBlocks = []
         animBldgBlocks = []
-        for i in xrange(self.dnaStore.getNumBlockNumbers()):
+        for i in range(self.dnaStore.getNumBlockNumbers()):
             blockNumber = self.dnaStore.getBlockNumberAt(i)
             buildingType = self.dnaStore.getBlockBuildingType(blockNumber)
             if buildingType == 'hq':

@@ -50,7 +50,7 @@ def doSquirts(squirts):
             else:
                 suitSquirtsDict[suitId] = [squirt]
 
-    suitSquirts = suitSquirtsDict.values()
+    suitSquirts = list(suitSquirtsDict.values())
 
     def compFunc(a, b):
         if len(a) > len(b):
@@ -224,7 +224,7 @@ def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
 
 
 def say(statement):
-    print statement
+    print(statement)
 
 
 def __getSoundTrack(level, hitSuit, delay, node = None):
@@ -642,7 +642,7 @@ def __doStormCloud(squirt, delay, fShowStun):
             delay = trickleDuration = cloudHold * 0.25
             trickleTrack = Sequence(Func(battle.movie.needRestoreParticleEffect, trickleEffect), ParticleInterval(trickleEffect, cloud, worldRelative=0, duration=trickleDuration, cleanup=True), Func(battle.movie.clearRestoreParticleEffect, trickleEffect))
             track.append(trickleTrack)
-            for i in xrange(0, 3):
+            for i in range(0, 3):
                 dur = cloudHold - 2 * trickleDuration
                 ptrack.append(Sequence(Func(battle.movie.needRestoreParticleEffect, rainEffects[i]), Wait(delay), ParticleInterval(rainEffects[i], cloud, worldRelative=0, duration=dur, cleanup=True), Func(battle.movie.clearRestoreParticleEffect, rainEffects[i])))
                 delay += effectDelay
@@ -716,13 +716,13 @@ def __doGeyser(squirt, delay, fShowStun, uberClone = 0):
             geyserMound = MovieUtil.copyProp(geyser)
             geyserRemoveM = geyserMound.findAllMatches('**/Splash*')
             geyserRemoveM.addPathsFrom(geyserMound.findAllMatches('**/spout'))
-            for i in xrange(geyserRemoveM.getNumPaths()):
+            for i in range(geyserRemoveM.getNumPaths()):
                 geyserRemoveM[i].removeNode()
 
             geyserWater = MovieUtil.copyProp(geyser)
             geyserRemoveW = geyserWater.findAllMatches('**/hole')
             geyserRemoveW.addPathsFrom(geyserWater.findAllMatches('**/shadow'))
-            for i in xrange(geyserRemoveW.getNumPaths()):
+            for i in range(geyserRemoveW.getNumPaths()):
                 geyserRemoveW[i].removeNode()
 
             track = Sequence(Wait(rainDelay), Func(MovieUtil.showProp, geyserMound, battle, suit.getPos(battle)), Func(MovieUtil.showProp, geyserWater, battle, suit.getPos(battle)), LerpScaleInterval(geyserWater, 1.0, scaleUpPoint, startScale=MovieUtil.PNT3_NEARZERO), Wait(geyserHold * 0.5), LerpScaleInterval(geyserWater, 0.5, MovieUtil.PNT3_NEARZERO, startScale=scaleUpPoint))

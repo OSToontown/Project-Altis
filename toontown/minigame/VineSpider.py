@@ -56,8 +56,8 @@ class VineSpider(NodePath, DirectObject):
         self.removeNode()
 
     def __handleEnterSphere(self, collEntry):
-        print 'VineSpider.__handleEnterSphere'
-        print collEntry
+        print('VineSpider.__handleEnterSphere')
+        print(collEntry)
         self.ignoreAll()
         self.notify.debug('treasuerGrabbed')
         messenger.send('VineSpiderGrabbed', [self.serialNum])

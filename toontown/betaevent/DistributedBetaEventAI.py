@@ -1,4 +1,4 @@
-from DistributedEventAI import DistributedEventAI
+from .DistributedEventAI import DistributedEventAI
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
 

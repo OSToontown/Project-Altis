@@ -88,9 +88,9 @@ class SafeZoneLoader(StateData.StateData):
         self.createAnimatedProps(self.nodeList)
         self.holidayPropTransforms = {}
         npl = self.geom.findAllMatches('**/=DNARoot=holiday_prop')
-        for i in xrange(npl.getNumPaths()):
+        for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
-            np.setTag('transformIndex', `i`)
+            np.setTag('transformIndex', repr(i))
             self.holidayPropTransforms[i] = np.getNetTransform()
         gsg = base.win.getGsg()
         if gsg:
@@ -99,7 +99,7 @@ class SafeZoneLoader(StateData.StateData):
 
     def makeDictionaries(self, dnaStore):
         self.nodeList = []
-        for i in xrange(dnaStore.getNumDNAVisGroups()):
+        for i in range(dnaStore.getNumDNAVisGroups()):
             groupFullName = dnaStore.getDNAVisGroupName(i)
             groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
             groupNode = self.geom.find('**/' + groupFullName)
@@ -116,7 +116,7 @@ class SafeZoneLoader(StateData.StateData):
 
     def removeLandmarkBlockNodes(self):
         npc = self.geom.findAllMatches('**/suit_building_origin')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             npc.getPath(i).removeNode()
 
     def enterStart(self):
@@ -205,7 +205,7 @@ class SafeZoneLoader(StateData.StateData):
         for i in nodeList:
             animPropNodes = i.findAllMatches('**/animated_prop_*')
             numAnimPropNodes = animPropNodes.getNumPaths()
-            for j in xrange(numAnimPropNodes):
+            for j in range(numAnimPropNodes):
                 animPropNode = animPropNodes.getPath(j)
                 if animPropNode.getName().startswith('animated_prop_generic'):
                     className = 'GenericAnimatedProp'
@@ -220,7 +220,7 @@ class SafeZoneLoader(StateData.StateData):
 
             interactivePropNodes = i.findAllMatches('**/interactive_prop_*')
             numInteractivePropNodes = interactivePropNodes.getNumPaths()
-            for j in xrange(numInteractivePropNodes):
+            for j in range(numInteractivePropNodes):
                 interactivePropNode = interactivePropNodes.getPath(j)
                 className = 'GenericAnimatedProp'
                 symbols = {}
@@ -233,7 +233,7 @@ class SafeZoneLoader(StateData.StateData):
                 animPropList.append(interactivePropObj)
 
     def deleteAnimatedProps(self):
-        for zoneNode, animPropList in self.animPropDict.items():
+        for zoneNode, animPropList in list(self.animPropDict.items()):
             for animProp in animPropList:
                 animProp.delete()
 

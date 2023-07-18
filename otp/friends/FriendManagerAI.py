@@ -27,7 +27,7 @@ class FriendManagerAI(DistributedObjectAI):
         self.air.dbGlobalCursor.trueFriendCodes.ensure_index('date', expireAfterSeconds = OTPGlobals.TF_CODE_EXPIRE)
         
     def getRandomCharSequence(self, count):
-        return ''.join(random.choice(string.ascii_lowercase + string.digits) for i in xrange(count))
+        return ''.join(random.choice(string.ascii_lowercase + string.digits) for i in range(count))
     
     def getCode(self):        
         code = 'TTPA %s %s' % (self.getRandomCharSequence(3), self.getRandomCharSequence(3))
@@ -55,7 +55,7 @@ class FriendManagerAI(DistributedObjectAI):
         
     def useTrueFriendCode(self, code):
         avId = self.air.getAvatarIdFromSender()
-        print("%s entered code %s" %(avId, code))
+        print(("%s entered code %s" %(avId, code)))
         if avId in self.trueFriendFSMs:
             self.sendUpdateToAvatarId(avId, 'trueFriendResponse', [OTPGlobals.TF_CALM_DOWN_PLEASE, ''])
             return
@@ -231,7 +231,7 @@ class AddTrueFriend:
         
         if avId in trueFriendsList:
             self.manager.sendUpdateToAvatarId(avId, 'trueFriendResponse', [OTPGlobals.TF_ALREADY_FRIENDS, name])
-            print('%s is already tf with %s (%s)'%(avId, self.targetId, name))
+            print(('%s is already tf with %s (%s)'%(avId, self.targetId, name)))
             return
         elif avId not in friendsList:
             if len(friendsList) >= OTPGlobals.MaxFriends:

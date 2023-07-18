@@ -116,7 +116,7 @@ class BpMan:
 
     def setIgnoreCount(self, bp, ignoreCount=0):
         if not isinstance(ignoreCount, int):
-            print 'error: first argument should be integer ignoreCount'
+            print('error: first argument should be integer ignoreCount')
             return
             
         parts = self.bpToParts(bp)
@@ -215,18 +215,18 @@ class BpDb:
 
     #setup bpdb prompt commands
     def displayHelp(self):
-        print 'You may use normal pdb commands plus the following:'
+        print('You may use normal pdb commands plus the following:')
         #print '    cmd  [param <def>]  [cmd] does )this( with [param] (default is def)'
         #print '    -----------------------------------------------------------------------'
-        print '    _i   [n <0> [, path=<curr>]] set ignore count for bp [path] to [n]'
-        print '    _t   [path <curr>]   toggle bp [path]'
-        print '    _tg  [grp <curr>]    toggle grp'
-        print '    _tc  [cfg <curr>]    toggle cfg'
-        print '    _z   [path <curr>]   clear all settings for bp [path]'
-        print '    _zg  [grp <curr>]    clear all settings for grp'
-        print '    _zc  [cfg <curr>]    clear all settings for cfg (restore .prc setting)'
-        print '    _h                   displays this usage help'
-        print '    _ua                  unalias these commands from pdb'
+        print('    _i   [n <0> [, path=<curr>]] set ignore count for bp [path] to [n]')
+        print('    _t   [path <curr>]   toggle bp [path]')
+        print('    _tg  [grp <curr>]    toggle grp')
+        print('    _tc  [cfg <curr>]    toggle cfg')
+        print('    _z   [path <curr>]   clear all settings for bp [path]')
+        print('    _zg  [grp <curr>]    clear all settings for grp')
+        print('    _zc  [cfg <curr>]    clear all settings for cfg (restore .prc setting)')
+        print('    _h                   displays this usage help')
+        print('    _ua                  unalias these commands from pdb')
 
     def addPdbAliases(self):
         self.makePdbAlias('_i', 'bpdb._i(%*)')
@@ -244,28 +244,28 @@ class BpDb:
         self.pdb.do_alias('%s %s'%(aliasName,aliasCmd))
 
     def removePdbAliases(self):
-        for aliasName in self.pdbAliases.iterkeys():
+        for aliasName in self.pdbAliases.keys():
             self.pdb.do_unalias(aliasName)
         self.pdbAliases = {}
-        print '(bpdb aliases removed)'
+        print('(bpdb aliases removed)')
 
     #handle bpdb prompt commands by forwarding to bpMan
     def _e(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['path','bp','name',], self.lastBp)
         enabled = self._getArg(args, [type(True),type(1),], kwargs, ['enabled','on',], True)
         newEnabled = self.bpMan.setEnabled(bp, enabled)
-        print "'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),)
+        print("'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),))
         
     def _i(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['path','bp','name',], self.lastBp)
         count = self._getArg(args, [type(1),], kwargs, ['ignoreCount','count','n',], 0)
         newCount = self.bpMan.setIgnoreCount(bp, count)
-        print "'%s' will ignored %s times."%(self.bpMan.bpToPath(bp),newCount,)
+        print("'%s' will ignored %s times."%(self.bpMan.bpToPath(bp),newCount,))
 
     def _t(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['path','bp','name',], self.lastBp)
         newEnabled = self.bpMan.toggleEnabled(bp)
-        print "'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),)
+        print("'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),))
         
     def _tg(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['grp',], self.lastBp)
@@ -273,7 +273,7 @@ class BpDb:
             bp = {'grp':bp}
         bp = {'grp':bp.get('grp')}
         newEnabled = self.bpMan.toggleEnabled(bp)
-        print "'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),)
+        print("'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),))
         
     def _tc(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['cfg',], self.lastBp)
@@ -281,12 +281,12 @@ class BpDb:
             bp = {'cfg':bp}
         bp = {'cfg':bp.get('cfg')}
         newEnabled = self.toggleConfig(bp['cfg'])
-        print "'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),)
+        print("'%s' is now %s."%(self.bpMan.bpToPath(bp),choice(newEnabled,'enabled','disabled'),))
         
     def _z(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['path','bp','name',], self.lastBp)
         self.bpMan.resetBp(bp)
-        print "'%s' has been reset."%(self.bpMan.partsToPath(bp),)
+        print("'%s' has been reset."%(self.bpMan.partsToPath(bp),))
 
     def _zg(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['grp',], self.lastBp)
@@ -294,7 +294,7 @@ class BpDb:
             bp = {'grp':bp}
         bp = {'grp':bp.get('grp')}
         self.bpMan.resetBp(bp)
-        print "'%s' has been reset."%(self.bpMan.partsToPath(bp),)
+        print("'%s' has been reset."%(self.bpMan.partsToPath(bp),))
 
     def _zc(self, *args, **kwargs):
         bp = self._getArg(args, [type(''),type({}),], kwargs, ['cfg',], self.lastBp)
@@ -302,7 +302,7 @@ class BpDb:
             bp = {'cfg':bp}
         bp = {'cfg':bp.get('cfg')}
         self.resetConfig(bp['cfg'])
-        print "'%s' has been reset."%(self.bpMan.bpToPath(bp),)
+        print("'%s' has been reset."%(self.bpMan.bpToPath(bp),))
  
     def _getArg(self, args, goodTypes, kwargs, goodKeys, default = None):
         #look for desired arg in args and kwargs lists
@@ -436,9 +436,9 @@ class BpDb:
                     dbp.maybeBreak(test=test,frameCount=frameCount+1,displayPrefix='Exited ')
                 return f_result
                 
-            wrap.func_name = f.func_name
-            wrap.func_dict = f.func_dict
-            wrap.func_doc = f.func_doc
+            wrap.__name__ = f.__name__
+            wrap.__dict__ = f.__dict__
+            wrap.__doc__ = f.__doc__
             wrap.__module__ = f.__module__
             return wrap
             
@@ -474,7 +474,7 @@ class BpDb:
     #deprecated:
     @staticmethod
     def bpGroup(*args, **kArgs):
-        print "BpDb.bpGroup is deprecated, use bpdb.bpPreset instead"
+        print("BpDb.bpGroup is deprecated, use bpdb.bpPreset instead")
         kwArgs = {}
         kwArgs.update(kArgs)
         kwArgs['frameCount'] = kArgs.get('frameCount', 1) + 1
@@ -514,7 +514,7 @@ class bp:
     def displayContextHint(self, displayPrefix=''):
         contextString = displayPrefix + bpdb.bpMan.partsToPath({'id':self.id,'grp':self.grp,'cfg':self.cfg})
         dashes = '-'*max(0, (80 - len(contextString) - 4) / 2)
-        print '<%s %s %s>'%(dashes,contextString,dashes)
+        print('<%s %s %s>'%(dashes,contextString,dashes))
     
     def maybeBreak(self, test=None, frameCount=1, displayPrefix=''):
         if self.shouldBreak(test=test):

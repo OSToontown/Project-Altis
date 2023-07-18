@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 from toontown.coghq import CogDisguiseGlobals
 from toontown.coghq import FactoryEntityCreatorAI
 from toontown.coghq import FactorySpecs
@@ -98,14 +98,14 @@ class DistributedLawOfficeAI(DistributedObjectAI, LawOfficeBase.LawOfficeBase):
 
     def startNextFloor(self):
         if self.avIds:
-            print self.avIds
+            print((self.avIds))
             self.currentFloor += 1
             specModule = self.layout.getFloorSpec(self.currentFloor)
             self.level.requestDelete()
             self.level = DistributedLawOfficeFloorAI.DistributedLawOfficeFloorAI(self.air, self.lawOfficeId, self.zoneId, self.entranceId, self.avIds, specModule)
             self.level.setLevelSpec(LevelSpec.LevelSpec(specModule))
             self.level.generateWithRequired(self.zoneId)
-            print 'exchanging elevators'
+            print('exchanging elevators')
             self.exchangeElevators()
             self.startSignal()
 

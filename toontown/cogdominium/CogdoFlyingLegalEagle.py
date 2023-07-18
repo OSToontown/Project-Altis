@@ -15,7 +15,7 @@ from toontown.cogdominium.CogdoFlyingUtil import swapAvatarShadowPlacer
 from toontown.cogdominium import CogdoUtil
 from toontown.cogdominium import CogdoFlyingGameGlobals as Globals
 
-class CogdoFlyingLegalEagle(DirectObject, FSM):
+class CogdoFlyingLegalEagle(FSM, DirectObject):
     CollSphereName = 'CogdoFlyingLegalEagleSphere'
     CollisionEventName = 'CogdoFlyingLegalEagleCollision'
     InterestCollName = 'CogdoFlyingLegalEagleInterestCollision'

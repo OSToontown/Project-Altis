@@ -1,8 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
 
-from DistributedLawnDecorAI import DistributedLawnDecorAI
+from .DistributedLawnDecorAI import DistributedLawnDecorAI
 from otp.ai.MagicWordGlobal import *
-import GardenGlobals
+from . import GardenGlobals
 
 
 class DistributedGardenPlotAI(DistributedLawnDecorAI):
@@ -95,7 +95,7 @@ class DistributedGardenPlotAI(DistributedLawnDecorAI):
         if not av:
             return
 
-        for i in xrange(index):
+        for i in range(index):
             if not self.mgr.hasTree(track, i):
                 self.notify.warning('%d %s' % (av.doId, 'tried to plant tree but an index is missing: %d' % index))
                 return self.d_setMovie(GardenGlobals.MOVIE_PLANT_REJECTED)

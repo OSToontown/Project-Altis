@@ -84,8 +84,8 @@ class DGHoodAI(HoodAI.HoodAI, DirectObject):
 
     def createButterflies(self, playground):
         ButterflyGlobals.generateIndexes(self.zoneId, ButterflyGlobals.DG)
-        for i in xrange(0, ButterflyGlobals.NUM_BUTTERFLY_AREAS[ButterflyGlobals.DG]):
-            for _ in xrange(0, ButterflyGlobals.NUM_BUTTERFLIES[ButterflyGlobals.DG]):
+        for i in range(0, ButterflyGlobals.NUM_BUTTERFLY_AREAS[ButterflyGlobals.DG]):
+            for _ in range(0, ButterflyGlobals.NUM_BUTTERFLIES[ButterflyGlobals.DG]):
                 butterfly = DistributedButterflyAI(self.air, playground, i, self.zoneId)
                 butterfly.generateWithRequired(self.zoneId)
                 butterfly.start()

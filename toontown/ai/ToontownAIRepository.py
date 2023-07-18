@@ -1,4 +1,4 @@
-import httplib, json
+import http.client, json
 from direct.distributed.PyDatagram import *
 from panda3d.core import *
 from otp.ai.AIZoneData import AIZoneDataStore

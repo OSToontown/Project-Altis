@@ -22,3 +22,4 @@ pip-delete-this-directory.txt
 
 # IDEA pycharm/intellij
 .idea/
+.DS_Store

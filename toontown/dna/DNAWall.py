@@ -2,7 +2,7 @@ from panda3d.core import LVector4f, LPoint3f
 from toontown.dna import DNANode
 
 # For the oddest reason the toontown.dna breaks the import? Wth
-import DNAFlatBuilding
+from . import DNAFlatBuilding
 
 from toontown.dna import DNAError
 from toontown.dna import DNAUtil

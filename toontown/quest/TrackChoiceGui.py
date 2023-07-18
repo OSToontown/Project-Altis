@@ -70,7 +70,7 @@ class TrackChoiceGui(DirectFrame):
         self.timer.countdown(timeout, self.timeout)
         self.trackChoicePosters = []
         trackAccess = base.localAvatar.getTrackAccess()
-        for trackId in xrange(ToontownBattleGlobals.NUM_GAG_TRACKS):
+        for trackId in range(ToontownBattleGlobals.NUM_GAG_TRACKS):
             if trackAccess[trackId] == 0:
                 self.choices.append(trackId)
                 tp = TrackPoster(trackId, self.chooseTrack)

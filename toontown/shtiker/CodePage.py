@@ -1,4 +1,4 @@
-import ShtikerPage
+from . import ShtikerPage
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal

@@ -185,7 +185,7 @@ class PetTraits:
         self.safeZoneId = safeZoneId
         self.rng = random.Random(self.traitSeed)
         self.traits = {}
-        for i in xrange(len(PetTraits.TraitDescs)):
+        for i in range(len(PetTraits.TraitDescs)):
             if i < len(traitValueList) and traitValueList[i] > 0.0:
                 trait = PetTraits.Trait(i, self, traitValueList[i])
             else:
@@ -194,7 +194,7 @@ class PetTraits:
             self.__dict__[trait.name] = trait.value
 
         extremeTraits = []
-        for trait in self.traits.values():
+        for trait in list(self.traits.values()):
             if not trait.hasWorth:
                 continue
             if trait.quality == TraitDistribution.TraitQuality.AVERAGE:
@@ -226,7 +226,7 @@ class PetTraits:
     def getOverallValue(self):
         total = 0
         numUsed = 0
-        for trait in self.traits.values():
+        for trait in list(self.traits.values()):
             if trait.hasWorth:
                 if trait.higherIsBetter:
                     value = trait.value
@@ -235,7 +235,7 @@ class PetTraits:
                 total += value
                 numUsed += 1
 
-        value = total / len(self.traits.values())
+        value = total / len(list(self.traits.values()))
         return value
 
     def getExtremeTraitDescriptions(self):

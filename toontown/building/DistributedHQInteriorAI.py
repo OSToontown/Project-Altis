@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
 class DistributedHQInteriorAI(DistributedObjectAI):
@@ -36,11 +36,11 @@ class DistributedHQInteriorAI(DistributedObjectAI):
         if self.air:
             self.isDirty = False
             self.sendUpdate('setLeaderBoard',
-                [cPickle.dumps(self.air.trophyMgr.getLeaderInfo(), 1)]
+                [pickle.dumps(self.air.trophyMgr.getLeaderInfo(), 1)]
             )
 
     def getLeaderBoard(self):
-        return cPickle.dumps(self.air.trophyMgr.getLeaderInfo(), 1)
+        return pickle.dumps(self.air.trophyMgr.getLeaderInfo(), 1)
 
     def getTutorial(self):
         return self.tutorial

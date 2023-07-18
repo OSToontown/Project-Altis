@@ -95,7 +95,7 @@ BoardOfficeMiddleRoomIDs = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1
 BoardOfficeFinalRoomIDs = (19, 20, 21, 22, 23, 24, 25, 26, 27)
 BoardOfficeConnectorRooms = ('phase_14/models/boardbotHQ/BD_connector_7cubeL2', 'phase_14/models/boardbotHQ/BD_connector_7cubeLR')
 BoardOfficeSpecModules = {}
-for roomName, roomId in BoardOfficeRoomName2RoomId.items():
+for roomName, roomId in list(BoardOfficeRoomName2RoomId.items()):
     BoardOfficeSpecModules[roomId] = locals()[roomName]
 
 CogSpecModules = {'BoardOfficeBoilerRoom_Battle00': BoardOfficeBoilerRoom_Battle00_Cogs,
@@ -115,7 +115,7 @@ CogSpecModules = {'BoardOfficeBoilerRoom_Battle00': BoardOfficeBoilerRoom_Battle
  'BoardOfficePipeRoom_Battle00': BoardOfficePipeRoom_Battle00_Cogs,
  'BoardOfficePipeRoom_Battle01': BoardOfficePipeRoom_Battle01_Cogs}
 roomId2numBattles = {}
-for roomName, roomId in BoardOfficeRoomName2RoomId.items():
+for roomName, roomId in list(BoardOfficeRoomName2RoomId.items()):
     if roomName not in CogSpecModules:
         roomId2numBattles[roomId] = 0
     else:

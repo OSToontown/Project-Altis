@@ -2,7 +2,7 @@ from panda3d.core import *
 from toontown.toon import ToonDNA
 from direct.fsm import StateData
 from direct.gui.DirectGui import *
-from MakeAToonGlobals import *
+from .MakeAToonGlobals import *
 from toontown.toonbase import TTLocalizer, ToontownGlobals, ToontownBattleGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
@@ -37,7 +37,7 @@ class StartShop(StateData.StateData):
         try:
             del self.toon
         except:
-            print 'StartShop: toon not found'
+            print('StartShop: toon not found')
 
         self.hideButtons()
 
@@ -65,7 +65,7 @@ class StartShop(StateData.StateData):
         self.pgRButton = DirectButton(parent=self.pgFrame, relief=None, image=shuffleImage, image_scale=halfButtonInvertScale, image1_scale=halfButtonInvertHoverScale, image2_scale=halfButtonInvertHoverScale, pos=(0.2, 0, 0), command=self.__swapPG, extraArgs=[1])
         self.pgInfo = DirectFrame(parent=self.pgFrame, relief=None, text='Starting Playground:', text_font=ToontownGlobals.getBuildingNametagFont(), text_scale=0.05, text_fg=(1,1,1,1), text_wordwrap=8.0, pos=(0, 0, 0.25))
         self.gagFrame = DirectFrame(parent=self.parentFrame, image=poster, image_scale=(1,1,3), relief=None, pos=(0, 0, -0.5), scale=1.1, frameColor=(1, 1, 1, 1), text='', text_scale=0.046875, text_pos=(-0.001, -0.015), text_font=ToontownGlobals.getBuildingNametagFont(), text_fg=(1, 1, 1, 1))
-        for trackId in xrange(len(ToontownBattleGlobals.Tracks)):
+        for trackId in range(len(ToontownBattleGlobals.Tracks)):
             iconGeom = invModel.find('**/' + ToontownBattleGlobals.AvPropsNew[trackId][0])
             if trackId == 4 or trackId == 5:
                 button = DirectButton(parent=self.gagFrame, image=iconGeom, relief=None, pos=(0, 0, .45-(buttonYOffset*trackId)), image_color=(0.3,0.3,0.3,1), state=DGG.DISABLED)

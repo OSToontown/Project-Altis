@@ -505,7 +505,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         return suits
 
     def generateSuits(self, battleNumber):
-        raise StandardError, 'generateSuits unimplemented'
+        raise Exception('generateSuits unimplemented')
 
     def handleRoundDone(self, battle, suits, activeSuits, toonIds, totalHp, deadSuits):
         totalMaxHp = 0

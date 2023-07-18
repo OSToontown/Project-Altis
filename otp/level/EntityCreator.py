@@ -18,7 +18,7 @@ from otp.level import CollisionSolidEntity
 def nothing(*args):
     return 'nothing'
 
-def nonlocal(*args):
+def _nonlocal(*args):
     return 'nonlocal'
 
 class EntityCreator(EntityCreatorBase.EntityCreatorBase):

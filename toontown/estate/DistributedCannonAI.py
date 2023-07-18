@@ -3,7 +3,7 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.distributed.ClockDelta import *
 from toontown.minigame import CannonGameGlobals
 from toontown.toonbase import ToontownGlobals
-import CannonGlobals
+from . import CannonGlobals
 class DistributedCannonAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedCannonAI")
 

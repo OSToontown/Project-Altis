@@ -418,7 +418,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
             zoneId = 0
             ToontownDistrictStats.refresh('shardInfoUpdated')
             curShardTuples = base.cr.listActiveShards()
-            lowestPop = 100000000000000000L
+            lowestPop = 100000000000000000
             shardId = None
             for shardInfo in curShardTuples:
                 pop = shardInfo[2]
@@ -500,7 +500,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         elif doneStatus['mode'] == 'incomplete':
             self.fsm.request('DFAReject')
         else:
-            Place.notify.error('Unknown done status for DownloadForceAcknowledge: ' + `doneStatus`)
+            Place.notify.error('Unknown done status for DownloadForceAcknowledge: ' + repr(doneStatus))
 
     def enterDFAReject(self):
         self.fsm.request('walk')

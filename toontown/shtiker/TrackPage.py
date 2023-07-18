@@ -33,7 +33,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
         self.flatButton = self.buttonModels.find('**/InventoryButtonFlat')
         self.rowModel = self.buttonModels.find('**/TrainingPointRow')
         self.infoText = OnscreenText(parent=self, text='', wordwrap = 30, scale=0.055, fg=(0, 0, 0, 1), shadow=(0, 0, 0, 0), pos=(0.0, -0.6), font=ToontownGlobals.getInterfaceFont(), mayChange=True)
-        for track in xrange(len(ToontownBattleGlobals.Tracks)):
+        for track in range(len(ToontownBattleGlobals.Tracks)):
             trackFrame = DirectFrame(parent=self, image=self.rowModel, scale=(1.05, 0.8, 1.1), pos=(0, 0.3, TrackYOffset + track * TrackYSpacing), image_color=(ToontownBattleGlobals.TrackColors[track][0],
              ToontownBattleGlobals.TrackColors[track][1],
              ToontownBattleGlobals.TrackColors[track][2],
@@ -42,7 +42,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
             self.trackNameLabels.append(DirectLabel(text=TextEncoder.upper(ToontownBattleGlobals.Tracks[track]), parent=self.trackRows[track], pos=(-0.72 + -0.06825, -0.1, 0.01), scale=TTLocalizer.INtrackNameLabels, relief=None, text_fg=(0.2, 0.2, 0.2, 1), text_font=ToontownGlobals.getInterfaceFont(), text_align=TextNode.ALeft, textMayChange=0))
             self.trackProgressLabels.append(DirectLabel(text='', parent=self.trackRows[track], pos=(-0.72 + -0.06825, -0.1, -0.025), scale=TTLocalizer.INtrackNameLabels/2, relief=None, text_fg=(0.2, 0.2, 0.2, 1), text_font=ToontownGlobals.getInterfaceFont(), text_align=TextNode.ALeft, textMayChange=0))
             self.buttons.append([])
-            for item in xrange(5):
+            for item in range(5):
                 button = DirectButton(parent=self.trackRows[track], image=(self.upButton,
                  self.downButton,
                  self.rolloverButton,
@@ -65,7 +65,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
         pass
 
     def updatePage(self):
-        for track in xrange(8):
+        for track in range(8):
             points = base.localAvatar.getSpentTrainingPoints()
             points = points[track]
             if points < 2:
@@ -97,7 +97,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
         for buttonArray in self.buttons:
             for button in buttonArray:
                 button['state'] = DGG.DISABLED
-        for track in xrange(len(pointArray)):
+        for track in range(len(pointArray)):
             i = 0
             for button in self.buttons[track]:
                 if i == (pointArray[track] - 1) or i >= (pointArray[track] + 1):
@@ -108,7 +108,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
                     button['image_color'] = Vec4(0, 0.6, 1, 1)
                     button['text'] = '0/1'
                 i += 1
-            for iteration in xrange(pointArray[track]):
+            for iteration in range(pointArray[track]):
                 if pointArray[track] == 1:
                     self.buttons[track][iteration]['state'] = DGG.NORMAL
                     self.buttons[track][iteration]['image_color'] = Vec4(0, 0.6, 1, 1)
@@ -117,18 +117,18 @@ class TrackPage(ShtikerPage.ShtikerPage):
                     self.buttons[track][iteration]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                 self.buttons[track][iteration]['text'] = '1/1'
             if pointArray[track] < 2:
-                for i in xrange(3):
+                for i in range(3):
                     self.buttons[track][i+2]['state'] = DGG.DISABLED
                     self.buttons[track][i+2]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                     self.buttons[track][i+2]['text'] = '0/1'
             else:
-                for i in xrange(2):
+                for i in range(2):
                     self.buttons[track][i+3]['state'] = DGG.DISABLED
                     self.buttons[track][i+3]['image_color'] = Vec4(0.4, 0.4, 0.4, 1)
                     self.buttons[track][i+3]['text'] = '0/1'
             if av.getTrainingPoints() == 0:
                 if pointArray[track] == 1:
-                    for i in xrange(len(self.buttons[track])):
+                    for i in range(len(self.buttons[track])):
                         if i == 0:
                             pass
                         else:

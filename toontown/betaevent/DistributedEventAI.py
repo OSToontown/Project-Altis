@@ -43,7 +43,7 @@ def betaeventttc(state):
 def betaevent(state):
     invoker = spellbook.getInvoker()
     invasion = None
-    for do in simbase.air.doId2do.values():
+    for do in list(simbase.air.doId2do.values()):
         if isinstance(do, DistributedEventAI):
             invasion = do
             invasion.b_setState(state)

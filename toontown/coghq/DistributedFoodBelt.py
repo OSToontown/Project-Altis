@@ -77,26 +77,26 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
 
     def enterOn(self):
         self.beltSoundInterval.loop()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             self.doMethodLater(self.foodWaitTimes[i], self.startFoodMoving, 'start-%d-%d' % (self.index, i), extraArgs=[i])
 
     def exitOn(self):
         self.beltSoundInterval.finish()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'start-%d-%d' % (self.index, i)
             self.removeTask(taskName)
 
     def enterToonup(self):
         self.beltSound.setPlayRate(self.ToonupBeltSpeed / self.BeltSpeed)
         self.beltSoundInterval.loop()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             self.removeFood(i)
             self.beltActor.setPlayRate(self.ToonupBeltActorPlayRate, 'idle')
             self.doMethodLater(self.toonupWaitTimes[i], self.startToonupMoving, 'startToonup-%d-%d' % (self.index, i), extraArgs=[i])
 
     def exitToonup(self):
         self.beltSoundInterval.finish()
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'startToonup-%d-%d' % (self.index, i)
             self.removeTask(taskName)
 
@@ -107,7 +107,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         for ival in self.toonupIvals:
             ival.finish()
 
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             self.removeFood(i)
             self.removeToonup(i)
 
@@ -170,11 +170,11 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         self.beltSoundInterval = SoundInterval(self.beltSound, node=self.beltModel, listenerNode=base.localAvatar, seamlessLoop=True, volume=0.25, cutOff=100)
 
     def cleanup(self):
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'start-%d-%d' % (self.index, i)
             self.removeTask(taskName)
 
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             taskName = 'startToonup-%d-%d' % (self.index, i)
             self.removeTask(taskName)
 
@@ -193,7 +193,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
         self.ignoreAll()
 
     def setupFoodNodes(self):
-        for i in xrange(self.NumFoodNodes):
+        for i in range(self.NumFoodNodes):
             newPosIndex = self.NumFoodNodes - 1 - i
             yPos = -(self.beltLength / 2.0) + newPosIndex * self.distBetweenFoodNodes
             newFoodNode = NodePath('foodNode-%d-%d' % (self.index, i))
@@ -207,7 +207,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
             self.foodNodes.append(newFoodNode)
 
     def setupFoodIvals(self):
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             foodIval = self.createOneFoodIval(self.foodNodes[i])
             self.foodIvals.append(foodIval)
 
@@ -275,7 +275,7 @@ class DistributedFoodBelt(DistributedObject.DistributedObject, FSM.FSM, FoodBelt
             self.boss.localToonTouchedBeltFood(beltIndex, foodIndex, foodNum)
 
     def setupToonupIvals(self):
-        for i in xrange(len(self.foodNodes)):
+        for i in range(len(self.foodNodes)):
             toonupIval = self.createOneToonupIval(self.foodNodes[i])
             self.toonupIvals.append(toonupIval)
 

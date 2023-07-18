@@ -1,12 +1,12 @@
-import anydbm
+import dbm
 import base64
 import hashlib
 import hmac
 import json
 import time
 import random
-import urllib2
-import httplib
+import urllib.request, urllib.error, urllib.parse
+import http.client
 import traceback
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
@@ -37,21 +37,23 @@ http = HTTPClient()
 http.setVerifySsl(0)
 
 def executeHttpRequest(url, **extras):
+    # TODO fix
+    pass
     timestamp = str(int(time.time()))
-    signature = hmac.new(accountServerSecret, timestamp, hashlib.sha256)
-    request = urllib2.Request(accountServerEndpoint + url)
+    signature = hmac.new(accountServerSecret.encode('utf-8'), timestamp, hashlib.sha256)
+    request = urllib.request.Request(accountServerEndpoint + url)
     request.add_header('User-Agent', 'Project Altis-CSM')
     request.add_header('X-CSM-Timestamp', timestamp)
     request.add_header('X-CSM-Signature', signature.hexdigest())
-    for k, v in extras.items():
+    for k, v in list(extras.items()):
         request.add_header('Project Altis-CSM-' + k, v)
 
     try:
-        return urllib2.urlopen(request).read()
+        return urllib.request.urlopen(request).read()
     except:
         return None
 
-blacklist = executeHttpRequest('names/blacklist.json')
+blacklist = False
 if blacklist:
     blacklist = json.loads(blacklist)
 
@@ -74,7 +76,7 @@ class AccountDB:
 
         filename = simbase.config.GetString(
             'account-bridge-filename', 'account-bridge')
-        self.dbm = anydbm.open(filename, 'c')
+        self.dbm = dbm.open(filename, 'c')
 
     def addNameRequest(self, avId, name):
         return 'Success'
@@ -547,7 +549,7 @@ class GetAvatarsFSM(AvatarOperationFSM):
     def enterSendAvatars(self):
         potentialAvs = []
 
-        for avId, fields in self.avatarFields.items():
+        for avId, fields in list(self.avatarFields.items()):
             index = self.avList.index(avId)
             wishNameState = fields.get('WishNameState', [''])[0]
             name = fields['setName'][0]
@@ -1013,7 +1015,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         del self.pendingLogins[context]
 
         # Time to check this login to see if its authentic
-        digest_maker = hmac.new(self.key)
+        digest_maker = hmac.new(self.key.encode())
         digest_maker.update(backupCookie)
 
         if not hmac.compare_digest(digest_maker.hexdigest(), authKey):

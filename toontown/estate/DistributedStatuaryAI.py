@@ -1,8 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
 import time
 
-from DistributedLawnDecorAI import DistributedLawnDecorAI
-import GardenGlobals
+from .DistributedLawnDecorAI import DistributedLawnDecorAI
+from . import GardenGlobals
 
 
 class DistributedStatuaryAI(DistributedLawnDecorAI):

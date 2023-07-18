@@ -100,7 +100,7 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
 
     def __areTeamsCorrect(self):
         minPlayers = self.getPlayersPerTeam()[0]
-        return all(len(self.toonIds[i]) >= minPlayers for i in xrange(2))
+        return all(len(self.toonIds[i]) >= minPlayers for i in range(2))
 
     def getDuration(self):
         raise NotImplementedError('getDuration() -- pure virtual')

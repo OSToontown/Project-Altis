@@ -16,7 +16,7 @@ from toontown.parties.PartyGlobals import FireworksFinishedEvent
 from toontown.parties.PartyGlobals import FireworksPostLaunchDelay
 from toontown.parties.PartyGlobals import RocketSoundDelay
 from toontown.parties.PartyGlobals import RocketDirectionDelay
-from DistributedPartyActivity import DistributedPartyActivity
+from .DistributedPartyActivity import DistributedPartyActivity
 from toontown.parties.activityFSMs import FireworksActivityFSM
 from toontown.parties import PartyGlobals
 
@@ -48,7 +48,7 @@ class DistributedPartyFireworksActivity(DistributedPartyActivity, FireworkShowMi
         self.launchPadModel.setPos(0.0, -18.0, 0.0)
         self.launchPadModel.reparentTo(self.root)
         railingsCollection = self.launchPadModel.findAllMatches('**/launchPad_mesh/*railing*')
-        for i in xrange(railingsCollection.getNumPaths()):
+        for i in range(railingsCollection.getNumPaths()):
             railingsCollection[i].setAttrib(AlphaTestAttrib.make(RenderAttrib.MGreater, 0.75))
 
         leverLocator = self.launchPadModel.find('**/RocketLever_locator')

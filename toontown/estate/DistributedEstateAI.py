@@ -25,9 +25,9 @@ from toontown.distributed import ToontownInternalRepository
 from toontown.parties import DistributedPartyJukebox40ActivityAI, DistributedPartyTrampolineActivityAI
 from toontown.safezone import DistributedTreasureAI
 
-from DistributedCannonAI import *
-from DistributedTargetAI import *
-import CannonGlobals
+from .DistributedCannonAI import *
+from .DistributedTargetAI import *
+from . import CannonGlobals
 import random
 
 NULL_PLANT = [-1, -1, 0, 0, 0]
@@ -330,7 +330,7 @@ class Garden:
             return
         bonus = [-1, -1, -1, -1, -1, -1, -1, -1]
         spentPoints = av.getSpentTrainingPoints()
-        for i in xrange(8):
+        for i in range(8):
             if spentPoints[i] >= 3:
                 bonus[i] = 6
         av.b_setTrackBonusLevel(bonus)
@@ -353,7 +353,7 @@ class GardenManager:
 
     def destroy(self):
         messenger.send('garden-%d-1-gardenDestroy')
-        for garden in self.gardens.values():
+        for garden in list(self.gardens.values()):
             garden.destroy()
 
         del self.gardens
@@ -406,7 +406,7 @@ class DistributedEstateAI(DistributedObjectAI):
         self.pond.setArea(ToontownGlobals.MyEstate)
         self.pond.generateWithRequired(self.zoneId)
 
-        for i in xrange(FishingTargetGlobals.getNumTargets(ToontownGlobals.MyEstate)):
+        for i in range(FishingTargetGlobals.getNumTargets(ToontownGlobals.MyEstate)):
             target = DistributedFishingTargetAI(self.air)
             target.setPondDoId(self.pond.getDoId())
             target.generateWithRequired(self.zoneId)
@@ -497,7 +497,7 @@ class DistributedEstateAI(DistributedObjectAI):
         DistributedObjectAI.announceGenerate(self)
         self.sendUpdate('setIdList', [self.toons])
 
-        for index, started in self.pendingGardens.items():
+        for index, started in list(self.pendingGardens.items()):
             if started:
                 self.gardenManager.handleSingleGarden(self.toons[index])
 
@@ -614,7 +614,7 @@ class DistributedEstateAI(DistributedObjectAI):
 
     def __handleGetPetActivated(self, doId, activated):
         # if the pet wasn't activated, dont destroy it.
-        if not activated or doId not in self.air.doId2do.keys():
+        if not activated or doId not in list(self.air.doId2do.keys()):
             return
 
         # alright, all's good destroy the pet instance
@@ -845,7 +845,7 @@ class DistributedEstateAI(DistributedObjectAI):
         return self.items[5]
 
     def setIdList(self, idList):
-        for i in xrange(len(idList)):
+        for i in range(len(idList)):
             if i >= 6:
                 return
             self.toons[i] = idList[i]
@@ -890,7 +890,7 @@ class DistributedEstateAI(DistributedObjectAI):
 
             self.sendUpdate('awardedTrophy', [avId])
 
-        av.b_setGardenTrophies(range(len(collection) // 10))
+        av.b_setGardenTrophies(list(range(len(collection) // 10)))
 
     def awardedTrophy(self, todo0):
         pass

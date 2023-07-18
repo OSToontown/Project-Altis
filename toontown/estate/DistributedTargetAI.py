@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from panda3d.core import *
-import CannonGlobals
+from . import CannonGlobals
 
 class DistributedTargetAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTargetAI")

@@ -18,7 +18,7 @@ class DeathForceAcknowledge:
             self.fade.reparentTo(aspect2d, FADE_SORT_INDEX)
             fadeModel.removeNode()
         else:
-            print 'Problem loading fadeModel.'
+            print('Problem loading fadeModel.')
             self.fade = None
         self.dialog = TTDialog.TTGlobalDialog(
             message=TTLocalizer.PlaygroundDeathAckMessage,

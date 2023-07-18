@@ -90,7 +90,7 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         return Task.done
 
     def ignoreEventDict(self):
-        for event in self.eventDict.values():
+        for event in list(self.eventDict.values()):
             self.ignore(event)
 
     def setPetSeeds(self, petSeeds):

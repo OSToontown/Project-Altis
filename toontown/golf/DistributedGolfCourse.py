@@ -87,7 +87,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             self.golfRewardDialog.delete()
         self.cleanUpReward()
         if self.toonPanels:
-            for x in xrange(len(self.toonPanels)):
+            for x in range(len(self.toonPanels)):
                 self.toonPanels[x].destroy()
 
             self.toonPanels = None
@@ -215,7 +215,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
     def exitMessageForToon(self, avId):
         if self.toonPanels and self.localAvId != avId:
             y = 0
-            for x in xrange(len(self.avIdList)):
+            for x in range(len(self.avIdList)):
                 if avId == self.avIdList[x] and y < len(self.toonPanels):
                     toonPanel = self.toonPanels[y]
                     toonPanel.headModel.hide()
@@ -261,7 +261,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if not self.scoreBoard == None:
             self.scoreBoard.delete()
         if self.toonPanels:
-            for x in xrange(len(self.toonPanels)):
+            for x in range(len(self.toonPanels)):
                 self.toonPanels[x].destroy()
 
         self.toonPanels = None
@@ -304,7 +304,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         scoreList.reverse()
         for avId in self.avIdList:
             avScores = []
-            for holeIndex in xrange(self.numHoles):
+            for holeIndex in range(self.numHoles):
                 avScores.append(scoreList.pop())
 
             self.scores[avId] = avScores

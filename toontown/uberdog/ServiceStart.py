@@ -1,11 +1,11 @@
-import __builtin__
+import builtins
 
 
-__builtin__.process = 'uberdog'
+builtins.process = 'uberdog'
 
 
 # Temporary hack patch:
-__builtin__.__dict__.update(__import__('panda3d.core', fromlist=['*']).__dict__)
+builtins.__dict__.update(__import__('panda3d.core', fromlist=['*']).__dict__)
 def __runfunc(*args, **kw):
    raise SystemExit
 
@@ -42,11 +42,11 @@ from otp.ai.AIBaseGlobal import *
 from toontown.uberdog.ToontownUberRepository import ToontownUberRepository
 simbase.air = ToontownUberRepository(config.GetInt('air-base-channel', 400000000),
                                      config.GetInt('air-stateserver', 4002))
-__builtin__.eval = __runfunc
-__builtin__.compile = __runfunc
-__builtin__.execfile = __runfunc
-__builtin__.globals = __runfunc
-__builtin__.locals = __runfunc
+builtins.eval = __runfunc
+builtins.compile = __runfunc
+builtins.execfile = __runfunc
+builtins.globals = __runfunc
+builtins.locals = __runfunc
 host = config.GetString('air-connect', '127.0.0.1')
 port = 7100
 if ':' in host:

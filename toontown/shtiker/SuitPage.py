@@ -8,7 +8,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.battle import SuitBattleGlobals
-from CogPageGlobals import *
+from .CogPageGlobals import *
 SCALE_FACTOR = 1.5
 RADAR_DELAY = 0.2
 BUILDING_RADAR_POS = (0.4,
@@ -121,7 +121,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
         gui = loader.loadModel('phase_3.5/models/gui/suitpage_gui')
         self.panelModel = gui.find('**/card')
         self.shadowModels = []
-        for index in xrange(1, len(SuitDNA.suitHeadTypes) + 1):
+        for index in range(1, len(SuitDNA.suitHeadTypes) + 1):
             self.shadowModels.append(gui.find('**/shadow' + str(index)))
         del gui
         self.makePanels()
@@ -171,7 +171,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
         taskMgr.remove('suitListResponseTimeout-later')
         taskMgr.remove('showCogRadarLater')
         taskMgr.remove('showBuildingRadarLater')
-        for index in xrange(0, len(self.radarOn)):
+        for index in range(0, len(self.radarOn)):
             if self.radarOn[index]:
                 self.toggleRadar(index)
                 self.radarButtons[index]['state'] = DGG.NORMAL
@@ -184,11 +184,11 @@ class SuitPage(ShtikerPage.ShtikerPage):
 
     def grow(self, panel, pos):
         if self.bigPanel:
-            print 'setting next panel - ' + str(panel)
+            print('setting next panel - ' + str(panel))
             self.nextPanel = panel
             self.nextPanelPos = pos
             return
-        print 'big panel - ' + str(panel)
+        print('big panel - ' + str(panel))
         self.bigPanel = panel
         panel.reparentTo(self.enlargedPanelNode)
         panel.setScale(panel.getScale() * SCALE_FACTOR)
@@ -197,11 +197,11 @@ class SuitPage(ShtikerPage.ShtikerPage):
             panel.summonButton['state'] = DGG.NORMAL
 
     def shrink(self, panel, pos):
-        print 'trying to shrink - ' + str(panel)
+        print('trying to shrink - ' + str(panel))
         if panel != self.bigPanel:
             self.nextPanel = None
             return
-        print 'shrink panel - ' + str(panel)
+        print('shrink panel - ' + str(panel))
         self.bigPanel = None
         panel.setScale(panel.scale)
         panel.reparentTo(self.panelNode)
@@ -261,10 +261,10 @@ class SuitPage(ShtikerPage.ShtikerPage):
         self.rolloverFrame.setBin('gui-popup', 0)
         self.rolloverFrame.hide()
         gui.removeNode()
-        for dept in xrange(0, len(SuitDNA.suitDepts)):
+        for dept in range(0, len(SuitDNA.suitDepts)):
             row = []
             color = PANEL_COLORS[dept]
-            for type in xrange(0, SuitDNA.suitsPerDept):
+            for type in range(0, SuitDNA.suitsPerDept):
                 panel = DirectLabel(parent=self.panelNode, pos=(xStart + type * xOffset, 0.0, yStart - dept * yOffset), relief=None, state=DGG.NORMAL, image=self.panelModel, image_scale=(1, 1, 0.8), image_color=color, text=TTLocalizer.SuitPageMystery, text_scale=0.045, text_fg=(0, 0, 0, 1), text_pos=(0, 0.148, 0), text_font=ToontownGlobals.getSuitFont(), text_wordwrap=7)
                 panel.scale = 0.6
                 panel.setScale(panel.scale)
@@ -410,15 +410,15 @@ class SuitPage(ShtikerPage.ShtikerPage):
             panel['image_color'] = PANEL_COLORS_COMPLETE2[index / SuitDNA.suitsPerDept]
     
     def updateAllCogs(self, status):
-        for index in xrange(0, len(base.localAvatar.cogs)):
+        for index in range(0, len(base.localAvatar.cogs)):
             base.localAvatar.cogs[index] = status
         self.updatePage()
 
     def updatePage(self):
         index = 0
         cogs = base.localAvatar.cogs
-        for dept in xrange(0, len(SuitDNA.suitDepts)):
-            for type in xrange(0, SuitDNA.suitsPerDept):
+        for dept in range(0, len(SuitDNA.suitDepts)):
+            for type in range(0, SuitDNA.suitsPerDept):
                 self.updateCogStatus(dept, type, cogs[index])
                 index += 1
         self.updateCogRadarButtons(base.localAvatar.cogRadar)
@@ -428,11 +428,11 @@ class SuitPage(ShtikerPage.ShtikerPage):
         if dept == 5:
             pass 
         if dept < 0 or dept > len(SuitDNA.suitDepts):
-            print 'ucs: bad cog dept: ', dept
+            print('ucs: bad cog dept: ', dept)
         elif type < 0 or type > SuitDNA.suitsPerDept:
-            print 'ucs: bad cog type: ', type
+            print('ucs: bad cog type: ', type)
         elif status < COG_UNSEEN or status > COG_COMPLETE2:
-            print 'ucs: bad status: ', status
+            print('ucs: bad status: ', status)
         else:
             self.resetPanel(dept, type)
             panel = self.panels[dept * SuitDNA.suitsPerDept + type]
@@ -453,7 +453,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
                 self.setPanelStatus(panel, COG_COMPLETE2)
 
     def updateCogRadarButtons(self, radars):
-        for index in xrange(0, len(radars)):
+        for index in range(0, len(radars)):
             if radars[index] == 1:
                 self.radarButtons[index]['state'] = DGG.NORMAL
 
@@ -488,7 +488,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
         return
 
     def updateBuildingRadarButtons(self, radars):
-        for index in xrange(0, len(radars)):
+        for index in range(0, len(radars)):
             if radars[index] == 1:
                 self.radarButtons[index].building = 1
 
